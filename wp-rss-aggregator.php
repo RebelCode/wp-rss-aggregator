@@ -165,8 +165,7 @@
             }
         }
         
-        $siteurl = get_option('siteurl');
-        $images_url = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/images';
+        $images_url = plugins_url( 'images', __FILE__); 
         ?>
         <div id="buttons"><a href="#" id="add"><img src="<?php echo $images_url; ?>/add.png"></a>  
         <a href="#" id="remove"><img src="<?php echo $images_url; ?>/remove.png"></a></div>  
