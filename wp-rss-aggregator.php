@@ -131,7 +131,7 @@
     function wprss_options_page() {
         ?>
         <div class="wrap">
-        <?php screen_icon(); ?>
+        <?php screen_icon( 'wprss_aggregator' ); ?>
         
          
         <h2>WordPress RSS Aggregator</h2>
