@@ -120,7 +120,8 @@
     add_action( 'admin_menu', 'wprss_add_page' );
     
     function wprss_add_page() {
-        add_options_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss_aggregator', 'wprss_options_page' );
+        //add_options_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss_aggregator', 'wprss_options_page' );
+        add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss_aggregator', 'wprss_options_page', plugins_url( '/images/icon-adminmenu16-sprite.png', __FILE__ ) );
     }    
     
     /**
