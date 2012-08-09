@@ -121,10 +121,11 @@
     // Add the admin options page    
     add_action( 'admin_menu', 'wprss_add_page' );
     
-    function wprss_add_page() {
-        //add_options_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss_aggregator', 'wprss_options_page' );
+    function wprss_add_page() {        
         add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss_aggregator', 'wprss_options_page', plugins_url( '/images/icon-adminmenu16-sprite.png', __FILE__ ) );
+        add_submenu_page( 'wprss_aggregator', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 'wprss-aggregator-settings', wprss_settings_page );        
     }    
+    
     
     /**
      * Draw options page
@@ -136,7 +137,7 @@
         <?php screen_icon( 'wprss_aggregator' ); ?>
         
          
-        <h2>WordPress RSS Aggregator</h2>
+        <h2>WP RSS Aggregator</h2>
         <div id="options">
         <form action="options.php" method="post">            
         <?php
