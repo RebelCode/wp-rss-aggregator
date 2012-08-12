@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.jeangalea.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 1.0
+    Version: 1.1
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv2
@@ -65,9 +65,13 @@
      * Actions for plugin's options page
      */
     
-    // Only load scripts and CSS if we are on this plugin's options page (admin)
-    if ( isset( $_GET['page'] ) && $_GET['page'] == 'wprss_aggregator' ) {
+    // Only load scripts if we are on this plugin's options page (admin)
+    if ( isset( $_GET['page'] ) && $_GET['page'] == 'wprss-aggregator'  ) {
         add_action( 'admin_print_scripts', 'wprss_register_scripts' );
+    }
+
+    // Only load scripts if we are on this plugin's options or settings pages (admin)
+    if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' | $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
         add_action( 'admin_print_styles', 'wprss_header' );
     }    
   
@@ -78,7 +82,7 @@
     
     function wprss_register_scripts() {
          wp_enqueue_script( 'jquery' );
-         wp_enqueue_script( 'add-remove', plugins_url( 'scripts/add-remove.js', __FILE__) );
+         wp_enqueue_script( 'add-remove', plugins_url( 'includes/scripts/add-remove.js', __FILE__) );
     }
     
     
@@ -89,8 +93,8 @@
     add_action( 'wp_enqueue_scripts', 'wprss_frontend_scripts' );
     
     function wprss_frontend_scripts() {
-         wp_enqueue_style( 'styles', plugins_url( 'css/colorbox.css', __FILE__) );
-         wp_enqueue_script( 'jquery.colorbox-min', plugins_url( 'scripts/jquery.colorbox-min.js', __FILE__) );         
+         wp_enqueue_style( 'styles', plugins_url( 'includes/css/colorbox.css', __FILE__) );
+         wp_enqueue_script( 'jquery.colorbox-min', plugins_url( 'includes/scripts/jquery.colorbox-min.js', __FILE__) );         
     }    
     
     
@@ -110,88 +114,110 @@
      */ 
     
     function wprss_header() {        
-        wp_enqueue_style( 'styles', plugins_url( 'css/styles.css', __FILE__) );
+        wp_enqueue_style( 'styles', plugins_url( 'includes/css/styles.css', __FILE__) );
     }  
     
     
     /**
      * Plugin administration page
+     * 
+     * Note: Wording of options and settings is confusing, due to the plugin originally only having 
+     * an 'options' page to enter feed sources, and now needing two screens, one for feed sources and one for 
+     * general settings. Might implement something cleaner in the future.
      */ 
     
-    // Add the admin options page    
+    // Add the admin options and settings pages
+
     add_action( 'admin_menu', 'wprss_add_page' );
     
     function wprss_add_page() {        
-        add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss_aggregator', 'wprss_options_page', plugins_url( '/images/icon-adminmenu16-sprite.png', __FILE__ ) );
-        add_submenu_page( 'wprss_aggregator', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 'wprss-aggregator-settings', wprss_settings_page );        
+        add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss-aggregator', 
+                       'wprss_options_page', plugins_url( '/includes/images/icon-adminmenu16-sprite.png', __FILE__ ) );
+
+        add_submenu_page( 'wprss-aggregator', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 
+                          'wprss-aggregator-settings', 'wprss_settings_page' );        
     }    
-    
-    
+
+
     /**
-     * Draw options page
-     */ 
-    
-    function wprss_options_page() {
-        ?>
-        <div class="wrap">
-        <?php screen_icon( 'wprss_aggregator' ); ?>
-        
-         
-        <h2>WP RSS Aggregator</h2>
-        <div id="options">
-        <form action="options.php" method="post">            
-        <?php
-        
-        settings_fields( 'wprss_options' );
-        do_settings_sections( 'wprss' );
-        $options = get_option( 'wprss_options' );        
-        if ( !empty($options) ) {
-            $size = count($options);
-            for ( $i = 1; $i <= $size; $i++ ) {            
-                if( $i % 2 == 0 ) continue;
-                echo "<div class='wprss-input'>";
-                
-                $key = key( $options );
-                
-                echo "<p><label class='textinput' for='$key'>" . wprss_convert_key( $key ) . "</label>
-                <input id='$key' class='wprss-input' size='100' name='wprss_options[$key]' type='text' value='$options[$key]' /></p>";
-                
-                next( $options );
-                
-                $key = key( $options );
-                
-                echo "<p><label class='textinput' for='$key'>" . wprss_convert_key( $key ) . "</label>
-                <input id='$key' class='wprss-input' size='100' name='wprss_options[$key]' type='text' value='$options[$key]' /></p>";
-                
-                next( $options );
-                echo "</div>"; 
-                
-            }
-        }
-        
-        $images_url = plugins_url( 'images', __FILE__); 
-        ?>
-        <div id="buttons"><a href="#" id="add"><img src="<?php echo $images_url; ?>/add.png"></a>  
-        <a href="#" id="remove"><img src="<?php echo $images_url; ?>/remove.png"></a></div>  
-        <p class="submit"><input type="submit" value="Save Settings" name="submit" class="button-primary"></p>
-        
-        </form>
-        </div>
-        </div>
-        <?php 
-    }
-    
-    
-    /**
-     * Register and define settings
+     * Register and define options and settings
      */ 
     
     add_action( 'admin_init', 'wprss_admin_init' );
     
     function wprss_admin_init() {
-        register_setting( 'wprss_options', 'wprss_options' );
-        add_settings_section( 'wprss_main', 'WP RSS Aggregator settings', 'wprss_section_text', 'wprss' );       
-    }    
+        register_setting( 'wprss_options', 'wprss_options' );    
+        add_settings_section( 'wprss_main', '', 'wprss_section_text', 'wprss' );       
+
+        register_setting( 'wprss_settings', 'wprss_settings' );
+        
+
+        add_settings_section( 'wprss-settings-main', '', 'wprss_settings_section_text', 'wprss-aggregator-settings' );   
+        
+        add_settings_field( 'wprss-settings-open-dd', 'Open links behaviour', 
+                            'wprss_setting_open_dd', 'wprss-aggregator-settings', 'wprss-settings-main');
+
+        add_settings_field( 'wprss-settings-follow-dd', 'Set links as', 
+                            'wprss_setting_follow_dd', 'wprss-aggregator-settings', 'wprss-settings-main');        
+    }  
+
+    
+    /**
+     * Draw options page, used for adding feeds 
+     */ 
+    
+    function wprss_options_page() {
+        ?>
+        <div class="wrap">
+            <?php screen_icon( 'wprss-aggregator' ); ?>
+        
+         
+            <h2>WP RSS Aggregator Feed Sources</h2>
+            <div id="options">
+                <form action="options.php" method="post">            
+                    <?php
+                    
+                    settings_fields( 'wprss_options' );
+                    do_settings_sections( 'wprss' );
+                    $options = get_option( 'wprss_options' );        
+                    if ( !empty($options) ) {
+                        $size = count($options);
+                        for ( $i = 1; $i <= $size; $i++ ) {            
+                            if( $i % 2 == 0 ) continue;
+                            echo "<div class='wprss-input'>";
+                            
+                            $key = key( $options );
+                            
+                            echo "<p><label class='textinput' for='$key'>" . wprss_convert_key( $key ) . "</label>
+                            <input id='$key' class='wprss-input' size='100' name='wprss_options[$key]' type='text' value='$options[$key]' /></p>";
+                            
+                            next( $options );
+                            
+                            $key = key( $options );
+                            
+                            echo "<p><label class='textinput' for='$key'>" . wprss_convert_key( $key ) . "</label>
+                            <input id='$key' class='wprss-input' size='100' name='wprss_options[$key]' type='text' value='$options[$key]' /></p>";
+                            
+                            next( $options );
+                            echo "</div>"; 
+                            
+                        }
+                    }
+                    
+                    $images_url = plugins_url( 'includes/images', __FILE__); 
+                    ?>
+                    <div id="buttons"><a href="#" id="add"><img src="<?php echo $images_url; ?>/add.png"></a>  
+                    <a href="#" id="remove"><img src="<?php echo $images_url; ?>/remove.png"></a></div>  
+                    <p class="submit"><input type="submit" value="Save Settings" name="submit" class="button-primary"></p>
+                
+                </form>
+            </div> <!-- end options -->
+        </div> <!-- end wrap -->
+        <?php 
+    }
+    
+    
+  
 
 
     /**
@@ -201,8 +227,84 @@
     function wprss_section_text() {
         echo '<p>Enter a name and URL for each of your feeds. The name is used just for your reference.</p>';
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Build the plugin settings page, used to save general settings like whether a link should be follow or no follow
+     */ 
+
+    function wprss_settings_page() {
+        ?>
+        <div class="wrap">
+            <?php screen_icon( 'wprss-aggregator' ); ?>
+        
+            <h2>WP RSS Aggregator Settings</h2>
+            
+            <form action="options.php" method="post">            
+                <?php settings_fields( 'wprss_settings' ) ?>
+                <?php do_settings_sections( 'wprss-aggregator-settings' ); ?>
+                <p class="submit"><input type="submit" value="Save Settings" name="submit" class="button-primary"></p>
+            </form>
+        </div>
+        <?php
+    }
+
+
+    // Draw the section header
+    function wprss_settings_section_text() {
+   //     echo '<p>Enter your settings here.</p>';
+    }
+
+    // Follow or No Follow Dropdown
+    function wprss_setting_follow_dd() {
+        $options = get_option( 'wprss_settings' );
+        $items = array( "No follow", "Follow" );
+        echo "<select id='follow-dd' name='wprss_settings[follow_dd]'>";
+        foreach( $items as $item ) {
+            $selected = ( $options['follow_dd'] == $item) ? 'selected="selected"' : '';
+            echo "<option value='$item' $selected>$item</option>";
+        }
+        echo "</select>";
+    }
+
+    // Link open setting Dropdown
+    function wprss_setting_open_dd() {
+        $options = get_option( 'wprss_settings' );
+        $items = array( "Lightbox", "New window", "None" );
+        echo "<select id='open-dd' name='wprss_settings[open_dd]'>";
+        foreach( $items as $item ) {
+            $selected = ( $options['open_dd'] == $item) ? 'selected="selected"' : '';
+            echo "<option value='$item' $selected>$item</option>";
+        }
+        echo "</select>";
+    }
+
     
     
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Convert from field name to user-friendly name
      */ 
@@ -296,15 +398,37 @@
             }                   
         endforeach;
         
+        $settings = get_option( 'wprss_settings' );
+        $class = '';
+        $open_setting = '';
+        $follow_setting = '';
+
+        switch ( $settings['open_dd'] ) {             
+            
+            case 'Lightbox' :
+                $class = 'class="colorbox"'; 
+                break;
+
+            case 'New window' :
+                $open_setting = 'target="_blank"';
+                break;   
+        }
+
+        switch ( $settings['follow_dd'] ) { 
+
+            case 'No follow' :
+                $follow_setting = 'rel="nofollow"';
+                break;
+        }
+
+
         if ( !empty( $items_today ) ) { 
             echo $date_before . 'Today' . $date_after;
             echo $links_before;
-            foreach ( $items_today as $item ) {
-                
-                echo $link_before . '<a class="colorbox" href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
+            foreach ( $items_today as $item ) {                
+                echo $link_before . '<a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ . '</span>';
-                echo $link_after;
-                
+                echo $link_after;            
             }
             echo $links_after;
         }
@@ -313,7 +437,7 @@
             echo $date_before . 'Yesterday' . $date_after;
             echo $links_before;
             foreach ( $items_yesterday as $item ) {
-                echo '<li><a class="colorbox" href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
+                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ . '</span>';
                 echo $link_after;
             }
@@ -324,7 +448,7 @@
             echo $date_before . '2 days ago' . $date_after;
             echo $links_before;
             foreach ( $items_two_days_ago as $item ) {
-                echo '<li><a class="colorbox" href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
+                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ . '</span>';
                 echo $link_after;
             }
@@ -334,7 +458,7 @@
             echo $date_before . 'More than 2 days ago' . $date_after;
             echo $links_before;
             foreach ( $items_older as $item ) {
-                echo '<li><a class="colorbox" href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
+                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title() . ' | ' . $item->get_date('l jS F').'</span>';
                 echo $link_after;
             }           
