@@ -82,7 +82,7 @@
     
     function wprss_register_scripts() {
          wp_enqueue_script( 'jquery' );
-         wp_enqueue_script( 'add-remove', plugins_url( 'includes/scripts/add-remove.js', __FILE__) );
+         wp_enqueue_script( 'add-remove', plugins_url( 'js/add-remove.js', __FILE__) );
     }
     
     
