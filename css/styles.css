@@ -1,0 +1,28 @@
+.wprss-input {
+    background: none repeat scroll 0 0 #EAF2FA;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    width: 600px;
+}
+
+.wprss-input p { line-height: 28px; }
+
+.wprss-input label {
+    float: left;
+    width: 95px !important;
+}
+    
+.wprss-input input {
+    height: 28px;
+    margin-bottom: 0;
+    padding: 0 0 0 5px;
+    width: 400px;
+}
+
+#icon-wprss-aggregator {
+    background: transparent url( '../img/icon-adminpage32.png' ) no-repeat !important;
+}
+
+/*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/

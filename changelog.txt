@@ -1,0 +1,13 @@
+1.1 (2012-08-13)
+Now requires WordPress 3.0
+More flexible fetching of images directory
+Has its own top level menu item
+Added settings section
+Ability to open in lightbox, new window or default browser behaviour
+Ability to set links as follow or no follow
+Using constants for oftenly used locations
+Code refactoring
+Changes in file and folder structure
+
+1.0 (2012-01-06)
+First release
