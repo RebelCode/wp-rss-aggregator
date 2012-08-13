@@ -2,9 +2,9 @@
 Contributors: jeangalea
 Donate link: http://www.jeangalea.com
 Tags: rss, feeds, aggregation, aggregator, import
-Requires at least: 2.9
+Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.0
+Stable tag: 1.1
 Imports and merges multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
@@ -32,7 +32,7 @@ Created by Jean Galea. Need a [Web Developer](http://www.jeangalea.com/services/
 
 1. Upload the `wp-rss-aggregator` folder to the `/wp-content/plugins/` directory
 2. Activate the WP RSS Aggregator plugin through the 'Plugins' menu in WordPress
-3. Configure the plugin by going to the `RSS Aggregator` submenu that appears in your `Settings` admin menu.
+3. Configure the plugin by going to the `RSS Aggregator` menu item that appears in your dashboard menu.
 3. Use the shortcode in your posts or pages: `[wp_rss_aggregator]`
 
 The parameters accepted are:
@@ -61,6 +61,10 @@ wp_rss_aggregator(
 );
 ?>`
 
+You can also set whether the feed links should open in a new window, current window or even a lightbox, via the settings panel. 
+
+The settings panel also has an option to set links as nofollow for SEO purposes.
+
 == Frequently Asked Questions ==
 = How can I output the feeds in my theme? =
 
@@ -68,7 +72,7 @@ You can either call the function directly within the theme:
 `<?php wp_rss_aggregator(); ?>`
 
 Or use the shortcode in your posts and pages:
-[wp-rss-aggregator]
+[wp_rss_aggregator]
 
 == Screenshots ==
 
@@ -76,8 +80,23 @@ Or use the shortcode in your posts and pages:
 
 2. Admin administration panel.
 
+3. The settings page.
+
 == Changelog ==
 
-= Version 1.0 =
+
+= Version 1.1 (2012-08-13) =
+* Now requires WordPress 3.0
+* More flexible fetching of images directory
+* Has its own top level menu item
+* Added settings section
+* Ability to open in lightbox, new window or default browser behaviour
+* Ability to set links as follow or no follow
+* Using constants for oftenly used locations
+* Code refactoring
+* Changes in file and folder structure
+
+
+= Version 1.0 (2012-01-06) =
 * Initial release.
 

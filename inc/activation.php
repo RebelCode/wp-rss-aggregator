@@ -1,5 +1,4 @@
-<?php    
-    /**
+<?php /**
      * Plugin activation procedure
      */      
     
@@ -17,4 +16,4 @@
         
         add_action( 'wprss_generate_hook', 'wp_rss_aggregator' );                
     }
-?>    
+?>

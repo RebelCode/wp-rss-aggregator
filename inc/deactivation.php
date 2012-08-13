@@ -9,4 +9,4 @@
         if ( wp_next_scheduled( 'wprss_generate_hook' ) ) 
         wp_clear_scheduled_hook( 'wprss_generate_hook' );
     }
-?>     
+?>
