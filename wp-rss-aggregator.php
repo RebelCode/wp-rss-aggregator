@@ -1,5 +1,5 @@
 <?php
-/*
+    /*
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.jeangalea.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
@@ -7,9 +7,10 @@
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv2
-*/
+    */
 
-/*  Copyright 2011-2012 Jean Galea (email : jean@jpgalea.com)
+    /*  
+    Copyright 2011-2012 Jean Galea (email : jean@jpgalea.com)
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -23,15 +24,76 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*/
+    */
 
-    // Define constants for ease of updating/modification later on in the lifespan of the plugin
-    define( 'WPRSS_VERSION', '1.1', true );
-    define( 'WPRSS_JS',   plugins_url( 'js',  __FILE__ ) , true );
-    define( 'WPRSS_CSS',  plugins_url( 'css', __FILE__ ) , true );
-    define( 'WPRSS_IMG',  plugins_url( 'img', __FILE__ ) , true );
-    define( 'WPRSS_INC',  plugins_url( 'inc', __FILE__ ) , true );
-    define( 'WPRSS_PATH', plugin_dir_path( __FILE__ ), true );
+    /*
+    @version 1.1
+    @author Jean Galea <info@jeangalea.com>
+    @copyright Copyright (c) 2012, Jean Galea
+    @link http://www.jeangalea.com/wordpress/wp-rss-aggregator/
+    @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+    */
+
+
+    /**
+     * Defines constants used by the plugin.
+     *
+     * @since 1.1
+     */
+    function constants() {
+        
+        /* Set the version number of the plugin. */
+        define( 'WPRSS_VERSION', '1.1', true );
+
+        /* Set the database version number of the plugin. */
+        define( 'WPRSS_DB_VERSION', 1 );
+
+        /* Set the plugin prefix */
+        define( 'PLUGIN_PREFIX', 'wprss', true );            
+
+        /* Set constant path to the plugin directory. */
+        define( 'WPRSS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );        
+
+        /* Set constant path to the plugin URL. */
+        define( 'WPRSS_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );        
+
+        /* Set the constant path to the plugin's javascript directory. */
+        define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ), true );
+
+        /* Set the constant path to the plugin's CSS directory. */
+        define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ), true );
+
+        /* Set the constant path to the plugin's images directory. */
+        define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'img' ), true );
+
+        /* Set the constant path to the plugin's includes directory. */
+        define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'inc' ), true );
+
+    }
+
+
+    /**
+     * Loads the initial files needed by the plugin.
+     *
+     * @since 1.1
+     * @todo Might separate into another function admin_includes() at a later stage
+     */
+    function includes() {
+
+        /* Load the activation functions file. */
+        require_once ( WPRSS_INC . 'activation.php' );
+
+        /* Load the deactivation functions file. */
+        require_once ( WPRSS_INC . 'deactivation.php' );
+        
+        /* Load the shortcodes functions file. */
+        require_once ( WPRSS_INC . 'shortcodes.php' );
+        
+        /* Load the admin functions file. */
+        require_once ( WPRSS_INC . 'admin-options.php' );         
+    }
+
+
 
 
     /**
@@ -42,28 +104,26 @@
 
     function wprss_init() {
         
-        require ( WPRSS_PATH . 'inc/activation.php' );
-        require ( WPRSS_PATH . 'inc/deactivation.php' );
-        require ( WPRSS_PATH . 'inc/shortcodes.php' );
-        require ( WPRSS_PATH . 'inc/admin-options.php' );
-        
-        register_activation_hook( WPRSS_INC . '/activation.php', 'wprss_activate' );
-        register_deactivation_hook( WPRSS_INC . '/deactivation.php', 'wprss_deactivate' );
+        constants();
+        includes();
+                
+        register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
+        register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
         
         add_action ( 'wp_head', 'wprss_head_output' );   
 
-        wp_enqueue_style( 'colorbox', WPRSS_CSS . '/colorbox.css' );
-        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'/jquery.colorbox-min.js', array('jquery') );          
+        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
+        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );          
              
         // Only load scripts if we are on this plugin's options or settings pages (admin)
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' | $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
-            wp_enqueue_style( 'styles', WPRSS_CSS . '/styles.css' );
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
         } 
    
         // Only load scripts if we are on this plugin's options page (admin)
         if ( isset( $_GET['page'] ) && $_GET['page'] == 'wprss-aggregator' ) {
            wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'add-remove', WPRSS_JS . '/add-remove.js' );
+           wp_enqueue_script( 'add-remove', WPRSS_JS . 'add-remove.js' );
         }    
     }
  
@@ -97,7 +157,7 @@
         else if ( strpos( $key, 'feed_url_' ) === 0 ) { 
             $label = str_replace( 'feed_url_', 'Feed URL ', $key );
         }
-        return $label;
+        return $label;        
     }
     
     
@@ -232,5 +292,6 @@
     
     // use just for testing - runs on each wp load
     //add_action( 'wp_loaded', 'wp_rss_aggregator' );
-        
+
+
 ?>
