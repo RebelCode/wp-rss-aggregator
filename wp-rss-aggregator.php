@@ -91,6 +91,9 @@
         
         /* Load the admin functions file. */
         require_once ( WPRSS_INC . 'admin-options.php' );         
+
+        /* Load the custom post types and taxonomies. */
+        require_once ( WPRSS_INC . 'custom-post-types.php' );         
     }
 
 
