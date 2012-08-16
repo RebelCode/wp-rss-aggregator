@@ -52,10 +52,10 @@
         define( 'PLUGIN_PREFIX', 'wprss', true );            
 
         /* Set constant path to the plugin directory. */
-        define( 'WPRSS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );        
+        define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );        
 
-        /* Set constant path to the plugin URL. */
-        define( 'WPRSS_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );        
+        /* Set constant URI to the plugin URL. */
+        define( 'WPRSS_URI', plugin_dir_url( __FILE__ ) );        
 
         /* Set the constant path to the plugin's javascript directory. */
         define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ), true );
@@ -92,8 +92,6 @@
         /* Load the admin functions file. */
         require_once ( WPRSS_INC . 'admin-options.php' );         
     }
-
-
 
 
     /**
