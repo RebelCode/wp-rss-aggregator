@@ -142,7 +142,6 @@
     }
 
 
-
     /**
      * Convert from field name to user-friendly name
      */ 
@@ -166,12 +165,12 @@
     function wp_rss_aggregator( $args = array() ) {
         
         $defaults = array(
-                          'date_before' => '<h3>',
-                          'date_after' => '</h3>',
+                          'date_before'  => '<h3>',
+                          'date_after'   => '</h3>',
                           'links_before' => '<ul>',
-                          'links_after' => '</ul>',
-                          'link_before' => '<li>',
-                          'link_after' => '</li>'                          
+                          'links_after'  => '</ul>',
+                          'link_before'  => '<li>',
+                          'link_after'   => '</li>'                          
                     );
         
         // Parse incoming $args into an array and merge it with $defaults        	
