@@ -2,7 +2,7 @@
     /**
      * wprss_register_post_type()
      * Create Custom Post Type
-     * @since 1.0
+     * @since 1.2
      */             
     
     function wprss_register_post_types() {        
