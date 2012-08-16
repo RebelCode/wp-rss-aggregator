@@ -1,4 +1,5 @@
 <?php    
+
     /**
      * wprss_register_post_type()
      * Create Custom Post Type

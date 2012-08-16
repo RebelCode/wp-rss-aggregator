@@ -15,7 +15,7 @@
         add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss-aggregator', 
                        'wprss_options_page', WPRSS_IMG . 'icon-adminmenu16-sprite.png' );
 
-        add_submenu_page( 'wprss-aggregator', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 
+        add_submenu_page( 'wprss-feed', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 
                           'wprss-aggregator-settings', 'wprss_settings_page' );        
     }    
 

@@ -96,22 +96,36 @@
         require_once ( WPRSS_INC . 'custom-post-types.php' );         
     }
 
-
+        // Add meta boxes for wprss_feed post type
+        add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
     /**
-     * Initialisation of the plugin
-     */
-
+     * wprss_init()
+     * Initialise the plugin
+     * @since 1.2
+     */ 
+    
     add_action( 'init', 'wprss_init' );
 
     function wprss_init() {
         
         constants();
         includes();
-                
+        wprss_register_post_types();
+        //wprss_add_meta_boxes();
+        wprss_register_taxonomies();
+
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
         
         add_action ( 'wp_head', 'wprss_head_output' );   
+        
+
+        
+        // Add meta boxes for wprss_feed post type
+        //add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
+        
+         // Set up the taxonomies
+        //add_action( 'init', 'wprss_register_taxonomies' );
 
         wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );          
