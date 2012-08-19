@@ -9,15 +9,56 @@
     
     // Add the admin options and settings pages
 
-    add_action( 'admin_menu', 'wprss_add_page' );
+   // add_action( 'admin_menu', 'wprss_add_page' );
     
-    function wprss_add_page() {        
+    /*-function wprss_add_page() {        
         add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss-aggregator', 
                        'wprss_options_page', WPRSS_IMG . 'icon-adminmenu16-sprite.png' );
 
         add_submenu_page( 'wprss-feed', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 
                           'wprss-aggregator-settings', 'wprss_settings_page' );        
-    }    
+    }  
+ */
+
+
+
+    /**
+     * Custom Post Type Icon for Admin Menu & Post Screen
+     */
+    add_action( 'admin_head', 'custom_post_type_icon' );
+
+    function custom_post_type_icon() {
+        ?>
+        <style>
+            /* Post Screen - 32px */
+            .icon32-posts-wprss_feed {
+                background: transparent url( <?php echo WPRSS_IMG . 'icon-adminpage32.png'; ?> ) no-repeat left top !important;
+            } 
+            /* Post Screen - 32px */
+            .icon32-posts-wprss_feed_item {
+                background: transparent url( <?php echo WPRSS_IMG . 'icon-adminpage32.png'; ?> ) no-repeat left top !important;
+            }   
+        </style>
+    <?php } 
+     
+    /**
+     * Plugin administration pages
+     * @since 1.0
+     */ 
+    
+    // Add the admin options pages as submenus to the Feed CPT   
+    add_action( 'admin_menu', 'wprss_register_menu_pages' );
+    
+    // Register menu and submenu pages
+    function wprss_register_menu_pages() {        
+          
+        //create submenu items        
+        add_submenu_page( 'edit.php?post_type=wprss_feed', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 'wprss-aggregator-settings', wprss_settings_page );            
+        add_submenu_page( 'edit.php?post_type=wprss_feed', 'Import/Export Feeds', 'Import/Export', 'manage_options', 'wprss-aggregator-import-export', wprss_import_export_page );
+        add_submenu_page( 'edit.php?post_type=wprss_feed', 'Uninstall', 'Uninstall', 'manage_options', 'wprss-aggregaor-uninstall', wprss_uninstall_page );
+        add_submenu_page( 'edit.php?post_type=wprss_feed', 'Help', 'Help', 'manage_options', 'wprss-aggregator-help', wprss_help_page );  
+    }
+
 
 
     /**

@@ -36,7 +36,7 @@
                 'menu_name' => __('RSS Aggregator')
             ),
             'menu_position' => 100,
-            'menu_icon' => plugins_url( '/images/icon-adminmenu16-sprite.png', __FILE__ )
+            'menu_icon' => WPRSS_IMG . 'icon-adminmenu16-sprite.png'
         );
         
         // Register the 'feed' post type
