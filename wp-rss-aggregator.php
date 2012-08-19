@@ -112,7 +112,6 @@
         includes();
         wprss_register_post_types();
         //wprss_add_meta_boxes();
-        wprss_register_taxonomies();
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );

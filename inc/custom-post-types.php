@@ -2,154 +2,69 @@
 
     /**
      * wprss_register_post_type()
-     * Create Custom Post Type
+     * Create Custom Post Types wprss_feed and wprss_feed_item
      * @since 1.2
-     */             
-    
+     */                 
     function wprss_register_post_types() {        
         
-        // Set up the arguments for the 'feed' post type
+        // Set up the arguments for the 'wprss_feed' post type
         $feed_args = array(
-            'public' => true,
-            'query_var' => 'feed',
-            'rewrite' => array(
-                'slug' => 'feeds',
-                'with_front' => false
-            ),
-            'supports' => array(    
-                ''                          
-                /*  'thumbnail',  FUTURE */
-            ),
-            'show_in_menu' => true,
-            'labels' => array(
-                'name' => __('Feed Sources'),
-                'singular_name' => __('Feed'),
-                'add_new' => __('Add New Feed'),
-                'all_items' => __('All Feeds'),
-                'add_new_item' => __('Add New Feed'),
-                'edit_item' => __('Edit Feed'),
-                'new_item' => __('New Feed'),
-                'view_item' => __('View Feed'),
-                'search_items' => __('Search Feeds'),
-                'not_found' => __('No Feeds Found'),
-                'not_found_in_trash' => __('No Feeds Found In Trash'),
-                'menu_name' => __('RSS Aggregator')
-            ),
+            'public'        => true,
+            'query_var'     => 'feed',
             'menu_position' => 100,
-            'menu_icon' => WPRSS_IMG . 'icon-adminmenu16-sprite.png'
+            'menu_icon'     => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
+            'show_in_menu'  => true,
+            'rewrite'       => array(
+                                'slug'       => 'feeds',
+                                'with_front' => false
+                                ),            
+            'labels'        => array(
+                                'name'                  => __( 'Feed Sources' ),
+                                'singular_name'         => __( 'Feed' ),
+                                'add_new'               => __( 'Add New Feed source' ),
+                                'all_items'             => __( 'All Feed sources' ),
+                                'add_new_item'          => __( 'Add New Feed' ),
+                                'edit_item'             => __( 'Edit Feed' ),
+                                'new_item'              => __( 'New Feed' ),
+                                'view_item'             => __( 'View Feed' ),
+                                'search_items'          => __( 'Search Feeds' ),
+                                'not_found'             => __( 'No Feeds Found' ),
+                                'not_found_in_trash'    => __( 'No Feeds Found In Trash' ),
+                                'menu_name'             => __( 'RSS Aggregator' )
+                                ),
         );
         
-        // Register the 'feed' post type
+        // Register the 'wprss_feed' post type
         register_post_type( 'wprss_feed', $feed_args );
-        
 
-        // Set up the arguments for the 'feed_item' post type
+
+        // Set up the arguments for the 'wprss_feed_item' post type
         $feed_item_args = array(
-            'public' => true,
-            'query_var' => 'feed_item',
-            'rewrite' => array(
-                'slug' => 'feeds/items',
-                'with_front' => false,
-            ),
-            'supports' => array(
-                'title',
-                'editor',
-                'thumbnail',
-                'custom-fields'
-            ),
-            'show_in_menu' => 'edit.php?post_type=wprss_feed',
-            'labels' => array(
-                'name' => 'Feed Items',
-                'singular_name' => 'Feed',
-                'add_new' => 'Add New Feed',
-                'all_items' => 'Imported Feeds',
-                'add_new_item' => 'Add New Feed',
-                'edit_item' => 'Edit Feed',
-                'new_item' => 'New Feed',
-                'view_item' => 'View Feed',
-                'search_items' => 'Search Feeds',
-                'not_found' => 'No Feeds Found',
-                'not_found_in_trash' => 'No Feeds Found In Trash',
-                //'menu_name' => 'RSS Aggregator'
-            ),            
+            'public'        => true,
+            'query_var'     => 'feed_item',
+            'show_in_menu'  => 'edit.php?post_type=wprss_feed',
+            'rewrite'       => array(
+                                'slug' => 'feeds/items',
+                                'with_front' => false,
+                                ),       
+            'labels'        => array(
+                                'all_items'             => __( 'Imported Feeds' )
+                                ),
         );
         
         // Register the 'feed_item' post type
         register_post_type( 'wprss_feed_item', $feed_item_args );        
     }
     
-    
-    
-    /**
-     * wprss_register_taxonomies
-     * Create Taxonomy for storing feed source
-     * @since 1.0
-     */         
 
-    // Registers taxonomies. 
-    function wprss_register_taxonomies() {
-
-        // Set up the feed_source taxonomy arguments.
-        $source_args = array(
-            'hierarchical' => true,
-            'query_var' => 'source', 
-            'show_tagcloud' => false,
-            'rewrite' => array(
-                'slug' => 'feed/sources',
-                'with_front' => false
-            ),
-            /*  'labels' => array(
-                'name' => 'Genres',
-                'singular_name' => 'Genre',
-                'edit_item' => 'Edit Genre',
-                'update_item' => 'Update Genre',
-                'add_new_item' => 'Add New Genre',
-                'new_item_name' => 'New Genre Name',
-                'all_items' => 'All Genres',
-                'search_items' => 'Search Genres',
-                'parent_item' => 'Parent Genre',
-                'parent_item_colon' => 'Parent Genre:',
-            ),*/
-        );
-    
-        // Register the feed_source taxonomy
-        register_taxonomy( 'feed_source', array( 'feed_item' ), $source_args );
-        
-        // Set up the aggregator taxonomy arguments.
-        $source_args = array(
-            'hierarchical' => true,
-            'query_var' => 'aggregator', 
-            'show_tagcloud' => false,
-            'rewrite' => array(
-                'slug' => 'aggregators',
-                'with_front' => false
-            ),
-            /*  'labels' => array(
-                'name' => 'Genres',
-                'singular_name' => 'Genre',
-                'edit_item' => 'Edit Genre',
-                'update_item' => 'Update Genre',
-                'add_new_item' => 'Add New Genre',
-                'new_item_name' => 'New Genre Name',
-                'all_items' => 'All Genres',
-                'search_items' => 'Search Genres',
-                'parent_item' => 'Parent Genre',
-                'parent_item_colon' => 'Parent Genre:',
-            ),*/
-        );
-    
-        // Register the aggregator taxonomy
-        register_taxonomy( 'aggregator', array( 'feed_item', 'feed' ), $source_args );
-
- 
 
     //    add_filter('manage_wprss_feed_posts_columns', 'wprss_add_category_column');
       //  add_action('manage_pages_custom_column', 'wprss_show_category_column');
            
-    }
+    /*}
 
    /* Set the list page columns */
-    add_filter( 'manage_edit-wprss_feed_columns', 'my_edit_columns');
+   /* add_filter( 'manage_edit-wprss_feed_columns', 'my_edit_columns');
     
     function my_edit_columns( $columns ) {
 
@@ -161,12 +76,12 @@
         );
         return $columns;
     }
-
+ */
 
     /**
      * wprss_add_meta_boxes
      * Set up the input boxes for the wprss_feed post type
-     * @since 1.0
+     * @since 1.2
      */   
     function wprss_add_meta_boxes() {
         add_meta_box(
@@ -195,18 +110,6 @@
             'normal',
             'high'
         );
-        
-        /*
-        FUTURE VERSION
-        add_meta_box(
-            'wprss-feed-thumbnail-meta',
-            'Set Thumbnail',
-            'wprss_feed_thumbnail_meta',
-            'wprss_feed',
-            'normal',
-            'high'
-        );
-        */
         
         // Remove the default WordPress Publish box, because we will be using custom ones
         remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );

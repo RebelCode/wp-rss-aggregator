@@ -7,23 +7,10 @@
      * general settings. Might implement something cleaner in the future.
      */ 
     
-    // Add the admin options and settings pages
-
-   // add_action( 'admin_menu', 'wprss_add_page' );
-    
-    /*-function wprss_add_page() {        
-        add_menu_page( 'RSS Aggregator', 'RSS Aggregator', 'manage_options', 'wprss-aggregator', 
-                       'wprss_options_page', WPRSS_IMG . 'icon-adminmenu16-sprite.png' );
-
-        add_submenu_page( 'wprss-feed', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 
-                          'wprss-aggregator-settings', 'wprss_settings_page' );        
-    }  
- */
-
-
 
     /**
      * Custom Post Type Icon for Admin Menu & Post Screen
+     * @since  1.2
      */
     add_action( 'admin_head', 'custom_post_type_icon' );
 
@@ -41,15 +28,15 @@
         </style>
     <?php } 
      
+
     /**
-     * Plugin administration pages
-     * @since 1.0
+     * Register menu and submenus
+     * @since 1.2
      */ 
     
     // Add the admin options pages as submenus to the Feed CPT   
     add_action( 'admin_menu', 'wprss_register_menu_pages' );
     
-    // Register menu and submenu pages
     function wprss_register_menu_pages() {        
           
         //create submenu items        
@@ -63,6 +50,7 @@
 
     /**
      * Register and define options and settings
+     * @since  1.2
      */ 
     
     add_action( 'admin_init', 'wprss_admin_init' );
@@ -85,10 +73,11 @@
 
     
     /**
+     * DEPRECATED
      * Draw options page, used for adding feeds 
      */ 
     
-    function wprss_options_page() {
+ /*   function wprss_options_page() {
         ?>
         <div class="wrap">
             <?php screen_icon( 'wprss-aggregator' ); ?>
@@ -141,26 +130,20 @@
   
 
 
-    /**
+    /** 
+     * DEPRECATED
      * Explain the options section
      */ 
     
-    function wprss_section_text() {
+   /* function wprss_section_text() {
         echo '<p>Enter a name and URL for each of your feeds. The name is used just for your reference.</p>';
     }
 
 
 
-
-
-
-
-
-
-
-
     /**
      * Build the plugin settings page, used to save general settings like whether a link should be follow or no follow
+     * @since 1.1
      */ 
 
     function wprss_settings_page() {
@@ -185,7 +168,11 @@
    //     echo '<p>Enter your settings here.</p>';
     }
 
-    // Follow or No Follow Dropdown
+
+    /** 
+     * Follow or No Follow dropdown
+     * @since 1.1
+     */
     function wprss_setting_follow_dd() {
         $options = get_option( 'wprss_settings' );
         $items = array( "No follow", "Follow" );
@@ -197,7 +184,11 @@
         echo "</select>";
     }
 
-    // Link open setting Dropdown
+
+    /** 
+     * Link open setting dropdown
+     * @since 1.1
+     */
     function wprss_setting_open_dd() {
         $options = get_option( 'wprss_settings' );
         $items = array( "Lightbox", "New window", "None" );
