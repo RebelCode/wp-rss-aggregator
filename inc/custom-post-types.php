@@ -14,6 +14,7 @@
             'menu_position' => 100,
             'menu_icon'     => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
             'show_in_menu'  => true,
+            'supports'      => array('title'),
             'rewrite'       => array(
                                 'slug'       => 'feeds',
                                 'with_front' => false
@@ -112,7 +113,7 @@
         );
         
         // Remove the default WordPress Publish box, because we will be using custom ones
-        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
+       remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
         
         /*add_meta_box(
             'wprss-save-link-side-meta',
@@ -146,67 +147,77 @@
     /**
      * wprss_save_feed_source_meta()
      * Generate the Save Feed Source meta box
-     * @since 1.0
+     * @since 1.2
      */  
 
     function wprss_save_feed_source_meta() {
         global $post;
         
-        //echo '<input name="original_publish" type="hidden" id="original_publish" value="Save" />';
-        echo '<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="Save">';
-        
-        if (current_user_can("delete_post", $post->ID)) {
+        // insert nonce??
+
+        echo '<input type="submit" name="publish" id="publish" class="button-primary" value="Save" tabindex="5" accesskey="s">';
+                
+        /**
+         * Check if user has disabled trash, in that case he can only delete feed sources permanently,
+         * else he can deactivate them. By default, if not modified in wp_config.php, EMPTY_TRASH_DAYS is set to 30.
+         */
+        if ( current_user_can( "delete_post", $post->ID ) ) {
             if (!EMPTY_TRASH_DAYS)
                 $delete_text = __('Delete Permanently');
             else
                 $delete_text = __('Move to Trash');
                 
-            echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link($post->ID) . '">' . $delete_text . '</a>';
+        echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
         }
     }
 
     /**
      * wprss_feed_name_meta()
      * Generate the Feed Name meta box
-     * @since 1.0
+     * @since 1.2
      */  
-
     function wprss_feed_name_meta() {
-        wp_nonce_field( plugin_basename(__FILE__), 'wprss_noncename' );
-        
-        global $post;
-        $feedData = unserialize(get_post_meta($post->ID, 'feedData', true));
-        $feedData['nofollow'] = isset($feeedData['nofollow']) ? 'checked="checked"' : '';
-        $feedData['newwindow'] = isset($feedData['newwindow']) ? 'checked="checked"' : '';
-        
-        $wprss_options = get_option('wprss_options');
-        //echo '<p><label class="infolabel" for="post_title">Feed Name:</label></p>';
-        echo '<p><input id="wprss-feed-name" name="post_title" value="' . $feedData['feed_name'] . '" size="50" type="text" /></p>';
-        
+        wp_nonce_field( plugin_basename( __FILE__ ), 'wprss_noncename' );        
+                        
+        echo '<p><input id="wprss-feed-name" name="post_title" value="' . $feedData['feed_name'] . '" size="50" type="text" /></p>';        
     }
 
 
     /**
      * wprss_feed_description_meta()
      * Generate the Feed Description meta box
-     * @since 1.0
+     * @since 1.2
      */  
-
     function wprss_feed_description_meta() {
-        wp_nonce_field( plugin_basename(__FILE__), 'wprss_noncename' );
+        wp_nonce_field( plugin_basename( __FILE__ ), 'wprss_noncename' );
         
         global $post;
-        $feedData = unserialize(get_post_meta($post->ID, 'feedData', true));
-        $feedData['nofollow'] = isset($feeedData['nofollow']) ? 'checked="checked"' : '';
-        $feedData['newwindow'] = isset($feedData['newwindow']) ? 'checked="checked"' : '';
-        
-        $wprss_options = get_option('wprss_options');
-        //echo '<p><label class="infolabel" for="post_title">Feed Name:</label></p>';
-        echo '<p><input id="wprss-feed-description" name="post_title" value="' . $feedData['feed_description'] . '" size="150" type="text" /></p>';
+        $feedData = unserialize( get_post_meta( $post->ID, 'feedData', true ) );
+        echo '<p><input id="wprss-feed-description" name="wprss[feed_description]" value="' . $feedData['feed_description'] . '" size="150" type="text" /></p>';
         
     }   
 
 
+    /**
+     * wprss_feed_url_meta()
+     * Generate the Feed URL meta box
+     * @since 1.2
+     */  
+    function wprss_feed_url_meta() {
+        wp_nonce_field( plugin_basename(__FILE__), 'wprss_noncename' );
+        
+        global $post;         
+        $feedData = unserialize( get_post_meta( $post->ID, 'feedData', true ) );
+        echo '<p><label class="infolabel" for="wprss[feedurl]">Feed URL (include http://)</label></p>';
+        echo '<p><input id="wprss-feedurl" name="wprss[feedurl]" value="' . $feedData['feedurl'] . '" size="100" type="text" /></p>';
+    }
+
+    /**
+     * wprss_help_meta()
+     * Generate Help meta box
+     * @since 1.2
+     */  
+    
     function wprss_help_meta() {
      echo '<p><strong>';
      _e( 'Need help?');
@@ -225,63 +236,68 @@
                     <strong><?php _e( 'Author', CPT_ONOMIES_TEXTDOMAIN ); ?>:</strong> <a href="http://www.rachelcarden.com" title="Rachel Carden" target="_blank">Rachel Carden</a></p>
    */ }
 
-    /**
-     * wprss_feed_url_meta()
-     * Generate the Feed URL meta box
-     * @since 1.0
-     */  
 
-    function wprss_feed_url_meta() {
-        wp_nonce_field( plugin_basename(__FILE__), 'wprss_noncename' );
-        
-        global $post;
-        $feedData = unserialize(get_post_meta($post->ID, 'feedData', true));
-        $feedData['nofollow'] = isset($feedData['nofollow']) ? 'checked="checked"' : '';
-        $feedData['newwindow'] = isset($feedData['newwindow']) ? 'checked="checked"' : '';
-        
-        $wprss_Options = get_option('wprss_options');
-        
-        echo '<p><label class="infolabel" for="thirsty[linkurl]">Destination URL:</label></p>';
-        echo '<p><input id="thirsty_linkurl" name="thirsty[linkurl]" value="' . $linkData['linkurl'] . '" size="100" type="text" /></p>';
-        
-        /* Only show permalink if it's an existing post */
-        if (!empty($post->post_title)) {
-            echo '<p><label class="infolabel">Cloaked URL:</label></p>';
-            echo '<input type="text" readonly="readonly" id="thirsty_cloakedurl" value="' . get_permalink($post->ID) . '"> <span class="button-secondary" id="thirstyEditSlug">Edit Slug</span> <a href="' . get_permalink($post->ID) . '" target="_blank"><span class="button-secondary" id="thirstyVisitLink">Visit Link</span></a><input id="thirsty_linkslug" name="post_name" value="' . $post->post_name . '" size="50" type="text" /></span> <input id="thirstySaveSlug" type="button" value="Save" class="button-secondary" /></p>';
+
+
+
+
+    /** 
+     * wprss_save_post() 
+     * Save the custom fields (post meta) for the wprss_feed post type
+     * @since  1.2
+     */
+    function wprss_save_post( $post_id ) {
+        /* Make sure we only do this for wprss_feed on regular saves and we have permission */
+        if ( $_POST[ 'post_type' ] != 'wprss_feed') {
+            return $post_id;
         }
         
-        /* Only display link nofollow setting if the global nofollow setting is disabled */
-        if ($thirstyOptions['nofollow'] != 'on') {
-            echo '<p><label class="infolabel" for="thirsty[nofollow]">No follow this link?:</label></p>';
-            echo '<p>&nbsp;<input id="thirsty_nofollow" name="thirsty[nofollow]" ' . $linkData['nofollow'] . ' type="checkbox" />';
-            echo '<span class="thirsty_description">Overrides the global no follow setting for this link</span</p>';
+        if ( !wp_verify_nonce( $_POST[ 'wprss_noncename' ], plugin_basename( __FILE__ ) ) ||
+            ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ||
+            !current_user_can( 'edit_page', $post_id ) ) {
+            return $post_id;
+        }
+
+        $feedDataOrig = array();
+        $feedDataOrig = unserialize( get_post_meta( $post_id, 'feedData', true ) );
+        
+        $feedDataNew = array();
+        $feedDataNew = $_POST['wprss'];
+        
+        if (!empty($linkDataOrig)) {
+            $linkData = array_merge($linkDataOrig, $linkDataNew);
+        } else {
+            $linkData = $linkDataNew;
         }
         
-        /* Only display link new window setting if the global new window setting is disabled */
-        if ($thirstyOptions['newwindow'] != 'on') {
-            echo '<p><label class="infolabel" for="thirsty[newwindow]">Open this link in new window?</label></p>';
-            echo '<p>&nbsp;<input id="thirsty_newwindow" name="thirsty[newwindow]" ' . $linkData['newwindow'] . ' type="checkbox" />';
-            echo '<span class="thirsty_description">Overrides the global new window setting for this link</span></p>';
+        /* Because we trick wordpress into setting the post title by using our field
+        ** name as post_title we need to make sure our meta data is updated to reflect
+        ** that correct name */
+        $linkData['linkname'] = $_POST['post_title'];
+        
+        /* Update the link data */
+        update_post_meta($post_id, 'thirstyData', serialize($linkData));
+        
+        if (isset($linkData['linkslug']) && !empty($linkData['linkslug'])) {
+            $_POST['post_name'] = $linkData['linkslug'];
         }
+        
+        $_POST['post_status'] = 'publish';
     }
-
-
-
 
 
     /**
     * wprss_draft_to_publish()
+    * Not yet in use by the plugin, need to implement it
     * Don't let user save drafts, make them go straight to published
-    * @since 1.0
+    * @since 1.2
     */
 
     function wprss_draft_to_publish( $post_id ) {
-        $update_status_post = array();
-        $update_status_post['ID'] = $post_id;
-        $update_status_post['post_status'] = 'publish';
-        
+        $current_post = get_post( $post_id, 'ARRAY_A' );
+        $current_post[ 'post_status' ] = 'published';
         // Update the post into the database
-        wp_update_post( $update_status_post );
+        wp_update_post( $current_post );        
     }
 
 ?>
