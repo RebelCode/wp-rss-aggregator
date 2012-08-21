@@ -22,15 +22,15 @@
             'labels'        => array(
                                 'name'                  => __( 'Feed Sources' ),
                                 'singular_name'         => __( 'Feed' ),
-                                'add_new'               => __( 'Add New Feed source' ),
-                                'all_items'             => __( 'All Feed sources' ),
-                                'add_new_item'          => __( 'Add New Feed' ),
-                                'edit_item'             => __( 'Edit Feed' ),
-                                'new_item'              => __( 'New Feed' ),
-                                'view_item'             => __( 'View Feed' ),
+                                'add_new'               => __( 'Add New Feed Source' ),
+                                'all_items'             => __( 'All Feed Sources' ),
+                                'add_new_item'          => __( 'Add New Feed Source' ),
+                                'edit_item'             => __( 'Edit Feed Source' ),
+                                'new_item'              => __( 'New Feed Source' ),
+                                'view_item'             => __( 'View Feed Source' ),
                                 'search_items'          => __( 'Search Feeds' ),
-                                'not_found'             => __( 'No Feeds Found' ),
-                                'not_found_in_trash'    => __( 'No Feeds Found In Trash' ),
+                                'not_found'             => __( 'No Feed Sources Found' ),
+                                'not_found_in_trash'    => __( 'No Feed Sources Found In Trash' ),
                                 'menu_name'             => __( 'RSS Aggregator' )
                                 ),
         );
@@ -96,7 +96,7 @@
             'wprss_feed',
             'side',
             'low');
-        
+
       /*  add_meta_box(
             'wprss-save-link-side-meta',
             'Save Feed Source',
@@ -131,7 +131,16 @@
             'wprss_feed', // $page
             'normal', // $context
             'high'); // $priority
-    }
+  
+
+        add_meta_box(
+            'preview_meta_box', // $id
+            __( 'Feed Preview', 'wprss' ), // $title 
+            'wprss_preview_meta_box', // $callback
+            'wprss_feed', // $page
+            'normal', // $context
+            'low'); // $priority
+    }    
 
     /**
      * wprss_custom_fields()
@@ -187,7 +196,7 @@
                         
                             // text
                             case 'text':
-                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="55" />
                                     <br /><span class="description">'.$field['desc'].'</span>';
                             break;
                         
@@ -284,9 +293,17 @@
         echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
         }
     }
+    function wprss_preview_meta_box() {
+     $feed = fetch_feed( 'http://feeds.feedburner.com/WPMayor' ); 
+             $items = $feed->get_items();        
 
-
-
+        echo '<h4>Feed preview for WPMayor</h4>'        ; 
+        foreach ( $items as $item ) { 
+            echo '<ul>';
+            echo '<li>' . $item->get_title() . '</li>';
+            echo '</ul>';
+        } 
+}
     /**
      * wprss_help_meta()
      * Generate Help meta box
@@ -298,6 +315,7 @@
      _e( 'Need help?');
      echo '</strong> ';
      _e( 'Here are a few options:'); 
+
      /*'</p>
                     <ol>
                         <li><a class="<?php echo CPT_ONOMIES_UNDERSCORE; ?>_show_help_tab" href="#"><?php _e( 'The \'Help\' tab', CPT_ONOMIES_TEXTDOMAIN ); ?></a></li>
