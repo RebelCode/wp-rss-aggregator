@@ -205,7 +205,39 @@
 
 
 
-
+// Body class for admin
+// http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
+function base_admin_body_class( $classes )
+{
+    // Current action
+    if ( is_admin() && isset($_GET['action']) ) {
+        $classes .= 'action-'.$_GET['action'];
+    }
+    // Current post ID
+    if ( is_admin() && isset($_GET['post']) ) {
+        $classes .= ' ';
+        $classes .= 'post-'.$_GET['post'];
+    }
+    // New post type & listing page
+    if ( isset($_GET['post_type']) ) $post_type = $_GET['post_type'];
+    if ( isset($post_type) ) {
+        $classes .= ' ';
+        $classes .= 'post-type-'.$post_type;
+    }
+    // Editting a post type
+    $post_query = $_GET['post'];
+    if ( isset($post_query) ) {
+        $current_post_edit = get_post($post_query);
+        $current_post_type = $current_post_edit->post_type;
+        if ( !empty($current_post_type) ) {
+            $classes .= ' ';
+            $classes .= 'post-type-'.$current_post_type;
+        }
+    }
+    // Return the $classes array
+    return $classes;
+}
+add_filter('admin_body_class', 'base_admin_body_class');
 
 
 

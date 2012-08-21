@@ -116,45 +116,82 @@
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
         
-        add_action ( 'wp_head', 'wprss_head_output' );   
+        add_action( 'wp_head', 'wprss_head_scripts_styles' );   
+        add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );  
         
+       // add_action( 'admin_init', 'wprss_change_title');
 
-        
+
         // Add meta boxes for wprss_feed post type
         //add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
         
          // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
-
-        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
-        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );          
              
+    }
+
+   /* function wprss_change_title() {
+        // Only load scripts if we are on wprss_feed add post or edit post screens
+        $screen = get_current_screen();
+        echo 'test';
+        var_dump($screen);
+        if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
+          
+            add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
+        }     
+    }*/
+
+
+
+    //add filter to ensure the text Feed source is displayed when user updates a feed souce
+    add_filter( 'post_updated_messages', 'feed_updated_messages' );
+    
+    function feed_updated_messages( $messages ) {
+        global $post, $post_ID;
+
+        $messages['wprss_feed'] = array(
+        0 => '', // Unused. Messages start at index 1.
+        1 => __('Feed source updated. '),
+        2 => __('Custom field updated.'),
+        3 => __('Custom field deleted.'),
+        4 => __('Feed source updated.'),        
+        5 => '',
+        6 => __('Feed source saved.'),
+        7 => __('Feed source saved.'),
+        8 => __('Feed source submitted.'),
+        9 => '',
+        10 =>__('Feed source updated.')
+        );
+
+        return $messages;
+    }
+
+
+    function wprss_admin_scripts_styles() {
         // Only load scripts if we are on this plugin's options or settings pages (admin)
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' | $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
             wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
         } 
-   
-        // Only load scripts if we are on this plugin's options page (admin)
-        if ( isset( $_GET['page'] ) && $_GET['page'] == 'wprss-aggregator' ) {
-           wp_enqueue_script( 'jquery' );
-           wp_enqueue_script( 'add-remove', WPRSS_JS . 'add-remove.js' );
-        }    
+
+        // Only load scripts if we are on wprss_feed add post or edit post screens
+        $screen = get_current_screen();
+        if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
+            // Change text on post screen from 'Enter title here' to 'Enter feed name here'
+            add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
+        }      
+
     }
  
    
     /**
-     * jQuery code to trigger Colorbox for links, goes in the <head> section on frontend
+     * Scripts and styles to go in the <head> section on frontend
      */
 
-    function wprss_head_output() {
-        echo "
-        <script type='text/javascript'>
-            jQuery( document ).ready( function() { 
-                jQuery( 'a.colorbox' ).colorbox(
-                {iframe:true, width:'80%', height:'80%'}
-                );
-            });
-        </script>";
+    function wprss_head_scripts_styles() {
+        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
+        wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery') );   
+        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
     }
 
 

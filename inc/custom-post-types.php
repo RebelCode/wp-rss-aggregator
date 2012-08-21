@@ -14,7 +14,7 @@
             'menu_position' => 100,
             'menu_icon'     => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
             'show_in_menu'  => true,
-            'supports'      => array('title'),
+            'supports'      => array( 'title' ),
             'rewrite'       => array(
                                 'slug'       => 'feeds',
                                 'with_front' => false
@@ -85,72 +85,186 @@
      * @since 1.2
      */   
     function wprss_add_meta_boxes() {
-        add_meta_box(
-            'wprss-feed-name-meta',
-            'Feed Name',
-            'wprss_feed_name_meta',
-            'wprss_feed',
-            'normal',
-            'high'
-        );
-        
-        add_meta_box(
-            'wprss-feed-description-meta',
-            'Feed Description',
-            'wprss_feed_description_meta',
-            'wprss_feed',
-            'normal',
-            'default'
-        );
+        global $wprss_meta_fields;
 
-        add_meta_box(
-            'wprss-feed-url-meta',
-            'Feed URL',
-            'wprss_feed_url_meta',
-            'wprss_feed',
-            'normal',
-            'high'
-        );
-        
         // Remove the default WordPress Publish box, because we will be using custom ones
        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
+        add_meta_box(
+            'submitdiv',
+            __('Save Feed Source'),
+            'post_submit_meta_box',
+            'wprss_feed',
+            'side',
+            'low');
         
-        /*add_meta_box(
+      /*  add_meta_box(
             'wprss-save-link-side-meta',
             'Save Feed Source',
-            'wprss_save_feed_source_meta',
+            'wprss_save_feed_source_meta_box',
             'wprss_feed',
             'side',
             'high'
-        );*/
+        );
         
         add_meta_box(
             'wprss-save-link-bottom-meta',
-            'Save Feed Source',
-            'wprss_save_feed_source_meta',
+            __( 'Save Feed Source', 'wprss' ),
+            'wprss_save_feed_source_meta_box',
             'wprss_feed',
             'normal',
             'low'
-        );
+        );*/
 
         add_meta_box(
             'wprss-help-meta',
             'WP RSS Aggregator Pro',
-            'wprss_help_meta',
+            'wprss_help_meta_box',
             'wprss_feed',
             'side',
             'low'
-        );        
+        );       
+
+        add_meta_box(
+            'custom_meta_box', // $id
+            __( 'Feed Source Details', 'wprss' ), // $title 
+            'wprss_show_meta_box', // $callback
+            'wprss_feed', // $page
+            'normal', // $context
+            'high'); // $priority
+    }
+
+    /**
+     * wprss_custom_fields()
+     * Set up the meta box for the wprss_feed post type
+     * @since 1.2
+     */       
+    function wprss_custom_fields() {
+        $prefix = 'wprss_';
+        
+        // Field Array
+        $wprss_meta_fields['url'] = array(
+            'label' => __( 'URL', 'wprss' ),
+            'desc'  => __( 'Enter feed URL (including http://)', 'wprss' ),
+            'id'    => $prefix.'url',
+            'type'  => 'text'
+        );
+        
+        $wprss_meta_fields['description'] = array(
+            'label' => __( 'Description', 'wprss' ),
+            'desc'  => __( 'A short description about this feed source', 'wprss' ),
+            'id'    => $prefix.'description',
+            'type'  => 'textarea'
+        );    
+        
+        // for extensibility, allows more meta fields to be added
+        return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }
 
 
+    /**
+     * wprss_show_meta_box
+     * Set up the meta box for the wprss_feed post type
+     * @since 1.2
+     */ 
+    function wprss_show_meta_box() {
+        global $post;
+        $meta_fields = wprss_custom_fields();
+
+        // Use nonce for verification
+        echo '<input type="hidden" name="wprss_meta_box_nonce" value="' . wp_create_nonce( basename( __FILE__ ) ) . '" />';
+            
+            // Begin the field table and loop
+            echo '<table class="form-table">';
+            foreach ( $meta_fields as $field ) {
+                // get value of this field if it exists for this post
+                $meta = get_post_meta( $post->ID, $field['id'], true );
+                // begin a table row with
+                echo '<tr>
+                        <th><label for="' . $field['id'] . '">' . $field['label'] . '</label></th>
+                        <td>';
+                        
+                        switch( $field['type'] ) {
+                        
+                            // text
+                            case 'text':
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
+                                    <br /><span class="description">'.$field['desc'].'</span>';
+                            break;
+                        
+                            // textarea
+                            case 'textarea':
+                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'.$meta.'</textarea>
+                                    <br /><span class="description">'.$field['desc'].'</span>';
+                            break;
+                        
+                            // checkbox
+                            case 'checkbox':
+                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$meta ? ' checked="checked"' : '','/>
+                                    <label for="'.$field['id'].'">'.$field['desc'].'</label>';
+                            break;    
+                        
+                            // select
+                            case 'select':
+                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';
+                                foreach ($field['options'] as $option) {
+                                    echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
+                                }
+                                echo '</select><br /><span class="description">'.$field['desc'].'</span>';
+                            break;                                            
+                        
+                        } //end switch
+                echo '</td></tr>';
+            } // end foreach
+            echo '</table>'; // end table
+    }
+  
+
+    /**
+     * wprss_save_custom_fields
+     * Save the custom fields
+     * @since 1.2
+     */ 
+    function wprss_save_custom_fields( $post_id ) {
+        $meta_fields = wprss_custom_fields();
+        
+        // verify nonce
+        if ( !wp_verify_nonce( $_POST[ 'wprss_meta_box_nonce' ], basename( __FILE__ ) ) ) 
+            return $post_id;
+        
+        // check autosave
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
+            return $post_id;
+        
+        // check permissions
+        if ('page' == $_POST['post_type']) {
+            if (!current_user_can('edit_page', $post_id))
+                return $post_id;
+            } elseif (!current_user_can('edit_post', $post_id)) {
+                return $post_id;
+        }
+        
+        // loop through fields and save the data
+        foreach ($meta_fields as $field) {
+            $old = get_post_meta($post_id, $field['id'], true);
+            $new = $_POST[$field['id']];
+            if ($new && $new != $old) {
+                update_post_meta($post_id, $field['id'], $new);
+            } elseif ('' == $new && $old) {
+                delete_post_meta($post_id, $field['id'], $old);
+            }
+        } // end foreach
+    }
+
+    add_action( 'save_post', 'wprss_save_custom_fields' );  
+
+      
     /**
      * wprss_save_feed_source_meta()
      * Generate the Save Feed Source meta box
      * @since 1.2
      */  
 
-    function wprss_save_feed_source_meta() {
+    function wprss_save_feed_source_meta_box() {
         global $post;
         
         // insert nonce??
@@ -171,46 +285,7 @@
         }
     }
 
-    /**
-     * wprss_feed_name_meta()
-     * Generate the Feed Name meta box
-     * @since 1.2
-     */  
-    function wprss_feed_name_meta() {
-        wp_nonce_field( plugin_basename( __FILE__ ), 'wprss_noncename' );        
-                        
-        echo '<p><input id="wprss-feed-name" name="post_title" value="' . $feedData['feed_name'] . '" size="50" type="text" /></p>';        
-    }
 
-
-    /**
-     * wprss_feed_description_meta()
-     * Generate the Feed Description meta box
-     * @since 1.2
-     */  
-    function wprss_feed_description_meta() {
-        wp_nonce_field( plugin_basename( __FILE__ ), 'wprss_noncename' );
-        
-        global $post;
-        $feedData = unserialize( get_post_meta( $post->ID, 'feedData', true ) );
-        echo '<p><input id="wprss-feed-description" name="wprss[feed_description]" value="' . $feedData['feed_description'] . '" size="150" type="text" /></p>';
-        
-    }   
-
-
-    /**
-     * wprss_feed_url_meta()
-     * Generate the Feed URL meta box
-     * @since 1.2
-     */  
-    function wprss_feed_url_meta() {
-        wp_nonce_field( plugin_basename(__FILE__), 'wprss_noncename' );
-        
-        global $post;         
-        $feedData = unserialize( get_post_meta( $post->ID, 'feedData', true ) );
-        echo '<p><label class="infolabel" for="wprss[feedurl]">Feed URL (include http://)</label></p>';
-        echo '<p><input id="wprss-feedurl" name="wprss[feedurl]" value="' . $feedData['feedurl'] . '" size="100" type="text" /></p>';
-    }
 
     /**
      * wprss_help_meta()
@@ -218,7 +293,7 @@
      * @since 1.2
      */  
     
-    function wprss_help_meta() {
+    function wprss_help_meta_box() {
      echo '<p><strong>';
      _e( 'Need help?');
      echo '</strong> ';
@@ -237,53 +312,6 @@
    */ }
 
 
-
-
-
-
-    /** 
-     * wprss_save_post() 
-     * Save the custom fields (post meta) for the wprss_feed post type
-     * @since  1.2
-     */
-    function wprss_save_post( $post_id ) {
-        /* Make sure we only do this for wprss_feed on regular saves and we have permission */
-        if ( $_POST[ 'post_type' ] != 'wprss_feed') {
-            return $post_id;
-        }
-        
-        if ( !wp_verify_nonce( $_POST[ 'wprss_noncename' ], plugin_basename( __FILE__ ) ) ||
-            ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ||
-            !current_user_can( 'edit_page', $post_id ) ) {
-            return $post_id;
-        }
-
-        $feedDataOrig = array();
-        $feedDataOrig = unserialize( get_post_meta( $post_id, 'feedData', true ) );
-        
-        $feedDataNew = array();
-        $feedDataNew = $_POST['wprss'];
-        
-        if (!empty($linkDataOrig)) {
-            $linkData = array_merge($linkDataOrig, $linkDataNew);
-        } else {
-            $linkData = $linkDataNew;
-        }
-        
-        /* Because we trick wordpress into setting the post title by using our field
-        ** name as post_title we need to make sure our meta data is updated to reflect
-        ** that correct name */
-        $linkData['linkname'] = $_POST['post_title'];
-        
-        /* Update the link data */
-        update_post_meta($post_id, 'thirstyData', serialize($linkData));
-        
-        if (isset($linkData['linkslug']) && !empty($linkData['linkslug'])) {
-            $_POST['post_name'] = $linkData['linkslug'];
-        }
-        
-        $_POST['post_status'] = 'publish';
-    }
 
 
     /**

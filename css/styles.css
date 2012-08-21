@@ -25,4 +25,11 @@
     background: transparent url( '../img/icon-adminpage32.png' ) no-repeat !important;
 }
 
+body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
+
+#misc-publishing-actions,
+#minor-publishing-actions { display: none; }
+
+#custom_meta_box .form-table th { width: 100px; }
+
 /*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/
