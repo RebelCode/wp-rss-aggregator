@@ -224,8 +224,141 @@
      */     
         
     function wp_rss_aggregator( $args = array() ) {
-        
+
         $defaults = array(
+                          'date_before'  => '<h3>',
+                          'date_after'   => '</h3>',
+                          'links_before' => '<ul>',
+                          'links_after'  => '</ul>',
+                          'link_before'  => '<li>',
+                          'link_after'   => '</li>'                          
+                    );
+
+        $settings = get_option( 'wprss_settings' );
+        $class = '';
+        $open_setting = '';
+        $follow_setting = '';
+
+        switch ( $settings['open_dd'] ) {             
+            
+            case 'Lightbox' :
+                $class = 'class="colorbox"'; 
+                break;
+
+            case 'New window' :
+                $open_setting = 'target="_blank"';
+                break;   
+        }
+
+        switch ( $settings['follow_dd'] ) { 
+
+            case 'No follow' :
+                $follow_setting = 'rel="nofollow"';
+                break;
+        }
+
+
+        // Parse incoming $args into an array and merge it with $defaults           
+        $args = wp_parse_args( $args, $defaults );
+        // Declare each item in $args as its own variable
+        extract( $args, EXTR_SKIP );       
+
+        // Get all feed sources
+        $feed_sources = new WP_Query( array(
+            'post_type' => 'wprss_feed',
+        ) );
+
+        if( $feed_sources->have_posts() ) {
+            while ( $feed_sources->have_posts() ) {                
+                $feed_sources->the_post();
+                $feed_urls[] = get_post_meta( get_the_ID(), 'wprss_url', true );
+            }
+            wp_reset_postdata();
+        } else {
+            echo 'No feed sources found';
+        }
+        
+        if( !empty( $feed_urls ) ) {             
+            $feeds = fetch_feed( $feed_urls ); 
+            if ( !is_wp_error( $feeds ) ) {
+                $items = $feeds->get_items(); 
+            }
+
+            global $wpdb;
+            $post_titles = 
+            $wpdb->get_col(
+                "SELECT post_title 
+                FROM $wpdb->posts 
+                WHERE post_status = 'publish' 
+                ORDER BY post_date DESC");
+            
+            foreach ( $items as $item ) {
+                // Create post object
+                $feed_item = array(
+                    'post_title' => $item->get_title(),
+                    'post_content' => '',
+                    'post_status' => 'publish',
+                    'post_type' => 'wprss_feed_item'
+                );                
+                $inserted_ID = wp_insert_post( $feed_item, $wp_error );
+              
+                //update_post_meta( $inserted_ID, 'wprss_item_guid', $item->get_guid() );
+                update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
+                update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
+                update_post_meta( $inserted_ID, 'wprss_feed_id', $inserted_ID );
+            }
+
+
+
+        // Query to get all feed items for display
+        $feed_items = new WP_Query( array(
+            'post_type' => 'wprss_feed_item',
+            'posts_per_page' => -1,             
+        ) );
+
+        if( $feed_items->have_posts() ) {
+            while ( $feed_items->have_posts() ) {                
+                $feed_items->the_post();
+                $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
+                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
+                echo '<br><span class="feed-source">Source: Jean | ' . get_the_date().'</span>';
+            }
+            wp_reset_postdata();
+        } else {
+            echo 'No feed items found';
+        }
+        
+
+
+
+           /* echo $links_before;
+            foreach ( $items as $item ):    
+                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
+                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title() . ' | ' . $item->get_date('l jS F').'</span>';
+                echo $link_after;
+            endforeach;    
+            echo $links_after;*/
+
+         /*   if ( !is_wp_error( $feeds ) ) {
+                $items = $feed->get_items();        
+
+                $count = 0;
+                $feedlimit = 5;
+                foreach ( $items as $item ) { 
+                    echo '<ul>';
+                    echo '<li>' . $item->get_title() . '</li>';
+                    echo '</ul>';
+                    if( ++$count == $feedlimit ) break; //break if count is met
+                } 
+            }
+            else echo '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.';*/
+        }        
+
+
+
+
+
+       /*$defaults = array(
                           'date_before'  => '<h3>',
                           'date_after'   => '</h3>',
                           'links_before' => '<ul>',
@@ -308,9 +441,9 @@
             echo $links_before;
             foreach ( $items_today as $item ) {                
                 echo $link_before . '<a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ . '</span>';
-                echo $link_after;            
-            }
+                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ /*. '</span>';
+             /*   echo $link_after;            
+          /*  }
             echo $links_after;
         }
         
@@ -318,9 +451,9 @@
             echo $date_before . 'Yesterday' . $date_after;
             echo $links_before;
             foreach ( $items_yesterday as $item ) {
-                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ . '</span>';
-                echo $link_after;
+                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title()./* ' '. '</a>'; 
+                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ /*./* '</span>';
+         /*       echo $link_after;
             }
             echo $links_after;
         }
@@ -330,8 +463,8 @@
             echo $links_before;
             foreach ( $items_two_days_ago as $item ) {
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ . '</span>';
-                echo $link_after;
+                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ /*. '</span>';
+             /*   echo $link_after;
             }
             echo $links_after;
         }
@@ -345,7 +478,7 @@
             }           
             echo $links_after;
 
-        }
+        }*/
     }
     
     // use just for testing - runs on each wp load
