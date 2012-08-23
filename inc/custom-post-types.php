@@ -69,7 +69,7 @@
         $columns = array (
             'cb'          => '<input type="checkbox" />',
             'title'       => __( 'Name', 'wprss' ),
-            'url'         => __( 'URL'. 'wprss' ),
+            'url'         => __( 'URL', 'wprss' ),
             'description' => __( 'Description', 'wprss' ),
             //'category' => __( 'Category' ),
         );
@@ -101,7 +101,7 @@
     }
     
     // Show the feed source list page custom columns 
-    add_action( "manage_posts_custom_column", "wprss_show_custom_columns", 10, 2 );
+    add_action( "manage_wprss_feed_posts_custom_column", "wprss_show_custom_columns", 10, 2 );
 
 
     /**
@@ -111,13 +111,13 @@
      * @since 1.2
      */  
     function wprss_sortable_columns() {
-      return array(
-        'title'    => 'title',
-        'url'      => 'url',
-      );
+        return array(
+            // meta column id => sortby value used in query
+            'title' => 'title',             
+        );
     }
 
-    add_filter( "manage_edit-wprss_sortable_columns", "wprss_sortable_columns" );
+    add_filter( "manage_edit-wprss_feed_sortable_columns", "wprss_sortable_columns" );
 
     /**
      * wprss_add_meta_boxes()
@@ -129,7 +129,7 @@
         global $wprss_meta_fields;
 
         // Remove the default WordPress Publish box, because we will be using custom ones
-       remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
+        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
         add_meta_box(
             'submitdiv',
             __('Save Feed Source'),
