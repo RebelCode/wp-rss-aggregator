@@ -36,11 +36,12 @@
 
 
     /**
+     * wprss_constants()
      * Defines constants used by the plugin.
      *
      * @since 1.1
      */
-    function constants() {
+    function wprss_constants() {
         
         /* Set the version number of the plugin. */
         define( 'WPRSS_VERSION', '1.1', true );
@@ -73,12 +74,13 @@
 
 
     /**
+     * wprss_includes()
      * Loads the initial files needed by the plugin.
      *
      * @since 1.1
      * @todo Might separate into another function admin_includes() at a later stage
      */
-    function includes() {
+    function wprss_includes() {
 
         /* Load the activation functions file. */
         require_once ( WPRSS_INC . 'activation.php' );
@@ -96,20 +98,19 @@
         require_once ( WPRSS_INC . 'custom-post-types.php' );         
     }
 
-        // Add meta boxes for wprss_feed post type
-        add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
+
     /**
      * wprss_init()
      * Initialise the plugin
+     * 
      * @since 1.2
-     */ 
-    
+     */     
     add_action( 'init', 'wprss_init' );
 
     function wprss_init() {
         
-        constants();
-        includes();
+        wprss_constants();
+        wprss_includes();
         wprss_register_post_types();
         //wprss_add_meta_boxes();
 
@@ -118,6 +119,10 @@
         
         add_action( 'wp_head', 'wprss_head_scripts_styles' );   
         add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );  
+
+        // Add meta boxes for wprss_feed post type
+        add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
+    
         
        // add_action( 'admin_init', 'wprss_change_title');
 
@@ -130,23 +135,41 @@
              
     }
 
-   /* function wprss_change_title() {
+
+    /**
+     * wprss_admin_scripts_styles()
+     * Insert required scripts, styles and filters on the admin side
+     * 
+     * @since 1.2
+     */   
+    function wprss_admin_scripts_styles() {
+        // Only load scripts if we are on this plugin's options or settings pages (admin)
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' | $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
+        } 
+
         // Only load scripts if we are on wprss_feed add post or edit post screens
         $screen = get_current_screen();
-        echo 'test';
-        var_dump($screen);
         if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
-          
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
+            
+            // Change text on post screen from 'Enter title here' to 'Enter feed name here'
             add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
-        }     
-    }*/
+        }      
 
-
+    }
 
     //add filter to ensure the text Feed source is displayed when user updates a feed souce
-    add_filter( 'post_updated_messages', 'feed_updated_messages' );
-    
-    function feed_updated_messages( $messages ) {
+    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' );
+
+
+    /**
+     * wprss_feed_updated_messages
+     * Change default notification message when new feed added or updated
+     * 
+     * @since 1.2
+     */   
+    function wprss_feed_updated_messages( $messages ) {
         global $post, $post_ID;
 
         $messages['wprss_feed'] = array(
@@ -165,29 +188,14 @@
 
         return $messages;
     }
-
-
-    function wprss_admin_scripts_styles() {
-        // Only load scripts if we are on this plugin's options or settings pages (admin)
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' | $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
-        } 
-
-        // Only load scripts if we are on wprss_feed add post or edit post screens
-        $screen = get_current_screen();
-        if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
-            // Change text on post screen from 'Enter title here' to 'Enter feed name here'
-            add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
-        }      
-
-    }
+    
  
-   
     /**
-     * Scripts and styles to go in the <head> section on frontend
-     */
-
+     * wprss_head_scripts_styles()
+     * Scripts and styles to be inserted into <head> section in front end
+     * 
+     * @since 1.2
+     */      
     function wprss_head_scripts_styles() {
         wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
         wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery') );   

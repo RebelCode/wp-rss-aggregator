@@ -3,6 +3,7 @@
     /**
      * wprss_register_post_type()
      * Create Custom Post Types wprss_feed and wprss_feed_item
+     * 
      * @since 1.2
      */                 
     function wprss_register_post_types() {        
@@ -38,7 +39,6 @@
         // Register the 'wprss_feed' post type
         register_post_type( 'wprss_feed', $feed_args );
 
-
         // Set up the arguments for the 'wprss_feed_item' post type
         $feed_item_args = array(
             'public'        => true,
@@ -58,30 +58,71 @@
     }
     
 
-
-    //    add_filter('manage_wprss_feed_posts_columns', 'wprss_add_category_column');
-      //  add_action('manage_pages_custom_column', 'wprss_show_category_column');
-           
-    /*}
-
-   /* Set the list page columns */
-   /* add_filter( 'manage_edit-wprss_feed_columns', 'my_edit_columns');
-    
-    function my_edit_columns( $columns ) {
+    /**
+     * wprss_set_custom_columns()
+     * Set up the custom columns for the wprss_feed list
+     * 
+     * @since 1.2
+     */      
+    function wprss_set_custom_columns( $columns ) {
 
         $columns = array (
-            'cb' => '<input type="checkbox" />',
-            'name' => __( 'Name' ),
-            'description' => __( 'Description' ),
-            'genre' => __( 'Genre' ),
+            'cb'          => '<input type="checkbox" />',
+            'title'       => __( 'Name', 'wprss' ),
+            'url'         => __( 'URL'. 'wprss' ),
+            'description' => __( 'Description', 'wprss' ),
+            //'category' => __( 'Category' ),
         );
         return $columns;
     }
- */
+    
+    // Set the feed source list page columns 
+    add_filter( 'manage_edit-wprss_feed_columns', 'wprss_set_custom_columns'); 
+
 
     /**
-     * wprss_add_meta_boxes
+     * wprss_show_custom_columns()
+     * Show up the custom columns for the wprss_feed list
+     * 
+     * @since 1.2
+     */  
+    function wprss_show_custom_columns( $column, $post_id ) {
+     
+      switch ( $column ) {
+        case "url":
+          $url = get_post_meta( $post_id, 'wprss_url', true);
+          echo '<a href="' . $url . '">' . $url. '</a>';
+          break;
+        case "description":
+          $description = get_post_meta( $post_id, 'wprss_description', true);
+          echo $description;
+          break;      
+      }
+    }
+    
+    // Show the feed source list page custom columns 
+    add_action( "manage_posts_custom_column", "wprss_show_custom_columns", 10, 2 );
+
+
+    /**
+     * wprss_sortable_columns()
+     * Make the custom columns sortable
+     * 
+     * @since 1.2
+     */  
+    function wprss_sortable_columns() {
+      return array(
+        'title'    => 'title',
+        'url'      => 'url',
+      );
+    }
+
+    add_filter( "manage_edit-wprss_sortable_columns", "wprss_sortable_columns" );
+
+    /**
+     * wprss_add_meta_boxes()
      * Set up the input boxes for the wprss_feed post type
+     * 
      * @since 1.2
      */   
     function wprss_add_meta_boxes() {
@@ -142,9 +183,11 @@
             'low'); // $priority
     }    
 
+
     /**
      * wprss_custom_fields()
      * Set up the meta box for the wprss_feed post type
+     * 
      * @since 1.2
      */       
     function wprss_custom_fields() {
@@ -173,6 +216,7 @@
     /**
      * wprss_show_meta_box
      * Set up the meta box for the wprss_feed post type
+     * 
      * @since 1.2
      */ 
     function wprss_show_meta_box() {
@@ -231,6 +275,7 @@
     /**
      * wprss_save_custom_fields
      * Save the custom fields
+     * 
      * @since 1.2
      */ 
     function wprss_save_custom_fields( $post_id ) {
@@ -270,9 +315,9 @@
     /**
      * wprss_save_feed_source_meta()
      * Generate the Save Feed Source meta box
+     * 
      * @since 1.2
      */  
-
     function wprss_save_feed_source_meta_box() {
         global $post;
         
@@ -293,23 +338,46 @@
         echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
         }
     }
-    function wprss_preview_meta_box() {
-     $feed = fetch_feed( 'http://feeds.feedburner.com/WPMayor' ); 
-             $items = $feed->get_items();        
 
-        echo '<h4>Feed preview for WPMayor</h4>'        ; 
-        foreach ( $items as $item ) { 
-            echo '<ul>';
-            echo '<li>' . $item->get_title() . '</li>';
-            echo '</ul>';
-        } 
-}
+    /**
+     * wprss_preview_meta_box()
+     * Generate a preview of the latest 5 posts from the feed source being added/edited
+     * 
+     * @since 1.2
+     */  
+    function wprss_preview_meta_box() {
+        global $post;
+        $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
+        
+        if( !empty( $feed_url ) ) {             
+            $feed = fetch_feed( $feed_url ); 
+            if (!is_wp_error( $feed ) ) {
+                $items = $feed->get_items();        
+
+
+                echo '<h4>Feed preview for WPMayor</h4>'; 
+                $count = 0;
+                $feedlimit = 5;
+                foreach ( $items as $item ) { 
+                    echo '<ul>';
+                    echo '<li>' . $item->get_title() . '</li>';
+                    echo '</ul>';
+                    if( ++$count == $feedlimit ) break; //break if count is met
+                } 
+            }
+            else echo '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.';
+        }
+
+        else echo 'No feed URL defined yet';
+    }
+
+
     /**
      * wprss_help_meta()
      * Generate Help meta box
+     * 
      * @since 1.2
-     */  
-    
+     */      
     function wprss_help_meta_box() {
      echo '<p><strong>';
      _e( 'Need help?');
