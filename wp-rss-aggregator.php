@@ -257,7 +257,6 @@
                 break;
         }
 
-
         // Parse incoming $args into an array and merge it with $defaults           
         $args = wp_parse_args( $args, $defaults );
         // Declare each item in $args as its own variable
@@ -269,216 +268,87 @@
         ) );
 
         if( $feed_sources->have_posts() ) {
+            
+            // Start by getting one feed source, we will cycle through them one by one, 
+            // fetching feed items and adding them to the database in each pass
             while ( $feed_sources->have_posts() ) {                
                 $feed_sources->the_post();
-                $feed_urls[] = get_post_meta( get_the_ID(), 'wprss_url', true );
-            }
-            wp_reset_postdata();
-        } else {
-            echo 'No feed sources found';
-        }
-        
-        if( !empty( $feed_urls ) ) {             
-            $feeds = fetch_feed( $feed_urls ); 
-            if ( !is_wp_error( $feeds ) ) {
-                $items = $feeds->get_items(); 
-            }
+               
+                $feed_ID = get_the_ID();
+                $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
+                
+                // Use the URL custom field to fetch the feed items for this source
+                if( !empty( $feed_url ) ) {             
+                    $feed = fetch_feed( $feed_url ); 
+                    if ( !is_wp_error( $feed ) ) {
+                        $items = $feed->get_items(); 
+                    }
+                }
 
-            global $wpdb;
-            $post_titles = 
-            $wpdb->get_col(
-                "SELECT post_title 
-                FROM $wpdb->posts 
-                WHERE post_status = 'publish' 
-                ORDER BY post_date DESC");
+                // Find existing feed items associated with this feed source
+              /*  $existing_feed_items = new WP_Query( array(
+                    'post_type' => 'wprss_feed_item',
+                    'meta_key'  => 'wprss_feed_id',
+                    'meta_value'=> $feed_ID
+                    ) );
+                */
             
-            foreach ( $items as $item ) {
-                // Create post object
-                $feed_item = array(
-                    'post_title' => $item->get_title(),
-                    'post_content' => '',
-                    'post_status' => 'publish',
-                    'post_type' => 'wprss_feed_item'
-                );                
-                $inserted_ID = wp_insert_post( $feed_item, $wp_error );
-              
-                //update_post_meta( $inserted_ID, 'wprss_item_guid', $item->get_guid() );
-                update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
-                update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
-                update_post_meta( $inserted_ID, 'wprss_feed_id', $inserted_ID );
-            }
+                // Gather the permalinks of existing feed item's related to this feed source
+                global $wpdb;
+                $existing_permalinks = $wpdb->get_col(
+                    "SELECT meta_value
+                    FROM $wpdb->postmeta
+                    WHERE meta_key = 'wprss_item_permalink'
+                    AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
+                    ");
+                    
+                foreach ( $items as $item ) {
 
-
+                    // Check if newly fetched item already present in existing feed item item, 
+                    // if not insert it into wp_postsm and insert post meta.
+                    if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
+                        // Create post object
+                        $feed_item = array(
+                            'post_title' => $item->get_title(),
+                            'post_content' => '',
+                            'post_status' => 'publish',
+                            'post_type' => 'wprss_feed_item'
+                        );                
+                        $inserted_ID = wp_insert_post( $feed_item, $wp_error );
+                                          
+                        update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
+                        update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
+                        update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'Y-m-d H:i:s' ) );
+                        update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
+                   } //end if
+                } //end foreach
+            } // end $feed_sources while loop
+            wp_reset_postdata();             
+        }
 
         // Query to get all feed items for display
         $feed_items = new WP_Query( array(
             'post_type' => 'wprss_feed_item',
-            'posts_per_page' => -1,             
+            'posts_per_page' => -1, 
+            'orderby'  => 'meta_value', 
+            'meta_key' => 'wprss_item_date', 
+            'order' => 'DESC'
         ) );
 
         if( $feed_items->have_posts() ) {
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
+                $date = get_post_meta( get_the_ID(), 'wprss_item_date', true );
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: Jean | ' . get_the_date().'</span>';
+                echo '<br><span class="feed-source">Source: Jean | ' . $date . '</span>';
             }
             wp_reset_postdata();
         } else {
             echo 'No feed items found';
         }
-        
+          
 
-
-
-           /* echo $links_before;
-            foreach ( $items as $item ):    
-                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title() . ' | ' . $item->get_date('l jS F').'</span>';
-                echo $link_after;
-            endforeach;    
-            echo $links_after;*/
-
-         /*   if ( !is_wp_error( $feeds ) ) {
-                $items = $feed->get_items();        
-
-                $count = 0;
-                $feedlimit = 5;
-                foreach ( $items as $item ) { 
-                    echo '<ul>';
-                    echo '<li>' . $item->get_title() . '</li>';
-                    echo '</ul>';
-                    if( ++$count == $feedlimit ) break; //break if count is met
-                } 
-            }
-            else echo '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.';*/
-        }        
-
-
-
-
-
-       /*$defaults = array(
-                          'date_before'  => '<h3>',
-                          'date_after'   => '</h3>',
-                          'links_before' => '<ul>',
-                          'links_after'  => '</ul>',
-                          'link_before'  => '<li>',
-                          'link_after'   => '</li>'                          
-                    );
-        
-        // Parse incoming $args into an array and merge it with $defaults        	
-	    $args = wp_parse_args( $args, $defaults );
-        // Declare each item in $args as its own variable
-        extract( $args, EXTR_SKIP );        
-        
-        $wprss_options = get_option( 'wprss_options', 'option not found' );   
-    
-        foreach ( $wprss_options as $key => $value ) {            
-            if ( strpos( $key, 'feed_url_' ) === 0 ) {                 
-                $feed_uris[] = $value;
-            } 
-        }        
-        
-        if ( !empty( $feed_uris ) ) {           
-            // update feeds every hour else serve from cache
-            function wprss_hourly_feed() { return 3600; }
-            add_filter( 'wp_feed_cache_transient_lifetime', 'wprss_hourly_feed' );
-            $feed = fetch_feed( $feed_uris );    
-        }
-        else echo 'No feed defined';
-        remove_filter( 'wp_feed_cache_transient_lifetime', 'wprss_hourly_feed' );
-        
-        $items = $feed->get_items();        
-        $items_today = array();
-        $items_yesterday = array();
-        $items_two_days_ago = array();
-        $items_older = array();
-        
-        
-        foreach ( $items as $item ):        
-            $item_date = $item->get_date('l jS F (Y-m-d)');
-            if ( $item_date == date('l jS F (Y-m-d)', strtotime('today') ) ) {
-                $items_today[] = $item;
-            }
-            else if ( $item_date == date('l jS F (Y-m-d)', strtotime('yesterday') ) ) {
-                $items_yesterday[] = $item; 
-            }
-            else if ( $item_date == date('l jS F (Y-m-d)', strtotime('-2 days') ) ) {
-                $items_two_days_ago[] = $item;
-            }
-            else {
-                $items_older[] = $item;
-            }                   
-        endforeach;
-        
-        $settings = get_option( 'wprss_settings' );
-        $class = '';
-        $open_setting = '';
-        $follow_setting = '';
-
-        switch ( $settings['open_dd'] ) {             
-            
-            case 'Lightbox' :
-                $class = 'class="colorbox"'; 
-                break;
-
-            case 'New window' :
-                $open_setting = 'target="_blank"';
-                break;   
-        }
-
-        switch ( $settings['follow_dd'] ) { 
-
-            case 'No follow' :
-                $follow_setting = 'rel="nofollow"';
-                break;
-        }
-
-
-        if ( !empty( $items_today ) ) { 
-            echo $date_before . 'Today' . $date_after;
-            echo $links_before;
-            foreach ( $items_today as $item ) {                
-                echo $link_before . '<a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ /*. '</span>';
-             /*   echo $link_after;            
-          /*  }
-            echo $links_after;
-        }
-        
-        if ( !empty( $items_yesterday ) ) { 
-            echo $date_before . 'Yesterday' . $date_after;
-            echo $links_before;
-            foreach ( $items_yesterday as $item ) {
-                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title()./* ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ /*./* '</span>';
-         /*       echo $link_after;
-            }
-            echo $links_after;
-        }
-        
-        if ( !empty( $items_two_days_ago ) ) { 
-            echo $date_before . '2 days ago' . $date_after;
-            echo $links_before;
-            foreach ( $items_two_days_ago as $item ) {
-                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title()/* . ' | ' . $item->get_date('l jS F').''*/ /*. '</span>';
-             /*   echo $link_after;
-            }
-            echo $links_after;
-        }
-        if ( !empty( $items_older ) ) { 
-            echo $date_before . 'More than 2 days ago' . $date_after;
-            echo $links_before;
-            foreach ( $items_older as $item ) {
-                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href="' . $item->get_permalink() .'">'. $item->get_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: '.$item->get_feed()->get_title() . ' | ' . $item->get_date('l jS F').'</span>';
-                echo $link_after;
-            }           
-            echo $links_after;
-
-        }*/
     }
     
     // use just for testing - runs on each wp load
