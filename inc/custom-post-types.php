@@ -49,7 +49,13 @@
                                 'with_front' => false,
                                 ),       
             'labels'        => array(
-                                'all_items'             => __( 'Imported Feeds' )
+                                'name'                  => __( 'Imported Feeds' ),
+                                'singular_name'         => __( 'Imported Feed' ),
+                                'all_items'             => __( 'Imported Feeds' ),
+                                'view_item'             => __( 'View Imported Feed' ),                            
+                                'search_items'          => __( 'Search Imported Feeds' ),
+                                'not_found'             => __( 'No Imported Feeds Found' ),
+                                'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash')
                                 ),
         );
         
@@ -117,7 +123,109 @@
         );
     }
 
-    add_filter( "manage_edit-wprss_feed_sortable_columns", "wprss_sortable_columns" );
+
+
+    /**
+     * wprss_set_feed_item_custom_columns()
+     * Set up the custom columns for the wprss_feed list
+     * 
+     * @since 1.2
+     */      
+    function wprss_set_feed_item_custom_columns( $columns ) {
+
+        $columns = array (
+            'cb'          => '<input type="checkbox" />',
+            'title'       => __( 'Name', 'wprss' ),
+            'permalink'   => __( 'Permalink', 'wprss' ),
+            'description' => __( 'Excerpt', 'wprss' ),
+            'publishdate' => __( 'Date published', 'wprss' ),
+            'source'      => __( 'Source', 'wprss' )
+            //'category' => __( 'Category' ),
+        );
+        return $columns;
+    }
+    
+    // Set the feed source list page columns 
+    add_filter( 'manage_edit-wprss_feed_item_columns', 'wprss_set_feed_item_custom_columns'); 
+
+
+
+    /**
+     * wprss_show_feed_item_custom_columns()
+     * Show up the custom columns for the wprss_feed list
+     * 
+     * @since 1.2
+     */  
+    function wprss_show_feed_item_custom_columns( $column, $post_id ) {
+     
+      switch ( $column ) {
+        case "permalink":
+          $url = get_post_meta( $post_id, 'wprss_item_permalink', true);
+          echo '<a href="' . $url . '">' . $url. '</a>';
+          break;
+        case "description":
+          $description = get_post_meta( $post_id, 'wprss_item_description', true);
+          echo $description;
+          break;     
+        case "publishdate":
+          $publishdate = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;          
+          echo $publishdate;
+          break;   
+        case "source":
+          $source = get_post_meta( $post_id, 'wprss_feed_id', true);
+          echo $source;
+          break;   
+      }
+    }
+    
+    // Show the feed source list page custom columns 
+    add_action( "manage_wprss_feed_item_posts_custom_column", "wprss_show_feed_item_custom_columns", 10, 2 );
+
+
+    /**
+     * wprss_feed_item_sortable_columns()
+     * Make the custom columns sortable
+     * 
+     * @since 1.2
+     */  
+    function wprss_feed_item_sortable_columns() {
+        return array(
+            // meta column id => sortby value used in query
+            'publishdate' => 'publishdate',
+            'source' => 'source'
+        );
+    }
+
+    add_filter( "manage_edit-wprss_feed_item_sortable_columns", "wprss_feed_item_sortable_columns" );
+
+
+    /**
+     * wprss_feed_item_orderby()
+     * Change ordering of posts on wprss_feed_item screen
+     * 
+     * @since 1.2
+     */      
+    function wprss_feed_item_orderby( $query ) {
+        if( ! is_admin() )
+            return;
+        
+        $post_type = $query->get('post_type');
+        
+        // If we're on the feed listing admin page
+        if ( $post_type == 'wprss_feed_item') { 
+            // Set general orderby to date the feed item was published
+            $query->set('orderby','publishdate');
+            // If user clicks on the reorder link, implement reordering
+            $orderby = $query->get( 'orderby');
+            if( 'publishdate' == $orderby ) {
+                $query->set('meta_key','wprss_item_date');
+                $query->set('orderby','meta_value_num');
+            }
+        }
+    }    
+
+    add_action( 'pre_get_posts', 'wprss_feed_item_orderby' );
+
 
     /**
      * wprss_add_meta_boxes()

@@ -150,11 +150,13 @@
 
         // Only load scripts if we are on wprss_feed add post or edit post screens
         $screen = get_current_screen();
-        if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
+
+        if ( ( 'post' === $screen->base || 'edit' === $screen->base ) && ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) ) {
             wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
-            
-            // Change text on post screen from 'Enter title here' to 'Enter feed name here'
-            add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
+            if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
+                // Change text on post screen from 'Enter title here' to 'Enter feed name here'
+                add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
+            }
         }      
 
     }
@@ -317,8 +319,8 @@
                         $inserted_ID = wp_insert_post( $feed_item, $wp_error );
                                           
                         update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
-                        update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
-                        update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'Y-m-d H:i:s' ) );
+                        update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
+                        update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
                         update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
                    } //end if
                 } //end foreach
@@ -339,7 +341,8 @@
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
-                $date = get_post_meta( get_the_ID(), 'wprss_item_date', true );
+                // convert from Unix timestamp
+                $date = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: Jean | ' . $date . '</span>';
             }
