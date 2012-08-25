@@ -325,7 +325,7 @@
                    } //end if
                 } //end foreach
             } // end $feed_sources while loop
-            wp_reset_postdata();             
+            wp_reset_postdata(); // Restore the $post global to the current post in the main query
         }
 
         // Query to get all feed items for display
