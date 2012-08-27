@@ -328,14 +328,41 @@
             wp_reset_postdata(); // Restore the $post global to the current post in the main query
         }
 
+
+/*
+ 
+        $temp = $wp_query; 
+        $wp_query = null; 
+        $wp_query = new WP_Query(); 
+        $wp_query->query('showposts=6&post_type=wprss_feed_item'.'&paged='.$paged); 
+
+        while ($wp_query->have_posts()) : $wp_query->the_post(); 
+        echo 'test';
+
+
+        endwhile; 
+
+
+        previous_posts_link('&laquo; Newer');
+         next_posts_link('Older &raquo;');
+
+
+
+        $wp_query = null; 
+        $wp_query = $temp;  // Reset
+
+*/
+
+        $paged = get_query_var('paged') ? get_query_var('paged') : 1;
         // Query to get all feed items for display
         $feed_items = new WP_Query( array(
             'post_type' => 'wprss_feed_item',
-            'posts_per_page' => $settings['feed_limit'], 
+            'posts_per_page' => get_option('wprss_settings['wprss_feed_limit']'), 
             'orderby'  => 'meta_value', 
             'meta_key' => 'wprss_item_date', 
             'order' => 'DESC',
-            'paged' => get_query_var('page') ? get_query_var('page') : 1,
+            'paged' => $paged,
+
         ) );
 
         if( $feed_items->have_posts() ) {
@@ -347,7 +374,7 @@
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: Jean | ' . $date . '</span>'; 
             }
-            echo  paginate_links(); 
+            echo paginate_links();
 
             wp_reset_postdata();
             
@@ -355,7 +382,7 @@
             echo 'No feed items found';
         }
           
-
+ 
     }
     
     // use just for testing - runs on each wp load
