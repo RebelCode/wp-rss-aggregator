@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.jeangalea.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 1.1
+    Version: 1.2
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv2
@@ -27,7 +27,7 @@
     */
 
     /*
-    @version 1.1
+    @version 1.2
     @author Jean Galea <info@jeangalea.com>
     @copyright Copyright (c) 2012, Jean Galea
     @link http://www.jeangalea.com/wordpress/wp-rss-aggregator/
@@ -122,17 +122,10 @@
 
         // Add meta boxes for wprss_feed post type
         add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
-    
-        
-       // add_action( 'admin_init', 'wprss_change_title');
 
-
-        // Add meta boxes for wprss_feed post type
-        //add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
-        
-         // Set up the taxonomies
+        // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
-             
+                 
     }
 
 
@@ -205,66 +198,8 @@
     }
 
 
-    /**
-     * Convert from field name to user-friendly name
-     */ 
-    
-    function wprss_convert_key( $key ) { 
-        if ( strpos( $key, 'feed_name_' ) === 0 ) { 
-            $label = str_replace( 'feed_name_', 'Feed name ', $key );
-        }
-        
-        else if ( strpos( $key, 'feed_url_' ) === 0 ) { 
-            $label = str_replace( 'feed_url_', 'Feed URL ', $key );
-        }
-        return $label;        
-    }
-    
-    
-    /**
-     * Get feeds and output the aggregation
-     */     
-        
-    function wp_rss_aggregator( $args = array() ) {
-
-        $defaults = array(
-                          'date_before'  => '<h3>',
-                          'date_after'   => '</h3>',
-                          'links_before' => '<ul>',
-                          'links_after'  => '</ul>',
-                          'link_before'  => '<li>',
-                          'link_after'   => '</li>'                          
-                    );
-
-        $settings = get_option( 'wprss_settings' );
-        $class = '';
-        $open_setting = '';
-        $follow_setting = '';
-
-        switch ( $settings['open_dd'] ) {             
-            
-            case 'Lightbox' :
-                $class = 'class="colorbox"'; 
-                break;
-
-            case 'New window' :
-                $open_setting = 'target="_blank"';
-                break;   
-        }
-
-        switch ( $settings['follow_dd'] ) { 
-
-            case 'No follow' :
-                $follow_setting = 'rel="nofollow"';
-                break;
-        }
-
-        // Parse incoming $args into an array and merge it with $defaults           
-        $args = wp_parse_args( $args, $defaults );
-        // Declare each item in $args as its own variable
-        extract( $args, EXTR_SKIP );       
-
-        // Get all feed sources
+function wprss_fetch_feed_items() {
+    // Get all feed sources
         $feed_sources = new WP_Query( array(
             'post_type' => 'wprss_feed',
         ) );
@@ -327,43 +262,67 @@
             } // end $feed_sources while loop
             wp_reset_postdata(); // Restore the $post global to the current post in the main query
         }
+}
 
 
-/*
- 
-        $temp = $wp_query; 
-        $wp_query = null; 
-        $wp_query = new WP_Query(); 
-        $wp_query->query('showposts=6&post_type=wprss_feed_item'.'&paged='.$paged); 
+function wprss_display_feed_items( $args = array() ) {
+        $defaults = array(
+                          'date_before'  => '<h3>',
+                          'date_after'   => '</h3>',
+                          'links_before' => '<ul>',
+                          'links_after'  => '</ul>',
+                          'link_before'  => '<li>',
+                          'link_after'   => '</li>'                          
+                    );
 
-        while ($wp_query->have_posts()) : $wp_query->the_post(); 
-        echo 'test';
+        $settings = get_option( 'wprss_settings' );
+        $class = '';
+        $open_setting = '';
+        $follow_setting = '';
 
+        switch ( $settings['open_dd'] ) {             
+            
+            case 'Lightbox' :
+                $class = 'class="colorbox"'; 
+                break;
 
-        endwhile; 
+            case 'New window' :
+                $open_setting = 'target="_blank"';
+                break;   
+        }
 
+        switch ( $settings['follow_dd'] ) { 
 
-        previous_posts_link('&laquo; Newer');
-         next_posts_link('Older &raquo;');
+            case 'No follow' :
+                $follow_setting = 'rel="nofollow"';
+                break;
+        }
 
+        // Parse incoming $args into an array and merge it with $defaults           
+        $args = wp_parse_args( $args, $defaults );
+        // Declare each item in $args as its own variable
+        extract( $args, EXTR_SKIP );       
 
-
-        $wp_query = null; 
-        $wp_query = $temp;  // Reset
-
-*/
+        
 
         $paged = get_query_var('paged') ? get_query_var('paged') : 1;
         // Query to get all feed items for display
         $feed_items = new WP_Query( array(
             'post_type' => 'wprss_feed_item',
-            'posts_per_page' => get_option('wprss_settings['wprss_feed_limit']'), 
+            'posts_per_page' => $settings['feed_limit'], 
             'orderby'  => 'meta_value', 
             'meta_key' => 'wprss_item_date', 
             'order' => 'DESC',
             'paged' => $paged,
 
         ) );
+
+        // Globalize $wp_query
+        global $wp_query;
+        // Swap-hack
+        $temp = $wp_query;
+        $wp_query = null;
+        $wp_query = $feed_items;        
 
         if( $feed_items->have_posts() ) {
             while ( $feed_items->have_posts() ) {                
@@ -382,11 +341,8 @@
             echo 'No feed items found';
         }
           
- 
-    }
-    
-    // use just for testing - runs on each wp load
-    //add_action( 'wp_loaded', 'wp_rss_aggregator' );
-
+        $wp_query = null; 
+        $wp_query = $temp;  // Reset
+}
 
 ?>

@@ -13,6 +13,6 @@
                 $val = html_entity_decode($val);
             }
         }
-        wp_rss_aggregator( $atts );       
+        wprss_display_feed_items( $atts );       
     }
 ?>

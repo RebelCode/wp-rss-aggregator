@@ -51,6 +51,7 @@
     /**
      * Register and define options and settings
      * @since  1.2
+     * @todo  add option for cron frequency
      */ 
     
     add_action( 'admin_init', 'wprss_admin_init' );
@@ -71,7 +72,8 @@
                             'wprss_setting_follow_dd', 'wprss-aggregator-settings', 'wprss-settings-main');     
 
         add_settings_field( 'wprss-settings-feed-limit', 'Feed limit', 
-                            'wprss_setting_feed_limit', 'wprss-aggregator-settings', 'wprss-settings-main');                                    
+                            'wprss_setting_feed_limit', 'wprss-aggregator-settings', 'wprss-settings-main');  
+
     }  
 
     
