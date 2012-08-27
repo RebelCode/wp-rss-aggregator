@@ -331,10 +331,11 @@
         // Query to get all feed items for display
         $feed_items = new WP_Query( array(
             'post_type' => 'wprss_feed_item',
-            'posts_per_page' => -1, 
+            'posts_per_page' => $settings['feed_limit'], 
             'orderby'  => 'meta_value', 
             'meta_key' => 'wprss_item_date', 
-            'order' => 'DESC'
+            'order' => 'DESC',
+            'paged' => get_query_var('page') ? get_query_var('page') : 1,
         ) );
 
         if( $feed_items->have_posts() ) {
@@ -344,9 +345,12 @@
                 // convert from Unix timestamp
                 $date = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: Jean | ' . $date . '</span>';
+                echo '<br><span class="feed-source">Source: Jean | ' . $date . '</span>'; 
             }
+            echo  paginate_links(); 
+
             wp_reset_postdata();
+            
         } else {
             echo 'No feed items found';
         }

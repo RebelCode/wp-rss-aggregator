@@ -159,18 +159,22 @@
     function wprss_show_feed_item_custom_columns( $column, $post_id ) {
      
         switch ( $column ) {
+            
             case "permalink":
                 $url = get_post_meta( $post_id, 'wprss_item_permalink', true);
                 echo '<a href="' . $url . '">' . $url. '</a>';
                 break;
+            
             case "description":
                 $description = get_post_meta( $post_id, 'wprss_item_description', true);
                 echo $description;
                 break;     
+            
             case "publishdate":
                 $publishdate = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;          
                 echo $publishdate;
                 break;   
+            
             case "source":        
                 $query = new WP_Query();                 
                 $source = get_the_title( get_post_meta( $post_id, 'wprss_feed_id', true ) );                

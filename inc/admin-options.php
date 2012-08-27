@@ -68,7 +68,10 @@
                             'wprss_setting_open_dd', 'wprss-aggregator-settings', 'wprss-settings-main');
 
         add_settings_field( 'wprss-settings-follow-dd', 'Set links as', 
-                            'wprss_setting_follow_dd', 'wprss-aggregator-settings', 'wprss-settings-main');        
+                            'wprss_setting_follow_dd', 'wprss-aggregator-settings', 'wprss-settings-main');     
+
+        add_settings_field( 'wprss-settings-feed-limit', 'Feed limit', 
+                            'wprss_setting_feed_limit', 'wprss-aggregator-settings', 'wprss-settings-main');                                    
     }  
 
     
@@ -145,7 +148,6 @@
      * Build the plugin settings page, used to save general settings like whether a link should be follow or no follow
      * @since 1.1
      */ 
-
     function wprss_settings_page() {
         ?>
         <div class="wrap">
@@ -201,49 +203,51 @@
     }
 
 
-
-
-
-
-// Body class for admin
-// http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
-function base_admin_body_class( $classes )
-{
-    // Current action
-    if ( is_admin() && isset($_GET['action']) ) {
-        $classes .= 'action-'.$_GET['action'];
+    /** 
+     * Set limit for feeds on frontend
+     * @since 1.2
+     */
+    function wprss_setting_feed_limit() {
+        $options = get_option( 'wprss_settings' );                    
+        // echo the field
+       
+        echo "<input id='feed-limit' name='wprss_settings[feed_limit]' type='text' value='$options[feed_limit]' />";   
     }
-    // Current post ID
-    if ( is_admin() && isset($_GET['post']) ) {
-        $classes .= ' ';
-        $classes .= 'post-'.$_GET['post'];
-    }
-    // New post type & listing page
-    if ( isset($_GET['post_type']) ) $post_type = $_GET['post_type'];
-    if ( isset($post_type) ) {
-        $classes .= ' ';
-        $classes .= 'post-type-'.$post_type;
-    }
-    // Editting a post type
-    $post_query = $_GET['post'];
-    if ( isset($post_query) ) {
-        $current_post_edit = get_post($post_query);
-        $current_post_type = $current_post_edit->post_type;
-        if ( !empty($current_post_type) ) {
-            $classes .= ' ';
-            $classes .= 'post-type-'.$current_post_type;
+
+
+
+    // Body class for admin
+    // http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
+    function base_admin_body_class( $classes )
+    {
+        // Current action
+        if ( is_admin() && isset($_GET['action']) ) {
+            $classes .= 'action-'.$_GET['action'];
         }
+        // Current post ID
+        if ( is_admin() && isset($_GET['post']) ) {
+            $classes .= ' ';
+            $classes .= 'post-'.$_GET['post'];
+        }
+        // New post type & listing page
+        if ( isset($_GET['post_type']) ) $post_type = $_GET['post_type'];
+        if ( isset($post_type) ) {
+            $classes .= ' ';
+            $classes .= 'post-type-'.$post_type;
+        }
+        // Editting a post type
+        $post_query = $_GET['post'];
+        if ( isset($post_query) ) {
+            $current_post_edit = get_post($post_query);
+            $current_post_type = $current_post_edit->post_type;
+            if ( !empty($current_post_type) ) {
+                $classes .= ' ';
+                $classes .= 'post-type-'.$current_post_type;
+            }
+        }
+        // Return the $classes array
+        return $classes;
     }
-    // Return the $classes array
-    return $classes;
-}
-add_filter('admin_body_class', 'base_admin_body_class');
-
-
-
-
-
-
-
+    add_filter('admin_body_class', 'base_admin_body_class');
 
 ?>

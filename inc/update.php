@@ -13,24 +13,40 @@
 	 */
 	function wprss_version_check() {
 
-		/* Get the old database version. */
+		// Get the old database version.
 		$old_db_version = get_option( 'wprss_db_version' );
 
-		/* Get the plugin settings. */
+		// Get the plugin settings. 
 		$settings = get_option( 'wprss_settings' );
 
-		/* If there is no old database version, run the install. */
-		if ( empty( $old_db_version ) && false === $settings )
+		// Get the plugin options 
+		$options = get_option( 'wprss_options' ); 
+
+		// For fresh installs
+		// If there is no old database version and no settings, run the install. 
+		if ( empty( $old_db_version ) && false === $settings && false === $options )
 			wprss_install();
 
-		/* Temporary check b/c version 1.1 didn't have an upgrade path. */
-		elseif ( empty( $old_db_version ) && !empty( $settings ) )
-			wprss_update();
+		// For version 1.0
+		// If there is no old database version and no settings, but only options
+		elseif ( empty( $old_db_version ) && false === $settings && !empty( $options ) ) {
+			wprss_install();
+			wprss_migrate();		
+		}
 
-		/* If the old version is less than the new version, run the update. */
+		// For version 1.1
+		// If there is no old database version, but only settings and options
+		elseif ( empty( $old_db_version ) && !empty( $settings ) && !empty( $options ) ) {
+			wprss_update();
+			wprss_migrate();
+		}
+
+		// For any future versions where DB changes 
+		// If the old version is less than the new version, run the update.
 		elseif ( intval( $old_db_version ) < intval( WPRSS_DB_VERSION ) )
 			wprss_update();
 	}
+
 
 	/**
 	 * Adds the plugin settings on install.
@@ -45,6 +61,7 @@
 		/* Add the default plugin settings. */
 		add_option( 'wprss_settings', wprss_get_default_settings() );
 	}
+
 
 	/**
 	 * Updates plugin settings if there are new settings to add.
@@ -74,6 +91,40 @@
 		update_option( 'wprss_settings', $settings );
 	}
 
+
+	/**
+	 * Migrates the feed sources from the wprss_options field to the wp_posts table
+	 *
+	 * @since 1.2
+	 */	
+	function wprss_migrate() {
+		
+		// Get the plugin options 
+		$options = get_option( 'wprss_options' ); 
+
+        $feed_sources = array_chunk( $options, 2 );
+        
+        foreach ( $feed_sources as $feed_source ) { 
+            $feed_title = $feed_source[0];
+            $feed_url = $feed_source[1];
+            
+            // Create post object
+            $feed_item = array(
+                'post_title' 	=> $feed_title,
+                'post_content' 	=> '',
+                'post_status' 	=> 'publish',
+                'post_type' 	=> 'wprss_feed'
+            );             
+            
+            $inserted_ID = wp_insert_post( $feed_item, $wp_error );                              
+            // insert post meta
+            update_post_meta( $inserted_ID, 'wprss_url', $feed_url );      
+        }   		
+        // delete unneeded option
+        delete_option( 'wprss_options' );
+	}
+	
+
 	/**
 	 * Returns an array of the default plugin settings.  These are only used on initial setup.
 	 *
@@ -84,9 +135,11 @@
 		/* Set up the default plugin settings. */
 		$settings = array(
 
-			// Version 1.1
+			// from version 1.1
 			'open_dd' => 'New window',
-			'follow_dd' => 'No follow'			
+			'follow_dd' => 'No follow',
+			// from version 1.2
+			'feed_limit' => 10			
 		);
 
 		/* Return the default settings. */
