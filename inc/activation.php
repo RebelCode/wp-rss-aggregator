@@ -15,6 +15,14 @@
             wp_schedule_event( time(), 'hourly', 'wprss_cron_hook' );
         }
         
-        add_action( 'wprss_cron_hook', 'wprss_fetch_feed_items' );              
+        add_action( 'wprss_cron_hook', 'wprss_fetch_feed_items' );    
+
+        // verify event has not been scheduled 
+        if ( !wp_next_scheduled( 'wprss_truncate_posts_schedule') ) {
+            // Schedule to run daily
+            wp_schedule_event( time(), 'daily', 'wprss_truncate_posts_schedule' );
+        }  
+
+        add_action( 'wprss_truncate_posts_schedule', 'wprss_truncate_posts' );        
     }
 ?>

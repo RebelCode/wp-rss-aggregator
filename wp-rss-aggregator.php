@@ -197,6 +197,37 @@
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
     }
 
+    function wprss_truncate_posts(){
+        global $wpdb;
+
+        # Set your threshold of max posts and post_type name
+        $threshold = 50;
+        $post_type = 'wprss_feed_item';
+
+        # Query post type
+        $query = "
+            SELECT ID, post_title FROM $wpdb->posts 
+            WHERE post_type = '$post_type' 
+            AND post_status = 'publish' 
+            ORDER BY post_modified DESC
+        ";
+        $results = $wpdb->get_results($query);
+
+        # Check if there are any results
+        if(count($results)){
+            foreach($result as $post){
+                $i++;
+
+                # Skip any posts within our threshold
+                if($i <= $threshold)
+                    continue;
+
+                # Let the WordPress API do the heavy lifting for cleaning up entire post trails
+                $purge = wp_delete_post($post->ID);
+            }
+        }
+    }    
+
 
 function wprss_fetch_feed_items() {
     // Get all feed sources
@@ -305,7 +336,7 @@ function wprss_display_feed_items( $args = array() ) {
 
         
 
-        $paged = get_query_var('paged') ? get_query_var('paged') : 1;
+        $paged = get_query_var('page') ? get_query_var('page') : 1;
         // Query to get all feed items for display
         $feed_items = new WP_Query( array(
             'post_type' => 'wprss_feed_item',
