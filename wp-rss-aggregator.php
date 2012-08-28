@@ -96,6 +96,12 @@
 
         /* Load the custom post types and taxonomies. */
         require_once ( WPRSS_INC . 'custom-post-types.php' );         
+
+        /* Load the cron job scheduling functions. */
+        require_once ( WPRSS_INC . 'cron-jobs.php' );         
+
+        /* Load install, upgrade and migration code. */
+        require_once ( WPRSS_INC . 'update.php' );        
     }
 
 
@@ -111,7 +117,9 @@
         
         wprss_constants();
         wprss_includes();
+
         wprss_register_post_types();
+        wprss_version_check();
         //wprss_add_meta_boxes();
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
@@ -125,7 +133,8 @@
 
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
-                 
+        wprss_schedule_truncate_posts_cron();
+        wprss_schedule_fetch_feeds_cron();
     }
 
 

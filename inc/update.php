@@ -15,7 +15,7 @@
 
 		// Get the old database version.
 		$old_db_version = get_option( 'wprss_db_version' );
-
+		
 		// Get the plugin settings. 
 		$settings = get_option( 'wprss_settings' );
 
