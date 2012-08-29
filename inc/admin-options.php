@@ -240,7 +240,7 @@
             $classes .= 'post-type-'.$post_type;
         }
         // Editting a post type
-        if ( isset( $_GET['post_type'] ) ) {
+        if ( isset( $_GET['post'] ) ) {
             $post_query = $_GET['post'];
         }
         if ( isset($post_query) ) {
