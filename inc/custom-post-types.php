@@ -1,10 +1,9 @@
 <?php    
 
     /**
-     * wprss_register_post_type()
      * Create Custom Post Types wprss_feed and wprss_feed_item
      * 
-     * @since 1.2
+     * @since 2.0
      */                 
     function wprss_register_post_types() {        
         
@@ -64,11 +63,10 @@
     }
     
 
-    /**
-     * wprss_set_custom_columns()
+    /**     
      * Set up the custom columns for the wprss_feed list
      * 
-     * @since 1.2
+     * @since 2.0
      */      
     function wprss_set_custom_columns( $columns ) {
 
@@ -87,10 +85,9 @@
 
 
     /**
-     * wprss_show_custom_columns()
      * Show up the custom columns for the wprss_feed list
      * 
-     * @since 1.2
+     * @since 2.0
      */  
     function wprss_show_custom_columns( $column, $post_id ) {
      
@@ -111,10 +108,9 @@
 
 
     /**
-     * wprss_sortable_columns()
      * Make the custom columns sortable
      * 
-     * @since 1.2
+     * @since 2.0
      */  
     function wprss_sortable_columns() {
         return array(
@@ -124,12 +120,10 @@
     }
 
 
-
     /**
-     * wprss_set_feed_item_custom_columns()
      * Set up the custom columns for the wprss_feed list
      * 
-     * @since 1.2
+     * @since 2.0
      */      
     function wprss_set_feed_item_custom_columns( $columns ) {
 
@@ -149,12 +143,10 @@
     add_filter( 'manage_edit-wprss_feed_item_columns', 'wprss_set_feed_item_custom_columns'); 
 
 
-
     /**
-     * wprss_show_feed_item_custom_columns()
      * Show up the custom columns for the wprss_feed list
      * 
-     * @since 1.2
+     * @since 2.0
      */  
     function wprss_show_feed_item_custom_columns( $column, $post_id ) {
      
@@ -187,11 +179,10 @@
     add_action( "manage_wprss_feed_item_posts_custom_column", "wprss_show_feed_item_custom_columns", 10, 2 );
 
 
-    /**
-     * wprss_feed_item_sortable_columns()
+    /**     
      * Make the custom columns sortable
      * 
-     * @since 1.2
+     * @since 2.0
      */  
     function wprss_feed_item_sortable_columns() {
         return array(
@@ -204,11 +195,10 @@
     add_filter( "manage_edit-wprss_feed_item_sortable_columns", "wprss_feed_item_sortable_columns" );
 
 
-    /**
-     * wprss_feed_item_orderby()
+    /**     
      * Change ordering of posts on wprss_feed_item screen
      * 
-     * @since 1.2
+     * @since 2.0
      */      
     function wprss_feed_item_orderby( $query ) {
         if( ! is_admin() )
@@ -233,10 +223,9 @@
 
 
     /**
-     * wprss_add_meta_boxes()
      * Set up the input boxes for the wprss_feed post type
      * 
-     * @since 1.2
+     * @since 2.0
      */   
     function wprss_add_meta_boxes() {
         global $wprss_meta_fields;
@@ -297,11 +286,10 @@
     }    
 
 
-    /**
-     * wprss_custom_fields()
+    /**     
      * Set up the meta box for the wprss_feed post type
      * 
-     * @since 1.2
+     * @since 2.0
      */       
     function wprss_custom_fields() {
         $prefix = 'wprss_';
@@ -326,11 +314,10 @@
     }
 
 
-    /**
-     * wprss_show_meta_box
+    /**     
      * Set up the meta box for the wprss_feed post type
      * 
-     * @since 1.2
+     * @since 2.0
      */ 
     function wprss_show_meta_box() {
         global $post;
@@ -385,11 +372,10 @@
     }
   
 
-    /**
-     * wprss_save_custom_fields
+    /**     
      * Save the custom fields
      * 
-     * @since 1.2
+     * @since 2.0
      */ 
     function wprss_save_custom_fields( $post_id ) {
         $meta_fields = wprss_custom_fields();
@@ -425,11 +411,10 @@
     add_action( 'save_post', 'wprss_save_custom_fields' );  
 
       
-    /**
-     * wprss_save_feed_source_meta()
+    /**     
      * Generate the Save Feed Source meta box
      * 
-     * @since 1.2
+     * @since 2.0
      */  
     function wprss_save_feed_source_meta_box() {
         global $post;
@@ -452,11 +437,10 @@
         }
     }
 
-    /**
-     * wprss_preview_meta_box()
+    /**     
      * Generate a preview of the latest 5 posts from the feed source being added/edited
      * 
-     * @since 1.2
+     * @since 2.0
      */  
     function wprss_preview_meta_box() {
         global $post;
@@ -485,11 +469,10 @@
     }
 
 
-    /**
-     * wprss_help_meta()
+    /**     
      * Generate Help meta box
      * 
-     * @since 1.2
+     * @since 2.0
      */      
     function wprss_help_meta_box() {
      echo '<p><strong>';
@@ -561,7 +544,7 @@
 
         // Check if there are any results
         if(count($results)){
-            foreach($result as $post){
+            foreach($results as $post){
                 $i++;
 
                 // Skip any posts within our threshold
@@ -573,22 +556,5 @@
             }
         }
     }    
-
-
-    /**
-    * wprss_draft_to_publish()
-    * Not yet in use by the plugin, need to implement it
-    * Don't let user save drafts, make them go straight to published
-    * @since 1.2
-    */
-
-    function wprss_draft_to_publish( $post_id ) {
-        $current_post = get_post( $post_id, 'ARRAY_A' );
-        $current_post[ 'post_status' ] = 'published';
-        // Update the post into the database
-        wp_update_post( $current_post );        
-    }
-
-
 
 ?>

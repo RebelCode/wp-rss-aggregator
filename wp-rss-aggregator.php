@@ -106,6 +106,7 @@
      * Initialise the plugin
      * 
      * @since 2.0
+     * @todo fix publish_post hook to fire only on publishing of new feed sources
      */     
     add_action( 'init', 'wprss_init' );
 
@@ -130,12 +131,15 @@
         // Add meta boxes for wprss_feed post type
         add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
 
+        // TO FIX! This should only run when a wprss_feed post is published, not a general post
+        add_action( 'publish_post', 'wprss_fetch_feed_items' ); 
+        
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
         wprss_schedule_truncate_posts_cron();
         wprss_schedule_fetch_feeds_cron();
     }
-
+        
 
     /**
      * Insert required scripts, styles and filters on the admin side
@@ -182,7 +186,15 @@
      * @since 2.0
      */
     function wprss_fetch_feed_items() {
-    // Get all feed sources
+
+        // Make sure the post obj is present and post type is none other than wprss_feed
+        /*
+        global $post;
+        if ( $post->post_type != 'wprss_feed' ) {        
+            return;
+        }*/
+
+        // Get all feed sources
         $feed_sources = new WP_Query( array(
             'post_type' => 'wprss_feed',
         ) );
@@ -205,37 +217,39 @@
                     }
                 }
             
-                // Gather the permalinks of existing feed item's related to this feed source
-                global $wpdb;
-                $existing_permalinks = $wpdb->get_col(
-                    "SELECT meta_value
-                    FROM $wpdb->postmeta
-                    WHERE meta_key = 'wprss_item_permalink'
-                    AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
-                    ");
+                if ( !empty( $items ) ) {
+                    // Gather the permalinks of existing feed item's related to this feed source
+                    global $wpdb;
+                    $existing_permalinks = $wpdb->get_col(
+                        "SELECT meta_value
+                        FROM $wpdb->postmeta
+                        WHERE meta_key = 'wprss_item_permalink'
+                        AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
+                        ");
                     
-                foreach ( $items as $item ) {
+                    foreach ( $items as $item ) {
 
-                    // Check if newly fetched item already present in existing feed item item, 
-                    // if not insert it into wp_postsm and insert post meta.
-                    if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
-                        // Create post object
-                        $feed_item = array(
-                            'post_title' => $item->get_title(),
-                            'post_content' => '',
-                            'post_status' => 'publish',
-                            'post_type' => 'wprss_feed_item'
-                        );                
-                        $inserted_ID = wp_insert_post( $feed_item, $wp_error );
-                                          
-                        update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
-                        update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
-                        update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
-                        update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
-                   } //end if
-                } //end foreach
+                        // Check if newly fetched item already present in existing feed item item, 
+                        // if not insert it into wp_postsm and insert post meta.
+                        if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
+                            // Create post object
+                            $feed_item = array(
+                                'post_title' => $item->get_title(),
+                                'post_content' => '',
+                                'post_status' => 'publish',
+                                'post_type' => 'wprss_feed_item'
+                            );                
+                            $inserted_ID = wp_insert_post( $feed_item, $wp_error );
+                                              
+                            update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
+                            update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
+                            update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
+                            update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
+                       } //end if
+                    } //end foreach
+                } // end if
             } // end $feed_sources while loop
-            wp_reset_postdata(); // Restore the $post global to the current post in the main query
+            wp_reset_postdata(); // Restore the $post global to the current post in the main query        
         }
     }
 
@@ -305,10 +319,13 @@
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
+                $feed_source_id = get_post_meta( get_the_ID(), 'wprss_feed_id', true );
+                $source_name = get_the_title( $feed_source_id );                
+
                 // convert from Unix timestamp
                 $date = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: Jean | ' . $date . '</span>'; 
+                echo '<br><span class="feed-source">Source: ' . $source_name . ' | ' . $date . '</span>'; 
             }
             echo paginate_links();
 
