@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.jeangalea.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 1.2
+    Version: 2.0
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv2
@@ -27,7 +27,7 @@
     */
 
     /*
-    @version 1.2
+    @version 2.0
     @author Jean Galea <info@jeangalea.com>
     @copyright Copyright (c) 2012, Jean Galea
     @link http://www.jeangalea.com/wordpress/wp-rss-aggregator/
@@ -36,7 +36,6 @@
 
 
     /**
-     * wprss_constants()
      * Defines constants used by the plugin.
      *
      * @since 1.1
@@ -44,10 +43,10 @@
     function wprss_constants() {
         
         /* Set the version number of the plugin. */
-        define( 'WPRSS_VERSION', '1.1', true );
+        define( 'WPRSS_VERSION', '2.0', true );
 
         /* Set the database version number of the plugin. */
-        define( 'WPRSS_DB_VERSION', 1 );
+        define( 'WPRSS_DB_VERSION', 2 );
 
         /* Set the plugin prefix */
         define( 'PLUGIN_PREFIX', 'wprss', true );            
@@ -69,12 +68,10 @@
 
         /* Set the constant path to the plugin's includes directory. */
         define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'inc' ), true );
-
     }
 
 
     /**
-     * wprss_includes()
      * Loads the initial files needed by the plugin.
      *
      * @since 1.1
@@ -87,6 +84,9 @@
 
         /* Load the deactivation functions file. */
         require_once ( WPRSS_INC . 'deactivation.php' );
+
+        /* Load install, upgrade and migration code. */
+        require_once ( WPRSS_INC . 'update.php' );           
         
         /* Load the shortcodes functions file. */
         require_once ( WPRSS_INC . 'shortcodes.php' );
@@ -98,18 +98,14 @@
         require_once ( WPRSS_INC . 'custom-post-types.php' );         
 
         /* Load the cron job scheduling functions. */
-        require_once ( WPRSS_INC . 'cron-jobs.php' );         
-
-        /* Load install, upgrade and migration code. */
-        require_once ( WPRSS_INC . 'update.php' );        
+        require_once ( WPRSS_INC . 'cron-jobs.php' );              
     }
 
 
     /**
-     * wprss_init()
      * Initialise the plugin
      * 
-     * @since 1.2
+     * @since 2.0
      */     
     add_action( 'init', 'wprss_init' );
 
@@ -139,10 +135,9 @@
 
 
     /**
-     * wprss_admin_scripts_styles()
      * Insert required scripts, styles and filters on the admin side
      * 
-     * @since 1.2
+     * @since 2.0
      */   
     function wprss_admin_scripts_styles() {
         // Only load scripts if we are on this plugin's options or settings pages (admin)
@@ -160,7 +155,6 @@
                 add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
             }
         }      
-
     }
 
     //add filter to ensure the text Feed source is displayed when user updates a feed souce
@@ -168,10 +162,9 @@
 
 
     /**
-     * wprss_feed_updated_messages
-     * Change default notification message when new feed added or updated
+     * Change default notification message when new feed is added or updated
      * 
-     * @since 1.2
+     * @since 2.0
      */   
     function wprss_feed_updated_messages( $messages ) {
         global $post, $post_ID;
@@ -195,10 +188,9 @@
     
  
     /**
-     * wprss_head_scripts_styles()
      * Scripts and styles to be inserted into <head> section in front end
      * 
-     * @since 1.2
+     * @since 2.0
      */      
     function wprss_head_scripts_styles() {
         wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
@@ -206,14 +198,20 @@
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
     }
 
+
+    /**
+     * Delete old feed items from the databse to avoid bloat
+     * 
+     * @since 2.0
+     */
     function wprss_truncate_posts(){
         global $wpdb;
 
-        # Set your threshold of max posts and post_type name
+        // Set your threshold of max posts and post_type name
         $threshold = 50;
         $post_type = 'wprss_feed_item';
 
-        # Query post type
+        // Query post type
         $query = "
             SELECT ID, post_title FROM $wpdb->posts 
             WHERE post_type = '$post_type' 
@@ -222,23 +220,28 @@
         ";
         $results = $wpdb->get_results($query);
 
-        # Check if there are any results
+        // Check if there are any results
         if(count($results)){
             foreach($result as $post){
                 $i++;
 
-                # Skip any posts within our threshold
+                // Skip any posts within our threshold
                 if($i <= $threshold)
                     continue;
 
-                # Let the WordPress API do the heavy lifting for cleaning up entire post trails
+                // Let the WordPress API do the heavy lifting for cleaning up entire post trails
                 $purge = wp_delete_post($post->ID);
             }
         }
     }    
 
 
-function wprss_fetch_feed_items() {
+    /**
+     * Fetches feed items from sources provided
+     * 
+     * @since 2.0
+     */
+    function wprss_fetch_feed_items() {
     // Get all feed sources
         $feed_sources = new WP_Query( array(
             'post_type' => 'wprss_feed',
@@ -261,14 +264,6 @@ function wprss_fetch_feed_items() {
                         $items = $feed->get_items(); 
                     }
                 }
-
-                // Find existing feed items associated with this feed source
-              /*  $existing_feed_items = new WP_Query( array(
-                    'post_type' => 'wprss_feed_item',
-                    'meta_key'  => 'wprss_feed_id',
-                    'meta_value'=> $feed_ID
-                    ) );
-                */
             
                 // Gather the permalinks of existing feed item's related to this feed source
                 global $wpdb;
@@ -302,10 +297,15 @@ function wprss_fetch_feed_items() {
             } // end $feed_sources while loop
             wp_reset_postdata(); // Restore the $post global to the current post in the main query
         }
-}
+    }
 
 
-function wprss_display_feed_items( $args = array() ) {
+    /**
+     * Display feed items on the front end (via shortcode or function)
+     * 
+     * @since 2.0
+     */
+    function wprss_display_feed_items( $args = array() ) {
         $defaults = array(
                           'date_before'  => '<h3>',
                           'date_after'   => '</h3>',

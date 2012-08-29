@@ -27,14 +27,14 @@
 		if ( empty( $old_db_version ) && false === $settings && false === $options )
 			wprss_install();
 
-		// For version 1.0
+		// For version 1.0 to 2.0
 		// If there is no old database version and no settings, but only options
 		elseif ( empty( $old_db_version ) && false === $settings && !empty( $options ) ) {
 			wprss_install();
 			wprss_migrate();		
 		}
 
-		// For version 1.1
+		// For version 1.1 to 2.0 
 		// If there is no old database version, but only settings and options
 		elseif ( empty( $old_db_version ) && !empty( $settings ) && !empty( $options ) ) {
 			wprss_update();
