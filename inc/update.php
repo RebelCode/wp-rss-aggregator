@@ -17,8 +17,9 @@
 
 		// For fresh installs
 		// If there is no old database version and no settings, run the install. 
-		if ( empty( $old_db_version ) && false === $settings && false === $options )
+		if ( empty( $old_db_version ) && false === $settings && false === $options ) {
 			wprss_install();
+		}
 
 		// For version 1.0 to 2.0
 		// If there is no old database version and no settings, but only options
@@ -36,8 +37,9 @@
 
 		// For any future versions where DB changes 
 		// If the old version is less than the new version, run the update.
-		elseif ( intval( $old_db_version ) < intval( WPRSS_DB_VERSION ) )
+		elseif ( intval( $old_db_version ) < intval( WPRSS_DB_VERSION ) ) {
 			wprss_update();
+		}
 	}
 
 

@@ -38,7 +38,7 @@
     /**
      * Defines constants used by the plugin.
      *
-     * @since 1.1
+     * @since 2.0
      */
     function wprss_constants() {
         
@@ -74,7 +74,7 @@
     /**
      * Loads the initial files needed by the plugin.
      *
-     * @since 1.1
+     * @since 2.0
      * @todo Might separate into another function admin_includes() at a later stage
      */
     function wprss_includes() {
@@ -115,7 +115,7 @@
         wprss_includes();
 
         wprss_register_post_types();
-        //wprss_version_check();
+        wprss_version_check();
         //wprss_add_meta_boxes();
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
