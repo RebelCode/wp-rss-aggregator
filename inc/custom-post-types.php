@@ -511,6 +511,68 @@
    */ }
 
 
+    /**
+     * Change default notification message when new feed is added or updated
+     * 
+     * @since 2.0
+     */   
+    function wprss_feed_updated_messages( $messages ) {
+        global $post, $post_ID;
+
+        $messages['wprss_feed'] = array(
+        0 => '', // Unused. Messages start at index 1.
+        1 => __('Feed source updated. '),
+        2 => __('Custom field updated.'),
+        3 => __('Custom field deleted.'),
+        4 => __('Feed source updated.'),        
+        5 => '',
+        6 => __('Feed source saved.'),
+        7 => __('Feed source saved.'),
+        8 => __('Feed source submitted.'),
+        9 => '',
+        10 =>__('Feed source updated.')
+        );
+
+        return $messages;
+    }
+    
+
+
+    /**
+     * Delete old feed items from the databse to avoid bloat
+     * 
+     * @since 2.0
+     */
+    function wprss_truncate_posts(){
+        global $wpdb;
+
+        // Set your threshold of max posts and post_type name
+        $threshold = 50;
+        $post_type = 'wprss_feed_item';
+
+        // Query post type
+        $query = "
+            SELECT ID, post_title FROM $wpdb->posts 
+            WHERE post_type = '$post_type' 
+            AND post_status = 'publish' 
+            ORDER BY post_modified DESC
+        ";
+        $results = $wpdb->get_results($query);
+
+        // Check if there are any results
+        if(count($results)){
+            foreach($result as $post){
+                $i++;
+
+                // Skip any posts within our threshold
+                if($i <= $threshold)
+                    continue;
+
+                // Let the WordPress API do the heavy lifting for cleaning up entire post trails
+                $purge = wp_delete_post($post->ID);
+            }
+        }
+    }    
 
 
     /**
@@ -526,5 +588,7 @@
         // Update the post into the database
         wp_update_post( $current_post );        
     }
+
+
 
 ?>

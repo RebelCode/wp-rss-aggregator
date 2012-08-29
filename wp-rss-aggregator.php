@@ -115,11 +115,14 @@
         wprss_includes();
 
         wprss_register_post_types();
-        wprss_version_check();
+        //wprss_version_check();
         //wprss_add_meta_boxes();
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
+
+        /* Hook our version check to 'init'. */
+        add_action( 'init', 'wprss_version_check' );
         
         add_action( 'wp_head', 'wprss_head_scripts_styles' );   
         add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );  
@@ -160,32 +163,6 @@
     //add filter to ensure the text Feed source is displayed when user updates a feed souce
     add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' );
 
-
-    /**
-     * Change default notification message when new feed is added or updated
-     * 
-     * @since 2.0
-     */   
-    function wprss_feed_updated_messages( $messages ) {
-        global $post, $post_ID;
-
-        $messages['wprss_feed'] = array(
-        0 => '', // Unused. Messages start at index 1.
-        1 => __('Feed source updated. '),
-        2 => __('Custom field updated.'),
-        3 => __('Custom field deleted.'),
-        4 => __('Feed source updated.'),        
-        5 => '',
-        6 => __('Feed source saved.'),
-        7 => __('Feed source saved.'),
-        8 => __('Feed source submitted.'),
-        9 => '',
-        10 =>__('Feed source updated.')
-        );
-
-        return $messages;
-    }
-    
  
     /**
      * Scripts and styles to be inserted into <head> section in front end
@@ -197,43 +174,6 @@
         wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery') );   
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
     }
-
-
-    /**
-     * Delete old feed items from the databse to avoid bloat
-     * 
-     * @since 2.0
-     */
-    function wprss_truncate_posts(){
-        global $wpdb;
-
-        // Set your threshold of max posts and post_type name
-        $threshold = 50;
-        $post_type = 'wprss_feed_item';
-
-        // Query post type
-        $query = "
-            SELECT ID, post_title FROM $wpdb->posts 
-            WHERE post_type = '$post_type' 
-            AND post_status = 'publish' 
-            ORDER BY post_modified DESC
-        ";
-        $results = $wpdb->get_results($query);
-
-        // Check if there are any results
-        if(count($results)){
-            foreach($result as $post){
-                $i++;
-
-                // Skip any posts within our threshold
-                if($i <= $threshold)
-                    continue;
-
-                // Let the WordPress API do the heavy lifting for cleaning up entire post trails
-                $purge = wp_delete_post($post->ID);
-            }
-        }
-    }    
 
 
     /**
@@ -342,11 +282,9 @@
         $args = wp_parse_args( $args, $defaults );
         // Declare each item in $args as its own variable
         extract( $args, EXTR_SKIP );       
-
         
-
-        $paged = get_query_var('page') ? get_query_var('page') : 1;
         // Query to get all feed items for display
+        $paged = get_query_var('page') ? get_query_var('page') : 1;
         $feed_items = new WP_Query( array(
             'post_type' => 'wprss_feed_item',
             'posts_per_page' => $settings['feed_limit'], 
@@ -354,7 +292,6 @@
             'meta_key' => 'wprss_item_date', 
             'order' => 'DESC',
             'paged' => $paged,
-
         ) );
 
         // Globalize $wp_query
