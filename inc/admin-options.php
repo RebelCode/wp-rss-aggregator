@@ -10,7 +10,7 @@
 
     /**
      * Custom Post Type Icon for Admin Menu & Post Screen
-     * @since  1.2
+     * @since  2.0
      */
     add_action( 'admin_head', 'custom_post_type_icon' );
 
@@ -31,7 +31,7 @@
 
     /**
      * Register menu and submenus
-     * @since 1.2
+     * @since 2.0
      */ 
     
     // Add the admin options pages as submenus to the Feed CPT   
@@ -40,17 +40,17 @@
     function wprss_register_menu_pages() {        
           
         //create submenu items        
-        add_submenu_page( 'edit.php?post_type=wprss_feed', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 'wprss-aggregator-settings', wprss_settings_page );            
-        add_submenu_page( 'edit.php?post_type=wprss_feed', 'Import/Export Feeds', 'Import/Export', 'manage_options', 'wprss-aggregator-import-export', wprss_import_export_page );
-        add_submenu_page( 'edit.php?post_type=wprss_feed', 'Uninstall', 'Uninstall', 'manage_options', 'wprss-aggregaor-uninstall', wprss_uninstall_page );
-        add_submenu_page( 'edit.php?post_type=wprss_feed', 'Help', 'Help', 'manage_options', 'wprss-aggregator-help', wprss_help_page );  
+        add_submenu_page( 'edit.php?post_type=wprss_feed', 'WP RSS Aggregator Settings', 'Settings', 'manage_options', 'wprss-aggregator-settings', 'wprss_settings_page' );            
+        //add_submenu_page( 'edit.php?post_type=wprss_feed', 'Import/Export Feeds', 'Import/Export', 'manage_options', 'wprss-aggregator-import-export', wprss_import_export_page );
+        //add_submenu_page( 'edit.php?post_type=wprss_feed', 'Uninstall', 'Uninstall', 'manage_options', 'wprss-aggregaor-uninstall', wprss_uninstall_page );
+        //add_submenu_page( 'edit.php?post_type=wprss_feed', 'Help', 'Help', 'manage_options', 'wprss-aggregator-help', wprss_help_page );  
     }
 
 
 
     /**
      * Register and define options and settings
-     * @since  1.2
+     * @since  2.0
      * @todo  add option for cron frequency
      */ 
     
@@ -207,7 +207,7 @@
 
     /** 
      * Set limit for feeds on frontend
-     * @since 1.2
+     * @since 2.0
      */
     function wprss_setting_feed_limit() {
         $options = get_option( 'wprss_settings' );                    
@@ -217,9 +217,11 @@
     }
 
 
-
-    // Body class for admin
-    // http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
+    /** 
+     * Set body class for admin screens
+     * http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
+     * @since 2.0
+     */   
     function base_admin_body_class( $classes )
     {
         // Current action
@@ -238,7 +240,9 @@
             $classes .= 'post-type-'.$post_type;
         }
         // Editting a post type
-        $post_query = $_GET['post'];
+        if ( isset( $_GET['post_type'] ) ) {
+            $post_query = $_GET['post'];
+        }
         if ( isset($post_query) ) {
             $current_post_edit = get_post($post_query);
             $current_post_type = $current_post_edit->post_type;
