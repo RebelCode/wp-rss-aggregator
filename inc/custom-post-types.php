@@ -521,40 +521,6 @@
     
 
 
-    /**
-     * Delete old feed items from the databse to avoid bloat
-     * 
-     * @since 2.0
-     */
-    function wprss_truncate_posts(){
-        global $wpdb;
-
-        // Set your threshold of max posts and post_type name
-        $threshold = 50;
-        $post_type = 'wprss_feed_item';
-
-        // Query post type
-        $query = "
-            SELECT ID, post_title FROM $wpdb->posts 
-            WHERE post_type = '$post_type' 
-            AND post_status = 'publish' 
-            ORDER BY post_modified DESC
-        ";
-        $results = $wpdb->get_results($query);
-
-        // Check if there are any results
-        if(count($results)){
-            foreach($results as $post){
-                $i++;
-
-                // Skip any posts within our threshold
-                if($i <= $threshold)
-                    continue;
-
-                // Let the WordPress API do the heavy lifting for cleaning up entire post trails
-                $purge = wp_delete_post($post->ID);
-            }
-        }
-    }    
+  
 
 ?>

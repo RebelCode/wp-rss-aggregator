@@ -38,6 +38,11 @@
     /**
      * Defines constants used by the plugin.
      *
+     * We're not checking if constants are defined before setting them, as the prefix 'wprss' pretty
+     * much eliminates the possibility of them being set before. If there is a reasonable chance
+     * that they would have been set earlier or by another plugin, it's better to check before 
+     * setting them via if !(defined).
+     *
      * @since 2.0
      */
     function wprss_constants() {
@@ -49,7 +54,7 @@
         define( 'WPRSS_DB_VERSION', 2 );
 
         /* Set the plugin prefix */
-        define( 'PLUGIN_PREFIX', 'wprss', true );            
+        define( 'WPRSS_PREFIX', 'wprss', true );            
 
         /* Set constant path to the plugin directory. */
         define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );        
@@ -132,7 +137,7 @@
         add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
 
         // TO FIX! This should only run when a wprss_feed post is published, not a general post
-        add_action( 'publish_post', 'wprss_fetch_feed_items' ); 
+        add_action( 'admin_init', 'wprss_fetch_feed_items' ); 
         
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
@@ -188,8 +193,10 @@
     function wprss_fetch_feed_items() {
 
         // Make sure the post obj is present and post type is none other than wprss_feed
-        /*
-        global $post;
+        
+        /*global $post;
+        var_dump($post);
+        echo get_query_var('post_type');
         if ( $post->post_type != 'wprss_feed' ) {        
             return;
         }*/
@@ -338,5 +345,68 @@
         $wp_query = null; 
         $wp_query = $temp;  // Reset
 }
+
+
+    
+    /**
+     * Delete feed items on deletion of corresponding feed source
+     * 
+     * @since 2.0
+     */    
+    function wprss_delete_feed_items( $post_id ) {
+       
+       // if ( $post->post_type == 'wprss_feed' ) {
+
+            $feed_items = new WP_Query( array(
+                'post_type' => 'wprss_feed_item',
+                'meta_key' => 'wprss_feed_id', 
+                'meta_value' => $post_id,               
+            ) );  
+
+            if ( $feed_items->have_posts() ) {
+                 while ( $my_query->have_posts() ) : $my_query->the_post();
+                    $purge = wp_delete_post( $post->ID );
+                 endwhile;            
+            }
+      //  }
+    }
+    add_action( 'delete_post', 'wprss_delete_feed_items' );
+
+
+    /**
+     * Delete old feed items from the database to avoid bloat
+     * 
+     * @since 2.0
+     */
+    function wprss_truncate_posts() {
+        global $wpdb;
+
+        // Set your threshold of max posts and post_type name
+        $threshold = 50;
+        $post_type = 'wprss_feed_item';
+
+        // Query post type
+        $query = "
+            SELECT ID, post_title FROM $wpdb->posts 
+            WHERE post_type = '$post_type' 
+            AND post_status = 'publish' 
+            ORDER BY post_modified DESC
+        ";
+        $results = $wpdb->get_results($query);
+
+        // Check if there are any results
+        if(count($results)){
+            foreach($results as $post){
+                $i++;
+
+                // Skip any posts within our threshold
+                if($i <= $threshold)
+                    continue;
+
+                // Let the WordPress API do the heavy lifting for cleaning up entire post trails
+                $purge = wp_delete_post($post->ID);
+            }
+        }
+    }    
 
 ?>
