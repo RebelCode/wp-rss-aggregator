@@ -137,7 +137,9 @@
         add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
 
         // TO FIX! This should only run when a wprss_feed post is published, not a general post
-        add_action( 'admin_init', 'wprss_fetch_feed_items' ); 
+        add_action( 'admin_init', 'wprss_fetch_feed_items' );
+        
+        add_action( 'untrash_posts', 'wprss_fetch_feed_items');
         
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
@@ -355,7 +357,7 @@
      */    
     function wprss_delete_feed_items( $post_id ) {
        
-       // if ( $post->post_type == 'wprss_feed' ) {
+       if ( $post->post_type == 'wprss_feed' ) {
 
             $feed_items = new WP_Query( array(
                 'post_type' => 'wprss_feed_item',
@@ -368,10 +370,13 @@
                     $purge = wp_delete_post( $post->ID );
                  endwhile;            
             }
-      //  }
+       }
     }
-    add_action( 'delete_post', 'wprss_delete_feed_items' );
-
+    add_action( 'trash_post', 'wprss_delete_feed_items' );
+    add_action( 'delete_post', 'test_function' );
+    function test_function(){
+        die('deleted post');
+    }
 
     /**
      * Delete old feed items from the database to avoid bloat
