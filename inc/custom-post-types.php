@@ -1,5 +1,11 @@
 <?php    
 
+    /** 
+     * Contains all custom post type related functions
+     *         
+     * @package WPRSSAggregator
+     */
+
     /**
      * Create Custom Post Types wprss_feed and wprss_feed_item
      * 

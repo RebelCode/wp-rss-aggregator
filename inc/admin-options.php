@@ -1,10 +1,12 @@
 <?php  
     /**
-     * Plugin administration page
+     * Plugin administration related functions 
      * 
      * Note: Wording of options and settings is confusing, due to the plugin originally only having 
      * an 'options' page to enter feed sources, and now needing two screens, one for feed sources and one for 
      * general settings. Might implement something cleaner in the future.
+     *
+     * @package WPRSSAggregator
      */ 
     
 

@@ -137,16 +137,16 @@
         add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
 
         // TO FIX! This should only run when a wprss_feed post is published, not a general post
-        add_action( 'admin_init', 'wprss_fetch_feed_items' );
+       
         
-        add_action( 'untrash_posts', 'wprss_fetch_feed_items');
+        //add_action( 'untrashed_post', 'wprss_fetch_feed_items' );
         
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
         wprss_schedule_truncate_posts_cron();
         wprss_schedule_fetch_feeds_cron();
     }
-        
+
 
     /**
      * Insert required scripts, styles and filters on the admin side
@@ -193,20 +193,22 @@
      * @since 2.0
      */
     function wprss_fetch_feed_items() {
-
+       
         // Make sure the post obj is present and post type is none other than wprss_feed
-        
+         //echo 'test';
         /*global $post;
-        var_dump($post);
-        echo get_query_var('post_type');
-        if ( $post->post_type != 'wprss_feed' ) {        
+        var_dump($post);*/
+        //echo get_query_var('post_type');/*
+       /* if ( $post->post_type != 'wprss_feed' ) {        
             return;
         }*/
 
         // Get all feed sources
         $feed_sources = new WP_Query( array(
             'post_type' => 'wprss_feed',
+            'post_status' => 'publish',
         ) );
+       
 
         if( $feed_sources->have_posts() ) {
             
@@ -214,7 +216,7 @@
             // fetching feed items and adding them to the database in each pass
             while ( $feed_sources->have_posts() ) {                
                 $feed_sources->the_post();
-               
+                
                 $feed_ID = get_the_ID();
                 $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
                 
@@ -225,7 +227,7 @@
                         $items = $feed->get_items(); 
                     }
                 }
-            
+
                 if ( !empty( $items ) ) {
                     // Gather the permalinks of existing feed item's related to this feed source
                     global $wpdb;
@@ -235,7 +237,7 @@
                         WHERE meta_key = 'wprss_item_permalink'
                         AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
                         ");
-                    
+
                     foreach ( $items as $item ) {
 
                         // Check if newly fetched item already present in existing feed item item, 
@@ -356,28 +358,70 @@
      * @since 2.0
      */    
     function wprss_delete_feed_items( $post_id ) {
-       
-       if ( $post->post_type == 'wprss_feed' ) {
 
-            $feed_items = new WP_Query( array(
+       // if ( $post->post_type == 'wprss_feed' ) {
+     
+        $args = array(
                 'post_type' => 'wprss_feed_item',
-                'meta_key' => 'wprss_feed_id', 
-                'meta_value' => $post_id,               
-            ) );  
+                /*'meta_key' => 'wprss_feed_id', 
+                'meta_value' => $post_id,   */ 
+        );
+        
+        $feed_items = new WP_Query( $args );  
 
+        if ( $feed_items->have_posts() ) :
+            while ( $feed_items->have_posts() ) : $feed_items->the_post();
+                $postid = get_the_ID();
+                $purge = wp_delete_post( $postid, true );                
+               
+            endwhile;
+        endif;
+        wp_reset_postdata();
+/*
             if ( $feed_items->have_posts() ) {
-                 while ( $my_query->have_posts() ) : $my_query->the_post();
-                    $purge = wp_delete_post( $post->ID );
+
+                 while ( $feed_items->have_posts() ) : $feed_items->the_post();
+                   var_dump($feed_items->the_post());
+                    echo $purge = wp_delete_post( $post->ID, true );
                  endwhile;            
-            }
-       }
+            }*/
+    //   }
     }
-    add_action( 'trash_post', 'wprss_delete_feed_items' );
-    add_action( 'delete_post', 'test_function' );
+ 
+       // add_action( 'admin_init', 'wprss_fetch_feed_items' );
+/*    add_action('new_to_publish', 'wprss_fetch_feed_items');        
+    add_action('draft_to_publish', 'wprss_fetch_feed_items');    
+    add_action('pending_to_publish', 'wprss_fetch_feed_items');
+*/
+
+    // Runs on trashing of any post type
+    add_action( 'wp_trash_post', 'wprss_delete_feed_items' );
+   // add_action( 'wp_trash_post', 'test_function' );
+
+  
+
+   // add_action( 'trash_wprss_feed', 'test_function' );
+
+   /* add_action( 'untrash_wprss_feed', 'import_feeds');
+    add_action( 'untrash_wprss_feed', 'wprss_fetch_feed_items');*/
+
+
+
     function test_function(){
-        die('deleted post');
+        die('untrash post');
     }
 
+
+
+    function import_feeds(){
+        die('newfeeds');
+    }
+
+
+
+
+
+ 
     /**
      * Delete old feed items from the database to avoid bloat
      * 
@@ -391,6 +435,7 @@
         $post_type = 'wprss_feed_item';
 
         // Query post type
+        // $wpdb query allows me to select specific columns instead of grabbing the entire post object.
         $query = "
             SELECT ID, post_title FROM $wpdb->posts 
             WHERE post_type = '$post_type' 
@@ -409,7 +454,7 @@
                     continue;
 
                 // Let the WordPress API do the heavy lifting for cleaning up entire post trails
-                $purge = wp_delete_post($post->ID);
+                $purge = wp_delete_post( $post->ID, true );
             }
         }
     }    

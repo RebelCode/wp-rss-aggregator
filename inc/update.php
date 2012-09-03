@@ -1,4 +1,12 @@
 <?php
+
+    /** 
+     * Contains all the functions related to updating the plugin from
+     * one version to another
+     *         
+     * @package WPRSSAggregator
+     */
+
 	/**
 	 * Checks the version number and runs install or update functions if needed.
 	 *
