@@ -202,16 +202,18 @@
        /* if ( $post->post_type != 'wprss_feed' ) {        
             return;
         }*/
-
+        
+        // I think this wouldn't always work, for example when using cron it would exit the function
+        if ('wprss_feed' != $_POST['post_type']) { return; }
+        
         // Get all feed sources
         $feed_sources = new WP_Query( array(
             'post_type' => 'wprss_feed',
             'post_status' => 'publish',
         ) );
        
-
-        if( $feed_sources->have_posts() ) {
-            
+        
+        if( $feed_sources->have_posts() ) {  
             // Start by getting one feed source, we will cycle through them one by one, 
             // fetching feed items and adding them to the database in each pass
             while ( $feed_sources->have_posts() ) {                
@@ -219,7 +221,7 @@
                 
                 $feed_ID = get_the_ID();
                 $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
-                
+                var_dump($feed_url);
                 // Use the URL custom field to fetch the feed items for this source
                 if( !empty( $feed_url ) ) {             
                     $feed = fetch_feed( $feed_url ); 
@@ -388,14 +390,27 @@
     //   }
     }
  
+ 
+ 
+ // action itself works and fires on test_function, but fetching function not working
+ // probably due to post not being published yet
+ add_action('publish_wprss_feed', 'wprss_fetch_feed_items');
+ 
+ 
+ 
+ 
+ 
+ 
+ // add_action('init', 'wprss_fetch_feed_items');
+ 
        // add_action( 'admin_init', 'wprss_fetch_feed_items' );
-/*    add_action('new_to_publish', 'wprss_fetch_feed_items');        
+   /* add_action('new_to_publish', 'wprss_fetch_feed_items');        
     add_action('draft_to_publish', 'wprss_fetch_feed_items');    
-    add_action('pending_to_publish', 'wprss_fetch_feed_items');
-*/
+    add_action('pending_to_publish', 'wprss_fetch_feed_items');*/
+
 
     // Runs on trashing of any post type
-    add_action( 'wp_trash_post', 'wprss_delete_feed_items' );
+    //add_action( 'wp_trash_post', 'wprss_delete_feed_items' );
    // add_action( 'wp_trash_post', 'test_function' );
 
   

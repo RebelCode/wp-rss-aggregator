@@ -22,6 +22,7 @@
         add_action( 'wprss_fetch_feeds_hook', 'wprss_fetch_feed_items' );    
     }
 
+ 
 
     /**
      * Creates the cron to truncate wprss_feed_item posts daily
@@ -37,4 +38,17 @@
 
         add_action( 'wprss_truncate_posts_hook', 'wprss_truncate_posts' );   
     }
+    
+    
+    
+     add_filter( 'cron_schedules', 'cron_add_every_minute' );
+ 
+ function cron_add_every_minute( $schedules ) {
+ 	// Adds once weekly to the existing schedules.
+ 	$schedules['every_minute'] = array(
+ 		'interval' => 60,
+ 		'display' => __( 'Once every minute' )
+ 	);
+ 	return $schedules;
+ }
 ?>
