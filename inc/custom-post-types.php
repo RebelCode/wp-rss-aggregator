@@ -46,22 +46,35 @@
 
         // Set up the arguments for the 'wprss_feed_item' post type
         $feed_item_args = array(
-            'public'        => true,
-            'query_var'     => 'feed_item',
-            'show_in_menu'  => 'edit.php?post_type=wprss_feed',
-            'rewrite'       => array(
-                                'slug' => 'feeds/items',
-                                'with_front' => false,
+            'public'         => true,
+            'query_var'      => 'feed_item',
+            'show_in_menu'   => 'edit.php?post_type=wprss_feed',
+            'rewrite'        => array(
+                                 'slug' => 'feeds/items',
+                                 'with_front' => false,
                                 ),       
-            'labels'        => array(
-                                'name'                  => __( 'Imported Feeds' ),
-                                'singular_name'         => __( 'Imported Feed' ),
-                                'all_items'             => __( 'Imported Feeds' ),
-                                'view_item'             => __( 'View Imported Feed' ),                            
-                                'search_items'          => __( 'Search Imported Feeds' ),
-                                'not_found'             => __( 'No Imported Feeds Found' ),
-                                'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash')
+            'labels'         => array(
+                                 'name'                  => __( 'Imported Feeds' ),
+                                 'singular_name'         => __( 'Imported Feed' ),
+                                 'all_items'             => __( 'Imported Feeds' ),
+                                 'view_item'             => __( 'View Imported Feed' ),                            
+                                 'search_items'          => __( 'Search Imported Feeds' ),
+                                 'not_found'             => __( 'No Imported Feeds Found' ),
+                                 'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash')
                                 ),
+        /*    'capability_type' => array('feed_item','feed_items'),
+            'map_meta_cap'    => true,
+            'capabilities' => array(
+                            'publish_posts' => 'publish_feed_items',
+                            'edit_posts' => 'edit_feed_items',
+                            'edit_others_posts' => 'edit_others_feed_items',
+                            'delete_posts' => 'delete_feed_items',
+                            'delete_others_posts' => 'delete_others_feed_items',
+                            'read_private_posts' => 'read_private_feed_items',
+                            'edit_post' => 'edit_feed_item',
+                            'delete_post' => 'delete_feed_item',
+                            'read_post' => 'read_feed_item'
+            )*/
         );
         
         // Register the 'feed_item' post type

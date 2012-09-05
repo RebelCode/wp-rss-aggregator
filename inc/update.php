@@ -49,6 +49,8 @@
 			wprss_update();
 		}
 	}
+	
+	add_action('init', 'wprss_version_check' );
 
 
 	/**
