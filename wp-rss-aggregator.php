@@ -77,13 +77,17 @@
 
 
     /**
-     * Loads the initial files needed by the plugin.
-     *
+     * Initialise the plugin
+     * 
      * @since 2.0
-     * @todo Might separate into another function admin_includes() at a later stage
-     */
-    function wprss_includes() {
+     * @todo fix publish_post hook to fire only on publishing of new feed sources
+     */     
+    add_action( 'init', 'wprss_init' );
 
+    function wprss_init() {
+        
+        wprss_constants();
+        
         /* Load the activation functions file. */
         require_once ( WPRSS_INC . 'activation.php' );
 
@@ -103,22 +107,7 @@
         require_once ( WPRSS_INC . 'custom-post-types.php' );         
 
         /* Load the cron job scheduling functions. */
-        require_once ( WPRSS_INC . 'cron-jobs.php' );              
-    }
-
-
-    /**
-     * Initialise the plugin
-     * 
-     * @since 2.0
-     * @todo fix publish_post hook to fire only on publishing of new feed sources
-     */     
-    add_action( 'init', 'wprss_init' );
-
-    function wprss_init() {
-        
-        wprss_constants();
-        wprss_includes();
+        require_once ( WPRSS_INC . 'cron-jobs.php' );                   
 
         wprss_register_post_types();
         wprss_version_check();
@@ -186,25 +175,31 @@
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
     }
 
-
+ 
     /**
      * Fetches feed items from sources provided
      * 
      * @since 2.0
      */
-    function wprss_fetch_feed_items() {
+    function wprss_fetch_feed_items($post_id) {
        
         // Make sure the post obj is present and post type is none other than wprss_feed
          //echo 'test';
         /*global $post;
         var_dump($post);*/
         //echo get_query_var('post_type');/*
-       /* if ( $post->post_type != 'wprss_feed' ) {        
-            return;
-        }*/
+        //if ( $post->post_type != 'wprss_feed' ) {        
+           // return;
+       // die('ehe');
+        //}
         
         // I think this wouldn't always work, for example when using cron it would exit the function
-        if ('wprss_feed' != $_POST['post_type']) { return; }
+        //if ('wprss_feed' != $_POST['post_type']) { return; }
+        
+        // Get current post that triggered the hook, $post_id passed via the hook
+        $post = get_post( $post_id );
+                
+        if( ( $post->post_type == 'wprss_feed') && ( $post->post_status == 'publish' ) ) { 
         
         // Get all feed sources
         $feed_sources = new WP_Query( array(
@@ -213,7 +208,8 @@
         ) );
        
         
-        if( $feed_sources->have_posts() ) {  
+        if( $feed_sources->have_posts() ) {
+               // var_dump($feed_sources);
             // Start by getting one feed source, we will cycle through them one by one, 
             // fetching feed items and adding them to the database in each pass
             while ( $feed_sources->have_posts() ) {                
@@ -221,7 +217,7 @@
                 
                 $feed_ID = get_the_ID();
                 $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
-                var_dump($feed_url);
+                
                 // Use the URL custom field to fetch the feed items for this source
                 if( !empty( $feed_url ) ) {             
                     $feed = fetch_feed( $feed_url ); 
@@ -263,7 +259,7 @@
                 } // end if
             } // end $feed_sources while loop
             wp_reset_postdata(); // Restore the $post global to the current post in the main query        
-        }
+        }}
     }
 
 
@@ -394,10 +390,9 @@
  
  // action itself works and fires on test_function, but fetching function not working
  // probably due to post not being published yet
- add_action('publish_wprss_feed', 'wprss_fetch_feed_items');
+ add_action('wp_insert_post', 'wprss_fetch_feed_items');
  
- 
- 
+
  
  
  
