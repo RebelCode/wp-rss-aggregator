@@ -10,8 +10,10 @@
             foreach ( $atts as $key => &$val ) {
                 $val = html_entity_decode($val);
             }
-        }
-        wprss_display_feed_items( $atts );       
+        }      
+       ob_start(); //start an output buffer to output of the following function
+       wprss_display_feed_items( $atts ); 
+       return ob_get_clean(); //return the current buffer and clear it
     }
     
     // Register shortcodes

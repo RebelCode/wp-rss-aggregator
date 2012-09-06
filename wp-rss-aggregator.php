@@ -395,6 +395,7 @@
         $wp_query = $feed_items;        
 
         if( $feed_items->have_posts() ) {
+         //   ob_start();
             echo "<ul>\n";
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
@@ -415,7 +416,8 @@
         } else {
             echo 'No feed items found';
         }
-          
+        //$var = ob_get_clean();  
+       //echo $var;
         $wp_query = null; 
         $wp_query = $temp;  // Reset
 }
