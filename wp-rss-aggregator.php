@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.jeangalea.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 2.0
+    Version: 2.0beta
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv2
@@ -79,14 +79,9 @@
     /**
      * Initialise the plugin
      * 
-     * @since 2.0
-     * @todo fix publish_post hook to fire only on publishing of new feed sources
-     */     
-    add_action( 'init', 'wprss_init' );
-
-    function wprss_init() {
-        
-        wprss_constants();
+     * @since 2.0     
+     */         
+    function wprss_init() {                
         
         /* Load the activation functions file. */
         require_once ( WPRSS_INC . 'activation.php' );
@@ -118,13 +113,6 @@
 //wp_schedule_event( time(), 'hourly', 'wprss_cron_fetch_feeds_hook' );
 //wprss_fetch_all_feed_items();
         /* Hook our version check to 'init'. */
-        add_action( 'init', 'wprss_version_check' );
-        
-        add_action( 'wp_head', 'wprss_head_scripts_styles' );   
-        add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );  
-
-        // Add meta boxes for wprss_feed post type
-        add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
         
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
@@ -134,8 +122,15 @@
         // remove capability edit_moomin from role editor
        // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
     }
+    
+    add_action( 'init', 'wprss_constants' );
+    add_action( 'init', 'wprss_init' );    
+    add_action( 'init', 'wprss_version_check' );
     add_action( 'init', 'wprss_register_post_types' );
     add_action( 'init', 'wprss_version_check' );
+    add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
+
+    $newrole = get_role('administrator'); 
 
     /**
      * Insert required scripts, styles and filters on the admin side
@@ -160,21 +155,18 @@
         }      
     }
 
-    //add filter to ensure the text Feed source is displayed when user updates a feed souce
-    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' );
 
- 
     /**
      * Scripts and styles to be inserted into <head> section in front end
      * 
      * @since 2.0
      */      
     function wprss_head_scripts_styles() {
-        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
-        wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery') );   
-        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js' );         
+        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );       
+        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
+        wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery','jquery.colorbox-min') );           
     }
-
+    add_action( 'wp_head', 'wprss_head_scripts_styles' );  
 
 
     /**
@@ -210,7 +202,11 @@
                     if( !empty( $feed_url ) ) {             
                         $feed = fetch_feed( $feed_url ); 
                         if ( !is_wp_error( $feed ) ) {
-                            $items = $feed->get_items(); 
+                            // Figure out how many total items there are, but limit it to 10. 
+                            $maxitems = $feed->get_item_quantity(10); 
+
+                            // Build an array of all the items, starting with element 0 (first element).
+                            $items = $feed->get_items( 0, $maxitems );   
                         }
                     }
 
@@ -227,7 +223,7 @@
                         foreach ( $items as $item ) {
 
                             // Check if newly fetched item already present in existing feed item item, 
-                            // if not insert it into wp_postsm and insert post meta.
+                            // if not insert it into wp_posts and insert post meta.
                             if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
                                 // Create post object
                                 $feed_item = array(
@@ -287,7 +283,11 @@
                     if( !empty( $feed_url ) ) {             
                         $feed = fetch_feed( $feed_url ); 
                         if ( !is_wp_error( $feed ) ) {
-                            $items = $feed->get_items(); 
+                            // Figure out how many total items there are, but limit it to 10. 
+                            $maxitems = $feed->get_item_quantity(10); 
+
+                            // Build an array of all the items, starting with element 0 (first element).
+                            $items = $feed->get_items(0, $maxitems);                             
                         }
                     }
 
@@ -395,7 +395,7 @@
         $wp_query = $feed_items;        
 
         if( $feed_items->have_posts() ) {
-            echo '<ul>';
+            echo "<ul>\n";
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
@@ -404,10 +404,10 @@
 
                 // convert from Unix timestamp
                 $date = date( 'Y-m-d', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;
-                echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
-                echo '<br><span class="feed-source">Source: ' . $source_name . ' | ' . $date . '</span>'; 
+                echo "\t\t".'<li><a ' . $class . $open_setting . ' ' . $follow_setting . ' href="'. $permalink . '">'. get_the_title(). '</a><br>' . "\n"; 
+                echo "\t\t".'<span class="feed-source">Source: ' . $source_name . ' | ' . $date . '</span></li>'. "\n\n"; 
             }
-            echo '</ul>';
+            echo "\t\t".'</ul>';
             echo paginate_links();
 
             wp_reset_postdata();

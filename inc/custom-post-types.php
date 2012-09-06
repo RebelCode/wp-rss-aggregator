@@ -306,9 +306,11 @@
             'low'); // $priority
     }    
 
+    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
+
 
     /**     
-     * Set up the meta box for the wprss_feed post type
+     * Set up fields for the meta box
      * 
      * @since 2.0
      */       
@@ -537,8 +539,8 @@
         );
 
         return $messages;
-    }
-    
+    }    
+    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' );    
 
 
   
