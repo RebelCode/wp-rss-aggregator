@@ -33,7 +33,8 @@
 		// If there is no old database version and no settings, but only options
 		elseif ( empty( $old_db_version ) && false === $settings && !empty( $options ) ) {
 			wprss_install();
-			wprss_migrate();		
+			wprss_migrate();	
+			wprss_fetch_all_feed_items();	
 		}
 
 		// For version 1.1 to 2.0 
@@ -41,16 +42,18 @@
 		elseif ( empty( $old_db_version ) && !empty( $settings ) && !empty( $options ) ) {
 			wprss_update();
 			wprss_migrate();
+			wprss_fetch_all_feed_items();
 		}
 
 		// For any future versions where DB changes 
 		// If the old version is less than the new version, run the update.
 		elseif ( intval( $old_db_version ) < intval( WPRSS_DB_VERSION ) ) {
 			wprss_update();
+			wprss_fetch_all_feed_items();
 		}
 	}
 	
-	add_action('init', 'wprss_version_check' );
+	
 
 
 	/**

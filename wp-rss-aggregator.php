@@ -135,6 +135,7 @@
        // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
     }
     add_action( 'init', 'wprss_register_post_types' );
+    add_action( 'init', 'wprss_version_check' );
 
     /**
      * Insert required scripts, styles and filters on the admin side
@@ -171,7 +172,7 @@
     function wprss_head_scripts_styles() {
         wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );
         wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery') );   
-        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
+        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js' );         
     }
 
 
@@ -394,6 +395,7 @@
         $wp_query = $feed_items;        
 
         if( $feed_items->have_posts() ) {
+            echo '<ul>';
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
@@ -401,10 +403,11 @@
                 $source_name = get_the_title( $feed_source_id );                
 
                 // convert from Unix timestamp
-                $date = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;
+                $date = date( 'Y-m-d', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;
                 echo '<li><a ' . $class . $open_setting . $follow_setting . 'href=" '. $permalink . '">'. get_the_title(). ' '. '</a>'; 
                 echo '<br><span class="feed-source">Source: ' . $source_name . ' | ' . $date . '</span>'; 
             }
+            echo '</ul>';
             echo paginate_links();
 
             wp_reset_postdata();
