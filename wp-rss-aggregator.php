@@ -111,7 +111,12 @@
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
-
+        
+        //$timestamp = wp_next_scheduled( 'wprss_fetch_feeds_hook' );
+       // wp_unschedule_event($timestamp, 'wprss_fetch_feeds_hook');
+//wp_clear_scheduled_hook( 'wprss_fetch_feeds_hook' );
+//wp_schedule_event( time(), 'hourly', 'wprss_cron_fetch_feeds_hook' );
+//wprss_fetch_all_feed_items();
         /* Hook our version check to 'init'. */
         add_action( 'init', 'wprss_version_check' );
         
@@ -123,13 +128,13 @@
         
         // Set up the taxonomies
         //add_action( 'init', 'wprss_register_taxonomies' );
-
+       // wprss_cron_fetch_feed_items();
         
       //  global $wp_roles;
         // remove capability edit_moomin from role editor
        // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
     }
-
+    add_action( 'init', 'wprss_register_post_types' );
 
     /**
      * Insert required scripts, styles and filters on the admin side
@@ -169,7 +174,85 @@
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
     }
 
- 
+
+
+    /**
+     * Fetches feed items from sources provided
+     * 
+     * @since 2.0
+     */
+    function wprss_fetch_all_feed_items( ) {            
+        
+        // Get current post that triggered the hook, $post_id passed via the hook
+     
+                
+        //if( ( $post->post_type != 'wprss_feed_item')  ) { 
+        
+            // Get all feed sources
+            $feed_sources = new WP_Query( array(
+                'post_type' => 'wprss_feed',
+                'post_status' => 'publish',
+            ) );
+           
+            
+            if( $feed_sources->have_posts() ) {
+                   // var_dump($feed_sources);
+                // Start by getting one feed source, we will cycle through them one by one, 
+                // fetching feed items and adding them to the database in each pass
+                while ( $feed_sources->have_posts() ) {                
+                    $feed_sources->the_post();
+                    
+                    $feed_ID = get_the_ID();
+                    $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
+                    
+                    // Use the URL custom field to fetch the feed items for this source
+                    if( !empty( $feed_url ) ) {             
+                        $feed = fetch_feed( $feed_url ); 
+                        if ( !is_wp_error( $feed ) ) {
+                            $items = $feed->get_items(); 
+                        }
+                    }
+
+                    if ( !empty( $items ) ) {
+                        // Gather the permalinks of existing feed item's related to this feed source
+                        global $wpdb;
+                        $existing_permalinks = $wpdb->get_col(
+                            "SELECT meta_value
+                            FROM $wpdb->postmeta
+                            WHERE meta_key = 'wprss_item_permalink'
+                            AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
+                            ");
+
+                        foreach ( $items as $item ) {
+
+                            // Check if newly fetched item already present in existing feed item item, 
+                            // if not insert it into wp_postsm and insert post meta.
+                            if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
+                                // Create post object
+                                $feed_item = array(
+                                    'post_title' => $item->get_title(),
+                                    'post_content' => '',
+                                    'post_status' => 'publish',
+                                    'post_type' => 'wprss_feed_item'
+                                );                
+                                $inserted_ID = wp_insert_post( $feed_item, $wp_error );
+                                                  
+                                update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
+                                update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
+                                update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
+                                update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
+                           } //end if
+                        } //end foreach
+                    } // end if
+                } // end $feed_sources while loop
+                wp_reset_postdata(); // Restore the $post global to the current post in the main query        
+           // } // end if
+        } // end if
+    }
+    
+    add_action('wp_insert_post', 'wprss_fetch_feed_items');    
+
+
     /**
      * Fetches feed items from sources provided
      * 

@@ -19,7 +19,7 @@
             wp_schedule_event( time(), 'hourly', 'wprss_fetch_feeds_hook' );
         }
         
-        add_action( 'wprss_fetch_feeds_hook', 'wprss_fetch_feed_items' );    
+        add_action( 'wprss_fetch_feeds_hook', 'wprss_fetch_all_feed_items' );    
     }
 
     add_action ( 'init', 'wprss_schedule_fetch_feeds_cron' );       
@@ -31,7 +31,7 @@
      * @since 2.0
      */    
     function wprss_schedule_truncate_posts_cron() { 
-        
+
         // verify event has not been scheduled 
         if ( !wp_next_scheduled( 'wprss_truncate_posts_hook') ) {
             // Schedule to run daily
@@ -42,4 +42,22 @@
     }
     
     add_action ( 'init', 'wprss_schedule_truncate_posts_cron' );  
+
+
+    /**
+     * Not actually used at the moment, might use later on for custom scheduling
+     *
+     * @since 2.0
+     */    
+    function cron_add_weekly( $schedules ) {
+       // Adds once weekly to the existing schedules.
+       $schedules['weekly'] = array(
+        'interval' => 60, // 60*60*24*7
+        'display' => __( 'Once Weekly' )
+       );
+       return $schedules;
+    }
+
+    add_filter( 'cron_schedules', 'cron_add_weekly' );
+
 ?>

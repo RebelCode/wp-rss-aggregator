@@ -62,7 +62,7 @@
                                  'not_found'             => __( 'No Imported Feeds Found' ),
                                  'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash')
                                 ),
-        /*    'capability_type' => array('feed_item','feed_items'),
+          /*  'capability_type' => array('feed_item','feed_items'),
             'map_meta_cap'    => true,
             'capabilities' => array(
                             'publish_posts' => 'publish_feed_items',
@@ -80,6 +80,8 @@
         // Register the 'feed_item' post type
         register_post_type( 'wprss_feed_item', $feed_item_args );        
     }
+
+    add_action( 'init', 'wprss_register_post_types' );
     
 
     /**     
@@ -470,8 +472,7 @@
             if (!is_wp_error( $feed ) ) {
                 $items = $feed->get_items();        
 
-
-                echo '<h4>Feed preview for WPMayor</h4>'; 
+                echo '<h4>Latest 5 feeds available from ' . get_the_title() . '</h4>'; 
                 $count = 0;
                 $feedlimit = 5;
                 foreach ( $items as $item ) { 
