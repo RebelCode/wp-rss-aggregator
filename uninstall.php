@@ -6,4 +6,3 @@ exit ();
 delete_option( 'wprss_options' );
 delete_option( 'wprss_settings' );
 //
-?>

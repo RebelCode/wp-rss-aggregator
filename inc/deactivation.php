@@ -8,4 +8,3 @@
         if ( wp_next_scheduled( 'wprss_cron_hook' ) ) 
         wp_clear_scheduled_hook( 'wprss_cron_hook' );
     }
-?>

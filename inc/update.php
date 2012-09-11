@@ -1,5 +1,4 @@
 <?php
-
     /** 
      * Contains all the functions related to updating the plugin from
      * one version to another
@@ -32,6 +31,7 @@
 		// For version 1.0 to 2.0
 		// If there is no old database version and no settings, but only options
 		elseif ( empty( $old_db_version ) && false === $settings && !empty( $options ) ) {
+			wp_clear_scheduled_hook( 'wprss_generate_hook' );
 			wprss_install();
 			wprss_migrate();	
 			wprss_fetch_all_feed_items();	
@@ -40,6 +40,7 @@
 		// For version 1.1 to 2.0 
 		// If there is no old database version, but only settings and options
 		elseif ( empty( $old_db_version ) && !empty( $settings ) && !empty( $options ) ) {
+			wp_clear_scheduled_hook( 'wprss_generate_hook' );
 			wprss_update();
 			wprss_migrate();
 			wprss_fetch_all_feed_items();
@@ -153,5 +154,3 @@
 		// Return the default settings
 		return $settings;
 	}
-
-?>

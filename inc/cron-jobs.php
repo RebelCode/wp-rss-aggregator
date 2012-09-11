@@ -22,7 +22,7 @@
         add_action( 'wprss_fetch_feeds_hook', 'wprss_fetch_all_feed_items' );    
     }
 
-    add_action ( 'init', 'wprss_schedule_fetch_feeds_cron' );       
+         
  
 
     /**
@@ -41,7 +41,7 @@
         add_action( 'wprss_truncate_posts_hook', 'wprss_truncate_posts' );   
     }
     
-    add_action ( 'init', 'wprss_schedule_truncate_posts_cron' );  
+
 
 
     /**
@@ -49,7 +49,7 @@
      *
      * @since 2.0
      */    
-    function cron_add_weekly( $schedules ) {
+    function wprss_cron_add_weekly( $schedules ) {
        // Adds once weekly to the existing schedules.
        $schedules['weekly'] = array(
         'interval' => 60, // 60*60*24*7
@@ -58,6 +58,4 @@
        return $schedules;
     }
 
-    add_filter( 'cron_schedules', 'cron_add_weekly' );
-
-?>
+    add_filter( 'cron_schedules', 'wprss_cron_add_weekly' );

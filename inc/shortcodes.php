@@ -1,5 +1,4 @@
 <?php
-
     /**
      * Set up shortcodes and call the main function for output
      *
@@ -19,4 +18,3 @@
     // Register shortcodes
     add_shortcode( 'wp_rss_aggregator', 'wprss_shortcode');
     add_shortcode( 'wp-rss-aggregator', 'wprss_shortcode');    
-?>

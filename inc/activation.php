@@ -11,4 +11,3 @@
             wp_die( "This plugin requires WordPress version 3.2 or higher." );
         }     
     }
-?>

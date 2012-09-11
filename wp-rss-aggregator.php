@@ -43,37 +43,56 @@
      * that they would have been set earlier or by another plugin, it's better to check before 
      * setting them via if !(defined).
      *
-     * @since 2.0
-     */
-    function wprss_constants() {
-        
-        /* Set the version number of the plugin. */
-        define( 'WPRSS_VERSION', '2.0', true );
 
-        /* Set the database version number of the plugin. */
-        define( 'WPRSS_DB_VERSION', 2 );
+    /* Set the version number of the plugin. */
+    define( 'WPRSS_VERSION', '2.0', true );
 
-        /* Set the plugin prefix */
-        define( 'WPRSS_PREFIX', 'wprss', true );            
+    /* Set the database version number of the plugin. */
+    define( 'WPRSS_DB_VERSION', 2 );
 
-        /* Set constant path to the plugin directory. */
-        define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );        
+    /* Set the plugin prefix */
+    define( 'WPRSS_PREFIX', 'wprss', true );            
 
-        /* Set constant URI to the plugin URL. */
-        define( 'WPRSS_URI', plugin_dir_url( __FILE__ ) );        
+    /* Set constant path to the plugin directory. */
+    define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );        
 
-        /* Set the constant path to the plugin's javascript directory. */
-        define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ), true );
+    /* Set constant URI to the plugin URL. */
+    define( 'WPRSS_URI', plugin_dir_url( __FILE__ ) );        
 
-        /* Set the constant path to the plugin's CSS directory. */
-        define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ), true );
+    /* Set the constant path to the plugin's javascript directory. */
+    define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ), true );
 
-        /* Set the constant path to the plugin's images directory. */
-        define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'img' ), true );
+    /* Set the constant path to the plugin's CSS directory. */
+    define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ), true );
 
-        /* Set the constant path to the plugin's includes directory. */
-        define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'inc' ), true );
-    }
+    /* Set the constant path to the plugin's images directory. */
+    define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'img' ), true );
+
+    /* Set the constant path to the plugin's includes directory. */
+    define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'inc' ), true );
+    
+
+
+    /* Load the activation functions file. */
+    require_once ( WPRSS_INC . 'activation.php' );
+
+    /* Load the deactivation functions file. */
+    require_once ( WPRSS_INC . 'deactivation.php' );
+
+    /* Load install, upgrade and migration code. */
+    require_once ( WPRSS_INC . 'update.php' );           
+    
+    /* Load the shortcodes functions file. */
+    require_once ( WPRSS_INC . 'shortcodes.php' );
+    
+    /* Load the admin functions file. */
+    require_once ( WPRSS_INC . 'admin-options.php' );         
+
+    /* Load the custom post types and taxonomies. */
+    require_once ( WPRSS_INC . 'custom-post-types.php' );         
+
+    /* Load the cron job scheduling functions. */
+    require_once ( WPRSS_INC . 'cron-jobs.php' );       
 
 
     /**
@@ -82,55 +101,39 @@
      * @since 2.0     
      */         
     function wprss_init() {                
-        
-        /* Load the activation functions file. */
-        require_once ( WPRSS_INC . 'activation.php' );
-
-        /* Load the deactivation functions file. */
-        require_once ( WPRSS_INC . 'deactivation.php' );
-
-        /* Load install, upgrade and migration code. */
-        require_once ( WPRSS_INC . 'update.php' );           
-        
-        /* Load the shortcodes functions file. */
-        require_once ( WPRSS_INC . 'shortcodes.php' );
-        
-        /* Load the admin functions file. */
-        require_once ( WPRSS_INC . 'admin-options.php' );         
-
-        /* Load the custom post types and taxonomies. */
-        require_once ( WPRSS_INC . 'custom-post-types.php' );         
-
-        /* Load the cron job scheduling functions. */
-        require_once ( WPRSS_INC . 'cron-jobs.php' );                           
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
         
-        //$timestamp = wp_next_scheduled( 'wprss_fetch_feeds_hook' );
-       // wp_unschedule_event($timestamp, 'wprss_fetch_feeds_hook');
-//wp_clear_scheduled_hook( 'wprss_fetch_feeds_hook' );
-//wp_schedule_event( time(), 'hourly', 'wprss_cron_fetch_feeds_hook' );
-//wprss_fetch_all_feed_items();
-        /* Hook our version check to 'init'. */
-        
+/*         global $wp_roles;
+         $wp_roles->add_cap( 'administrator', 'delete_feed_item' );
+         $wp_roles->add_cap( 'administrator', 'delete_others_feed_items' );
+ */
+        // BELOW JUST FOR TESTING - WILL BE REMOVED IN FINAL RELEASE
+        // $timestamp = wp_next_scheduled( 'wprss_fetch_feeds_hook' );
+        // wp_unschedule_event($timestamp, 'wprss_fetch_feeds_hook');
+        // wp_clear_scheduled_hook( 'wprss_fetch_feeds_hook' );
+         //wp_clear_scheduled_hook( 'wprss_truncate_posts_hook' );
+        // wp_schedule_event( time(), 'hourly', 'wprss_cron_fetch_feeds_hook' );
+        // wprss_fetch_all_feed_items();
+                
         // Set up the taxonomies
-        //add_action( 'init', 'wprss_register_taxonomies' );
-       // wprss_cron_fetch_feed_items();
+        // add_action( 'init', 'wprss_register_taxonomies' );
+        // wprss_cron_fetch_feed_items();
         
-      //  global $wp_roles;
+        // global $wp_roles;
         // remove capability edit_moomin from role editor
-       // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
+        // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
     }
-    
-    add_action( 'init', 'wprss_constants' );
+
     add_action( 'init', 'wprss_init' );    
     add_action( 'init', 'wprss_version_check' );
     add_action( 'init', 'wprss_register_post_types' );
     add_action( 'init', 'wprss_version_check' );
+    add_action ( 'init', 'wprss_schedule_fetch_feeds_cron' );  
+    add_action ( 'init', 'wprss_schedule_truncate_posts_cron' );    
     add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
-
-    $newrole = get_role('administrator'); 
+  
 
     /**
      * Insert required scripts, styles and filters on the admin side
@@ -139,7 +142,7 @@
      */   
     function wprss_admin_scripts_styles() {
         // Only load scripts if we are on this plugin's options or settings pages (admin)
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' | $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
             wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
         } 
 
@@ -150,9 +153,13 @@
             wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
-                add_filter( 'enter_title_here', function() { _e("Enter feed name here"); } );
+                add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
         }      
+    }
+
+    function wprss_change_title_text() {
+        return "Enter feed name here";
     }
 
 
@@ -245,9 +252,7 @@
                 wp_reset_postdata(); // Restore the $post global to the current post in the main query        
            // } // end if
         } // end if
-    }
-    
-    add_action('wp_insert_post', 'wprss_fetch_feed_items');    
+    } 
 
 
     /**
@@ -340,8 +345,6 @@
      */
     function wprss_display_feed_items( $args = array() ) {
         $defaults = array(
-                          'date_before'  => '<h3>',
-                          'date_after'   => '</h3>',
                           'links_before' => '<ul>',
                           'links_after'  => '</ul>',
                           'link_before'  => '<li>',
@@ -396,7 +399,7 @@
 
         if( $feed_items->have_posts() ) {
          //   ob_start();
-            echo "<ul>\n";
+            echo "$links_before\n";
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
@@ -408,7 +411,7 @@
                 echo "\t\t".'<li><a ' . $class . $open_setting . ' ' . $follow_setting . ' href="'. $permalink . '">'. get_the_title(). '</a><br>' . "\n"; 
                 echo "\t\t".'<span class="feed-source">Source: ' . $source_name . ' | ' . $date . '</span></li>'. "\n\n"; 
             }
-            echo "\t\t".'</ul>';
+            echo "\t\t $links_after";
             echo paginate_links();
 
             wp_reset_postdata();
@@ -416,8 +419,7 @@
         } else {
             echo 'No feed items found';
         }
-        //$var = ob_get_clean();  
-       //echo $var;
+
         $wp_query = null; 
         $wp_query = $temp;  // Reset
 }

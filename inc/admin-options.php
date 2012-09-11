@@ -14,9 +14,9 @@
      * Custom Post Type Icon for Admin Menu & Post Screen
      * @since  2.0
      */
-    add_action( 'admin_head', 'custom_post_type_icon' );
+    add_action( 'admin_head', 'wprss_custom_post_type_icon' );
 
-    function custom_post_type_icon() {
+    function wprss_custom_post_type_icon() {
         ?>
         <style>
             /* Post Screen - 32px */
@@ -77,75 +77,6 @@
                             'wprss_setting_feed_limit', 'wprss-aggregator-settings', 'wprss-settings-main');  
 
     }  
-
-    
-    /**
-     * DEPRECATED
-     * Draw options page, used for adding feeds 
-     */ 
-    
- /*   function wprss_options_page() {
-        ?>
-        <div class="wrap">
-            <?php screen_icon( 'wprss-aggregator' ); ?>
-        
-         
-            <h2>WP RSS Aggregator Feed Sources</h2>
-            <div id="options">
-                <form action="options.php" method="post">            
-                    <?php
-                    
-                    settings_fields( 'wprss_options' );
-                    do_settings_sections( 'wprss' );
-                    $options = get_option( 'wprss_options' );        
-                    if ( !empty($options) ) {
-                        $size = count($options);
-                        for ( $i = 1; $i <= $size; $i++ ) {            
-                            if( $i % 2 == 0 ) continue;
-                            echo "<div class='wprss-input'>";
-                            
-                            $key = key( $options );
-                            
-                            echo "<p><label class='textinput' for='$key'>" . wprss_convert_key( $key ) . "</label>
-                            <input id='$key' class='wprss-input' size='100' name='wprss_options[$key]' type='text' value='$options[$key]' /></p>";
-                            
-                            next( $options );
-                            
-                            $key = key( $options );
-                            
-                            echo "<p><label class='textinput' for='$key'>" . wprss_convert_key( $key ) . "</label>
-                            <input id='$key' class='wprss-input' size='100' name='wprss_options[$key]' type='text' value='$options[$key]' /></p>";
-                            
-                            next( $options );
-                            echo "</div>"; 
-                            
-                        }
-                    }
-                                        
-                    ?>
-                    <div id="buttons"><a href="#" id="add"><img src="<?php echo WPRSS_IMG; ?>add.png"></a>  
-                    <a href="#" id="remove"><img src="<?php echo WPRSS_IMG; ?>remove.png"></a></div>  
-                    <p class="submit"><input type="submit" value="Save Settings" name="submit" class="button-primary"></p>
-                
-                </form>
-            </div> <!-- end options -->
-        </div> <!-- end wrap -->
-        <?php 
-    }
-    
-    
-  
-
-
-    /** 
-     * DEPRECATED
-     * Explain the options section
-     */ 
-    
-   /* function wprss_section_text() {
-        echo '<p>Enter a name and URL for each of your feeds. The name is used just for your reference.</p>';
-    }
-
 
 
     /**
@@ -224,7 +155,7 @@
      * http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
      * @since 2.0
      */   
-    function base_admin_body_class( $classes )
+    function wprss_base_admin_body_class( $classes )
     {
         // Current action
         if ( is_admin() && isset($_GET['action']) ) {
@@ -256,6 +187,4 @@
         // Return the $classes array
         return $classes;
     }
-    add_filter('admin_body_class', 'base_admin_body_class');
-
-?>
+    add_filter('admin_body_class', 'wprss_base_admin_body_class');

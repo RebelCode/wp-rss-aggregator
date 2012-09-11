@@ -1,3 +1,19 @@
+2.0
+Bulk of code rewritten and refactored
+Added install and upgrade functions
+Added DB version setting
+Feed sources now stored as Custom Post Types
+Feed source list sortable ascending or descending by name
+Removed days subsections in feed display
+Ability to limit total number of feeds displayed
+Feeds now fetched via Cron
+Cron job to delete old feed items, keeps max of 50 items in DB
+Now requires WordPress 3.2
+updated colorbox to v1.3.20.1
+Limit of 15 items max imported for each source
+Fixed issue of page content displaying incorrectly after feeds
+
+
 1.1 (2012-08-13)
 Now requires WordPress 3.0
 More flexible fetching of images directory
