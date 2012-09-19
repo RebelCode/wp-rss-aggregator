@@ -1,12 +1,12 @@
 <?php
     /*
     Plugin Name: WP RSS Aggregator
-    Plugin URI: http://www.jeangalea.com
+    Plugin URI: http://wordpress.org/extend/plugins/wp-rss-aggregator/
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 2.0beta
+    Version: 2.0
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
-    License: GPLv2
+    License: GPLv3
     */
 
     /*  
@@ -30,8 +30,8 @@
     @version 2.0
     @author Jean Galea <info@jeangalea.com>
     @copyright Copyright (c) 2012, Jean Galea
-    @link http://www.jeangalea.com/wordpress/wp-rss-aggregator/
-    @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+    @link http://www.jeangalea.com/
+    @license http://www.gnu.org/licenses/gpl.html
     */
 
 
@@ -131,7 +131,9 @@
         // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
     }
 
-   /**
+
+    add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
+    /**
      * Insert required scripts, styles and filters on the admin side
      * 
      * @since 2.0
@@ -153,8 +155,7 @@
             }
         }      
     }
-    add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
-
+    
 
     /**
      * Change title on wprss_feed post type screen
@@ -166,6 +167,7 @@
     }
 
 
+    add_action( 'wp_head', 'wprss_head_scripts_styles' );
     /**
      * Scripts and styles to be inserted into <head> section in front end
      * 
@@ -176,8 +178,7 @@
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
         wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery','jquery.colorbox-min') );           
     }
-    add_action( 'wp_head', 'wprss_head_scripts_styles' );  
-
+      
 
     /**
      * Fetches feed items from sources provided
@@ -193,16 +194,15 @@
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
-                'post_type' => 'wprss_feed',
-                'post_status' => 'publish',
+                'post_type'      => 'wprss_feed',
+                'post_status'    => 'publish',
                 'posts_per_page' => -1,
             ) );
            
             
             if( $feed_sources->have_posts() ) {
-                   // var_dump($feed_sources);
-                // Start by getting one feed source, we will cycle through them one by one, 
-                // fetching feed items and adding them to the database in each pass
+                /* Start by getting one feed source, we will cycle through them one by one, 
+                   fetching feed items and adding them to the database in each pass */
                 while ( $feed_sources->have_posts() ) {                
                     $feed_sources->the_post();
                     
@@ -221,7 +221,7 @@
                         }
                     }
 
-                    if ( !empty( $items ) ) {
+                    if ( ! empty( $items ) ) {
                         // Gather the permalinks of existing feed item's related to this feed source
                         global $wpdb;
                         $existing_permalinks = $wpdb->get_col(
@@ -235,7 +235,7 @@
 
                             // Check if newly fetched item already present in existing feed item item, 
                             // if not insert it into wp_posts and insert post meta.
-                            if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
+                            if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
                                 // Create post object
                                 $feed_item = array(
                                     'post_title' => $item->get_title(),
@@ -259,6 +259,7 @@
     } 
 
 
+    add_action('wp_insert_post', 'wprss_fetch_feed_items'); 
     /**
      * Fetches feed items from sources provided
      * 
@@ -273,8 +274,8 @@
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
-                'post_type' => 'wprss_feed',
-                'post_status' => 'publish',
+                'post_type'      => 'wprss_feed',
+                'post_status'    => 'publish',
                 'posts_per_page' => -1,
             ) );
            
@@ -290,9 +291,9 @@
                     $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
                     
                     // Use the URL custom field to fetch the feed items for this source
-                    if( !empty( $feed_url ) ) {             
+                    if( ! empty( $feed_url ) ) {             
                         $feed = fetch_feed( $feed_url ); 
-                        if ( !is_wp_error( $feed ) ) {
+                        if ( ! is_wp_error( $feed ) ) {
                             // Figure out how many total items there are, but limit it to 10. 
                             $maxitems = $feed->get_item_quantity(10); 
 
@@ -301,7 +302,7 @@
                         }
                     }
 
-                    if ( !empty( $items ) ) {
+                    if ( ! empty( $items ) ) {
                         // Gather the permalinks of existing feed item's related to this feed source
                         global $wpdb;
                         $existing_permalinks = $wpdb->get_col(
@@ -315,7 +316,7 @@
 
                             // Check if newly fetched item already present in existing feed item item, 
                             // if not insert it into wp_postsm and insert post meta.
-                            if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
+                            if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
                                 // Create post object
                                 $feed_item = array(
                                     'post_title' => $item->get_title(),
@@ -336,9 +337,7 @@
                 wp_reset_postdata(); // Restore the $post global to the current post in the main query        
             } // end if
         } // end if
-    }
-    
-    add_action('wp_insert_post', 'wprss_fetch_feed_items');    
+    }        
 
 
     /**
@@ -387,12 +386,12 @@
         // Query to get all feed items for display
         $paged = get_query_var('page') ? get_query_var('page') : 1;
         $feed_items = new WP_Query( array(
-            'post_type' => 'wprss_feed_item',
+            'post_type'      => 'wprss_feed_item',
             'posts_per_page' => $settings['feed_limit'], 
-            'orderby'  => 'meta_value', 
-            'meta_key' => 'wprss_item_date', 
-            'order' => 'DESC',
-            'paged' => $paged,
+            'orderby'        => 'meta_value', 
+            'meta_key'       => 'wprss_item_date', 
+            'order'          => 'DESC',
+            'paged'          => $paged,
         ) );
 
         // Globalize $wp_query
@@ -403,7 +402,6 @@
         $wp_query = $feed_items;        
 
         if( $feed_items->have_posts() ) {
-         //   ob_start();
             echo "$links_before\n";
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
@@ -427,9 +425,10 @@
 
         $wp_query = null; 
         $wp_query = $temp;  // Reset
-}
+    }
 
     
+    add_action( 'trash_wprss_feed', 'wprss_delete_feed_items' );
     /**
      * Delete feed items on trashing of corresponding feed source
      * 
@@ -439,8 +438,8 @@
         global $post;
         
         $args = array(
-               'post_type' => 'wprss_feed_item',
-                'meta_key' => 'wprss_feed_id',                  
+               'post_type'       => 'wprss_feed_item',
+                'meta_key'       => 'wprss_feed_id',                  
                 'meta_value_num' => $post->ID,                 
         );
         
@@ -456,9 +455,7 @@
         endif;
  
         wp_reset_postdata();
-    }
-    
-    add_action( 'trash_wprss_feed', 'wprss_delete_feed_items' );
+    }    
 
  
     /**
@@ -484,12 +481,12 @@
         $results = $wpdb->get_results($query);
 
         // Check if there are any results
-        if(count($results)){
-            foreach($results as $post){
+        if ( count( $results ) ){
+            foreach ( $results as $post ) {
                 $i++;
 
                 // Skip any posts within our threshold
-                if($i <= $threshold)
+                if ( $i <= $threshold )
                     continue;
 
                 // Let the WordPress API do the heavy lifting for cleaning up entire post trails
