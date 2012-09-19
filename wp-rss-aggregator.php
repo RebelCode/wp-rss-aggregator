@@ -35,7 +35,6 @@
     */
 
 
-    /**
      * Defines constants used by the plugin.
      *
      * We're not checking if constants are defined before setting them, as the prefix 'wprss' pretty
@@ -45,6 +44,7 @@
      *
 
     /* Set the version number of the plugin. */
+    /**
     define( 'WPRSS_VERSION', '2.0', true );
 
     /* Set the database version number of the plugin. */
@@ -190,8 +190,8 @@
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
-                'post_type' => 'wprss_feed',
-                'post_status' => 'publish',
+                'post_type'     => 'wprss_feed',
+                'post_status'   => 'publish',
             ) );
            
             
@@ -217,14 +217,14 @@
                         }
                     }
 
-                    if ( !empty( $items ) ) {
+                    if ( ! empty( $items ) ) {
                         // Gather the permalinks of existing feed item's related to this feed source
                         global $wpdb;
                         $existing_permalinks = $wpdb->get_col(
                             "SELECT meta_value
                             FROM $wpdb->postmeta
                             WHERE meta_key = 'wprss_item_permalink'
-                            AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
+                            AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID )
                             ");
 
                         foreach ( $items as $item ) {
@@ -234,10 +234,10 @@
                             if (  !( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
                                 // Create post object
                                 $feed_item = array(
-                                    'post_title' => $item->get_title(),
-                                    'post_content' => '',
-                                    'post_status' => 'publish',
-                                    'post_type' => 'wprss_feed_item'
+                                    'post_title'    => $item->get_title(),
+                                    'post_content'  => '',
+                                    'post_status'   => 'publish',
+                                    'post_type'     => 'wprss_feed_item'
                                 );                
                                 $inserted_ID = wp_insert_post( $feed_item, $wp_error );
                                                   
@@ -269,8 +269,8 @@
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
-                'post_type' => 'wprss_feed',
-                'post_status' => 'publish',
+                'post_type'     => 'wprss_feed',
+                'post_status'   => 'publish',
             ) );
            
             
@@ -285,14 +285,14 @@
                     $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
                     
                     // Use the URL custom field to fetch the feed items for this source
-                    if( !empty( $feed_url ) ) {             
+                    if( ! empty( $feed_url ) ) {             
                         $feed = fetch_feed( $feed_url ); 
-                        if ( !is_wp_error( $feed ) ) {
+                        if ( ! is_wp_error( $feed ) ) {
                             // Figure out how many total items there are, but limit it to 10. 
-                            $maxitems = $feed->get_item_quantity(10); 
+                            $maxitems = $feed->get_item_quantity( 10 ); 
 
                             // Build an array of all the items, starting with element 0 (first element).
-                            $items = $feed->get_items(0, $maxitems);                             
+                            $items = $feed->get_items( 0, $maxitems );                             
                         }
                     }
 
