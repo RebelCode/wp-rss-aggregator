@@ -584,7 +584,7 @@
      * @since 2.0
      */    
     function wprss_remove_a_from_feed_title() {
-        if ( 'edit-wprss_feed_item' == get_current_screen()->id )
+        if ( 'edit-wprss_feed_item' !== get_current_screen()->id )
         return;
         ?>
         
@@ -594,3 +594,18 @@
         <?php
     }
 
+
+    add_action( 'admin_menu', 'wprss_remove_meta_boxes' );
+    /**
+     * Remove unneeded meta boxes from add feed source screen
+     * 
+     * @since 2.0
+     */       
+    function wprss_remove_meta_boxes() {
+        remove_meta_box( 'sharing_meta', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'theme-layouts-post-meta-box', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'normal' );
+    }
