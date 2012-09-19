@@ -343,8 +343,6 @@
     /**
      * Display feed items on the front end (via shortcode or function)
      * 
-     * @todo  Pagination not working yet
-     * 
      * @since 2.0
      */
     function wprss_display_feed_items( $args = array() ) {
@@ -384,22 +382,13 @@
         extract( $args, EXTR_SKIP );       
         
         // Query to get all feed items for display
-        $paged = get_query_var('page') ? get_query_var('page') : 1;
         $feed_items = new WP_Query( array(
             'post_type'      => 'wprss_feed_item',
             'posts_per_page' => $settings['feed_limit'], 
             'orderby'        => 'meta_value', 
             'meta_key'       => 'wprss_item_date', 
             'order'          => 'DESC',
-            'paged'          => $paged,
         ) );
-
-        // Globalize $wp_query
-        global $wp_query;
-        // Swap-hack
-        $temp = $wp_query;
-        $wp_query = null;
-        $wp_query = $feed_items;        
 
         if( $feed_items->have_posts() ) {
             echo "$links_before\n";
@@ -422,9 +411,6 @@
         } else {
             echo 'No feed items found';
         }
-
-        $wp_query = null; 
-        $wp_query = $temp;  // Reset
     }
 
     

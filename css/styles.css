@@ -32,6 +32,32 @@ body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
 
 #custom_meta_box .form-table th { width: 100px; }
 
-body.post-type-wprss_feed_item .add-new-h2 { display: none; }
+body.post-type-wprss_feed_item .add-new-h2, 
+body.post-type-wprss_feed_item .tablenav select[name="m"],
+body.post-type-wprss_feed_item #post-query-submit
+{ display: none; }
+
+body.post-type-wprss_feed_item a.row-title {
+            cursor: default;
+            font-weight: normal;
+            color: #555;
+}
+
+#latest-news-cpac-settings li {
+list-style: none;
+line-height: 16px;
+}
+
+li.twitter a {
+background: transparent url('../img/twitter.png') no-repeat 0;
+}
+
+li.facebook a {
+background: transparent url('../img/facebook.png') no-repeat 0;
+}
+
+li.donate_link a:hover {
+color: darkGreen;
+}
 
 /*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/

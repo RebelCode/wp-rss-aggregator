@@ -1,11 +1,12 @@
 <?php    
-
     /** 
      * Contains all custom post type related functions
      *         
      * @package WPRSSAggregator
      */
+    
 
+    add_action( 'init', 'wprss_register_post_types' );
     /**
      * Create Custom Post Types wprss_feed and wprss_feed_item
      * 
@@ -62,28 +63,14 @@
                                  'not_found'             => __( 'No Imported Feeds Found' ),
                                  'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash')
                                 ),
-          /*  'capability_type' => array('feed_item','feed_items'),
-            'map_meta_cap'    => true,
-            'capabilities' => array(
-                            'publish_posts' => 'publish_feed_items',
-                            'edit_posts' => 'edit_feed_items',
-                            'edit_others_posts' => 'edit_others_feed_items',
-                            'delete_posts' => 'delete_feed_items',
-                            'delete_others_posts' => 'delete_others_feed_items',
-                            'read_private_posts' => 'read_private_feed_items',
-                            'edit_post' => 'edit_feed_item',
-                            'delete_post' => 'delete_feed_item',
-                            'read_post' => 'read_feed_item'
-            )*/
         );
         
         // Register the 'feed_item' post type
         register_post_type( 'wprss_feed_item', $feed_item_args );        
     }
 
-    add_action( 'init', 'wprss_register_post_types' );
     
-
+    add_filter( 'manage_edit-wprss_feed_columns', 'wprss_set_custom_columns'); 
     /**     
      * Set up the custom columns for the wprss_feed list
      * 
@@ -96,15 +83,12 @@
             'title'       => __( 'Name', 'wprss' ),
             'url'         => __( 'URL', 'wprss' ),
             'description' => __( 'Description', 'wprss' ),
-            //'category' => __( 'Category' ),
         );
         return $columns;
-    }
-    
-    // Set the feed source list page columns 
-    add_filter( 'manage_edit-wprss_feed_columns', 'wprss_set_custom_columns'); 
+    }    
 
 
+    add_action( "manage_wprss_feed_posts_custom_column", "wprss_show_custom_columns", 10, 2 );
     /**
      * Show up the custom columns for the wprss_feed list
      * 
@@ -112,20 +96,17 @@
      */  
     function wprss_show_custom_columns( $column, $post_id ) {
      
-      switch ( $column ) {
-        case "url":
+      switch ( $column ) {    
+        case 'url':
           $url = get_post_meta( $post_id, 'wprss_url', true);
           echo '<a href="' . esc_url($url) . '">' . esc_url($url) . '</a>';
           break;
-        case "description":
+        case 'description':
           $description = get_post_meta( $post_id, 'wprss_description', true);
           echo esc_html( $description );
           break;      
       }
     }
-    
-    // Show the feed source list page custom columns 
-    add_action( "manage_wprss_feed_posts_custom_column", "wprss_show_custom_columns", 10, 2 );
 
 
     /**
@@ -141,8 +122,9 @@
     }
 
 
+    add_filter( 'manage_edit-wprss_feed_item_columns', 'wprss_set_feed_item_custom_columns'); 
     /**
-     * Set up the custom columns for the wprss_feed list
+     * Set up the custom columns for the wprss_feed source list
      * 
      * @since 2.0
      */      
@@ -150,20 +132,15 @@
 
         $columns = array (
             'cb'          => '<input type="checkbox" />',
-            'title'       => __( 'Name', 'wprss' ),
+            'title'        => __( 'Name', 'wprss' ),
             'permalink'   => __( 'Permalink', 'wprss' ),
-            'description' => __( 'Excerpt', 'wprss' ),
             'publishdate' => __( 'Date published', 'wprss' ),
-            'source'      => __( 'Source', 'wprss' )
-            //'category' => __( 'Category' ),
         );
         return $columns;
     }
-    
-    // Set the feed source list page columns 
-    add_filter( 'manage_edit-wprss_feed_item_columns', 'wprss_set_feed_item_custom_columns'); 
 
 
+    add_action( "manage_wprss_feed_item_posts_custom_column", "wprss_show_feed_item_custom_columns", 10, 2 );
     /**
      * Show up the custom columns for the wprss_feed list
      * 
@@ -171,17 +148,11 @@
      */  
     function wprss_show_feed_item_custom_columns( $column, $post_id ) {
      
-        switch ( $column ) {
-            
+        switch ( $column ) {             
             case "permalink":
                 $url = get_post_meta( $post_id, 'wprss_item_permalink', true);
                 echo '<a href="' . $url . '">' . $url. '</a>';
-                break;
-            
-            case "description":
-                $description = get_post_meta( $post_id, 'wprss_item_description', true);
-                echo $description;
-                break;     
+                break;         
             
             case "publishdate":
                 $publishdate = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;          
@@ -195,11 +166,9 @@
                 break;   
         }
     }
-    
-    // Show the feed source list page custom columns 
-    add_action( "manage_wprss_feed_item_posts_custom_column", "wprss_show_feed_item_custom_columns", 10, 2 );
 
 
+    add_filter( "manage_edit-wprss_feed_item_sortable_columns", "wprss_feed_item_sortable_columns" );
     /**     
      * Make the custom columns sortable
      * 
@@ -213,9 +182,8 @@
         );
     }
 
-    add_filter( "manage_edit-wprss_feed_item_sortable_columns", "wprss_feed_item_sortable_columns" );
 
-
+    add_action( 'pre_get_posts', 'wprss_feed_item_orderby' );
     /**     
      * Change ordering of posts on wprss_feed_item screen
      * 
@@ -240,9 +208,8 @@
         }
     }    
 
-    add_action( 'pre_get_posts', 'wprss_feed_item_orderby' );
 
-
+    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
     /**
      * Set up the input boxes for the wprss_feed post type
      * 
@@ -281,12 +248,30 @@
 
         add_meta_box(
             'wprss-help-meta',
-            'WP RSS Aggregator Pro',
+            'WP RSS Aggregator Help',
             'wprss_help_meta_box',
             'wprss_feed',
             'side',
             'low'
-        );       
+        );  
+
+        add_meta_box(
+            'wprss-like-meta',
+            'Like this plugin?',
+            'wprss_like_meta_box',
+            'wprss_feed',
+            'side',
+            'low'
+        );   
+
+        add_meta_box(
+            'wprss-follow-meta',
+            'Follow us',
+            'wprss_follow_meta_box',
+            'wprss_feed',
+            'side',
+            'low'
+        );   
 
         add_meta_box(
             'custom_meta_box', // $id
@@ -305,8 +290,6 @@
             'normal', // $context
             'low'); // $priority
     }    
-
-    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
 
 
     /**     
@@ -395,6 +378,7 @@
     }
   
 
+    add_action( 'save_post', 'wprss_save_custom_fields' ); 
     /**     
      * Save the custom fields
      * 
@@ -404,7 +388,7 @@
         $meta_fields = wprss_custom_fields();
         
         // verify nonce
-        if ( !wp_verify_nonce( $_POST[ 'wprss_meta_box_nonce' ], basename( __FILE__ ) ) ) 
+        if ( ! wp_verify_nonce( $_POST[ 'wprss_meta_box_nonce' ], basename( __FILE__ ) ) ) 
             return $post_id;
         
         // check autosave
@@ -412,26 +396,24 @@
             return $post_id;
         
         // check permissions
-        if ('page' == $_POST['post_type']) {
-            if (!current_user_can('edit_page', $post_id))
+        if ( 'page' == $_POST[ 'post_type' ] ) {
+            if ( ! current_user_can( 'edit_page', $post_id ) )
                 return $post_id;
-            } elseif (!current_user_can('edit_post', $post_id)) {
+            } elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
                 return $post_id;
         }
         
         // loop through fields and save the data
-        foreach ($meta_fields as $field) {
-            $old = get_post_meta($post_id, $field['id'], true);
-            $new = $_POST[$field['id']];
-            if ($new && $new != $old) {
-                update_post_meta($post_id, $field['id'], $new);
-            } elseif ('' == $new && $old) {
-                delete_post_meta($post_id, $field['id'], $old);
+        foreach ( $meta_fields as $field ) {
+            $old = get_post_meta( $post_id, $field[ 'id' ], true );
+            $new = $_POST[ $field[ 'id' ] ];
+            if ( $new && $new != $old ) {
+                update_post_meta( $post_id, $field[ 'id' ], $new );
+            } elseif ( '' == $new && $old ) {
+                delete_post_meta( $post_id, $field[ 'id' ], $old );
             }
         } // end foreach
-    }
-
-    add_action( 'save_post', 'wprss_save_custom_fields' );  
+    } 
 
       
     /**     
@@ -451,7 +433,7 @@
          * else he can deactivate them. By default, if not modified in wp_config.php, EMPTY_TRASH_DAYS is set to 30.
          */
         if ( current_user_can( "delete_post", $post->ID ) ) {
-            if (!EMPTY_TRASH_DAYS)
+            if ( ! EMPTY_TRASH_DAYS )
                 $delete_text = __('Delete Permanently');
             else
                 $delete_text = __('Move to Trash');
@@ -459,6 +441,7 @@
         echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
         }
     }
+
 
     /**     
      * Generate a preview of the latest 5 posts from the feed source being added/edited
@@ -469,9 +452,9 @@
         global $post;
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
         
-        if( !empty( $feed_url ) ) {             
+        if( ! empty( $feed_url ) ) {             
             $feed = fetch_feed( $feed_url ); 
-            if (!is_wp_error( $feed ) ) {
+            if ( ! is_wp_error( $feed ) ) {
                 $items = $feed->get_items();        
 
                 echo '<h4>Latest 5 feeds available from ' . get_the_title() . '</h4>'; 
@@ -496,28 +479,48 @@
      * 
      * @since 2.0
      * 
-     * @todo  finish this off with help links etc.
      */      
     function wprss_help_meta_box() {
-     echo '<p><strong>';
-     _e( 'Need help?');
-     echo '</strong> ';
-     _e( 'Here are a few options:'); 
+       echo '<p><strong>';
+       _e( 'Need help?');
+       echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
+       _e( 'Check out the support forum'); 
+       echo '</a></p>';
+    }
 
-     /*'</p>
-          <ol>
-              <li><a class="<?php echo CPT_ONOMIES_UNDERSCORE; ?>_show_help_tab" href="#"><?php _e( 'The \'Help\' tab', CPT_ONOMIES_TEXTDOMAIN ); ?></a></li>
-              <li><a href="http://wordpress.org/support/plugin/cpt-onomies" title="<?php printf( esc_attr__( '%s support forums', CPT_ONOMIES_TEXTDOMAIN ), 'CPT-onomies' ); ?>" target="_blank"><?php printf( __( 'The %s support forums', CPT_ONOMIES_TEXTDOMAIN ), 'CPT-onomies\'' ); ?></a></li>
-              <li><a href="http://rachelcarden.com/cpt-onomies/" title="<?php esc_attr_e( 'Visit my web site', CPT_ONOMIES_TEXTDOMAIN ); ?>" target="_blank"><?php _e( 'My web site', CPT_ONOMIES_TEXTDOMAIN ); ?></a></li>
-          </ol>
-          <p><?php printf( __( 'If you notice any bugs or problems with the plugin, %1$splease let me know%2$s.', CPT_ONOMIES_TEXTDOMAIN ), '<a href="http://rachelcarden.com/contact/" target="_blank">', '</a>' ); ?></p>
+    /**     
+     * Generate Like this plugin meta box
+     * 
+     * @since 2.0
+     * 
+     */      
+    function wprss_like_meta_box() { ?>
+        <p><?php _e('Why not do any or all of the following') ?>:</p>
+        <ul>
+            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e('Give it a 5 star rating on WordPress.org.') ?></a></li>                               
+            <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e('Donate a token of your appreciation.'); ?></a></li>
+        </ul>       
+         </p>
+    <?php } 
 
-          <p><strong><a href="<?PHP echo CPT_ONOMIES_PLUGIN_DIRECTORY_URL; ?>" title="<?php esc_attr_e( CPT_ONOMIES_PLUGIN_NAME, CPT_ONOMIES_TEXTDOMAIN ); ?>" target="_blank"><?php _e( CPT_ONOMIES_PLUGIN_NAME, CPT_ONOMIES_TEXTDOMAIN ); ?></a></strong></p>
-          <p><strong><?php _e( 'Version', CPT_ONOMIES_TEXTDOMAIN ); ?>:</strong> <?php echo CPT_ONOMIES_VERSION; ?><br />
-          <strong><?php _e( 'Author', CPT_ONOMIES_TEXTDOMAIN ); ?>:</strong> <a href="http://www.rachelcarden.com" title="Rachel Carden" target="_blank">Rachel Carden</a></p>
-   */ }
 
+    /**     
+     * Generate Like this plugin meta box
+     * 
+     * @since 2.0
+     * 
+     */      
+    function wprss_follow_meta_box() {    
+        ?>                         
+        <ul>
+            <li class="twitter"><a href="http://twitter.com/wpmayor"><?php _e('Follow WP Mayor on Twitter.') ?></a></li>
+            <li class="facebook"><a href="https://www.facebook.com/wpmayor"><?php _e('Like WP Mayor on Facebook.') ?></a></li>
 
+        </ul>                               
+    <?php }
+
+    
+    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' ); 
     /**
      * Change default notification message when new feed is added or updated
      * 
@@ -526,20 +529,68 @@
     function wprss_feed_updated_messages( $messages ) {
         global $post, $post_ID;
 
-        $messages['wprss_feed'] = array(
-        0 => '', // Unused. Messages start at index 1.
-        1 => __('Feed source updated. '),
-        2 => __('Custom field updated.'),
-        3 => __('Custom field deleted.'),
-        4 => __('Feed source updated.'),        
-        5 => '',
-        6 => __('Feed source saved.'),
-        7 => __('Feed source saved.'),
-        8 => __('Feed source submitted.'),
-        9 => '',
-        10 =>__('Feed source updated.')
+        $messages[ 'wprss_feed' ] = array(
+            0  => '', // Unused. Messages start at index 1.
+            1  => __( 'Feed source updated. ' ),
+            2  => __( 'Custom field updated.' ),
+            3  => __( 'Custom field deleted.' ),
+            4  => __( 'Feed source updated.' ),        
+            5  => '',
+            6  => __( 'Feed source saved.' ),
+            7  => __( 'Feed source saved.' ),
+            8  => __( 'Feed source submitted.' ),
+            9  => '',
+            10 => __( 'Feed source updated.' )
         );
 
         return $messages;
-    }    
-    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' );    
+    }           
+
+
+    add_filter( 'post_row_actions', 'wprss_remove_row_actions', 10, 1 );
+    /**
+     * Remove actions row for imported feed items, we don't want them to be editable or viewable
+     * 
+     * @since 2.0
+     */       
+    function wprss_remove_row_actions( $actions )
+    {
+        if ( get_post_type() === 'wprss_feed_item' )  {
+            unset( $actions[ 'edit' ] );
+            unset( $actions[ 'view' ] );
+            //unset( $actions[ 'trash' ] );
+            unset( $actions[ 'inline hide-if-no-js' ] );
+        }          
+        return $actions;
+    }
+
+
+    add_filter( 'bulk_actions-edit-wprss_feed_item', 'wprss_custom_bulk_actions' );
+    /**
+     * Remove bulk action link to edit imported feed items
+     * 
+     * @since 2.0
+     */       
+    function wprss_custom_bulk_actions( $actions ){
+        unset( $actions[ 'edit' ] );
+        return $actions;
+    }
+
+
+    add_action( 'admin_footer-edit.php', 'wprss_remove_a_from_feed_title' );
+    /**
+     * Remove hyperlink from imported feed titles in list posts screen
+     * 
+     * @since 2.0
+     */    
+    function wprss_remove_a_from_feed_title() {
+        if ( 'edit-wprss_feed_item' == get_current_screen()->id )
+        return;
+        ?>
+        
+        <script type="text/javascript">
+            jQuery('table.wp-list-table a.row-title').contents().unwrap();
+        </script>
+        <?php
+    }
+
