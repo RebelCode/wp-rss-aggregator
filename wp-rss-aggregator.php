@@ -97,7 +97,7 @@
 
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' );       
-
+    
 
     add_action( 'init', 'wprss_init' );  
     /**
@@ -163,7 +163,7 @@
      * @since 2.0
      */  
     function wprss_change_title_text() {
-        return "Enter feed name here";
+        return "Enter feed name here (e.g. WP Mayor)";
     }
 
 
@@ -198,7 +198,7 @@
                 'post_status'    => 'publish',
                 'posts_per_page' => -1,
             ) );
-           
+           var_dump($feed_sources);
             
             if( $feed_sources->have_posts() ) {
                 /* Start by getting one feed source, we will cycle through them one by one, 
@@ -420,11 +420,11 @@
      * 
      * @since 2.0
      */    
-    function wprss_delete_feed_items( ) {
+    function wprss_delete_feed_items() {
         global $post;
         
         $args = array(
-               'post_type'       => 'wprss_feed_item',
+                'post_type'      => 'wprss_feed_item',
                 'meta_key'       => 'wprss_feed_id',                  
                 'meta_value_num' => $post->ID,                 
         );
@@ -464,7 +464,7 @@
             AND post_status = 'publish' 
             ORDER BY post_modified DESC
         ";
-        $results = $wpdb->get_results($query);
+        $results = $wpdb->get_results( $query );
 
         // Check if there are any results
         if ( count( $results ) ){

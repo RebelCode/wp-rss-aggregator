@@ -14,16 +14,14 @@
     function wprss_schedule_fetch_feeds_cron() {
 
         // verify event has not been scheduled 
-        if ( !wp_next_scheduled( 'wprss_fetch_feeds_hook' ) ) {            
+        if ( ! wp_next_scheduled( 'wprss_fetch_feeds_hook' ) ) {            
             // Schedule to run hourly
             wp_schedule_event( time(), 'hourly', 'wprss_fetch_feeds_hook' );
         }
         
         add_action( 'wprss_fetch_feeds_hook', 'wprss_fetch_all_feed_items' );    
     }
-
          
- 
 
     /**
      * Creates the cron to truncate wprss_feed_item posts daily
@@ -33,7 +31,7 @@
     function wprss_schedule_truncate_posts_cron() { 
 
         // verify event has not been scheduled 
-        if ( !wp_next_scheduled( 'wprss_truncate_posts_hook') ) {
+        if ( ! wp_next_scheduled( 'wprss_truncate_posts_hook') ) {
             // Schedule to run daily
             wp_schedule_event( time(), 'daily', 'wprss_truncate_posts_hook' );
         }  
@@ -42,8 +40,7 @@
     }
     
 
-
-
+    //add_filter( 'cron_schedules', 'wprss_cron_add_weekly' );
     /**
      * Not actually used at the moment, might use later on for custom scheduling
      *
@@ -57,5 +54,3 @@
        );
        return $schedules;
     }
-
-    add_filter( 'cron_schedules', 'wprss_cron_add_weekly' );

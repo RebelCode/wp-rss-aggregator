@@ -135,6 +135,7 @@
             'title'        => __( 'Name', 'wprss' ),
             'permalink'   => __( 'Permalink', 'wprss' ),
             'publishdate' => __( 'Date published', 'wprss' ),
+            'source'      => __( 'Source', 'wprss' )
         );
         return $columns;
     }
@@ -310,7 +311,7 @@
         
         $wprss_meta_fields['description'] = array(
             'label' => __( 'Description', 'wprss' ),
-            'desc'  => __( 'A short description about this feed source', 'wprss' ),
+            'desc'  => __( 'A short description about this feed source (optional)', 'wprss' ),
             'id'    => $prefix.'description',
             'type'  => 'textarea'
         );    
@@ -602,6 +603,7 @@
      * @since 2.0
      */       
     function wprss_remove_meta_boxes() {
+        if ( 'wprss_feed' !== get_current_screen()->id ) return;     
         remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
         remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );
         remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
@@ -609,4 +611,21 @@
         remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'side' );
         remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'side' );
         remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' ); 
+        remove_action( 'post_submitbox_start', 'fpp_post_submitbox_start_action' );
+    
+    }
+
+
+    add_filter( 'gettext', 'wprss_change_publish_button', 10, 2 );
+    /**
+     * Modify 'Publish' button text
+     * 
+     * @since 2.0
+     */     
+    function wprss_change_publish_button( $translation, $text ) {
+    if ( 'wprss_feed' == get_post_type())
+    if ( $text == 'Publish' )
+        return 'Publish Feed';
+
+    return $translation;
     }
