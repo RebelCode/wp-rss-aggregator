@@ -162,7 +162,7 @@
             
             case "source":        
                 $query = new WP_Query();                 
-                $source = get_the_title( get_post_meta( $post_id, 'wprss_feed_id', true ) );                
+                $source = '<a href="' . get_edit_post_link( get_post_meta( $post_id, 'wprss_feed_id', true ) ) . '">' . get_the_title( get_post_meta( $post_id, 'wprss_feed_id', true ) ) . '</a>';                
                 echo $source;
                 break;   
         }

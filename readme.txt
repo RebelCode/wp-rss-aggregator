@@ -1,8 +1,8 @@
 === WP RSS Aggregator ===
 Contributors: jeangalea
-Donate link: http://www.jeangalea.com
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
 Plugin URI: http://wordpress.org/extend/plugins/wp-rss-aggregator/
-Tags: rss, feeds, aggregation, aggregator, import, feed aggregator
+Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator
 Requires at least: 3.3
 Tested up to: 3.4
 Stable tag: 2.0
@@ -20,7 +20,7 @@ You can call the function from within the theme or even use a shortcode with par
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/)
 
 = Credit = 
-Created by Jean Galea. Need a [WordPress Developer](http://www.jeangalea.com/services/wordpress-consultancy-development/)?
+Created by Jean Galea. Need a [WordPress Freelance Developer](http://www.jeangalea.com/services/wordpress-consultancy-development/)?
 
 == Installation ==
 
@@ -31,22 +31,18 @@ Created by Jean Galea. Need a [WordPress Developer](http://www.jeangalea.com/ser
 
 The parameters accepted are:
 
-* date_before 
-* date_after 
-* links_befor
+* links_before
 * links_after
 * link_before
 * link_after
 
 An example of a shortcode with parameters:
-`[wp_rss_aggregator date_before='<h2>' date_after='</h2>']`
+`[wp_rss_aggregator link_before='<li class="feed-link">' link_after='</li>']`
 It is advisable to use the 'HTML' view of the editor when inserting the shortcode with paramters.
 
 An example of a function call from within the template files:
 `<?php
 wp_rss_aggregator(
-'date_before' => '<h3>',
-'date_after' => '</h3>',
 'links_before' => '<ul>',
 'links_after' => '</ul>',
 'link_before' => '<li>',
@@ -94,6 +90,7 @@ Or use the shortcode in your posts and pages:
 * Limit of 15 items max imported for each source
 * Fixed issue of page content displaying incorrectly after feeds
 
+
 = Version 1.1 (2012-08-13) =
 * Now requires WordPress 3.0
 * More flexible fetching of images directory
@@ -108,4 +105,3 @@ Or use the shortcode in your posts and pages:
 
 = Version 1.0 (2012-01-06) =
 * Initial release.
-

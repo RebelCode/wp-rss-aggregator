@@ -98,8 +98,11 @@
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' );       
     
+    add_action( 'init', 'wprss_schedule_fetch_feeds_cron' );
+    add_action( 'init', 'wprss_schedule_truncate_posts_cron' );
 
-    add_action( 'init', 'wprss_init' );  
+
+    add_action( 'init', 'wprss_init' );      
     /**
      * Initialise the plugin
      * 
@@ -109,26 +112,6 @@
 
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
-        
-/*         global $wp_roles;
-         $wp_roles->add_cap( 'administrator', 'delete_feed_item' );
-         $wp_roles->add_cap( 'administrator', 'delete_others_feed_items' );
- */
-        // BELOW JUST FOR TESTING - WILL BE REMOVED IN FINAL RELEASE
-        // $timestamp = wp_next_scheduled( 'wprss_fetch_feeds_hook' );
-        // wp_unschedule_event($timestamp, 'wprss_fetch_feeds_hook');
-        // wp_clear_scheduled_hook( 'wprss_fetch_feeds_hook' );
-         //wp_clear_scheduled_hook( 'wprss_truncate_posts_hook' );
-        // wp_schedule_event( time(), 'hourly', 'wprss_cron_fetch_feeds_hook' );
-        // wprss_fetch_all_feed_items();
-                
-        // Set up the taxonomies
-        // add_action( 'init', 'wprss_register_taxonomies' );
-        // wprss_cron_fetch_feed_items();
-        
-        // global $wp_roles;
-        // remove capability edit_moomin from role editor
-        // $wp_roles->add_cap( 'administrator', 'edit_feed_item' );
     }
 
 
@@ -187,18 +170,12 @@
      */
     function wprss_fetch_all_feed_items( ) {            
         
-        // Get current post that triggered the hook, $post_id passed via the hook
-     
-                
-        //if( ( $post->post_type != 'wprss_feed_item')  ) { 
-        
             // Get all feed sources
             $feed_sources = new WP_Query( array(
                 'post_type'      => 'wprss_feed',
                 'post_status'    => 'publish',
                 'posts_per_page' => -1,
             ) );
-           var_dump($feed_sources);
             
             if( $feed_sources->have_posts() ) {
                 /* Start by getting one feed source, we will cycle through them one by one, 
@@ -279,9 +256,7 @@
                 'posts_per_page' => -1,
             ) );
            
-            
             if( $feed_sources->have_posts() ) {
-                   // var_dump($feed_sources);
                 // Start by getting one feed source, we will cycle through them one by one, 
                 // fetching feed items and adding them to the database in each pass
                 while ( $feed_sources->have_posts() ) {                
@@ -422,11 +397,12 @@
      */    
     function wprss_delete_feed_items() {
         global $post;
-        
+  
         $args = array(
                 'post_type'      => 'wprss_feed_item',
                 'meta_key'       => 'wprss_feed_id',                  
-                'meta_value_num' => $post->ID,                 
+                'meta_value_num' => $post->ID,      
+                'posts_per_page' => -1           
         );
         
         $feed_items = new WP_Query( $args );  
@@ -436,7 +412,6 @@
                 $postid = get_the_ID();
 
                 $purge = wp_delete_post( $postid, true );                
-   
             endwhile;
         endif;
  

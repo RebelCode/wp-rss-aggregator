@@ -91,7 +91,7 @@
 		foreach ( $default_settings as $setting_key => $setting_value ) {
 
 			// If the setting didn't previously exist, add the default value to the $settings array. 
-			if ( !isset( $settings[ $setting_key ] ) )
+			if ( ! isset( $settings[ $setting_key ] ) )
 				$settings[ $setting_key ] = $setting_value;
 		}
 
