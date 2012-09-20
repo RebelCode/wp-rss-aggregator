@@ -6,6 +6,7 @@
      * @package WPRSSAggregator
      */
 
+    add_action( 'init', 'wprss_version_check' );  
 	/**
 	 * Checks the version number and runs install or update functions if needed.
 	 *
@@ -53,8 +54,6 @@
 			wprss_fetch_all_feed_items();
 		}
 	}
-	
-	
 
 
 	/**
@@ -92,8 +91,8 @@
 		foreach ( $default_settings as $setting_key => $setting_value ) {
 
 			// If the setting didn't previously exist, add the default value to the $settings array. 
-			if ( !isset( $settings[$setting_key] ) )
-				$settings[$setting_key] = $setting_value;
+			if ( !isset( $settings[ $setting_key ] ) )
+				$settings[ $setting_key ] = $setting_value;
 		}
 
 		// Update the plugin settings.

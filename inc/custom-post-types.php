@@ -595,17 +595,18 @@
     }
 
 
-    add_action( 'admin_menu', 'wprss_remove_meta_boxes' );
+    add_action( 'add_meta_boxes', 'wprss_remove_meta_boxes', 100 );
     /**
      * Remove unneeded meta boxes from add feed source screen
      * 
      * @since 2.0
      */       
     function wprss_remove_meta_boxes() {
-        remove_meta_box( 'sharing_meta', 'wprss_feed' ,'normal' );
-        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
+        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );
         remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
-        remove_meta_box( 'theme-layouts-post-meta-box', 'wprss_feed' ,'normal' );
-        remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'normal' );
-        remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'theme-layouts-post-meta-box', 'wprss_feed' ,'side' );
+        remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'side' );
+        remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'side' );
+        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' ); 
     }
