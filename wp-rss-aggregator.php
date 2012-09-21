@@ -220,7 +220,7 @@
                                     'post_status' => 'publish',
                                     'post_type' => 'wprss_feed_item'
                                 );                
-                                $inserted_ID = wp_insert_post( $feed_item, $wp_error );
+                                $inserted_ID = wp_insert_post( $feed_item );
                                                   
                                 update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
                                 update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
@@ -299,7 +299,7 @@
                                     'post_status' => 'publish',
                                     'post_type' => 'wprss_feed_item'
                                 );                
-                                $inserted_ID = wp_insert_post( $feed_item, $wp_error );
+                                $inserted_ID = wp_insert_post( $feed_item );
                                                   
                                 update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
                                 update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
