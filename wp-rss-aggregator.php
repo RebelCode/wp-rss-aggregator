@@ -381,7 +381,7 @@
                 // convert from Unix timestamp        
                 $date = date( 'Y-m-d', intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
                 echo "\t\t".'<li><a ' . $class . $open_setting . ' ' . $follow_setting . ' href="'. $permalink . '">'. get_the_title(). '</a><br>' . "\n"; 
-                echo "\t\t".'<span class="feed-source">Source: ' . $source_name . ' | ' . $date . '</span></li>'. "\n\n"; 
+                echo "\t\t".'<span class="feed-source">' . __( "Source: ") . $source_name . ' | ' . $date . '</span></li>'. "\n\n"; 
             }
             echo "\t\t $links_after";
             echo paginate_links();
