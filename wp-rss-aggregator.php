@@ -112,10 +112,9 @@
      * @since 2.0     
      */         
     function wprss_init() {                
-
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
-    }
+    } // end wprss_int
 
 
     add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
@@ -140,7 +139,7 @@
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
         }      
-    }
+    } // end wprss_admin_scripts_styles
     
 
     /**
@@ -149,8 +148,8 @@
      * @since 2.0
      */  
     function wprss_change_title_text() {
-        return __( 'Enter feed name here (e.g. WP Mayor)' );
-    }
+        return __( 'Enter feed name here (e.g. WP Mayor)', 'wprss' );
+    } // end wprss_change_title_text
 
 
     add_action( 'wp_head', 'wprss_head_scripts_styles' );
@@ -163,7 +162,7 @@
         wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css' );       
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
         wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery','jquery.colorbox-min') );           
-    }
+    } // end wprss_head_scripts_styles
       
 
     /**
@@ -236,7 +235,7 @@
                 wp_reset_postdata(); // Restore the $post global to the current post in the main query        
            // } // end if
         } // end if
-    } 
+    } // end wprss_fetch_all_feed_items
 
 
     add_action('wp_insert_post', 'wprss_fetch_feed_items'); 
@@ -315,7 +314,7 @@
                 wp_reset_postdata(); // Restore the $post global to the current post in the main query        
             } // end if
         } // end if
-    }        
+    } // end wprss_fetch_feed_items       
 
 
     /**
@@ -358,16 +357,19 @@
         $args = wp_parse_args( $args, $defaults );
         // Declare each item in $args as its own variable
         extract( $args, EXTR_SKIP );       
-        
-        // Query to get all feed items for display
-        $feed_items = new WP_Query( array(
+
+        // Arguments for the next query to fetch all feed items
+        $feed_items_args = array(
             'post_type'      => 'wprss_feed_item',
             'posts_per_page' => $settings['feed_limit'], 
             'orderby'        => 'meta_value', 
             'meta_key'       => 'wprss_item_date', 
             'order'          => 'DESC',
-        ) );
+        );
 
+        // Query to get all feed items for display
+        $feed_items = new WP_Query( apply_filters( 'wprss_display_feed_items_query', $feed_items_args ) );
+        
         if( $feed_items->have_posts() ) {
             echo "$links_before\n";
             while ( $feed_items->have_posts() ) {                
@@ -387,9 +389,9 @@
             wp_reset_postdata();
             
         } else {
-            _e( 'No feed items found' );
+            _e( 'No feed items found', 'wprss' );
         }
-    }
+    } // end wprss_display_feed_items
 
     
     add_action( 'trash_wprss_feed', 'wprss_delete_feed_items' );
@@ -419,7 +421,7 @@
         endif;
  
         wp_reset_postdata();
-    }    
+    } // end wprss_delete_feed_items   
 
  
     /**
@@ -457,4 +459,4 @@
                 $purge = wp_delete_post( $post->ID, true );
             }
         }
-    }    
+    } // end wprss_truncate_posts   

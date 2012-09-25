@@ -14,8 +14,25 @@
      */                 
     function wprss_register_post_types() {        
         
+        // Set up labels for the 'wprss_feed' post type
+        $labels = apply_filters( 'wprss_feed_post_type_labels', array(
+                        'name'                  => __( 'Feed Sources', 'wprss' ),
+                        'singular_name'         => __( 'Feed', 'wprss' ),
+                        'add_new'               => __( 'Add New Feed Source', 'wprss' ),
+                        'all_items'             => __( 'All Feed Sources', 'wprss' ),
+                        'add_new_item'          => __( 'Add New Feed Source', 'wprss' ),
+                        'edit_item'             => __( 'Edit Feed Source', 'wprss' ),
+                        'new_item'              => __( 'New Feed Source', 'wprss' ),
+                        'view_item'             => __( 'View Feed Source', 'wprss' ),
+                        'search_items'          => __( 'Search Feeds', 'wprss' ),
+                        'not_found'             => __( 'No Feed Sources Found', 'wprss' ),
+                        'not_found_in_trash'    => __( 'No Feed Sources Found In Trash', 'wprss' ),
+                        'menu_name'             => __( 'RSS Aggregator', 'wprss' )
+                        )
+        );
+
         // Set up the arguments for the 'wprss_feed' post type
-        $feed_args = array(
+        $feed_args = apply_filters( 'wprss_feed_post_type_args', array(
             'public'        => true,
             'query_var'     => 'feed',
             'menu_position' => 100,
@@ -25,28 +42,28 @@
             'rewrite'       => array(
                                 'slug'       => 'feeds',
                                 'with_front' => false
-                                ),            
-            'labels'        => array(
-                                'name'                  => __( 'Feed Sources' ),
-                                'singular_name'         => __( 'Feed' ),
-                                'add_new'               => __( 'Add New Feed Source' ),
-                                'all_items'             => __( 'All Feed Sources' ),
-                                'add_new_item'          => __( 'Add New Feed Source' ),
-                                'edit_item'             => __( 'Edit Feed Source' ),
-                                'new_item'              => __( 'New Feed Source' ),
-                                'view_item'             => __( 'View Feed Source' ),
-                                'search_items'          => __( 'Search Feeds' ),
-                                'not_found'             => __( 'No Feed Sources Found' ),
-                                'not_found_in_trash'    => __( 'No Feed Sources Found In Trash' ),
-                                'menu_name'             => __( 'RSS Aggregator' )
-                                ),
+                                ), 
+            'labels'        => $labels   
+            )
         );
         
         // Register the 'wprss_feed' post type
         register_post_type( 'wprss_feed', $feed_args );
 
+        // Set up labels for the 'wprss_feed_item' post type
+        $labels = apply_filters( 'wprss_feed_item_post_type_labels', array(
+                     'name'                  => __( 'Imported Feeds', 'wprss' ),
+                     'singular_name'         => __( 'Imported Feed', 'wprss' ),
+                     'all_items'             => __( 'Imported Feeds', 'wprss' ),
+                     'view_item'             => __( 'View Imported Feed', 'wprss' ),                            
+                     'search_items'          => __( 'Search Imported Feeds', 'wprss' ),
+                     'not_found'             => __( 'No Imported Feeds Found', 'wprss' ),
+                     'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash', 'wprss' )
+                    )
+        );
+
         // Set up the arguments for the 'wprss_feed_item' post type
-        $feed_item_args = array(
+        $feed_item_args = apply_filters( 'wprss_feed_item_post_type_args', array(
             'public'         => true,
             'query_var'      => 'feed_item',
             'show_in_menu'   => 'edit.php?post_type=wprss_feed',
@@ -54,15 +71,8 @@
                                  'slug'       => 'feeds/items',
                                  'with_front' => false,
                                 ),       
-            'labels'         => array(
-                                 'name'                  => __( 'Imported Feeds' ),
-                                 'singular_name'         => __( 'Imported Feed' ),
-                                 'all_items'             => __( 'Imported Feeds' ),
-                                 'view_item'             => __( 'View Imported Feed' ),                            
-                                 'search_items'          => __( 'Search Imported Feeds' ),
-                                 'not_found'             => __( 'No Imported Feeds Found' ),
-                                 'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash')
-                                ),
+            'labels'         => $labels
+            )
         );
         
         // Register the 'feed_item' post type
@@ -132,7 +142,7 @@
 
         $columns = array (
             'cb'          => '<input type="checkbox" />',
-            'title'        => __( 'Name', 'wprss' ),
+            'title'       => __( 'Name', 'wprss' ),
             'permalink'   => __( 'Permalink', 'wprss' ),
             'publishdate' => __( 'Date published', 'wprss' ),
             'source'      => __( 'Source', 'wprss' )
@@ -223,7 +233,7 @@
         remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
         add_meta_box(
             'submitdiv',
-            __('Save Feed Source'),
+            __( 'Save Feed Source', 'wprss' ),
             'post_submit_meta_box',
             'wprss_feed',
             'side',
@@ -249,7 +259,7 @@
 
         add_meta_box(
             'wprss-help-meta',
-            'WP RSS Aggregator Help',
+            __( 'WP RSS Aggregator Help', 'wprss' ),
             'wprss_help_meta_box',
             'wprss_feed',
             'side',
@@ -258,7 +268,7 @@
 
         add_meta_box(
             'wprss-like-meta',
-            'Like this plugin?',
+            __( 'Like this plugin?', 'wprss' ),
             'wprss_like_meta_box',
             'wprss_feed',
             'side',
@@ -267,7 +277,7 @@
 
         add_meta_box(
             'wprss-follow-meta',
-            'Follow us',
+            __( 'Follow us', 'wprss' ),
             'wprss_follow_meta_box',
             'wprss_feed',
             'side',
@@ -435,9 +445,9 @@
          */
         if ( current_user_can( "delete_post", $post->ID ) ) {
             if ( ! EMPTY_TRASH_DAYS )
-                $delete_text = __('Delete Permanently');
+                $delete_text = __('Delete Permanently', 'wprss' );
             else
-                $delete_text = __('Move to Trash');
+                $delete_text = __('Move to Trash', 'wprss' );
                 
         echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
         }
@@ -468,10 +478,10 @@
                     if( ++$count == $feedlimit ) break; //break if count is met
                 } 
             }
-            else echo '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.';
+            else _e( '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.', 'wprss' );
         }
 
-        else echo 'No feed URL defined yet';
+        else _e( 'No feed URL defined yet', 'wprss' );
     }
 
 
@@ -483,9 +493,9 @@
      */      
     function wprss_help_meta_box() {
        echo '<p><strong>';
-       _e( 'Need help?');
+       _e( 'Need help?', 'wprss' );
        echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
-       _e( 'Check out the support forum'); 
+       _e( 'Check out the support forum', 'wprss' ); 
        echo '</a></p>';
     }
 
@@ -496,10 +506,10 @@
      * 
      */      
     function wprss_like_meta_box() { ?>
-        <p><?php _e('Why not do any or all of the following') ?>:</p>
+        <p><?php _e( 'Why not do any or all of the following', 'wprss' ) ?>:</p>
         <ul>
-            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e('Give it a 5 star rating on WordPress.org.') ?></a></li>                               
-            <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e('Donate a token of your appreciation.'); ?></a></li>
+            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org.', 'wprss' ) ?></a></li>                               
+            <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e('Donate a token of your appreciation.', 'wprss' ); ?></a></li>
         </ul>       
          </p>
     <?php } 
@@ -514,8 +524,8 @@
     function wprss_follow_meta_box() {    
         ?>                         
         <ul>
-            <li class="twitter"><a href="http://twitter.com/wpmayor"><?php _e('Follow WP Mayor on Twitter.') ?></a></li>
-            <li class="facebook"><a href="https://www.facebook.com/wpmayor"><?php _e('Like WP Mayor on Facebook.') ?></a></li>
+            <li class="twitter"><a href="http://twitter.com/wpmayor"><?php _e( 'Follow WP Mayor on Twitter.', 'wprss' ) ?></a></li>
+            <li class="facebook"><a href="https://www.facebook.com/wpmayor"><?php _e( 'Like WP Mayor on Facebook.', 'wprss' ) ?></a></li>
 
         </ul>                               
     <?php }
@@ -532,16 +542,16 @@
 
         $messages[ 'wprss_feed' ] = array(
             0  => '', // Unused. Messages start at index 1.
-            1  => __( 'Feed source updated. ' ),
-            2  => __( 'Custom field updated.' ),
-            3  => __( 'Custom field deleted.' ),
-            4  => __( 'Feed source updated.' ),        
+            1  => __( 'Feed source updated. ', 'wprss' ),
+            2  => __( 'Custom field updated.', 'wprss' ),
+            3  => __( 'Custom field deleted.', 'wprss' ),
+            4  => __( 'Feed source updated.', 'wprss' ),        
             5  => '',
-            6  => __( 'Feed source saved.' ),
-            7  => __( 'Feed source saved.' ),
-            8  => __( 'Feed source submitted.' ),
+            6  => __( 'Feed source saved.', 'wprss' ),
+            7  => __( 'Feed source saved.', 'wprss' ),
+            8  => __( 'Feed source submitted.', 'wprss' ),
             9  => '',
-            10 => __( 'Feed source updated.' )
+            10 => __( 'Feed source updated.', 'wprss' )
         );
 
         return $messages;
@@ -625,7 +635,7 @@
     function wprss_change_publish_button( $translation, $text ) {
     if ( 'wprss_feed' == get_post_type())
     if ( $text == 'Publish' )
-        return 'Publish Feed';
+        return __( 'Publish Feed', 'wprss' );
 
     return $translation;
     }

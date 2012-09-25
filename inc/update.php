@@ -144,8 +144,8 @@
 		$settings = array(
 
 			// from version 1.1
-			'open_dd' => 'New window',
-			'follow_dd' => 'No follow',
+			'open_dd' => __( 'New window' ),
+			'follow_dd' => __( 'No follow' ),
 			// from version 2.0
 			'feed_limit' => 10			
 		);
