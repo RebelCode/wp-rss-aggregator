@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://wordpress.org/extend/plugins/wp-rss-aggregator/
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 2.0
+    Version: 2.1
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv3
@@ -27,7 +27,7 @@
     */
 
     /*
-    @version 2.0
+    @version 2.1
     @author Jean Galea <info@jeangalea.com>
     @copyright Copyright (c) 2012, Jean Galea
     @link http://www.jeangalea.com/
@@ -46,7 +46,7 @@
      */
 
     /* Set the version number of the plugin. */
-    define( 'WPRSS_VERSION', '2.0', true );
+    define( 'WPRSS_VERSION', '2.1', true );
 
     /* Set the database version number of the plugin. */
     define( 'WPRSS_DB_VERSION', 2 );
@@ -96,7 +96,10 @@
     require_once ( WPRSS_INC . 'custom-post-types.php' );         
 
     /* Load the cron job scheduling functions. */
-    require_once ( WPRSS_INC . 'cron-jobs.php' );       
+    require_once ( WPRSS_INC . 'cron-jobs.php' );     
+
+    /* Loads the plugin's translated strings */
+    load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/lang' );
     
     add_action( 'init', 'wprss_schedule_fetch_feeds_cron' );
     add_action( 'init', 'wprss_schedule_truncate_posts_cron' );
@@ -146,7 +149,7 @@
      * @since 2.0
      */  
     function wprss_change_title_text() {
-        return "Enter feed name here (e.g. WP Mayor)";
+        return __( 'Enter feed name here (e.g. WP Mayor)' );
     }
 
 
@@ -384,7 +387,7 @@
             wp_reset_postdata();
             
         } else {
-            echo 'No feed items found';
+            _e( 'No feed items found' );
         }
     }
 

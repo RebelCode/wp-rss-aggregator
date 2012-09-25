@@ -1,4 +1,8 @@
-2.0
+2.1 (2012-09)
+Now localised for translations
+Fixed bug with date string
+
+2.0 (2012-09-21)
 Bulk of code rewritten and refactored
 Added install and upgrade functions
 Added DB version setting
