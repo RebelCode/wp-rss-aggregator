@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wprss\n"
 "POT-Creation-Date: 2012-09-25 13:54+0100\n"
-"PO-Revision-Date: 2012-09-25 13:54+0100\n"
+"PO-Revision-Date: 2012-09-27 09:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: inc/custom-post-types.php:518
 msgid "Like WP Mayor on Facebook."
-msgstr ""
+msgstr "Espanol"
 
 #: inc/custom-post-types.php:535
 msgid "Feed source updated. "

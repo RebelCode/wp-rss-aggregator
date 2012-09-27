@@ -163,6 +163,17 @@
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS .'jquery.colorbox-min.js', array('jquery') );         
         wp_enqueue_script( 'custom', WPRSS_JS .'custom.js', array('jquery','jquery.colorbox-min') );           
     } // end wprss_head_scripts_styles
+
+
+    /**
+     * Change the default feed cache recreation period to 2 hours
+     * 
+     * @since 2.1
+     */ 
+    function wprss_return_7200( $seconds )
+    {      
+      return 7200;
+    }
       
 
     /**
@@ -190,7 +201,9 @@
                     
                     // Use the URL custom field to fetch the feed items for this source
                     if( !empty( $feed_url ) ) {             
-                        $feed = fetch_feed( $feed_url ); 
+                        add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
+                        $feed = fetch_feed( $feed_url );
+                        remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
                         if ( !is_wp_error( $feed ) ) {
                             // Figure out how many total items there are, but limit it to 10. 
                             $maxitems = $feed->get_item_quantity(10); 
@@ -249,7 +262,7 @@
         // Get current post that triggered the hook, $post_id passed via the hook
         $post = get_post( $post_id );
                 
-        if( ( $post->post_type == 'wprss_feed') && ( $post->post_status == 'publish' ) ) { 
+        if( ( $post->post_type == 'wprss_feed' ) && ( $post->post_status == 'publish' ) ) { 
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
@@ -269,7 +282,9 @@
                     
                     // Use the URL custom field to fetch the feed items for this source
                     if( ! empty( $feed_url ) ) {             
-                        $feed = fetch_feed( $feed_url ); 
+                        add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
+                        $feed = fetch_feed( $feed_url );
+                        remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
                         if ( ! is_wp_error( $feed ) ) {
                             // Figure out how many total items there are, but limit it to 10. 
                             $maxitems = $feed->get_item_quantity(10); 
@@ -315,6 +330,17 @@
             } // end if
         } // end if
     } // end wprss_fetch_feed_items       
+
+
+    /**
+     * Redirects to wprss_display_feed_items
+     * It is used for backwards compatibility to versions < 2.0
+     * 
+     * @since 2.1
+     */
+    function wp_rss_aggregator( $args = array() ) { 
+        wprss_display_feed_items( $args ); 
+    }
 
 
     /**
@@ -380,8 +406,8 @@
 
                 // convert from Unix timestamp        
                 $date = date( 'Y-m-d', intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
-                echo "\t\t".'<li><a ' . $class . $open_setting . ' ' . $follow_setting . ' href="'. $permalink . '">'. get_the_title(). '</a><br>' . "\n"; 
-                echo "\t\t".'<span class="feed-source">' . __( "Source: ") . $source_name . ' | ' . $date . '</span></li>'. "\n\n"; 
+                echo "\t\t" . "$link_before" . '<a ' . $class . $open_setting . ' ' . $follow_setting . ' href="'. $permalink . '">'. get_the_title(). '</a><br>' . "\n"; 
+                echo "\t\t".'<span class="feed-source">' . __( "Source: ") . $source_name . ' | ' . $date . '</span>' . "$link_after" . "\n\n"; 
             }
             echo "\t\t $links_after";
             echo paginate_links();

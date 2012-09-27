@@ -1,6 +1,8 @@
-2.1 (2012-09)
+2.1 (2012-09-27)
 Now localised for translations
 Fixed bug with date string
+Fixed $link_before and $link_after, now working
+Added backwards compatibility for wp_rss_aggregator() function
 
 2.0 (2012-09-21)
 Bulk of code rewritten and refactored
