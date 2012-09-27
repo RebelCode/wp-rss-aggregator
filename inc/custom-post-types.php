@@ -34,7 +34,7 @@
         // Set up the arguments for the 'wprss_feed' post type
         $feed_args = apply_filters( 'wprss_feed_post_type_args', array(
             'public'        => true,
-            'query_var'     => 'feed',
+            'query_var'     => 'feed_source',
             'menu_position' => 100,
             'menu_icon'     => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
             'show_in_menu'  => true,
