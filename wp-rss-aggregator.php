@@ -97,9 +97,6 @@
 
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' );     
-
-    /* Loads the plugin's translated strings */
-    load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/lang' );
     
     add_action( 'init', 'wprss_schedule_fetch_feeds_cron' );
     add_action( 'init', 'wprss_schedule_truncate_posts_cron' );
@@ -115,6 +112,17 @@
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
     } // end wprss_int
+
+
+    add_action( 'plugins_loaded', 'wprss_load_textdomain' );
+    /**
+     * Loads the plugin's translated strings.
+     * 
+     * @since 2.1     
+     */  
+    function wprss_load_textdomain() { 
+        load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/lang/' );
+    }
 
 
     add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
