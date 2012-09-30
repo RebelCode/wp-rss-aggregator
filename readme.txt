@@ -1,11 +1,11 @@
 === WP RSS Aggregator ===
 Contributors: jeangalea
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
-Plugin URI: http://wordpress.org/extend/plugins/wp-rss-aggregator/
+Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator
 Requires at least: 3.3
 Tested up to: 3.4
-Stable tag: 2.1
+Stable tag: 2.2
 Imports and merges multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
@@ -87,6 +87,12 @@ Or use the shortcode in your posts and pages:
 5. Plugin settings page.
 
 == Changelog ==
+
+= Version 2.2 (2012-10-01) =
+* Italian translation added
+* Feed source order changed to alphabetical
+* Fixed bug - repeated entries when having a non-valid feed source
+* Fixed bug - all imported feeds deleted upon trashing a single feed source
 
 = Version 2.1 (2012-09-27) =
 * Now localised for translations

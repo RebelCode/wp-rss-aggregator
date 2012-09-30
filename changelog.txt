@@ -1,6 +1,8 @@
-2.2
+2.2 (2012-10-01)
 Italian translation added
 Feed source order changed to alphabetical
+Fixed bug - repeated entries when having a non-valid feed source
+Fixed bug - all imported feeds deleted upon trashing a single feed source
 
 2.1 (2012-09-27)
 Now localised for translations

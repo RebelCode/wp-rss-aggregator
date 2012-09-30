@@ -1,9 +1,9 @@
 <?php
     /*
     Plugin Name: WP RSS Aggregator
-    Plugin URI: http://wordpress.org/extend/plugins/wp-rss-aggregator/
+    Plugin URI: http://www.wprssaggregator.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
-    Version: 2.1
+    Version: 2.2
     Author: Jean Galea
     Author URI: http://www.jeangalea.com
     License: GPLv3
@@ -27,7 +27,7 @@
     */
 
     /*
-    @version 2.1
+    @version 2.2
     @author Jean Galea <info@jeangalea.com>
     @copyright Copyright (c) 2012, Jean Galea
     @link http://www.jeangalea.com/
@@ -46,7 +46,7 @@
      */
 
     /* Set the version number of the plugin. */
-    define( 'WPRSS_VERSION', '2.1', true );
+    define( 'WPRSS_VERSION', '2.2', true );
 
     /* Set the database version number of the plugin. */
     define( 'WPRSS_DB_VERSION', 2 );
@@ -290,18 +290,19 @@
                     $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
                     
                     // Use the URL custom field to fetch the feed items for this source
-                    if( ! empty( $feed_url ) ) {             
+                    if( !empty( $feed_url ) ) {             
                         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
                         $feed = fetch_feed( $feed_url );
                         remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
-                        if ( ! is_wp_error( $feed ) ) {
+                        if ( !is_wp_error( $feed ) ) {
                             // Figure out how many total items there are, but limit it to 10. 
                             $maxitems = $feed->get_item_quantity(10); 
 
                             // Build an array of all the items, starting with element 0 (first element).
-                            $items = $feed->get_items(0, $maxitems);                             
+                            $items = $feed->get_items( 0, $maxitems );   
                         }
-                    }
+                        else { return; }
+                    }                    
 
                     if ( ! empty( $items ) ) {
                         // Gather the permalinks of existing feed item's related to this feed source
@@ -440,9 +441,13 @@
   
         $args = array(
                 'post_type'      => 'wprss_feed_item',
-                'meta_key'       => 'wprss_feed_id',                  
-                'meta_value_num' => $post->ID,      
-                'posts_per_page' => -1           
+                'meta_query'     => array(
+                    array(               
+                        'key'       => 'wprss_feed_id',                  
+                        'value'     => $post->ID, 
+                        'compare'   => 'LIKE'
+                        )
+                    )        
         );
         
         $feed_items = new WP_Query( $args );  
