@@ -80,13 +80,13 @@
     }
 
     
-    add_filter( 'manage_edit-wprss_feed_columns', 'wprss_set_custom_columns'); 
+    add_filter( 'manage_edit-wprss_feed_columns', 'wprss_set_feed_custom_columns'); 
     /**     
      * Set up the custom columns for the wprss_feed list
      * 
      * @since 2.0
      */      
-    function wprss_set_custom_columns( $columns ) {
+    function wprss_set_feed_custom_columns( $columns ) {
 
         $columns = array (
             'cb'          => '<input type="checkbox" />',
@@ -94,7 +94,7 @@
             'url'         => __( 'URL', 'wprss' ),
             'description' => __( 'Description', 'wprss' ),
         );
-        return $columns;
+        return apply_filters( 'wprss_set_feed_custom_columns', $columns );
     }    
 
 
@@ -120,15 +120,42 @@
 
 
     /**
-     * Make the custom columns sortable
+     * Make the custom columns sortable for wprss_feed post type
      * 
      * @since 2.0
      */  
-    function wprss_sortable_columns() {
-        return array(
+    function wprss_feed_sortable_columns() {
+        $sortable_columns = array(
             // meta column id => sortby value used in query
             'title' => 'title',             
         );
+        return apply_filters( 'wprss_feed_sortable_columns', $sortable_columns );
+    }
+
+
+    add_action( 'pre_get_posts', 'wprss_feed_source_order' );
+    /**
+     * Change order of feed sources to alphabetical ascending according to feed name
+     * 
+     * @since 2.2
+     */  
+    function wprss_feed_source_order( $query ) {
+        if ( ! is_admin ) {
+            return;
+        }
+
+        $post_type = $query->get('post_type');
+
+        if ( $post_type == 'wprss_feed' ) {
+            /* Post Column: e.g. title */
+            if ( $query->get( 'orderby' ) == '' ) {
+                $query->set( 'orderby', 'title' );
+            }
+            /* Post Order: ASC / DESC */
+            if( $query->get( 'order' ) == '' ){
+                $query->set( 'order', 'ASC' );
+            }
+        }
     }
 
 
@@ -147,7 +174,7 @@
             'publishdate' => __( 'Date published', 'wprss' ),
             'source'      => __( 'Source', 'wprss' )
         );
-        return $columns;
+        return apply_filters( 'wprss_set_feed_item_custom_columns', $columns );
     }
 
 
@@ -186,11 +213,12 @@
      * @since 2.0
      */  
     function wprss_feed_item_sortable_columns() {
-        return array(
+        $sortable_columns = array(
             // meta column id => sortby value used in query
             'publishdate' => 'publishdate',
-            'source' => 'source'
+            'source'      => 'source'
         );
+        return apply_filters( 'wprss_feed_item_sortable_columns', $sortable_columns );
     }
 
 
@@ -304,7 +332,7 @@
 
 
     /**     
-     * Set up fields for the meta box
+     * Set up fields for the meta box for the wprss_feed post type
      * 
      * @since 2.0
      */       
@@ -312,14 +340,14 @@
         $prefix = 'wprss_';
         
         // Field Array
-        $wprss_meta_fields['url'] = array(
+        $wprss_meta_fields[ 'url' ] = array(
             'label' => __( 'URL', 'wprss' ),
             'desc'  => __( 'Enter feed URL (including http://)', 'wprss' ),
             'id'    => $prefix.'url',
             'type'  => 'text'
         );
         
-        $wprss_meta_fields['description'] = array(
+        $wprss_meta_fields[' description' ] = array(
             'label' => __( 'Description', 'wprss' ),
             'desc'  => __( 'A short description about this feed source (optional)', 'wprss' ),
             'id'    => $prefix.'description',
@@ -445,9 +473,9 @@
          */
         if ( current_user_can( "delete_post", $post->ID ) ) {
             if ( ! EMPTY_TRASH_DAYS )
-                $delete_text = __('Delete Permanently', 'wprss' );
+                $delete_text = __( 'Delete Permanently', 'wprss' );
             else
-                $delete_text = __('Move to Trash', 'wprss' );
+                $delete_text = __( 'Move to Trash', 'wprss' );
                 
         echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
         }
@@ -554,7 +582,7 @@
             10 => __( 'Feed source updated.', 'wprss' )
         );
 
-        return $messages;
+        return apply_filters( 'wprss_feed_updated_messages', $messages );
     }           
 
 
@@ -572,19 +600,19 @@
             //unset( $actions[ 'trash' ] );
             unset( $actions[ 'inline hide-if-no-js' ] );
         }          
-        return $actions;
+        return apply_filters( 'wprss_remove_row_actions', $actions );
     }
 
 
-    add_filter( 'bulk_actions-edit-wprss_feed_item', 'wprss_custom_bulk_actions' );
+    add_filter( 'bulk_actions-edit-wprss_feed_item', 'wprss_custom_feed_item_bulk_actions' );
     /**
      * Remove bulk action link to edit imported feed items
      * 
      * @since 2.0
      */       
-    function wprss_custom_bulk_actions( $actions ){
+    function wprss_custom_feed_item_bulk_actions( $actions ){
         unset( $actions[ 'edit' ] );
-        return $actions;
+        return apply_filters( 'wprss_custom_feed_item_bulk_actions', $actions );
     }
 
 
@@ -614,28 +642,30 @@
      */       
     function wprss_remove_meta_boxes() {
         if ( 'wprss_feed' !== get_current_screen()->id ) return;     
-        remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
-        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );
         remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' ); 
+        remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );                 
+        remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
+        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );       
         remove_meta_box( 'theme-layouts-post-meta-box', 'wprss_feed' ,'side' );
         remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'side' );
         remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'side' );
-        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' ); 
-        remove_action( 'post_submitbox_start', 'fpp_post_submitbox_start_action' );
-    
+        remove_meta_box( 'wpcf-marketing', 'wprss_feed' ,'side' );
+        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' );     
+        remove_action( 'post_submitbox_start', 'fpp_post_submitbox_start_action' );    
     }
 
 
-    add_filter( 'gettext', 'wprss_change_publish_button', 10, 2 );
+    add_filter( 'gettext', 'wprss_change_publish_button_text', 10, 2 );
     /**
-     * Modify 'Publish' button text
+     * Modify 'Publish' button text when adding a new feed source
      * 
      * @since 2.0
      */     
-    function wprss_change_publish_button( $translation, $text ) {
-    if ( 'wprss_feed' == get_post_type())
-    if ( $text == 'Publish' )
-        return __( 'Publish Feed', 'wprss' );
-
-    return $translation;
+    function wprss_change_publish_button_text( $translation, $text ) {
+        if ( 'wprss_feed' == get_post_type()) {
+            if ( $text == 'Publish' )
+                return __( 'Publish Feed', 'wprss' );
+        }
+        return apply_filters( 'wprss_change_publish_button_text', $translation );
     }

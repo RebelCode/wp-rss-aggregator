@@ -22,6 +22,9 @@ The plugin can be seen in use on the [WPMayor.com WordPress News page](http://ww
 = Credit = 
 Created by Jean Galea. Need a [WordPress Freelance Developer](http://www.jeangalea.com/services/wordpress-consultancy-development/)?
 
+= Translations =
+Italian - Davide De Maestri
+
 == Installation ==
 
 1. Upload the `wp-rss-aggregator` folder to the `/wp-content/plugins/` directory
@@ -75,9 +78,13 @@ Or use the shortcode in your posts and pages:
 
 1. The output of this plugin on the frontend, as seen on www.wpmayor.com.
 
-2. Admin administration panel.
+2. Feed sources list.
 
-3. The settings page.
+3. Adding a new feed source.
+
+4. Imported feeds.
+
+5. Plugin settings page.
 
 == Changelog ==
 

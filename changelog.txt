@@ -1,3 +1,7 @@
+2.2
+Italian translation added
+Feed source order changed to alphabetical
+
 2.1 (2012-09-27)
 Now localised for translations
 Fixed bug with date string

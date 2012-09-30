@@ -219,6 +219,7 @@
                             // Build an array of all the items, starting with element 0 (first element).
                             $items = $feed->get_items( 0, $maxitems );   
                         }
+                        else { return; }
                     }
 
                     if ( ! empty( $items ) ) {
