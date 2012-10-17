@@ -1,3 +1,6 @@
+2.2.1 (2012-10-17)
+Fixed bug: wprss_feed_source_order assumes everyone is an admin
+
 2.2 (2012-10-01)
 Italian translation added
 Feed source order changed to alphabetical
@@ -24,7 +27,6 @@ Now requires WordPress 3.2
 updated colorbox to v1.3.20.1
 Limit of 15 items max imported for each source
 Fixed issue of page content displaying incorrectly after feeds
-
 
 1.1 (2012-08-13)
 Now requires WordPress 3.0

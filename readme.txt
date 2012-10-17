@@ -2,7 +2,7 @@
 Contributors: jeangalea
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
 Plugin URI: http://www.wprssaggregator.com
-Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator
+Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds
 Requires at least: 3.3
 Tested up to: 3.4
 Stable tag: 2.2
@@ -87,6 +87,9 @@ Or use the shortcode in your posts and pages:
 5. Plugin settings page.
 
 == Changelog ==
+
+= Version 2.2.1 (2012-10-17) =
+* Fixed bug: wprss_feed_source_order assumes everyone is an admin
 
 = Version 2.2 (2012-10-01) =
 * Italian translation added

@@ -140,7 +140,7 @@
      * @since 2.2
      */  
     function wprss_feed_source_order( $query ) {
-        if ( ! is_admin ) {
+        if ( ! is_admin() ) {
             return;
         }
 
