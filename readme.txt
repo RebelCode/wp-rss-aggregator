@@ -91,6 +91,7 @@ Or use the shortcode in your posts and pages:
 = Version 2.2.2 (2012-10-30) =
 Removed: Feeds showing up in site search results
 Enhanced: Better tab button navigation when adding a new feed
+Enhanced: Better guidance when a feed URL is invalid
 
 = Version 2.2.1 (2012-10-17) =
 * Fixed bug: wprss_feed_source_order assumes everyone is an admin

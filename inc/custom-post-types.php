@@ -508,7 +508,9 @@
                     if( ++$count == $feedlimit ) break; //break if count is met
                 } 
             }
-            else _e( '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.', 'wprss' );
+            else _e( '<span class="invalid-feed-url"><strong>Invalid feed URL</strong> - Double check the feed source URL setting above.</span>
+                      <p>Not sure where to find the RSS feed on a website? 
+                      <a target="_blank" href="http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm">Click here</a> for a visual guide' , 'wprss' );
         }
 
         else _e( 'No feed URL defined yet', 'wprss' );

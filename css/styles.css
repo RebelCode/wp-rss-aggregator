@@ -62,4 +62,8 @@ li.donate_link a:hover {
 color: darkGreen;
 }
 
+.invalid-feed-url {
+    color: red;
+}
+
 /*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/
