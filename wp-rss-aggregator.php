@@ -142,6 +142,7 @@
 
         if ( ( 'post' === $screen->base || 'edit' === $screen->base ) && ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) ) {
             wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
+            wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
@@ -260,6 +261,20 @@
     } // end wprss_fetch_all_feed_items
 
 
+    add_action( 'wprss_items_post_meta', 'wprss_items_create_post_meta'); 
+    /**
+     * Creates meta entries for feed items while they are being imported
+     * 
+     * @since 2.3
+     */
+    function wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID) {
+        update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
+        update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
+        update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
+        update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID); 
+    }
+
+
     add_action('wp_insert_post', 'wprss_fetch_feed_items'); 
     /**
      * Fetches feed items from sources provided
@@ -317,7 +332,7 @@
                         foreach ( $items as $item ) {
 
                             // Check if newly fetched item already present in existing feed item item, 
-                            // if not insert it into wp_postsm and insert post meta.
+                            // if not insert it into wp_posts and insert post meta.
                             if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
                                 // Create post object
                                 $feed_item = array(
@@ -327,11 +342,7 @@
                                     'post_type' => 'wprss_feed_item'
                                 );                
                                 $inserted_ID = wp_insert_post( $feed_item );
-                                                  
-                                update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
-                                update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
-                                update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
-                                update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
+                                wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID );               
                            } //end if
                         } //end foreach
                     } // end if
