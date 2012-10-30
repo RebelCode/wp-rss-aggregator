@@ -5,10 +5,7 @@ jQuery( document ).ready( function() {
         event.preventDefault();
         
         if ( event.which == 9 ) {
-            //$('h1.entry-title').css('color', 'red');
             jQuery('input#wprss_url').focus();
-
-            console.log('tab pressed');
         }
     }
     );	    
@@ -18,10 +15,7 @@ jQuery( document ).ready( function() {
         event.preventDefault();
         
         if ( event.which == 9 ) {
-            //$('h1.entry-title').css('color', 'red');
             jQuery('input#publish').focus();
-
-            console.log('tab pressed');
         }
     }
     );	        
