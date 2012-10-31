@@ -34,7 +34,10 @@
         // Set up the arguments for the 'wprss_feed' post type
         $feed_args = apply_filters( 'wprss_feed_post_type_args', array(
             'exclude_from_search' => true,
-            'public'        => true,
+            'publicly_querable' => false,
+            'show_in_nav_menus' => false,
+            'show_in_admin_bar' => false,
+            'public'        => false,
             'query_var'     => 'feed_source',
             'menu_position' => 100,
             'menu_icon'     => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
@@ -66,7 +69,10 @@
         // Set up the arguments for the 'wprss_feed_item' post type
         $feed_item_args = apply_filters( 'wprss_feed_item_post_type_args', array(
             'exclude_from_search' => true,
-            'public'         => true,
+            'publicly_querable' => false,  
+            'show_in_nav_menus' => false,
+            'show_in_admin_bar' => false,
+            'public'         => false,
             'query_var'      => 'feed_item',
             'show_in_menu'   => 'edit.php?post_type=wprss_feed',
             'rewrite'        => array(
