@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds
 Requires at least: 3.3
 Tested up to: 3.4
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 Imports and merges multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
@@ -87,6 +87,10 @@ Or use the shortcode in your posts and pages:
 5. Plugin settings page.
 
 == Changelog ==
+
+= Version 2.2.3 (2012-11-01) =
+Fixed bug: Tab navigation preventing typing in input boxes
+Removed: Feeds showing up in internal linking pop up
 
 = Version 2.2.2 (2012-10-30) =
 Removed: Feeds showing up in site search results
