@@ -190,7 +190,7 @@
      * 
      * @since 2.0
      */
-    function wprss_fetch_all_feed_items( ) {            
+     function wprss_fetch_all_feed_items( ) {            
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
@@ -336,11 +336,13 @@
                             if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
                                 // Create post object
                                 $feed_item = array(
-                                    'post_title' => $item->get_title(),
-                                    'post_content' => '',
-                                    'post_status' => 'publish',
-                                    'post_type' => 'wprss_feed_item'
-                                );                
+            'post_title' => $item->get_title(),
+            'post_content' => '',
+            'post_status' => 'publish',
+            'post_excerpt' => $item->get_description(),
+            'post_type' => 'wprss_feed_item'
+                                );     
+                                $feed_item = apply_filters( 'wprss_populate_post_data', $feed_item );           
                                 $inserted_ID = wp_insert_post( $feed_item );
                                 wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID );               
                            } //end if
@@ -361,6 +363,26 @@
      */
     function wp_rss_aggregator( $args = array() ) { 
         wprss_display_feed_items( $args ); 
+    }
+
+
+    /**
+     * Limits a phrase/content to a defined number of words
+     * 
+     * @since 2.3
+     */
+    function limit_words( $words, $limit, $append = ' &hellip;' ) {
+           // Add 1 to the specified limit becuase arrays start at 0
+           $limit = $limit + 1;
+           // Store each individual word as an array element
+           // Up to the limit
+           $words = explode( ' ', $words, $limit );
+           // Shorten the array by 1 because that final element will be the sum of all the words after the limit
+           array_pop($words);
+           // Implode the array for output, and append an ellipse
+           $words = implode( ' ', $words ) . $append;
+           // Return the result
+           return $words;
     }
 
 
@@ -422,13 +444,15 @@
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();
                 $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
+                $description = get_the_excerpt();
                 $feed_source_id = get_post_meta( get_the_ID(), 'wprss_feed_id', true );
                 $source_name = get_the_title( $feed_source_id );                
 
                 // convert from Unix timestamp        
                 $date = date( 'Y-m-d', intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
                 echo "\t\t" . "$link_before" . '<a ' . $class . $open_setting . ' ' . $follow_setting . ' href="'. $permalink . '">'. get_the_title(). '</a><br>' . "\n"; 
-                echo "\t\t".'<span class="feed-source">' . __( "Source: ") . $source_name . ' | ' . $date . '</span>' . "$link_after" . "\n\n"; 
+                echo "\t\t". limit_words( $description, 40 ) . "\n\n"; 
+                echo "\t\t".'<br><span class="feed-source">' . __( "Source: ") . $source_name . ' | ' . $date . '</span>' . "$link_after" . "\n\n"; 
             }
             echo "\t\t $links_after";
             echo paginate_links();
