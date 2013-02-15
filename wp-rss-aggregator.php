@@ -88,15 +88,21 @@
     
     /* Load the shortcodes functions file. */
     require_once ( WPRSS_INC . 'shortcodes.php' );
-    
-    /* Load the admin functions file. */
-    require_once ( WPRSS_INC . 'admin-options.php' );         
 
     /* Load the custom post types and taxonomies. */
     require_once ( WPRSS_INC . 'custom-post-types.php' );         
 
     /* Load the cron job scheduling functions. */
-    require_once ( WPRSS_INC . 'cron-jobs.php' );     
+    require_once ( WPRSS_INC . 'cron-jobs.php' ); 
+
+    /* Load the admin functions file. */
+    require_once ( WPRSS_INC . 'admin.php' );         
+
+    /* Load the admin options functions file. */
+    require_once ( WPRSS_INC . 'admin-options.php' );             
+
+    /* Load the settings import/export file */
+    require_once ( WPRSS_INC . 'admin-import-export.php' ); 
     
     add_action( 'init', 'wprss_schedule_fetch_feeds_cron' );
     add_action( 'init', 'wprss_schedule_truncate_posts_cron' );
@@ -132,9 +138,10 @@
      * @since 2.0
      */   
     function wprss_admin_scripts_styles() {
+
         // Only load scripts if we are on this plugin's options or settings pages (admin)
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' ) ) {        
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' || $_GET['page'] == 'wprss-import-export-settings' ) ) {        
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );                      
         } 
 
         // Only load scripts if we are on wprss_feed add post or edit post screens
@@ -147,9 +154,15 @@
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
-        }      
+        } 
+
+        // This function loads in the required media files for the media manager.
+        wp_enqueue_media();  
+        wp_enqueue_script( 'admin-media-uploader', WPRSS_JS .'admin-media-uploader.js', array( 'jquery' ) );  
+
+        do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
-    
+
 
     /**
      * Change title on wprss_feed post type screen
@@ -246,11 +259,7 @@
                                     'post_type' => 'wprss_feed_item'
                                 );                
                                 $inserted_ID = wp_insert_post( $feed_item );
-                                                  
-                                update_post_meta( $inserted_ID, 'wprss_item_permalink', $item->get_permalink() );
-                                update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
-                                update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
-                                update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
+                                wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID );                  
                            } //end if
                         } //end foreach
                     } // end if
@@ -275,7 +284,7 @@
     }
 
 
-    add_action('wp_insert_post', 'wprss_fetch_feed_items'); 
+    add_action( 'wp_insert_post', 'wprss_fetch_feed_items' ); 
     /**
      * Fetches feed items from sources provided
      * 
@@ -330,19 +339,17 @@
                             ");
 
                         foreach ( $items as $item ) {
-
-                            // Check if newly fetched item already present in existing feed item item, 
+                            // Check if newly fetched item already present in existing feed items, 
                             // if not insert it into wp_posts and insert post meta.
                             if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
+                                $feed_item_args = array(
+                                        'post_title'   => $item->get_title(),
+                                        'post_content' => '',
+                                        'post_status'  => 'publish',
+                                        'post_type'    => 'wprss_feed_item'
+                                );
                                 // Create post object
-                                $feed_item = array(
-            'post_title' => $item->get_title(),
-            'post_content' => '',
-            'post_status' => 'publish',
-            'post_excerpt' => $item->get_description(),
-            'post_type' => 'wprss_feed_item'
-                                );     
-                                $feed_item = apply_filters( 'wprss_populate_post_data', $feed_item );           
+                                $feed_item = apply_filters( 'wprss_populate_post_data', $feed_item_args, $item );                        
                                 $inserted_ID = wp_insert_post( $feed_item );
                                 wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID );               
                            } //end if
@@ -371,7 +378,7 @@
      * 
      * @since 2.3
      */
-    function limit_words( $words, $limit, $append = ' &hellip;' ) {
+    function limit_words( $words, $limit, $append = '' ) {
            // Add 1 to the specified limit becuase arrays start at 0
            $limit = $limit + 1;
            // Store each individual word as an array element

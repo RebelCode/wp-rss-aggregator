@@ -1,6 +1,6 @@
 <?php  
     /**
-     * Plugin administration related functions 
+     * Plugin settings related functions 
      * 
      * Note: Wording of options and settings is confusing, due to the plugin originally only having 
      * an 'options' page to enter feed sources, and now needing two screens, one for feed sources and one for 
@@ -8,59 +8,19 @@
      *
      * @package WPRSSAggregator
      */ 
-    
 
-    /**
-     * Custom Post Type Icon for Admin Menu & Post Screen
-     * @since  2.0
-     */
-    add_action( 'admin_head', 'wprss_custom_post_type_icon' );
-
-    function wprss_custom_post_type_icon() {
-        ?>
-        <style>
-            /* Post Screen - 32px */
-            .icon32-posts-wprss_feed {
-                background: transparent url( <?php echo WPRSS_IMG . 'icon-adminpage32.png'; ?> ) no-repeat left top !important;
-            } 
-            /* Post Screen - 32px */
-            .icon32-posts-wprss_feed_item {
-                background: transparent url( <?php echo WPRSS_IMG . 'icon-adminpage32.png'; ?> ) no-repeat left top !important;
-            }   
-        </style>
-    <?php } 
-     
-
-    /**
-     * Register menu and submenus
-     * @since 2.0
-     */ 
-    
-    // Add the admin options pages as submenus to the Feed CPT   
-    add_action( 'admin_menu', 'wprss_register_menu_pages' );
-    
-    function wprss_register_menu_pages() {        
-          
-        //create submenu items        
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', 'wprss' ), __( 'Settings', 'wprss' ), 'manage_options', 'wprss-aggregator-settings', 'wprss_settings_page' );             
-    }
-
-
+    add_action( 'admin_init', 'wprss_admin_init' );
     /**
      * Register and define options and settings
      * @since  2.0
      * @todo  add option for cron frequency
      */ 
-    
-    add_action( 'admin_init', 'wprss_admin_init' );
-    
     function wprss_admin_init() {
         register_setting( 'wprss_options', 'wprss_options' );    
         add_settings_section( 'wprss_main', '', 'wprss_section_text', 'wprss' );       
 
         register_setting( 'wprss_settings', 'wprss_settings' );
         
-
         add_settings_section( 'wprss-settings-main', '', 'wprss_settings_section_text', 'wprss-aggregator-settings' );   
         
         add_settings_field( 'wprss-settings-open-dd', __( 'Open links behaviour', 'wprss' ), 
@@ -71,6 +31,18 @@
 
         add_settings_field( 'wprss-settings-feed-limit', __( 'Feed limit', 'wprss' ), 
                             'wprss_setting_feed_limit', 'wprss-aggregator-settings', 'wprss-settings-main');  
+
+        add_settings_field( 'wprss-settings-default-thumbnail', __( 'Default thumbnail image', 'wprss' ), 
+                            'wprss_setting_default_thumbnail', 'wprss-aggregator-settings', 'wprss-settings-main');  
+
+        add_settings_field( 'wprss-settings-default-thumbnail-width', __( 'Default thumbnail image width', 'wprss' ), 
+                            'wprss_setting_default_thumbnail_width', 'wprss-aggregator-settings', 'wprss-settings-main');  
+
+        add_settings_field( 'wprss-settings-default-thumbnail-height', __( 'Default thumbnail image height', 'wprss' ), 
+                            'wprss_setting_default_thumbnail_height', 'wprss-aggregator-settings', 'wprss-settings-main');  
+
+        add_settings_field( 'wprss-settings-default-thumbnail-preview', __( 'Default thumbnail image preview', 'wprss' ), 
+                            'wprss_setting_default_thumbnail_preview', 'wprss-aggregator-settings', 'wprss-settings-main');  
 
     }  
 
@@ -154,40 +126,50 @@
 
 
     /** 
-     * Set body class for admin screens
-     * http://www.kevinleary.net/customizing-wordpress-admin-css-javascript/
-     * @since 2.0
-     */   
-    function wprss_base_admin_body_class( $classes )
-    {
-        // Current action
-        if ( is_admin() && isset($_GET['action']) ) {
-            $classes .= 'action-'.$_GET['action'];
-        }
-        // Current post ID
-        if ( is_admin() && isset($_GET['post']) ) {
-            $classes .= ' ';
-            $classes .= 'post-'.$_GET['post'];
-        }
-        // New post type & listing page
-        if ( isset($_GET['post_type']) ) $post_type = $_GET['post_type'];
-        if ( isset($post_type) ) {
-            $classes .= ' ';
-            $classes .= 'post-type-'.$post_type;
-        }
-        // Editting a post type
-        if ( isset( $_GET['post'] ) ) {
-            $post_query = $_GET['post'];
-        }
-        if ( isset($post_query) ) {
-            $current_post_edit = get_post($post_query);
-            $current_post_type = $current_post_edit->post_type;
-            if ( !empty($current_post_type) ) {
-                $classes .= ' ';
-                $classes .= 'post-type-'.$current_post_type;
-            }
-        }
-        // Return the $classes array
-        return $classes;
+     * Set default thumbnail image
+     */
+    function wprss_setting_default_thumbnail() {
+        $options = get_option( 'wprss_settings' );                    
+        // echo the field
+       
+        echo "<input id='default-thumbnail' name='wprss_settings[default_thumbnail]' type='text' value='$options[default_thumbnail]' />";   
+        echo "<input id='default-thumbnail-button' type='button' class='button' value='Choose image' />";   
+
+    
+    }    
+
+
+    /** 
+     * Set default thumbnail image width
+     */
+    function wprss_setting_default_thumbnail_width() {
+        $options = get_option( 'wprss_settings' );                    
+        // echo the field
+       
+        echo "<input id='default-thumbnail-width' name='wprss_settings[default_thumbnail_width]' type='text' value='$options[default_thumbnail_width]' />";   
     }
-    add_filter('admin_body_class', 'wprss_base_admin_body_class');
+
+    /** 
+     * Set default thumbnail image width
+     */
+    function wprss_setting_default_thumbnail_height() {
+        $options = get_option( 'wprss_settings' );                    
+        // echo the field
+       
+        echo "<input id='default-thumbnail-height' name='wprss_settings[default_thumbnail_height]' type='text' value='$options[default_thumbnail_height]' />";   
+    }
+
+    /** 
+     * Default thumbnail image preview
+     * http://wp.tutsplus.com/tutorials/creative-coding/how-to-integrate-the-wordpress-media-uploader-in-theme-and-plugin-options/
+     */
+    function wprss_setting_default_thumbnail_preview() {
+        $options = get_option( 'wprss_settings' ); ?>
+        <div id="default-thumbnail-preview" style="min-height: 100px;">
+            <img style="max-width:100%;" src="<?php echo esc_url( $options['default_thumbnail'] ); ?>" />
+        </div>
+        <?php
+    }
+
+
+
