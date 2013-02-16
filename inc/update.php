@@ -101,7 +101,7 @@
 
 
 	/**
-	 * Migrates the feed sources from the wprss_options field to the wp_posts table
+	 * Migrates the feed sources from the wprss_options field to the wp_posts table (for older versions)
 	 *
 	 * @since 2.0
 	 */	

@@ -117,6 +117,7 @@
     function wprss_init() {                
         register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
         register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
+        do_action( 'wprss_init' );
     } // end wprss_int
 
 
@@ -156,10 +157,6 @@
             }
         } 
 
-        // This function loads in the required media files for the media manager.
-        wp_enqueue_media();  
-        wp_enqueue_script( 'admin-media-uploader', WPRSS_JS .'admin-media-uploader.js', array( 'jquery' ) );  
-
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
 
@@ -195,7 +192,7 @@
     function wprss_return_7200( $seconds )
     {      
       return 7200;
-    }
+    } // end wprss_return_7200
       
 
     /**
@@ -281,7 +278,7 @@
         update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
         update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
         update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID); 
-    }
+    } // end wprss_items_create_post_meta
 
 
     add_action( 'wp_insert_post', 'wprss_fetch_feed_items' ); 
@@ -342,14 +339,17 @@
                             // Check if newly fetched item already present in existing feed items, 
                             // if not insert it into wp_posts and insert post meta.
                             if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
-                                $feed_item_args = array(
+                                $feed_item = apply_filters(
+                                    'wprss_populate_post_data',
+                                    array(
                                         'post_title'   => $item->get_title(),
                                         'post_content' => '',
                                         'post_status'  => 'publish',
-                                        'post_type'    => 'wprss_feed_item'
+                                        'post_type'    => 'wprss_feed_item',
+                                    ),
+                                    $item
                                 );
-                                // Create post object
-                                $feed_item = apply_filters( 'wprss_populate_post_data', $feed_item_args, $item );                        
+                                // Create post object                                
                                 $inserted_ID = wp_insert_post( $feed_item );
                                 wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID );               
                            } //end if
@@ -370,7 +370,7 @@
      */
     function wp_rss_aggregator( $args = array() ) { 
         wprss_display_feed_items( $args ); 
-    }
+    } // end wp_rss_aggregator
 
 
     /**
@@ -390,7 +390,7 @@
            $words = implode( ' ', $words ) . $append;
            // Return the result
            return $words;
-    }
+    } // end limit_words
 
 
     /**

@@ -12,13 +12,12 @@
     add_action( 'admin_init', 'wprss_admin_init' );
     /**
      * Register and define options and settings
-     * @since  2.0
-     * @todo  add option for cron frequency
+     * @since 2.0
+     * @todo add option for cron frequency
      */ 
     function wprss_admin_init() {
-        register_setting( 'wprss_options', 'wprss_options' );    
-        add_settings_section( 'wprss_main', '', 'wprss_section_text', 'wprss' );       
-
+        //register_setting( 'wprss_options', 'wprss_options' );    
+              
         register_setting( 'wprss_settings', 'wprss_settings' );
         
         add_settings_section( 'wprss-settings-main', '', 'wprss_settings_section_text', 'wprss-aggregator-settings' );   
@@ -32,18 +31,7 @@
         add_settings_field( 'wprss-settings-feed-limit', __( 'Feed limit', 'wprss' ), 
                             'wprss_setting_feed_limit', 'wprss-aggregator-settings', 'wprss-settings-main');  
 
-        add_settings_field( 'wprss-settings-default-thumbnail', __( 'Default thumbnail image', 'wprss' ), 
-                            'wprss_setting_default_thumbnail', 'wprss-aggregator-settings', 'wprss-settings-main');  
-
-        add_settings_field( 'wprss-settings-default-thumbnail-width', __( 'Default thumbnail image width', 'wprss' ), 
-                            'wprss_setting_default_thumbnail_width', 'wprss-aggregator-settings', 'wprss-settings-main');  
-
-        add_settings_field( 'wprss-settings-default-thumbnail-height', __( 'Default thumbnail image height', 'wprss' ), 
-                            'wprss_setting_default_thumbnail_height', 'wprss-aggregator-settings', 'wprss-settings-main');  
-
-        add_settings_field( 'wprss-settings-default-thumbnail-preview', __( 'Default thumbnail image preview', 'wprss' ), 
-                            'wprss_setting_default_thumbnail_preview', 'wprss-aggregator-settings', 'wprss-settings-main');  
-
+        do_action( 'wprss_admin_init' );
     }  
 
 
@@ -70,7 +58,7 @@
 
     // Draw the section header
     function wprss_settings_section_text() {
-   //     echo '<p>Enter your settings here.</p>';
+        echo '<h3>General Plugin Settings</h3>';
     }
 
 
@@ -119,57 +107,10 @@
      */
     function wprss_setting_feed_limit() {
         $options = get_option( 'wprss_settings' );                    
-        // echo the field
-       
         echo "<input id='feed-limit' name='wprss_settings[feed_limit]' type='text' value='$options[feed_limit]' />";   
     }
 
 
-    /** 
-     * Set default thumbnail image
-     */
-    function wprss_setting_default_thumbnail() {
-        $options = get_option( 'wprss_settings' );                    
-        // echo the field
-       
-        echo "<input id='default-thumbnail' name='wprss_settings[default_thumbnail]' type='text' value='$options[default_thumbnail]' />";   
-        echo "<input id='default-thumbnail-button' type='button' class='button' value='Choose image' />";   
-
-    
-    }    
-
-
-    /** 
-     * Set default thumbnail image width
-     */
-    function wprss_setting_default_thumbnail_width() {
-        $options = get_option( 'wprss_settings' );                    
-        // echo the field
-       
-        echo "<input id='default-thumbnail-width' name='wprss_settings[default_thumbnail_width]' type='text' value='$options[default_thumbnail_width]' />";   
-    }
-
-    /** 
-     * Set default thumbnail image width
-     */
-    function wprss_setting_default_thumbnail_height() {
-        $options = get_option( 'wprss_settings' );                    
-        // echo the field
-       
-        echo "<input id='default-thumbnail-height' name='wprss_settings[default_thumbnail_height]' type='text' value='$options[default_thumbnail_height]' />";   
-    }
-
-    /** 
-     * Default thumbnail image preview
-     * http://wp.tutsplus.com/tutorials/creative-coding/how-to-integrate-the-wordpress-media-uploader-in-theme-and-plugin-options/
-     */
-    function wprss_setting_default_thumbnail_preview() {
-        $options = get_option( 'wprss_settings' ); ?>
-        <div id="default-thumbnail-preview" style="min-height: 100px;">
-            <img style="max-width:100%;" src="<?php echo esc_url( $options['default_thumbnail'] ); ?>" />
-        </div>
-        <?php
-    }
 
 
 

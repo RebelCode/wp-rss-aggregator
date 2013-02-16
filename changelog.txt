@@ -1,7 +1,8 @@
-2.3
+3.0
 New feature: Option to set cron frequency
 New feature: Import and Export settings functionality
 New feature: Code extensibility added to be compatible with add-ons
+Enhanced: Code refactoring
 
 2.2.3 (2012-11-01)
 Fixed bug: Tab navigation preventing typing in input boxes
