@@ -44,7 +44,7 @@
         <div class="wrap">
             <?php screen_icon( 'wprss-aggregator' ); ?>
         
-            <h2><?php _e( 'WP RSS Aggregator Settings' ); ?></h2>
+            <h2><?php _e( 'WP RSS Aggregator Settings', 'wprss' ); ?></h2>
             
             <form action="options.php" method="post">            
                 <?php settings_fields( 'wprss_settings' ) ?>

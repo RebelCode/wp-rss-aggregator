@@ -5,7 +5,8 @@
      * @package WPRSSAggregator
      */
     
-
+    
+    add_action( 'init', 'wprss_schedule_fetch_feeds_cron' );
     /**
      * Creates the cron to fetch feeds every hour
      *
@@ -23,6 +24,7 @@
     }
          
 
+    add_action( 'init', 'wprss_schedule_truncate_posts_cron' );
     /**
      * Creates the cron to truncate wprss_feed_item posts daily
      *
