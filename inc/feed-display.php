@@ -92,8 +92,11 @@
      * 
      * @since 3.0
      */
-	function wprss_default_display_template( $settings, $display_settings, $args, $feed_items ) {
+	function wprss_default_display_template( $display_settings, $args, $feed_items ) {
 
+        $general_settings = get_option('wprss_settings');
+        $excerpts_settings = get_option('wprss_settings_excerpts');
+        $thumbnails_settings = get_option('wprss_settings_thumbnails');
         // Declare each item in $args as its own variable
         extract( $args, EXTR_SKIP );   
 
@@ -119,12 +122,11 @@
                 $output .= "\t\t" . "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $permalink . '">'. get_the_title(). '</a>' . "\n";                 
             	if ( function_exists( 'wpthumb' ) ) {
 	                $output .= '<div class="block" style="overflow:hidden;"><img style="max-width:100%; float:left; margin-top: 0.5em; margin-right:10px;" src="' 
-	                			. wpthumb( $thumbnail, 'width=' . $settings['default_thumbnail_width'] 
-	                			. '&height=' . $settings['default_thumbnail_height'] . '&crop=1' ) . '" />';
+	                			. wpthumb( $thumbnail, 'width=' . $thumbnails_settings['thumbnail_width'] 
+	                			. '&height=' . $thumbnails_settings['thumbnail_height'] . '&crop=1' ) . '" />';
 	            }                 
                 $output .= "\t\t" . limit_words( $description, 40 ) . "\n\n"; 
                 $output .= "\t\t" .'</div><div><span class="feed-source">' . __( 'Source: ' ) . $source_name . ' | ' . $date . '</span></div>' . "$link_after" . "\n\n"; 
-         
             }
             $output .= "\t\t $links_after";
             $output = apply_filters( 'feed_output', $output );
@@ -152,7 +154,7 @@
     	$display_settings = wprss_get_display_settings( $settings );
     	$args = wprss_get_args( $args );    
  		$feed_items = wprss_get_feed_items_query( $settings );
- 		do_action( 'wprss_display_template', $settings, $display_settings, $args, $feed_items );
+ 		do_action( 'wprss_display_template', $display_settings, $args, $feed_items );
     } // end wprss_display_feed_items
 
 

@@ -4,7 +4,7 @@
      * Based on http://wp.tutsplus.com/tutorials/creative-coding/creating-a-simple-backuprestore-settings-feature/
      * @since 2.3
      */ 
-    function wprss_import_export_settings_page() {
+    function wprss_import_export_settings_page_display() {
         if ( !isset( $_POST['export'] ) ) { 
         ?>
         <div class="wrap">

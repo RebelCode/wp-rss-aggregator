@@ -141,13 +141,15 @@
 	function wprss_get_default_settings() {
 
 		// Set up the default plugin settings
-		$settings = array(
-
-			// from version 1.1
-			'open_dd' => __( 'New window' ),
-			'follow_dd' => __( 'No follow' ),
-			// from version 2.0
-			'feed_limit' => 10			
+		$settings = apply_filters(
+			'wprss_default_settings',
+			array(
+				// from version 1.1
+				'open_dd' => __( 'New window' ),
+				'follow_dd' => __( 'No follow' ),
+				// from version 2.0
+				'feed_limit' => 10
+			)			
 		);
 
 		// Return the default settings

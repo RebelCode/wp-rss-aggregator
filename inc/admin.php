@@ -36,8 +36,8 @@
     function wprss_register_menu_pages() {        
           
         //create submenu items        
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', 'wprss' ), __( 'Settings', 'wprss' ), 'manage_options', 'wprss-aggregator-settings', 'wprss_settings_page' );             
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', 'wprss' ), __( 'Import & Export', 'wprss' ), 'manage_options', 'wprss-import-export-settings', 'wprss_import_export_settings_page' );                     
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', 'wprss' ), __( 'Settings', 'wprss' ), 'manage_options', 'wprss-aggregator-settings', 'wprss_settings_page_display' );             
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', 'wprss' ), __( 'Import & Export', 'wprss' ), 'manage_options', 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );                     
     }
 
 

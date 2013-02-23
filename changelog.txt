@@ -2,7 +2,10 @@
 New feature: Option to set cron frequency
 New feature: Import and Export settings functionality
 New feature: Code extensibility added to be compatible with add-ons
-Enhanced: Code refactoring and inclusion of hooks
+New feature: Custom feed from imported feeds added
+New feature: Proper validation for General plugin settings
+Enhanced: Performance improvement when publishing new feeds in admin
+Enhanced: Major code rewrite, refactoring and inclusion of hooks
 Enhanced: Updated Colorbox to v1.4.1
 
 2.2.3 (2012-11-01)

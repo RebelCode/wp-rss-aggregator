@@ -6,21 +6,21 @@
      */
     
     
-    add_action( 'init', 'wprss_schedule_fetch_feeds_cron' );
+    add_action( 'init', 'wprss_schedule_fetch_all_feeds_cron' );
     /**
      * Creates the cron to fetch feeds every hour
      *
      * @since 2.0
      */    
-    function wprss_schedule_fetch_feeds_cron() {
+    function wprss_schedule_fetch_all_feeds_cron() {
 
         // verify event has not been scheduled 
-        if ( ! wp_next_scheduled( 'wprss_fetch_feeds_hook' ) ) {            
+        if ( ! wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {            
             // Schedule to run hourly
-            wp_schedule_event( time(), 'hourly', 'wprss_fetch_feeds_hook' );
+            wp_schedule_event( time(), 'hourly', 'wprss_fetch_all_feeds_hook' );
         }
         
-        add_action( 'wprss_fetch_feeds_hook', 'wprss_fetch_all_feed_items' );    
+        add_action( 'wprss_fetch_all_feeds_hook', 'wprss_fetch_insert_all_feed_items' );    
     }
          
 

@@ -67,3 +67,26 @@ color: darkGreen;
 }
 
 /*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/
+
+
+/* For excerpts and thumbnails admin screens */
+.wprss_feed_page_wprss-aggregator-settings #excerpts-enable,
+.wprss_feed_page_wprss-aggregator-settings #morelink-enable,
+.wprss_feed_page_wprss-aggregator-settings #thumbnails-enable { 
+    margin-right: 10px; 
+}
+
+input#default-thumbnail { width: 300px; }
+
+input#thumbnails-height,
+input#thumbnails-width {
+    /*width: 29px;*/
+}
+
+.px { font-size: 90%; }
+
+label[for=excerpts-word-limit],
+label[for=thumbnails-width],
+label[for=thumbnails-height] { 
+    margin-left: 8px;    
+}
