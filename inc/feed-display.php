@@ -88,11 +88,11 @@
 
 	add_action( 'wprss_display_template', 'wprss_default_display_template', '', 4 );
     /**
-     * Default template for feed items display 
+     * Default template for feed items display - DISABLED JUST FOR TESTING PURPOSES
      * 
      * @since 3.0
      */
-	function wprss_default_display_template( $display_settings, $args, $feed_items ) {
+	/*function wprss_default_display_template( $display_settings, $args, $feed_items ) {
 
         $general_settings = get_option('wprss_settings');
         $excerpts_settings = get_option('wprss_settings_excerpts');
@@ -141,7 +141,91 @@
             $output = apply_filters( 'no_feed_items_found', __( 'No feed items found.', 'wprss' ) );
             echo $output;
         }            
+    }*/
+
+
+
+
+
+
+
+    add_action( 'wprss_display_template', 'wprss_default_display_template', '', 3 );
+    /**
+     * Default template for feed items display 
+     * 
+     * @since 3.0
+     */
+    function wprss_default_display_template( $display_settings, $args, $feed_items ) {
+
+        $general_settings    = get_option( 'wprss_settings' );
+        $excerpts_settings   = get_option( 'wprss_settings_excerpts' );
+        $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
+
+        // Declare each item in $args as its own variable
+        extract( $args, EXTR_SKIP );   
+
+        $output = '';
+
+        if( $feed_items->have_posts() ) {            
+           
+            $output .= "$links_before\n";
+           
+            while ( $feed_items->have_posts() ) {                
+                $feed_items->the_post();        
+                $permalink       = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
+                $description     = get_the_excerpt();
+                $feed_source_id  = get_post_meta( get_the_ID(), 'wprss_feed_id', true );
+                $source_name     = get_the_title( $feed_source_id );  
+                do_action( 'wprss_get_post_data' );              
+                $thumbnail_src   = get_post_meta( get_the_ID(), 'wprss_item_thumbnail', true );
+
+                if ( ! empty( $thumbnail_src) ) {
+                    $thumbnail = wpthumb( $thumbnail_src, 'width=' . $thumbnails_settings['thumbnail_width'] 
+                                    . '&height=' . $thumbnails_settings['thumbnail_height'] . '&crop=1' );
+                }
+
+                else {
+                 
+                    $thumbnail = wpthumb( $thumbnails_settings['default_thumbnail'], 'width=' . $thumbnails_settings['thumbnail_width'] 
+                                    . '&height=' . $thumbnails_settings['thumbnail_height'] . '&crop=1' );
+                }
+
+                // convert from Unix timestamp        
+                $date = date( 'Y-m-d', intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
+
+                // need to have filter to add thumbnail              
+                $output .= "\t\t" . "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $permalink . '">'. get_the_title(). '</a>' . "\n";                 
+                if ( function_exists( 'wpthumb' ) ) {
+                    $output .= '<div class="thumbnail-excerpt"><img src="' . $thumbnail . '" />';
+                }                 
+                $output .= "\t\t" . limit_words( $description, 40 ) . "\n\n"; 
+                $output .= "\t\t" .'</div><div><span class="feed-source">' . __( 'Source: ' ) . $source_name . ' | ' . $date . '</span></div>' . "$link_after" . "\n\n"; 
+            }
+            $output .= "\t\t $links_after";
+            $output = apply_filters( 'feed_output', $output );
+            
+            echo $output;
+              
+            // echo paginate_links();
+
+            wp_reset_postdata();
+            
+        } else {
+            $output = apply_filters( 'no_feed_items_found', __( 'No feed items found.', 'wprss' ) );
+            echo $output;
+        }            
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

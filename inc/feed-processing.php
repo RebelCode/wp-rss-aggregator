@@ -152,6 +152,15 @@
         return $existing_permalinks;
     }
 
+add_filter( 'wp_feed_cache_transient_lifetime', 'my_feed_cache_lifetime' );
+
+function my_feed_cache_lifetime( $seconds ) {
+    return 30;
+}
+function my_feed_options( $feed) {
+$feed->strip_htmltags(array_merge($feed->strip_htmltags, array('h1', 'a', 'img','em','ul','li','ol')));
+}
+add_action( 'wp_feed_options', 'my_feed_options' );
 
     function wprss_get_feed_items( $feed_url ) {
         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
@@ -164,8 +173,9 @@
         if ( !is_wp_error( $feed ) ) {
             $feed->set_output_encoding( 'UTF-8' );  // set encoding
             $feed->handle_content_type();           // ensure encoding
-            $feed->set_cache_duration(21600);       // six hours in seconds
-            
+            //$feed->set_cache_duration(21600);       // six hours in seconds
+            $feed->set_cache_duration(0);       // we don't need any caching
+
             // Figure out how many total items there are, but limit it to 10. 
             $maxitems = $feed->get_item_quantity(10); 
 
@@ -217,7 +227,7 @@
         update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );                        
         update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
         update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID); 
-        do_action( 'wprss_items_create_post_meta', $inserted_ID, $item );
+        do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
     } // end wprss_items_insert_post_meta
 
 

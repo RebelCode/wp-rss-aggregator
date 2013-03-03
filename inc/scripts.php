@@ -16,14 +16,14 @@
 
         // Only load scripts if we are on this plugin's options or settings pages (admin)
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' || $_GET['page'] == 'wprss-import-export-settings' ) ) {        
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );                      
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'admin-styles.css' );                      
         } 
 
         // Only load scripts if we are on wprss_feed add post or edit post screens
         $screen = get_current_screen();
 
         if ( ( 'post' === $screen->base || 'edit' === $screen->base ) && ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) ) {
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css' );
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
@@ -79,7 +79,8 @@
      */  
     function wprss_register_styles() {   
 
-        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.1' );       
+        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.1' );     
+        wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );       
 
         /* If using DISABLE CSS option: 
         global $edd_options;

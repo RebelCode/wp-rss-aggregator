@@ -1,26 +1,93 @@
 <?php
 
+    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
+    /**
+     * Set up the input boxes for the wprss_feed post type
+     * 
+     * @since 2.0
+     */   
+    function wprss_add_meta_boxes() {
+        global $wprss_meta_fields;
+        
+        // Remove the default WordPress Publish box, because we will be using custom ones
+        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
+        
+        add_meta_box(
+            'submitdiv',                            // $id
+            __( 'Save Feed Source', 'wprss' ),      // $title 
+            'post_submit_meta_box',                 // $callback
+            'wprss_feed',                           // $page
+            'side',                                 // $context
+            'low'                                   // $priority
+        );
+
+        add_meta_box(
+            'custom_meta_box', 
+            __( 'Feed Source Details', 'wprss' ), 
+            'wprss_show_meta_box_callback', 
+            'wprss_feed', 
+            'normal', 
+            'high'
+        );         
+
+        add_meta_box(
+            'wprss-help-meta',
+            __( 'WP RSS Aggregator Help', 'wprss' ),
+            'wprss_help_meta_box_callback',
+            'wprss_feed',
+            'side',
+            'low'
+        );  
+
+        add_meta_box(
+            'wprss-like-meta',
+            __( 'Like this plugin?', 'wprss' ),
+            'wprss_like_meta_box_callback',
+            'wprss_feed',
+            'side',
+            'low'
+        );   
+
+        add_meta_box(
+            'wprss-follow-meta',
+            __( 'Follow us', 'wprss' ),
+            'wprss_follow_meta_box_callback',
+            'wprss_feed',
+            'side',
+            'low'
+        );   
+
+        add_meta_box(
+            'preview_meta_box', 
+            __( 'Feed Preview', 'wprss' ), 
+            'wprss_preview_meta_box_callback', 
+            'wprss_feed', 
+            'normal', 
+            'low'
+        ); 
+    } 
+
 
     /**     
      * Set up fields for the meta box for the wprss_feed post type
      * 
      * @since 2.0
      */       
-    function wprss_custom_fields() {
+    function wprss_get_custom_fields() {
         $prefix = 'wprss_';
         
         // Field Array
         $wprss_meta_fields[ 'url' ] = array(
             'label' => __( 'URL', 'wprss' ),
             'desc'  => __( 'Enter feed URL (including http://)', 'wprss' ),
-            'id'    => $prefix.'url',
+            'id'    => $prefix .'url',
             'type'  => 'text'
         );
         
         $wprss_meta_fields[' description' ] = array(
             'label' => __( 'Description', 'wprss' ),
             'desc'  => __( 'A short description about this feed source (optional)', 'wprss' ),
-            'id'    => $prefix.'description',
+            'id'    => $prefix .'description',
             'type'  => 'textarea'
         );    
         
@@ -34,16 +101,18 @@
      * 
      * @since 2.0
      */ 
-    function wprss_show_meta_box() {
+    function wprss_show_meta_box_callback() {
         global $post;
-        $meta_fields = wprss_custom_fields();
+        $meta_fields = wprss_get_custom_fields();
 
         // Use nonce for verification
-        echo '<input type="hidden" name="wprss_meta_box_nonce" value="' . wp_create_nonce( basename( __FILE__ ) ) . '" />';     
+        wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
 
             // Begin the field table and loop
             echo '<table class="form-table">';
+
             foreach ( $meta_fields as $field ) {
+
                 // get value of this field if it exists for this post
                 $meta = get_post_meta( $post->ID, $field['id'], true );
                 // begin a table row with
@@ -55,19 +124,19 @@
                         
                             // text
                             case 'text':
-                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="55" />
-                                    <br /><span class="description">'.$field['desc'].'</span>';
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" size="55" />
+                                    <br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
                             // textarea
                             case 'textarea':
-                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'.$meta.'</textarea>
-                                    <br /><span class="description">'.$field['desc'].'</span>';
+                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>
+                                    <br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
                             // checkbox
                             case 'checkbox':
-                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$meta ? ' checked="checked"' : '','/>
+                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ', esc_attr( $meta ) ? ' checked="checked"' : '','/>
                                     <label for="'.$field['id'].'">'.$field['desc'].'</label>';
                             break;    
                         
@@ -77,7 +146,7 @@
                                 foreach ($field['options'] as $option) {
                                     echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
                                 }
-                                echo '</select><br /><span class="description">'.$field['desc'].'</span>';
+                                echo '</select><br><span class="description">'.$field['desc'].'</span>';
                             break;                                            
                         
                         } //end switch
@@ -87,30 +156,33 @@
     }
   
 
-    add_action( 'save_post', 'wprss_save_custom_fields' ); 
+    add_action( 'save_post', 'wprss_save_custom_fields', 10, 2 ); 
     /**     
      * Save the custom fields
      * 
      * @since 2.0
      */ 
-    function wprss_save_custom_fields( $post_id ) {
-        $meta_fields = wprss_custom_fields();
-        
-        // verify nonce
-        if ( ! wp_verify_nonce( $_POST[ 'wprss_meta_box_nonce' ], basename( __FILE__ ) ) ) 
-           return $post_id; 
-        
-        // check autosave
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
-            return $post_id;
-        
-        // check permissions
-        if ( 'page' == $_POST[ 'post_type' ] ) {
-            if ( ! current_user_can( 'edit_page', $post_id ) )
-                return $post_id;
-            } elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
-                return $post_id;
-        }
+    function wprss_save_custom_fields( $post_id, $post ) {
+        $meta_fields = wprss_get_custom_fields();
+
+        /* Verify the nonce before proceeding. */
+        if ( !isset( $_POST['wprss_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['wprss_meta_box_nonce'], basename( __FILE__ ) ) )
+            return $post_id;               
+
+        /* Get the post type object. */
+        $post_type = get_post_type_object( $post->post_type );
+
+        /* Check if the current user has permission to edit the post. */
+        if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
+            return $post_id;        
+
+        // Stop WP from clearing custom fields on autosave - maybe not needed
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+            return;
+
+        // Prevent quick edit from clearing custom fields - maybe not needed
+        if (defined('DOING_AJAX') && DOING_AJAX)
+            return;     
         
         // loop through fields and save the data
         foreach ( $meta_fields as $field ) {
@@ -124,39 +196,13 @@
         } // end foreach
     } 
 
-    /**     
-     * Generate the Save Feed Source meta box
-     * 
-     * @since 2.0
-     */  
-    function wprss_save_feed_source_meta_box() {
-        global $post;
-        
-        // insert nonce??
-
-        echo '<input type="submit" name="publish" id="publish" class="button-primary" value="Save" tabindex="5" accesskey="s">';
-                
-        /**
-         * Check if user has disabled trash, in that case he can only delete feed sources permanently,
-         * else he can deactivate them. By default, if not modified in wp_config.php, EMPTY_TRASH_DAYS is set to 30.
-         */
-        if ( current_user_can( "delete_post", $post->ID ) ) {
-            if ( ! EMPTY_TRASH_DAYS )
-                $delete_text = __( 'Delete Permanently', 'wprss' );
-            else
-                $delete_text = __( 'Move to Trash', 'wprss' );
-                
-        echo '&nbsp;&nbsp;<a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a>';
-        }
-    }
-
 
     /**     
      * Generate a preview of the latest 5 posts from the feed source being added/edited
      * 
      * @since 2.0
      */  
-    function wprss_preview_meta_box() {
+    function wprss_preview_meta_box_callback() {
         global $post;
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
         
@@ -190,7 +236,7 @@
      * @since 2.0
      * 
      */      
-    function wprss_help_meta_box() {
+    function wprss_help_meta_box_callback() {
        echo '<p><strong>';
        _e( 'Need help?', 'wprss' );
        echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
@@ -204,7 +250,7 @@
      * @since 2.0
      * 
      */      
-    function wprss_like_meta_box() { ?>
+    function wprss_like_meta_box_callback() { ?>
         <p><?php _e( 'Why not do any or all of the following', 'wprss' ) ?>:</p>
         <ul>
             <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org.', 'wprss' ) ?></a></li>                               
@@ -220,14 +266,13 @@
      * @since 2.0
      * 
      */      
-    function wprss_follow_meta_box() {    
+    function wprss_follow_meta_box_callback() {    
         ?>                         
         <ul>
             <li class="twitter"><a href="http://twitter.com/wpmayor"><?php _e( 'Follow WP Mayor on Twitter.', 'wprss' ) ?></a></li>
             <li class="facebook"><a href="https://www.facebook.com/wpmayor"><?php _e( 'Like WP Mayor on Facebook.', 'wprss' ) ?></a></li>
-
         </ul>                               
-    <?php }
+    <?php }   
 
 
     add_action( 'add_meta_boxes', 'wprss_remove_meta_boxes', 100 );
@@ -237,7 +282,8 @@
      * @since 2.0
      */       
     function wprss_remove_meta_boxes() {
-        if ( 'wprss_feed' !== get_current_screen()->id ) return;     
+        if ( 'wprss_feed' !== get_current_screen()->id ) return;   
+        // Remove meta boxes of other plugins that tend to appear on all posts          
         remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
         remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' ); 
         remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );                 

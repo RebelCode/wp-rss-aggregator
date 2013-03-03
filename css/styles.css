@@ -1,92 +1,11 @@
-.wprss-input {
-    background: none repeat scroll 0 0 #EAF2FA;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-top: 10px;
-    width: 600px;
+li.feed-item { margin-bottom: 20px; }
+
+.thumbnail-excerpt { 
+	overflow:hidden;
 }
 
-.wprss-input p { line-height: 28px; }
-
-.wprss-input label {
-    float: left;
-    width: 95px !important;
-}
-    
-.wprss-input input {
-    height: 28px;
-    margin-bottom: 0;
-    padding: 0 0 0 5px;
-    width: 400px;
+.thumbnail-excerpt img {
+	max-width:100%; float:left; margin-top: 0.5em; margin-right:10px;
 }
 
-#icon-wprss-aggregator {
-    background: transparent url( '../img/icon-adminpage32.png' ) no-repeat !important;
-}
-
-body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
-
-#misc-publishing-actions,
-#minor-publishing-actions { display: none; }
-
-#custom_meta_box .form-table th { width: 100px; }
-
-body.post-type-wprss_feed_item .add-new-h2, 
-body.post-type-wprss_feed_item .tablenav select[name="m"],
-body.post-type-wprss_feed_item #post-query-submit
-{ display: none; }
-
-body.post-type-wprss_feed_item a.row-title {
-            cursor: default;
-            font-weight: normal;
-            color: #555;
-}
-
-#latest-news-cpac-settings li {
-list-style: none;
-line-height: 16px;
-}
-
-li.twitter a {
-background: transparent url('../img/twitter.png') no-repeat 0;
-padding-left: 20px;
-}
-
-li.facebook a {
-background: transparent url('../img/facebook.png') no-repeat 0;
-padding-left: 20px;
-}
-
-li.donate_link a:hover {
-color: darkGreen;
-}
-
-.invalid-feed-url {
-    color: red;
-}
-
-/*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/
-
-
-/* For excerpts and thumbnails admin screens */
-.wprss_feed_page_wprss-aggregator-settings #excerpts-enable,
-.wprss_feed_page_wprss-aggregator-settings #morelink-enable,
-.wprss_feed_page_wprss-aggregator-settings #thumbnails-enable { 
-    margin-right: 10px; 
-}
-
-input#default-thumbnail { width: 300px; }
-
-input#thumbnails-height,
-input#thumbnails-width {
-    /*width: 29px;*/
-}
-
-.px { font-size: 90%; }
-
-label[for=excerpts-word-limit],
-label[for=thumbnails-width],
-label[for=thumbnails-height] { 
-    margin-left: 8px;    
-}
+span.feed-source { font-size: 90%;}

@@ -47,11 +47,11 @@
                 'menu_position'         => 100,
                 'menu_icon'             => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
                 'show_in_menu'          => true,
-                'supports'              => array( 'title' ),
                 'rewrite'               => array(
                                             'slug'       => 'feeds',
                                             'with_front' => false
                                         ), 
+                'supports'              => array( 'title', 'thumbnail' ),
                 'labels'                => $labels   
             )
         );
@@ -96,86 +96,3 @@
         // Register the 'feed_item' post type
         register_post_type( 'wprss_feed_item', $feed_item_args );        
     }
-
-
-    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
-    /**
-     * Set up the input boxes for the wprss_feed post type
-     * 
-     * @since 2.0
-     */   
-    function wprss_add_meta_boxes() {
-        global $wprss_meta_fields;
-
-        // Remove the default WordPress Publish box, because we will be using custom ones
-        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
-        add_meta_box(
-            'submitdiv',
-            __( 'Save Feed Source', 'wprss' ),
-            'post_submit_meta_box',
-            'wprss_feed',
-            'side',
-            'low');
-
-      /*  add_meta_box(
-            'wprss-save-link-side-meta',
-            'Save Feed Source',
-            'wprss_save_feed_source_meta_box',
-            'wprss_feed',
-            'side',
-            'high'
-        );
-        
-        add_meta_box(
-            'wprss-save-link-bottom-meta',
-            __( 'Save Feed Source', 'wprss' ),
-            'wprss_save_feed_source_meta_box',
-            'wprss_feed',
-            'normal',
-            'low'
-        );*/
-
-        add_meta_box(
-            'wprss-help-meta',
-            __( 'WP RSS Aggregator Help', 'wprss' ),
-            'wprss_help_meta_box',
-            'wprss_feed',
-            'side',
-            'low'
-        );  
-
-        add_meta_box(
-            'wprss-like-meta',
-            __( 'Like this plugin?', 'wprss' ),
-            'wprss_like_meta_box',
-            'wprss_feed',
-            'side',
-            'low'
-        );   
-
-        add_meta_box(
-            'wprss-follow-meta',
-            __( 'Follow us', 'wprss' ),
-            'wprss_follow_meta_box',
-            'wprss_feed',
-            'side',
-            'low'
-        );   
-
-        add_meta_box(
-            'custom_meta_box', // $id
-            __( 'Feed Source Details', 'wprss' ), // $title 
-            'wprss_show_meta_box', // $callback
-            'wprss_feed', // $page
-            'normal', // $context
-            'high'); // $priority
-  
-
-        add_meta_box(
-            'preview_meta_box', // $id
-            __( 'Feed Preview', 'wprss' ), // $title 
-            'wprss_preview_meta_box', // $callback
-            'wprss_feed', // $page
-            'normal', // $context
-            'low'); // $priority
-    }    
