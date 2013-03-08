@@ -11,11 +11,12 @@
      * 
      * @since 2.1
      */ 
-    function wprss_return_7200( $seconds )
+    function wprss_feed_cache_lifetime( $seconds ) 
     {      
-      return 7200;
+        return 0; // disable transient cache for feeds
+        //return 7200; // 2 hours
     }
-      
+
 
     /**
      * Fetches feed items from sources provided
@@ -45,8 +46,8 @@
                     if( !empty( $feed_url ) ) {             
                         
                         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
-                        $feed = fetch_feed( $feed_url );                        
-                        //$feed = wprss_fetch_feed( $feed_url );                        
+                        //$feed = fetch_feed( $feed_url );                        
+                        $feed = wprss_fetch_feed( $feed_url );                        
                         remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
 
                     //    $feed->strip_htmltags( array_merge( $feed->strip_htmltags, array('h1', 'a', 'img') ) ); 
@@ -152,23 +153,12 @@
         return $existing_permalinks;
     }
 
-add_filter( 'wp_feed_cache_transient_lifetime', 'my_feed_cache_lifetime' );
-
-function my_feed_cache_lifetime( $seconds ) {
-    return 30;
-}
-function my_feed_options( $feed) {
-$feed->strip_htmltags(array_merge($feed->strip_htmltags, array('h1', 'a', 'img','em','ul','li','ol')));
-}
-add_action( 'wp_feed_options', 'my_feed_options' );
 
     function wprss_get_feed_items( $feed_url ) {
-        add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
+        add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
         $feed = fetch_feed( $feed_url );                        
         //$feed = wprss_fetch_feed( $feed_url );                        
-        remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
-
-        //  $feed->strip_htmltags( array_merge( $feed->strip_htmltags, array('h1', 'a', 'img') ) ); 
+        remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' ); 
 
         if ( !is_wp_error( $feed ) ) {
             $feed->set_output_encoding( 'UTF-8' );  // set encoding
@@ -228,14 +218,8 @@ add_action( 'wp_feed_options', 'my_feed_options' );
         update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
         update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID); 
         do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
-    } // end wprss_items_insert_post_meta
+    } 
 
-
-    add_action( 'wp_feed_options', 'wprss_feed_options' );
-    function wprss_feed_options( $feed) {
-        $feed->strip_htmltags(array_merge($feed->strip_htmltags, array('h1', 'a', 'img','em')));
-    }
-    
 
     add_action( 'wp_insert_post', 'wprss_fetch_insert_feed_items', '', 2 ); 
     /**
@@ -270,7 +254,7 @@ add_action( 'wp_feed_options', 'my_feed_options' );
      * 
      * @since 2.0
      */
-    function wprss_fetch_insert_all_feed_items( ) {            
+    function wprss_fetch_insert_all_feed_items() {            
         
         // Get all feed sources
         $feed_sources = wprss_get_all_feed_sources();
@@ -337,9 +321,14 @@ add_action( 'wp_feed_options', 'my_feed_options' );
      */
     function wprss_truncate_posts() {
         global $wpdb;
+        $general_settings = get_option( 'wprss_settings_general' );        
+
+        if ( $general_settings['limit_feed_items'] == 0 ) {
+            return;
+        }
 
         // Set your threshold of max posts and post_type name
-        $threshold = 50;
+        $threshold = $general_settings['limit_feed_items'];
         $post_type = 'wprss_feed_item';
 
         // Query post type
@@ -366,3 +355,53 @@ add_action( 'wp_feed_options', 'my_feed_options' );
             }
         }
     }    
+
+
+    /**
+     * Custom version of the WP fetch_feed() function, since we want custom sanitization of a feed
+     * 
+     * @since 3.0
+     */
+    function wprss_fetch_feed($url) {
+        require_once (ABSPATH . WPINC . '/class-feed.php');
+
+        $feed = new SimplePie();
+
+        // $feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
+        // We must manually overwrite $feed->sanitize because SimplePie's
+        // constructor sets it before we have a chance to set the sanitization class
+        // $feed->sanitize = new WP_SimplePie_Sanitize_KSES();
+
+        $feed->set_cache_class( 'WP_Feed_Cache' );
+        $feed->set_file_class( 'WP_SimplePie_File' );
+
+        $feed->set_feed_url($url);
+        $feed->strip_htmltags(array_merge($feed->strip_htmltags, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'a' )));
+        $feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
+        do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
+        $feed->init();
+        $feed->handle_content_type();
+       
+        if ( $feed->error() )
+            return new WP_Error('simplepie-error', $feed->error());
+
+        return $feed;
+    }
+
+
+    /**
+     * Deletes all imported feeds and re-imports everything
+     * 
+     * @since 3.0
+     */
+    function wprss_feed_reset() {
+        wprss_delete_feed_items();
+        wprss_fetch_insert_all_feed_items();
+    }
+
+  /*  add_action( 'wp_feed_options', 'wprss_feed_options' );
+    function wprss_feed_options( $feed) {
+        $feed->strip_htmltags(array_merge($feed->strip_htmltags, array('h1', 'a', 'img','em')));
+    }
+    
+*/

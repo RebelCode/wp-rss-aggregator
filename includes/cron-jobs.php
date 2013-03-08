@@ -42,17 +42,51 @@
     }
     
 
+    // filter to add new possible frequencies to the cron
+    add_filter( 'cron_schedules', 'wprss_filter_cron_schedules' );
+    /**
+     * Adding a few more handy cron schedules to the default ones 
+     * @since 3.0
+     */
+    function wprss_filter_cron_schedules( $schedules) {
+        $frequencies = array(
+            'five_min' => array(
+                'interval' => 300,
+                'display' => __( 'Once every five minutes', 'wprss' )
+                ),
+            'ten_min' => array(
+                'interval' => 600,
+                'display' => __( 'Once every ten minutes', 'wprss' )
+                ),
+            'fifteen_min' => array(
+                'interval' => 900,
+                'display' => __( 'Once every fifteen minutes', 'wprss' )
+                ),
+            'thirty_min' => array(
+                'interval' => 1800,
+                'display' => __( 'Once every thirty minutes', 'wprss' )
+                ),
+            'two_hours' => array(
+                'interval' => 7200,
+                'display' => __( 'Once every two hours', 'wprss' )
+                ),
+            );
+
+        return array_merge( $schedules, $frequencies );
+    }
+
+    
     //add_filter( 'cron_schedules', 'wprss_cron_add_weekly' );
     /**
      * Not actually used at the moment, might use later on for custom scheduling
      *
      * @since 2.0
      */    
-    function wprss_cron_add_weekly( $schedules ) {
+  /*  function wprss_cron_add_weekly( $schedules ) {
        // Adds once weekly to the existing schedules.
        $schedules['weekly'] = array(
         'interval' => 60, // 60*60*24*7
         'display' => __( 'Once Weekly' )
        );
        return $schedules;
-    }
+    }*/

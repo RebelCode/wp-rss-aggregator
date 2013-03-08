@@ -1,9 +1,15 @@
 3.0
-New feature: Option to set cron frequency
+New feature: Option to select cron frequency
 New feature: Import and Export settings functionality
 New feature: Code extensibility added to be compatible with add-ons
 New feature: Custom feed from imported feeds added
 New feature: Proper validation for General plugin settings
+New feature: Option to set a limit to the number of feeds stored (previously 50, hard coded)
+New feature: Option to define the format of the date shown below each feed item
+New feature: Option to show or hide source of feed item
+New feature: Option to link or not to source of feed item
+New feature: Option to show publish date of feed item
+New feature: Core plugin now works with a number of addons to be released shortly
 Enhanced: Performance improvement when publishing new feeds in admin
 Enhanced: Major code rewrite, refactoring and inclusion of hooks
 Enhanced: Updated Colorbox to v1.4.1

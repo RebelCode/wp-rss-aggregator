@@ -176,13 +176,21 @@
         if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
             return $post_id;        
 
-        // Stop WP from clearing custom fields on autosave - maybe not needed
+     /*  // Stop WP from clearing custom fields on autosave - maybe not needed
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
             return;
 
         // Prevent quick edit from clearing custom fields - maybe not needed
         if (defined('DOING_AJAX') && DOING_AJAX)
-            return;     
+            return;     */
+
+        /** Bail out if running an autosave, ajax or a cron */
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+            return;
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+            return;
+        if ( defined( 'DOING_CRON' ) && DOING_CRON )
+            return;        
         
         // loop through fields and save the data
         foreach ( $meta_fields as $field ) {
@@ -285,6 +293,8 @@
         if ( 'wprss_feed' !== get_current_screen()->id ) return;   
         // Remove meta boxes of other plugins that tend to appear on all posts          
         remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'postpsp', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'su_postmeta', 'wprss_feed' ,'normal' );
         remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' ); 
         remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );                 
         remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
@@ -293,6 +303,7 @@
         remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'side' );
         remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'side' );
         remove_meta_box( 'wpcf-marketing', 'wprss_feed' ,'side' );
-        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' );     
+        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' ); 
+        remove_meta_box( 'aiosp', 'wprss_feed' ,'advanced' );                             
         remove_action( 'post_submitbox_start', 'fpp_post_submitbox_start_action' );    
     }

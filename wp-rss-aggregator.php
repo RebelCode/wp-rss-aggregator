@@ -1,7 +1,7 @@
 <?php
     /*
     Plugin Name: WP RSS Aggregator
-    Plugin URI: http://www.wprssaggregator.com
+    Plugin URI: http://www.wpmayor.com
     Description: Imports and merges multiple RSS Feeds using SimplePie
     Version: 3.0
     Author: Jean Galea
@@ -10,7 +10,7 @@
     */
 
     /*  
-    Copyright 2011-2012 Jean Galea (email : jean@jpgalea.com)
+    Copyright 2012-2013 Jean Galea (email : info@jeangalea.com)
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -27,22 +27,17 @@
     */
 
     /**
-    * @version 3.0
-    * @author Jean Galea <info@jeangalea.com>
-    * @copyright Copyright (c) 2012-2013, Jean Galea
-    * @link http://www.wpmayor.com/
-    * @license http://www.gnu.org/licenses/gpl.html
-    */
-
+     * @package   WPRSSAggregator
+     * @version   3.0
+     * @since     1.0
+     * @author    Jean Galea <info@jeangalea.com>
+     * @copyright Copyright (c) 2012-2013, Jean Galea
+     * @link      http://www.wpmayor.com/
+     * @license   http://www.gnu.org/licenses/gpl.html
+     */
 
     /**
      * Define constants used by the plugin.
-     *
-     * We're not checking if constants are defined before setting them, as the prefix 'wprss' pretty
-     * much eliminates the possibility of them being set before. If there is a reasonable chance
-     * that they would have been set earlier or by another plugin, it's better to check before 
-     * setting them via if !(defined).
-     *
      */
 
     // Set the version number of the plugin. 
@@ -75,22 +70,16 @@
 
     // Set the constant path to the plugin's images directory. 
     if( !defined( 'WPRSS_IMG' ) )
-        define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'img' ), true );
+        define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'images' ), true );
 
     // Set the constant path to the plugin's includes directory. 
     if( !defined( 'WPRSS_INC' ) )
-        define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'inc' ), true );
+        define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ), true );
     
 
     /**
      * Load required files.
      */
-    
-    /* Load the activation functions file. */
-    require_once ( WPRSS_INC . 'activation.php' );
-
-    /* Load the deactivation functions file. */
-    require_once ( WPRSS_INC . 'deactivation.php' );
 
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );           
@@ -99,7 +88,13 @@
     require_once ( WPRSS_INC . 'shortcodes.php' );
 
     /* Load the custom post types and taxonomies. */
-    require_once ( WPRSS_INC . 'custom-post-types.php' );         
+    require_once ( WPRSS_INC . 'custom-post-types.php' );  
+
+    /* Load the feed processing functions file */
+    require_once ( WPRSS_INC . 'feed-processing.php' );   
+
+    /* Load the feed display functions file */
+    require_once ( WPRSS_INC . 'feed-display.php' );            
 
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' ); 
@@ -113,65 +108,106 @@
     /* Load the settings import/export file */
     require_once ( WPRSS_INC . 'admin-import-export.php' ); 
 
+    /* Load the debugging file */
+    require_once ( WPRSS_INC . 'admin-debugging.php' ); 
+
     /* Load the admin display-related functions */
     require_once ( WPRSS_INC . 'admin-display.php' );     
 
     /* Load the admin metaboxes functions */
-    require_once ( WPRSS_INC . 'admin-metaboxes.php' );   
-
-    /* Load the feed processing functions file */
-    require_once ( WPRSS_INC . 'feed-processing.php' );   
-
-    /* Load the feed display functions file */
-    require_once ( WPRSS_INC . 'feed-display.php' );   
+    require_once ( WPRSS_INC . 'admin-metaboxes.php' );     
 
     /* Load the scripts loading functions file */
     require_once ( WPRSS_INC . 'scripts.php' );   
 
     /* Load the logging class */
-    require_once ( WPRSS_INC . 'WP_Logging.php' );   
+    require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
+    
+    register_activation_hook( __FILE__ , 'wprss_activate' );
+    register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
 
-    add_action( 'init', 'wprss_init' );      
+    add_action( 'init', 'wprss_init' );     
     /**
      * Initialise the plugin
-     * 
-     * @since 2.0     
-     */         
+     *
+     * @since  1.0
+     * @return void
+     */     
     function wprss_init() {                
-        register_activation_hook( WPRSS_INC . 'activation.php', 'wprss_activate' );
-        register_deactivation_hook( WPRSS_INC . 'deactivation.php', 'wprss_deactivate' );
-        do_action( 'wprss_init' );
-    } // end wprss_int
+    
+        do_action( 'wprss_init' );          
+    }
+
+
+    /**
+     * Plugin activation procedure
+     *
+     * @since  1.0
+     * @return void
+     */  
+    function wprss_activate() {
+        /* Prevents activation of plugin if compatible version of WordPress not found */
+        if ( version_compare( get_bloginfo( 'version' ), '3.2', '<' ) ) {
+            deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
+            wp_die( __( 'This plugin requires WordPress version 3.2 or higher.' ), 'WP RSS Aggregator', array( 'back_link' => true ) );
+        }  
+        wprss_settings_initialize();
+        flush_rewrite_rules();
+        wprss_schedule_fetch_all_feeds_cron();   
+    }    
+
+
+    /**
+     * Plugin deactivation procedure
+     *
+     * @since 1.0
+     */           
+    function wprss_deactivate() {
+        // on deactivation remove the cron job 
+        if ( wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {
+            wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
+        }
+        flush_rewrite_rules();
+    }
 
 
     add_action( 'plugins_loaded', 'wprss_load_textdomain' );
     /**
      * Loads the plugin's translated strings.
      * 
-     * @since 2.1     
+     * @since  2.1
+     * @return void     
      */  
     function wprss_load_textdomain() { 
-        load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/lang/' );
+        load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/languages/' );
     }
 
 
     /**
      * Change title on wprss_feed post type screen
      * 
-     * @since 2.0
+     * @since  2.0
+     * @return void
      */  
     function wprss_change_title_text() {
         return __( 'Enter feed name here (e.g. WP Mayor)', 'wprss' );
-    } // end wprss_change_title_text
+    } 
 
 
     /**
      * Limits a phrase/content to a defined number of words
-     * 
-     * @since 2.3
+     *
+     * NOT BEING USED as we're using the native WP function, although the native one strips tags, so I'll
+     * probably revisit this one again soon. 
+     *
+     * @since  3.0
+     * @param  string  $words
+     * @param  integer $limit
+     * @param  string  $append
+     * @return string
      */
-    function limit_words( $words, $limit, $append = '' ) {
+    function wprss_limit_words( $words, $limit, $append = '' ) {
            // Add 1 to the specified limit becuase arrays start at 0
            $limit = $limit + 1;
            // Store each individual word as an array element
@@ -182,30 +218,26 @@
            // Implode the array for output, and append an ellipse
            $words = implode( ' ', $words ) . $append;
            // Return the result
-           return $words;
-    } // end limit_words
+           return rtrim( $words );
+    } 
 
-    function wprss_fetch_feed($url) {
-        require_once (ABSPATH . WPINC . '/class-feed.php');
 
-        $feed = new SimplePie();
+    add_filter( 'plugin_action_links', 'wprss_plugin_action_links', 10, 2 );
+    /** 
+     * Add Settings action link in plugin listing
+     *
+     * @since  3.0
+     * @param  array  $action_links
+     * @param  string $plugin_file 
+     * @return array
+     */  
+    function wprss_plugin_action_links( $action_links, $plugin_file ) {
+ 
 
-        $feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
-        // We must manually overwrite $feed->sanitize because SimplePie's
-        // constructor sets it before we have a chance to set the sanitization class
-        $feed->sanitize = new WP_SimplePie_Sanitize_KSES();
+        if ( $plugin_file == plugin_basename( __FILE__ ) ) {
+            $settings_link = '<a href="' . get_admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __("Settings") . '</a>';
+            array_unshift( $action_links, $settings_link );
+        }
 
-        $feed->set_cache_class( 'WP_Feed_Cache' );
-        $feed->set_file_class( 'WP_SimplePie_File' );
-
-        $feed->set_feed_url($url);
-        $feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
-        do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
-        $feed->init();
-        $feed->handle_content_type();
-
-        if ( $feed->error() )
-            return new WP_Error('simplepie-error', $feed->error());
-
-        return $feed;
+        return $action_links;
     }    
