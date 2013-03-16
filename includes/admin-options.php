@@ -58,7 +58,7 @@
 
         add_settings_field( 
             'wprss-settings-feed-limit', 
-            __( 'Feed limit', 'wprss' ), 
+            __( 'Feed display limit', 'wprss' ), 
             'wprss_setting_feed_limit_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
@@ -73,8 +73,8 @@
         );          
 
         add_settings_field( 
-            'wprss-settings-limit-feed-items', 
-            __( 'Limit feed items', 'wprss' ), 
+            'wprss-settings-limit-feed-items-db', 
+            __( 'Limit feed items stored', 'wprss' ), 
             'wprss_setting_limit_feed_items_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
@@ -89,12 +89,12 @@
         );               
 
         add_settings_field( 
-            'wprss-settings-date-enable', 
-            __( 'Show date', 'wprss' ), 
-            'wprss_setting_date_enable_callback', 
+            'wprss-settings-title-link-enable', 
+            __( 'Link title', 'wprss' ), 
+            'wprss_setting_title_link_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
-        );   
+        );      
 
         add_settings_field( 
             'wprss-settings-source-enable', 
@@ -102,7 +102,31 @@
             'wprss_setting_source_enable_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
-        );                           
+        );      
+
+        add_settings_field( 
+            'wprss-settings-text-preceding-source', 
+            __( 'Text preceding source', 'wprss' ), 
+            'wprss_setting_text_preceding_source_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_general_section'
+        );                
+
+        add_settings_field( 
+            'wprss-settings-date-enable', 
+            __( 'Show date', 'wprss' ), 
+            'wprss_setting_date_enable_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_general_section'
+        );                     
+
+        add_settings_field( 
+            'wprss-settings-text-preceding-date', 
+            __( 'Text preceding date', 'wprss' ), 
+            'wprss_setting_text_preceding_date_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_general_section'
+        );            
 
         add_settings_field( 
             'wprss-settings-styles-disable', 
@@ -116,29 +140,6 @@
     }  
 
 
-   /* function wprss_settings_validate( $input ) {
-    
-        $options = get_option( 'wprss_settings_general' );
-
-        if ( ! isset( $input['excerpt_enable'] ) || $input['excerpt_enable'] != '1' )
-            $options['excerpt_enable'] = 0;
-        else
-            $options['excerpt_enable'] = 1;
-
-        if ( ! isset( $input['thumbnail_enable'] ) || $input['thumbnail_enable'] != '1' )
-            $options['thumbnail_enable'] = 0;
-        else
-            $options['thumbnail_enable'] = 1;
-      //  do_action( 'wprss_settings_validate', $input, $options );
-
-      /*  if ( $options['cron_interval'] != $input['cron_inteval'] ) {
-            wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' ); 
-            wp_schedule_event( time(), $input['cron_interval'], 'wprss_fetch_all_feeds_hook' );   
-        }*/
-     /*   return $options;
-    }
-
-
     /**
      * Build the plugin settings page, used to save general settings like whether a link should be follow or no follow
      * @since 1.1
@@ -148,52 +149,52 @@
         <div class="wrap">
             <?php screen_icon( 'wprss-aggregator' ); ?>            
         
-            <h2><?php _e( 'WP RSS Aggregator Settings', 'wprss' ); ?></h2>
+            <h2><?php _e( 'WP RSS Aggregator Settings', 'wprss' ); ?></h2>   
 
             <?php settings_errors(); ?> 
 
             <?php $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general_settings'; ?>
 
             <?php
+
+            $tabs = apply_filters(
+                    'wprss_options_tabs', 
+                    array(
+                      'General' => array( 
+                                    'label' => __( 'General', 'wprss' ),
+                                    'slug'  => 'general_settings',
+                                    )
+                    )
+            );
+
+            if ( is_plugin_active( 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php' ) ) { 
             // Might be a better idea to grey out the tabs when the addon is not activated, and use 
-            // an action hook to insert the code relative to sections of addon.
-            if ( is_plugin_active( 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php' ) ) { ?>
-                <h2 class="nav-tab-wrapper">
-                    <a href="?post_type=wprss_feed&page=wprss-aggregator-settings&tab=general_settings" 
-                    class="nav-tab <?php echo $active_tab == 'general_settings' ? 'nav-tab-active' : ''; ?>">General</a>
-                    <a href="?post_type=wprss_feed&page=wprss-aggregator-settings&tab=excerpts_settings" 
-                    class="nav-tab <?php echo $active_tab == 'excerpts_settings' ? 'nav-tab-active' : ''; ?>">Excerpts</a>
-                    <a href="?post_type=wprss_feed&page=wprss-aggregator-settings&tab=thumbnails_settings" 
-                    class="nav-tab <?php echo $active_tab == 'thumbnails_settings' ? 'nav-tab-active' : ''; ?>">Thumbnails</a>          
-                </h2>
-            <?php } ?>
+            // an action hook to insert the code relative to sections of addon. ?>
+            <h2 class="nav-tab-wrapper">
+                <?php 
+                foreach ( $tabs as $tab => $tab_property ) { ?>
+                    <a href="?post_type=wprss_feed&page=wprss-aggregator-settings&tab=<?php echo esc_attr( $tab_property['slug'] ); ?>"
+                        class="nav-tab <?php echo $active_tab == $tab_property['slug']  ? 'nav-tab-active' : ''; ?>"><?php echo esc_html( $tab_property['label'] ); ?></a>
+                <?php } ?>
+            <?php } ?>                
+            </h2>            
 
             <form action="options.php" method="post">   
             
                 <?php 
                 if ( is_plugin_active( 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php' ) ) { 
-                    if( $active_tab == 'general_settings' ) {         
+                    if ( $active_tab == 'general_settings' ) {         
                         settings_fields( 'wprss_settings_general' ); 
                         do_settings_sections( 'wprss_settings_general' ); 
                     }
-                    
-                    else if( $active_tab == 'excerpts_settings' ) {         
-                        settings_fields( 'wprss_settings_excerpts' );
-                        do_settings_sections( 'wprss_settings_excerpts' ); 
-                    }
 
-                    else if( $active_tab == 'thumbnails_settings' ) {         
-                        settings_fields( 'wprss_settings_thumbnails' );
-                        do_settings_sections( 'wprss_settings_thumbnails' );   
-                    }              
-                
-                    submit_button( __( 'Save Settings', 'wprss' ) ); 
+                    do_action( 'wprss_add_settings_fields_sections', $active_tab );
                 }
                 else {
                     settings_fields( 'wprss_settings_general' ); 
-                    do_settings_sections( 'wprss_settings_general' );  
-                    submit_button( __( 'Save Settings', 'wprss' ) ); 
+                    do_settings_sections( 'wprss_settings_general' );                      
                 }
+                submit_button( __( 'Save Settings', 'wprss' ) ); 
                 ?>                                  
             </form>
         </div>
@@ -286,8 +287,19 @@
      */
     function wprss_setting_limit_feed_items_callback() {
         $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='limit-feed-items' name='wprss_settings_general[limit_feed_items]' type='text' value='{$options['limit_feed_items']}' />";   
-        echo "<label for='limit-feed-items'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
+        echo "<input id='limit-feed-items-db' name='wprss_settings_general[limit_feed_items_db]' type='text' value='{$options['limit_feed_items_db']}' />";   
+        echo "<label for='limit-feed-items-db'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
+    }
+
+
+    /**
+     * Gets a sorted (according to interval) list of the cron schedules
+     * @since 3.0
+     */
+    function wprss_get_schedules() {
+        $schedules = wp_get_schedules();
+        uasort( $schedules, create_function( '$a,$b', 'return $a["interval"]-$b["interval"];' ) );
+        return $schedules;
     }
 
 
@@ -299,15 +311,30 @@
         $options = get_option( 'wprss_settings_general' );  
         $current = $options['cron_interval'];
 
-        $schedules = wp_get_schedules();     
+        $schedules = wprss_get_schedules();    
+        // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
+        $wprss_schedules = array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' );
         //var_dump($schedules);
         echo "<select id='cron-interval' name='wprss_settings_general[cron_interval]'>";
-        foreach( $schedules as $schedule_name=>$schedule_data ) { ?>
-            <option value="<?php echo $schedule_name; ?>" <?php selected( $current, $schedule_name ); ?> >
-                <?php echo $schedule_data['display']; ?> (<?php echo wprss_interval( $schedule_data['interval'] ); ?>)
-            </option>
+        foreach( $schedules as $schedule_name => $schedule_data ) { 
+            if ( in_array( $schedule_name, $wprss_schedules ) ) { ?>
+                <option value="<?php echo $schedule_name; ?>" <?php selected( $current, $schedule_name ); ?> >
+                    <?php echo $schedule_data['display']; ?> (<?php echo wprss_interval( $schedule_data['interval'] ); ?>)
+                </option>
+            <?php } ?>
         <?php } ?>
         </select><?php
+    }
+
+
+    /** 
+     * Enable linked title
+     * @since 3.0
+     */
+    function wprss_setting_title_link_callback( $args ) {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='title-link' name='wprss_settings_general[title_link]' type='checkbox' value='1' " . checked( 1, $options['title_link'], false ) . " />";   
+        echo "<label for='title-link'>Check this box to enable linked titles</label>";   
     }
 
 
@@ -317,21 +344,39 @@
      */
     function wprss_setting_source_enable_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='source-enable' name='wprss_settings_excerpts[source_enable]' type='checkbox' value='1' " . checked( 1, $options['source_enable'], false ) . " />";   
+        echo "<input id='source-enable' name='wprss_settings_general[source_enable]' type='checkbox' value='1' " . checked( 1, $options['source_enable'], false ) . " />";   
         echo "<label for='source-enable'>Check this box to enable feed source display</label>";   
     }
 
 
+    /** 
+     * Set text preceding source
+     * @since 3.0
+     */
+    function wprss_setting_text_preceding_source_callback() {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='text-preceding-source' name='wprss_settings_general[text_preceding_source]' type='text' value='{$options['text_preceding_source']}' />";   
+        echo "<label for='text-preceding-source'>Enter the text you want shown before the feed item's source</label>";
+    }
     /** 
      * Enable date
      * @since 3.0
      */
     function wprss_setting_date_enable_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='date-enable' name='wprss_settings_excerpts[date_enable]' type='checkbox' value='1' " . checked( 1, $options['date_enable'], false ) . " />";   
+        echo "<input id='date-enable' name='wprss_settings_general[date_enable]' type='checkbox' value='1' " . checked( 1, $options['date_enable'], false ) . " />";   
         echo "<label for='date-enable'>Check this box to enable display of date published</label>";   
     }    
 
+    /** 
+     * Set text preceding date
+     * @since 3.0
+     */
+    function wprss_setting_text_preceding_date_callback() {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='text-preceding-date' name='wprss_settings_general[text_preceding_date]' type='text' value='{$options['text_preceding_date']}' />";   
+        echo "<label for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
+    }
 
     /** 
      * Disable styles
@@ -339,8 +384,9 @@
      */
     function wprss_setting_styles_disable_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='styles-disable' name='wprss_settings_excerpts[styles_disable]' type='checkbox' value='1' " . checked( 1, $options['styles_disable'], false ) . " />";   
-        echo "<label for='styles-disable'>Check this box to disable all plugin styles</label>";   
+        echo "<input id='styles-disable' name='wprss_settings_general[styles_disable]' type='checkbox' value='1' " . checked( 1, $options['styles_disable'], false ) . " />";   
+        echo "<label for='styles-disable'>Check this box to disable all plugin styles</label>"; 
+        echo "<p class='description'>You will then be responsible for providing your own CSS styles.</p>";  
     }
 
 
@@ -444,9 +490,14 @@
             
         } // end foreach
 
-        if ( ! isset( $input['source_enable'] ) || $input['source_enable'] != '1' ) {
-            $output['source_enable'] = 0; wp_die(); }
-        else
+        if (  ! isset( $input['title_link'] )  ||  $input['title_link'] != '1' ) 
+            $output['title_link'] = 0; 
+        else 
+            $output['title_link'] = 1;  
+
+        if (  ! isset( $input['source_enable'] )  ||  $input['source_enable'] != '1' ) 
+            $output['source_enable'] = 0; 
+        else 
             $output['source_enable'] = 1;        
 
         if ( ! isset( $input['date_enable'] ) || $input['date_enable'] != '1' )
@@ -463,8 +514,6 @@
             wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );    
             wp_schedule_event( time(), $input['cron_interval'], 'wprss_fetch_all_feeds_hook' );
         }
-
-
 
         // Return the array processing any additional functions filtered by this action
         return apply_filters( 'wprss_settings_general_validate', $output, $input );

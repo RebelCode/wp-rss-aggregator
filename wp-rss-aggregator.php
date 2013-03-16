@@ -2,7 +2,7 @@
     /*
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wpmayor.com
-    Description: Imports and merges multiple RSS Feeds using SimplePie
+    Description: Imports and aggregates multiple RSS Feeds using SimplePie
     Version: 3.0
     Author: Jean Galea
     Author URI: http://www.wpmayor.com
@@ -106,10 +106,10 @@
     require_once ( WPRSS_INC . 'admin-options.php' );             
 
     /* Load the settings import/export file */
-    require_once ( WPRSS_INC . 'admin-import-export.php' ); 
+    //require_once ( WPRSS_INC . 'admin-import-export.php' ); 
 
     /* Load the debugging file */
-    require_once ( WPRSS_INC . 'admin-debugging.php' ); 
+    //require_once ( WPRSS_INC . 'admin-debugging.php' ); 
 
     /* Load the admin display-related functions */
     require_once ( WPRSS_INC . 'admin-display.php' );     
@@ -119,6 +119,9 @@
 
     /* Load the scripts loading functions file */
     require_once ( WPRSS_INC . 'scripts.php' );   
+
+    /* Load the Ajax notification file */
+    require_once ( WPRSS_INC . 'admin-ajax-notice.php' ); 
 
     /* Load the logging class */
     require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
@@ -134,8 +137,7 @@
      * @since  1.0
      * @return void
      */     
-    function wprss_init() {                
-    
+    function wprss_init() {                    
         do_action( 'wprss_init' );          
     }
 
@@ -148,9 +150,9 @@
      */  
     function wprss_activate() {
         /* Prevents activation of plugin if compatible version of WordPress not found */
-        if ( version_compare( get_bloginfo( 'version' ), '3.2', '<' ) ) {
+        if ( version_compare( get_bloginfo( 'version' ), '3.3', '<' ) ) {
             deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
-            wp_die( __( 'This plugin requires WordPress version 3.2 or higher.' ), 'WP RSS Aggregator', array( 'back_link' => true ) );
+            wp_die( __( 'This plugin requires WordPress version 3.3 or higher.' ), 'WP RSS Aggregator', array( 'back_link' => true ) );
         }  
         wprss_settings_initialize();
         flush_rewrite_rules();
@@ -182,62 +184,3 @@
     function wprss_load_textdomain() { 
         load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/languages/' );
     }
-
-
-    /**
-     * Change title on wprss_feed post type screen
-     * 
-     * @since  2.0
-     * @return void
-     */  
-    function wprss_change_title_text() {
-        return __( 'Enter feed name here (e.g. WP Mayor)', 'wprss' );
-    } 
-
-
-    /**
-     * Limits a phrase/content to a defined number of words
-     *
-     * NOT BEING USED as we're using the native WP function, although the native one strips tags, so I'll
-     * probably revisit this one again soon. 
-     *
-     * @since  3.0
-     * @param  string  $words
-     * @param  integer $limit
-     * @param  string  $append
-     * @return string
-     */
-    function wprss_limit_words( $words, $limit, $append = '' ) {
-           // Add 1 to the specified limit becuase arrays start at 0
-           $limit = $limit + 1;
-           // Store each individual word as an array element
-           // Up to the limit
-           $words = explode( ' ', $words, $limit );
-           // Shorten the array by 1 because that final element will be the sum of all the words after the limit
-           array_pop( $words );
-           // Implode the array for output, and append an ellipse
-           $words = implode( ' ', $words ) . $append;
-           // Return the result
-           return rtrim( $words );
-    } 
-
-
-    add_filter( 'plugin_action_links', 'wprss_plugin_action_links', 10, 2 );
-    /** 
-     * Add Settings action link in plugin listing
-     *
-     * @since  3.0
-     * @param  array  $action_links
-     * @param  string $plugin_file 
-     * @return array
-     */  
-    function wprss_plugin_action_links( $action_links, $plugin_file ) {
- 
-
-        if ( $plugin_file == plugin_basename( __FILE__ ) ) {
-            $settings_link = '<a href="' . get_admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __("Settings") . '</a>';
-            array_unshift( $action_links, $settings_link );
-        }
-
-        return $action_links;
-    }    

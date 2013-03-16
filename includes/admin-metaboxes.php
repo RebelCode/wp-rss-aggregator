@@ -218,16 +218,29 @@
             $feed = fetch_feed( $feed_url ); 
             if ( ! is_wp_error( $feed ) ) {
                 $items = $feed->get_items();        
+                // Figure out how many total items there are, but limit it to 5. 
+                $maxitems = $feed->get_item_quantity(5); 
 
+                // Build an array of all the items, starting with element 0 (first element).
+                $items = $feed->get_items( 0, $maxitems );  
                 echo '<h4>Latest 5 feeds available from ' . get_the_title() . '</h4>'; 
-                $count = 0;
-                $feedlimit = 5;
+                echo '<ul>';
                 foreach ( $items as $item ) { 
-                    echo '<ul>';
-                    echo '<li>' . $item->get_title() . '</li>';
-                    echo '</ul>';
-                    if( ++$count == $feedlimit ) break; //break if count is met
-                } 
+                    // Get human date (comment if you want to use non human date)
+                    $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );                                   
+                    // Start displaying item content within a <li> tag
+                    echo '<li>';
+                    // create item link
+                    //echo '<a href="'.esc_url( $item->get_permalink() ).'" title="'.$item_date.'">';
+                    // Get item title
+                    echo esc_html( $item->get_title() );
+                    //echo '</a>';
+                    // Display date
+                    echo ' <div class="rss-date"><small>'.$item_date.'</small></div>';
+                    // End <li> tag
+                    echo '</li>';
+                }  
+                echo '</ul>';
             }
             else _e( '<span class="invalid-feed-url"><strong>Invalid feed URL</strong> - Double check the feed source URL setting above.</span>
                       <p>Not sure where to find the RSS feed on a website? 

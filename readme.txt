@@ -2,25 +2,28 @@
 Contributors: jeangalea
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
 Plugin URI: http://www.wprssaggregator.com
-Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds
+Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds, multi feed importer, multi feed import, multi import, autoblog, autoblogging, autoblogger
 Requires at least: 3.3
-Tested up to: 3.4
-Stable tag: 2.2.3
-Imports and merges multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
+Tested up to: 3.5.1
+Stable tag: 3.0
+Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
 
-WP RSS Aggregator helps you create a feed reader on your WordPress site. It works in a similar fashion to RSS readers like for example Netvibes.
+WP RSS Aggregator helps you create a feed reader/aggregator on your WordPress site. It works in a similar fashion to RSS readers like for example Google Reader.
 You can add any number of feeds through an administration panel, the plugin will then pull all the feeds from these sites, merge them and sort them by date.
 
-The plugin uses SimplePie for the feed operations. The actual news feeds are not stored in your databases but only cached for faster response times.
+The plugin uses SimplePie for the feed operations. 
 You can call the function from within the theme or even use a shortcode with parameters.
+
+Since the plugin uses Custom Post Types to store the imported feeds, you are also free to display them in any way you want, in a similar fashion as you
+would with other post types such as Posts or Pages.
 
 = Demo =
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/)
 
 = Credit = 
-Created by Jean Galea. Need a [WordPress Freelance Developer](http://www.jeangalea.com/services/wordpress-consultancy-development/)?
+Created by Jean Galea from [WP Mayor](http://www.wpmayor.com)
 
 = Translations =
 Italian - Davide De Maestri
@@ -88,14 +91,34 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
+= Version 3.0 (2013-03-16) =
+* New feature: Option to select cron frequency
+* New feature: Code extensibility added to be compatible with add-ons
+* New feature: Option to set a limit to the number of feeds stored (previously 50, hard coded)
+* New feature: Option to define the format of the date shown below each feed item
+* New feature: Option to show or hide source of feed item
+* New feature: Option to show or hide publish date of feed item
+* New feature: Option to set text preceding publish date
+* New feature: Option to set text preceding source of feed item
+* New feature: Option to link title or not
+* New feature: Limit of 5 items imported for each source instead of 10
+* Enhanced: Performance improvement when publishing * New feeds in admin
+* Enhanced: Query tuning for better performance
+* Enhanced: Major code rewrite, refactoring and inclusion of hooks
+* Enhanced: Updated Colorbox to v1.4.1
+* Enhanced: Better security implementations	
+* Enhanced: Better feed preview display
+* Fixed bug: Deletion of items upon source deletion not working properly
+* Requires: WordPress 3.3
+
 = Version 2.2.3 (2012-11-01) =
-Fixed bug: Tab navigation preventing typing in input boxes
-Removed: Feeds showing up in internal linking pop up
+* Fixed bug: Tab navigation preventing typing in input boxes
+* Removed: Feeds showing up in internal linking pop up
 
 = Version 2.2.2 (2012-10-30) =
-Removed: Feeds showing up in site search results
-Enhanced: Better tab button navigation when adding a new feed
-Enhanced: Better guidance when a feed URL is invalid
+* Removed: Feeds showing up in site search results
+* Enhanced: Better tab button navigation when adding a new feed
+* Enhanced: Better guidance when a feed URL is invalid
 
 = Version 2.2.1 (2012-10-17) =
 * Fixed bug: wprss_feed_source_order assumes everyone is an admin

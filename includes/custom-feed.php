@@ -3,6 +3,7 @@
      * Function to create a custom feed with the latest imported feed items
      * 
      * @package WP RSS Aggregator
+     * @todo needs implementation, not currently used
      */ 
 
 

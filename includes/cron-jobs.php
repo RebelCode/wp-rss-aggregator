@@ -14,10 +14,14 @@
      */    
     function wprss_schedule_fetch_all_feeds_cron() {
 
+        $options = get_option( 'wprss_settings_general' );
+
+        $cron_interval = $options['cron_interval'];
+
         // verify event has not been scheduled 
         if ( ! wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {            
             // Schedule to run hourly
-            wp_schedule_event( time(), 'hourly', 'wprss_fetch_all_feeds_hook' );
+            wp_schedule_event( time(), $cron_interval, 'wprss_fetch_all_feeds_hook' );
         }
         
         add_action( 'wprss_fetch_all_feeds_hook', 'wprss_fetch_insert_all_feed_items' );    
@@ -74,19 +78,3 @@
 
         return array_merge( $schedules, $frequencies );
     }
-
-    
-    //add_filter( 'cron_schedules', 'wprss_cron_add_weekly' );
-    /**
-     * Not actually used at the moment, might use later on for custom scheduling
-     *
-     * @since 2.0
-     */    
-  /*  function wprss_cron_add_weekly( $schedules ) {
-       // Adds once weekly to the existing schedules.
-       $schedules['weekly'] = array(
-        'interval' => 60, // 60*60*24*7
-        'display' => __( 'Once Weekly' )
-       );
-       return $schedules;
-    }*/

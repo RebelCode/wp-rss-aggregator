@@ -195,8 +195,6 @@
     }           
 
 
-
-
     add_filter( 'post_row_actions', 'wprss_remove_row_actions', 10, 1 );
     /**
      * Remove actions row for imported feed items, we don't want them to be editable or viewable
@@ -243,7 +241,6 @@
         </script>
         <?php
     }
-
 
 
     add_filter( 'gettext', 'wprss_change_publish_button_text', 10, 2 );

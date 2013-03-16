@@ -3,6 +3,7 @@
      * Build the import/export settings page, used to import and export the plugin's settings
      * Based on http://wp.tutsplus.com/tutorials/creative-coding/creating-a-simple-backuprestore-settings-feature/
      * @since 3.0
+     * @todo not working properly, need to fix it and also include other settings (excerpts and thumbnails)
      */ 
 
     function wprss_import_export_settings_page_display() {
@@ -89,13 +90,8 @@
             echo $json_file;
             header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
             header( "Content-Disposition: attachment; filename=$json_name.json" );
-            add_action('admin_notices', 'my_admin_notice');
+            add_action( 'admin_notices', 'my_admin_notice' );
             exit();
         }
     }
 
-    function my_admin_notice(){
-    echo '<div class="updated">
-       <p>I am a little yellow notice.</p>
-    </div>';
-}

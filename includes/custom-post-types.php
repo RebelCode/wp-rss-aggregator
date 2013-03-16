@@ -51,7 +51,7 @@
                                             'slug'       => 'feeds',
                                             'with_front' => false
                                         ), 
-                'supports'              => array( 'title', 'thumbnail' ),
+                'supports'              => array( 'title' ),
                 'labels'                => $labels   
             )
         );

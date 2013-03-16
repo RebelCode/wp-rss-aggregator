@@ -2,10 +2,13 @@ li.feed-item { margin-bottom: 10px; }
 
 .thumbnail-excerpt { 
 	overflow:hidden;
+	margin-bottom: 5px;
 }
 
 .thumbnail-excerpt img {
 	max-width:100%; float:left; margin-top: 0.5em; margin-right:10px;
 }
 
-span.feed-source { font-size: 90%;}
+div.source-date { clear: both; }
+
+span.feed-source { font-size: 90%; }

@@ -9,90 +9,25 @@
     /**
      * Change the default feed cache recreation period to 2 hours
      * 
+     * Probably not needed since we are now disabling caching altogether
+     * 
      * @since 2.1
      */ 
     function wprss_feed_cache_lifetime( $seconds ) 
     {      
-        return 0; // disable transient cache for feeds
+        return 1; // one second
         //return 7200; // 2 hours
     }
 
 
     /**
-     * Fetches feed items from sources provided
-     * DEPRECATED - JUST FOR REFERENCE
+     * Disable caching of feeds in transients, we don't need it as we are storing them in the wp_posts table
      * 
-     * @since 2.0
-     */
-     function wprss_fetch_all_feed_items( ) {            
-        
-            // Get all feed sources
-            $feed_sources = new WP_Query( array(
-                'post_type'      => 'wprss_feed',
-                'post_status'    => 'publish',
-                'posts_per_page' => -1,
-            ) );
-            
-            if( $feed_sources->have_posts() ) {
-                /* Start by getting one feed source, we will cycle through them one by one, 
-                   fetching feed items and adding them to the database in each pass */
-                while ( $feed_sources->have_posts() ) {                
-                    $feed_sources->the_post();
-                    
-                    $feed_ID = get_the_ID();
-                    $feed_url = get_post_meta( get_the_ID(), 'wprss_url', true );
-                    
-                    // Use the URL custom field to fetch the feed items for this source
-                    if( !empty( $feed_url ) ) {             
-                        
-                        add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
-                        //$feed = fetch_feed( $feed_url );                        
-                        $feed = wprss_fetch_feed( $feed_url );                        
-                        remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
-
-                    //    $feed->strip_htmltags( array_merge( $feed->strip_htmltags, array('h1', 'a', 'img') ) ); 
-                        
-                        if ( !is_wp_error( $feed ) ) {
-                            // Figure out how many total items there are, but limit it to 10. 
-                            $maxitems = $feed->get_item_quantity(10); 
-
-                            // Build an array of all the items, starting with element 0 (first element).
-                            $items = $feed->get_items( 0, $maxitems );   
-                        }
-                        else { return; }
-                    }
-
-                    if ( ! empty( $items ) ) {
-                        // Gather the permalinks of existing feed item's related to this feed source
-                        global $wpdb;
-                        $existing_permalinks = $wpdb->get_col(
-                            "SELECT meta_value
-                            FROM $wpdb->postmeta
-                            WHERE meta_key = 'wprss_item_permalink'
-                            AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID)
-                            ");
-
-                        foreach ( $items as $item ) {
-                            // Check if newly fetched item already present in existing feed item item, 
-                            // if not insert it into wp_posts and insert post meta.
-                            if (  ! ( in_array( $item->get_permalink(), $existing_permalinks ) )  ) { 
-                                // Create post object
-                                $feed_item = array(
-                                    'post_title'   => $item->get_title(),
-                                    'post_content' => '',
-                                    'post_status'  => 'publish',
-                                    'post_type'    => 'wprss_feed_item'
-                                );                
-                                $inserted_ID = wp_insert_post( $feed_item );
-                                wprss_items_create_post_meta( $inserted_ID, $item, $feed_ID );                  
-                           } //end if
-                        } //end foreach
-                    } // end if
-                } // end $feed_sources while loop
-                wp_reset_postdata(); // Restore the $post global to the current post in the main query        
-           // } // end if
-        } // end if
-    } 
+     * @since 3.0
+     */ 
+    function wprss_do_not_cache_feeds( &$feed ) {
+        $feed->enable_cache( false );
+    }
 
 
     /**
@@ -107,16 +42,17 @@
             array(
                 'post_type'      => 'wprss_feed',
                 'post_status'    => 'publish',
+                'cache_results'  => false,   // Disable caching, used for one-off queries
+                'no_found_rows'  => true,    // We don't need pagination, so disable it                
                 'posts_per_page' => -1
             ) 
         ) );
-
         return $feed_sources;
     }
 
 
     /**
-     * Parameters for query to get all feed sources
+     * Parameters for query to get feed sources
      * 
      * @since 3.0
      */
@@ -127,10 +63,11 @@
             array(
                 'post_type'      => 'wprss_feed',
                 'post_status'    => 'publish',
+                'cache_results'  => false,   // Disable caching, used for one-off queries
+                'no_found_rows'  => true,    // We don't need pagination, so disable it                
                 'posts_per_page' => -1
             ) 
         ) );
-
         return $feed_sources;
     }    
 
@@ -156,18 +93,23 @@
 
     function wprss_get_feed_items( $feed_url ) {
         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
-        $feed = fetch_feed( $feed_url );                        
+       
+        /* Disable caching of feeds */
+        add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' ); 
+        /* Fetch the feed from the soure URL specified */
+        $feed = fetch_feed( $feed_url );            
+        /* Remove action here because we only don't want it active feed imports outside of our plugin */
+        remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );             
+        
         //$feed = wprss_fetch_feed( $feed_url );                        
         remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' ); 
 
         if ( !is_wp_error( $feed ) ) {
-            $feed->set_output_encoding( 'UTF-8' );  // set encoding
-            $feed->handle_content_type();           // ensure encoding
-            //$feed->set_cache_duration(21600);       // six hours in seconds
-            $feed->set_cache_duration(0);       // we don't need any caching
 
-            // Figure out how many total items there are, but limit it to 10. 
-            $maxitems = $feed->get_item_quantity(10); 
+            // Figure out how many total items there are, but limit it to 5. 
+            $maxitems = $feed->get_item_quantity(5); 
+
+            if ( $maxitems == 0 ) { return; }
 
             // Build an array of all the items, starting with element 0 (first element).
             $items = $feed->get_items( 0, $maxitems );   
@@ -225,7 +167,9 @@
     /**
      * Fetches feed items from source provided and inserts into db
      * 
-     * @since 2.0
+     * This function is used when inserting or untrashing a new feed source, it only gets feeds from that particular source
+     * 
+     * @since 3.0
      */
     function wprss_fetch_insert_feed_items( $post_id, $post ) {            
 
@@ -252,7 +196,9 @@
     /**
      * Fetches all feed items from sources provided and inserts into db
      * 
-     * @since 2.0
+     * This function is used by the cron job or the debugging functions to get all feeds from all feed sources
+     * 
+     * @since 3.0
      */
     function wprss_fetch_insert_all_feed_items() {            
         
@@ -282,34 +228,57 @@
     } 
 
 
-    add_action( 'trash_wprss_feed', 'wprss_delete_feed_items' );
+    add_action( 'trash_wprss_feed', 'wprss_delete_feed_items' );   // maybe use wp_trash_post action? wp_trash_wprss_feed
     /**
      * Delete feed items on trashing of corresponding feed source
      * 
      * @since 2.0
      */    
-    function wprss_delete_feed_items() {
-        global $post;
-  
+    function wprss_delete_feed_items( $postid ) {
+        
         $args = array(
-                'post_type'   => 'wprss_feed_item',
-                'meta_query'  => array(                                                   
-                                    'key'     => 'wprss_feed_id',                  
-                                    'value'   => $post->ID, 
-                                    'compare' => 'LIKE'                                        
-                )        
+            'post_type'     => 'wprss_feed_item', 
+            // Next 3 parameters for performance, see http://thomasgriffinmedia.com/blog/2012/10/optimize-wordpress-queries 
+            'cache_results' => false,   // Disable caching, used for one-off queries
+            'no_found_rows' => true,    // We don't need pagination, so disable it
+            'fields'        => 'ids',   // Returns post IDs only
+            'meta_query'    => array(
+                                    array(
+                                    'key'     => 'wprss_feed_id',
+                                    'value'   => $postid,
+                                    'compare' => 'LIKE' 
+                                    )
+            )                   
         );
         
-        $feed_items = new WP_Query( $args );  
+        $feed_item_ids = get_posts( $args ); 
+        foreach( $feed_item_ids as $feed_item_id )  {          
+                $purge = wp_delete_post( $feed_item_id, true ); // delete the feed item, skipping trash    
+        }
+        wp_reset_postdata();
+    }  
 
-        if ( $feed_items->have_posts() ) :
-            while ( $feed_items->have_posts() ) : $feed_items->the_post();
-                $postid = get_the_ID();
 
-                $purge = wp_delete_post( $postid, true );                
-            endwhile;
-        endif;
+    /**
+     * Delete all feed items
+     * 
+     * @since 3.0
+     */    
+    function wprss_delete_all_feed_items() {        
+        $args = array(
+                'post_type'      => 'wprss_feed_item', 
+                'cache_results'  => false,   // Disable caching, used for one-off queries
+                'no_found_rows'  => true,    // We don't need pagination, so disable it
+                'fields'         => 'ids',   // Returns post IDs only                  
+                'posts_per_page' => -1, 
+        );
+        
+        //$feed_items = new WP_Query( $args );  
 
+        $feed_item_ids = get_posts( $args ); 
+        foreach( $feed_item_ids as $feed_item_id )  {          
+                $purge = wp_delete_post( $feed_item_id, true ); // delete the feed item, skipping trash    
+        }
         wp_reset_postdata();
     }  
 
@@ -360,9 +329,12 @@
     /**
      * Custom version of the WP fetch_feed() function, since we want custom sanitization of a feed
      * 
+     * Not being used at the moment, until we decide whether we can still use fetch_feed and modify its handling of sanitization
+     * 
      * @since 3.0
+     * 
      */
-    function wprss_fetch_feed($url) {
+    /*function wprss_fetch_feed($url) {
         require_once (ABSPATH . WPINC . '/class-feed.php');
 
         $feed = new SimplePie();
@@ -386,7 +358,7 @@
             return new WP_Error('simplepie-error', $feed->error());
 
         return $feed;
-    }
+    }*/
 
 
     /**
@@ -395,7 +367,7 @@
      * @since 3.0
      */
     function wprss_feed_reset() {
-        wprss_delete_feed_items();
+        wprss_delete_all_feed_items();
         wprss_fetch_insert_all_feed_items();
     }
 

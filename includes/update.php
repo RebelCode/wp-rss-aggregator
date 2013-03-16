@@ -51,7 +51,7 @@
 		// We check if wprss_settings option exists, as this only exists prior to version 3.0
 		// Settings field changed, and another added
 		elseif ( intval( $old_db_version ) < intval( WPRSS_DB_VERSION ) && ( FALSE != get_option( 'wprss_settings' ) ) ) {			
-			wprss_migrate_to_3();
+			wprss_upgrade_30();
 			wprss_update();
 			wprss_fetch_insert_all_feed_items(); 
 		}
@@ -125,7 +125,7 @@
 	 *
 	 * @since 3.0
 	 */	
-	function wprss_migrate_to_3() {
+	function wprss_upgrade_30() {
 		wp_clear_scheduled_hook( 'wprss_fetch_feeds_hook' );	
 
 		// Get the settings from the database. 
@@ -184,19 +184,22 @@
 			'wprss_default_settings_general',
 			array(
 				// from version 1.1
-				'open_dd' 			=> __( 'New window' ),
-				'follow_dd' 		=> __( 'No follow' ),
+				'open_dd' 					=> __( 'New window' ),
+				'follow_dd' 				=> __( 'No follow' ),
 				
 				// from version 2.0
-				'feed_limit'		=> 15, 
+				'feed_limit'				=> 15, 
 				
 				// from version 3.0
-				'date_format'		=> 'Y-m-d',
-				'limit_feed_items' 	=> 200,
-				'cron_interval' 	=> 'hourly',
-				'styles_disable'    => 0,
-				'source_enable'     => 1,
-				'date_enable'		=> 1
+				'date_format'				=> 'Y-m-d',
+				'limit_feed_items_db' 		=> 200,
+				'cron_interval' 			=> 'hourly',
+				'styles_disable'    		=> 0,
+				'title_link'				=> 1,
+				'source_enable'     		=> 1,
+				'text_preceding_source' 	=> 'Source:',
+				'date_enable'				=> 1,
+				'text_preceding_date' 		=> 'Published on',
 			)			
 		);
 

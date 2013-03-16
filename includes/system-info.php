@@ -1,5 +1,7 @@
 <?php
 /**
+ * 
+ * @todo to implement within the context of WP RSS Aggregator
  * System Info
  *
  * These are functions are used for exporting data from Easy Digital Downloads.

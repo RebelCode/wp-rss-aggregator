@@ -4,31 +4,34 @@
      *
      * @package    WPRSSAggregator
      * @subpackage Includes
-     * @since      1.0
+     * @since      3.0
      * @author     Jean Galea <info@jeangalea.com>
      * @copyright  Copyright(c) 2012-2013, Jean Galea
      * @link       http://www.wpmayor.com
      * @license    http://www.gnu.org/licenses/gpl.html
      */
 
+    //allow redirection, even if my theme starts to send output to the browser
+    add_action('admin_init', 'do_output_buffer');
+    function do_output_buffer() {
+          //  ob_start();
+    }
     /**
      * Build the debugging page
      * 
      * @since 3.0
      */ 
     function wprss_debugging_page_display() {     
-
         // If page loading after having clicked 'Update all fields'
         if ( isset( $_POST['update-feeds'] ) && check_admin_referer( 'wprss-update-feed-items' ) ) { 
             wprss_fetch_insert_all_feed_items();
-            wp_redirect( "edit.php?post_type=wprss_feed&page=wprss-debugging&crontrol_message=1" );
-           
+            wp_redirect( "edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=1" );           
         }
 
         // If page loading after having clicked 'Delete and re-import all fields'
         else if ( isset( $_POST['reimport-feeds'] ) && check_admin_referer( 'wprss-delete-import-feed-items' ) ) { 
             wprss_feed_reset();
-            wp_redirect( "edit.php?post_type=wprss_feed&page=wprss-debugging&crontrol_message=2" );
+            wp_redirect( "edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=2" );
         }        
         ?>
 
@@ -37,8 +40,8 @@
 
             <h2><?php _e( 'Debugging', 'wprss' ); ?></h2>
             <?php 
-            if ( isset( $_GET['crontrol_message'] ))  {//&& ( check_admin_referer( 'wprss-delete-import-feed-items' ) || check_admin_referer( 'wprss-update-feed-items' ) ) ) {
-                $message = $_GET['crontrol_message'];
+            if ( isset( $_GET['debug_message'] ))  {//&& ( check_admin_referer( 'wprss-delete-import-feed-items' ) || check_admin_referer( 'wprss-update-feed-items' ) ) ) {
+                $message = $_GET['debug_message'];
 
                 switch ( $message ) {
                     case 1 : 
@@ -91,4 +94,3 @@
     function wprss_debugging_admin_notice_reimport_feeds() {        
         echo '<div class="updated"><p>Feeds deleted and re-imported successfully.</p></div>';
     }
-    

@@ -81,6 +81,10 @@
      */  
     function wprss_register_styles() {   
 
+        $general_settings = get_option( 'wprss_settings_general' );
+
+        if( $general_settings['styles_disable'] == 1 )
+            return;
         wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.1' );     
         wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );       
 
@@ -92,7 +96,7 @@
 
         */
 
-        $file = 'wprss.css';
+      /*  $file = 'wprss.css';
 
         // Check child theme first
         if ( file_exists( trailingslashit( get_stylesheet_directory() ) . 'wprss_templates/' . $file ) ) {
@@ -107,5 +111,5 @@
             $url = trailingslashit( wprss_get_templates_uri() ) . $file;
         }        
 
-        wp_enqueue_style( 'wprss-styles', $url, WPRSS_VERSION );
+        wp_enqueue_style( 'wprss-styles', $url, WPRSS_VERSION );*/
     }

@@ -62,8 +62,18 @@ li.donate_link a:hover {
 color: darkGreen;
 }
 
-.invalid-feed-url {
+#preview_meta_box ul {
+    list-style: disc;
+    margin-left: 16px;
+}
+
+#preview_meta_box .invalid-feed-url {
     color: red;
+}
+
+#preview_meta_box .rss-date { 
+    color: #666;
+
 }
 
 /*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/
@@ -82,7 +92,6 @@ input#thumbnails-height,
 input#thumbnails-width {
     /*width: 29px;*/
 }
-
 
 
 /* Red Button */

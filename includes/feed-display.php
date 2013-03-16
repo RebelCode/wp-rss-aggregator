@@ -104,7 +104,7 @@
 
         if( $feed_items->have_posts() ) {            
            
-            $output .= "$links_before\n";
+            $output .= "$links_before";
            
             while ( $feed_items->have_posts() ) {                
                 $feed_items->the_post();		
@@ -114,14 +114,38 @@
                 do_action( 'wprss_get_post_data' );                             
 
                 // convert from Unix timestamp        
-                $date = date( 'Y-m-d', intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
-
-                // need to have filter to add thumbnail              
-                $output .= "\t\t" . "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $permalink . '">'. get_the_title(). '</a>' . "\n";                 
+                $date = date( $general_settings['date_format'], intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
+         
+                if ( $general_settings['title_link'] == 1 ) {   
+                    $output .= "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $permalink . '">'. get_the_title(). '</a>';                 
+                }
+                else { 
+                    $output .= get_the_title();            
+                }
             
-                $output .= "\t\t" .'<div><span class="feed-source">' . __( 'Source: ' ) . $source_name . ' | ' . $date . '</span></div>' . "$link_after" . "\n\n"; 
+                if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 1 ) )  {
+                    $output .= '<div class="source-date"><span class="feed-source">' . 
+                    ( !empty( $general_settings['text_preceding_source'] ) ? $general_settings['text_preceding_source'] . ' ' : '' ) . $source_name . ' | ' . 
+                    ( !empty( $general_settings['text_preceding_date'] ) ? $general_settings['text_preceding_date'] . ' ' : '' ) . $date . 
+                    '</span></div>' . "$link_after";     
+                }
+
+                else if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 0 ) )  {
+                    $output .= '<div class="source-date"><span class="feed-source">' . 
+                    ( !empty( $general_settings['text_preceding_source'] ) ? $general_settings['text_preceding_source'] . ' ' : '' ) . $source_name . 
+                    '</span></div>' . "$link_after";     
+                }
+
+                else if ( ( $general_settings['source_enable'] == 0 ) && ( $general_settings['date_enable'] == 1 ) )  {
+                    $output .= '<div class="source-date"><span class="feed-source">' .
+                    ( !empty( $general_settings['text_preceding_date'] ) ? $general_settings['text_preceding_date'] . ' ' : '' ) . $date . 
+                    '</span></div>' . "$link_after";         
+                }
+
+                else {} 
+
             }
-            $output .= "\t\t $links_after";
+            $output .= "$links_after";
             $output = apply_filters( 'feed_output', $output );
             
             echo $output;
@@ -160,3 +184,30 @@
     function wp_rss_aggregator( $args = array() ) { 
         wprss_display_feed_items( $args ); 
     } 
+
+
+    /**
+     * Limits a phrase/content to a defined number of words
+     *
+     * NOT BEING USED as we're using the native WP function, although the native one strips tags, so I'll
+     * probably revisit this one again soon. 
+     *
+     * @since  3.0
+     * @param  string  $words
+     * @param  integer $limit
+     * @param  string  $append
+     * @return string
+     */
+    function wprss_limit_words( $words, $limit, $append = '' ) {
+           /* Add 1 to the specified limit becuase arrays start at 0 */
+           $limit = $limit + 1;
+           /* Store each individual word as an array element
+              up to the limit */
+           $words = explode( ' ', $words, $limit );
+           /* Shorten the array by 1 because that final element will be the sum of all the words after the limit */
+           array_pop( $words );
+           /* Implode the array for output, and append an ellipse */
+           $words = implode( ' ', $words ) . $append;
+           /* Return the result */
+           return rtrim( $words );
+    }     
