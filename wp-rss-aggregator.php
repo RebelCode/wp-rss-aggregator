@@ -106,10 +106,10 @@
     require_once ( WPRSS_INC . 'admin-options.php' );             
 
     /* Load the settings import/export file */
-    //require_once ( WPRSS_INC . 'admin-import-export.php' ); 
+    require_once ( WPRSS_INC . 'admin-import-export.php' ); 
 
     /* Load the debugging file */
-    //require_once ( WPRSS_INC . 'admin-debugging.php' ); 
+    require_once ( WPRSS_INC . 'admin-debugging.php' ); 
 
     /* Load the admin display-related functions */
     require_once ( WPRSS_INC . 'admin-display.php' );     

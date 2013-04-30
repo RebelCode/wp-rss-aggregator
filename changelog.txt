@@ -1,3 +1,6 @@
+3.1
+New feature: Option to set the number of feed items imported from each feed (default 5)
+
 3.0 (2013-03-16)
 New feature: Option to select cron frequency
 New feature: Code extensibility added to be compatible with add-ons

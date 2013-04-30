@@ -66,9 +66,39 @@
      * 
      * @since 3.0
      */
-	function wprss_get_feed_items_query( $settings ) {
+	function wprss_get_feed_items_query( $args, $settings ) {
+        extract( $args, EXTR_SKIP );   
+
+        if ( isset( $category)  ) { 
+            // wp_die('category found');
+            $category_id = get_cat_ID( $category );
+
+            $the_query = new WP_Query( array(
+                'post_type' => 'wprss_feed',
+                'feed_category' => $category_id
+            ) );
+
+            $items = array();
+
+            while ( $the_query->have_posts() ) : $the_query->the_post();
+                $all_feed_items = get_posts( array(
+                                    'post_type'      => 'wprss_feed_item',
+                                    'posts_per_page' => $settings['feed_limit'], 
+                                    'orderby'        => 'meta_value', 
+                                    'meta_key'       => 'wprss_item_date', 
+                                    'order'          => 'DESC'
+                ) );
+
+                $feed_items = array_merge( $items, $all_feed_items );
+            endwhile;
+
+            wp_reset_postdata();          var_dump($feed_items);    
+        }
+      
+
 	 	// Arguments for the next query to fetch all feed items
-        $feed_items_args = apply_filters( 
+        else {
+            $feed_items_args = apply_filters( 
 					        	'wprss_display_feed_items_query',
 					        	array(
 						            'post_type'      => 'wprss_feed_item',
@@ -77,11 +107,12 @@
 						            'meta_key'       => 'wprss_item_date', 
 						            'order'          => 'DESC'
 					        	)
-        );
+            );
 
-        // Query to get all feed items for display
-        $feed_items = new WP_Query( $feed_items_args );
-
+            // Query to get all feed items for display
+            $feed_items = new WP_Query( $feed_items_args );
+        }
+        var_dump($feed_items);
         return $feed_items;
 	}
 
@@ -98,6 +129,7 @@
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
         // Declare each item in $args as its own variable
+        //print_r($args);
         extract( $args, EXTR_SKIP );   
 
         $output = '';
@@ -170,7 +202,7 @@
     	$settings = get_option( 'wprss_settings_general' );
     	$display_settings = wprss_get_display_settings( $settings );
     	$args = wprss_get_args( $args );    
- 		$feed_items = wprss_get_feed_items_query( $settings );
+ 		$feed_items = wprss_get_feed_items_query( $args, $settings );
  		do_action( 'wprss_display_template', $display_settings, $args, $feed_items );
     } 
 

@@ -91,7 +91,13 @@
     }
 
 
+    /**
+     * Fetch the feeds from a feed item url
+     * 
+     * @since 3.0
+     */
     function wprss_get_feed_items( $feed_url ) {
+        $general_settings = get_option( 'wprss_settings_general' );        
         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
        
         /* Disable caching of feeds */
@@ -106,8 +112,8 @@
 
         if ( !is_wp_error( $feed ) ) {
 
-            // Figure out how many total items there are, but limit it to 5. 
-            $maxitems = $feed->get_item_quantity(5); 
+            // Figure out how many total items there are, but limit it to the number of items set in options. 
+            $maxitems = $feed->get_item_quantity( $general_settings['limit_feed_items_imported'] ); 
 
             if ( $maxitems == 0 ) { return; }
 
@@ -120,6 +126,11 @@
     }
 
 
+    /**
+     * Insert a WPRSS feed item post
+     * 
+     * @since 3.0
+     */
     function wprss_items_insert_post( $items, $feed_ID ) {
 
         // Gather the permalinks of existing feed item's related to this feed source

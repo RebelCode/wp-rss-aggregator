@@ -78,7 +78,15 @@
             'wprss_setting_limit_feed_items_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
-        );            
+        );   
+
+        add_settings_field( 
+            'wprss-settings-limit-feed-items-imported', 
+            __( 'Limit feed items per feed', 'wprss' ), 
+            'wprss_setting_limit_feed_items_imported_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_general_section'
+        );                  
 
         add_settings_field( 
             'wprss-settings-cron-interval', 
@@ -292,6 +300,17 @@
     }
 
 
+    /** 
+     * Limit number of feed items imported per feed
+     * @since 3.1
+     */
+    function wprss_setting_limit_feed_items_imported_callback() {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='{$options['limit_feed_items_imported']}' />";   
+        echo "<label for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed</label>";
+    }
+
+
     /**
      * Gets a sorted (according to interval) list of the cron schedules
      * @since 3.0
@@ -313,8 +332,10 @@
 
         $schedules = wprss_get_schedules();    
         // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
-        $wprss_schedules = array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' );
-        //var_dump($schedules);
+        $wprss_schedules = apply_filters( 
+                            'wprss_schedules',
+                            array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' )
+        );        
         echo "<select id='cron-interval' name='wprss_settings_general[cron_interval]'>";
         foreach( $schedules as $schedule_name => $schedule_data ) { 
             if ( in_array( $schedule_name, $wprss_schedules ) ) { ?>

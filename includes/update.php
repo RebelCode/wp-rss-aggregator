@@ -200,6 +200,9 @@
 				'text_preceding_source' 	=> 'Source:',
 				'date_enable'				=> 1,
 				'text_preceding_date' 		=> 'Published on',
+
+				// from version 3.1
+				'limit_feed_items_imported' => 200,
 			)			
 		);
 
