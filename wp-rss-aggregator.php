@@ -182,5 +182,5 @@
      * @return void     
      */  
     function wprss_load_textdomain() { 
-        load_plugin_textdomain( 'wprss', false, plugin_basename( __FILE__ ) . '/languages/' );
+        load_plugin_textdomain( 'wprss', false, plugin_dir_path( __FILE__ ) . '/languages/' );
     }
