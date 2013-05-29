@@ -23,7 +23,7 @@
         // Only load scripts if we are on wprss_feed add post or edit post screens
         $screen = get_current_screen();
 
-        if ( ( 'post' === $screen->base || 'edit' === $screen->base ) && ( 'wprss_feed' === $screen->post_type 
+        if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && ( 'wprss_feed' === $screen->post_type 
             || 'wprss_feed_item' === $screen->post_type ) ) {
             wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );

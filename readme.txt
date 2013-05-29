@@ -91,6 +91,12 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
+= Version 3.1 (2013-05-29) =
+* New feature: Option to set the number of feed items imported from every feed (default 5)
+* New feature: Import and Export aggregator settings
+* New feature: Debugging page allowing manual feed refresh and feed reset
+* Fixed bug: Limiter on number of overall feeds stored not working
+
 = Version 3.0 (2013-03-16) =
 * New feature: Option to select cron frequency
 * New feature: Code extensibility added to be compatible with add-ons

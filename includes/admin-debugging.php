@@ -72,7 +72,8 @@
                     <?php wp_nonce_field( 'wprss-delete-import-feed-items' );
                     submit_button( __( 'Delete and Re-import all feeds', 'wprss' ), 'button-red', 'reimport-feeds', true  ); ?>            
                 
-            </form>        
+            </form> 
+            <?php wprss_system_info(); ?>       
         </div>
     <?php
     }           

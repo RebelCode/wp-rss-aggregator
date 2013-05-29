@@ -16,7 +16,6 @@
     function wprss_feed_cache_lifetime( $seconds ) 
     {      
         return 1; // one second
-        //return 7200; // 2 hours
     }
 
 
@@ -303,12 +302,12 @@
         global $wpdb;
         $general_settings = get_option( 'wprss_settings_general' );        
 
-        if ( $general_settings['limit_feed_items'] == 0 ) {
+        if ( $general_settings['limit_feed_items_db'] == 0 ) {
             return;
         }
 
         // Set your threshold of max posts and post_type name
-        $threshold = $general_settings['limit_feed_items'];
+        $threshold = $general_settings['limit_feed_items_db'];
         $post_type = 'wprss_feed_item';
 
         // Query post type

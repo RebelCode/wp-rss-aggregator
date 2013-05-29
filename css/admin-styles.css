@@ -169,6 +169,16 @@ input#thumbnails-width {
     cursor: default;
 }
 
+#system-info-textarea {
+    width: 800px;
+    height: 400px;
+    font-family: Menlo, Monaco, monospace;
+    background: none;
+    white-space: pre;
+    overflow: auto;
+    display: block;
+}
+
 
 
 /* Excerpts and Thumbnails */

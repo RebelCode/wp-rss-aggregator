@@ -1,6 +1,8 @@
-3.1
-New feature: Option to set the number of feed items imported from each feed (default 5)
+3.1 (2013-05-29)
+New feature: Option to set the number of feed items imported from every feed (default 5)
 New feature: Import and Export aggregator settings
+New feature: Debugging page allowing manual feed refresh and feed reset
+Fixed bug: Limiter on number of overall feeds stored not working
 
 3.0 (2013-03-16)
 New feature: Option to select cron frequency

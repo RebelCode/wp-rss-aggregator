@@ -109,7 +109,16 @@
     require_once ( WPRSS_INC . 'admin-import-export.php' ); 
 
     /* Load the debugging file */
-    require_once ( WPRSS_INC . 'admin-debugging.php' ); 
+    require_once ( WPRSS_INC . 'system-info.php' ); 
+
+    /* Load the miscellaneous functions file */
+    require_once ( WPRSS_INC . 'misc-functions.php' ); 
+
+    /* Load the OPMLL importer file */
+    require_once ( WPRSS_INC . 'OPML.php' );       
+
+    /* Load the system info file */
+    require_once ( WPRSS_INC . 'admin-debugging.php' );     
 
     /* Load the admin display-related functions */
     require_once ( WPRSS_INC . 'admin-display.php' );     

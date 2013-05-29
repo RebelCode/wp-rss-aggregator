@@ -2,8 +2,8 @@
     /**
      * Build the import/export settings page, used to import and export the plugin's settings
      * Based on http://wp.tutsplus.com/tutorials/creative-coding/creating-a-simple-backuprestore-settings-feature/
+     * 
      * @since 3.1
-     * @todo not working properly, need to fix it and also include other settings (excerpts and thumbnails)
      */ 
 
 
@@ -35,7 +35,8 @@
      */  
     function wp_rss_set_export_data() {
         $options = apply_filters( 
-            'wprss_fields_export',array('wprss_settings_general' => get_option( 'wprss_settings_general' ))
+            'wprss_fields_export', 
+            array( 'wprss_settings_general' => get_option( 'wprss_settings_general' ) )
         );    
         $json_file = json_encode( $options );
 
@@ -80,7 +81,7 @@
         echo '<div class="error"><p>' . __( 'Invalid file or file size too big.', 'wprss' ) . '</p></div>';
         
     }
-    
+
 
     add_action( 'admin_init', 'wp_rss_aggregator_import' );
     /**
@@ -92,7 +93,7 @@
         if ( isset( $_FILES['import'] ) && check_admin_referer( 'wprss-settings-import' ) ) {
             if ( $_FILES['import']['error'] > 0) {
                 wp_die( "Error during import" );        
-            }else {                
+            } else {                
                 $file_name = $_FILES['import']['name'];
                 $file_ext = strtolower( end( explode( ".", $file_name ) ) );
                 $file_size = $_FILES['import']['size'];
@@ -104,7 +105,7 @@
                     }
                     add_action( 'admin_notices', 'wp_rss_aggregator_import_notice1' );              
                 }   
-                else{ 
+                else { 
                     add_action( 'admin_notices', 'wp_rss_aggregator_import_notice2' );
                 }
             }
@@ -118,7 +119,7 @@
      * @since 3.1
      */  
     function wprss_import_export_settings_page_display() {
-        ob_start(); // for import and export functionality, need to check about whether this is needed        
+      //  ob_start(); // for import and export functionality, need to check about whether this is needed        
         if ( !isset( $_POST['export'] ) ) { ?>
             <div class="wrap">
                 <?php screen_icon( 'wprss-aggregator' ); ?>
