@@ -252,6 +252,7 @@
             'cache_results' => false,   // Disable caching, used for one-off queries
             'no_found_rows' => true,    // We don't need pagination, so disable it
             'fields'        => 'ids',   // Returns post IDs only
+            'posts_per_page'=> -1,
             'meta_query'    => array(
                                     array(
                                     'key'     => 'wprss_feed_id',
