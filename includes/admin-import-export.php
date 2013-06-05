@@ -124,7 +124,6 @@
      * @since 3.1
      */
     function wprss_import_export_settings_page_display() {
-      //  ob_start(); // for import and export functionality, need to check about whether this is needed
         if ( !isset( $_POST['export'] ) ) { ?>
             <div class="wrap">
                 <?php screen_icon( 'wprss-aggregator' ); ?>

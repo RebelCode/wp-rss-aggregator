@@ -4,6 +4,7 @@ New feature: Import and Export aggregator settings
 New feature: Debugging page allowing manual feed refresh and feed reset
 Fixed bug: Limiter on number of overall feeds stored not working
 Fixed bug: Incompatibility issue with Foobox plugin fixed 
+Fixed bug: Duplicate feeds sometimes imported
 
 3.0 (2013-03-16)
 New feature: Option to select cron frequency
