@@ -97,6 +97,11 @@
      */
     function wprss_get_feed_items( $feed_url ) {
         $general_settings = get_option( 'wprss_settings_general' );
+        $feed_item_limit = $general_settings['limit_feed_items_imported'];
+
+        // Don't fetch the feed if feed item limit is 0, there's no need, huge speed improvement
+        if ( $feed_item_limit == 0 ) return;
+
         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 
         /* Disable caching of feeds */
@@ -112,7 +117,7 @@
         if ( !is_wp_error( $feed ) ) {
 
             // Figure out how many total items there are, but limit it to the number of items set in options.
-            $maxitems = $feed->get_item_quantity( $general_settings['limit_feed_items_imported'] );
+            $maxitems = $feed->get_item_quantity( $feed_item_limit );
 
             if ( $maxitems == 0 ) { return; }
 
