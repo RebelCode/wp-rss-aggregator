@@ -162,6 +162,9 @@
 
                 // Create and insert post meta into the DB
                 wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
+
+				// Remember newly added permalink
+				$existing_permalinks[] = $permalink;
             }
         }
     }
