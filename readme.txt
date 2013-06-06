@@ -91,7 +91,10 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
-= Version 3.1 (2013-06-05) =
+= Version 3.1.1 (2013-06-06) =
+* Fixed bug: Incompatibility with some other plugins due to function missing namespace
+
+= Version 3.1 (2013-06-06) =
 * New feature: Option to set the number of feed items imported from every feed (default 5)
 * New feature: Import and Export aggregator settings and feed sources
 * New feature: Debugging page allowing manual feed refresh and feed reset

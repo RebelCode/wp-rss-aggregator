@@ -28,7 +28,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   3.1
+     * @version   3.1.1
      * @since     1.0
      * @author    Jean Galea <info@jeangalea.com>
      * @copyright Copyright (c) 2012-2013, Jean Galea
@@ -42,7 +42,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '3.1', true );
+        define( 'WPRSS_VERSION', '3.1.1', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
