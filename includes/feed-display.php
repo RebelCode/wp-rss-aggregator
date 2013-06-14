@@ -67,17 +67,30 @@
      * @since 3.0
      */
     function wprss_get_feed_items_query( $settings ) {
+		$feed_items_args = array(
+			'post_type'      => 'wprss_feed_item',
+			'posts_per_page' => $settings['feed_limit'],
+			'orderby'        => 'meta_value',
+			'meta_key'       => 'wprss_item_date',
+			'order'          => 'DESC'
+		);
+
+		if ( isset( $settings['source'] ) ) {
+			$feeds = array_filter( array_map( 'intval', explode( ',', $settings['source'] ) ) );
+			if ( !empty( $feeds ) ) {
+				$feed_items_args['meta_query'] = array(
+					array(
+						'key'     => 'wprss_feed_id',
+						'value'   => $feeds,
+						'type'    => 'numeric',
+						'compare' => 'IN',
+					),
+				);
+			}
+		}
+
         // Arguments for the next query to fetch all feed items
-        $feed_items_args = apply_filters(
-                                'wprss_display_feed_items_query',
-                                array(
-                                    'post_type'      => 'wprss_feed_item',
-                                    'posts_per_page' => $settings['feed_limit'],
-                                    'orderby'        => 'meta_value',
-                                    'meta_key'       => 'wprss_item_date',
-                                    'order'          => 'DESC'
-                                )
-        );
+        $feed_items_args = apply_filters( 'wprss_display_feed_items_query', $feed_items_args );
 
         // Query to get all feed items for display
         $feed_items = new WP_Query( $feed_items_args );
@@ -179,6 +192,10 @@
 					'default'   => $query_args['feed_limit'],
 				),
 			) );
+		}
+
+		if ( isset( $args['source'] ) ) {
+			$query_args['source'] = $args['source'];
 		}
 
 		$feed_items = wprss_get_feed_items_query( $query_args );
