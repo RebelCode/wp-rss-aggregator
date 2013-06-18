@@ -5,19 +5,19 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds, multi feed importer, multi feed import, multi import, autoblog, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 3.1
+Stable tag: 3.2
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
 
-WP RSS Aggregator helps you create a feed reader/aggregator on your WordPress site. It works in a similar fashion to RSS readers like for example Google Reader.
+With WP RSS Aggregator you can create a feed reader/aggregator on your WordPress site. It works in a similar fashion to RSS readers like for example Google Reader or Feedly.
+
 You can add any number of feeds through an administration panel, the plugin will then pull all the feeds from these sites, merge them and sort them by date.
 
 The plugin uses SimplePie for the feed operations. 
 You can call the function from within the theme or even use a shortcode with parameters.
 
-Since the plugin uses Custom Post Types to store the imported feeds, you are also free to display them in any way you want, in a similar fashion as you
-would with other post types such as Posts or Pages.
+Since the plugin uses Custom Post Types to store the imported feeds, you are also free to display them in any way you want, in a similar fashion as you would with other post types such as Posts or Pages.
 
 = Demo =
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/)
@@ -41,6 +41,8 @@ The parameters accepted are:
 * links_after
 * link_before
 * link_after
+* limit
+* source
 
 An example of a shortcode with parameters:
 `[wp_rss_aggregator link_before='<li class="feed-link">' link_after='</li>']`
@@ -53,7 +55,9 @@ wprss_display_feed_items( $args = array(
 'links_before' => '<ul>',
 'links_after' => '</ul>',
 'link_before' => '<li>',
-'link_after' => '</li>'
+'link_after' => '</li>',
+'limit' => '8',
+'source' => '5,9'
 )); 
 ?>
 `
@@ -66,7 +70,7 @@ You can also set whether the feed links should open in a new window, current win
 
 The settings panel also has an option to set links as nofollow for SEO purposes.
 
-Since version 2.0 you can also specify the number of feed items shown on the frontend.
+Since version 2.0 you can also specify the number of feed items shown on the frontend via the settings panel.
 
 == Frequently Asked Questions ==
 = How can I output the feeds in my theme? =
@@ -90,6 +94,11 @@ Or use the shortcode in your posts and pages:
 5. Plugin settings page.
 
 == Changelog ==
+
+= Version 3.2 () =
+* New feature: Parameter to limit number of feeds displayed
+* New feature: Paramter to limit feeds displayed to particular sources (via ID)
+* Enhanced: Better feed import handling to handle large number of feed sources
 
 = Version 3.1.1 (2013-06-06) =
 * Fixed bug: Incompatibility with some other plugins due to function missing namespace
