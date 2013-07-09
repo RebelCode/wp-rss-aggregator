@@ -1,3 +1,6 @@
+3.3 ()
+New feature: OPML importer 
+
 3.2 (2013-07-06)
 New feature: Parameter to limit number of feeds displayed
 New feature: Paramter to limit feeds displayed to particular sources (via ID)

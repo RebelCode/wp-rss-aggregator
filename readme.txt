@@ -96,6 +96,9 @@ Or use the shortcode in your posts and pages:
 == Changelog ==
 
 = Version 3.2 (2013-07-06) =
+* New feature: OPML importer
+
+= Version 3.2 (2013-07-06) =
 * New feature: Parameter to limit number of feeds displayed
 * New feature: Paramter to limit feeds displayed to particular sources (via ID)
 * Enhanced: Better feed import handling to handle large number of feed sources

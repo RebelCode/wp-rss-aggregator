@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wpmayor.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 3.2
+    Version: 3.3
     Author: Jean Galea
     Author URI: http://www.wpmayor.com
     License: GPLv3
@@ -28,7 +28,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   3.2
+     * @version   3.3
      * @since     1.0
      * @author    Jean Galea <info@jeangalea.com>
      * @copyright Copyright (c) 2012-2013, Jean Galea
@@ -42,7 +42,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '3.2', true );
+        define( 'WPRSS_VERSION', '3.3', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
