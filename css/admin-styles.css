@@ -86,7 +86,11 @@ color: darkGreen;
     margin-right: 8px; 
 }
 
-input#default-thumbnail { width: 300px; }
+input#default-thumbnail,
+input#wprss-et-license-key,
+input#wprss-c-license-key { 
+    width: 300px; 
+}
 
 input#thumbnails-height,
 input#thumbnails-width {

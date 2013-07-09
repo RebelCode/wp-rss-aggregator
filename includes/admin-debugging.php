@@ -87,7 +87,7 @@
      * @since 3.0
      */ 
      function wprss_debugging_admin_notice_update_feeds() {        
-        echo '<div class="updated"><p>Feeds have been updated successfully.</p></div>';
+        echo '<div class="updated"><p>Feeds are being updated in the background.</p></div>';
     }
 
     /**
@@ -96,5 +96,5 @@
      * @since 3.0
      */ 
     function wprss_debugging_admin_notice_reimport_feeds() {        
-        echo '<div class="updated"><p>Feeds deleted and re-imported successfully.</p></div>';
+        echo '<div class="updated"><p>Feeds deleted and are being re-imported in the background.</p></div>';
     }

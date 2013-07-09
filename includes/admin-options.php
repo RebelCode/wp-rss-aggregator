@@ -24,7 +24,14 @@
             'wprss_settings_general',                       // A settings group name.
             'wprss_settings_general',                       // The name of an option to sanitize and save.
             'wprss_settings_general_validate'               // A callback function that sanitizes the option's value.
-        );                 
+        );       
+
+        // Licensing of add-ons
+        register_setting( 
+            'wprss_settings_licenses',                       
+            'wprss_settings_licenses',                        
+            '' 
+        );                   
         
         add_settings_section( 
             'wprss_settings_general_section',               // ID used to identify this section and with which to register options 
