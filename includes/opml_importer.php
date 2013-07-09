@@ -122,10 +122,29 @@
 			return true;
 		}
 
+		
+		/**
+		 * Imports the give <outline> OPML element as a wprss_feed
+		 *
+		 * @since 3.3
+		 * @param $outline The outline OPML element
+		 */
+		 private function import_opml_feed( $outline ) {
+		 	$feed = array(
+				'post_title' => $outline['title'],
+				'post_content' => '',
+				'post_status' => 'publish',
+				'post_type' => 'wprss_feed'
+			);
+			$inserted_id = wp_insert_post( $feed );
+			update_post_meta( $inserted_id, 'wprss_url', $outline['xmlUrl'] );
+		 }
+		
 
 		/**
-		 * Attempts to parse the given file as an OPML construct.
-		 * 
+		 * Attempts to parse the given file as an OPML construct, and
+		 * import each found feed.
+		 *
 		 * @since 3.3
 		 * @param file The OPML file to parse and import
 		 * @return void
@@ -139,8 +158,8 @@
 				echo '<hr/>';
 				echo '<h2>File was parsed successfully!</h2>';
 
-				# Import feeds here
-				var_dump( $opml );
+				foreach ( $opml->body as $opml_feed )
+					$this->import_opml_feed( $opml_feed );
 
 			} catch (Exception $e) {
 				// Show Error Message
