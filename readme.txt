@@ -95,8 +95,9 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
-= Version 3.2 (2013-07-06) =
+= Version 3.3 () =
 * New feature: OPML importer
+* Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)
 
 = Version 3.2 (2013-07-06) =
 * New feature: Parameter to limit number of feeds displayed
