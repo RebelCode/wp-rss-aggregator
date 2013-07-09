@@ -156,10 +156,12 @@
 
 				// Show Success Message
 				echo '<hr/>';
-				echo '<h2>File was parsed successfully!</h2>';
+				echo '<h2>Feeds were imported successfully!</h2>';
 
-				foreach ( $opml->body as $opml_feed )
+				foreach ( $opml->body as $opml_feed ) {
 					$this->import_opml_feed( $opml_feed );
+				}
+
 
 			} catch (Exception $e) {
 				// Show Error Message

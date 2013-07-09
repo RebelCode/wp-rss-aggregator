@@ -118,7 +118,7 @@
     require_once ( WPRSS_INC . 'opml.php' );
 
     /* Load the OPML Importer file */
-    require_once ( WPRSS_INC . 'opml_importer.php' );
+    require_once ( WPRSS_INC . 'opml-importer.php' );
 
     /* Load the system info file */
     require_once ( WPRSS_INC . 'admin-debugging.php' );     
