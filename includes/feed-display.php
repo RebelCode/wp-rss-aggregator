@@ -45,7 +45,7 @@
     function wprss_get_args( $args ) {
         // Default shortcode/function arguments for displaying feed items
         $default_args = apply_filters(
-                            'default_args',
+                            'wprss_default_args',
                             array(
                                   'links_before' => '<ul class="rss-aggregator">',
                                   'links_after'  => '</ul>',
@@ -90,7 +90,7 @@
 		}
 
         // Arguments for the next query to fetch all feed items
-        $feed_items_args = apply_filters( 'wprss_display_feed_items_query', $feed_items_args );
+        $feed_items_args = apply_filters( 'wprss_display_feed_items_query', $feed_items_args, $settings );
 
         // Query to get all feed items for display
         $feed_items = new WP_Query( $feed_items_args );
