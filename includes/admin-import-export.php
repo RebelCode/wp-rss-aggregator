@@ -8,6 +8,7 @@
 
 
     add_action( 'admin_init', 'wp_rss_aggregator_export', 1 );
+
     /**
      * Handles exporting of aggregator settings
      *

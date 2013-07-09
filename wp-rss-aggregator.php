@@ -114,8 +114,11 @@
     /* Load the miscellaneous functions file */
     require_once ( WPRSS_INC . 'misc-functions.php' ); 
 
-    /* Load the OPMLL importer file */
-    require_once ( WPRSS_INC . 'OPML.php' );       
+    /* Load the OPML Class file */
+    require_once ( WPRSS_INC . 'opml.php' );
+
+    /* Load the OPML Importer file */
+    require_once ( WPRSS_INC . 'opml_importer.php' );
 
     /* Load the system info file */
     require_once ( WPRSS_INC . 'admin-debugging.php' );     
