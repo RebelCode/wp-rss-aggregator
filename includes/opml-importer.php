@@ -130,14 +130,19 @@
 		 * @param $outline The outline OPML element
 		 */
 		 private function import_opml_feed( $outline ) {
-		 	$feed = array(
+		 	// Create an associative array, with the feed's properties
+			$feed = array(
 				'post_title' => $outline['title'],
 				'post_content' => '',
 				'post_status' => 'publish',
 				'post_type' => 'wprss_feed'
 			);
+			// Insert the post into the database and store the inserted ID
 			$inserted_id = wp_insert_post( $feed );
+			// Update the post's meta
 			update_post_meta( $inserted_id, 'wprss_url', $outline['xmlUrl'] );
+			// Return inserted ID
+			return $inserted_id;
 		 }
 		
 
@@ -158,10 +163,40 @@
 				echo '<hr/>';
 				echo '<h2>Feeds were imported successfully!</h2>';
 
-				foreach ( $opml->body as $opml_feed ) {
-					$this->import_opml_feed( $opml_feed );
-				}
-
+				// Show imported feeds
+				?>
+				<table class="widefat">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Title</th>
+							<th>URL</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<?php
+							foreach ( $opml->body as $opml_feed ) :
+								$inserted_id = $this->import_opml_feed( $opml_feed );
+						?>
+							<tr>
+								<td><?php echo $inserted_id; ?></td>
+								<td><?php echo $opml_feed['title']; ?> </td>
+								<td><?php echo $opml_feed['xmlUrl']; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+					
+					<tfoot>
+						<tr>
+							<th>ID</th>
+							<th>Title</th>
+							<th>URL</th>
+						</tr>
+					</tfoot>
+					
+				</table>
+				<?php
 
 			} catch (Exception $e) {
 				// Show Error Message
