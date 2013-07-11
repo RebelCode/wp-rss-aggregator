@@ -41,7 +41,7 @@
                 'publicly_querable'     => false,
                 'show_in_nav_menus'     => false,
                 'show_in_admin_bar'     => true,
-                'public'                => false,
+                'public'                => true,
                 'show_ui'               => true,
                 'query_var'             => 'feed_source',
                 'menu_position'         => 100,
@@ -51,6 +51,8 @@
                                             'slug'       => 'feeds',
                                             'with_front' => false
                                         ), 
+                'capability_type'       => 'feed',
+                'map_meta_cap'          => true,
                 'supports'              => array( 'title' ),
                 'labels'                => $labels   
             )

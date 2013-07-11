@@ -309,7 +309,8 @@
         remove_meta_box( 'postpsp', 'wprss_feed' ,'normal' );
         remove_meta_box( 'su_postmeta', 'wprss_feed' ,'normal' );
         remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' ); 
-        remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );                 
+        remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );  
+        remove_meta_box( 'wpar_plugin_meta_box ', 'wprss_feed' ,'normal' );                      
         remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
         remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );       
         remove_meta_box( 'theme-layouts-post-meta-box', 'wprss_feed' ,'side' );
