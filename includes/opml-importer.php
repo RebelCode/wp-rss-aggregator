@@ -159,9 +159,8 @@
 			try {
 				$opml = new WPRSS_OPML( $file );
 
-				// Show Success Message
-				echo '<hr/>';
-				echo '<h2>Feeds were imported successfully!</h2>';
+				// Show Success Message				
+				echo '<h3>Feeds were imported successfully!</h3>';
 
 				// Show imported feeds
 				?>
