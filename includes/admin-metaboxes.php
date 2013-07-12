@@ -91,6 +91,13 @@
             'type'  => 'textarea'
         );    
         
+        $wprss_meta_fields[ 'limit' ] = array(
+            'label' => __( 'Limit', 'wprss' ),
+            'desc'  => __( 'Enter a field limit. Leave blank to use the default setting.', 'wprss' ),
+            'id'    => $prefix . 'limit',
+            'type'  => 'number'
+        );
+
         // for extensibility, allows more meta fields to be added
         return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }
