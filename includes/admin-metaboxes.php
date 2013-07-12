@@ -84,7 +84,7 @@
             'type'  => 'text'
         );
         
-        $wprss_meta_fields[' description' ] = array(
+        $wprss_meta_fields[ 'description' ] = array(
             'label' => __( 'Description', 'wprss' ),
             'desc'  => __( 'A short description about this feed source (optional)', 'wprss' ),
             'id'    => $prefix .'description',
