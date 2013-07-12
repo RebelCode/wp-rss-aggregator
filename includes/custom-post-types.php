@@ -50,9 +50,8 @@
                 'rewrite'               => array(
                                             'slug'       => 'feeds',
                                             'with_front' => false
-                                        ), 
-                'capability_type'       => 'feed',
-                'map_meta_cap'          => true,
+                                        ),              
+                'capability_type'    => 'feed',
                 'supports'              => array( 'title' ),
                 'labels'                => $labels   
             )
@@ -91,6 +90,7 @@
                                             'slug'       => 'feeds/items',
                                             'with_front' => false,
                                         ),       
+                'capability_type'       => 'feed_source',
                 'labels'                => $labels
             )
         );

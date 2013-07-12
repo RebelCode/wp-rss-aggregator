@@ -90,6 +90,9 @@
     /* Load the custom post types and taxonomies. */
     require_once ( WPRSS_INC . 'custom-post-types.php' );  
 
+    /* Load the file for setting capabilities of our post types */
+    require_once ( WPRSS_INC . 'roles-capabilities.php' ); 
+
     /* Load the feed processing functions file */
     require_once ( WPRSS_INC . 'feed-processing.php' );   
 
