@@ -90,7 +90,7 @@
             'id'    => $prefix .'description',
             'type'  => 'textarea'
         );    
-        
+
         $wprss_meta_fields[ 'limit' ] = array(
             'label' => __( 'Limit', 'wprss' ),
             'desc'  => __( 'Enter a field limit. Leave blank to use the default setting.', 'wprss' ),
@@ -158,11 +158,11 @@
                         
                             // number
                             case 'number':
-                                echo '<input type="number" placeholder="Default" name="'.$field['id'].'" id="'.$field['id'].'"/>
+                                echo '<input type="number" placeholder="Default" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
                                     <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
 
                             break;
-                            
+
                         } //end switch
                 echo '</td></tr>';
             } // end foreach
