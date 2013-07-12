@@ -156,6 +156,13 @@
                                 echo '</select><br><span class="description">'.$field['desc'].'</span>';
                             break;                                            
                         
+                            // number
+                            case 'number':
+                                echo '<input type="number" placeholder="Default" name="'.$field['id'].'" id="'.$field['id'].'"/>
+                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+
+                            break;
+                            
                         } //end switch
                 echo '</td></tr>';
             } // end foreach
