@@ -42,10 +42,10 @@
      *
      * @since 3.0
      */
-    function wprss_get_args( $args ) {
+    function wprss_get_shortcode_default_args( $args ) {
         // Default shortcode/function arguments for displaying feed items
-        $default_args = apply_filters(
-                            'wprss_default_args',
+        $shortcode_args = apply_filters(
+                            'wprss_shortcode_args',
                             array(
                                   'links_before' => '<ul class="rss-aggregator">',
                                   'links_after'  => '</ul>',
@@ -77,6 +77,8 @@
 
 		if ( isset( $settings['source'] ) ) {
 			$feeds = array_filter( array_map( 'intval', explode( ',', $settings['source'] ) ) );
+            foreach ( $feeds as $feed )
+                trim( $feed );
 			if ( !empty( $feeds ) ) {
 				$feed_items_args['meta_query'] = array(
 					array(
@@ -183,7 +185,9 @@
     function wprss_display_feed_items( $args = array() ) {
         $settings = get_option( 'wprss_settings_general' );
         $display_settings = wprss_get_display_settings( $settings );
-        $args = wprss_get_args( $args );
+        $args = wprss_get_shortcode_default_args( $args );
+
+        $args = apply_filters( 'wprss_shortcode_args', $args );
 
         $query_args = $settings;
 		if ( isset( $args['limit'] ) ) {

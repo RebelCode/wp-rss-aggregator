@@ -84,13 +84,20 @@
             'type'  => 'text'
         );
         
-        $wprss_meta_fields[' description' ] = array(
+        $wprss_meta_fields[ 'description' ] = array(
             'label' => __( 'Description', 'wprss' ),
             'desc'  => __( 'A short description about this feed source (optional)', 'wprss' ),
             'id'    => $prefix .'description',
             'type'  => 'textarea'
         );    
-        
+
+        $wprss_meta_fields[ 'limit' ] = array(
+            'label' => __( 'Limit', 'wprss' ),
+            'desc'  => __( 'Enter a field limit. Leave blank to use the default setting.', 'wprss' ),
+            'id'    => $prefix . 'limit',
+            'type'  => 'number'
+        );
+
         // for extensibility, allows more meta fields to be added
         return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }
@@ -149,6 +156,13 @@
                                 echo '</select><br><span class="description">'.$field['desc'].'</span>';
                             break;                                            
                         
+                            // number
+                            case 'number':
+                                echo '<input type="number" placeholder="Default" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
+                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+
+                            break;
+
                         } //end switch
                 echo '</td></tr>';
             } // end foreach
