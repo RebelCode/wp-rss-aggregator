@@ -41,7 +41,7 @@
                 'publicly_querable'     => false,
                 'show_in_nav_menus'     => false,
                 'show_in_admin_bar'     => true,
-                'public'                => false,
+                'public'                => true,
                 'show_ui'               => true,
                 'query_var'             => 'feed_source',
                 'menu_position'         => 100,
@@ -50,7 +50,8 @@
                 'rewrite'               => array(
                                             'slug'       => 'feeds',
                                             'with_front' => false
-                                        ), 
+                                        ),              
+                'capability_type'    => 'feed',
                 'supports'              => array( 'title' ),
                 'labels'                => $labels   
             )
@@ -89,6 +90,7 @@
                                             'slug'       => 'feeds/items',
                                             'with_front' => false,
                                         ),       
+                'capability_type'       => 'feed_source',
                 'labels'                => $labels
             )
         );
