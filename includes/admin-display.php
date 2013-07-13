@@ -211,7 +211,7 @@
         }
         elseif ( get_post_type() === 'wprss_feed' ) {
             unset( $actions[ 'view'] );
-            $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Feed Items', 'wprss' ) ) .'" >' . __( 'Fetch Feed Items', 'wprss' ) . '</a>';
+            $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Latest Feed Items', 'wprss' ) ) .'" >' . __( 'Fetch Latest Feed Items', 'wprss' ) . '</a>';
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
     }
@@ -227,7 +227,7 @@
     function wprss_fetch_feeds_action_hook() {
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
             wprss_fetch_insert_single_feed_items( $_POST['id'] );
-            die( get_admin_url( null, 'edit.php' ) );
+            die();
         }
     }
 

@@ -158,7 +158,7 @@
                         
                             // number
                             case 'number':
-                                echo '<input type="number" placeholder="Default" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
+                                echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
                                     <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
 
                             break;

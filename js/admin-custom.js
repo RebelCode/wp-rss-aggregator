@@ -22,8 +22,9 @@ jQuery( document ).ready( function() {
 	
 	// jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
 	jQuery('.wprss_ajax_action').click( function(){
-		id = jQuery(this).attr('pid');
-		url = jQuery(this).attr('purl');
+		action_link = jQuery(this);
+		id = action_link.attr('pid');
+		url = action_link.attr('purl');
 		jQuery.post(
 			url, 
 			{
@@ -31,18 +32,18 @@ jQuery( document ).ready( function() {
 				'id':   id
 			}, 
 			function(response){
-				// Treat the response as a redirect.
-				// Cross Browser Redirect - Dummy Form Submission
-				jQuery(
-					'<form id="dummyForm" method="GET" action="'+ response +'">' +
-						'<input type="hidden" name="post_type" value="wprss_feed_item" />' + 
-					'</form>'
-				).appendTo('body');
-				document.getElementById('dummyForm').submit();
+				action_link.text('Latest Feed Items successfully imported!');
 			}
 		);
-		jQuery(this).text('Please Wait ...');
-		jQuery(this).unbind('click');
+		action_link.text('Please Wait ...');
+		action_link.unbind('click');
+	});
+	
+	// Make the number rollers change their value to empty string when value is 0, making
+	// them use the placeholder.
+	jQuery('.wprss-number-roller').on('change', function(){
+		if ( jQuery(this).val() == 0 )
+			jQuery(this).val('');
 	});
 });
 
