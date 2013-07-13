@@ -19,6 +19,31 @@ jQuery( document ).ready( function() {
         }
     }
     );	        
+	
+	// jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
+	jQuery('.wprss_ajax_action').click( function(){
+		id = jQuery(this).attr('pid');
+		url = jQuery(this).attr('purl');
+		jQuery.post(
+			url, 
+			{
+				'action': 'wprss_fetch_feeds_action',
+				'id':   id
+			}, 
+			function(response){
+				// Treat the response as a redirect.
+				// Cross Browser Redirect - Dummy Form Submission
+				jQuery(
+					'<form id="dummyForm" method="GET" action="'+ response +'">' +
+						'<input type="hidden" name="post_type" value="wprss_feed_item" />' + 
+					'</form>'
+				).appendTo('body');
+				document.getElementById('dummyForm').submit();
+			}
+		);
+		jQuery(this).text('Please Wait ...');
+		jQuery(this).unbind('click');
+	});
 });
 
 
