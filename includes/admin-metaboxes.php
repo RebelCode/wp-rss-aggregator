@@ -18,7 +18,7 @@
             'post_submit_meta_box',                 // $callback
             'wprss_feed',                           // $page
             'side',                                 // $context
-            'low'                                   // $priority
+            'high'                                   // $priority
         );
 
         add_meta_box(

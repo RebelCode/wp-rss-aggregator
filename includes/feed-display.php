@@ -54,8 +54,8 @@
                             )
         );
 
-        // Parse incoming $args into an array and merge it with $default_args
-        $args = wp_parse_args( $args, $default_args );
+        // Parse incoming $args into an array and merge it with $shortcode_args
+        $args = wp_parse_args( $args, $shortcode_args );
 
         return $args;
     }
