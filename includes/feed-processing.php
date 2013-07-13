@@ -206,6 +206,34 @@
     }
 
 
+    add_action( 'post_updated', 'wprss_pre_update_feed_source', 10, 3 );
+    /**
+     * This function is triggered just before a post is updated.
+     * It checks if the updated post is a feed source, and carries out any
+     * updating necassary.
+     *
+     * @since 3.3
+     */
+    function wprss_pre_update_feed_source( $post_ID, $post_after, $post_before ) {
+        // Check if the post is a feed source and is published
+        if ( ( $post_after->post_type == 'wprss_feed' ) && ( $post_after->post_status == 'publish' ) ) {
+
+            // Checking feed limit change
+            // Get the limit currently saved in db, and limit in POST request
+            $limit_before = get_post_meta( $post_ID, 'wprss_limit', true );
+            $limit_after = ( isset( $_POST['wprss_limit'] ) )? $_POST['wprss_limit'] : null;
+            // Calculate the difference
+            $difference = $limit_before - $limit_after;
+            // If the difference is > 0, i.e. user has updated limit with a smaller number
+            if ( $difference > 0 ) {
+                // Delete all feed items for this source
+                wprss_delete_feed_items( $post_ID );
+            }
+        }
+    }
+
+
+
 	add_action( 'wprss_fetch_single_feed_hook', 'wprss_fetch_insert_single_feed_items' );
 	/**
 	 * Fetches feed items from source provided and inserts into db
