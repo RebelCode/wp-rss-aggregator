@@ -32,10 +32,10 @@ jQuery( document ).ready( function() {
 				'id':   id
 			}, 
 			function(response){
-				action_link.text('Latest Feed Items successfully imported!');
+				action_link.text('Feed items imported!');
 			}
 		);
-		action_link.text('Please Wait ...');
+		action_link.text('Please wait ...');
 		action_link.unbind('click');
 	});
 	
