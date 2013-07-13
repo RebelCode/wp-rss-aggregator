@@ -38,6 +38,13 @@ jQuery( document ).ready( function() {
 		action_link.text('Please Wait ...');
 		action_link.unbind('click');
 	});
+	
+	// Make the number rollers change their value to empty string when value is 0, making
+	// them use the placeholder.
+	jQuery('.wprss-number-roller').on('change', function(){
+		if ( jQuery(this).val() == 0 )
+			jQuery(this).val('');
+	});
 });
 
 

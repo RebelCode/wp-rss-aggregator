@@ -184,6 +184,10 @@ input#thumbnails-width {
 }
 
 
+/* Number Roller for Feed Source Limit */
+.wprss-number-roller {
+    width: 75px;
+}
 
 /* Excerpts and Thumbnails */
 
