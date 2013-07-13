@@ -214,13 +214,23 @@
 	 */
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
 
-		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
+        // Get the URL and Feed Limit post meta data
+        $feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
+		$feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
 
 		// Use the URL custom field to fetch the feed items for this source
 		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) ) {
 			$items = wprss_get_feed_items( $feed_url );
-			if ( !empty( $items ) ) {
-				wprss_items_insert_post( $items, $feed_ID );
+
+            // If the feed has its own meta limit,
+            // slice the items array using the feed meta limit
+            if ( !empty( $feed_limit ) )
+                $items_to_insert = array_slice($items, 0, $feed_limit);
+            else $items_to_insert = $items;
+            
+            // Insert the items into the db
+			if ( !empty( $items_to_insert ) ) {
+				wprss_items_insert_post( $items_to_insert, $feed_ID );
 			}
 		}
 	}
