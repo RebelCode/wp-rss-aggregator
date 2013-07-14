@@ -211,7 +211,9 @@
         }
         elseif ( get_post_type() === 'wprss_feed' ) {
             unset( $actions[ 'view'] );
-            $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch feed items', 'wprss' ) ) .'" >' . __( 'Fetch feed items', 'wprss' ) . '</a>';
+            if ( get_post_status( get_the_ID() ) !== 'trash' ) {
+                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Latest Feed Items', 'wprss' ) ) .'" >' . __( 'Fetch Latest Feed Items', 'wprss' ) . '</a>';
+            }
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
     }
