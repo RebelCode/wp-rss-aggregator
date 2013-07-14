@@ -164,7 +164,7 @@
                     // Escape the array entries from regex characters
                     $keywordsArrayEscaped = array_map( 'preg_quote', $keywordsArray );
                     // Re-create the string, separating the values using a pipe, and surrounding it with regex delimiters
-                    $keywordsRegex = '/' . implode( '|', $keywordsArrayEscaped ) . '/';
+                    $keywordsRegex = '/' . implode( '|', $keywordsArrayEscaped ) . '/i';
                 }
                 else $keywordsRegex = null;
 
