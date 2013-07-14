@@ -1,7 +1,10 @@
 3.3 ()
-New feature: OPML importer 
+New feature: OPML importer
+New Feature: Feed Limits for Individual Feed Sources
+New Feature: Keyword Filtering for feed sources
 Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)
 Enhanced: Capabilities implemented
+Enhanced: Feed Sources Row Action 'View' changed to 'Fetch Feed Items'
 
 3.2 (2013-07-06)
 New feature: Parameter to limit number of feeds displayed
