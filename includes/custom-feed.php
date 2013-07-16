@@ -14,7 +14,13 @@
      * @since 3.0
      */
     function wprss_addfeed_add_feed() {
-        add_feed( 'wprss', 'wprss_addfeed_do_feed' );
+        $general_settings = get_option( 'wprss_settings_general', 'wprss' );
+        if ( !empty( $general_settings ) && isset( $general_settings['custom_feed_url'] ) ) {
+            $url = $general_settings['custom_feed_url'];
+        }
+        else $url = 'wprss';
+        add_feed( $url, 'wprss_addfeed_do_feed' );
+        echo 'added feed ' . $url;
     }
 
 
@@ -24,12 +30,18 @@
      * @since 3.0
      */
     function wprss_addfeed_do_feed( $in ) {
-        // Make custom query to get latest feed items
-        query_posts( array( 
+
+        // Prepate the post query
+        $query = array( 
             'post_type' => 'wprss_feed_item', 
             'post_status' => 'publish' 
-            )
         );
+
+        // Apply filters to the query
+        $query = apply_filters( 'wprss_addfeed_do_feed_query', $query );
+
+        // Submit the query to get latest feed items
+        query_posts( $query );
 
         // Send content header and start ATOM output
         header('Content-Type: application/atom+xml');
