@@ -143,6 +143,14 @@
             'wprss_settings_general_section'
         );            
 
+        add_settings_field(
+            'wprss-settings-custom-feed-url',
+            __( 'Custom Feed URL', 'wprss' ),
+            'wprss_setings_custom_feed_url_callback',
+            'wprss_settings_general',
+            'wprss_settings_general_section'
+        );
+
         add_settings_field( 
             'wprss-settings-styles-disable', 
             __( 'Disable Styles', 'wprss' ), 
@@ -404,6 +412,16 @@
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='text-preceding-date' name='wprss_settings_general[text_preceding_date]' type='text' value='{$options['text_preceding_date']}' />";   
         echo "<label for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
+    }
+
+    /**
+     * Sets the custom feed URL
+     * @since 3.3
+     */
+    function wprss_setings_custom_feed_url_callback() {
+        $options = get_option( 'wprss_settings_general' );
+        echo "<input id='custom_feed_url' name='wprss_settings_general[custom_feed_url]' type='text' value='{$options['custom_feed_url']}' />";
+        echo "<label for='custom_feed_url'>" . __( 'Custom Feed URL', 'wprss' ) . "</label>";
     }
 
     /** 
