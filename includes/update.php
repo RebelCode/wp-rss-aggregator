@@ -203,6 +203,9 @@
 
 				// from version 3.1
 				'limit_feed_items_imported' => 200,
+
+				// from version 3.3
+				'custom_feed_url'			=> 'wprss'
 			)			
 		);
 

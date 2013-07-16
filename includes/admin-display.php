@@ -12,9 +12,11 @@
             'cb'          => '<input type="checkbox" />',
             'title'       => __( 'Name', 'wprss' ),
             'url'         => __( 'URL', 'wprss' ),
-            'description' => __( 'Description', 'wprss' ),
+            'description' => __( 'Description', 'wprss' )
         );
-        return apply_filters( 'wprss_set_feed_custom_columns', $columns );
+        $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
+        $columns['id'] = __( 'ID', 'wprss' );
+        return $columns;
     }    
 
 
@@ -35,6 +37,9 @@
           $description = get_post_meta( $post_id, 'wprss_description', true);
           echo esc_html( $description );
           break;      
+        case 'id':
+          echo esc_html( $post_id );
+          break;
       }
     }
 

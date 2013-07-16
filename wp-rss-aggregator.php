@@ -46,7 +46,7 @@
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
-        define( 'WPRSS_DB_VERSION', 4 );    
+        define( 'WPRSS_DB_VERSION', 5 );
 
     // Set the plugin prefix 
     if( !defined( 'WPRSS_PREFIX' ) )
@@ -98,6 +98,9 @@
 
     /* Load the feed display functions file */
     require_once ( WPRSS_INC . 'feed-display.php' );            
+
+    /* Load the custom feed file */
+    require_once ( WPRSS_INC . 'custom-feed.php' );            
 
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' ); 
