@@ -20,7 +20,7 @@
         }
         else $url = 'wprss';
         add_feed( $url, 'wprss_addfeed_do_feed' );
-        echo 'added feed ' . $url;
+        flush_rewrite_rules();
     }
 
 
