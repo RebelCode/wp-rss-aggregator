@@ -120,7 +120,6 @@
         if( $feed_items->have_posts() ) {
 
             $output .= "$links_before";
-            $output .= get_locale();
 
             while ( $feed_items->have_posts() ) {
                 $feed_items->the_post();

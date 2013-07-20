@@ -19,6 +19,8 @@ You can call the function from within the theme or even use a shortcode with par
 
 Since the plugin uses Custom Post Types to store the imported feeds, you are also free to display them in any way you want, in a similar fashion as you would with other post types such as Posts or Pages.
 
+It can be used as a multiple RSS feed import facility, or even for displaying items from a single feed source.
+
 = Demo =
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/)
 

@@ -3,7 +3,6 @@
      * Function to create a custom feed with the latest imported feed items
      * 
      * @package WP RSS Aggregator
-     * @todo needs implementation, not currently used
      */ 
 
 
@@ -11,7 +10,7 @@
     /**
      * Adds feed named 'wprss'
      * 
-     * @since 3.0
+     * @since 3.3
      */
     function wprss_addfeed_add_feed() {
         $general_settings = get_option( 'wprss_settings_general', 'wprss' );
@@ -25,26 +24,32 @@
 
 
     /**
-     * Echo the feed
+     * Generate the feed
      * 
-     * @since 3.0
+     * @since 3.3
      */
     function wprss_addfeed_do_feed( $in ) {
 
-        // Prepate the post query
-        $query = array( 
-            'post_type' => 'wprss_feed_item', 
-            'post_status' => 'publish' 
+        // Prepare the post query
+        $wprss_custom_feed_query = apply_filters(            
+                'wprss_custom_feed_query',
+                array(
+                'post_type'   => 'wprss_feed_item', 
+                'post_status' => 'publish',
+                'cache_results' => false,   // disable caching
+            ) 
+            
         );
 
-        // Apply filters to the query
-        $query = apply_filters( 'wprss_addfeed_do_feed_query', $query );
-
         // Submit the query to get latest feed items
-        query_posts( $query );
+        query_posts( $wprss_custom_feed_query );
 
         // Send content header and start ATOM output
         header('Content-Type: application/atom+xml');
+        // Disabling caching
+        header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
+        header('Pragma: no-cache'); // HTTP 1.0.
+        header('Expires: 0'); // Proxies.
         echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?' . '>';
         ?>
         <feed xmlns="http://www.w3.org/2005/Atom">
@@ -66,3 +71,18 @@
         </feed>
         <?php
     }    
+
+
+    add_filter( 'post_limits', 'wprss_custom_feed_limits' );
+    /**
+     * Set a different limit to our custom feeds
+     * 
+     * @since 3.3
+     */
+    function wprss_custom_feed_limits( $limit ) {
+        if ( is_feed( $feeds = 'wprss' ) ) { 
+            return $limit;
+            //return 'LIMIT 0, 25';   
+        }
+        return $limit;
+    }
