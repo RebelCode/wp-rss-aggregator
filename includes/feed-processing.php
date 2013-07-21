@@ -152,20 +152,22 @@
             // Check if newly fetched item already present in existing feed items,
             // if not insert it into wp_posts and insert post meta.
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
-                $feed_item = apply_filters(
-					'wprss_populate_post_data',
-					array(
-						'post_title'   => $item->get_title(),
-						'post_content' => '',
-						'post_status'  => 'publish',
-						'post_type'    => 'wprss_feed_item',
-					),
-					$item
-				);
-				
-				$feed_item = applyfilters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
-				
+			
+				$item = applyfilters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
+			
 				if ( $feed_item !== NULL ) {
+			
+					$feed_item = apply_filters(
+						'wprss_populate_post_data',
+						array(
+							'post_title'   => $item->get_title(),
+							'post_content' => '',
+							'post_status'  => 'publish',
+							'post_type'    => 'wprss_feed_item',
+						),
+						$item
+					);
+				
 					// Create and insert post object into the DB
 					$inserted_ID = wp_insert_post( $feed_item );
 
