@@ -155,7 +155,7 @@
 			
 				$item = applyfilters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
 			
-				if ( $feed_item !== NULL ) {
+				if ( $item !== NULL ) {
 			
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
