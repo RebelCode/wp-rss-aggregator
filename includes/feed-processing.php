@@ -140,9 +140,6 @@
         // Gather the permalinks of existing feed item's related to this feed source
         $existing_permalinks = get_existing_permalinks( $feed_ID );
 
-        // Retrieve the feed source's keywords meta data
-        $keywords = get_post_meta($feed_ID, 'wprss_keywords', true);
-
         foreach ( $items as $item ) {
 
             // normalize permalink to pass through feed proxy URL
@@ -155,45 +152,24 @@
             // Check if newly fetched item already present in existing feed items,
             // if not insert it into wp_posts and insert post meta.
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
+                $feed_item = apply_filters(
+					'wprss_populate_post_data',
+					array(
+						'post_title'   => $item->get_title(),
+						'post_content' => '',
+						'post_status'  => 'publish',
+						'post_type'    => 'wprss_feed_item',
+					),
+					$item
+				);
+				// Create and insert post object into the DB
+				$inserted_ID = wp_insert_post( $feed_item );
 
-                // If the feed item has keywords meta data, prepare a regex pattern
-                if ( !empty( $keywords ) ) {
-                    // Generate an array, that explodes the comma separated keywords and trims each array entry
-                    // from leading / trailing whitespace.
-                    $keywordsArray = array_map( 'trim', explode( ',', $keywords ) );
-                    // Escape the array entries from regex characters
-                    $keywordsArrayEscaped = array_map( 'preg_quote', $keywordsArray );
-                    // Re-create the string, separating the values using a pipe, and surrounding it with regex delimiters
-                    $keywordsRegex = '/' . implode( '|', $keywordsArrayEscaped ) . '/i';
-                }
-                else $keywordsRegex = null;
+				// Create and insert post meta into the DB
+				wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
 
-                /* Check for keyword matches
-                 * Match found if any of the following are true:
-                 *   title contains one or more keyword(s)
-                 *   content contains one or more keyword(s)
-                 *   keywordsRegex is null, signifying that the keywords meta data is not set
-                 */
-                if ( preg_match( $keywordsRegex, $item->get_title() ) || preg_match( $keywordsRegex, $item->get_content() ) || $keywordsRegex === null ) {
-                    $feed_item = apply_filters(
-                        'wprss_populate_post_data',
-                        array(
-                            'post_title'   => $item->get_title(),
-                            'post_content' => '',
-                            'post_status'  => 'publish',
-                            'post_type'    => 'wprss_feed_item',
-                        ),
-                        $item
-                    );
-                    // Create and insert post object into the DB
-                    $inserted_ID = wp_insert_post( $feed_item );
-
-                    // Create and insert post meta into the DB
-                    wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
-
-                    // Remember newly added permalink
-                    $existing_permalinks[] = $permalink;
-                }
+				// Remember newly added permalink
+				$existing_permalinks[] = $permalink;
             }
         }
     }

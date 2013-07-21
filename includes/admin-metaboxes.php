@@ -98,13 +98,6 @@
             'type'  => 'number'
         );
 
-        $wprss_meta_fields[ 'keywords' ] = array(
-            'label' => __( 'Keyword Filtering', 'wprss' ),
-            'desc' => __( 'Filter Feed items by keywords. Separate keywords using commas.', 'wprss' ),
-            'id'    => $prefix . 'keywords',
-            'type'  => 'text'
-        );
-
         // for extensibility, allows more meta fields to be added
         return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }
