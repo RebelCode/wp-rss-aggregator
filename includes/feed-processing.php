@@ -162,14 +162,19 @@
 					),
 					$item
 				);
-				// Create and insert post object into the DB
-				$inserted_ID = wp_insert_post( $feed_item );
+				
+				$feed_item = applyfilters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
+				
+				if ( $feed_item !== NULL ) {
+					// Create and insert post object into the DB
+					$inserted_ID = wp_insert_post( $feed_item );
 
-				// Create and insert post meta into the DB
-				wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
+					// Create and insert post meta into the DB
+					wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
 
-				// Remember newly added permalink
-				$existing_permalinks[] = $permalink;
+					// Remember newly added permalink
+					$existing_permalinks[] = $permalink;
+				}
             }
         }
     }
