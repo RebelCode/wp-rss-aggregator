@@ -167,6 +167,14 @@
             'wprss_settings_styles_section'
         );          
 
+        add_settings_field(
+            'wprss-settings-custom-feed-limit',
+            __( 'Custom feed limit', 'wprss' ),
+            'wprss_setings_custom_feed_limit_callback',
+            'wprss_settings_general',
+            'wprss_settings_general_section'
+        );
+
         do_action( 'wprss_admin_init' );
     }  
 
@@ -440,6 +448,16 @@
         $options = get_option( 'wprss_settings_general' );
         echo "<input id='custom_feed_url' name='wprss_settings_general[custom_feed_url]' type='text' value='{$options['custom_feed_url']}' />";
         echo "<label class='description' for='custom_feed_url'>" . __( 'Custom Feed URL', 'wprss' ) . "</label>";
+    }
+
+    /**
+     * Sets the custom feed limit
+     * @since 3.3
+     */
+    function wprss_setings_custom_feed_limit_callback() {
+        $options = get_option( 'wprss_settings_general' );
+        echo "<input id='custom_feed_limit' name='wprss_settings_general[custom_feed_limit]' placeholder='Default' min='0' class='wprss-number-roller' type='number' value='{$options['custom_feed_limit']}' />";
+        echo "<label class='description' for='custom_feed_limit'>" . __( 'Custom feed limit', 'wprss' ) . "</label>";
     }
 
     /** 

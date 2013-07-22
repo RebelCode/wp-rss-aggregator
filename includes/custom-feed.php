@@ -36,11 +36,21 @@
                 array(
                 'post_type'   => 'wprss_feed_item', 
                 'post_status' => 'publish',
-              //   'posts_per_page' => 4,  // works if enabled
                 'cache_results' => false,   // disable caching
             ) 
             
         );
+
+        // Get options
+        $options = get_option( 'wprss_settings_general' );
+        if ( $options !== FALSE ) {
+            // If options exist, get the limit
+            $limit = $options['custom_feed_limit'];
+            if ( $limit !== FALSE ) {
+                // if limit exists, set the query limit
+                $wprss_custom_feed_query['posts_per_page'] = $limit;
+            }
+        }
 
         // Submit the query to get latest feed items
         query_posts( $wprss_custom_feed_query );
