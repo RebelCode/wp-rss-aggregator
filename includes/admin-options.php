@@ -297,7 +297,7 @@
     function wprss_setting_feed_limit_callback() {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='feed-limit' name='wprss_settings_general[feed_limit]' type='text' value='{$options['feed_limit']}' />";   
-        echo "<label for='feed-limit'>Enter the number of feeds to display on the front end</label>";
+        echo "<label class='description' for='feed-limit'>Enter the number of feeds to display on the front end</label>";
     }
 
 
@@ -308,7 +308,7 @@
     function wprss_setting_date_format_callback() {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='date-format' name='wprss_settings_general[date_format]' type='text' value='{$options['date_format']}' />";   
-        echo "<label for='date-format'>Date formatting, using the <a href='http://codex.wordpress.org/Formatting_Date_and_Time'>PHP date formats</a></label>";
+        echo "<label class='description' for='date-format'>Date formatting, using the <a href='http://codex.wordpress.org/Formatting_Date_and_Time'>PHP date formats</a></label>";
     }
 
 
@@ -319,7 +319,7 @@
     function wprss_setting_limit_feed_items_callback() {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='limit-feed-items-db' name='wprss_settings_general[limit_feed_items_db]' type='text' value='{$options['limit_feed_items_db']}' />";   
-        echo "<label for='limit-feed-items-db'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
+        echo "<label class='description' for='limit-feed-items-db'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
     }
 
 
@@ -330,7 +330,7 @@
     function wprss_setting_limit_feed_items_imported_callback() {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='{$options['limit_feed_items_imported']}' />";   
-        echo "<label for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed</label>";
+        echo "<label class='description' for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed</label>";
     }
 
 
@@ -378,7 +378,7 @@
     function wprss_setting_title_link_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='title-link' name='wprss_settings_general[title_link]' type='checkbox' value='1' " . checked( 1, $options['title_link'], false ) . " />";   
-        echo "<label for='title-link'>Check this box to enable linked titles</label>";   
+        echo "<label class='description' for='title-link'>Check this box to enable linked titles</label>";   
     }
 
 
@@ -389,7 +389,7 @@
     function wprss_setting_source_enable_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='source-enable' name='wprss_settings_general[source_enable]' type='checkbox' value='1' " . checked( 1, $options['source_enable'], false ) . " />";   
-        echo "<label for='source-enable'>Check this box to enable feed source display</label>";   
+        echo "<label class='description' for='source-enable'>Check this box to enable feed source display</label>";   
     }
 
     /** 
@@ -399,7 +399,7 @@
     function wprss_setting_source_link_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='source-link' name='wprss_settings_general[source_link]' type='checkbox' value='1' " . checked( 1, $options['source_link'], false ) . " />";   
-        echo "<label for='source-link'>Check this box to enable linked sources</label>";   
+        echo "<label class='description' for='source-link'>Check this box to enable linked sources</label>";   
     }
 
 
@@ -410,7 +410,7 @@
     function wprss_setting_text_preceding_source_callback() {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='text-preceding-source' name='wprss_settings_general[text_preceding_source]' type='text' value='{$options['text_preceding_source']}' />";   
-        echo "<label for='text-preceding-source'>Enter the text you want shown before the feed item's source</label>";
+        echo "<label class='description' for='text-preceding-source'>Enter the text you want shown before the feed item's source</label>";
     }
     /** 
      * Enable date
@@ -419,7 +419,7 @@
     function wprss_setting_date_enable_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='date-enable' name='wprss_settings_general[date_enable]' type='checkbox' value='1' " . checked( 1, $options['date_enable'], false ) . " />";   
-        echo "<label for='date-enable'>Check this box to enable display of date published</label>";   
+        echo "<label class='description' for='date-enable'>Check this box to enable display of date published</label>";   
     }    
 
     /** 
@@ -429,7 +429,7 @@
     function wprss_setting_text_preceding_date_callback() {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='text-preceding-date' name='wprss_settings_general[text_preceding_date]' type='text' value='{$options['text_preceding_date']}' />";   
-        echo "<label for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
+        echo "<label class='description' for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
     }
 
     /**
@@ -439,7 +439,7 @@
     function wprss_setings_custom_feed_url_callback() {
         $options = get_option( 'wprss_settings_general' );
         echo "<input id='custom_feed_url' name='wprss_settings_general[custom_feed_url]' type='text' value='{$options['custom_feed_url']}' />";
-        echo "<label for='custom_feed_url'>" . __( 'Custom Feed URL', 'wprss' ) . "</label>";
+        echo "<label class='description' for='custom_feed_url'>" . __( 'Custom Feed URL', 'wprss' ) . "</label>";
     }
 
     /** 
@@ -449,7 +449,7 @@
     function wprss_setting_styles_disable_callback( $args ) {
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='styles-disable' name='wprss_settings_general[styles_disable]' type='checkbox' value='1' " . checked( 1, $options['styles_disable'], false ) . " />";   
-        echo "<label for='styles-disable'>Check this box to disable all plugin styles</label>"; 
+        echo "<label class='description' for='styles-disable'>Check this box to disable all plugin styles</label>"; 
         echo "<p class='description'>You will then be responsible for providing your own CSS styles.</p>";  
     }
 
