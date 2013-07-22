@@ -154,7 +154,7 @@
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
 			
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
-				$item = applyfilters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
+				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
 			
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL ) {
