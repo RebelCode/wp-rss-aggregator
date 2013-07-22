@@ -17,14 +17,14 @@
         // Only load scripts if we are on this plugin's options or settings pages (admin)
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' 
             || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' ) ) {        
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'admin-styles.css' );                      
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'admin-styles.css' );
         } 
 
         // Only load scripts if we are on wprss_feed add post or edit post screens
         $screen = get_current_screen();
 
         if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && ( 'wprss_feed' === $screen->post_type 
-            || 'wprss_feed_item' === $screen->post_type ) ) {
+            || 'wprss_feed_item' === $screen->post_type ) || $_GET['page'] == 'wprss-aggregator-settings' ) {
             wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
