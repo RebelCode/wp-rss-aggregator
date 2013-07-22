@@ -36,6 +36,7 @@
                 array(
                 'post_type'   => 'wprss_feed_item', 
                 'post_status' => 'publish',
+              //   'posts_per_page' => 4,  // works if enabled
                 'cache_results' => false,   // disable caching
             ) 
             
@@ -80,9 +81,9 @@
      * @since 3.3
      */
     function wprss_custom_feed_limits( $limit ) {
-        if ( is_feed( $feeds = 'wprss' ) ) { 
-            return $limit;
-            //return 'LIMIT 0, 25';   
+        if ( is_feed( ) ) { 
+        //    return 'LIMIT 0, 3';  
+        return $limit; 
         }
         return $limit;
     }

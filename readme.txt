@@ -99,8 +99,12 @@ Or use the shortcode in your posts and pages:
 
 = Version 3.3 () =
 * New feature: OPML importer
+* New feature: Feed item limits for individual Feed Sources
+* New feature: New 'Fetch feed items' action for each Feed Source in listing display
+* New feature: Option to enable link to source
 * Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)
-* Capabilities implemented
+* Enhanced: Capabilities implemented
+* Enhanced: Feed Sources row action 'View' removed
 
 = Version 3.2 (2013-07-06) =
 * New feature: Parameter to limit number of feeds displayed

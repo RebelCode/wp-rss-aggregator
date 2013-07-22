@@ -117,7 +117,15 @@
             'wprss_setting_source_enable_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
-        );      
+        );    
+
+        add_settings_field( 
+            'wprss-settings-source-link', 
+            __( 'Link source', 'wprss' ), 
+            'wprss_setting_source_link_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_general_section'
+        );            
 
         add_settings_field( 
             'wprss-settings-text-preceding-source', 
@@ -382,6 +390,16 @@
         $options = get_option( 'wprss_settings_general' );                    
         echo "<input id='source-enable' name='wprss_settings_general[source_enable]' type='checkbox' value='1' " . checked( 1, $options['source_enable'], false ) . " />";   
         echo "<label for='source-enable'>Check this box to enable feed source display</label>";   
+    }
+
+    /** 
+     * Enable linked title
+     * @since 3.0
+     */
+    function wprss_setting_source_link_callback( $args ) {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='source-link' name='wprss_settings_general[source_link]' type='checkbox' value='1' " . checked( 1, $options['source_link'], false ) . " />";   
+        echo "<label for='source-link'>Check this box to enable linked sources</label>";   
     }
 
 

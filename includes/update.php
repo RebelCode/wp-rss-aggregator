@@ -205,7 +205,8 @@
 				'limit_feed_items_imported' => 200,
 
 				// from version 3.3
-				'custom_feed_url'			=> 'wprss'
+				'custom_feed_url'			=> 'wprss',
+				'source_link'				=> 0
 			)			
 		);
 
