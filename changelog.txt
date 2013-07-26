@@ -1,6 +1,8 @@
 3.3 ()
 New feature: OPML importer
 New feature: Feed item limits for individual Feed Sources
+New feature: Custom feed URL
+New feature: Feed limit on custom feed
 New feature: New 'Fetch feed items' action for each Feed Source in listing display
 New feature: Option to enable link to source
 Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)

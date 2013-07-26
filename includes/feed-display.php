@@ -112,6 +112,8 @@
         $general_settings = get_option( 'wprss_settings_general' );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
+
+        $source_link = $general_settings['source_link'];
         // Declare each item in $args as its own variable
         extract( $args, EXTR_SKIP );
 
@@ -126,6 +128,8 @@
                 $permalink       = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
                 $feed_source_id  = get_post_meta( get_the_ID(), 'wprss_feed_id', true );
                 $source_name     = get_the_title( $feed_source_id );
+                $source_url      = get_post_meta( $feed_source_id, 'wprss_url', true );
+
                 do_action( 'wprss_get_post_data' );
 
                 // convert from Unix timestamp
@@ -140,15 +144,28 @@
 
                 if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 1 ) )  {
                     $output .= '<div class="source-date"><span class="feed-source">' .
-                    ( !empty( $general_settings['text_preceding_source'] ) ? $general_settings['text_preceding_source'] . ' ' : '' ) . $source_name . ' | ' .
+                    ( !empty( $general_settings['text_preceding_source'] ) ? $general_settings['text_preceding_source'] . ' ' : '' );
+                    
+                    if ( $source_link == 1 ) { 
+                        $output .= '<a href="' . $source_url . '">' . $source_name . "</a>";
+                    } 
+                    else $output .= $source_name;
+                    
+                    $output .= ' | ' .
                     ( !empty( $general_settings['text_preceding_date'] ) ? $general_settings['text_preceding_date'] . ' ' : '' ) . $date .
                     '</span></div>' . "$link_after";
                 }
 
                 else if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 0 ) )  {
                     $output .= '<div class="source-date"><span class="feed-source">' .
-                    ( !empty( $general_settings['text_preceding_source'] ) ? $general_settings['text_preceding_source'] . ' ' : '' ) . $source_name .
-                    '</span></div>' . "$link_after";
+                    ( !empty( $general_settings['text_preceding_source'] ) ? $general_settings['text_preceding_source'] . ' ' : '' );
+
+                    if ( $source_link == 1 ) { 
+                        $output .= '<a href="' . $source_url . '">' . $source_name . "</a>";
+                    } 
+                    else $output .= $source_name;
+
+                    $output .= '</span></div>' . "$link_after";
                 }
 
                 else if ( ( $general_settings['source_enable'] == 0 ) && ( $general_settings['date_enable'] == 1 ) )  {
