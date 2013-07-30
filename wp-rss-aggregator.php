@@ -140,9 +140,13 @@
 
     /* Load the Ajax notification file */
     require_once ( WPRSS_INC . 'admin-ajax-notice.php' ); 
+    
+    /* Load the dashboard welcome screen file */
+    require_once ( WPRSS_INC . 'admin-dashboard.php' );  
 
     /* Load the logging class */
     require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
+
     
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
@@ -175,6 +179,8 @@
         wprss_settings_initialize();
         flush_rewrite_rules();
         wprss_schedule_fetch_all_feeds_cron();   
+        // Sets a transient to trigger a redirect upon completion of activation procedure
+        set_transient( '_wprss_activation_redirect', true, 30 );
     }    
 
 
