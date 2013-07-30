@@ -1,5 +1,4 @@
 <?php
-
 	/*
 	 * Adds a dashboard page for the admin
 	 * It is triggered on plugin activation and upon
@@ -11,7 +10,6 @@
 
 	// Exit if the page is accessed directly
 	if ( ! defined( 'ABSPATH' ) ) exit;
-
 
 
 	add_action( 'admin_menu', 'wprss_admin_menu' );
@@ -32,18 +30,17 @@
 		);
 	}
 
+
 	/**
 	 * Callback for the Welcome Dashboard page.
-	 * It merely includes the contents of the welcome.php file,
+	 * It merely includes the contents of the admin-welcome.php file,
 	 * which contains the markup for the welcome screen.
 	 *
 	 * @since 3.3
 	 */
 	function wprss_show_welcome_screen() {
-		include_once( 'welcome.php' );
+		include_once( 'admin-welcome.php' );
 	}
-
-
 
 
 	add_action( 'admin_init', 'wprss_welcome' );
@@ -70,8 +67,6 @@
 	}
 
 
-
-
 	add_action( 'admin_head', 'wprss_admin_head' );
 	/**
 	 * Removes the dashboard welcome page from the dashboard
@@ -85,17 +80,7 @@
 		<style type="text/css" media="screen">
 		/*<![CDATA[*/
 
-			.wprss-welcome .wprss-welcome-title{
-				font-size: 3em;
-				font-weight: bold;
-			}
-			.wprss-welcome .wprss-welcome-subtitle {
-				color: #888;
-				font-size: 2em;
-				font-weight: bold;
-			}
-
-			.wprss-welcome-table > tbody > tr > td {
+			/*.wprss-welcome-table > tbody > tr > td {
 				line-height: 30px;
 			}
 			.wprss-welcome-table > tbody > tr {
@@ -105,7 +90,7 @@
 			.wprss-welcome-table > thead > tr > th{
 				font-size: 2em;
 				border-bottom: 8px solid #999;
-			}
+			}*/
 
 		/*]]>*/
 		</style>

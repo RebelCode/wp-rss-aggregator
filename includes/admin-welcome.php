@@ -23,13 +23,14 @@
 	
 ?>
 
-	 <div class="wrap wprss-welcome">
-			<h3 class="wprss-welcome-title"><?php printf( __( 'Welcome to WP RSS Aggregator %s !', 'wprss' ), WPRSS_VERSION ); ?></h3>
-			<p class="wprss-welcome-subtitle">Thank you for choosing WPRSS Aggregator as your RSS thingamajig :)</p>
+	 <div class="wrap about-wrap">
+			<h1><?php printf( __( 'Welcome to WP RSS Aggregator %s !', 'wprss' ), WPRSS_VERSION ); ?></h1>
+			<div class="about-text">Thank you for choosing WPRSS Aggregator as your RSS thingamajig :) Thank you for choosing WPRSS Aggregator as your RSS thingamajig :)</div>
+			<!-- <div class="wprss-badge">Version</div>-->
 
 			<!-- TAB WRAPPER -->
 			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab <?php if ( $tab === null ) echo 'nav-tab-active'; ?> "
+				<a class="nav-tab <?php if ( $tab === null ) echo 'nav-tab-active'; ?>"
 					href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'wprss-welcome' ), 'index.php' ) ) ); ?>">
 					Overview
 				</a>
