@@ -11,13 +11,13 @@
      * @license    http://www.gnu.org/licenses/gpl.html
      */
 
-    /*
+    
     //allow redirection, even if my theme starts to send output to the browser
     add_action( 'admin_init', 'wprss_do_output_buffer' );
     function wprss_do_output_buffer() {
         ob_start();
     }
-    */
+    
 
     /**
      * Build the debugging page
