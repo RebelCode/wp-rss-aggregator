@@ -144,10 +144,11 @@
 
             // normalize permalink to pass through feed proxy URL
             $permalink = $item->get_permalink();
+            /*
             $response = wp_remote_head( $permalink );
             if ( !is_wp_error(  $response ) && isset( $response['headers']['location'] ) ) {
                 $permalink = current( explode( '?', $response['headers']['location'] ) );
-            }
+            }*/
 
             // Check if newly fetched item already present in existing feed items,
             // if not insert it into wp_posts and insert post meta.
