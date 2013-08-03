@@ -206,7 +206,7 @@
                     )
             );
 
-            if ( is_plugin_active( 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php' ) ) { 
+            if ( count( $tabs ) > 1 ) { 
             // Might be a better idea to grey out the tabs when the addon is not activated, and use 
             // an action hook to insert the code relative to sections of addon. ?>
             <h2 class="nav-tab-wrapper">
@@ -220,8 +220,9 @@
 
             <form action="options.php" method="post">   
             
-                <?php 
-                if ( is_plugin_active( 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php' ) ) { 
+                <?php
+                /* 
+                if ( count( $tabs ) > 1 ) { 
                     if ( $active_tab == 'general_settings' ) {         
                         settings_fields( 'wprss_settings_general' ); 
                         do_settings_sections( 'wprss_settings_general' ); 
@@ -233,7 +234,22 @@
                     settings_fields( 'wprss_settings_general' ); 
                     do_settings_sections( 'wprss_settings_general' );                      
                 }
-                submit_button( __( 'Save Settings', 'wprss' ) ); 
+                submit_button( __( 'Save Settings', 'wprss' ) );
+                */
+
+                if ( $active_tab === 'general_settings' ) {
+                    settings_fields( 'wprss_settings_general' ); 
+                    do_settings_sections( 'wprss_settings_general' ); 
+                }
+                elseif ( count( $tabs ) > 1 ) {
+                    settings_fields( 'wprss_settings_licenses' );
+                    do_settings_sections( 'wprss_settings_licenses' );
+                    
+                    do_action( 'wprss_add_settings_fields_sections', $active_tab );
+                }
+
+                submit_button( __( 'Save Settings', 'wprss' ) );
+
                 ?>                                  
             </form>
         </div>
