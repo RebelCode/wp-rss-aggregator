@@ -11,20 +11,21 @@
      * @license    http://www.gnu.org/licenses/gpl.html
      */
 
-    
+    /*
     //allow redirection, even if my theme starts to send output to the browser
     add_action( 'admin_init', 'wprss_do_output_buffer' );
     function wprss_do_output_buffer() {
-        ob_start();
-    }
+        //ob_start();
+    }*/
     
 
+    add_action( 'init', 'wprss_debug_operations' );
     /**
-     * Build the debugging page
-     * 
-     * @since 3.0
-     */ 
-    function wprss_debugging_page_display() {     
+     * Performs debug operations, depending on the POST request.
+     *
+     * @since 3.3
+     */
+    function wprss_debug_operations(){
         // If page loading after having clicked 'Update all fields'
         if ( isset( $_POST['update-feeds'] ) && check_admin_referer( 'wprss-update-feed-items' ) ) { 
             wprss_fetch_insert_all_feed_items();
@@ -35,7 +36,15 @@
         else if ( isset( $_POST['reimport-feeds'] ) && check_admin_referer( 'wprss-delete-import-feed-items' ) ) { 
             wprss_feed_reset();
             wp_redirect( "edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=2" );
-        }        
+        }
+    }
+
+    /**
+     * Build the debugging page
+     * 
+     * @since 3.0
+     */ 
+    function wprss_debugging_page_display() {             
         ?>
 
         <div class="wrap">
