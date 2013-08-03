@@ -242,8 +242,11 @@
                     do_settings_sections( 'wprss_settings_general' ); 
                 }
                 elseif ( count( $tabs ) > 1 ) {
-                    settings_fields( 'wprss_settings_licenses' );
-                    do_settings_sections( 'wprss_settings_licenses' );
+
+                    if ( $active_tab === 'licenses_settings' ) {
+                        settings_fields( 'wprss_settings_licenses' );
+                        do_settings_sections( 'wprss_settings_licenses' );
+                    }
                     
                     do_action( 'wprss_add_settings_fields_sections', $active_tab );
                 }
