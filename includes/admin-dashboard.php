@@ -1,5 +1,5 @@
 <?php
-	/*
+	/**
 	 * Adds a dashboard page for the admin
 	 * It is triggered on plugin activation and upon
 	 * update.

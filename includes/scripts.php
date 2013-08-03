@@ -24,7 +24,7 @@
         $screen = get_current_screen();
 
         if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && ( 'wprss_feed' === $screen->post_type 
-            || 'wprss_feed_item' === $screen->post_type ) || $_GET['page'] == 'wprss-aggregator-settings' ) {
+            || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
             wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
