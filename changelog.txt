@@ -1,4 +1,4 @@
-3.3 ()
+3.3 (2013-08)
 New feature: OPML importer
 New feature: Feed item limits for individual Feed Sources
 New feature: Custom feed URL
@@ -8,6 +8,7 @@ New feature: Option to enable link to source
 Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)
 Enhanced: Capabilities implemented
 Enhanced: Feed Sources row action 'View' removed
+Fixed Bug: Proxy feed URLs resulting in the permalink: example.com/url
 
 3.2 (2013-07-06)
 New feature: Parameter to limit number of feeds displayed

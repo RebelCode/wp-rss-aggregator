@@ -107,6 +107,7 @@ Or use the shortcode in your posts and pages:
 * Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)
 * Enhanced: Capabilities implemented
 * Enhanced: Feed Sources row action 'View' removed
+* Fixed Bug: Proxy feed URLs resulting in the permalink: example.com/url
 
 = Version 3.2 (2013-07-06) =
 * New feature: Parameter to limit number of feeds displayed
