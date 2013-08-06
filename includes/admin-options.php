@@ -221,21 +221,6 @@
             <form action="options.php" method="post">   
             
                 <?php
-                /* 
-                if ( count( $tabs ) > 1 ) { 
-                    if ( $active_tab == 'general_settings' ) {         
-                        settings_fields( 'wprss_settings_general' ); 
-                        do_settings_sections( 'wprss_settings_general' ); 
-                    }
-
-                    do_action( 'wprss_add_settings_fields_sections', $active_tab );
-                }
-                else {
-                    settings_fields( 'wprss_settings_general' ); 
-                    do_settings_sections( 'wprss_settings_general' );                      
-                }
-                submit_button( __( 'Save Settings', 'wprss' ) );
-                */
 
                 if ( $active_tab === 'general_settings' ) {
                     settings_fields( 'wprss_settings_general' ); 
