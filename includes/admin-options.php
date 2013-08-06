@@ -28,8 +28,8 @@
 
         // Licensing of add-ons
         register_setting( 
-            'wprss_settings_licenses',                       
-            'wprss_settings_licenses',                        
+            'wprss_settings_license_keys',                       
+            'wprss_settings_license_keys',                        
             '' 
         );                   
         
@@ -244,8 +244,8 @@
                 elseif ( count( $tabs ) > 1 ) {
 
                     if ( $active_tab === 'licenses_settings' ) {
-                        settings_fields( 'wprss_settings_licenses' );
-                        do_settings_sections( 'wprss_settings_licenses' );
+                        settings_fields( 'wprss_settings_license_keys' );
+                        do_settings_sections( 'wprss_settings_license_keys' );
                     }
                     
                     do_action( 'wprss_add_settings_fields_sections', $active_tab );
