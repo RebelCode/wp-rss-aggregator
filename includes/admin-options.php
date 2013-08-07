@@ -28,8 +28,8 @@
 
         // Licensing of add-ons
         register_setting( 
-            'wprss_settings_license_keys',                       
-            'wprss_settings_license_keys',                        
+            'wprss_settings_licenses',                       
+            'wprss_settings_licenses',                        
             '' 
         );                   
         
@@ -206,9 +206,7 @@
                     )
             );
 
-            if ( count( $tabs ) > 1 ) { 
-            // Might be a better idea to grey out the tabs when the addon is not activated, and use 
-            // an action hook to insert the code relative to sections of addon. ?>
+            if ( count( $tabs ) > 1 ) { ?>
             <h2 class="nav-tab-wrapper">
                 <?php 
                 foreach ( $tabs as $tab => $tab_property ) { ?>
@@ -229,8 +227,8 @@
                 elseif ( count( $tabs ) > 1 ) {
 
                     if ( $active_tab === 'licenses_settings' ) {
-                        settings_fields( 'wprss_settings_license_keys' );
-                        do_settings_sections( 'wprss_settings_license_keys' );
+                        settings_fields( 'wprss_settings_licenses' );
+                        do_settings_sections( 'wprss_settings_licenses' );
                     }
                     
                     do_action( 'wprss_add_settings_fields_sections', $active_tab );
