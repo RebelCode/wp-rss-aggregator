@@ -190,6 +190,12 @@ input#thumbnails-width {
     width: 75px;
 }
 
+/* Welcome Screen */
+.about-wrap ul {
+    list-style: disc;
+    padding-left: 30px;
+}
+
 /* Excerpts and Thumbnails */
 
 input#thumbnails-height,

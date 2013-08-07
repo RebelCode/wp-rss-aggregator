@@ -10,9 +10,9 @@
 
 	// The tabs to be shown
 	$tabs = array(
-		'cat'	=>	'Categories',
+	/*	'cat'	=>	'Categories',
 		'et'	=>	'Excerpts &amp; Thumbnails',
-		'kf'	=>	'Keyword Filtering'
+		'kf'	=>	'Keyword Filtering'*/
 	);
 
 	// Determine the tab currently being shown
@@ -25,7 +25,10 @@
 
 	 <div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to WP RSS Aggregator %s !', 'wprss' ), WPRSS_VERSION ); ?></h1>
-			<div class="about-text">Thank you for choosing WPRSS Aggregator as your RSS thingamajig :) Thank you for choosing WPRSS Aggregator as your RSS thingamajig :)</div>
+			<div class="about-text">
+				Thank you for upgrading to the latest version! 
+				WP RSS Aggregator 3.3 is more powerful than ever before, and you can now check out the new add-ons!<br>
+			</div>
 			<!-- <div class="wprss-badge">Version</div>-->
 
 			<!-- TAB WRAPPER -->
@@ -56,8 +59,30 @@
 					default: ?>
 
 							<p class="about-description">
-								You may be interested in <b>add-on</b> plugins to add more functionality to your brand new aggregator.<br/>
-								Use the tabs above to explore the available Add-ons.
+								We have released three brand new add-ons to go along with v3.3:</p> 
+
+								<ul>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/">Excerpts & Thumbnails</a></strong></li>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/categories/">Categories</a></strong></li>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/">Keyword Filtering</a></strong></li>
+								</ul>
+							</p>
+							<p>Plus we've got some other add-ons already being developed!</p>
+							<p>More information about add-ons can be found on our new website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
+
+								<h3>Change log v3.3</h3>
+								<ul>
+									<li>New feature: OPML importer</li>
+									<li>New feature: Feed item limits for individual Feed Sources</li>
+									<li>New feature: Custom feed URL</li>
+									<li>New feature: Feed limit on custom feed</li>
+									<li>New feature: New 'Fetch feed items' action for each Feed Source in listing display</li>
+									<li>New feature: Option to enable link to source</li>
+									<li>Enhanced: Date strings now change according to locale being used (i.e. compatible with WPML)</li>
+									<li>Enhanced: Capabilities implemented</li>
+									<li>Enhanced: Feed Sources row action 'View' removed</li>
+									<li>Fixed Bug: Proxy feed URLs resulting in the permalink: example.com/url</li>
+								</ul>
 							</p>
 
 						<?php
@@ -97,6 +122,6 @@
 
 			<hr/>
 
-			<p>Just an idea :) -Miguel</p>
+			<p><a href="<?php echo admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings'); ?>">Go to WP RSS Aggregator settings</a></p>
 
 	</div>

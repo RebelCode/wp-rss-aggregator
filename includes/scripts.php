@@ -20,11 +20,11 @@
             wp_enqueue_style( 'styles', WPRSS_CSS . 'admin-styles.css' );
         } 
 
-        // Only load scripts if we are on wprss_feed add post or edit post screens
         $screen = get_current_screen();
 
-        if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && ( 'wprss_feed' === $screen->post_type 
-            || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
+        if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && 
+            ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && 
+            ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
             wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
@@ -32,6 +32,10 @@
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
         } 
+
+        else if ( 'dashboard_page_wprss-welcome' === $screen->base ) {
+            wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
+        }
 
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
