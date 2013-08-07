@@ -196,17 +196,22 @@
 
             <?php
 
-            $tabs = apply_filters(
-                    'wprss_options_tabs', 
-                    array(
-                      'General' => array( 
-                                    'label' => __( 'General', 'wprss' ),
-                                    'slug'  => 'general_settings',
-                                    )
-                    )
+            $default_tabs = array(
+				'general' => array( 
+					'label' => __( 'General', 'wprss' ),
+					'slug'  => 'general_settings',
+				),
+				'licenses' => array(
+					'label' => __( 'Licenses', 'wprss' ),
+					'slug'  => 'licenses_settings'
+				)
             );
 
-            if ( count( $tabs ) > 1 ) { ?>
+            $addon_tabs = apply_filters( 'wprss_options_tabs', array() );
+
+            $tabs = array_merge( array( $default_tabs['general'] ), $addon_tabs , array( $default_tabs['licenses'] ) );
+
+            if ( count( $addon_tabs ) > 0 ) { ?>
             <h2 class="nav-tab-wrapper">
                 <?php 
                 foreach ( $tabs as $tab => $tab_property ) { ?>
@@ -224,7 +229,7 @@
                     settings_fields( 'wprss_settings_general' ); 
                     do_settings_sections( 'wprss_settings_general' ); 
                 }
-                elseif ( count( $tabs ) > 1 ) {
+                elseif ( count( $addon_tabs ) > 0 ) {
 
                     if ( $active_tab === 'licenses_settings' ) {
                         settings_fields( 'wprss_settings_licenses' );
