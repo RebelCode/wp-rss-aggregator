@@ -211,7 +211,9 @@
 
             $tabs = array_merge( array( $default_tabs['general'] ), $addon_tabs , array( $default_tabs['licenses'] ) );
 
-            if ( count( $addon_tabs ) > 0 ) { ?>
+            $show_tabs = ( count( $addon_tabs ) > 0 ) || apply_filters( 'wprss_show_settings_tabs_condition', FALSE );
+
+            if ( $show_tabs ) { ?>
             <h2 class="nav-tab-wrapper">
                 <?php 
                 foreach ( $tabs as $tab => $tab_property ) { ?>
@@ -229,7 +231,7 @@
                     settings_fields( 'wprss_settings_general' ); 
                     do_settings_sections( 'wprss_settings_general' ); 
                 }
-                elseif ( count( $addon_tabs ) > 0 ) {
+                elseif ( $show_tabs ) {
 
                     if ( $active_tab === 'licenses_settings' ) {
                         settings_fields( 'wprss_settings_licenses' );
