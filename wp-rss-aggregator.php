@@ -145,6 +145,9 @@
     require_once ( WPRSS_INC . 'admin-dashboard.php' );  
 
     /* Load the logging class */
+    require_once ( WPRSS_INC . 'roles-capabilities.php' );      
+
+    /* Load the logging class */
     require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
 
     

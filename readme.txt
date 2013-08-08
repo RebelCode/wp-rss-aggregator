@@ -5,24 +5,30 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds, multi feed importer, multi feed import, multi import, autoblog, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 3.3
+Stable tag: 3.3.1
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
 
-With WP RSS Aggregator you can create a feed reader/aggregator on your WordPress site. It works in a similar fashion to RSS readers like for example Google Reader or Feedly.
+WP RSS Aggregator lets you create a feed reader/aggregator on your WordPress site.
 
-You can add any number of feeds through an administration panel, the plugin will then pull all the feeds from these sites, merge them and sort them by date.
+It works in a similar fashion to RSS readers like for example Google Reader. You can add any number of feeds through an administration panel, the plugin will then pull feed items from these sites, merge them and sort them by date.
 
-The plugin uses SimplePie for the feed operations. 
-You can call the function from within the theme or even use a shortcode with parameters.
+The plugin uses SimplePie for the feed operations. You can call the function from within your theme or even use a shortcode with parameters.
 
 Since the plugin uses Custom Post Types to store the imported feeds, you are also free to display them in any way you want, in a similar fashion as you would with other post types such as Posts or Pages.
 
-It can be used as a multiple RSS feed import facility, or even for displaying items from a single feed source.
+WP RSS Aggregator can also be used to display feed items from a particular feed source anywhere you want on your site.
+
+= Premium Add-Ons =
+
+Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/).
 
 = Demo =
-The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/)
+The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/).
+
+== Documentation =
+Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
 
 = Credit = 
 Created by Jean Galea from [WP Mayor](http://www.wpmayor.com)
@@ -35,7 +41,7 @@ Italian - Davide De Maestri
 1. Upload the `wp-rss-aggregator` folder to the `/wp-content/plugins/` directory
 2. Activate the WP RSS Aggregator plugin through the 'Plugins' menu in WordPress
 3. Configure the plugin by going to the `RSS Aggregator` menu item that appears in your dashboard menu.
-3. Use the shortcode in your posts or pages: `[wp_rss_aggregator]`
+3. Use the shortcode in your posts or pages: `[wp-rss-aggregator]`
 
 The parameters accepted are:
 
@@ -81,7 +87,7 @@ You can either call the function directly within the theme:
 `<?php wprss_display_feed_items(); ?>`
 
 Or use the shortcode in your posts and pages:
-[wp_rss_aggregator]
+[wp-rss-aggregator]
 
 == Screenshots ==
 
