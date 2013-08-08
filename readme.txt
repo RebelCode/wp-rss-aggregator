@@ -97,7 +97,7 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
-= Version 3.3 (2013-08-05) =
+= Version 3.3 (2013-08-08) =
 * New feature: OPML importer
 * New feature: Feed item limits for individual Feed Sources
 * New feature: Custom feed URL
