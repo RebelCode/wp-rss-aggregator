@@ -20,14 +20,13 @@ Since the plugin uses Custom Post Types to store the imported feeds, you are als
 
 WP RSS Aggregator can also be used to display feed items from a particular feed source anywhere you want on your site.
 
-= Premium Add-Ons =
-
+= Premium Add-Ons =	
 Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/).
 
 = Demo =
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/).
 
-== Documentation =
+= Documentation =
 Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
 
 = Credit = 
@@ -102,6 +101,10 @@ Or use the shortcode in your posts and pages:
 5. Plugin settings page.
 
 == Changelog ==
+
+= Version 3.3.1 (2013-08-09) =
+* Fixed Bug: Roles and Capabilities file had not been included
+* Fixed Bug: Error on install, function not found
 
 = Version 3.3 (2013-08-08) =
 * New feature: OPML importer
