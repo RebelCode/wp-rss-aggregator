@@ -1,6 +1,9 @@
+3.3.2 ()
+Fixed bug: Custom feed linking to post on user site rather than original source
+
 3.3.1 (2013-08-09)
-Fixed Bug: Roles and Capabilities file had not been included
-Fixed Bug: Error on install, function not found
+Fixed bug: Roles and Capabilities file had not been included
+Fixed bug: Error on install, function not found
 
 3.3 (2013-08-08)
 New feature: OPML importer

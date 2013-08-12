@@ -68,10 +68,13 @@
             <?php
             // Start the Loop
             while ( have_posts() ) : the_post();
+            $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
             ?>
             <entry>
                 <title><![CDATA[<?php the_title_rss(); ?>]]></title>
-                <link href="<?php the_permalink_rss(); ?>" />
+                <link href="<?php echo $permalink; ?>" />
+                <?php // Enable below to link to post on our site rather than original source ?>
+                <!--<link href="<?php the_permalink_rss(); ?>" />-->
                 <published><?php echo get_post_time( 'Y-m-d\TH:i:s\Z' ); ?></published>
                 <content type="html"><![CDATA[<?php the_content(); ?>]]></content>
             </entry>
