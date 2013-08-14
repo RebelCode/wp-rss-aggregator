@@ -271,7 +271,8 @@
      * @since 2.0
      * 
      */      
-    function wprss_help_meta_box_callback() {
+    function wprss_help_meta_box_callback() {        
+       echo '<p><a href="http://www.wprssaggregator.com/documentation/">View the documentation</p>';
        echo '<p><strong>';
        _e( 'Need help?', 'wprss' );
        echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
@@ -291,12 +292,21 @@
             <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org.', 'wprss' ) ?></a></li>                               
             <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e('Donate a token of your appreciation.', 'wprss' ); ?></a></li>
         </ul>       
+        <?php
+        echo '<p><strong>'; 
+        _e( 'Check out the premium add-ons:', 'wprss' );
+        echo '</strong>'; ?>
+        <ul>
+            <li><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"><?php echo 'Excerpts & Thumbnails'; ?></a></li>                               
+            <li><a href="http://www.wprssaggregator.com/extension/categories/"><?php echo 'Categories'; ?></a></li>
+            <li><a href="http://www.wprssaggregator.com/extension/keyword-filtering/"><?php echo 'Keyword Filtering'; ?></a></li>
+        </ul>   
          </p>
     <?php } 
 
 
     /**     
-     * Generate Like this plugin meta box
+     * Generate Follow us plugin meta box
      * 
      * @since 2.0
      * 
