@@ -74,9 +74,17 @@
 			'meta_key'       => 'wprss_item_date',
 			'order'          => 'DESC'
 		);
-
-		if ( isset( $settings['source'] ) ) {
-			$feeds = array_filter( array_map( 'intval', explode( ',', $settings['source'] ) ) );
+		
+		// If either the source or exclude arguments are set (but not both), prepare a meta query
+		if ( isset( $settings['source'] ) xor isset( $settings['exclude'] ) ) {
+			// Set the appropriate setting and operator
+			$setting = 'source';
+			$operator = 'IN';
+			if ( isset( $settings['exclude'] ) ) {
+				$setting = 'exclude';
+				$operator = 'NOT IN';
+			}
+			$feeds = array_filter( array_map( 'intval', explode( ',', $settings[$setting] ) ) );
             foreach ( $feeds as $feed )
                 trim( $feed );
 			if ( !empty( $feeds ) ) {
@@ -85,7 +93,7 @@
 						'key'     => 'wprss_feed_id',
 						'value'   => $feeds,
 						'type'    => 'numeric',
-						'compare' => 'IN',
+						'compare' => $operator,
 					),
 				);
 			}
@@ -217,6 +225,9 @@
 
 		if ( isset( $args['source'] ) ) {
 			$query_args['source'] = $args['source'];
+		}
+		elseif ( isset( $args['exclude'] ) ) {
+			$query_args['exclude'] = $args['exclude'];
 		}
 
 		$feed_items = wprss_get_feed_items_query( $query_args );
