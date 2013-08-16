@@ -1,4 +1,5 @@
 3.3.2 ()
+New feature: Added exclude parameter to shortcode
 Enhanced: Added metabox links to documentation and add-ons
 Fixed bug: Custom feed linking to post on user site rather than original source
 
