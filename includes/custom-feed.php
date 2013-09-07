@@ -19,7 +19,6 @@
         }
         else $url = 'wprss';
         add_feed( $url, 'wprss_addfeed_do_feed' );
-        flush_rewrite_rules();
     }
 
 

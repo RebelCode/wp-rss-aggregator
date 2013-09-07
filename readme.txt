@@ -102,6 +102,13 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
+= Version 3.3.2 (2013-09-07) =
+* New feature: Added exclude parameter to shortcode
+* Enhanced: Added metabox links to documentation and add-ons
+* Fixed bug: Custom feed linking to post on user site rather than original source
+* Fixed bug: Better function handling on uninstall, should remove uninstall issues
+* Fixed bug: Custom post types issues when activitating the plugin
+
 = Version 3.3.1 (2013-08-09) =
 * Fixed Bug: Roles and Capabilities file had not been included
 * Fixed Bug: Error on install, function not found
