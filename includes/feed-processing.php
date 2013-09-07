@@ -107,13 +107,16 @@
         /* Disable caching of feeds */
         add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
         /* Fetch the feed from the soure URL specified */
-        $feed = fetch_feed( $feed_url );
+        //$feed = fetch_feed( $feed_url );
+        $feed = new SimplePie();
+        $feed->set_feed_url( $feed_url );
+        $feed->init();
         /* Remove action here because we only don't want it active feed imports outside of our plugin */
         remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 
         //$feed = wprss_fetch_feed( $feed_url );
         remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
-
+        
         if ( !is_wp_error( $feed ) ) {
 
             // Figure out how many total items there are, but limit it to the number of items set in options.
@@ -191,6 +194,7 @@
      * @since 2.3
      */
     function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $feed_url) {
+
         update_post_meta( $inserted_ID, 'wprss_item_permalink', $feed_url );
         update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
         update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
@@ -294,6 +298,50 @@
 				wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( get_the_ID() ) );
             }
             wp_reset_postdata(); // Restore the $post global to the current post in the main query
+        }
+    }
+
+
+
+    add_action( 'updated_post_meta', 'wprss_update_feed_meta', 10, 4 );
+    /**
+     * This function is run whenever a post is saved or updated.
+     *
+     * @since 3.4
+     */
+    function wprss_update_feed_meta( $meta_id, $post_id, $meta_key, $meta_value ) {
+        $post = get_post( $post_id );
+        if ( $post->post_status === 'publish' && $post->post_type === 'wprss_feed' ) {
+            if ( $meta_key === 'wprss_url' )
+                wprss_change_fb_url( $post_id, $meta_value );
+        }
+    }
+
+
+    function wprss_change_fb_url( $post_id, $url ) {
+        # Check if url begins with a known facebook hostname.
+        if (    stripos( $url, 'http://facebook.com' ) === 0
+            ||  stripos( $url, 'http://www.facebook.com' ) === 0
+            ||  stripos( $url, 'https://facebook.com' ) === 0
+            ||  stripos( $url, 'https://www.facebook.com' ) === 0
+        ) {
+            # Generate the new URL to FB Graph
+            $com_index = stripos( $url, '.com' );
+            $fb_page = substr( $url, $com_index + 4 ); # 4 = length of ".com"
+            $fb_graph_url = 'http://graph.facebook.com' . $fb_page;
+            # Contact FB Graph and get data
+            $response = wp_remote_get( $fb_graph_url );
+            # If the repsonse successful and has a body
+            if ( !is_wp_error( $response ) && isset( $response['body'] ) ) {
+                # Parse the body as a JSON string
+                $json = json_decode( $response['body'], true );
+                # If an id is present ...
+                if ( isset( $json['id'] ) ) {
+                    # Generate the final URL for this feed and update the post meta
+                    $final_url = "http://www.facebook.com/feeds/page.php?format=atom10&id=" . $json['id'];
+                    update_post_meta( $post_id, 'wprss_url', $final_url, $url );   
+                }
+            }
         }
     }
 
