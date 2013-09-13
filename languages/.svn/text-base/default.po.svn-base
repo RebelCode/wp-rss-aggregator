@@ -1,0 +1,272 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wprss\n"
+"POT-Creation-Date: 2012-09-25 12:09+0100\n"
+"PO-Revision-Date: 2012-09-25 13:52+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-KeywordsList: _;__;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: wp-rss-aggregator.php:152
+msgid "Enter feed name here (e.g. WP Mayor)"
+msgstr ""
+
+#: wp-rss-aggregator.php:394
+msgid "No feed items found"
+msgstr ""
+
+#: inc/activation.php:11
+msgid "This plugin requires WordPress version 3.2 or higher."
+msgstr ""
+
+#: inc/admin-options.php:45 inc/admin-options.php:88
+msgid "WP RSS Aggregator Settings"
+msgstr ""
+
+#: inc/admin-options.php:45
+msgid "Settings"
+msgstr ""
+
+#: inc/admin-options.php:67
+msgid "Open links behaviour"
+msgstr ""
+
+#: inc/admin-options.php:70
+msgid "Set links as"
+msgstr ""
+
+#: inc/admin-options.php:73
+msgid "Feed limit"
+msgstr ""
+
+#: inc/admin-options.php:93
+msgid "Save Settings"
+msgstr ""
+
+#: inc/admin-options.php:113
+msgid "No follow"
+msgstr ""
+
+#: inc/admin-options.php:114
+msgid "Follow"
+msgstr ""
+
+#: inc/admin-options.php:132
+msgid "Lightbox"
+msgstr ""
+
+#: inc/admin-options.php:133
+msgid "New window"
+msgstr ""
+
+#: inc/admin-options.php:134
+msgid "None"
+msgstr ""
+
+#: inc/cron-jobs.php:53
+msgid "Once Weekly"
+msgstr ""
+
+#: inc/custom-post-types.php:30
+msgid "Feed Sources"
+msgstr ""
+
+#: inc/custom-post-types.php:31
+msgid "Feed"
+msgstr ""
+
+#: inc/custom-post-types.php:32 inc/custom-post-types.php:34
+msgid "Add New Feed Source"
+msgstr ""
+
+#: inc/custom-post-types.php:33
+msgid "All Feed Sources"
+msgstr ""
+
+#: inc/custom-post-types.php:35
+msgid "Edit Feed Source"
+msgstr ""
+
+#: inc/custom-post-types.php:36
+msgid "New Feed Source"
+msgstr ""
+
+#: inc/custom-post-types.php:37
+msgid "View Feed Source"
+msgstr ""
+
+#: inc/custom-post-types.php:38
+msgid "Search Feeds"
+msgstr ""
+
+#: inc/custom-post-types.php:39
+msgid "No Feed Sources Found"
+msgstr ""
+
+#: inc/custom-post-types.php:40
+msgid "No Feed Sources Found In Trash"
+msgstr ""
+
+#: inc/custom-post-types.php:41
+msgid "RSS Aggregator"
+msgstr ""
+
+#: inc/custom-post-types.php:58 inc/custom-post-types.php:60
+msgid "Imported Feeds"
+msgstr ""
+
+#: inc/custom-post-types.php:59
+msgid "Imported Feed"
+msgstr ""
+
+#: inc/custom-post-types.php:61
+msgid "View Imported Feed"
+msgstr ""
+
+#: inc/custom-post-types.php:62
+msgid "Search Imported Feeds"
+msgstr ""
+
+#: inc/custom-post-types.php:63
+msgid "No Imported Feeds Found"
+msgstr ""
+
+#: inc/custom-post-types.php:64
+msgid "No Imported Feeds Found In Trash"
+msgstr ""
+
+#: inc/custom-post-types.php:83 inc/custom-post-types.php:135
+msgid "Name"
+msgstr ""
+
+#: inc/custom-post-types.php:84 inc/custom-post-types.php:306
+msgid "URL"
+msgstr ""
+
+#: inc/custom-post-types.php:85 inc/custom-post-types.php:313
+msgid "Description"
+msgstr ""
+
+#: inc/custom-post-types.php:136
+msgid "Permalink"
+msgstr ""
+
+#: inc/custom-post-types.php:137
+msgid "Date published"
+msgstr ""
+
+#: inc/custom-post-types.php:138
+msgid "Source"
+msgstr ""
+
+#: inc/custom-post-types.php:226
+msgid "Save Feed Source"
+msgstr ""
+
+#: inc/custom-post-types.php:252
+msgid "WP RSS Aggregator Help"
+msgstr ""
+
+#: inc/custom-post-types.php:261
+msgid "Like this plugin?"
+msgstr ""
+
+#: inc/custom-post-types.php:270
+msgid "Follow us"
+msgstr ""
+
+#: inc/custom-post-types.php:279
+msgid "Feed Source Details"
+msgstr ""
+
+#: inc/custom-post-types.php:288
+msgid "Feed Preview"
+msgstr ""
+
+#: inc/custom-post-types.php:307
+msgid "Enter feed URL (including http://)"
+msgstr ""
+
+#: inc/custom-post-types.php:314
+msgid "A short description about this feed source (optional)"
+msgstr ""
+
+#: inc/custom-post-types.php:438
+msgid "Delete Permanently"
+msgstr ""
+
+#: inc/custom-post-types.php:440
+msgid "Move to Trash"
+msgstr ""
+
+#: inc/custom-post-types.php:471
+msgid ""
+"<strong>Invalid feed URL</strong> - Double check the feed source URL setting "
+"above."
+msgstr ""
+
+#: inc/custom-post-types.php:474
+msgid "No feed URL defined yet"
+msgstr ""
+
+#: inc/custom-post-types.php:486
+msgid "Need help?"
+msgstr ""
+
+#: inc/custom-post-types.php:488
+msgid "Check out the support forum"
+msgstr ""
+
+#: inc/custom-post-types.php:499
+msgid "Why not do any or all of the following"
+msgstr ""
+
+#: inc/custom-post-types.php:501
+msgid "Give it a 5 star rating on WordPress.org."
+msgstr ""
+
+#: inc/custom-post-types.php:502
+msgid "Donate a token of your appreciation."
+msgstr ""
+
+#: inc/custom-post-types.php:517
+msgid "Follow WP Mayor on Twitter."
+msgstr ""
+
+#: inc/custom-post-types.php:518
+msgid "Like WP Mayor on Facebook."
+msgstr ""
+
+#: inc/custom-post-types.php:535
+msgid "Feed source updated. "
+msgstr ""
+
+#: inc/custom-post-types.php:536
+msgid "Custom field updated."
+msgstr ""
+
+#: inc/custom-post-types.php:537
+msgid "Custom field deleted."
+msgstr ""
+
+#: inc/custom-post-types.php:538 inc/custom-post-types.php:544
+msgid "Feed source updated."
+msgstr ""
+
+#: inc/custom-post-types.php:540 inc/custom-post-types.php:541
+msgid "Feed source saved."
+msgstr ""
+
+#: inc/custom-post-types.php:542
+msgid "Feed source submitted."
+msgstr ""
+
+#: inc/custom-post-types.php:628
+msgid "Publish Feed"
+msgstr ""
