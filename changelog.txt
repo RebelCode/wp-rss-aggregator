@@ -1,4 +1,6 @@
-3.4
+3.4 (2013-9-15)
+New Feature: Saving/Updating a feed source triggers an update for that source's feed items.
+New Feature: Youtube, Vimeo and Dailymotion feed item URLs are changed to embedded players URLs
 New Feature: Facebook Pages URLs are automatically detected and changed into Atom Feed URLs using FB's Graph
 Enhanced: Updated jQuery Colorbox library to 1.4.29
 Fixed Bug: Some settings did not have a default value set, and were throwing an 'Undefined Index' error
