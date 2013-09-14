@@ -50,46 +50,29 @@ jQuery( document ).ready( function() {
 
 /* JS for admin notice - Leave a review */
 
-(function ($) {
-    "use strict";
-    $(function () {
+jQuery(window).load( function(){
+    // Check to see if the Ajax Notification is visible
+    if ( jQuery('#dismiss-ajax-notification').length > 0 ) {
+        NOTIFICATION = jQuery('#ajax-notification');
+        NOTIFICATION_DISMISS = jQuery('#dismiss-ajax-notification');
+        NOTIFICATION_DISMISS.click( function(evt){
+            evt.preventDefault();
+            evt.stopPropagation();
 
-        // Check to see if the Ajax Notification is visible
-        if ($('#dismiss-ajax-notification').length > 0) {
-
-            // If so, we need to setup an event handler to trigger it's dismissal
-            $('#dismiss-ajax-notification').click(function (evt) {
-
-                evt.preventDefault();
-
-                // Initiate a request to the server-side
-                $.post(ajaxurl, {
-
-                    // The name of the function to fire on the server
-                    action: 'wprss_hide_admin_notification',
-
-                    // The nonce value to send for the security check
-                    nonce: $.trim($('#ajax-notification-nonce').text())
-
-                }, function (response) {
-
-                    // If the response was successful (that is, 1 was returned), hide the notification;
-                    // Otherwise, we'll change the class name of the notification
-                    if ('1' === response) {
-                        $('#ajax-notification').fadeOut('slow');
-                    } else {
-
-                        $('#ajax-notification')
-                            .removeClass('updated')
-                            .addClass('error');
-
-                    } // end if
-
-                });
-
+            jQuery.post(ajaxurl, {
+                // The name of the function to fire on the server
+                action: 'wprss_hide_admin_notification',
+                // The nonce value to send for the security check
+                nonce: jQuery.trim( jQuery('#ajax-notification-nonce').text() )
+            }, function (response) {
+                // If the response was successful (that is, 1 was returned), hide the notification;
+                // Otherwise, we'll change the class name of the notification
+                if ( response !== '1' ) {
+                    NOTIFICATION.removeClass('updated').addClass('error');
+                } // end if
             });
 
-        } // end if
-
-    });
-}(jQuery));
+            NOTIFICATION.fadeOut(400);
+        });
+    }
+})
