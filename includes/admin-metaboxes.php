@@ -216,6 +216,8 @@
                 delete_post_meta( $post_id, $field[ 'id' ], $old );
             }
         } // end foreach
+
+        wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
     } 
 
 
