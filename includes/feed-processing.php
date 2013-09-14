@@ -107,10 +107,10 @@
         /* Disable caching of feeds */
         add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
         /* Fetch the feed from the soure URL specified */
-        //$feed = fetch_feed( $feed_url );
-        $feed = new SimplePie();
-        $feed->set_feed_url( $feed_url );
-        $feed->init();
+        $feed = fetch_feed( $feed_url );
+        //$feed = new SimplePie();
+        //$feed->set_feed_url( $feed_url );
+        //$feed->init();
         /* Remove action here because we only don't want it active feed imports outside of our plugin */
         remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 
