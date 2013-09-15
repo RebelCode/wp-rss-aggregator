@@ -62,7 +62,15 @@
             'wprss_settings_general',  
             'wprss_settings_general_section'
         );     
-
+		
+		add_settings_field( 
+            'wprss-settings-video-links', 
+            __( 'For video feed items use', 'wprss' ), 
+            'wprss_setting_video_links_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_general_section'
+        );
+		
         add_settings_field( 
             'wprss-settings-feed-limit', 
             __( 'Feed display limit', 'wprss' ), 
@@ -286,6 +294,28 @@
         echo "</select>";
     }
 
+	
+	/**
+	 * Use original video link, or embedded video links dropwdown
+	 * @since 3.4
+	 */
+	function wprss_setting_video_links_callback() {
+		$options = get_option( 'wprss_settings_general' );
+		$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
+		$items = array(
+			'false' => _( 'Original page link', 'wprss' ),
+			'true' => _( 'Embedded video player link', 'wprss' )
+		);
+		echo "<select id='video-link' name='wprss_settings_general[video_link]'>";
+		foreach ( $items as $boolean => $text ) {
+			$selected = ( $video_link === $boolean )? 'selected="selected"' : '';
+			echo "<option value='$boolean' $selected>$text</option>";
+        }
+		echo "</select>";
+		echo "<span style='margin-left:8px'></span>";
+		echo "<label class='description' for='video-link'>This will not affect already imported feed items.</label>";
+	}
+	
 
     /** 
      * Link open setting dropdown
@@ -601,6 +631,11 @@
         else
             $output['styles_disable'] = 1;     
         
+		if ( ! isset( $input['video_link'] ) || strtolower( $input['video_link'] ) !== 'true' )
+			$output['video_link'] = 'false';
+		else
+			$output['video_link'] = 'true';
+		
         if ( $input['cron_interval'] != $current_cron_interval ) {
             wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );    
             wp_schedule_event( time(), $input['cron_interval'], 'wprss_fetch_all_feeds_hook' );
