@@ -102,6 +102,14 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
+= 3.4 (2013-9-15) =
+* New Feature: Saving/Updating a feed source triggers an update for that source's feed items.
+* New Feature: Option to change Youtube, Vimeo and Dailymotion feed item URLs to embedded video players URLs
+* New Feature: Facebook Pages URLs are automatically detected and changed into Atom Feed URLs using FB's Graph
+* Enhanced: Updated jQuery Colorbox library to 1.4.29
+* Fixed Bug: Some settings did not have a default value set, and were throwing an 'Undefined Index' error
+* Fixed Bug: Admin notices do not disappear immediately when dismissed.
+
 = Version 3.3.3 (2013-09-08) =
 * Fixed bug: Better function handling on uninstall, should remove uninstall issues
 
