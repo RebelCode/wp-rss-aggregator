@@ -207,7 +207,10 @@
 				// from version 3.3
 				'custom_feed_url'			=> 'wprss',
 				'custom_feed_limit'			=> '',
-				'source_link'				=> 0
+				'source_link'				=> 0,
+				
+				// from version 3.4
+				'video_link'				=> 'false'
 			)			
 		);
 
