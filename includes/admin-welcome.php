@@ -27,7 +27,6 @@
 			<h1><?php printf( __( 'Welcome to WP RSS Aggregator %s !', 'wprss' ), WPRSS_VERSION ); ?></h1>
 			<div class="about-text">
 				Thank you for upgrading to the latest version! 
-				WP RSS Aggregator 3.3.2 is more powerful than ever before, and you can now check out the new add-ons!<br>
 			</div>
 			<!-- <div class="wprss-badge">Version</div>-->
 
@@ -70,13 +69,14 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our new website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3>Change log v3.3.2</h3>
+								<h3>Change log v3.4</h3>
 								<ul>
-									<li>New feature: Added exclude parameter to shortcode</li>
-									<li>Enhanced: Added metabox links to documentation and add-ons</li>
-									<li>Fixed bug: Custom feed linking to post on user site rather than original source</li>
-									<li>Fixed bug: Better function handling on uninstall, should remove uninstall issues</li>
-									<li>Fixed bug: Custom post types issues when activitating the plugin</li>
+									<li>New Feature: Saving/Updating a feed source triggers an update for that source's feed items.</li>
+									<li>New Feature: Option to change Youtube, Vimeo and Dailymotion feed item URLs to embedded video players URLs</li>
+									<li>New Feature: Facebook Pages URLs are automatically detected and changed into Atom Feed URLs using FB's Graph</li>
+									<li>Enhanced: Updated jQuery Colorbox library to 1.4.29</li>
+									<li>Fixed Bug: Some settings did not have a default value set, and were throwing an 'Undefined Index' error</li>
+									<li>Fixed Bug: Admin notices do not disappear immediately when dismissed.</li>
 								</ul>
 							</p>
 

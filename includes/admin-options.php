@@ -303,8 +303,8 @@
 		$options = get_option( 'wprss_settings_general' );
 		$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
 		$items = array(
-			'false' => _( 'Original page link', 'wprss' ),
-			'true' => _( 'Embedded video player link', 'wprss' )
+			'false' => __( 'Original page link', 'wprss' ),
+			'true' => __( 'Embedded video player link', 'wprss' )
 		);
 		echo "<select id='video-link' name='wprss_settings_general[video_link]'>";
 		foreach ( $items as $boolean => $text ) {
