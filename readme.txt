@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, multiple feeds, multi feed importer, multi feed import, multi import, autoblog, autoblogging, autoblogger
 Requires at least: 3.4
-Tested up to: 3.6
-Stable tag: 3.4
+Tested up to: 3.6.1
+Stable tag: 3.4.1
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
 == Description ==
@@ -101,6 +101,9 @@ Or use the shortcode in your posts and pages:
 5. Plugin settings page.
 
 == Changelog ==
+
+= 3.4.1 (2013-9-16) = 
+* Fixed Bug: Minor issue with options page - PHP notice
 
 = 3.4 (2013-9-15) =
 * New Feature: Saving/Updating a feed source triggers an update for that source's feed items.
