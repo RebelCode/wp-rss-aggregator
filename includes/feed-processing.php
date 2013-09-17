@@ -147,6 +147,40 @@
 
             // normalize permalink to pass through feed proxy URL
             $permalink = $item->get_permalink();
+
+            // CHECK PERMALINK FOR VIDEO HOSTS : YOUTUBE, VIMEO AND DAILYMOTION
+			$found_video_host = preg_match( '/http[s]?:\/\/(www\.)?(youtube|dailymotion|vimeo)\.com\/(.*)/i', $permalink, $matches );
+			
+			// If video host was found
+			if ( $found_video_host !== 0 && $found_video_host !== FALSE ) {
+			
+				// Get general options
+				$options = get_option( 'wprss_settings_general' );
+				// Get the video link option entry, or false if it does not exist
+				$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
+			
+				// If the video link option is true, change the video URL to its repective host's embedded
+				// video player URL. Otherwise, leave the permalink as is.
+				if ( strtolower( $video_link ) === 'true' ) {
+					$host = $matches[2];
+					switch( $host ) {
+						case 'youtube':
+							preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
+							$permalink = 'http://www.youtube.com/embed/' . $yt_matches[2];
+							break;
+						case 'vimeo':
+							preg_match( '/(\d*)$/i', $permalink, $vim_matches );
+							$permalink = 'http://player.vimeo.com/video/' . $vim_matches[0];
+							break;
+						case 'dailymotion':
+							preg_match( '/(\.com\/)(video\/)(.*)/i', $permalink, $dm_matches );
+							$permalink = 'http://www.dailymotion.com/embed/video/' . $dm_matches[3];
+							break;
+					}
+				}
+			}
+
+
             /*
             $response = wp_remote_head( $permalink );
             if ( !is_wp_error(  $response ) && isset( $response['headers']['location'] ) ) {
@@ -156,38 +190,6 @@
             // Check if newly fetched item already present in existing feed items,
             // if not insert it into wp_posts and insert post meta.
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
-			
-                // CHECK PERMALINK FOR VIDEO HOSTS : YOUTUBE, VIMEO AND DAILYMOTION
-				$found_video_host = preg_match( '/http[s]?:\/\/(www\.)?(youtube|dailymotion|vimeo)\.com\/(.*)/i', $permalink, $matches );
-				
-				// If video host was found
-				if ( $found_video_host !== 0 && $found_video_host !== FALSE ) {
-				
-					// Get general options
-					$options = get_option( 'wprss_settings_general' );
-					// Get the video link option entry, or false if it does not exist
-					$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
-				
-					// If the video link option is true, change the video URL to its repective host's embedded
-					// video player URL. Otherwise, leave the permalink as is.
-					if ( strtolower( $video_link ) === 'true' ) {
-						$host = $matches[2];
-						switch( $host ) {
-							case 'youtube':
-								preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
-								$permalink = 'http://www.youtube.com/embed/' . $yt_matches[2];
-								break;
-							case 'vimeo':
-								preg_match( '/(\d*)$/i', $permalink, $vim_matches );
-								$permalink = 'http://player.vimeo.com/video/' . $vim_matches[0];
-								break;
-							case 'dailymotion':
-								preg_match( '/(\.com\/)(video\/)(.*)/i', $permalink, $dm_matches );
-								$permalink = 'http://www.dailymotion.com/embed/video/' . $dm_matches[3];
-								break;
-						}
-					}
-				}
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
 				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID );
