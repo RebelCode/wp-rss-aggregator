@@ -252,29 +252,55 @@
     }
 
 
-    add_action( 'post_updated', 'wprss_pre_update_feed_source', 10, 3 );
+    add_action( 'post_updated', 'wprss_updated_feed_source', 10, 3 );
     /**
-     * This function is triggered just before a post is updated.
+     * This function is triggered just after a post is updated.
      * It checks if the updated post is a feed source, and carries out any
      * updating necassary.
      *
      * @since 3.3
      */
-    function wprss_pre_update_feed_source( $post_ID, $post_after, $post_before ) {
+    function wprss_updated_feed_source( $post_ID, $post_after, $post_before ) {
         // Check if the post is a feed source and is published
+        
         if ( ( $post_after->post_type == 'wprss_feed' ) && ( $post_after->post_status == 'publish' ) ) {
 
-            // Checking feed limit change
-            // Get the limit currently saved in db, and limit in POST request
-            $limit_before = get_post_meta( $post_ID, 'wprss_limit', true );
-            $limit_after = ( isset( $_POST['wprss_limit'] ) )? $_POST['wprss_limit'] : null;
-            // Calculate the difference
-            $difference = $limit_before - $limit_after;
-            // If the difference is > 0, i.e. user has updated limit with a smaller number
-            if ( $difference > 0 ) {
-                // Delete all feed items for this source
-                wprss_delete_feed_items( $post_ID );
-            }
+        	if ( isset( $_POST['wprss_limit'] ) && !empty( $_POST['wprss_limit'] ) ) {
+	            // Checking feed limit change
+	            // Get the limit currently saved in db, and limit in POST request
+	            //$limit = get_post_meta( $post_ID, 'wprss_limit', true );
+	            $limit = $_POST['wprss_limit'];
+	            // Get all feed items for this source
+	            $feed_sources = new WP_Query(
+					array(
+						'post_type'      => 'wprss_feed_item',
+						'post_status'    => 'publish',
+						'cache_results'  => false,   // Disable caching, used for one-off queries
+						'no_found_rows'  => true,    // We don't need pagination, so disable it
+						'posts_per_page' => -1,
+						'orderby' 		 => 'date',
+						'order' 		 => 'ASC',
+						'meta_query'     => array(
+							array(
+								'key'     => 'wprss_feed_id',
+								'value'   => $post_ID,
+								'compare' => 'LIKE'
+							)
+						)
+					)
+	            );
+	            // If the limit is smaller than the number of found posts, delete the feed items
+	            // and re-import, to ensure that most recent feed items are present.
+	            $difference = intval( $feed_sources->post_count ) - intval( $limit );
+	            if ( $difference > 0 ) {
+	            	// Loop and delete the excess feed items
+					while ( $feed_sources->have_posts() && $difference > 0 ) {
+						$feed_sources->the_post();
+						wp_delete_post( get_the_ID(), true );
+						$difference--;
+					}
+	            }
+        	}
         }
     }
 
