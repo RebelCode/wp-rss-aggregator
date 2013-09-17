@@ -93,7 +93,7 @@
 
         $wprss_meta_fields[ 'limit' ] = array(
             'label' => __( 'Limit', 'wprss' ),
-            'desc'  => __( 'Enter a field limit. Leave blank to use the default setting.', 'wprss' ),
+            'desc'  => __( 'Enter a feed item import/display limit. Leave blank to use the default setting.', 'wprss' ),
             'id'    => $prefix . 'limit',
             'type'  => 'number'
         );
