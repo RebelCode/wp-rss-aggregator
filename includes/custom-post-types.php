@@ -82,7 +82,7 @@
                 'publicly_querable'     => false,  
                 'show_in_nav_menus'     => false,
                 'show_in_admin_bar'     => true,
-                'public'                => false,
+                'public'                => true,
                 'show_ui'               => true,
                 'query_var'             => 'feed_item',
                 'show_in_menu'          => 'edit.php?post_type=wprss_feed',
