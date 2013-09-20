@@ -237,7 +237,7 @@
     }
 
 
-    add_action( 'wp_insert_post', 'wprss_fetch_insert_feed_items', 10, 2 );
+    add_action( 'publish_wprss_feed', 'wprss_fetch_insert_feed_items', 10 );
     /**
      * Fetches feed items from source provided and inserts into db
      *
@@ -245,12 +245,8 @@
      *
      * @since 3.0
      */
-    function wprss_fetch_insert_feed_items( $post_id, $post ) {
-
-        // Only run the rest of the function if the post is a feed source and it has just been published
-        if( ( $post->post_type == 'wprss_feed' ) && ( $post->post_status == 'publish' ) ) {
-			wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
-        }
+    function wprss_fetch_insert_feed_items( $post_id ) {
+        wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
     }
 
 
