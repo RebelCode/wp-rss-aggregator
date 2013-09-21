@@ -149,6 +149,7 @@
 
     /* Load the logging class */
     require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
+    require_once ( WPRSS_INC . 'admin-editor.php' );
 
     
     register_activation_hook( __FILE__ , 'wprss_activate' );
