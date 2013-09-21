@@ -41,51 +41,20 @@
         );   
 
         add_settings_section( 
+            'wprss_settings_display_section',               
+            __( 'Display settings', 'wprss' ),     
+            'wprss_settings_display_callback',            
+            'wprss_settings_general'                      
+        );          
+
+
+        add_settings_section( 
             'wprss_settings_styles_section',               
             __( 'Styles', 'wprss' ),     
             'wprss_settings_styles_callback',            
             'wprss_settings_general'                      
         );          
 
-        add_settings_field( 
-            'wprss-settings-open-dd',                       // ID used to identify the field 
-            __( 'Open links behaviour', 'wprss' ),          // Text printed next to the field
-            'wprss_setting_open_dd_callback',               // Callback function that echoes the field
-            'wprss_settings_general',                       // Settings page on which to show this field
-            'wprss_settings_general_section'                // Section of the settings page on which to show this field
-        );
-
-        add_settings_field( 
-            'wprss-settings-follow-dd', 
-            __( 'Set links as', 'wprss' ), 
-            'wprss_setting_follow_dd_callback', 
-            'wprss_settings_general',  
-            'wprss_settings_general_section'
-        );     
-		
-		add_settings_field( 
-            'wprss-settings-video-links', 
-            __( 'For video feed items use', 'wprss' ), 
-            'wprss_setting_video_links_callback', 
-            'wprss_settings_general',  
-            'wprss_settings_general_section'
-        );
-		
-        add_settings_field( 
-            'wprss-settings-feed-limit', 
-            __( 'Feed display limit', 'wprss' ), 
-            'wprss_setting_feed_limit_callback', 
-            'wprss_settings_general',  
-            'wprss_settings_general_section'
-        );  
-
-        add_settings_field( 
-            'wprss-settings-date-format', 
-            __( 'Date format', 'wprss' ), 
-            'wprss_setting_date_format_callback', 
-            'wprss_settings_general',  
-            'wprss_settings_general_section'
-        );          
 
         add_settings_field( 
             'wprss-settings-limit-feed-items-db', 
@@ -109,14 +78,70 @@
             'wprss_setting_cron_interval_callback', 
             'wprss_settings_general',  
             'wprss_settings_general_section'
-        );               
+        );    
+        
+        add_settings_field(
+            'wprss-settings-custom-feed-url',
+            __( 'Custom feed URL', 'wprss' ),
+            'wprss_setings_custom_feed_url_callback',
+            'wprss_settings_general',
+            'wprss_settings_general_section'
+        );
+
+        add_settings_field(
+            'wprss-settings-custom-feed-limit',
+            __( 'Custom feed limit', 'wprss' ),
+            'wprss_setings_custom_feed_limit_callback',
+            'wprss_settings_general',
+            'wprss_settings_general_section'
+        );        
+
+        add_settings_field( 
+            'wprss-settings-open-dd',                       // ID used to identify the field 
+            __( 'Open links behaviour', 'wprss' ),          // Text printed next to the field
+            'wprss_setting_open_dd_callback',               // Callback function that echoes the field
+            'wprss_settings_general',                       // Settings page on which to show this field
+            'wprss_settings_display_section'                // Section of the settings page on which to show this field
+        );
+
+        add_settings_field( 
+            'wprss-settings-follow-dd', 
+            __( 'Set links as', 'wprss' ), 
+            'wprss_setting_follow_dd_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_display_section'
+        );     
+		
+		add_settings_field( 
+            'wprss-settings-video-links', 
+            __( 'For video feed items use', 'wprss' ), 
+            'wprss_setting_video_links_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_display_section'
+        );
+		
+        add_settings_field( 
+            'wprss-settings-feed-limit', 
+            __( 'Feed display limit', 'wprss' ), 
+            'wprss_setting_feed_limit_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_display_section'
+        );  
+
+        add_settings_field( 
+            'wprss-settings-date-format', 
+            __( 'Date format', 'wprss' ), 
+            'wprss_setting_date_format_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_display_section'
+        );                     
 
         add_settings_field( 
             'wprss-settings-title-link-enable', 
             __( 'Link title', 'wprss' ), 
             'wprss_setting_title_link_callback', 
             'wprss_settings_general',  
-            'wprss_settings_general_section'
+            'wprss_settings_display_section'
         );      
 
         add_settings_field( 
@@ -124,7 +149,7 @@
             __( 'Show source', 'wprss' ), 
             'wprss_setting_source_enable_callback', 
             'wprss_settings_general',  
-            'wprss_settings_general_section'
+            'wprss_settings_display_section'
         );    
 
         add_settings_field( 
@@ -132,7 +157,7 @@
             __( 'Link source', 'wprss' ), 
             'wprss_setting_source_link_callback', 
             'wprss_settings_general',  
-            'wprss_settings_general_section'
+            'wprss_settings_display_section'
         );            
 
         add_settings_field( 
@@ -140,7 +165,7 @@
             __( 'Text preceding source', 'wprss' ), 
             'wprss_setting_text_preceding_source_callback', 
             'wprss_settings_general',  
-            'wprss_settings_general_section'
+            'wprss_settings_display_section'
         );                
 
         add_settings_field( 
@@ -148,7 +173,7 @@
             __( 'Show date', 'wprss' ), 
             'wprss_setting_date_enable_callback', 
             'wprss_settings_general',  
-            'wprss_settings_general_section'
+            'wprss_settings_display_section'
         );                     
 
         add_settings_field( 
@@ -156,16 +181,9 @@
             __( 'Text preceding date', 'wprss' ), 
             'wprss_setting_text_preceding_date_callback', 
             'wprss_settings_general',  
-            'wprss_settings_general_section'
+            'wprss_settings_display_section'
         );            
 
-        add_settings_field(
-            'wprss-settings-custom-feed-url',
-            __( 'Custom Feed URL', 'wprss' ),
-            'wprss_setings_custom_feed_url_callback',
-            'wprss_settings_general',
-            'wprss_settings_general_section'
-        );
 
         add_settings_field( 
             'wprss-settings-styles-disable', 
@@ -174,14 +192,6 @@
             'wprss_settings_general',  
             'wprss_settings_styles_section'
         );          
-
-        add_settings_field(
-            'wprss-settings-custom-feed-limit',
-            __( 'Custom feed limit', 'wprss' ),
-            'wprss_setings_custom_feed_limit_callback',
-            'wprss_settings_general',
-            'wprss_settings_general_section'
-        );
 
         do_action( 'wprss_admin_init' );
     }  
@@ -264,6 +274,15 @@
      */
     function wprss_settings_general_callback() {
         echo '<p>' . __( 'These are the general settings for WP RSS Aggregator.', 'wprss' ) . '</p>';
+    }
+
+
+    /** 
+     * General settings section header
+     * @since 3.5
+     */
+    function wprss_settings_display_callback() {
+        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
     }
 
 
@@ -359,64 +378,6 @@
     }
 
 
-    /** 
-     * Limit number of feed items stored
-     * @since 3.0
-     */
-    function wprss_setting_limit_feed_items_callback() {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='limit-feed-items-db' name='wprss_settings_general[limit_feed_items_db]' type='text' value='{$options['limit_feed_items_db']}' />";   
-        echo "<label class='description' for='limit-feed-items-db'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
-    }
-
-
-    /** 
-     * Limit number of feed items imported per feed
-     * @since 3.1
-     */
-    function wprss_setting_limit_feed_items_imported_callback() {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='{$options['limit_feed_items_imported']}' />";   
-        echo "<label class='description' for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed</label>";
-    }
-
-
-    /**
-     * Gets a sorted (according to interval) list of the cron schedules
-     * @since 3.0
-     */
-    function wprss_get_schedules() {
-        $schedules = wp_get_schedules();
-        uasort( $schedules, create_function( '$a,$b', 'return $a["interval"]-$b["interval"];' ) );
-        return $schedules;
-    }
-
-
-    /** 
-     * Cron interval dropdown callback
-     * @since 3.0
-     */
-    function wprss_setting_cron_interval_callback() {
-        $options = get_option( 'wprss_settings_general' );  
-        $current = $options['cron_interval'];
-
-        $schedules = wprss_get_schedules();    
-        // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
-        $wprss_schedules = apply_filters( 
-                            'wprss_schedules',
-                            array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' )
-        );        
-        echo "<select id='cron-interval' name='wprss_settings_general[cron_interval]'>";
-        foreach( $schedules as $schedule_name => $schedule_data ) { 
-            if ( in_array( $schedule_name, $wprss_schedules ) ) { ?>
-                <option value="<?php echo $schedule_name; ?>" <?php selected( $current, $schedule_name ); ?> >
-                    <?php echo $schedule_data['display']; ?> (<?php echo wprss_interval( $schedule_data['interval'] ); ?>)
-                </option>
-            <?php } ?>
-        <?php } ?>
-        </select><?php
-    }
-
 
     /** 
      * Enable linked title
@@ -479,6 +440,66 @@
         echo "<label class='description' for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
     }
 
+
+
+    /** 
+     * Limit number of feed items stored
+     * @since 3.0
+     */
+    function wprss_setting_limit_feed_items_callback() {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='limit-feed-items-db' name='wprss_settings_general[limit_feed_items_db]' type='text' value='{$options['limit_feed_items_db']}' />";   
+        echo "<label class='description' for='limit-feed-items-db'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
+    }
+
+
+    /** 
+     * Limit number of feed items imported per feed
+     * @since 3.1
+     */
+    function wprss_setting_limit_feed_items_imported_callback() {
+        $options = get_option( 'wprss_settings_general' );                    
+        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='{$options['limit_feed_items_imported']}' />";   
+        echo "<label class='description' for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed source; enter 0 for unlimited feed items</label>";
+    }
+
+
+    /**
+     * Gets a sorted (according to interval) list of the cron schedules
+     * @since 3.0
+     */
+    function wprss_get_schedules() {
+        $schedules = wp_get_schedules();
+        uasort( $schedules, create_function( '$a,$b', 'return $a["interval"]-$b["interval"];' ) );
+        return $schedules;
+    }
+
+
+    /** 
+     * Cron interval dropdown callback
+     * @since 3.0
+     */
+    function wprss_setting_cron_interval_callback() {
+        $options = get_option( 'wprss_settings_general' );  
+        $current = $options['cron_interval'];
+
+        $schedules = wprss_get_schedules();    
+        // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
+        $wprss_schedules = apply_filters( 
+                            'wprss_schedules',
+                            array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' )
+        );        
+        echo "<select id='cron-interval' name='wprss_settings_general[cron_interval]'>";
+        foreach( $schedules as $schedule_name => $schedule_data ) { 
+            if ( in_array( $schedule_name, $wprss_schedules ) ) { ?>
+                <option value="<?php echo $schedule_name; ?>" <?php selected( $current, $schedule_name ); ?> >
+                    <?php echo $schedule_data['display']; ?> (<?php echo wprss_interval( $schedule_data['interval'] ); ?>)
+                </option>
+            <?php } ?>
+        <?php } ?>
+        </select><?php
+    }
+
     /**
      * Sets the custom feed URL
      * @since 3.3
@@ -486,7 +507,7 @@
     function wprss_setings_custom_feed_url_callback() {
         $options = get_option( 'wprss_settings_general' );
         echo "<input id='custom_feed_url' name='wprss_settings_general[custom_feed_url]' type='text' value='{$options['custom_feed_url']}' />";
-        echo "<label class='description' for='custom_feed_url'>" . __( 'Custom Feed URL', 'wprss' ) . "</label>";
+        echo "<label class='description' for='custom_feed_url'>" . __( 'Custom feed URL', 'wprss' ) . "</label>";
     }
 
     /**
