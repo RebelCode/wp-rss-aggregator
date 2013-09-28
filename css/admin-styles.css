@@ -211,3 +211,7 @@ label[for=thumbnails-width] {
 .wp-list-table > thead > tr > th#thumbnail[scope="col"] {
     width: 95px;
 }
+
+select + label.description {
+    margin-left: 8px;
+}

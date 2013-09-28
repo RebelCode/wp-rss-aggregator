@@ -331,7 +331,6 @@
 			echo "<option value='$boolean' $selected>$text</option>";
         }
 		echo "</select>";
-		echo "<span style='margin-left:8px'></span>";
 		echo "<label class='description' for='video-link'>This will not affect already imported feed items.</label>";
 	}
 	
