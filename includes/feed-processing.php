@@ -316,6 +316,8 @@
         $feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
 		$feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
 
+        $feed_url = apply_filters( 'wprss_feed_source_url', $feed_ID, $feed_url );
+
 		// Use the URL custom field to fetch the feed items for this source
 		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) ) {
 			$items = wprss_get_feed_items( $feed_url );
