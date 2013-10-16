@@ -129,12 +129,28 @@
         );  
 
         add_settings_field( 
+            'wprss-settings-date-enable', 
+            __( 'Show date', 'wprss' ), 
+            'wprss_setting_date_enable_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_display_section'
+        );  
+        
+        add_settings_field( 
             'wprss-settings-date-format', 
             __( 'Date format', 'wprss' ), 
             'wprss_setting_date_format_callback', 
             'wprss_settings_general',  
             'wprss_settings_display_section'
-        );                     
+        );
+
+        add_settings_field( 
+            'wprss-settings-text-preceding-date', 
+            __( 'Text preceding date', 'wprss' ), 
+            'wprss_setting_text_preceding_date_callback', 
+            'wprss_settings_general',  
+            'wprss_settings_display_section'
+        );  
 
         add_settings_field( 
             'wprss-settings-title-link-enable', 
@@ -166,23 +182,7 @@
             'wprss_setting_text_preceding_source_callback', 
             'wprss_settings_general',  
             'wprss_settings_display_section'
-        );                
-
-        add_settings_field( 
-            'wprss-settings-date-enable', 
-            __( 'Show date', 'wprss' ), 
-            'wprss_setting_date_enable_callback', 
-            'wprss_settings_general',  
-            'wprss_settings_display_section'
-        );                     
-
-        add_settings_field( 
-            'wprss-settings-text-preceding-date', 
-            __( 'Text preceding date', 'wprss' ), 
-            'wprss_setting_text_preceding_date_callback', 
-            'wprss_settings_general',  
-            'wprss_settings_display_section'
-        );            
+        );                          
 
 
         add_settings_field( 
