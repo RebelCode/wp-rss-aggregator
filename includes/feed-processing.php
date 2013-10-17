@@ -475,16 +475,22 @@
 
         // Set your threshold of max posts and post_type name
         $threshold = $general_settings['limit_feed_items_db'];
-        $post_type = 'wprss_feed_item';
+        $post_types = apply_filters( 'wprss_truncation_post_types', array( 'wprss_feed_item' ) );
+        array_walk( $post_types, function(&$item){
+            $item = "'$item'";
+        });
+        
+        $post_type_list = implode( ',' , $post_types );
 
         // Query post type
         // $wpdb query allows me to select specific columns instead of grabbing the entire post object.
         $query = "
             SELECT ID, post_title FROM $wpdb->posts
-            WHERE post_type = '$post_type'
+            WHERE post_type IN ($post_type_list)
             AND post_status = 'publish'
             ORDER BY post_modified DESC
         ";
+        
         $results = $wpdb->get_results( $query );
 
         // Check if there are any results
