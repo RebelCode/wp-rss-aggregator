@@ -89,7 +89,8 @@ color: darkGreen;
 input#default-thumbnail,
 input#wprss-et-license-key,
 input#wprss-c-license-key,
-input#wprss-kf-license-key { 
+input#wprss-kf-license-key, 
+input#wprss-ftp-license-key { 
     width: 300px; 
 }
 
