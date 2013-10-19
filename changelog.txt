@@ -1,4 +1,4 @@
-3.4.2 ()
+3.4.2 (2013-9-19)
 Enhanced: Added some hooks for Feed to Post compatibility
 Enhanced: Moved date settings to a more appropriate location
 
