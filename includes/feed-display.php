@@ -68,11 +68,12 @@
      */
     function wprss_get_feed_items_query( $settings ) {
 		$feed_items_args = array(
-			'post_type'      => 'wprss_feed_item',
-			'posts_per_page' => $settings['feed_limit'],
-			'orderby'        => 'meta_value',
-			'meta_key'       => 'wprss_item_date',
-			'order'          => 'DESC'
+			'post_type'        => 'wprss_feed_item',
+			'posts_per_page'   => $settings['feed_limit'],
+			'orderby'          => 'meta_value',
+			'meta_key'         => 'wprss_item_date',
+			'order'            => 'DESC',
+            'suppress_filters' => true
 		);
 		
 		// If either the source or exclude arguments are set (but not both), prepare a meta query

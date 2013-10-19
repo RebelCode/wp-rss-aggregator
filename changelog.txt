@@ -1,3 +1,6 @@
+3.5 
+Bug fix: Added suppress_filters in feed-display.php to prevent a user reported error
+
 3.4.2 (2013-9-19)
 Enhanced: Added some hooks for Feed to Post compatibility
 Enhanced: Moved date settings to a more appropriate location
