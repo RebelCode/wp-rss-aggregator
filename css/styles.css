@@ -12,3 +12,7 @@ li.feed-item { margin-bottom: 10px; }
 div.source-date { clear: both; }
 
 span.feed-source { font-size: 90%; }
+
+.green {
+	color: #0BD600;
+}

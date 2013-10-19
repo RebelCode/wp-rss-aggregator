@@ -58,26 +58,24 @@
 					default: ?>
 
 							<p class="about-description">
-								Check out the newest add-ons:</p> 
+								Check out our add-ons:</p> 
 
 								<ul>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/">Excerpts & Thumbnails</a></strong></li>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/categories/">Categories</a></strong></li>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/">Keyword Filtering</a></strong></li>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/feed-post/" target="wprss_ftp">Feed to Post</a> <span style="color: green;">*New*</span></strong></li>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et">Excerpts &amp; Thumbnails</a></strong></li>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat">Categories</a></strong></li>
+									<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf">Keyword Filtering</a></strong></li>
 								</ul>
 							</p>
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our new website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3>Change log v3.4</h3>
+								<h3>Change log v3.4.2 (2013-9-19)</h3>
 								<ul>
-									<li>New Feature: Saving/Updating a feed source triggers an update for that source's feed items.</li>
-									<li>New Feature: Option to change Youtube, Vimeo and Dailymotion feed item URLs to embedded video players URLs</li>
-									<li>New Feature: Facebook Pages URLs are automatically detected and changed into Atom Feed URLs using FB's Graph</li>
-									<li>Enhanced: Updated jQuery Colorbox library to 1.4.29</li>
-									<li>Fixed Bug: Some settings did not have a default value set, and were throwing an 'Undefined Index' error</li>
-									<li>Fixed Bug: Admin notices do not disappear immediately when dismissed.</li>
+									<li><b>Enhanced</b>: Added some hooks for Feed to Post compatibility</li>
+									<li><b>Enhanced</b>: Moved date settings to a more appropriate location</li>
 								</ul>
+
 							</p>
 
 						<?php
