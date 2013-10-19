@@ -75,4 +75,56 @@
                 die( '0' );
             }             
         }        
-    } 
+    }
+
+
+
+    /**
+     * Checks if the addon notices option exists in the database, and creates it
+     * if it does not.
+     * 
+     * @return The addon notices option
+     * @since 3.4.2
+     */
+    function wprss_check_addon_notice_option() {
+        $option = get_option( 'wprss_addon_notices' );
+        if ( $option === FALSE ) {
+            update_option( 'wprss_addon_notices', array() );
+            return array();
+        }
+        return $option;
+    }
+
+
+
+    /**
+     * This function is called through AJAX to dismiss a particular addon notification.
+     * 
+     * @since 3.4.2
+     */
+    function wprss_dismiss_addon_notice() {
+        $addon = ( isset( $_POST['addon'] ) === TRUE )? $_POST['addon'] : null;
+        if ( $addon === null ) {
+            echo 'false';
+            die();
+        }
+        $notice = ( isset( $_POST['notice'] ) === TRUE )? $_POST['notice'] : null;
+        if ( $notice === null ){
+            echo 'false';
+            die();
+        }
+
+        $notices = wprss_check_addon_notice_option();
+        if ( isset( $notices[$addon] ) === FALSE ) {
+            $notices[$addon] = array();
+        }
+        if ( isset( $notices[$addon][$addon] ) === FALSE ) {
+            $notices[$addon][$notice] = '1';
+        }
+        update_option( 'wprss_addon_notices', $notices );
+        echo 'true';
+
+        die();
+    }
+
+add_action( 'wp_ajax_wprss_dismiss_addon_notice', 'wprss_dismiss_addon_notice' );

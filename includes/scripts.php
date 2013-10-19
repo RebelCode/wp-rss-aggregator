@@ -22,6 +22,7 @@
 
         $screen = get_current_screen();
 
+        wp_enqueue_script( 'admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
         if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && 
             ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && 
             ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
