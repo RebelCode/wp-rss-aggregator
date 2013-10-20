@@ -183,7 +183,9 @@
                     '</span></div>' . "$link_after";
                 }
 
-                else {}
+                // No source, no date
+                else { $output .= "$link_after"; }
+                
 
             }
             $output .= "$links_after";
