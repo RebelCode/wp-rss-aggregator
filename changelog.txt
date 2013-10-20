@@ -1,4 +1,5 @@
-3.4.3
+3.4.3 (2013-10-20)
+Fixed bug: Removed anonymous functions for backwards PHP compatibility
 Bug fix: Added suppress_filters in feed-display.php to prevent a user reported error
 
 3.4.2 (2013-9-19)

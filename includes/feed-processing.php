@@ -461,6 +461,16 @@
 
 
     /**
+     * Returns the given parameter as a string. Used in wprss_truncate_posts()
+     *
+     * @return string The given parameter as a string
+     * @since 3.5.1
+     */
+    function wprss_return_as_string( $item ) {
+        return "'$item'";
+    }
+
+    /**
      * Delete old feed items from the database to avoid bloat
      *
      * @since 2.0
@@ -476,11 +486,9 @@
         // Set your threshold of max posts and post_type name
         $threshold = $general_settings['limit_feed_items_db'];
         $post_types = apply_filters( 'wprss_truncation_post_types', array( 'wprss_feed_item' ) );
-        array_walk( $post_types, function(&$item){
-            $item = "'$item'";
-        });
+        $post_types_str = array_map( 'wprss_return_as_string', $post_types );
         
-        $post_type_list = implode( ',' , $post_types );
+        $post_type_list = implode( ',' , $post_types_str );
 
         // Query post type
         // $wpdb query allows me to select specific columns instead of grabbing the entire post object.
