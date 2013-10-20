@@ -47,12 +47,12 @@
                 'menu_position'         => 100,
                 'menu_icon'             => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
                 'show_in_menu'          => true,
-                'show_in_admin_bar'     =>  false,
+                'show_in_admin_bar'     => false,
                 'rewrite'               => array(
-                                            'slug'       => 'feeds',
-                                            'with_front' => false
-                                        ),              
-                'capability_type'    => 'feed',
+                    'slug'       => 'feeds',
+                    'with_front' => false
+                ),
+                'capability_type'       => 'feed',
                 'supports'              => array( 'title' ),
                 'labels'                => $labels   
             )
@@ -87,16 +87,41 @@
                 'show_ui'               => true,
                 'query_var'             => 'feed_item',
                 'show_in_menu'          => 'edit.php?post_type=wprss_feed',
-                'show_in_admin_bar'     =>  false,
+                'show_in_admin_bar'     => false,
                 'rewrite'               => array(
-                                            'slug'       => 'feeds/items',
-                                            'with_front' => false,
-                                        ),       
+                    'slug'       => 'feeds/items',
+                    'with_front' => false,
+                ),
                 'capability_type'       => 'feed_source',
                 'labels'                => $labels
             )
         );
-        
+
         // Register the 'feed_item' post type
         register_post_type( 'wprss_feed_item', $feed_item_args );        
     }
+
+
+    /**
+     * Filter the link query arguments to exclude the feed and feed item post types. 
+     * This filter will only work for WordPress versions 3.7 or higher.
+     * 
+     * @since 3.4.3
+     * @param array $query An array of WP_Query arguments. 
+     * @return array $query
+     */
+    function wprss_modify_link_builder_query( $query ){
+
+        // custom post type slug to be removed
+        $to_remove = array( 'wprss_feed', 'wprss_feed_item' );
+
+        // find and remove the array keys
+        foreach( $to_remove as $post_type ) {
+            $key = array_search( $post_type, $query['post_type'] );
+            // remove the array item
+            if( $key ) unset( $query['post_type'][$key] );
+        }
+
+        return $query; 
+    }
+    add_filter( 'wp_link_query_args', 'wprss_modify_link_builder_query' );
