@@ -1,4 +1,4 @@
-3.5 
+3.4.3
 Bug fix: Added suppress_filters in feed-display.php to prevent a user reported error
 
 3.4.2 (2013-9-19)
