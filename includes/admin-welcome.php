@@ -70,10 +70,11 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our new website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3>Change log v3.4.2 (2013-9-19)</h3>
+								<h3>Change log v3.4.3 (2013-10-20)</h3>
 								<ul>
-									<li><b>Enhanced</b>: Added some hooks for Feed to Post compatibility</li>
-									<li><b>Enhanced</b>: Moved date settings to a more appropriate location</li>
+									<li>Fixed bug: Removed anonymous functions for backwards PHP compatibility</li>
+									<li>Bug fix: Added suppress_filters in feed-display.php to prevent a user reported error</li>
+									<li>Bug fix: Missing &#60;li&#62; in certain feed displays</li>
 								</ul>
 
 							</p>

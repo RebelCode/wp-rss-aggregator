@@ -102,6 +102,11 @@ Or use the shortcode in your posts and pages:
 
 == Changelog ==
 
+= 3.4.3 (2013-10-20) =
+* Fixed bug: Removed anonymous functions for backwards PHP compatibility
+* Bug fix: Added suppress_filters in feed-display.php to prevent a user reported error
+* Bug fix: Missing <li> in certain feed displays
+
 = 3.4.2 (2013-9-19) =
 * Enhanced: Added some hooks for Feed to Post compatibility
 * Enhanced: Moved date settings to a more appropriate location
