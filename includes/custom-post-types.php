@@ -47,6 +47,7 @@
                 'menu_position'         => 100,
                 'menu_icon'             => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
                 'show_in_menu'          => true,
+                'show_in_admin_bar'     =>  false,
                 'rewrite'               => array(
                                             'slug'       => 'feeds',
                                             'with_front' => false
@@ -86,6 +87,7 @@
                 'show_ui'               => true,
                 'query_var'             => 'feed_item',
                 'show_in_menu'          => 'edit.php?post_type=wprss_feed',
+                'show_in_admin_bar'     =>  false,
                 'rewrite'               => array(
                                             'slug'       => 'feeds/items',
                                             'with_front' => false,
