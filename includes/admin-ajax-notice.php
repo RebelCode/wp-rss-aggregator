@@ -42,8 +42,8 @@
 
         $html = '<div id="ajax-notification" class="updated">';
             $html .= '<p>';
-                $html .= __( 'If you like this RSS Aggregator plugin, please <a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator">give it a good rating and leave a review</a>. Your feedback will help me improve this plugin further. Thank you. <a href="javascript:;" 
-                    id="dismiss-ajax-notification" style="float:right;">Dismiss this notification</a>', 'wprss' );
+            $html .= __( 'Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... Check out the <a target="_blank" href="http://www.wprssaggregator.com/extensions"><strong>extensions</strong></a> page.
+                     <a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">Dismiss this notification</a>', 'wprss' );
             $html .= '</p>';
             $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
         $html .= '</div><!-- /.updated -->';

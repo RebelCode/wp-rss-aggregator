@@ -280,6 +280,9 @@
        echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
        _e( 'Check out the support forum', 'wprss' ); 
        echo '</a></p>';
+       echo '</strong> <a target="_blank" href="http://www.wprssaggregator.com/feature-requests/">';       
+       _e( 'Suggest a new feature', 'wprss' ); 
+       echo '</a></p>';       
     }
 
     /**     
@@ -299,6 +302,7 @@
         _e( 'Check out the premium add-ons:', 'wprss' );
         echo '</strong>'; ?>
         <ul>
+            <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>                                         
             <li><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"><?php echo 'Excerpts & Thumbnails'; ?></a></li>                               
             <li><a href="http://www.wprssaggregator.com/extension/categories/"><?php echo 'Categories'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/keyword-filtering/"><?php echo 'Keyword Filtering'; ?></a></li>
