@@ -21,7 +21,9 @@ Since the plugin uses Custom Post Types to store the imported feeds, you are als
 WP RSS Aggregator can also be used to display feed items from a particular feed source anywhere you want on your site.
 
 = Premium Add-Ons =	
-Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/).
+Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/). 
+
+The add-ons let you do things like excerpts and thumbnails, keyword filtering, categorisation and even importing feeds to posts and other custom posts types of your choice.
 
 = Demo =
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/).
