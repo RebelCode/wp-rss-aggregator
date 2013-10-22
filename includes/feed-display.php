@@ -67,12 +67,15 @@
      * @since 3.0
      */
     function wprss_get_feed_items_query( $settings ) {
+        $posts_per_page = ( isset( $settings['posts_per_page'] ) )? $settings['posts_per_page'] : $settings['feed_limit'];
+        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 		$feed_items_args = array(
 			'post_type'        => 'wprss_feed_item',
-			'posts_per_page'   => $settings['feed_limit'],
+            'posts_per_page'   => $posts_per_page,
 			'orderby'          => 'meta_value',
 			'meta_key'         => 'wprss_item_date',
 			'order'            => 'DESC',
+            'paged'            => $paged,
             'suppress_filters' => true
 		);
 		
@@ -117,7 +120,9 @@
      * @since 3.0
      */
     function wprss_default_display_template( $display_settings, $args, $feed_items ) {
-
+        global $wp_query;
+        $old_wp_query = $wp_query;
+        $wp_query = $feed_items;
         $general_settings = get_option( 'wprss_settings_general' );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
@@ -127,6 +132,7 @@
         extract( $args, EXTR_SKIP );
 
         $output = '';
+
 
         if( $feed_items->have_posts() ) {
 
@@ -189,11 +195,15 @@
 
             }
             $output .= "$links_after";
+            $output .= '<div class="nav-links">';
+            $output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
+            $output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
+            $output .= '</div>';
+
             $output = apply_filters( 'feed_output', $output );
 
-            echo $output;
 
-                            // echo paginate_links();
+            echo $output;
 
             wp_reset_postdata();
 
@@ -201,7 +211,9 @@
             $output = apply_filters( 'no_feed_items_found', __( 'No feed items found.', 'wprss' ) );
             echo $output;
         }
+        $wp_query = $old_wp_query;
     }
+    
 
 
     /**
@@ -232,6 +244,14 @@
 		elseif ( isset( $args['exclude'] ) ) {
 			$query_args['exclude'] = $args['exclude'];
 		}
+
+        if ( isset( $args['feeds_per_page'] ) ) {
+            if ( is_numeric( $args['feeds_per_page'] ) ) {
+                $query_args['posts_per_page'] = $args['feeds_per_page'];
+            } else {
+                unset( $args['feeds_per_page'] );
+            }
+        }
 
 		$feed_items = wprss_get_feed_items_query( $query_args );
 

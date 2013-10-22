@@ -17,7 +17,7 @@
 	left: 0;
 	right: 0;
 	width: 500px;
-	height: 400px;
+	height: 450px;
 	margin: auto;
 }
 
@@ -85,7 +85,8 @@
 	margin-top: 10px;
 }
 
-#wprss-dialog-feed-source-list {
+#wprss-dialog-feed-source-list,
+#wprss-dialog-exclude-list {
 	min-width: 100px;
 	min-height: 100px;
 }

@@ -1,9 +1,44 @@
 var WPRSS_TMCE_PLUGIN_ID = 'wprss';
+var WPRSS_ED = null;
+var wprss_dialog_submit = null;
 
 jQuery( document ).ready( function($) {
 
+	wprss_dialog_submit = function() {
+		all = $('#wprss-dialog-all-sources').is(':checked');
 
-	window.WP_RSS_Editor = new function() {
+		sources = [];
+		$('#wprss-dialog-feed-source-list :selected').each( function( i, selected ){
+			sources[i] = $(selected).val();
+		});
+		sources = sources.join(',');
+
+		excludes = [];
+		$('#wprss-dialog-exclude-list :selected').each( function( i, selected ){
+			excludes[i] = $(selected).val();
+		});
+		excludes = excludes.join(',');
+
+		limit = $('#wprss-dialog-feed-limit').val();
+
+		shortcode = '[wp-rss-aggregator';
+		if ( all ) {
+			if ( excludes.length > 0 )
+				shortcode += ' exclude="' + excludes + '"'
+		} else {
+			if ( sources.length > 0 )
+				shortcode += ' source="' + sources + '"'
+		}
+
+		if ( limit !== '' && limit !== '0' )
+			shortcode += ' limit="' + limit + '"';
+		shortcode += ']';
+
+		WPRSS_ED.execCommand('mceInsertContent', false, shortcode);
+		WPRSS_Dialog.close();
+	}
+
+	window.WPRSS_Dialog = new function() {
 		// Keep a reference to the current object
 		var base = this;
 		var dialog = null;
@@ -14,7 +49,9 @@ jQuery( document ).ready( function($) {
 		var close = function( e ) {
 			overlay.fadeOut();
 			dialog_inside.empty();
-		}
+		};
+
+		base.close = close;
 
 		base.init = function() {
 			overlay = $('<div id="wprss-overlay"></div>');
@@ -59,7 +96,7 @@ jQuery( document ).ready( function($) {
 	}
 
 
-	WP_RSS_Editor.init();
+	WPRSS_Dialog.init();
 
 
 
@@ -73,7 +110,8 @@ jQuery( document ).ready( function($) {
 				image : url + '/../images/icon-adminpage32.png',
 				onclick : function() {
 					idPattern = /(?:(?:[^v]+)+v.)?([^&=]{11})(?=&|$)/;
-					WP_RSS_Editor.getDialog();
+					WPRSS_Dialog.getDialog();
+					WPRSS_ED = ed;
 					/*
 					var vidId = prompt("WP RSS Aggregator", "Choose feed source");
 					var m = idPattern.exec(vidId);
