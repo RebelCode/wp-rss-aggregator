@@ -24,6 +24,7 @@ jQuery( document ).ready( function($) {
 			dialog_head_close = $('<span class="close-btn"></span>').html('&times;').appendTo( dialog_head );
 			dialog_inside = $('<div class="wprss-dialog-inside"></div>');
 			dialog.append( dialog_head );
+			dialog.append( dialog_inside );
 
 			overlay.hide().appendTo('body');
 			dialog.appendTo(overlay);
@@ -48,7 +49,7 @@ jQuery( document ).ready( function($) {
 				},
 				success: function( data, status, jqXHR) {
 					if ( data.length > 0 ) {
-						//dialog.html( data );
+						dialog_inside.html( data );
 					}
 				}
 			});

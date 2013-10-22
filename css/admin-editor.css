@@ -16,8 +16,8 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
-	width: 700px;
-	height: 500px;
+	width: 500px;
+	height: 400px;
 	margin: auto;
 }
 
@@ -52,4 +52,48 @@
 .wprss-dialog-header .close-btn:hover {
 	background: white;
 	color: black;
+}
+
+
+.wprss-dialog-inside {
+	position: absolute;
+	top: 30px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
+}
+
+.wprss-dialog-inside table {
+	position: absolute;
+	display: inline-block;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: auto;
+	padding: 10px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.wprss-dialog-inside table tr td:first-child {
+	font-weight: bold;
+}
+
+
+#wprss-dialog-sources-container {
+	margin-top: 10px;
+}
+
+#wprss-dialog-feed-source-list {
+	min-width: 100px;
+	min-height: 100px;
+}
+
+#wprss-dialog-exclude-row td p:first-child {
+	margin-top: 0;
+}
+
+#wprss-dialog-exclude-label {
+	vertical-align: top;
 }
