@@ -1,0 +1,55 @@
+/* EDITOR BUTTON AND DIALOG STYLES */
+
+#wprss-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+}
+
+#wprss-editor-dialog {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 700px;
+	height: 500px;
+	margin: auto;
+}
+
+.wprss-dialog-header {
+	background: #464646;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 30px;
+}
+
+.wprss-dialog-header h1 {
+	color: #ddd;
+	text-shadow: rgb(68, 68, 68) 0px -1px 0px;
+	font-size: 16px;
+	font-weight: normal;
+	margin: 7px 0 15px 6px;
+}
+
+.wprss-dialog-header .close-btn {
+	position: absolute;
+	top: 4px;
+	right: 10px;
+	color: #ccc;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 0px 6px 2px;
+	border-radius: 20px;
+	cursor: pointer;
+}
+.wprss-dialog-header .close-btn:hover {
+	background: white;
+	color: black;
+}
