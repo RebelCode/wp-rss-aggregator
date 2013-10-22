@@ -90,6 +90,47 @@
     }
 
 
+
+
+
+
+    /**
+     * A clone of the function 'fetch_feed' in wp-includes/feed.php [line #529]
+     *
+     * @since 3.5
+     */
+    function wprss_fetch_feed( $url ) {
+        require_once ( ABSPATH . WPINC . '/class-feed.php' );
+
+        $feed = new SimplePie();
+
+        //$feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
+        // We must manually overwrite $feed->sanitize because SimplePie's
+        // constructor sets it before we have a chance to set the sanitization class
+        //$feed->sanitize = new WP_SimplePie_Sanitize_KSES();
+
+        $feed->set_cache_class( 'WP_Feed_Cache' );
+        $feed->set_file_class( 'WP_SimplePie_File' );
+
+        $feed->set_feed_url( $url );
+        file_put_contents( 'C:\log.txt', $feed->feed_url . "\n", FILE_APPEND );
+
+        $feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
+        do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
+        $feed->init();
+        $feed->handle_content_type();
+        //file_put_contents( 'C:\log.txt', $feed->feed_url . "\n", FILE_APPEND );
+
+        if ( $feed->error() )
+            return new WP_Error( 'simplepie-error', $feed->error() );
+
+        return $feed;
+    }
+
+
+
+
+
     /**
      * Fetch the feeds from a feed item url
      *
@@ -98,7 +139,7 @@
     function wprss_get_feed_items( $feed_url ) {
         $general_settings = get_option( 'wprss_settings_general' );
         $feed_item_limit = $general_settings['limit_feed_items_imported'];
-
+        
         // Don't fetch the feed if feed item limit is 0, there's no need, huge speed improvement
         if ( $feed_item_limit == 0 ) return;
 
@@ -107,7 +148,7 @@
         /* Disable caching of feeds */
         add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
         /* Fetch the feed from the soure URL specified */
-        $feed = fetch_feed( $feed_url );
+        $feed = wprss_fetch_feed( $feed_url );
         //$feed = new SimplePie();
         //$feed->set_feed_url( $feed_url );
         //$feed->init();
