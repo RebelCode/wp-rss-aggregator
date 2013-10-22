@@ -1,3 +1,6 @@
+3.5
+New Feature: Pagination
+
 3.4.3 (2013-10-20)
 Fixed bug: Removed anonymous functions for backwards PHP compatibility
 Bug fix: Added suppress_filters in feed-display.php to prevent a user reported error

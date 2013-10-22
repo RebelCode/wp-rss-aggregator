@@ -195,13 +195,10 @@
 
             }
             $output .= "$links_after";
-            $output .= '<div class="nav-links">';
-            $output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
-            $output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
-            $output .= '</div>';
+
+            $output = apply_filters( 'wprss_pagination', $output );
 
             $output = apply_filters( 'feed_output', $output );
-
 
             echo $output;
 
@@ -214,6 +211,21 @@
         $wp_query = $old_wp_query;
     }
     
+    add_filter( 'wprss_pagination', 'wprss_pagination_links' );
+
+
+    /**
+     * Display pagination links
+     *
+     * @since 3.5
+     */
+    function wprss_pagination_links( $output ) { 
+        $output .= '<div class="nav-links">';
+        $output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
+        $output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
+        $output .= '</div>';  
+        return $output;              
+    }
 
 
     /**
