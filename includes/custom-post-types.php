@@ -47,7 +47,7 @@
                 'menu_position'         => 100,
                 'menu_icon'             => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
                 'show_in_menu'          => true,
-                'show_in_admin_bar'     => false,
+                'show_in_admin_bar'     => true,
                 'rewrite'               => array(
                     'slug'       => 'feeds',
                     'with_front' => false
