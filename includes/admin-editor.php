@@ -77,11 +77,16 @@
 			'no_found_rows'		=>	true
 		));
 		$feed_sources_select = '<select id="wprss-dialog-feed-source-list" multiple>';
+		$feed_sources_exclude_select = '<select id="wprss-dialog-exclude-list" multiple>';
+		$feed_sources_both_select = '';
 		foreach ( $feed_sources as $source ) {
-			$feed_sources_select .= '<option value="' . $source->ID . '" >' . $source->post_title . '</option>';
+			$feed_sources_both_select .= '<option value="' . $source->ID . '" >' . $source->post_title . '</option>';
 		}
-		$feed_sources_select .= '</select><p>Hold Ctrl or Mac Command key when clicking to select more than one feed source.</p>';
-							 
+		$feed_sources_both_select .= '</select><p>Hold Ctrl or Mac Command key when clicking to select more than one feed source.</p>';
+		
+		$feed_sources_select .= $feed_sources_both_select;
+		$feed_sources_exclude_select .= $feed_sources_both_select;
+
 		?>
 		<table cellspacing="20">
 			<tbody>
@@ -106,6 +111,7 @@
 									jQuery( '#wprss-dialog-all-sources-label' ).css('vertical-align', 'top');
 								}
 							});
+							jQuery('#wprss-dialog-submit').click( wprss_dialog_submit );
 						</script>
 					</td>
 				</tr>
@@ -114,16 +120,23 @@
 					<td id="wprss-dialog-exclude-label">Exclude:</td>
 					<td>
 						<p>Choose the feed sources to exclude:</p>
-						<?php echo $feed_sources_select; ?>
+						<?php echo $feed_sources_exclude_select; ?>
 					</td>
 				</tr>
 
 				<tr>
 					<td>Feed Limit:</td>
-					<td> <input type="number" class="wprss-number-roller" placeholder="Ignore" min="0" /> </td>
+					<td> <input id="wprss-dialog-feed-limit" type="number" class="wprss-number-roller" placeholder="Ignore" min="0" /> </td>
 				</tr>
 
 				<?php do_action( 'wprss_return_dialog_contents' ); ?>
+
+				<tr>
+					<td></td>
+					<td>
+						<button id="wprss-dialog-submit">Add shortcode</button>
+					</td>
+				</tr>
 
 			</tbody>
 		</table>
