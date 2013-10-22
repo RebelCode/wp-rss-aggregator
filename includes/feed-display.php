@@ -78,7 +78,6 @@
             'paged'            => $paged,
             'suppress_filters' => true
 		);
-        var_dump( $feed_items_args );
 		
 		// If either the source or exclude arguments are set (but not both), prepare a meta query
 		if ( isset( $settings['source'] ) xor isset( $settings['exclude'] ) ) {
@@ -121,6 +120,9 @@
      * @since 3.0
      */
     function wprss_default_display_template( $display_settings, $args, $feed_items ) {
+        global $wp_query;
+        $old_wp_query = $wp_query;
+        $wp_query = $feed_items;
         $general_settings = get_option( 'wprss_settings_general' );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
@@ -193,9 +195,10 @@
 
             }
             $output .= "$links_after";
-
-            $output .= '<div class="nav-previous alignleft">' . next_posts_link( 'Older posts' ) . '</div>';
-            $output .= '<div class="nav-next alignright">' . previous_posts_link( 'Newer posts' ) . '</div>';
+            $output .= '<div class="nav-links">';
+            $output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
+            $output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
+            $output .= '</div>';
 
             $output = apply_filters( 'feed_output', $output );
 
@@ -208,6 +211,7 @@
             $output = apply_filters( 'no_feed_items_found', __( 'No feed items found.', 'wprss' ) );
             echo $output;
         }
+        $wp_query = $old_wp_query;
     }
     
 
