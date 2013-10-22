@@ -225,7 +225,7 @@
     function wprss_presstrends_plugin() {
         // PressTrends Account API Key
         $api_key = 'znggu7vk7x2ddsiigkerzsca9q22xu1j53hp';
-        $auth    = '';
+        $auth    = 'd8giw5yyux4noasmo8gua98n7fv2hrl11';
         // Start of Metrics
         global $wpdb;
         $data = get_transient( 'presstrends_cache_data' );
