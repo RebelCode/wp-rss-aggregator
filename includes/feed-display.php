@@ -211,8 +211,8 @@
         $wp_query = $old_wp_query;
     }
     
-    add_filter( 'wprss_pagination', 'wprss_pagination_links' );
 
+    add_filter( 'wprss_pagination', 'wprss_pagination_links' );
 
     /**
      * Display pagination links
