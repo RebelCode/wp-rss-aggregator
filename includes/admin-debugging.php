@@ -63,7 +63,7 @@
      */ 
     function wprss_debugging_page_display() {             
         $debug_messages = apply_filters(
-            'wprss_debugging_messages',
+            'wprss_debug_messages',
             array(
                 '1'     =>  'wprss_debugging_admin_notice_update_feeds',
                 '2'     =>  'wprss_debugging_admin_notice_reimport_feeds'
@@ -85,16 +85,7 @@
                         call_user_func( $callback );
                         break;
                     }
-                }
-                /*
-                switch ( $message ) {
-                    case 1 : 
-                        wprss_debugging_admin_notice_update_feeds();
-                        break;
-                    case 2 :                 
-                        wprss_debugging_admin_notice_reimport_feeds();
-                        break;
-                } */   
+                }  
             }
 
             do_action( 'wprss_debugging_before' ); ?>
