@@ -245,14 +245,6 @@
 			$query_args['exclude'] = $args['exclude'];
 		}
 
-        if ( isset( $args['feeds_per_page'] ) ) {
-            if ( is_numeric( $args['feeds_per_page'] ) ) {
-                $query_args['posts_per_page'] = $args['feeds_per_page'];
-            } else {
-                unset( $args['feeds_per_page'] );
-            }
-        }
-
 		$feed_items = wprss_get_feed_items_query( $query_args );
 
         do_action( 'wprss_display_template', $display_settings, $args, $feed_items );
