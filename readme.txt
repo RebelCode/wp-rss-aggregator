@@ -28,6 +28,8 @@ The add-ons let you do things like excerpts and thumbnails, keyword filtering, c
 = Demo =
 The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/).
 
+[youtube http://www.youtube.com/embed/5J-S2vXtQ5w]
+
 = Documentation =
 Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
 
