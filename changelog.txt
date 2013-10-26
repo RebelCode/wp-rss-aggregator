@@ -1,5 +1,8 @@
-3.5
-New Feature: Pagination
+3.4.4 (2013-10-26)
+New feature: Pagination
+New feature: First implementation of editor button for easy shortcode creation
+Enhanced: Feed items and sources don't show up in link manager
+Enhanced: Included Presstrends code for plugin usage monitoring
 
 3.4.3 (2013-10-20)
 Fixed bug: Removed anonymous functions for backwards PHP compatibility

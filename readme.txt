@@ -5,30 +5,54 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblog, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.7
-Stable tag: 3.4.3
+Stable tag: 3.4.4
+License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
+
 
 == Description ==
 
-WP RSS Aggregator lets you create a feed reader/aggregator on your WordPress site.
+WP RSS Aggregator is the most comprehensive and elegant RSS feed solution for WordPress.
 
-It works in a similar fashion to RSS readers like for example Google Reader. You can add any number of feeds through an administration panel, the plugin will then pull feed items from these sites, merge them and sort them by date.
+The original plugin for importing, merging and displaying RSS and Atom feeds on your WordPress site.
 
-The plugin uses SimplePie for the feed operations. You can call the function from within your theme or even use a shortcode with parameters.
+With WP RSS Aggregator, you can:
 
-Since the plugin uses Custom Post Types to store the imported feeds, you are also free to display them in any way you want, in a similar fashion as you would with other post types such as Posts or Pages.
+* Display feeds from one or more sites on your blog 
+* Aggregate feeds from multiple sites 
 
-WP RSS Aggregator can also be used to display feed items from a particular feed source anywhere you want on your site.
+You can add any number of feeds through an administration panel, the plugin will then pull feed items from these sites, merge them and display them in date order.
+
+To display your imported feed items, you can use a shortcode or call the display function directly from within your theme.
+
+__More Features__: 
+
+* Export a custom RSS feed based on your feed sources
+* Pagination
+* Set the feed import time interval
+* Various shortcode parameters you can use to further customize the output
+* Choose whether to show/hide sources and dates
+* Choose the date format
+* Set the links as no-follow or not, or add no follow to meta tag
+* Select how you would like the links to open (in a Lightbox, a new window, or the current window)
+* Set the name of the feed source
+* Select number of posts per feed you want to show and store
+* Opens YouTube, DailyMotion and Vimeo videos directly 
+* Limit number of feed items stored in the database
 
 = Premium Add-Ons =	
 Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/). 
 
-The add-ons let you do things like excerpts and thumbnails, keyword filtering, categorisation and even importing feeds to posts and other custom posts types of your choice.
+* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import feeds into post or custom post types. Populate a website in minutes (autoblog).
+* [Keyword Filtering](http://www.wprssaggregator.com/extensions/keyword-filtering) - filter imported feeds based on keywords, so you only get items you're interested in.
+* [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) - display excerpts and thumbnails together with the title, date and source.
+* [Categories](http://www.wprssaggregator.com/extensions/categories) - categorise your feed sources and display items from a particular category at will within your site.
 
 = Demo =
-The plugin can be seen in use on the [WPMayor.com WordPress News page](http://www.wpmayor.com/wordpress-news/).
+The plugin can be seen in use on the [demo page](http://www.wprssaggregator.com/demo/).
 
-[youtube http://www.youtube.com/embed/5J-S2vXtQ5w]
+= Video Walkthrough =
+[youtube http://www.youtube.com/watch?v=5J-S2vXtQ5w]
 
 = Documentation =
 Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
@@ -36,8 +60,12 @@ Instructions for plugin usage are available on the plugin's [documentation page]
 = Credit = 
 Created by Jean Galea from [WP Mayor](http://www.wpmayor.com)
 
+= Technical Stuff =
+WP RSS Aggregator uses the SimplePie class to import and handle feeds, and stores all feed sources and feed items as custom post types in the WordPress default table structure, thus no custom tables are added. 
+
 = Translations =
 Italian - Davide De Maestri
+
 
 == Installation ==
 
@@ -63,13 +91,13 @@ An example of a function call from within the template files:
 `
 <?php 
 wprss_display_feed_items( $args = array(
-'links_before' => '<ul>',
-'links_after' => '</ul>',
-'link_before' => '<li>',
-'link_after' => '</li>',
-'limit' => '8',
-'source' => '5,9'
-)); 
+	'links_before' => '<ul>',
+	'links_after' => '</ul>',
+	'link_before' => '<li>',
+	'link_after' => '</li>',
+	'limit' => '8',
+	'source' => '5,9'
+	)); 
 ?>
 `
 
@@ -77,11 +105,6 @@ OR
 
 `<?php do_shortcode('[wp-rss-aggregator]'); ?>`
 
-You can also set whether the feed links should open in a new window, current window or even a lightbox, via the settings panel. 
-
-The settings panel also has an option to set links as nofollow for SEO purposes.
-
-Since version 2.0 you can also specify the number of feed items shown on the frontend via the settings panel.
 
 == Frequently Asked Questions ==
 = How can I output the feeds in my theme? =
@@ -92,11 +115,20 @@ You can either call the function directly within the theme:
 Or use the shortcode in your posts and pages:
 [wp-rss-aggregator]
 
+= Can I store imported feed items as posts? = 
+
+You can do that with the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on. You will not only be able to store items as posts, but also as other custom post types, as well as set the author, auto set tags and categories, and much more. 
+
+= Some RSS feeds only give a short excerpt, any way around that? =
+
+Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on we have an advanced feature that can get the full content of those feeds that only supply a short excerpt.
+
+
 == Screenshots ==
 
-1. The output of this plugin on the frontend, as seen on www.wpmayor.com.
+1. The output of this plugin on the frontend.
 
-2. Feed sources list.
+2. The output from the aggregator with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) add-on installed.
 
 3. Adding a new feed source.
 
@@ -104,7 +136,14 @@ Or use the shortcode in your posts and pages:
 
 5. Plugin settings page.
 
+
 == Changelog ==
+
+= 3.4.4 (2013-10-26) =
+* New feature: Pagination
+* New feature: First implementation of editor button for easy shortcode creation
+* Enhanced: Feed items and sources don't show up in link manager
+* Enhanced: Included Presstrends code for plugin usage monitoring
 
 = 3.4.3 (2013-10-20) =
 * Fixed bug: Removed anonymous functions for backwards PHP compatibility
@@ -227,7 +266,6 @@ Or use the shortcode in your posts and pages:
 * Limit of 15 items max imported for each source
 * Fixed issue of page content displaying incorrectly after feeds
 
-
 = Version 1.1 (2012-08-13) =
 * Now requires WordPress 3.0
 * More flexible fetching of images directory
@@ -238,7 +276,6 @@ Or use the shortcode in your posts and pages:
 * Using constants for oftenly used locations
 * Code refactoring
 * Changes in file and folder structure
-
 
 = Version 1.0 (2012-01-06) =
 * Initial release.
