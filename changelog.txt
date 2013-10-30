@@ -1,3 +1,6 @@
+3.4.5 (2013-10-30)
+Bug Fix: Feed items were not being imported while the WPML plugin was active.
+
 3.4.4 (2013-10-26)
 New feature: Pagination
 New feature: First implementation of editor button for easy shortcode creation
