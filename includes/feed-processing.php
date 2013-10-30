@@ -267,7 +267,6 @@
      * @since 2.3
      */
     function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $feed_url) {
-
         update_post_meta( $inserted_ID, 'wprss_item_permalink', $feed_url );
         update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
         update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format

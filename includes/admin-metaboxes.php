@@ -63,7 +63,7 @@
             'wprss_preview_meta_box_callback', 
             'wprss_feed', 
             'normal', 
-            'low'
+            'high'
         ); 
     } 
 
