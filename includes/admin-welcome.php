@@ -70,7 +70,14 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3>Change log v3.4.4 (2013-10-26)</h3>
+								<h3>Change log</h3>
+
+								<p><b>v3.4.5 (2013-10-30)</b></p>
+								<ul>
+									<li>Bug Fix: Feed items were not being imported while the WPML plugin was active.</li>
+								</ul>
+
+								<p><b>v3.4.4 (2013-10-26)</b></p>
 								<ul>
 									<li>New feature: Pagination</li>
 									<li>New feature: First implementation of editor button for easy shortcode creation</li>
