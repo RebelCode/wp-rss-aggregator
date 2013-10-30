@@ -247,14 +247,30 @@
 						$item
 					);
 				
+                    include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
+                    $_POST['icl_post_language'] = $language_code = ICL_LANGUAGE_CODE;
+                    
 					// Create and insert post object into the DB
 					$inserted_ID = wp_insert_post( $feed_item );
 
-					// Create and insert post meta into the DB
-					wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
+                    if ( !is_wp_error( $inserted_ID ) ) {
 
-					// Remember newly added permalink
-					$existing_permalinks[] = $permalink;
+                        if ( is_object( $inserted_ID ) ) {
+                            if ( isset( $inserted_ID['ID'] ) ) {
+                                $inserted_ID = $inserted_ID['ID'];
+                            }
+                            elseif ( isset( $inserted_ID->ID ) ) {
+                                $inserted_ID = $inserted_ID->ID;
+                            }
+                        }
+
+
+                        // Create and insert post meta into the DB
+                        wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
+
+                        // Remember newly added permalink
+                        $existing_permalinks[] = $permalink;
+                    }
 				}
             }
         }
