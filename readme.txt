@@ -39,6 +39,8 @@ __More Features__:
 * Select number of posts per feed you want to show and store
 * Opens YouTube, DailyMotion and Vimeo videos directly 
 * Limit number of feed items stored in the database
+* Feed autodiscovery, which lets you add feeds without even knowing the exact URL. 
+* Integrated with the Simplepie library that come with WordPress. This includes RSS 0.91 and RSS 1.0 formats, the popular RSS 2.0 format, Atom etc.
 
 = Premium Add-Ons =	
 Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/). 
@@ -87,7 +89,9 @@ An example of a shortcode with parameters:
 `[wp_rss_aggregator link_before='<li class="feed-link">' link_after='</li>']`
 It is advisable to use the 'HTML' view of the editor when inserting the shortcode with paramters.
 
-An example of a function call from within the template files:
+__Usage within theme files__
+
+An example of a function call from within the theme's files:
 `
 <?php 
 wprss_display_feed_items( $args = array(
