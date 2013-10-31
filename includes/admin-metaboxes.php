@@ -22,11 +22,11 @@
         );
 
         add_meta_box(
-            'custom_meta_box', 
-            __( 'Feed Source Details', 'wprss' ), 
-            'wprss_show_meta_box_callback', 
+            'preview_meta_box', 
+            __( 'Feed Preview', 'wprss' ), 
+            'wprss_preview_meta_box_callback', 
             'wprss_feed', 
-            'normal', 
+            'side', 
             'high'
         );         
 
@@ -57,14 +57,17 @@
             'low'
         );   
 
+        
         add_meta_box(
-            'preview_meta_box', 
-            __( 'Feed Preview', 'wprss' ), 
-            'wprss_preview_meta_box_callback', 
+            'custom_meta_box', 
+            __( 'Feed Source Details', 'wprss' ), 
+            'wprss_show_meta_box_callback', 
             'wprss_feed', 
             'normal', 
             'high'
-        ); 
+        );
+
+        
     } 
 
 
