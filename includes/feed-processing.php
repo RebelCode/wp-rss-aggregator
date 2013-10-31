@@ -247,8 +247,10 @@
 						$item
 					);
 				
-                    include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
-                    $_POST['icl_post_language'] = $language_code = ICL_LANGUAGE_CODE;
+                    if ( defined('ICL_SITEPRESS_VERSION') )
+                        @include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
+                    if ( defined('ICL_LANGUAGE_CODE') )
+                        $_POST['icl_post_language'] = $language_code = ICL_LANGUAGE_CODE;
                     
 					// Create and insert post object into the DB
 					$inserted_ID = wp_insert_post( $feed_item );
@@ -263,7 +265,6 @@
                                 $inserted_ID = $inserted_ID->ID;
                             }
                         }
-
 
                         // Create and insert post meta into the DB
                         wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
