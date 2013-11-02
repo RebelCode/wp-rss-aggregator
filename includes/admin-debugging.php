@@ -19,6 +19,33 @@
     }*/
     
 
+    /**
+     * Returns the debugging operations array
+     * 
+     * @since 3.4.6
+     */
+    function wprss_get_debug_operations() {
+        return apply_filters(
+            'wprss_debug_operations',
+            array(
+                'update-feeds' => array(
+                    'nonce'     =>  'wprss-update-feed-items',
+                    'run'       =>  'wprss_fetch_insert_all_feed_items',
+                    'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=1',
+                    'render'    =>  'wprss_debug_update_feeds',
+                ),
+
+                'reimport-feeds' => array(
+                    'nonce'     =>  'wprss-delete-import-feed-items',
+                    'run'       =>  'wprss_feed_reset',
+                    'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=2',
+                    'render'    =>  'wprss_debug_reimport_feeds',
+                )
+            )
+        );
+    }
+
+
     add_action( 'init', 'wprss_debug_operations' );
     /**
      * Performs debug operations, depending on the POST request.
@@ -28,22 +55,7 @@
     function wprss_debug_operations(){
 
         // Define the debugging operations
-        $debug_operations = apply_filters(
-            'wprss_debug_operations',
-            array(
-                'update-feeds' => array(
-                    'nonce'     =>  'wprss-update-feed-items',
-                    'run'       =>  'wprss_fetch_insert_all_feed_items',
-                    'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=1'
-                ),
-
-                'reimport-feeds' => array(
-                    'nonce'     =>  'wprss-delete-import-feed-items',
-                    'run'       =>  'wprss_feed_reset',
-                    'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=2'
-                )
-            )
-        );
+        $debug_operations = wprss_get_debug_operations();
 
         // Check which of the operations needs to be run
         foreach ( $debug_operations as $id => $operation ) {
@@ -55,6 +67,51 @@
             }
         }
     }
+
+
+    /**
+     * Build the Update Feeds section
+     * 
+     * @since 3.4.6
+     */
+    function wprss_debug_update_feeds() {
+        ?>
+        <h3><?php _e( 'Update All Feeds Now', 'wprss' ); ?></h3>
+        <p><?php _e( 'Click the blue button to update all feed items now. This will check all feed sources for any new feed items.', 'wprss' ); ?>
+            <br><?php _e( 'Existing feed items will not be modified.', 'wprss' ); ?>
+        </p>
+        <p><?php _e( '<strong>Note:</strong> This might take more than a few seconds if you have many feed sources.', 'wprss' ); ?></p>            
+        
+        <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="post"> 
+            
+                <?php wp_nonce_field( 'wprss-update-feed-items' );
+                submit_button( __( 'Update all feeds', 'wprss' ), 'primary', 'update-feeds', true ); ?>            
+            
+        </form>
+        <?php
+    }
+
+
+    /**
+     * Build the Update Feeds section
+     * 
+     * @since 3.4.6
+     */
+    function wprss_debug_reimport_feeds() {
+        ?>
+        <h3><?php _e( 'Delete and Re-import Feeds', 'wprss' ); ?></h3>
+        <p><?php _e( 'Click the red button to delete all imported feed items and re-import them.', 'wprss' ); ?></p>
+        <p><?php _e( '<em><strong>Note:</strong> This is a server-intensive process and should only be used when instructed to by support staff.</em>', 'wprss' ); ?></p>            
+        
+        <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="post"> 
+            
+                <?php wp_nonce_field( 'wprss-delete-import-feed-items' );
+                submit_button( __( 'Delete and Re-import all feeds', 'wprss' ), 'button-red', 'reimport-feeds', true  ); ?>            
+            
+        </form>
+        <?php
+    }
+
 
     /**
      * Build the debugging page
@@ -88,40 +145,17 @@
                 }  
             }
 
-            do_action( 'wprss_debugging_before' ); ?>
+            do_action( 'wprss_debugging_before' );
 
-            <h3><?php _e( 'Update All Feeds Now', 'wprss' ); ?></h3>
-            <p><?php _e( 'Click the blue button to update all feed items now. This will check all feed sources for any new feed items.', 'wprss' ); ?>
-                <br><?php _e( 'Existing feed items will not be modified.', 'wprss' ); ?>
-            </p>
-            <p><?php _e( '<strong>Note:</strong> This might take more than a few seconds if you have many feed sources.', 'wprss' ); ?></p>            
-            
-            <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="post"> 
-                
-                    <?php wp_nonce_field( 'wprss-update-feed-items' );
-                    submit_button( __( 'Update all feeds', 'wprss' ), 'primary', 'update-feeds', true ); ?>            
-                
-            </form>
+            $debug_operations = wprss_get_debug_operations();
+            foreach( $debug_operations as $id => $data ) {
+                if ( isset( $data['render'] ) )
+                    call_user_func( $data['render'] );
+            }
 
+            do_action( 'wprss_debugging_after' );
 
-            <?php do_action( 'wprss_debugging_middle' ); ?>
-
-
-            <h3><?php _e( 'Delete and Re-import Feeds', 'wprss' ); ?></h3>
-            <p><?php _e( 'Click the red button to delete all imported feed items and re-import them.', 'wprss' ); ?></p>
-            <p><?php _e( '<em><strong>Note:</strong> This is a server-intensive process and should only be used when instructed to by support staff.</em>', 'wprss' ); ?></p>            
-            
-            <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="post"> 
-                
-                    <?php wp_nonce_field( 'wprss-delete-import-feed-items' );
-                    submit_button( __( 'Delete and Re-import all feeds', 'wprss' ), 'button-red', 'reimport-feeds', true  ); ?>            
-                
-            </form>
-
-
-            <?php do_action( 'wprss_debugging_after' ); ?>
-
-            <?php wprss_system_info(); ?>       
+            wprss_system_info(); ?>
         </div>
     <?php
     }           
