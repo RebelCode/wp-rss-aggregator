@@ -491,6 +491,7 @@
     }
 
 
+    add_action( 'wprss_delete_all_feed_items_hook', 'wprss_delete_all_feed_items' );
     /**
      * Delete all feed items
      *
@@ -614,7 +615,7 @@
      * @since 3.0
      */
     function wprss_feed_reset() {
-        wprss_delete_all_feed_items();
+        wp_schedule_single_event( time(), 'wprss_delete_all_feed_items_hook' );
         wprss_fetch_insert_all_feed_items();
     }
 

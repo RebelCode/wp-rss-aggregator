@@ -70,9 +70,10 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3>Change log v3.4.5 (2013-10-30)</h3>
+								<h3>Change log v3.4.6 (2013-11-1)</h3>
 								<ul>
-									<li>Bug Fix: Feed items were not being imported while the WPML plugin was active.</li>
+									<li>Enhanced: Added more hooks to debugging page for the Feed to Post add-on.</li>
+									<li>Fixed bug: Uninitialized loop index.</li>
 								</ul>
 
 							</p>
