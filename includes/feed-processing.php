@@ -557,6 +557,7 @@
         $results = $wpdb->get_results( $query );
 
         // Check if there are any results
+        $i = 0;
         if ( count( $results ) ){
             foreach ( $results as $post ) {
                 $i++;
