@@ -143,6 +143,10 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 == Changelog ==
 
+= 3.4.6 (2013-11-1) =
+* Enhanced: Added more hooks to debugging page for the Feed to Post add-on.
+* Fixed bug: Uninitialized loop index
+
 = 3.4.5 (2013-10-30) =
 * Bug Fix: Feed items were not being imported while the WPML plugin was active.
 
