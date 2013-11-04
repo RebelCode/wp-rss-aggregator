@@ -218,10 +218,92 @@
             unset( $actions[ 'view'] );
             if ( get_post_status( get_the_ID() ) !== 'trash' ) {
                 $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Feeds', 'wprss' ) ) .'" >' . __( 'Fetch Feeds', 'wprss' ) . '</a>';
+
+                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete feed items' );
+                $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title ', 'Delete feed items imported by this feed source' );
+                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
             }
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
     }
+
+
+    add_action( 'init', 'check_delete_for_feed_source' );
+    /**
+     * Checks the GET data for the delete per feed source action request
+     * 
+     * @since 3.5
+     */
+    function check_delete_for_feed_source( $source_id = NULL ) {
+        // then we need to check the GET data for the request
+        if ( isset( $_GET['purge-feed-items'] ) ) {
+            $source_id = $_GET['purge-feed-items'];
+            // Schedule a job that runs this function with the source id parameter
+            wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $source_id ) );
+            // Set a transient
+            set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
+            // Refresh the page without the GET parameter
+            header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' ) );
+            exit();
+        } else {
+            // Get the notification transient
+            $transient = get_transient( 'wprss_delete_posts_by_source_notif' );
+            // If the transient is set and is set to 'true'
+            if ( $transient !== FALSE && $transient === 'true' ) {
+                // delete it
+                delete_transient( 'wprss_delete_posts_by_source_notif' );
+                // Add an action to show the notification
+                add_action( 'all_admin_notices', 'wprss_notify_about_deleting_source_feed_items' );
+            }
+        }
+    }
+
+
+
+    add_action( 'wprss_delete_feed_items_from_source_hook', 'wprss_delete_feed_items_of_feed_source', 10 , 1 );
+    /**
+     * Deletes the feed items of the feed source identified by the given ID.
+     * 
+     * @param $source_id The ID of the feed source
+     * @since 3.5
+     */
+    function wprss_delete_feed_items_of_feed_source( $source_id ) {
+        $force_delete = apply_filters( 'wprss_force_delete_when_by_source', TRUE );
+        // WPML fix: removes the current language from the query WHERE and JOIN clauses
+        global $sitepress;
+        if ( $sitepress !== NULL ) {
+            remove_filter( 'posts_join', array( $sitepress,'posts_join_filter') );
+            remove_filter( 'posts_where', array( $sitepress,'posts_where_filter') );
+        }
+        // Run the query
+        $query = new WP_Query(
+            array(
+                    'meta_key'       => 'wprss_feed_id',
+                    'meta_value'     => $source_id,
+                    'post_type'      => 'wprss_feed_item',
+                    'post_status'    => 'any',
+                    'posts_per_page' => -1
+                )
+        );
+        $query = apply_filters( 'wprss_delete_per_source_query', $query, $source_id );
+        // Delete the results of the query
+        foreach ( $query->posts as $index => $post ) {
+            wp_delete_post( $post->ID, $force_delete );
+        }
+    }
+
+
+
+    /**
+     * Shows a notification that tells the user that feed items for a particular source are being deleted
+     * 
+     * @since 3.5
+     */
+    function wprss_notify_about_deleting_source_feed_items() {
+        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feeds for this feed source are being deleted in the background.' ), 'wprss' );
+        echo '<div class="updated"><p>' . $message . '</p></div>';
+    }
+
 
 
     add_action( 'wp_ajax_wprss_fetch_feeds_action', 'wprss_fetch_feeds_action_hook' );

@@ -376,6 +376,7 @@
 		// Use the URL custom field to fetch the feed items for this source
 		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) ) {
 			$items = wprss_get_feed_items( $feed_url );
+            if ( $items === NULL ) $items = array();
 
             // If the feed has its own meta limit,
             // slice the items array using the feed meta limit
