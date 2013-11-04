@@ -1,3 +1,6 @@
+3.5
+New Feature: Can delete feed items for a particular source
+
 3.4.6 (2013-11-1)
 Enhanced: Added more hooks to debugging page for the Feed to Post add-on.
 Fixed bug: Uninitialized loop index
