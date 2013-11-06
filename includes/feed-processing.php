@@ -338,7 +338,7 @@
                 $feed = wprss_fetch_feed( $url );
                 if ( $feed !== NULL ) {
                     update_post_meta( $post_ID, 'wprss_site_url', $feed->get_permalink() );
-                    update_post_meta( $post_ID, 'wprss_feed_image', $feed->get_image_link() );
+                    update_post_meta( $post_ID, 'wprss_feed_image', $feed->get_image_url() );
                 }
             }
 
