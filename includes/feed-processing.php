@@ -307,13 +307,16 @@
 
 
     /**
+     * Returns the image of the feed.
+     * The reason this function exists is for add-ons to be able to detect if the plugin core
+     * supports feed image functionality through a simple function_exists() call.
      * 
-     * 
+     * @param $source_id The ID of the feed source
+     * @return string The link to the feed image
      * @since 1.0
      */ 
-    function wprss_get_source_site_url( $url ) {
-        $feed = wprss_fetch_feed( $url );
-        return $feed->get_permalink();
+    function wprss_get_feed_image( $source_id ) {
+        return get_post_meta( $source_id, 'wprss_feed_image', true );
     }
 
 
@@ -331,8 +334,12 @@
         if ( ( $post_after->post_type == 'wprss_feed' ) && ( $post_after->post_status == 'publish' ) ) {
 
             if ( isset( $_POST['wprss_url'] ) && !empty( $_POST['wprss_url'] ) ) {
-                $source_site_url = wprss_get_source_site_url( $_POST['wprss_url'] );
-                update_post_meta( $post_ID, 'wprss_site_url', $source_site_url );
+                $url = $_POST['wprss_url'];
+                $feed = wprss_fetch_feed( $url );
+                if ( $feed !== NULL ) {
+                    update_post_meta( $post_ID, 'wprss_site_url', $feed->get_permalink() );
+                    update_post_meta( $post_ID, 'wprss_feed_image', $feed->get_image_link() );
+                }
             }
 
 
