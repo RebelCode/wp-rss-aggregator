@@ -21,7 +21,8 @@
         global $pagenow, $typenow;
         if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
           $post = get_post( $_GET['post'] );
-          $typenow = $post->post_type;
+          if ( $post !== NULL && !is_wp_error( $post ) )
+            $typenow = $post->post_type;
         }
         $notices_settings = get_option( 'wprss_settings_notices' ); 
 
