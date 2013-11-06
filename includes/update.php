@@ -60,7 +60,15 @@
 		// If the old version is less than the new version, run the update.		
 		elseif ( intval( $old_db_version ) < intval( WPRSS_DB_VERSION ) ) {
 			wprss_update();
-			wprss_fetch_insert_all_feed_items(); 
+			wprss_fetch_insert_all_feed_items();
+
+			// NO FOLLOW CHANGE FIX
+			$options = get_option( 'wprss_settings_general' );
+			if ( $options['follow_dd'] === __( "No Follow", 'wprss' ) ) {
+				$options['follow_dd'] = 'no_follow';
+			} elseif ( $options['follow_dd'] === __( "Follow", 'wprss' ) ) {
+				$options['follow_dd'] = 'follow';
+			}
 		}
 		
 	}
@@ -185,7 +193,7 @@
 			array(
 				// from version 1.1
 				'open_dd' 					=> __( 'New window' ),
-				'follow_dd' 				=> __( 'No follow' ),
+				'follow_dd' 				=> 'no_follow',
 				
 				// from version 2.0
 				'feed_limit'				=> 15, 

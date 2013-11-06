@@ -26,7 +26,7 @@
 
         switch ( $settings['follow_dd'] ) {
 
-            case 'No follow' :
+            case 'no_follow' :
                 $display_settings['follow'] = 'rel="nofollow"';
                 break;
         }

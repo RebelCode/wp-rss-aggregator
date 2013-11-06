@@ -76,7 +76,7 @@
                         'callback'  =>  'wprss_setting_open_dd_callback'
                     ),
                     'follow-dd' => array(
-                        'label'     =>  __( 'Set links as', 'wprss' ),
+                        'label'     =>  __( 'No Follow links', 'wprss' ),
                         'callback'  =>  'wprss_setting_follow_dd_callback'
                     ),
                     'video-links' => array(
@@ -261,16 +261,16 @@
      */
     function wprss_setting_follow_dd_callback() {
         $options = get_option( 'wprss_settings_general' );
-        $items = array( 
-                    __( 'No follow', 'wprss' ), 
-                    __( 'Follow', 'wprss' ) 
-        );        
-        echo "<select id='follow-dd' name='wprss_settings_general[follow_dd]'>";
-        foreach( $items as $item ) {
-            $selected = ( $options['follow_dd'] == $item) ? 'selected="selected"' : '';
-            echo "<option value='$item' $selected>$item</option>";
-        }
-        echo "</select>";
+
+        $checked = ( $options['follow_dd'] === 'no_follow' );
+        $checked_attr = ( $checked )? 'checked="checked"' : '';
+
+        echo "<input type='hidden' name='wprss_settings_general[follow_dd]' value='follow'>";
+        echo "<input type='checkbox' id='follow-dd' name='wprss_settings_general[follow_dd]' value='no_follow' $checked_attr>";
+
+        echo '<label class="description" id="follow-dd">';
+        echo    'Nofollow" provides a way for webmasters to tell search engines "Don\'t follow links on this page" or "Don\'t follow this specific link."';
+        echo '</label>';
     }
 
 	
@@ -304,7 +304,7 @@
         $items = array( 
             __( 'Lightbox', 'wprss' ), 
             __( 'New window', 'wprss' ), 
-            __( 'None', 'wprss' )
+            __( 'Self', 'wprss' )
         );
         echo "<select id='open-dd' name='wprss_settings_general[open_dd]'>";
         foreach( $items as $item ) {
