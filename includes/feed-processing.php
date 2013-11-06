@@ -305,6 +305,18 @@
     }
 
 
+
+    /**
+     * 
+     * 
+     * @since 1.0
+     */ 
+    function wprss_get_source_site_url( $url ) {
+        $feed = wprss_fetch_feed( $url );
+        return $feed->get_permalink();
+    }
+
+
     add_action( 'post_updated', 'wprss_updated_feed_source', 10, 3 );
     /**
      * This function is triggered just after a post is updated.
@@ -317,6 +329,12 @@
         // Check if the post is a feed source and is published
         
         if ( ( $post_after->post_type == 'wprss_feed' ) && ( $post_after->post_status == 'publish' ) ) {
+
+            if ( isset( $_POST['wprss_url'] ) && !empty( $_POST['wprss_url'] ) ) {
+                $source_site_url = wprss_get_source_site_url( $_POST['wprss_url'] );
+                update_post_meta( $post_ID, 'wprss_site_url', $source_site_url );
+            }
+
 
         	if ( isset( $_POST['wprss_limit'] ) && !empty( $_POST['wprss_limit'] ) ) {
 	            // Checking feed limit change

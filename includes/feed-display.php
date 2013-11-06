@@ -143,7 +143,10 @@
                 $permalink       = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
                 $feed_source_id  = get_post_meta( get_the_ID(), 'wprss_feed_id', true );
                 $source_name     = get_the_title( $feed_source_id );
-                $source_url      = get_post_meta( $feed_source_id, 'wprss_url', true );
+                $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
+                // Fallback for feeds created with older versions of the plugin
+                if ( $source_url === '' )
+                    $source_url      = get_post_meta( $feed_source_id, 'wprss_url', true );
 
                 do_action( 'wprss_get_post_data' );
 
