@@ -144,6 +144,12 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 == Changelog ==
 
+= 3.5 (2013-11-6) =
+* New Feature: Can delete feed items for a particular source
+* Enhanced: the 'Fetch feed items' row action for feed sources resets itself after 3.5 seconds.
+* Enhanced: The feed image is saved for each url.
+* Fixed bug: Link to source now links to correct url. Previously linked to site's feed.
+
 = 3.4.6 (2013-11-1) =
 * Enhanced: Added more hooks to debugging page for the Feed to Post add-on.
 * Fixed bug: Uninitialized loop index
