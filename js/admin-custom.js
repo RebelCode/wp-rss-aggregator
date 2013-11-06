@@ -1,4 +1,29 @@
-jQuery( document ).ready( function() { 
+// jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
+function fetch_items_row_action_callback(){
+    var link = jQuery(this);
+    var original_text = link.text();
+    var id = link.attr('pid');
+    var url = link.attr('purl');
+    jQuery.post(
+        url, 
+        {
+            'action': 'wprss_fetch_feeds_action',
+            'id':   id
+        }, 
+        function(response){
+            link.text('Feed items imported!');
+            setTimeout( function(){
+                link.text( original_text ).click( fetch_items_row_action_callback );
+            }, 3500 );
+        }
+    );
+    link.text('Please wait ...');
+    link.unbind('click');
+};
+
+
+
+jQuery(window).load( function(){
 
 	// On TAB pressed when on title input field, go to URL input field
 	jQuery('input#title').on( 'keydown', function( event ) {    
@@ -19,25 +44,8 @@ jQuery( document ).ready( function() {
         }
     }
     );	        
-	
-	// jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
-	jQuery('.wprss_ajax_action').click( function(){
-		action_link = jQuery(this);
-		id = action_link.attr('pid');
-		url = action_link.attr('purl');
-		jQuery.post(
-			url, 
-			{
-				'action': 'wprss_fetch_feeds_action',
-				'id':   id
-			}, 
-			function(response){
-				action_link.text('Feed items imported!');
-			}
-		);
-		action_link.text('Please wait ...');
-		action_link.unbind('click');
-	});
+
+	jQuery('.wprss_ajax_action').click( fetch_items_row_action_callback );
 	
 	// Make the number rollers change their value to empty string when value is 0, making
 	// them use the placeholder.
@@ -45,12 +53,11 @@ jQuery( document ).ready( function() {
 		if ( jQuery(this).val() == 0 )
 			jQuery(this).val('');
 	});
-});
 
 
-/* JS for admin notice - Leave a review */
+    /* JS for admin notice - Leave a review */
 
-jQuery(window).load( function(){
+
     // Check to see if the Ajax Notification is visible
     if ( jQuery('#dismiss-ajax-notification').length > 0 ) {
         NOTIFICATION = jQuery('#ajax-notification');
@@ -75,4 +82,4 @@ jQuery(window).load( function(){
             NOTIFICATION.fadeOut(400);
         });
     }
-})
+});
