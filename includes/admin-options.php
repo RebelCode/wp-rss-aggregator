@@ -270,7 +270,7 @@
         echo "<input type='checkbox' id='follow-dd' name='wprss_settings_general[follow_dd]' value='no_follow' $checked_attr>";
 
         echo '<label class="description" id="follow-dd">';
-        echo    'Nofollow" provides a way for webmasters to tell search engines "Don\'t follow links on this page" or "Don\'t follow this specific link."';
+        echo    '"Nofollow" provides a way for webmasters to tell search engines "Don\'t follow links on this page" or "Don\'t follow this specific link."';
         echo '</label>';
     }
 
