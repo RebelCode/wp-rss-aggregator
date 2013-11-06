@@ -37,8 +37,8 @@
         $sections = apply_filters(
             'wprss_settings_sections_array',
             array(
-                'general'   =>  __( 'General plugin settings', 'wprss' ),
-                'display'   =>  __( 'Display settings', 'wprss' ),
+                'general'  =>  __( 'General plugin settings', 'wprss' ),
+                'display'  =>  __( 'Display settings', 'wprss' ),
                 'styles'   =>  __( 'Styles', 'wprss' ),
             )
         );
@@ -71,24 +71,37 @@
                 ),
 
                 'display'   =>  array(
+                    'source-enable' => array(
+                        'label'     =>  __( 'Show source', 'wprss' ),
+                        'callback'  =>  'wprss_setting_source_enable_callback'
+                    ),
+                    'text-preceding-source' => array(
+                        'label'     =>  __( 'Text preceding source', 'wprss' ),
+                        'callback'  =>  'wprss_setting_text_preceding_source_callback'
+                    ),                      
+                    'source-link' => array(
+                        'label'     =>  __( 'Link source', 'wprss' ),
+                        'callback'  =>  'wprss_setting_source_link_callback'
+                    ),
                     'open-dd' => array(
-                        'label'     =>  __( 'Open links behaviour', 'wprss' ),
+                        'label'     =>  __( 'Source link open behaviour', 'wprss' ),
                         'callback'  =>  'wprss_setting_open_dd_callback'
                     ),
-                    'follow-dd' => array(
-                        'label'     =>  __( 'No Follow links', 'wprss' ),
-                        'callback'  =>  'wprss_setting_follow_dd_callback'
-                    ),
+
+                    'link-enable' => array(
+                        'label'     =>  __( 'Link title', 'wprss' ),
+                        'callback'  =>  'wprss_setting_title_link_callback'
+                    ),      
                     'video-links' => array(
                         'label'     =>  __( 'For video feed items use', 'wprss' ),
                         'callback'  =>  'wprss_setting_video_links_callback'
-                    ),
-                    'feed-limit' => array(
-                        'label'     =>  __( 'Feed display limit', 'wprss' ),
-                        'callback'  =>  'wprss_setting_feed_limit_callback'
+                    ),                                  
+                    'follow-dd' => array(
+                        'label'     =>  __( 'Set links as nofollow', 'wprss' ),
+                        'callback'  =>  'wprss_setting_follow_dd_callback'
                     ),
                     'date-enable' => array(
-                        'label'     =>  __( 'Show Date', 'wprss' ),
+                        'label'     =>  __( 'Show date', 'wprss' ),
                         'callback'  =>  'wprss_setting_date_enable_callback'
                     ),
                     'date-format' => array(
@@ -98,23 +111,11 @@
                     'text-preceding-date' => array(
                         'label'     =>  __( 'Text preceding date', 'wprss' ),
                         'callback'  =>  'wprss_setting_text_preceding_date_callback'
-                    ),
+                    ),                    
 
-                    'link-enable' => array(
-                        'label'     =>  __( 'Link Title', 'wprss' ),
-                        'callback'  =>  'wprss_setting_title_link_callback'
-                    ),
-                    'source-enable' => array(
-                        'label'     =>  __( 'Show source', 'wprss' ),
-                        'callback'  =>  'wprss_setting_source_enable_callback'
-                    ),
-                    'source-link' => array(
-                        'label'     =>  __( 'Link source', 'wprss' ),
-                        'callback'  =>  'wprss_setting_source_link_callback'
-                    ),
-                    'text-preceding-source' => array(
-                        'label'     =>  __( 'Text preceding source', 'wprss' ),
-                        'callback'  =>  'wprss_setting_text_preceding_source_callback'
+                    'feed-limit' => array(
+                        'label'     =>  __( 'Feed display limit', 'wprss' ),
+                        'callback'  =>  'wprss_setting_feed_limit_callback'
                     ),
                 ),
 
@@ -476,7 +477,7 @@
     function wprss_setings_custom_feed_limit_callback() {
         $options = get_option( 'wprss_settings_general' );
         echo "<input id='custom_feed_limit' name='wprss_settings_general[custom_feed_limit]' placeholder='Default' min='0' class='wprss-number-roller' type='number' value='{$options['custom_feed_limit']}' />";
-        echo "<label class='description' for='custom_feed_limit'>" . __( 'Custom feed limit', 'wprss' ) . "</label>";
+        echo "<label class='description' for='custom_feed_limit'>" . __( 'Number of items to show in the custom feed', 'wprss' ) . "</label>";
     }
 
     /** 
