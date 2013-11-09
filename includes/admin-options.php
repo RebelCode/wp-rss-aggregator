@@ -57,7 +57,7 @@
                         'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
                     ),
                     'cron-interval' => array(
-                        'label'     =>  __( 'Cron interval', 'wprss' ),
+                        'label'     =>  __( 'Feed processing interval', 'wprss' ),
                         'callback'  =>  'wprss_setting_cron_interval_callback'
                     ),
                     'custom-feed-url' => array(
