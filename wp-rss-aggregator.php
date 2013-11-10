@@ -6,7 +6,7 @@
     Version: 3.5
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
-    License: GPLv3
+    License: GPLv2
     License URI: http://www.gnu.org/licenses/gpl-2.0.html
     */
 
