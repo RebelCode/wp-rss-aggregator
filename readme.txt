@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, aggregator, import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, multi rss, rss import, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblog, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.7.1
-Stable tag: 3.5
+Stable tag: 3.5.1
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -146,6 +146,7 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 = 3.5.1 (2013-11-09) =
 * Enhanced: Increased compatibility with RSS sources.
+* Fixed bug: Pagination not working on home page
 
 = 3.5 (2013-11-6) =
 * New Feature: Can delete feed items for a particular source

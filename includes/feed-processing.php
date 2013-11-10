@@ -90,10 +90,6 @@
     }
 
 
-
-
-
-
     /**
      * A clone of the function 'fetch_feed' in wp-includes/feed.php [line #529]
      *
@@ -127,9 +123,6 @@
 
         return $feed;
     }
-
-
-
 
 
     /**
