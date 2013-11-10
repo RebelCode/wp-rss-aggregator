@@ -70,12 +70,9 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3>3.5 (2013-11-6)</h3>
+								<h3> 3.5.1 (2013-11-09) </h3>
 								<ul>
-									<li>New Feature: Can delete feed items for a particular source</li>
-									<li>Enhanced: the 'Fetch feed items' row action for feed sources resets itself after 3.5 seconds.</li>
-									<li>Enhanced: The feed image is saved for each url.</li>
-									<li>Fixed bug: Link to source now links to correct url. Previously linked to site's feed.</li>
+									<li>Enhanced: Increased compatibility with RSS sources.</li>
 								</ul>
 								
 							</p>
@@ -120,3 +117,5 @@
 			<p><a href="<?php echo admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings'); ?>">Go to WP RSS Aggregator settings</a></p>
 
 	</div>
+
+<?php update_option( 'wprss_pwsv', WPRSS_VERSION ); // Update the previous welcome screen version ?>

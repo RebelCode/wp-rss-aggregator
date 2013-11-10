@@ -104,10 +104,13 @@
 
         $feed = new SimplePie();
 
-        $feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
+        // Commented out Sanitization, due to a conflict with google RSS image URLS.
+        // With sanitization on, the urls get truncated from the front.
+
+        // $feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
         // We must manually overwrite $feed->sanitize because SimplePie's
         // constructor sets it before we have a chance to set the sanitization class
-        $feed->sanitize = new WP_SimplePie_Sanitize_KSES();
+        // $feed->sanitize = new WP_SimplePie_Sanitize_KSES();
 
         $feed->set_cache_class( 'WP_Feed_Cache' );
         $feed->set_file_class( 'WP_SimplePie_File' );

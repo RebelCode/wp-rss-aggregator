@@ -144,6 +144,9 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 == Changelog ==
 
+= 3.5.1 (2013-11-09) =
+* Enhanced: Increased compatibility with RSS sources.
+
 = 3.5 (2013-11-6) =
 * New Feature: Can delete feed items for a particular source
 * Enhanced: the 'Fetch feed items' row action for feed sources resets itself after 3.5 seconds.
