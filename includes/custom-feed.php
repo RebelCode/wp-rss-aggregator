@@ -19,6 +19,7 @@
         }
         else $url = 'wprss';
         add_feed( $url, 'wprss_addfeed_do_feed' );
+        flush_rewrite_rules();
     }
 
 
@@ -55,7 +56,7 @@
         query_posts( $wprss_custom_feed_query );
 
         // Send content header and start ATOM output
-        header('Content-Type: application/atom+xml');
+        header('Content-Type: text/xml');
         // Disabling caching
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
         header('Pragma: no-cache'); // HTTP 1.0.
