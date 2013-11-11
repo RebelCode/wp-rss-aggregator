@@ -289,7 +289,7 @@
         // Delete the results of the query
         while( $query->have_posts() ) {
             $query->the_post();
-            wp_delete_post( $query->get_the_ID(), $force_delete );
+            wp_delete_post( get_the_ID(), $force_delete );
         }
     }
 
