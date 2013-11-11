@@ -332,7 +332,7 @@
             if ( isset( $_POST['wprss_url'] ) && !empty( $_POST['wprss_url'] ) ) {
                 $url = $_POST['wprss_url'];
                 $feed = wprss_fetch_feed( $url );
-                if ( $feed !== NULL ) {
+                if ( $feed !== NULL && !is_wp_error( $feed ) ) {
                     update_post_meta( $post_ID, 'wprss_site_url', $feed->get_permalink() );
                     update_post_meta( $post_ID, 'wprss_feed_image', $feed->get_image_url() );
                 }
