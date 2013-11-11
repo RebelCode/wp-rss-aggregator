@@ -287,8 +287,9 @@
         );
         $query = apply_filters( 'wprss_delete_per_source_query', $query, $source_id );
         // Delete the results of the query
-        foreach ( $query->posts as $index => $post ) {
-            wp_delete_post( $post->ID, $force_delete );
+        while( $query->have_posts() ) {
+            $query->the_post();
+            wp_delete_post( $query->get_the_ID(), $force_delete );
         }
     }
 
