@@ -204,6 +204,7 @@
 				'cron_interval' 			=> 'hourly',
 				'styles_disable'    		=> 0,
 				'title_link'				=> 1,
+				'title_limit'				=> '',
 				'source_enable'     		=> 1,
 				'text_preceding_source' 	=> 'Source:',
 				'date_enable'				=> 1,
