@@ -344,8 +344,9 @@
      * @since 3.0
      */
     function wprss_setting_title_link_callback( $args ) {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='title-link' name='wprss_settings_general[title_link]' type='checkbox' value='1' " . checked( 1, $options['title_link'], false ) . " />";   
+        $options = get_option( 'wprss_settings_general' );
+        $title_link = isset( $options['title_link'] )? $options['title_link'] : 0;
+        echo "<input id='title-link' name='wprss_settings_general[title_link]' type='checkbox' value='1' " . checked( 1, $title_link, false ) . " />";   
         echo "<label class='description' for='title-link'>Check this box to enable linked titles</label>";   
     }
 
@@ -355,8 +356,9 @@
      * @since 3.0
      */
     function wprss_setting_source_enable_callback( $args ) {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='source-enable' name='wprss_settings_general[source_enable]' type='checkbox' value='1' " . checked( 1, $options['source_enable'], false ) . " />";   
+        $options = get_option( 'wprss_settings_general' );   
+        $source_enable = isset( $options['source_enable'] )? $options['source_enable'] : 0;
+        echo "<input id='source-enable' name='wprss_settings_general[source_enable]' type='checkbox' value='1' " . checked( 1, $source_enable, false ) . " />";   
         echo "<label class='description' for='source-enable'>Check this box to enable feed source display</label>";   
     }
 
@@ -365,8 +367,9 @@
      * @since 3.0
      */
     function wprss_setting_source_link_callback( $args ) {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='source-link' name='wprss_settings_general[source_link]' type='checkbox' value='1' " . checked( 1, $options['source_link'], false ) . " />";   
+        $options = get_option( 'wprss_settings_general' );     
+        $source_link = isset( $options['source_link'] )? $options['source_link'] : 0;               
+        echo "<input id='source-link' name='wprss_settings_general[source_link]' type='checkbox' value='1' " . checked( 1, $source_link, false ) . " />";   
         echo "<label class='description' for='source-link'>Check this box to enable linked sources</label>";   
     }
 
@@ -385,8 +388,9 @@
      * @since 3.0
      */
     function wprss_setting_date_enable_callback( $args ) {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='date-enable' name='wprss_settings_general[date_enable]' type='checkbox' value='1' " . checked( 1, $options['date_enable'], false ) . " />";   
+        $options = get_option( 'wprss_settings_general' );
+        $date_enable = isset( $options['date_enable'] )? $options['date_enable'] : 0;     
+        echo "<input id='date-enable' name='wprss_settings_general[date_enable]' type='checkbox' value='1' " . checked( 1, $date_enable, false ) . " />";   
         echo "<label class='description' for='date-enable'>Check this box to enable display of date published</label>";   
     }    
 
@@ -485,8 +489,9 @@
      * @since 3.0
      */
     function wprss_setting_styles_disable_callback( $args ) {
-        $options = get_option( 'wprss_settings_general' );                    
-        echo "<input id='styles-disable' name='wprss_settings_general[styles_disable]' type='checkbox' value='1' " . checked( 1, $options['styles_disable'], false ) . " />";   
+        $options = get_option( 'wprss_settings_general' );
+        $styles_disable = isset( $options['styles_disable'] )? $options['styles_disable'] : 0;    
+        echo "<input id='styles-disable' name='wprss_settings_general[styles_disable]' type='checkbox' value='1' " . checked( 1, $styles_disable, false ) . " />";   
         echo "<label class='description' for='styles-disable'>Check this box to disable all plugin styles</label>"; 
         echo "<p class='description'>You will then be responsible for providing your own CSS styles.</p>";  
     }
