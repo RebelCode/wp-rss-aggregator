@@ -102,9 +102,13 @@
      * @return array
      */  
     function wprss_plugin_action_links( $action_links, $plugin_file ) {
-        if ( $plugin_file == plugin_basename( __FILE__ ) ) {
-            $settings_link = '<a href="' . get_admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __("Settings") . '</a>';
-            array_unshift( $action_links, $settings_link );
+        // check to make sure we are on the correct plugin
+        if ( $plugin_file == 'wp-rss-aggregator/wp-rss-aggregator.php' ) {
+            // the anchor tag and href to the URLs we want. 
+            $settings_link = '<a href="' . admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __( 'Settings', 'wprss' ) . '</a>';
+            $docs_link = '<a href="http://www.wprssaggregator.com/documentation/">' . __( 'Documentation', 'wprss' ) . '</a>';
+            // add the links to the beginning of the list
+            array_unshift( $action_links, $settings_link, $docs_link );
         }
         return $action_links;
     }        
