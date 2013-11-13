@@ -1,7 +1,10 @@
+3.6
+Fixed bug: Fixed errors with undefined indexes for unchecked checkboxes in the settings page.
+Fixed bug: Pagination on front static page was not working.
+
 3.5.2
 Fixed bug: Invalid feed source url was producing an Undefined method notice.
 Fixed bug: Custom feed was producing a 404 page.
-Fixed bug: Fixed errors with undefined indexes for unchecked checkboxes in the settings page.
 
 3.5.1 (2013-11-09)
 Enhanced: Increased compatibility with RSS sources.
