@@ -240,6 +240,28 @@
     }
 
 
+
+    add_filter( 'the_title', 'wprss_shorten_title', 10, 2 );
+    /**
+     * Checks the title limit option and shortens the title when necassary.
+     * 
+     * @since 1.0
+     */
+    function wprss_shorten_title( $title, $id ) {
+        // Get the option. If does not exist, use 0, which is ignored.
+        $general_settings = get_option( 'wprss_settings_general' );
+        $title_limit = isset( $general_settings['title_limit'] )? intval( $general_settings['title_limit'] ) : 0;
+        // Check if the title is for a wprss_feed_item, and check if trimming is needed
+        if ( get_post_type( $id ) === 'wprss_feed_item' && $title_limit > 0 && strlen( $title ) > $title_limit ) {
+            // Return the trimmed version of the title
+            return substr( $title, 0, $title_limit ) . '...';
+        }
+        // Otherwise, return the same title
+        return $title;
+    }
+
+
+
     /**
      * Display feed items on the front end (via shortcode or function)
      *
