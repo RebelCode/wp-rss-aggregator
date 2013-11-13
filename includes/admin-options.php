@@ -92,6 +92,10 @@
                         'label'     =>  __( 'Link title', 'wprss' ),
                         'callback'  =>  'wprss_setting_title_link_callback'
                     ),      
+                    'title-limit' => array(
+                        'label'     =>  __( 'Title maximum length', 'wprss' ),
+                        'callback'  =>  'wprss_setting_title_length_callback'
+                    ),
                     'video-links' => array(
                         'label'     =>  __( 'For video feed items use', 'wprss' ),
                         'callback'  =>  'wprss_setting_video_links_callback'
@@ -348,6 +352,19 @@
         $title_link = isset( $options['title_link'] )? $options['title_link'] : 0;
         echo "<input id='title-link' name='wprss_settings_general[title_link]' type='checkbox' value='1' " . checked( 1, $title_link, false ) . " />";   
         echo "<label class='description' for='title-link'>Check this box to enable linked titles</label>";   
+    }
+
+
+
+    /** 
+     * Set the title length limit
+     * @since 3.0
+     */
+    function wprss_setting_title_length_callback( $args ) {
+        $options = get_option( 'wprss_settings_general' );
+        $title_limit = isset( $options['title_limit'] )? $options['title_limit'] : '';
+        echo "<input id='title-limit' name='wprss_settings_general[title_limit]' type='number' class='wprss-number-roller' min='0' value='$title_limit' placeholder='No limit' />";   
+        echo "<label class='description' for='title-limit'>Set the maximum number of characters for feed titles.</label>";   
     }
 
 

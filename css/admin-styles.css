@@ -216,3 +216,7 @@ label[for=thumbnails-width] {
 select + label.description {
     margin-left: 8px;
 }
+
+input#title-limit {
+    width: 100px;
+}
