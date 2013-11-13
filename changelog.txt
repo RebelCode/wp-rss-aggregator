@@ -1,4 +1,5 @@
 3.6
+New Feature: Can set the maximum length for titles. Long titles get trimmed.
 Fixed bug: Fixed errors with undefined indexes for unchecked checkboxes in the settings page.
 Fixed bug: Pagination on front static page was not working.
 
