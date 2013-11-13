@@ -252,7 +252,7 @@
         $general_settings = get_option( 'wprss_settings_general' );
         $title_limit = isset( $general_settings['title_limit'] )? intval( $general_settings['title_limit'] ) : 0;
         // Check if the title is for a wprss_feed_item, and check if trimming is needed
-        if ( get_post_type( $id ) === 'wprss_feed_item' && $title_limit > 0 && strlen( $title ) > $title_limit ) {
+        if ( isset( $id ) && get_post_type( $id ) === 'wprss_feed_item' && $title_limit > 0 && strlen( $title ) > $title_limit ) {
             // Return the trimmed version of the title
             return substr( $title, 0, $title_limit ) . apply_filters( 'wprss_shortened_title_ending', '...' );
         }
