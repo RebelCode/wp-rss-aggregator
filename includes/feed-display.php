@@ -136,7 +136,7 @@
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
 
-        $source_link = $general_settings['source_link'];
+        $source_link = isset( $general_settings['source_link'] )? $general_settings['source_link'] : 0;
         // Declare each item in $args as its own variable
         extract( $args, EXTR_SKIP );
 
