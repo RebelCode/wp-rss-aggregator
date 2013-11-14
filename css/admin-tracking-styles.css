@@ -6,10 +6,10 @@
     left: 50%;
 
     width: 300px;
-    height: 160px;
-    padding: 40px 10px 5px;
+    height: auto;
+    padding: 40px 10px 10px;
     margin-left: -150px;
-    
+
     background: white;
     border: 1px solid #ccc;
     border-radius: 3px;

@@ -169,19 +169,58 @@
     }
 
 
-    add_action( 'all_admin_notices', 'wprss_checking_tracking_notice' );
+    add_action( 'init', 'wprss_checking_tracking_notice' );
+    /**
+     * Checks if the tracking opt in option exists. If not, ask the user to opt in.
+     * 
+     * @since 3.6
+     */
     function wprss_checking_tracking_notice() {
-         $tracking_options = wp_parse_args( get_option( 'wprss_tracking' ), wprss_get_default_tracking_settings() );
+        $tracking_options = wp_parse_args( get_option( 'wprss_tracking' ), wprss_get_default_tracking_settings() );
         if ( $tracking_options['tracking_notice'] === '' ) {
-            ?>
-            <div id="wprss_tracking_notice">
-                <p>Help us improve WP RSS Aggregator</p>
-                <p>Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.</p>
-                <button id="wprss_tracking_opt_in" class="button-primary">Allow tracking</button>
-                <button id="wprss_tracking_opt_out" class="button-secondary">Do not allow tracking</button>
-            </div>
-            <?php
+            add_action( 'admin_print_footer_scripts', 'wprss_tracking_pointer_footer' );
+            wp_enqueue_style( 'wp-pointer' );
+            wp_enqueue_script( 'jquery-ui' );
+            wp_enqueue_script( 'wp-pointer' );
+            wp_enqueue_script( 'utils' );
         }
+    }
+
+    function wprss_tracking_pointer_footer() {
+        $admin_pointers = array(
+            'wprss_tracking_pointer'    =>  array(
+                'content'           =>  'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.',
+                'anchor_id'         =>  '#wpadminbar',
+                'edge'              =>  'top',
+                'align'             =>  'center',
+                'active'            =>  TRUE
+            )
+        );
+        ?>
+        <script type="text/javascript">
+            /* <![CDATA[ */
+            ( function($) {
+            <?php foreach ( $admin_pointers as $pointer => $array ) : ?>
+                <?php  if ( $array['active'] ) : ?>
+                            $( '<?php echo $array['anchor_id']; ?>' ).pointer( {
+                                content: '<?php echo $array['content']; ?>',
+                                position: {
+                                    edge: '<?php echo $array['edge']; ?>',
+                                    align: '<?php echo $array['align']; ?>'
+                                },
+                                close: function() {
+                                    $.post( ajaxurl, {
+                                        pointer: '<?php echo $pointer; ?>',
+                                        action: 'dismiss-wp-pointer'
+                                    } );
+                                }
+                            } ).pointer( 'open' );
+                <?php endif; ?>
+            <?php endforeach; ?>
+            } )(jQuery);
+            /* ]]> */
+        </script>
+        <?php
     }
 
 

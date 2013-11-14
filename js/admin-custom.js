@@ -82,4 +82,10 @@ jQuery(window).load( function(){
             NOTIFICATION.fadeOut(400);
         });
     }
+
+
+    if ( jQuery('#wprss_tracking_notice') ) {
+        
+    }
+
 });
