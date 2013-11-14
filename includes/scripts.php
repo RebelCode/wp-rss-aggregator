@@ -24,6 +24,7 @@
 
         wp_enqueue_script( 'admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
         wp_enqueue_style( 'admin-editor-styles', WPRSS_CSS . 'admin-editor.css' );
+        wp_enqueue_style( 'admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
 
         if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && 
             ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && 

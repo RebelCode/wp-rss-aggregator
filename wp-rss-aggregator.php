@@ -47,7 +47,7 @@
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
-        define( 'WPRSS_DB_VERSION', 10 );
+        define( 'WPRSS_DB_VERSION', 11 );
 
     // Set the plugin prefix 
     if( !defined( 'WPRSS_PREFIX' ) )
@@ -165,7 +165,23 @@
      * @return void
      */     
     function wprss_init() {                    
-        do_action( 'wprss_init' );          
+        do_action( 'wprss_init' );
+    }
+
+
+    add_action( 'all_admin_notices', 'wprss_checking_tracking_notice' );
+    function wprss_checking_tracking_notice() {
+         $tracking_options = wp_parse_args( get_option( 'wprss_tracking' ), wprss_get_default_tracking_settings() );
+        if ( $tracking_options['tracking_notice'] === '' ) {
+            ?>
+            <div id="wprss_tracking_notice">
+                <p>Help us improve WP RSS Aggregator</p>
+                <p>Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.</p>
+                <button id="wprss_tracking_opt_in" class="button-primary">Allow tracking</button>
+                <button id="wprss_tracking_opt_out" class="button-secondary">Do not allow tracking</button>
+            </div>
+            <?php
+        }
     }
 
 
@@ -230,6 +246,8 @@
      * @return void     
      */  
     function wprss_presstrends_plugin() {
+        if ( get_option( 'wprss_tracking', 'false' ) !== 'true' ) return;
+
         // PressTrends Account API Key
         $api_key = 'znggu7vk7x2ddsiigkerzsca9q22xu1j53hp';
         $auth    = 'd8giw5yyux4noasmo8gua98n7fv2hrl11';

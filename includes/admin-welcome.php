@@ -70,12 +70,10 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-								<h3> 3.5.1 (2013-11-09) </h3>
-								<ul>
-									<li>Enhanced: Increased compatibility with RSS sources.</li>
-								</ul>
-								
-							</p>
+							<h3>Changelog for v3.6</h3>
+							<ul>
+								<li></li>
+							</ul>
 
 						<?php
 						break;

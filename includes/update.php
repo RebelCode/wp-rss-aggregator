@@ -226,3 +226,20 @@
 		// Return the default settings
 		return $settings;
 	}
+
+
+
+	/**
+	 * Returns the default tracking settings.
+	 * 
+	 * @since 3.6
+	 */
+	function wprss_get_default_tracking_settings() {
+		return apply_filters(
+			'wprss_default_tracking_settings',
+			array(
+				'use_presstrends'				=>	'false',
+				'tracking_notice'				=>	''
+			)
+		);
+	}

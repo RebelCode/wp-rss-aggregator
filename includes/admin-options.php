@@ -158,6 +158,31 @@
             }
         }
 
+
+
+        register_setting( 
+            'wprss_tracking',                       
+            'wprss_tracking',                        
+            'wprss_tracking_validate' 
+        );
+
+        add_settings_section(
+            'wprss_tracking_section',
+            __( 'Help Improve WP RSS Aggregator', 'wprss' ),
+            'wprss_tracking_section_callback',
+            'wprss_settings_general'
+        );
+
+        add_settings_field(
+            'wprss-settings-tracking',
+            __( 'Anonymous tracking', 'wprss' ),
+            'wprss_tracking_callback',
+            'wprss_settings_general',
+            'wprss_tracking_section'
+        );
+
+
+
         do_action( 'wprss_admin_init' );
     }  
 
@@ -212,7 +237,7 @@
 
                 if ( $active_tab === 'general_settings' ) {
                     settings_fields( 'wprss_settings_general' ); 
-                    do_settings_sections( 'wprss_settings_general' ); 
+                    do_settings_sections( 'wprss_settings_general' );
                 }
                 elseif ( $show_tabs ) {
 
@@ -257,6 +282,15 @@
      */
     function wprss_settings_styles_callback() {
         echo '<p>' . __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', 'wprss' ) . '</p>';
+    }
+
+
+    /** 
+     * Tracking settings section header
+     * @since 3.0
+     */
+    function wprss_tracking_section_callback() {
+        echo '<p>' . __( 'Participate in helping us make the plugin better.', 'wprss' ) . '</p>';
     }
 
 
@@ -514,6 +548,21 @@
     }
 
 
+
+    /**
+     * Tracking checkbox
+     * @since 3.6
+     */
+    function wprss_tracking_callback( $args ) {
+        $option = get_option( 'wprss_tracking', array() );
+        $options = wp_parse_args( $options, wprss_get_default_tracking_settings() );
+        echo "<input name='wprss_tracking[use_presstrends]' type='hidden' value='false' />";
+        echo "<input id='tracking' name='wprss_tracking[use_presstrends]' type='checkbox' value='true' " . checked( 'true', $option, false ) . " />";
+        echo "<label class='description' for='tracking'>Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.</label>";
+        echo "<p class='description'>No sensitive data will be sent.</p>";
+    }
+
+
     /**
      * Pretty-prints the difference in two times.
      *
@@ -646,4 +695,15 @@
 
         // Return the array processing any additional functions filtered by this action
         return apply_filters( 'wprss_settings_general_validate', $output, $input );
+    }
+
+
+
+    /**
+     * Validates the presstrends setting
+     *
+     * @since 3.6
+     */
+    function wprss_tracking_validate ( $input ) {
+        return $input;
     }
