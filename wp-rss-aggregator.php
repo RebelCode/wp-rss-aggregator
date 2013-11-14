@@ -169,57 +169,134 @@
     }
 
 
-    add_action( 'init', 'wprss_checking_tracking_notice' );
+
+    add_filter( 'wprss_admin_pointers', 'wprss_check_tracking_notice' );
     /**
-     * Checks if the tracking opt in option exists. If not, ask the user to opt in.
+     * 
      * 
      * @since 3.6
      */
-    function wprss_checking_tracking_notice() {
+    function wprss_check_tracking_notice( $pointers ){
         $tracking_options = wp_parse_args( get_option( 'wprss_tracking' ), wprss_get_default_tracking_settings() );
+
         if ( $tracking_options['tracking_notice'] === '' ) {
-            add_action( 'admin_print_footer_scripts', 'wprss_tracking_pointer_footer' );
-            wp_enqueue_style( 'wp-pointer' );
-            wp_enqueue_script( 'jquery-ui' );
-            wp_enqueue_script( 'wp-pointer' );
-            wp_enqueue_script( 'utils' );
+            $tracking_pointer = array(
+                'wprss_tracking_pointer'    =>  array(
+
+                    'target'            =>  '#wpadminbar',
+                    'options'           =>  array(
+                        'content'           =>  __( 'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.', 'wprss' ),
+                        'position'          =>  array(
+                            'edge'              =>  'top',
+                            'align'             =>  'center',
+                        ),
+                        'active'            =>  TRUE,
+                        'buttons'           =>  array(
+                            __( 'Allow Tracking', 'wprss' ),
+                            __( 'Do not Tracking', 'wprss' ),
+                        )
+                    )
+                )
+
+            );
+            return array_merge( $pointers, $tracking_pointer );
         }
+        else return $pointers;
     }
 
-    function wprss_tracking_pointer_footer() {
-        $admin_pointers = array(
-            'wprss_tracking_pointer'    =>  array(
-                'content'           =>  'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.',
-                'anchor_id'         =>  '#wpadminbar',
-                'edge'              =>  'top',
-                'align'             =>  'center',
-                'active'            =>  TRUE
-            )
-        );
+
+
+    add_action( 'admin_enqueue_scripts', 'wprss_prepare_pointers', 1000 );
+    /**
+     * Prepare the admin pointers
+     * 
+     * @since 3.6
+     */
+    function wprss_prepare_pointers() {
+        // Don't run on WP < 3.3
+        if ( get_bloginfo( 'version' ) < '3.3' )
+            return;
+
+        $screen = get_current_screen();
+        $screen_id = $screen->id;
+
+        // Get pointers
+        $pointers = apply_filters( 'wprss_admin_pointers', array() );
+
+        if ( ! $pointers || ! is_array( $pointers ) )
+            return;
+
+        $dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+        $valid_pointers = array();
+
+        // Check pointers and remove dismissed ones.
+        foreach ( $pointers as $pointer_id => $pointer ) {
+            // Sanity check
+            if ( in_array( $pointer_id, $dismissed ) || empty( $pointer )  || empty( $pointer_id ) || empty( $pointer['target'] ) || empty( $pointer['options'] ) )
+                continue;
+            $pointer['pointer_id'] = $pointer_id;
+            // Add the pointer to $valid_pointers array
+            $valid_pointers['pointers'][] =  $pointer;
+        }
+
+        // No valid pointers? Stop here.
+        if ( empty( $valid_pointers ) )
+            return;
+
+        // Add pointers style to queue.
+        wp_enqueue_style( 'wp-pointer' );
+     
+        // Add pointers script to queue. Add custom script.
+        wp_enqueue_script( 'wprss-pointers', WPRSS_JS . 'pointers.js', array( 'wp-pointer' ) );
+     
+        // Add pointer options to script.
+        wp_localize_script( 'wprss-pointer', 'wprssPointers', $valid_pointers );
+
+        add_action( 'admin_print_footer_scripts', 'wprss_footer_pointer_scripts' );
+    }
+
+
+    /**
+     * Print the scripts for the admin pointers
+     * 
+     * @since 3.6
+     */
+    function wprss_footer_pointer_scripts() {
         ?>
         <script type="text/javascript">
-            /* <![CDATA[ */
-            ( function($) {
-            <?php foreach ( $admin_pointers as $pointer => $array ) : ?>
-                <?php  if ( $array['active'] ) : ?>
-                            $( '<?php echo $array['anchor_id']; ?>' ).pointer( {
-                                content: '<?php echo $array['content']; ?>',
-                                position: {
-                                    edge: '<?php echo $array['edge']; ?>',
-                                    align: '<?php echo $array['align']; ?>'
-                                },
-                                close: function() {
-                                    $.post( ajaxurl, {
-                                        pointer: '<?php echo $pointer; ?>',
-                                        action: 'dismiss-wp-pointer'
-                                    } );
-                                }
-                            } ).pointer( 'open' );
-                <?php endif; ?>
-            <?php endforeach; ?>
-            } )(jQuery);
-            /* ]]> */
-        </script>
+
+            jQuery(document).ready( function($) {
+
+                for( i in wprssPointers.pointers ) {
+                    pointer = wprssPointers.pointers[i];
+
+                    options = $.extend( pointer.options, {
+                        content: pointer.options.content,
+                        position: pointer.options.position,
+                        close: function() {
+                            $.post( ajaxurl, {
+                                pointer: pointer.pointer_id,
+                                action: 'dismiss-wp-pointer'
+                            });
+                        },
+                        buttons: function( event, t ){
+                            btns = jQuery('<div></div>');
+                            for( i in pointer.options.buttons ) {
+                                btn = jQuery('<a id="pointer-close" style="margin-left:5px" class="button-secondary">' + buttons[i] + '</a>');
+                                btn.bind('click.pointer', function () {
+                                    t.element.pointer('close');
+                                });
+                                btns.append( btn );
+                            }
+                            return btns;
+                        }
+                    });
+
+                    $(pointer.target).pointer( options ).pointer('open');
+                }
+
+            });
+
         <?php
     }
 
