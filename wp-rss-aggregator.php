@@ -172,28 +172,29 @@
 
     add_filter( 'wprss_admin_pointers', 'wprss_check_tracking_notice' );
     /**
-     * 
+     * Сhecks the tracking option and if not set, shows a pointer with opt in and out options.
      * 
      * @since 3.6
      */
     function wprss_check_tracking_notice( $pointers ){
-        $tracking_options = wp_parse_args( get_option( 'wprss_tracking' ), wprss_get_default_tracking_settings() );
+        $settings = get_option( 'wprss_settings_general' );
+        $wprss_tracking = ( isset( $settings['tracking'] ) )? $settings['tracking'] : '';
 
-        if ( $tracking_options['tracking_notice'] === '' ) {
+        if ( $wprss_tracking === '' ) {
             $tracking_pointer = array(
                 'wprss_tracking_pointer'    =>  array(
 
                     'target'            =>  '#wpadminbar',
                     'options'           =>  array(
-                        'content'           =>  __( 'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.', 'wprss' ),
+                        'content'           =>  '<h3>' . __( 'Help improve WP RSS Aggregator', 'wprss' ) . '</h3>' . '<p>' . __( 'You\'ve just installed WP RSS Aggregator. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wprss' ) . '</p>',
                         'position'          =>  array(
                             'edge'              =>  'top',
                             'align'             =>  'center',
                         ),
                         'active'            =>  TRUE,
-                        'buttons'           =>  array(
-                            __( 'Allow Tracking', 'wprss' ),
-                            __( 'Do not Tracking', 'wprss' ),
+                        'btns'              =>  array(
+                            'wprss-tracking-opt-out'    =>  __( 'Do not allow tracking', 'wprss' ),
+                            'wprss-tracking-opt-in'    =>  __( 'Allow tracking', 'wprss' ),
                         )
                     )
                 )
@@ -250,7 +251,7 @@
         wp_enqueue_script( 'wprss-pointers', WPRSS_JS . 'pointers.js', array( 'wp-pointer' ) );
      
         // Add pointer options to script.
-        wp_localize_script( 'wprss-pointer', 'wprssPointers', $valid_pointers );
+        wp_localize_script( 'wprss-pointers', 'wprssPointers', $valid_pointers );
 
         add_action( 'admin_print_footer_scripts', 'wprss_footer_pointer_scripts' );
     }
@@ -281,8 +282,8 @@
                         },
                         buttons: function( event, t ){
                             btns = jQuery('<div></div>');
-                            for( i in pointer.options.buttons ) {
-                                btn = jQuery('<a id="pointer-close" style="margin-left:5px" class="button-secondary">' + buttons[i] + '</a>');
+                            for( i in pointer.options.btns ) {
+                                btn = jQuery('<a>').attr('id', i).css('margin-left','5px').text( pointer.options.btns[i] );
                                 btn.bind('click.pointer', function () {
                                     t.element.pointer('close');
                                 });
@@ -295,7 +296,12 @@
                     $(pointer.target).pointer( options ).pointer('open');
                 }
 
+                $('#wprss-tracking-opt-in').addClass('button-primary').click( function(){ wprssTrackingOptAJAX(1); } );
+                $('#wprss-tracking-opt-out').addClass('button-secondary').click( function(){ wprssTrackingOptAJAX(0); } );;
+
             });
+
+        </script>
 
         <?php
     }
@@ -362,7 +368,8 @@
      * @return void     
      */  
     function wprss_presstrends_plugin() {
-        if ( get_option( 'wprss_tracking', 'false' ) !== 'true' ) return;
+        $settings = get_option( 'wprss_settings_general' );
+        if ( ! isset( $settings['tracking'] ) || $settings['tracking'] != 1 ) return;
 
         // PressTrends Account API Key
         $api_key = 'znggu7vk7x2ddsiigkerzsca9q22xu1j53hp';

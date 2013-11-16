@@ -128,4 +128,24 @@
         die();
     }
 
-add_action( 'wp_ajax_wprss_dismiss_addon_notice', 'wprss_dismiss_addon_notice' );
+    add_action( 'wp_ajax_wprss_dismiss_addon_notice', 'wprss_dismiss_addon_notice' );
+
+
+
+
+    /**
+     * AJAX action for the tracking pointer
+     * 
+     * @since 3.6
+     */
+    function wprss_tracking_ajax_opt() {
+        if ( isset( $_POST['opted'] ) ){
+            $opted = $_POST['opted'];
+            $settings = get_option( 'wprss_settings_general' );
+            $settings['tracking'] = $opted;
+            update_option( 'wprss_settings_general', $settings );
+        }
+        die();
+    }
+
+    add_action( 'wp_ajax_wprss_tracking_ajax_opt', 'wprss_tracking_ajax_opt' );

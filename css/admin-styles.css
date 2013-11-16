@@ -220,3 +220,9 @@ select + label.description {
 input#title-limit {
     width: 100px;
 }
+
+.wprss-form-table th,
+.wprss-form-table tr,
+.wprss-form-table td {
+    border: 0 transparent !important;
+}

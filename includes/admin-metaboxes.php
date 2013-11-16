@@ -119,7 +119,7 @@
         wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
 
             // Begin the field table and loop
-            echo '<table class="form-table">';
+            echo '<table class="form-table wprss-form-table">';
 
             foreach ( $meta_fields as $field ) {
 

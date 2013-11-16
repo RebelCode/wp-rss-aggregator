@@ -29,6 +29,10 @@
             case 'no_follow' :
                 $display_settings['follow'] = 'rel="nofollow"';
                 break;
+
+            default:
+                $display_settings['follow'] = '';
+                break;
         }
 
         do_action( 'wprss_get_settings' );

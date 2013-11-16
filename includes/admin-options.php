@@ -121,6 +121,10 @@
                         'label'     =>  __( 'Feed display limit', 'wprss' ),
                         'callback'  =>  'wprss_setting_feed_limit_callback'
                     ),
+                    'tracking'  =>  array(
+                        'label'     =>  __( 'Anonymous tracking', 'wprss' ),
+                        'callback'  =>  'wprss_tracking_callback',
+                    )
                 ),
 
                 'styles'    =>  array(
@@ -157,30 +161,6 @@
                 }
             }
         }
-
-
-
-        register_setting( 
-            'wprss_tracking',                       
-            'wprss_tracking',                        
-            'wprss_tracking_validate' 
-        );
-
-        add_settings_section(
-            'wprss_tracking_section',
-            __( 'Help Improve WP RSS Aggregator', 'wprss' ),
-            'wprss_tracking_section_callback',
-            'wprss_settings_general'
-        );
-
-        add_settings_field(
-            'wprss-settings-tracking',
-            __( 'Anonymous tracking', 'wprss' ),
-            'wprss_tracking_callback',
-            'wprss_settings_general',
-            'wprss_tracking_section'
-        );
-
 
 
         do_action( 'wprss_admin_init' );
@@ -554,10 +534,9 @@
      * @since 3.6
      */
     function wprss_tracking_callback( $args ) {
-        $option = get_option( 'wprss_tracking', array() );
-        $options = wp_parse_args( $options, wprss_get_default_tracking_settings() );
-        echo "<input name='wprss_tracking[use_presstrends]' type='hidden' value='false' />";
-        echo "<input id='tracking' name='wprss_tracking[use_presstrends]' type='checkbox' value='true' " . checked( 'true', $option, false ) . " />";
+        $options = get_option( 'wprss_settings_general' );
+        $tracking = ( isset( $options['tracking'] ) )? $options['tracking'] : 0;
+        echo "<input type='checkbox' id='tracking' name='wprss_settings_general[tracking]' value='1' " . checked( 1, $tracking, false ) . " />";
         echo "<label class='description' for='tracking'>Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.</label>";
         echo "<p class='description'>No sensitive data will be sent.</p>";
     }
@@ -705,5 +684,9 @@
      * @since 3.6
      */
     function wprss_tracking_validate ( $input ) {
-        return $input;
+        $output = $input;
+        if ( ! isset( $input['wprss_tracking'] ) ) {
+            $output['wprss_tracking'] = 0;
+        }
+        return $output;
     }
