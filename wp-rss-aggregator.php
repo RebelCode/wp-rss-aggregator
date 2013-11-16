@@ -360,7 +360,7 @@
     
     
     // PressTrends WordPress Action
-    //add_action( 'admin_init', 'wprss_presstrends_plugin' );  
+    add_action( 'admin_init', 'wprss_presstrends_plugin' );  
     /**
      * Track plugin usage using PressTrends
      * 
