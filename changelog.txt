@@ -1,9 +1,9 @@
-3.6
+3.6 (2013-11-16)
 New Feature: Can set the maximum length for titles. Long titles get trimmed.
 Fixed bug: Fixed errors with undefined indexes for unchecked checkboxes in the settings page.
 Fixed bug: Pagination on front static page was not working.
 
-3.5.2
+3.5.2 (2013-11-11)
 Fixed bug: Invalid feed source url was producing an Undefined method notice.
 Fixed bug: Custom feed was producing a 404 page.
 Fixed bug: Presstrends code firing on admin_init, opt-in implementation coming soon

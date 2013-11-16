@@ -70,9 +70,11 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
-							<h3>Changelog for v3.6</h3>
+							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li></li>
+								<li>New Feature: Can set the maximum length for titles. Long titles get trimmed.</li>
+								<li>Fixed bug: Fixed errors with undefined indexes for unchecked checkboxes in the settings page.</li>
+								<li>Fixed bug: Pagination on front static page was not working.</li>
 							</ul>
 
 						<?php
