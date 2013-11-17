@@ -72,9 +72,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>New Feature: Can set the maximum length for titles. Long titles get trimmed.</li>
-								<li>Fixed bug: Fixed errors with undefined indexes for unchecked checkboxes in the settings page.</li>
-								<li>Fixed bug: Pagination on front static page was not working.</li>
+								<li>Fixed bug: Missing 2nd argument for wprss_shorten_title()</li>
 							</ul>
 
 						<?php

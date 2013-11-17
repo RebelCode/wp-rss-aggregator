@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.7.1
-Stable tag: 3.6
+Stable tag: 3.6.1
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -143,6 +143,9 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 
 == Changelog ==
+
+= 3.6.1 (2013-11-17) =
+* Fixed bug: Missing 2nd argument for wprss_shorten_title()
 
 = 3.6 (2013-11-16) =
 * New Feature: Can set the maximum length for titles. Long titles get trimmed.
