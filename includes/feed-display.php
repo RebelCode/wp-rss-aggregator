@@ -256,7 +256,8 @@
      * 
      * @since 1.0
      */
-    function wprss_shorten_title( $title, $id ) {
+    function wprss_shorten_title( $title, $id = null ) {
+        if ( $id === null ) return $title;
         // Get the option. If does not exist, use 0, which is ignored.
         $general_settings = get_option( 'wprss_settings_general' );
         $title_limit = isset( $general_settings['title_limit'] )? intval( $general_settings['title_limit'] ) : 0;
