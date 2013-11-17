@@ -13,6 +13,11 @@
      */
     function wprss_get_display_settings( $settings ) {
 
+        $display_settings = array(
+            'open'      =>  '',
+            'follow'    =>  ''
+        );
+
         switch ( $settings['open_dd'] ) {
 
             case 'Lightbox' :
