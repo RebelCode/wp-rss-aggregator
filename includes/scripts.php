@@ -41,6 +41,10 @@
             wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
         }
 
+        if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ) {
+            wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-3.8.css' );
+        }
+
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
 

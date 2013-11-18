@@ -45,7 +45,6 @@
                 'show_ui'               => true,
                 'query_var'             => 'feed_source',
                 'menu_position'         => 100,
-                'menu_icon'             => WPRSS_IMG . 'icon-adminmenu16-sprite.png',
                 'show_in_menu'          => true,
                 'show_in_admin_bar'     => true,
                 'rewrite'               => array(
@@ -58,6 +57,10 @@
             )
         );
         
+        if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ) {
+            $feed_args['menu_icon'] = WPRSS_IMG . 'icon-adminmenu16-sprite.png';
+        }
+
         // Register the 'wprss_feed' post type
         register_post_type( 'wprss_feed', $feed_args );
 
