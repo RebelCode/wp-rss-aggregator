@@ -16,6 +16,7 @@
         );
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
         $columns['id'] = __( 'ID', 'wprss' );
+        $columns['state'] = __( 'State', 'wprss' );
         return $columns;
     }    
 
@@ -40,6 +41,29 @@
         case 'id':
           echo esc_html( $post_id );
           break;
+        case 'state':
+            $active = wprss_is_feed_source_active( $post_id );
+            $text       = ( $active )? 'Active' : 'Paused';
+            $button     = ( $active )? 'Pause this feed source' : 'Activate this feed source';
+            $icon       = ( $active )? 'pause' : 'play';
+            $value      = ( $active )? 'paused' : 'active';
+            $indicator  = ( $active )? 'green' : 'grey';
+
+            ?>
+            <p>
+                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php echo $text; ?>">
+                    <i class="fa fa-circle"></i>
+                </span>
+                <input type="hidden" name="wprss-feed-id" value="<?php echo $post_id; ?>" />
+                <input type="hidden" name="wprss-feed-state" value="<?php echo $value; ?>" />
+                <input type="hidden" name="wprss-redirect" value="1" />
+                <button type="submit" class='button-secondary' title="<?php echo $button; ?>">
+                    <i class='fa fa-<?php echo $icon; ?>'></i>
+                </button>
+            </p>
+            <?php
+
+            break;
       }
     }
 
@@ -307,7 +331,7 @@
 
 
 
-    add_action( 'wp_ajax_wprss_fetch_feeds_action', 'wprss_fetch_feeds_action_hook' );
+    add_action( 'wp_ajax_wprss_fetch_feeds_row_action', 'wprss_fetch_feeds_action_hook' );
     /**
      * The AJAX function for the 'Fetch Feed Items' row action on the
      * 'All Feed Sources' page.
@@ -316,7 +340,9 @@
      */
     function wprss_fetch_feeds_action_hook() {
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
-            wprss_fetch_insert_single_feed_items( $_POST['id'] );
+            $id = $_POST['id'];
+            update_post_meta( $id, 'wprss_force_next_fetch', '1' );
+            wprss_fetch_insert_single_feed_items( $id );
             die();
         }
     }

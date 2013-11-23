@@ -6,6 +6,56 @@
      */
 
 
+
+    add_action( 'init', 'wprss_change_feed_state' );
+    /**
+     * Changes the state of a feed source, using POST data
+     * 
+     * @since 3.7
+     */
+    function wprss_change_feed_state() {
+        // If the id and state are in POST data
+        if ( isset( $_GET['wprss-feed-id'] ) && isset( $_GET['wprss-feed-state'] ) ) {
+            // Get the id and state
+            $feed_ID = $_GET['wprss-feed-id'];
+            $new_state = $_GET['wprss-feed-state'];
+            // Update the wprss_state meta of the feed source with the obtained ID, with the obtained new state
+            update_post_meta( $feed_ID, 'wprss_state', $new_state );
+            if ( isset( $_GET['wprss-redirect'] ) && $_GET['wprss-redirect'] == '1' ) {
+                wp_redirect( admin_url( 'edit.php?post_type=wprss_feed' ) );
+            }
+        }
+    }
+
+
+    /**
+     * Returns whether or not a feed source is active.
+     * 
+     * @param $source_id    The ID of the feed soruce
+     * @return boolean
+     * @since 3.7
+     */
+    function wprss_is_feed_source_active( $source_id ) {
+        $state = get_post_meta( $source_id, 'wprss_state', TRUE );
+        return ( $state === '' || $state === 'active' );
+    }
+
+
+    /**
+     * Returns whether or not the feed source will forcefully fetch the next fetch,
+     * ignoring whether or not it is paused or not.
+     * 
+     * @param $source_id    The ID of the feed soruce
+     * @return boolean
+     * @since 3.7
+     */
+    function wprss_feed_source_force_next_fetch( $source_id ) {
+        $force = get_post_meta( $source_id, 'wprss_force_next_fetch', TRUE );
+        return ( $force !== '' || $force == '1' );
+    }
+
+
+
     /**
      * Change the default feed cache recreation period to 2 hours
      *
@@ -387,6 +437,14 @@
 	 * @since 3.2
 	 */
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
+        // Check if the feed source is active.
+        if ( wprss_is_feed_source_active( $feed_ID ) === FALSE && wprss_feed_source_force_next_fetch( $feed_ID ) === FALSE ) {
+            // If it is not active ( paused ), return without fetching the feed items.
+            return;
+        }
+        if ( wprss_feed_source_force_next_fetch( $feed_ID ) ) {
+            delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
+        }
 
         // Get the URL and Feed Limit post meta data
         $feed_url = get_post_meta( $feed_ID, 'wprss_url', true );

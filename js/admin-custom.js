@@ -7,7 +7,7 @@ function fetch_items_row_action_callback(){
     jQuery.post(
         url, 
         {
-            'action': 'wprss_fetch_feeds_action',
+            'action': 'wprss_fetch_feeds_row_action',
             'id':   id
         }, 
         function(response){

@@ -30,6 +30,7 @@
             ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && 
             ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
             wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
+            wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
             wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery') );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
