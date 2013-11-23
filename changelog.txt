@@ -1,4 +1,5 @@
-3.6.1 (2013-11-17)
+3.7 (2013-11-17)
+New Feature: State system - Feed sources can be activated/paused from the "All Feed Sources" table
 Fixed bug: Missing 2nd argument for wprss_shorten_title()
 
 3.6 (2013-11-16)
