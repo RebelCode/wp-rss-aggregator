@@ -229,9 +229,10 @@ input#title-limit {
 
 .wprss-indicator-green,
 .wprss-indicator-grey {
-    font-size: 1.5em;
+    font-size: 1.6em;
     vertical-align: middle;
     margin-right: 10px;
+    line-height: 30px;
 }
 .wprss-indicator-green {
     color: #009922;
