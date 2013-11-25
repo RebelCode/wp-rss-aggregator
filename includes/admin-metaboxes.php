@@ -28,7 +28,16 @@
             'wprss_feed', 
             'side', 
             'high'
-        );         
+        );
+
+         add_meta_box(
+            'wprss-feed-processing-meta', 
+            __( 'Feed Processing', 'wprss' ), 
+            'wprss_feed_processing_meta_box_callback', 
+            'wprss_feed', 
+            'side', 
+            'high'
+        );
 
         add_meta_box(
             'wprss-help-meta',
@@ -220,6 +229,10 @@
             }
         } // end foreach
 
+        $state = ( isset( $_POST['wprss_state'] ) )? $_POST['wprss_state'] : 'active';
+        
+        update_post_meta( $post_id, 'wprss_state', $state );
+
         wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
     } 
 
@@ -268,6 +281,57 @@
 
         else _e( 'No feed URL defined yet', 'wprss' );
     }
+
+
+
+    /**
+     * Renders the Feed Processing metabox
+     * 
+     * @since 3.7
+     */
+    function wprss_feed_processing_meta_box_callback() {
+        global $post;
+        // Get the post meta
+        $state = get_post_meta( $post->ID, 'wprss_state', TRUE );
+
+        // Prepare the states
+        $states = array(
+            'active'    =>  __( 'Active', 'wprss' ),
+            'paused'    =>  __( 'Paused', 'wprss' ),
+        );
+
+        ?>
+
+        <p>
+            <label for="wprss_state">Feed state:</label>
+            <select id="wprss_state" name="wprss_state">
+                <?php foreach( $states as $value => $label ) : ?>
+                    <option value="<?php echo $value; ?>" <?php selected( $state, $value ) ?> ><?php echo $label; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+
+        <p>
+            <label for="">Activate feed: </label>
+            <strong>immediately</strong>
+            <a href="#">Edit</a>
+            <div class="wprss-meta-slider">
+                <?php // datetime fields, OK button, cancel button ?>
+            </div>
+        </p>
+
+        <p>
+            <label for="">Pause feed: </label>
+            <strong>never</strong>
+            <a href="#">Edit</a>
+            <div class="wprss-meta-slider">
+                <?php // datetime fields, OK button, cancel button ?>
+            </div>
+        </p>
+
+        <?php
+    }
+
 
 
     /**     
