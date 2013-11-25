@@ -130,6 +130,23 @@
 		 * @param $outline The outline OPML element
 		 */
 		 private function import_opml_feed( $outline ) {
+		 	// IF the necassary fields are not present in the element
+		 	if ( !isset( $outline['title'] ) && !isset( $outline['xmlUrl'] ) ) {
+		 		// Check if the element is an array
+		 		if ( is_array( $outline ) ) {
+		 			// Treat it as an array of sub <outline> elements
+		 			$inserted_ids = array();
+		 			// Insert all sub outline elements
+		 			foreach ( $outline as $key => $sub_outline ) {
+		 				$inserted_ids[] = $this->import_opml_feed( $sub_outline );
+		 			}
+		 			// Return the inserted IDs
+		 			return $inserted_ids;
+		 		}
+		 		// IF not an array, return NULL
+		 		else return NULL;
+		 	}
+
 		 	// Create an associative array, with the feed's properties
 			$feed = array(
 				'post_title' => $outline['title'],
@@ -176,13 +193,23 @@
 					<tbody>
 						<?php
 							foreach ( $opml->body as $opml_feed ) :
-								$inserted_id = $this->import_opml_feed( $opml_feed );
-						?>
-							<tr>
-								<td><?php echo $inserted_id; ?></td>
-								<td><?php echo $opml_feed['title']; ?> </td>
-								<td><?php echo $opml_feed['xmlUrl']; ?></td>
-							</tr>
+								$inserted_ids = $this->import_opml_feed( $opml_feed );
+								if ( !is_array( $inserted_ids ) ) {
+									$inserted_ids = array( $inserted_ids );
+								}
+								foreach ( $inserted_ids as $inserted_id ) :
+									if ( $inserted_id !== NULL ) :
+										$imported_feed = get_post( $inserted_id, 'ARRAY_A' );
+									?>
+
+										<tr>
+											<td><?php echo $inserted_id; ?></td>
+											<td><?php echo $imported_feed['post_title']; ?> </td>
+											<td><?php echo get_post_meta( $inserted_id, 'wprss_url', TRUE ); ?></td>
+										</tr>
+
+								<?php endif; ?>
+							<?php endforeach; ?>
 						<?php endforeach; ?>
 					</tbody>
 					
