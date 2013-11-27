@@ -78,3 +78,88 @@
 
         return array_merge( $schedules, $frequencies );
     }
+
+
+
+
+    /**
+     * Deletes a custom cron schedule.
+     * 
+     * Credits: WPCrontrol
+     *
+     * @param string $name The internal_name of the schedule to delete.
+     * @since 3.7
+     */
+    function wprss_delete_schedule($name) {
+        $scheds = get_option('crontrol_schedules',array());
+        unset($scheds[$name]);
+        update_option('crontrol_schedules', $scheds);
+    }
+
+
+
+
+    /**
+     * Updates the feed processing cron job schedules.
+     * Removes the current schedules and adds the ones in the feed source's meta.
+     * 
+     * @param $feed_id  The id of the wprss_feed
+     */
+    function wprss_update_feed_processing_schedules( $feed_id ) {
+        // Get the new feed processing schedules
+        $activate = get_post_meta( $feed_id, 'wprss_activate_feed', TRUE );
+        $pause = get_post_meta( $feed_id, 'wprss_pause_feed', TRUE );
+        // Convert the meta data values to time stamps
+        $new_activate_time = wprss_strtotime( $activate, true ); //. ' 20:51:00' );
+        $new_pause_time = wprss_strtotime( $pause ); //. ' 20:52:00' );
+        file_put_contents( 'C:\log.txt', "$activate => $new_activate_time\n$pause => $new_pause_time" );
+
+        $schedule_args = array( $feed_id );
+
+        // Get the current schedules
+        $activate_feed_timestamp = wp_next_scheduled( 'wprss_activate_feed_schedule_hook', $schedule_args );
+        $pause_feed_timestamp = wp_next_scheduled( 'wprss_pause_feed_schedule_hook', $schedule_args );
+        
+        // If a previous schedules exist, unschedule them
+        if ( $activate_feed_timestamp !== FALSE ) {
+            wp_unschedule_event( $activate_feed_timestamp, 'wprss_activate_feed_schedule_hook', $schedule_args );
+        }
+        if ( $pause_feed_timestamp !== FALSE ) {
+            wp_unschedule_event( $pause_feed_timestamp, 'wprss_pause_feed_schedule_hook', $schedule_args );
+        }
+
+        wp_schedule_single_event( $new_activate_time, 'wprss_activate_feed_schedule_hook', $schedule_args );
+        wp_schedule_single_event( $new_pause_time, 'wprss_pause_feed_schedule_hook', $schedule_args );
+    }
+
+
+    add_action( 'wprss_activate_feed_schedule_hook', 'wprss_activate_feed_source', 10, 1 );
+    /**
+     * Activates the feed source. Runs on a schedule.
+     * 
+     * @param $feed_id  The of of the wprss_feed
+     * @since 3.7
+     */
+    function wprss_activate_feed_source( $feed_id ) {
+        update_post_meta( $feed_id, 'wprss_state', 'active' );
+    }
+
+
+    add_action( 'wprss_pause_feed_schedule_hook', 'wprss_pause_feed_source', 10 , 1 );
+    /**
+     * Pauses the feed source. Runs on a schedule.
+     * 
+     * @param $feed_id  The of of the wprss_feed
+     * @since 3.7
+     */
+    function wprss_pause_feed_source( $feed_id ) {
+        update_post_meta( $feed_id, 'wprss_state', 'paused' );
+    }
+
+
+
+    function wprss_strtotime( $str, $b = false ){
+        $parts = explode( '/', $str );
+        $m = ( $b )? '03' : '04';
+        return mktime( '21', $m, '00', $parts[1], $parts[0], $parts[2] );
+    }

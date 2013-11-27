@@ -237,6 +237,9 @@
         update_post_meta( $post_id, 'wprss_activate_feed', $activate );
         update_post_meta( $post_id, 'wprss_pause_feed', $pause );
 
+        // Update the schedules
+        wprss_update_feed_processing_schedules( $post_id );
+
         wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
     } 
 
