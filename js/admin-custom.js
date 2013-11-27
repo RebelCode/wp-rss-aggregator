@@ -26,7 +26,11 @@ function fetch_items_row_action_callback(){
 jQuery(window).load( function(){
 
     // Set datepickers
+    jQuery.datepicker.setDefaults({
+        dateFormat: 'dd/mm/yy'
+    });
     jQuery('.wprss-datepicker').datepicker();
+    jQuery('.wprss-datepicker-from-today').datepicker({ minDate: 0 });
 
 	// On TAB pressed when on title input field, go to URL input field
 	jQuery('input#title').on( 'keydown', function( event ) {    
@@ -118,21 +122,27 @@ jQuery(window).load( function(){
                     slider.slideDown().addClass('wprss-open');
             });
 
+            // Create the OK Button
             var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text('OK').click( function(){
+                // On click, get the value of the field
                 val = field.val();
+                // If empty, use the default value
                 if ( val === '' ) val = defaultValue;
+                // Set the text of the viewer to the value
                 viewer.text( val );
             });
+            // Create the Cancel Button
             var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel');
 
+            // Add the buttons and a break tag before the description label
             okBtn.insertBefore( label );
             cancelBtn.insertBefore( label );
             $('<br>').insertBefore( label );
+
+            // Make both buttons close the div
             slider.find('.wprss-slider-button').click( function(){
                 slider.slideUp().removeClass('wprss-open');
             });
-
-            $(this).slideUp();
         });
 
     });

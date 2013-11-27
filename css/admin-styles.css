@@ -242,7 +242,16 @@ input#title-limit {
 }
 
 
+.wprss-meta-slider {
+    display: none;
+}
+
 .wprss-slider-button {
     cursor: pointer;
     margin-right: 8px !important;
+}
+
+#wprss_activate_feed,
+#wprss_pause_feed {
+    width: 120px;
 }
