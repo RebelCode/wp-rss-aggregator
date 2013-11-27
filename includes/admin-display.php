@@ -54,10 +54,9 @@
                 <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php echo $text; ?>">
                     <i class="fa fa-circle"></i>
                 </span>
-                <input type="hidden" name="wprss-feed-id" value="<?php echo $post_id; ?>" />
                 <input type="hidden" name="wprss-feed-state" value="<?php echo $value; ?>" />
                 <input type="hidden" name="wprss-redirect" value="1" />
-                <button type="submit" class='button-secondary' title="<?php echo $button; ?>">
+                <button type="submit" class='button-secondary' title="<?php echo $button; ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
                     <i class='fa fa-<?php echo $icon; ?>'></i>
                 </button>
             </p>
