@@ -255,3 +255,7 @@ input#title-limit {
 #wprss_pause_feed {
     width: 120px;
 }
+
+.wprss-date-error {
+    background: rgba( 245, 45, 45, 0.6 );
+}

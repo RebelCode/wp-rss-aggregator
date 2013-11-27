@@ -25,12 +25,35 @@ function fetch_items_row_action_callback(){
 
 jQuery(window).load( function(){
 
+
+    function wprssParseDate(str){
+        var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+        if( t!==null ){
+            var d=+t[1], m=+t[2], y=+t[3];
+            var date = new Date(y,m-1,d);
+            if( date.getFullYear() === y && date.getMonth() === m-1 ){
+                return date;   
+            }
+        }
+        return null;
+    }
+
+
+    var WPRSS_DATE_FORMAT = 'dd/mm/yy';
+
     // Set datepickers
     jQuery.datepicker.setDefaults({
-        dateFormat: 'dd/mm/yy'
+        dateFormat: WPRSS_DATE_FORMAT
     });
     jQuery('.wprss-datepicker').datepicker();
     jQuery('.wprss-datepicker-from-today').datepicker({ minDate: 0 });
+
+    jQuery('.wprss-datepicker, .wprss-datepicker-from-today').focusout( function(){
+        val = jQuery(this).val();
+        if ( val !== '' && wprssParseDate( val ) === null ) {
+            jQuery(this).addClass('wprss-date-error');
+        } else jQuery(this).removeClass('wprss-date-error');
+    });
 
 	// On TAB pressed when on title input field, go to URL input field
 	jQuery('input#title').on( 'keydown', function( event ) {    
