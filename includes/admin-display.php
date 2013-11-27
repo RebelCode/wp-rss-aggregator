@@ -16,7 +16,9 @@
         );
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
         $columns['id'] = __( 'ID', 'wprss' );
-        $columns['state'] = __( 'State', 'wprss' );
+        if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
+            $columns['state'] = __( 'State', 'wprss' );
+        }
         return $columns;
     }    
 
