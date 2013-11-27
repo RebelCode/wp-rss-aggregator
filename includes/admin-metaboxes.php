@@ -313,19 +313,21 @@
 
         <p>
             <label for="">Activate feed: </label>
-            <strong>immediately</strong>
+            <strong id="wprss-activate-feed-viewer">immediately</strong>
             <a href="#">Edit</a>
-            <div class="wprss-meta-slider">
-                <?php // datetime fields, OK button, cancel button ?>
+            <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="immediately">
+                <input class="wprss-datepicker" name="wprss_activate_feed" value="<?php // @todo insert value ?>" />
+                <label class="description">Leave blank to activate the feed immediately.</label>
             </div>
         </p>
 
         <p>
             <label for="">Pause feed: </label>
-            <strong>never</strong>
+            <strong id="wprss-pause-feed-viewer">never</strong>
             <a href="#">Edit</a>
-            <div class="wprss-meta-slider">
-                <?php // datetime fields, OK button, cancel button ?>
+            <div class="wprss-meta-slider" data-collapse-viewer="wprss-pause-feed-viewer" data-default-value="never">
+                <input class="wprss-datepicker" name="wprss_pause_feed" value="<?php // @todo insert value ?>" />
+                <label class="description">Leave blank to never pause the feed.</label>
             </div>
         </p>
 

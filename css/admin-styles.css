@@ -240,3 +240,9 @@ input#title-limit {
 .wprss-indicator-grey {
     color: #888;
 }
+
+
+.wprss-slider-button {
+    cursor: pointer;
+    margin-right: 8px !important;
+}

@@ -25,6 +25,9 @@ function fetch_items_row_action_callback(){
 
 jQuery(window).load( function(){
 
+    // Set datepickers
+    jQuery('.wprss-datepicker').datepicker();
+
 	// On TAB pressed when on title input field, go to URL input field
 	jQuery('input#title').on( 'keydown', function( event ) {    
         
@@ -88,4 +91,49 @@ jQuery(window).load( function(){
         
     }
 
+
 });
+
+
+/**
+ * WP-like collapsing settings in metabox 
+ */
+(function($){
+    $(window).load( function(){
+
+        // Initialize all collapsable meta settings
+        $('.wprss-meta-slider').each(function(){
+            // Get all required elements
+            var slider = $(this);
+            var viewerID = slider.attr('data-collapse-viewer');
+            var viewer = $( '#' + viewerID );
+            var editLink = $(this).prev();
+            var field = slider.find('*').first();
+            var label = slider.find('label.description');
+            var defaultValue = slider.attr('data-default-value');
+            // Edit link opens the settings
+            editLink.click(function(){
+                // If not open already, open it
+                if ( !slider.hasClass('wprss-open') )
+                    slider.slideDown().addClass('wprss-open');
+            });
+
+            var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text('OK').click( function(){
+                val = field.val();
+                if ( val === '' ) val = defaultValue;
+                viewer.text( val );
+            });
+            var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel');
+
+            okBtn.insertBefore( label );
+            cancelBtn.insertBefore( label );
+            $('<br>').insertBefore( label );
+            slider.find('.wprss-slider-button').click( function(){
+                slider.slideUp().removeClass('wprss-open');
+            });
+
+            $(this).slideUp();
+        });
+
+    });
+})(jQuery);
