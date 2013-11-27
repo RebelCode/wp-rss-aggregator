@@ -6,7 +6,7 @@
      */ 
 
 
-    add_filter( 'init', 'wprss_addfeed_add_feed' );
+    add_action( 'init', 'wprss_addfeed_add_feed' );
     /**
      * Adds feed named 'wprss'
      * 
@@ -19,7 +19,7 @@
         }
         else $url = 'wprss';
         add_feed( $url, 'wprss_addfeed_do_feed' );
-        flush_rewrite_rules();
+        flush_rewrite_rules( FALSE );
     }
 
 
