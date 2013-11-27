@@ -230,8 +230,12 @@
         } // end foreach
 
         $state = ( isset( $_POST['wprss_state'] ) )? $_POST['wprss_state'] : 'active';
+        $activate = ( isset( $_POST['wprss_activate_feed'] ) )? $_POST['wprss_activate_feed'] : '';
+        $pause = ( isset( $_POST['wprss_pause_feed'] ) )? $_POST['wprss_pause_feed'] : '';
         
         update_post_meta( $post_id, 'wprss_state', $state );
+        update_post_meta( $post_id, 'wprss_activate_feed', $activate );
+        update_post_meta( $post_id, 'wprss_pause_feed', $pause );
 
         wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
     } 
@@ -293,6 +297,12 @@
         global $post;
         // Get the post meta
         $state = get_post_meta( $post->ID, 'wprss_state', TRUE );
+        $activate = get_post_meta( $post->ID, 'wprss_activate_feed', TRUE );
+        $pause = get_post_meta( $post->ID, 'wprss_pause_feed', TRUE );
+
+        // Set default strings for activate and pause times
+        $default_activate = 'immediately';
+        $default_pause = 'never';
 
         // Prepare the states
         $states = array(
