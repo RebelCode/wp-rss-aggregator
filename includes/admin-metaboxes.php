@@ -230,8 +230,8 @@
         } // end foreach
 
         $state = ( isset( $_POST['wprss_state'] ) )? $_POST['wprss_state'] : 'active';
-        $activate = ( isset( $_POST['wprss_activate_feed'] ) )? $_POST['wprss_activate_feed'] : '';
-        $pause = ( isset( $_POST['wprss_pause_feed'] ) )? $_POST['wprss_pause_feed'] : '';
+        $activate = ( isset( $_POST['wprss_activate_feed'] ) )? stripslashes( $_POST['wprss_activate_feed'] ) : '';
+        $pause = ( isset( $_POST['wprss_pause_feed'] ) )? stripslashes( $_POST['wprss_pause_feed'] ) : '';
         
         update_post_meta( $post_id, 'wprss_state', $state );
         update_post_meta( $post_id, 'wprss_activate_feed', $activate );
