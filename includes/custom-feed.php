@@ -8,7 +8,7 @@
 
     add_action( 'init', 'wprss_addfeed_add_feed' );
     /**
-     * Adds feed named 'wprss'
+     * Adds the custom feed, as specified by the user in the general settings.
      * 
      * @since 3.3
      */
@@ -18,8 +18,38 @@
             $url = $general_settings['custom_feed_url'];
         }
         else $url = 'wprss';
+
+        // Add the feed
         add_feed( $url, 'wprss_addfeed_do_feed' );
-        flush_rewrite_rules( FALSE );
+
+        // Whether or not the feed is already registered or not
+        $registered = FALSE;
+        
+        // Get all registered rewrite rules
+        $rules = get_option( 'rewrite_rules' );
+
+        // If no rules exist, then it is not registered
+        if ( !is_array( $rules ) ) {
+            $registered = FALSE;
+        }
+        // If there are exisiting rules
+        else {
+            // Get all the array keys that match the given pattern
+            // The resulting array will only contain the second part of each matching key ( $matches[1] )
+            $feeds = array_keys( $rules, 'index.php?&feed=$matches[1]' );
+            // Check if the rewrite rule for the custom feed is already registered
+            foreach( $feeds as $feed ) {
+                if ( strpos( $feed, $url ) !== FALSE ) {
+                    $registered = TRUE;
+                }
+            }
+        }
+
+        // If not registered, flush the rewrite rules
+        if ( ! $registered ) {
+            flush_rewrite_rules();
+        }
+
     }
 
 
