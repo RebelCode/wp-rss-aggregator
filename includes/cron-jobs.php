@@ -109,27 +109,33 @@
         // Get the new feed processing schedules
         $activate = get_post_meta( $feed_id, 'wprss_activate_feed', TRUE );
         $pause = get_post_meta( $feed_id, 'wprss_pause_feed', TRUE );
-        // Convert the meta data values to time stamps
-        $new_activate_time = wprss_strtotime( $activate );
-        $new_pause_time = wprss_strtotime( $pause );
-        file_put_contents('C:\log.txt', print_r( array( $new_activate_time, $new_pause_time ), TRUE ) );
 
         $schedule_args = array( $feed_id );
 
-        // Get the current schedules
-        $activate_feed_timestamp = wp_next_scheduled( 'wprss_activate_feed_schedule_hook', $schedule_args );
-        $pause_feed_timestamp = wp_next_scheduled( 'wprss_pause_feed_schedule_hook', $schedule_args );
-        
-        // If a previous schedules exist, unschedule them
-        if ( $activate_feed_timestamp !== FALSE ) {
-            wp_unschedule_event( $activate_feed_timestamp, 'wprss_activate_feed_schedule_hook', $schedule_args );
-        }
-        if ( $pause_feed_timestamp !== FALSE ) {
-            wp_unschedule_event( $pause_feed_timestamp, 'wprss_pause_feed_schedule_hook', $schedule_args );
+        if ( $activate !== '' ) {
+            // Convert the meta data values to time stamps
+            $new_activate_time = wprss_strtotime( $activate );
+            // Get the current schedules
+            $activate_feed_timestamp = wp_next_scheduled( 'wprss_activate_feed_schedule_hook', $schedule_args );
+            // If a previous schedule exists, unschedule it
+            if ( $activate_feed_timestamp !== FALSE ) {
+                wp_unschedule_event( $activate_feed_timestamp, 'wprss_activate_feed_schedule_hook', $schedule_args );
+            }
+            wp_schedule_single_event( $new_activate_time, 'wprss_activate_feed_schedule_hook', $schedule_args );
         }
 
-        wp_schedule_single_event( $new_activate_time, 'wprss_activate_feed_schedule_hook', $schedule_args );
-        wp_schedule_single_event( $new_pause_time, 'wprss_pause_feed_schedule_hook', $schedule_args );
+        if ( $pause !== '' ){
+            // Convert the meta data values to time stamps
+            $new_pause_time = wprss_strtotime( $pause );
+            // Get the current schedules
+            $pause_feed_timestamp = wp_next_scheduled( 'wprss_pause_feed_schedule_hook', $schedule_args );
+            // If a previous schedule exists, unschedule it
+            if ( $pause_feed_timestamp !== FALSE ) {
+                wp_unschedule_event( $pause_feed_timestamp, 'wprss_pause_feed_schedule_hook', $schedule_args );
+            }
+            wp_schedule_single_event( $new_pause_time, 'wprss_pause_feed_schedule_hook', $schedule_args );
+        }
+        
     }
 
 
@@ -142,6 +148,7 @@
      */
     function wprss_activate_feed_source( $feed_id ) {
         update_post_meta( $feed_id, 'wprss_state', 'active' );
+        update_post_meta( $feed_id, 'wprss_activate_feed', '' );
     }
 
 
@@ -154,6 +161,7 @@
      */
     function wprss_pause_feed_source( $feed_id ) {
         update_post_meta( $feed_id, 'wprss_state', 'paused' );
+        update_post_meta( $feed_id, 'wprss_pause_feed', '' );
     }
 
 

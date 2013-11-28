@@ -332,14 +332,16 @@
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="<?php echo $default_activate; ?>">
                 <input id="wprss_activate_feed" class="wprss-datetimepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
+
                 <label class="description" for="wprss_activate_feed">
                     Leave blank to activate the feed immediately.
                 </label>
+
                 <br/><br/>
+
                 <span class="description">
                     <b>Note:</b> WordPress uses UTC time for schedules, not local time. Current UTC time is: <code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
                 </span>
-                <br/><br/>
             </div>
         </div>
 

@@ -175,8 +175,7 @@ jQuery(window).load( function(){
             var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel');
 
             // Add the buttons and a break tag before the description label
-            okBtn.appendTo( slider );
-            cancelBtn.appendTo( slider );
+            slider.append( $('<br>') ).append( $('<br>') ).append( okBtn ).append( cancelBtn );
 
             // Make both buttons close the div
             slider.find('.wprss-slider-button').click( function(){
