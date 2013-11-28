@@ -70,10 +70,18 @@
 							<p>Plus we've got some other add-ons already being developed!</p>
 							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
+
+
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
 								<li>Fixed bug: Missing 2nd argument for wprss_shorten_title()</li>
+								<li>New Feature: State system - Feed sources can be activated/paused.</li>
+								<li>New Feature: State system - Feed sources can be set to activate or pause themselves at a specific date and time.</li>
+								<li>Enhanced: Added compatibility with nested outline elements in OPML files.</li>
+								<li>Enhanced: Admin menu icon image will change into a Dashicon, when WordPress is updated to 3.8 (Decemeber 2013).</li>
+								<li>Fixed bug: Custom Post types were breaking when the plugin is activated.</li>
 							</ul>
+
 
 						<?php
 						break;

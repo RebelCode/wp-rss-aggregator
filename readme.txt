@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.7.1
-Stable tag: 3.6.1
+Stable tag: 3.7
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -143,6 +143,13 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 
 == Changelog ==
+
+= 3.7 (2013-11-28) =
+* New Feature: State system - Feed sources can be activated/paused.
+* New Feature: State system - Feed sources can be set to activate or pause themselves at a specific date and time.
+* Enhanced: Added compatibility with nested outline elements in OPML files.
+* Enhanced: Admin menu icon image will change into a Dashicon, when WordPress is updated to 3.8 (Decemeber 2013).
+* Fixed bug: Custom Post types were breaking when the plugin is activated.
 
 = 3.6.1 (2013-11-17) =
 * Fixed bug: Missing 2nd argument for wprss_shorten_title()
