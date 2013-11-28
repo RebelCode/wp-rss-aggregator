@@ -329,7 +329,7 @@
             <strong id="wprss-activate-feed-viewer"><?php echo ( ( $activate !== '' )? $activate : $default_activate ); ?></strong>
             <a href="#">Edit</a>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="<?php echo $default_activate; ?>">
-                <input id="wprss_activate_feed" class="wprss-datepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
+                <input id="wprss_activate_feed" class="wprss-datetimepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
                 <label class="description" for="wprss_activate_feed">Leave blank to activate the feed immediately.</label>
             </div>
         </p>
@@ -339,7 +339,7 @@
             <strong id="wprss-pause-feed-viewer"><?php echo ( ( $pause !== '' )? $pause : $default_pause ); ?></strong>
             <a href="#">Edit</a>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-pause-feed-viewer" data-default-value="<?php echo $default_pause; ?>">
-                <input id="wprss_pause_feed" class="wprss-datepicker-from-today" name="wprss_pause_feed" value="<?php echo $pause; ?>" />
+                <input id="wprss_pause_feed" class="wprss-datetimepicker-from-today" name="wprss_pause_feed" value="<?php echo $pause; ?>" />
                 <label class="description" for="wprss_pause_feed">Leave blank to never pause the feed.</label>
             </div>
         </p>

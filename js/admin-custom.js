@@ -40,13 +40,18 @@ jQuery(window).load( function(){
 
 
     var WPRSS_DATE_FORMAT = 'dd/mm/yy';
+    var WPRSS_TIME_FORMAT = 'HH:mm:ss';
 
     // Set datepickers
     jQuery.datepicker.setDefaults({
-        dateFormat: WPRSS_DATE_FORMAT
+        dateFormat: WPRSS_DATE_FORMAT,
     });
-    jQuery('.wprss-datepicker').datepicker();
-    jQuery('.wprss-datepicker-from-today').datepicker({ minDate: 0 });
+    jQuery.timepicker.setDefaults({
+        controlType: 'slider',
+        timeFormat: WPRSS_TIME_FORMAT,
+    });
+    jQuery('.wprss-datetimepicker').datetimepicker();
+    jQuery('.wprss-datetimepicker-from-today').datetimepicker({ minDate: 0 });
 
     jQuery('.wprss-datepicker, .wprss-datepicker-from-today').focusout( function(){
         val = jQuery(this).val();
