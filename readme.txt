@@ -14,7 +14,7 @@ Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted 
 
 WP RSS Aggregator is the most comprehensive and elegant RSS feed solution for WordPress.
 
-The original plugin for importing, merging and displaying RSS and Atom feeds on your WordPress site.
+The original and premier plugin for importing, merging and displaying RSS and Atom feeds on your WordPress site.
 
 With WP RSS Aggregator, you can:
 
@@ -30,6 +30,7 @@ __More Features__:
 * Export a custom RSS feed based on your feed sources
 * Pagination
 * Set the feed import time interval
+* Scheduling of feed imports by feed source
 * Various shortcode parameters you can use to further customize the output
 * Choose whether to show/hide sources and dates
 * Choose the date format
@@ -46,7 +47,7 @@ __More Features__:
 = Premium Add-Ons =	
 Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/). 
 
-* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import feeds into post or custom post types. Populate a website in minutes (autoblog).
+* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS feeds into posts or custom post types. Populate a website in minutes (autoblog).
 * [Keyword Filtering](http://www.wprssaggregator.com/extensions/keyword-filtering) - filter imported feeds based on keywords, so you only get items you're interested in.
 * [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) - display excerpts and thumbnails together with the title, date and source.
 * [Categories](http://www.wprssaggregator.com/extensions/categories) - categorise your feed sources and display items from a particular category at will within your site.
