@@ -315,34 +315,51 @@
 
         ?>
 
-        <p>
+        <div class="wprss-meta-side-setting">
             <label for="wprss_state">Feed state:</label>
             <select id="wprss_state" name="wprss_state">
                 <?php foreach( $states as $value => $label ) : ?>
                     <option value="<?php echo $value; ?>" <?php selected( $state, $value ) ?> ><?php echo $label; ?></option>
                 <?php endforeach; ?>
             </select>
-        </p>
+        </div>
 
-        <p>
-            <label for="">Activate feed: </label>
-            <strong id="wprss-activate-feed-viewer"><?php echo ( ( $activate !== '' )? $activate : $default_activate ); ?></strong>
-            <a href="#">Edit</a>
+        <div class="wprss-meta-side-setting">
+            <p>
+                <label for="">Activate feed: </label>
+                <strong id="wprss-activate-feed-viewer"><?php echo ( ( $activate !== '' )? $activate : $default_activate ); ?></strong>
+                <a href="#">Edit</a>
+            </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="<?php echo $default_activate; ?>">
                 <input id="wprss_activate_feed" class="wprss-datetimepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
-                <label class="description" for="wprss_activate_feed">Leave blank to activate the feed immediately.</label>
+                <label class="description" for="wprss_activate_feed">
+                    Leave blank to activate the feed immediately.
+                </label>
+                <br/><br/>
+                <span class="description">
+                    <b>Note:</b> WordPress uses UTC time for schedules, not local time. Current UTC time is: <code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
+                </span>
+                <br/><br/>
             </div>
-        </p>
+        </div>
 
-        <p>
-            <label for="">Pause feed: </label>
-            <strong id="wprss-pause-feed-viewer"><?php echo ( ( $pause !== '' )? $pause : $default_pause ); ?></strong>
-            <a href="#">Edit</a>
+        <div class="wprss-meta-side-setting">
+            <p>
+                <label for="">Pause feed: </label>
+                <strong id="wprss-pause-feed-viewer"><?php echo ( ( $pause !== '' )? $pause : $default_pause ); ?></strong>
+                <a href="#">Edit</a>
+            </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-pause-feed-viewer" data-default-value="<?php echo $default_pause; ?>">
                 <input id="wprss_pause_feed" class="wprss-datetimepicker-from-today" name="wprss_pause_feed" value="<?php echo $pause; ?>" />
-                <label class="description" for="wprss_pause_feed">Leave blank to never pause the feed.</label>
+                <label class="description" for="wprss_pause_feed">
+                    Leave blank to never pause the feed.
+                </label>
+                <br/><br/>
+                <span class="description">
+                    <b>Note:</b> WordPress uses UTC time for schedules, not local time. Current UTC time is: <code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
+                </span>
             </div>
-        </p>
+        </div>
 
         <?php
     }

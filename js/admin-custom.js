@@ -41,6 +41,15 @@ jQuery(window).load( function(){
 
     var WPRSS_DATE_FORMAT = 'dd/mm/yy';
     var WPRSS_TIME_FORMAT = 'HH:mm:ss';
+    var WPRSS_NOW = new Date();
+    var WPRSS_NOW_UTC = new Date(
+        WPRSS_NOW.getUTCFullYear(),
+        WPRSS_NOW.getUTCMonth(),
+        WPRSS_NOW.getUTCDate(),
+        WPRSS_NOW.getUTCHours(),
+        WPRSS_NOW.getUTCMinutes(),
+        WPRSS_NOW.getUTCSeconds()
+    );
 
     // Set datepickers
     jQuery.datepicker.setDefaults({
@@ -48,10 +57,12 @@ jQuery(window).load( function(){
     });
     jQuery.timepicker.setDefaults({
         controlType: 'slider',
+        timezone: 0,
         timeFormat: WPRSS_TIME_FORMAT,
     });
     jQuery('.wprss-datetimepicker').datetimepicker();
-    jQuery('.wprss-datetimepicker-from-today').datetimepicker({ minDate: 0 });
+    jQuery('.wprss-datetimepicker-from-today').datetimepicker({ minDate: WPRSS_NOW_UTC });
+
 
     jQuery('.wprss-datepicker, .wprss-datepicker-from-today').focusout( function(){
         val = jQuery(this).val();
@@ -139,15 +150,16 @@ jQuery(window).load( function(){
             var slider = $(this);
             var viewerID = slider.attr('data-collapse-viewer');
             var viewer = $( '#' + viewerID );
-            var editLink = $(this).prev();
+            var editLink = viewer.next();
             var field = slider.find('*').first();
             var label = slider.find('label.description');
             var defaultValue = slider.attr('data-default-value');
             // Edit link opens the settings
-            editLink.click(function(){
+            editLink.click(function( e ){
                 // If not open already, open it
                 if ( !slider.hasClass('wprss-open') )
                     slider.slideDown().addClass('wprss-open');
+                e.preventDefault();
             });
 
             // Create the OK Button
@@ -163,9 +175,8 @@ jQuery(window).load( function(){
             var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel');
 
             // Add the buttons and a break tag before the description label
-            okBtn.insertBefore( label );
-            cancelBtn.insertBefore( label );
-            $('<br>').insertBefore( label );
+            okBtn.appendTo( slider );
+            cancelBtn.appendTo( slider );
 
             // Make both buttons close the div
             slider.find('.wprss-slider-button').click( function(){

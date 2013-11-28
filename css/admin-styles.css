@@ -244,6 +244,7 @@ input#title-limit {
 
 .wprss-meta-slider {
     display: none;
+    margin-top: 5px;
 }
 
 .wprss-slider-button {
@@ -253,9 +254,29 @@ input#title-limit {
 
 #wprss_activate_feed,
 #wprss_pause_feed {
-    width: 120px;
+    display: block;
 }
 
 .wprss-date-error {
     background: rgba( 245, 45, 45, 0.6 );
+}
+
+div.wprss-meta-side-setting {
+    display: block;
+    padding: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+div.wprss-meta-side-setting > p {
+    margin: 2px 0;
+}
+div.wprss-meta-side-setting > p > label {
+    vertical-align: baseline;
+}
+div.wprss-meta-side-setting a.wprss-slider-button {
+    vertical-align: middle;
+}
+
+div.inside .wprss-meta-side-setting:last-child {
+    border-bottom: 0 solid transparent;
 }

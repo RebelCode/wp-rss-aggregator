@@ -110,9 +110,9 @@
         $activate = get_post_meta( $feed_id, 'wprss_activate_feed', TRUE );
         $pause = get_post_meta( $feed_id, 'wprss_pause_feed', TRUE );
         // Convert the meta data values to time stamps
-        $new_activate_time = wprss_strtotime( $activate, true ); //. ' 20:51:00' );
-        $new_pause_time = wprss_strtotime( $pause ); //. ' 20:52:00' );
-        file_put_contents( 'C:\log.txt', "$activate => $new_activate_time\n$pause => $new_pause_time" );
+        $new_activate_time = wprss_strtotime( $activate );
+        $new_pause_time = wprss_strtotime( $pause );
+        file_put_contents('C:\log.txt', print_r( array( $new_activate_time, $new_pause_time ), TRUE ) );
 
         $schedule_args = array( $feed_id );
 
@@ -158,8 +158,9 @@
 
 
 
-    function wprss_strtotime( $str, $b = false ){
-        $parts = explode( '/', $str );
-        $m = ( $b )? '03' : '04';
-        return mktime( '21', $m, '00', $parts[1], $parts[0], $parts[2] );
+    function wprss_strtotime( $str ){
+        $parts = explode(' ', $str);
+        $date = explode( '/', $parts[0] );
+        $time = explode( ':', $parts[1] );
+        return mktime( $time[0], $time[1], $time[2], $date[1], $date[0], $date[2] );
     }
