@@ -74,7 +74,6 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>Fixed bug: Missing 2nd argument for wprss_shorten_title()</li>
 								<li>New Feature: State system - Feed sources can be activated/paused.</li>
 								<li>New Feature: State system - Feed sources can be set to activate or pause themselves at a specific date and time.</li>
 								<li>Enhanced: Added compatibility with nested outline elements in OPML files.</li>
