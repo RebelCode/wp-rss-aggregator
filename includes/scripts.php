@@ -17,22 +17,23 @@
         // Only load scripts if we are on this plugin's options or settings pages (admin)
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' 
             || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' ) ) {        
-            wp_enqueue_style( 'styles', WPRSS_CSS . 'admin-styles.css' );
+            wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
         } 
 
         $screen = get_current_screen();
 
-        wp_enqueue_script( 'admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
-        wp_enqueue_style( 'admin-editor-styles', WPRSS_CSS . 'admin-editor.css' );
-        wp_enqueue_style( 'admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
+        wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
+        wp_enqueue_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css' );
+        wp_enqueue_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
 
         if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && 
             ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && 
             ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
-            wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
+            wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
-            wp_enqueue_script( 'admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker') );
-            wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+            wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker') );
+            wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
+            wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
@@ -40,11 +41,11 @@
         } 
 
         else if ( 'dashboard_page_wprss-welcome' === $screen->base ) {
-            wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-styles.css' );
+            wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
         }
 
         if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ) {
-            wp_enqueue_style( 'admin-styles', WPRSS_CSS . 'admin-3.8.css' );
+            wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-3.8.css' );
         }
 
         do_action( 'wprss_admin_scripts_styles' );
