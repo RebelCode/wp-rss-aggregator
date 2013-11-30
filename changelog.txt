@@ -1,3 +1,6 @@
+3.7.1
+Fixed bug: str_pos errors appear when custom feed url is left empty.
+
 3.7 (2013-11-28)
 New Feature: State system - Feed sources can be activated/paused.
 New Feature: State system - Feed sources can be set to activate or pause themselves at a specific date and time.
