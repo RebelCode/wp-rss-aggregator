@@ -1,5 +1,6 @@
 3.7.1
 Fixed bug: str_pos errors appear when custom feed url is left empty.
+Fuxed bug: Some options were producing undefined index errors.
 
 3.7 (2013-11-28)
 New Feature: State system - Feed sources can be activated/paused.
