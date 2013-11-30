@@ -228,6 +228,7 @@ input#title-limit {
 }
 
 .wprss-indicator-green,
+.wprss-indicator-red,
 .wprss-indicator-grey {
     font-size: 1.6em;
     vertical-align: middle;
@@ -239,6 +240,9 @@ input#title-limit {
 }
 .wprss-indicator-grey {
     color: #888;
+}
+.wprss-indicator-red {
+    color: #EB442A;
 }
 
 
