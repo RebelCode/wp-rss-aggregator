@@ -17,7 +17,10 @@
         if ( !empty( $general_settings ) && isset( $general_settings['custom_feed_url'] ) && !empty( $general_settings['custom_feed_url'] ) ) {
             $url = $general_settings['custom_feed_url'];
         }
-        else $url = 'wprss';
+        else {
+            $url = $general_settings['custom_feed_url'] = 'wprss';
+            update_option( 'wprss_settings_general', $general_settings );
+        }
 
         // Add the feed
         add_feed( $url, 'wprss_addfeed_do_feed' );
