@@ -219,7 +219,10 @@
 				'source_link'				=> 0,
 				
 				// from version 3.4
-				'video_link'				=> 'false'
+				'video_link'				=> 'false',
+
+				// tracking
+				'tracking'					=> 0,
 			)			
 		);
 
