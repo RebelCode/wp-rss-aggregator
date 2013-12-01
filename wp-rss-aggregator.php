@@ -148,6 +148,9 @@
     /* Load the logging class */
     require_once ( WPRSS_INC . 'roles-capabilities.php' );      
 
+    /* Load the security reset file */
+    require_once ( WPRSS_INC . 'secure-reset.php' );
+
     /* Load the logging class */
     require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
     require_once ( WPRSS_INC . 'admin-editor.php' );
