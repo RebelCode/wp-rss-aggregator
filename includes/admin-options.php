@@ -264,7 +264,7 @@
 
 
     /** 
-     * General settings section header
+     * General settings display section header
      * @since 3.5
      */
     function wprss_settings_display_callback() {
@@ -273,7 +273,7 @@
 
 
     /** 
-     * General settings section header
+     * General settings styles section header
      * @since 3.0
      */
     function wprss_settings_styles_callback() {
