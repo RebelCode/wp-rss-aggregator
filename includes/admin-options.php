@@ -583,13 +583,16 @@
         <button type="button" role="button" id="wprss-secure-reset-generate">Generate Random Code</button>
 
         <br/>
-        <label class="description" for="secure-reset-code">
-            Enter the code to use to securely reset the plugin and deactivate it. Be sure to save this code somewhere else.
+
+        <label class="description" for="wprss-secure-reset-code">
+            Enter the code to use to securely reset the plugin and deactivate it. Be sure to save this code somewhere safe.<br/>
         </label>
+
         <br/>
 
-        <p class="description">
-            You can use this code by adding any of the following to any URL on your site.
+        <p>
+            Leave this empty to disable the secure reset function.<br/>
+            You use this code by adding any of the following to any URL on your site.
             <ol>
                 <li>"?wprss_action=reset&wprss_security_code=&lt;your_code&gt;" - <b>Resets your WP RSS Aggregator settings</b></li>
                 <li>"?wprss_action=deactivate&wprss_security_code=&lt;your_code&gt;" - <b>Deactivates WP RSS Aggregator</b></li>
