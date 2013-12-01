@@ -53,6 +53,10 @@
     if( !defined( 'WPRSS_PREFIX' ) )
         define( 'WPRSS_PREFIX', 'wprss', true );            
 
+    // Set the plugin prefix 
+    if( !defined( 'WPRSS_FILE_CONSTANT' ) )
+        define( 'WPRSS_FILE_CONSTANT', __FILE__, true );
+
     // Set constant path to the plugin directory. 
     if( !defined( 'WPRSS_DIR' ) )
         define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );        
