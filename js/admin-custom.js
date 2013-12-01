@@ -135,6 +135,13 @@ jQuery(window).load( function(){
     }
 
 
+
+    // GENERATES A RANDOM STRING FOR THE SECURE RESET CODE FIELD
+    jQuery('#wprss-secure-reset-generate').click( function(){
+        jQuery('input#wprss-secure-reset-code').val( Math.random().toString(36).substr(2) );
+    });
+
+
 });
 
 

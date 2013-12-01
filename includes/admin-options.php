@@ -179,6 +179,28 @@
         }
 
 
+        // SECURE RESET OPTION
+        register_setting( 
+            'wprss_secure_reset',                           // A settings group name.
+            'wprss_secure_reset_code',                      // The name of an option to sanitize and save.
+            'wprss_secure_reset_code_validate'              // A callback function that sanitizes the option's value.
+        );
+        add_settings_section( 
+            'wprss_secure_reset_section',                   // ID of section
+            __( 'Secure Reset', 'wprss' ),                  // Title of section
+            'wprss_secure_reset_section_callback',          // Callback that renders the section header
+            'wprss_settings_general'                        // The page on which to display the section
+        );
+        add_settings_field(
+            'wprss-settings-secure-reset',                  // ID of setting
+            __( 'Secure Reset', 'wprss' ),                  // The title of the setting
+            'wprss_settings_secure_reset_code_callback',    // The callback that renders the setting
+            'wprss_settings_general',                       // The page on which to display the setting
+            "wprss_secure_reset_section"                    // The section in which to display the setting
+        );
+
+
+
         do_action( 'wprss_admin_init' );
     }  
 
@@ -233,6 +255,7 @@
 
                 if ( $active_tab === 'general_settings' ) {
                     settings_fields( 'wprss_settings_general' ); 
+                    settings_fields( 'wprss_secure_reset' );
                     do_settings_sections( 'wprss_settings_general' );
                 }
                 elseif ( $show_tabs ) {
@@ -278,6 +301,15 @@
      */
     function wprss_settings_styles_callback() {
         echo '<p>' . __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', 'wprss' ) . '</p>';
+    }
+
+
+    /** 
+     * General settings scure reset section header
+     * @since 3.0
+     */
+    function wprss_secure_reset_section_callback() {
+        echo '<p>' . __( 'Set your security reset code, in case of any errors.', 'wprss' ) . '</p>';
     }
 
 
@@ -540,6 +572,38 @@
 
 
     /**
+     * Secure Reset section
+     *
+     * @since 3.7.1
+     */
+    function wprss_settings_secure_reset_code_callback( $args ) {
+        $reset_code = get_option( 'wprss_secure_reset_code', '' );
+        ?>
+        <input id="wprss-secure-reset-code" name="wprss_secure_reset_code" type="input" value="<?php echo $reset_code; ?>" />
+        <button type="button" role="button" id="wprss-secure-reset-generate">Generate Random Code</button>
+
+        <br/>
+        <label class="description" for="secure-reset-code">
+            Enter the code to use to securely reset the plugin and deactivate it. Be sure to save this code somewhere else.
+        </label>
+        <br/>
+
+        <p class="description">
+            You can use this code by adding any of the following to any URL on your site.
+            <ol>
+                <li>"?wprss_action=reset&wprss_security_code=&lt;your_code&gt;" - <b>Resets your WP RSS Aggregator settings</b></li>
+                <li>"?wprss_action=deactivate&wprss_security_code=&lt;your_code&gt;" - <b>Deactivates WP RSS Aggregator</b></li>
+                <li>"?wprss_action=reset_and_deactivate&wprss_security_code=&lt;your_code&gt;" - <b>Does both of the above</b></li>
+            </ol>
+        </p>
+        <p class="description">
+            Use the above actions only when absolutely necessary, or when instructed to by support staff.
+        </p>
+        <?php
+    }
+
+
+    /**
      * Tracking checkbox
      * @since 3.6
      */
@@ -683,6 +747,17 @@
 
         // Return the array processing any additional functions filtered by this action
         return apply_filters( 'wprss_settings_general_validate', $output, $input );
+    }
+
+
+
+    /**
+     * Validates the wprss_secure_reset_code option
+     * 
+     * @since 3.7.1
+     */
+    function wprss_secure_reset_code_validate( $input ) {
+        return $input;
     }
 
 
