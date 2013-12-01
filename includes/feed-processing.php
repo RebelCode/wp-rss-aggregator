@@ -15,14 +15,15 @@
      */
     function wprss_change_feed_state() {
         // If the id and state are in POST data
-        if ( isset( $_GET['wprss-feed-id'] ) && isset( $_GET['wprss-feed-state'] ) ) {
+        if ( isset( $_GET['wprss-feed-id'] ) ) {
             // Get the id and state
             $feed_ID = $_GET['wprss-feed-id'];
-            $new_state = $_GET['wprss-feed-state'];
+            $new_state = wprss_is_feed_source_active( $feed_ID )? 'paused' : 'active';
             // Update the wprss_state meta of the feed source with the obtained ID, with the obtained new state
             update_post_meta( $feed_ID, 'wprss_state', $new_state );
             if ( isset( $_GET['wprss-redirect'] ) && $_GET['wprss-redirect'] == '1' ) {
-                wp_redirect( admin_url( 'edit.php?post_type=wprss_feed' ) );
+                wp_redirect( admin_url( 'edit.php?post_type=wprss_feed', 301 ) );
+                exit();
             }
         }
     }
