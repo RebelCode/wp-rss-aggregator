@@ -20,7 +20,7 @@
             array(
                 'name'                  => __( 'Feed Sources', 'wprss' ),
                 'singular_name'         => __( 'Feed', 'wprss' ),
-                'add_new'               => __( 'Add New Feed Source', 'wprss' ),
+                'add_new'               => __( 'Add New', 'wprss' ),
                 'all_items'             => __( 'All Feed Sources', 'wprss' ),
                 'add_new_item'          => __( 'Add New Feed Source', 'wprss' ),
                 'edit_item'             => __( 'Edit Feed Source', 'wprss' ),
