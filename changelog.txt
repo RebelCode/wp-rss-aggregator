@@ -1,3 +1,7 @@
+3.8
+Enhanced: Added utility functions for shorter filters.
+Fixed bug: License codes were being erased when add-ons were deactivated.
+
 3.7.1
 Fixed bug: Some feed sources could not be set to active from the table controls.
 Fixed bug: str_pos errors appear when custom feed url is left empty.
