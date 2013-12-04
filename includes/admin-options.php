@@ -151,6 +151,10 @@
                 )
             )
         );
+        
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === FALSE ) {
+            unset( $settings['general']['limit-feed-items-db'] );
+        }
 
 
         // Loop through each setting field and register it
