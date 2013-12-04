@@ -46,7 +46,7 @@
         register_setting( 
             'wprss_settings_license_keys',                       
             'wprss_settings_license_keys',                        
-            '' 
+            'wprss_settings_license_keys_validate' 
         );                   
         
 
@@ -750,6 +750,27 @@
 
         // Return the array processing any additional functions filtered by this action
         return apply_filters( 'wprss_settings_general_validate', $output, $input );
+    }
+
+
+    /**
+     * Validates the licenses settings
+     * 
+     * @since 3.8
+     */
+    function wprss_settings_license_keys_validate( $input ) {
+        // Get the current licenses option
+        $licenses = get_option( 'wprss_settings_license_keys' );
+        // For each entry in the recieved input
+        foreach ( $input as $addon => $license_code ) {
+            // If the entry does not exist OR the code is different
+            if ( !array_key_exists( $addon, $licenses ) || $license_code !== $licenses[ $addon ] ) {
+                // Save it to the licenses option
+                $licenses[ $addon ] = $license_code;
+            }
+        }
+        // Return the new licenses
+        return $licenses;
     }
 
 
