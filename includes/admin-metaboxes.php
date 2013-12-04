@@ -303,6 +303,12 @@
         $activate = get_post_meta( $post->ID, 'wprss_activate_feed', TRUE );
         $pause = get_post_meta( $post->ID, 'wprss_pause_feed', TRUE );
 
+        $age_limit = get_post_meta( $post->ID, 'wprss_age_limit', FALSE );
+        $age_unit = get_post_meta( $post->ID, 'wprss_age_units', FALSE );
+
+        $age_limit = ( count( $age_limit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age' ) : $age_limit[0];
+        $age_unit = ( count( $age_unit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age_unit' ) : $age_unit[0];
+
         // Set default strings for activate and pause times
         $default_activate = 'immediately';
         $default_pause = 'never';
@@ -359,6 +365,30 @@
                 <br/><br/>
                 <span class="description">
                     <b>Note:</b> WordPress uses UTC time for schedules, not local time. Current UTC time is: <code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
+                </span>
+            </div>
+        </div>
+
+        <div class="wprss-meta-side-setting">
+            <p>
+                <label for="">Delete feeds older than: </label>
+                <strong id="wprss-age-limit-feed-viewer"><?php echo $age_limit . ' ' . $age_unit; ?></strong>
+                <a href="#">Edit</a>
+            </p>
+            <div class="wprss-meta-slider" data-collapse-viewer="wprss-age-limit-feed-viewer" data-default-value="Do not delete feeds" data-hybrid="#limit-feed-items-age, #limit-feed-items-age-unit">
+                <input id="limit-feed-items-age" name="wprss_age_limit" type="number" min="0" class="wprss-number-roller" placeholder="No limit" value="<?php echo $age_limit; ?>" />
+
+                <select id="limit-feed-items-age-unit" name="wprss_age_unit">
+                <?php foreach ( wprss_age_limit_units() as $unit ) : ?>
+                    <option value="<?php echo $unit; ?>" <?php selected( $age_unit, $unit ); ?> ><?php echo $unit; ?></option>
+                <?php endforeach; ?>
+                </select>
+                
+                <br/>
+                <span class='description' for='limit-feed-items-age'>
+                    Enter the maximum age of feed items to be stored in the database. Feed items older than the specified age will be deleted everyday at midnight.
+                    <br/>
+                    Leave empty for no limit.
                 </span>
             </div>
         </div>
