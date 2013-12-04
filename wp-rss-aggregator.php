@@ -427,3 +427,23 @@
             set_transient( 'presstrends_cache_data', $data, 60 * 60 * 24 );
             }
         }  
+
+
+
+    /**
+     * Utility filter function that returns TRUE;
+     *
+     * @since 3.8
+     */
+    function wprss_enable() {
+        return TRUE;
+    }
+
+     /**
+     * Utility filter function that returns FALSE;
+     *
+     * @since 3.8
+     */
+    function wprss_disable() {
+        return FALSE;
+    }
