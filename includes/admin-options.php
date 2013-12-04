@@ -64,6 +64,10 @@
             'wprss_settings_array',
             array(
                 'general'   =>  array(
+                    'limit-feed-items-by-age' => array(
+                        'label'     =>  __( 'Limit feed items by age', 'wprss' ),
+                        'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
+                    ),
                     'limit-feed-items-db' => array(
                         'label'     => __( 'Limit feed items stored', 'wprss' ),
                         'callback'  => 'wprss_setting_limit_feed_items_callback'
@@ -480,6 +484,34 @@
         $text_preceding_date = wprss_get_general_setting( 'text_preceding_date' );
         echo "<input id='text-preceding-date' name='wprss_settings_general[text_preceding_date]' type='text' value='$text_preceding_date' />";
         echo "<label class='description' for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
+    }
+
+
+
+    /** 
+     * Limit number of feed items stored by their age
+     * @since 3.0
+     */
+    function wprss_setting_limit_feed_items_age_callback() {
+        $limit_feed_items_age = wprss_get_general_setting( 'limit_feed_items_age' );
+        $limit_feed_items_age_unit = wprss_get_general_setting( 'limit_feed_items_age_unit' );
+        ?>
+
+        <input id="limit-feed-items-age" name="wprss_settings_general[limit_feed_items_age]" type="number" min="0"
+            class="wprss-number-roller" placeholder="No limit" value="<?php echo $limit_feed_items_age; ?>" />
+
+        <select>
+            <option>days</option>
+            <option>weeks</option>
+            <option>months</option>
+            <option>years</option>
+        </select>
+        
+        <label class='description' for='limit-feed-items-age'>
+            Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items
+        </label>
+
+        <?php
     }
 
 

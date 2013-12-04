@@ -47,7 +47,7 @@
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
-        define( 'WPRSS_DB_VERSION', 11 );
+        define( 'WPRSS_DB_VERSION', 12 );
 
     // Set the plugin prefix 
     if( !defined( 'WPRSS_PREFIX' ) )
