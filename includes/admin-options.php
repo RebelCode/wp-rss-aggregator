@@ -187,11 +187,12 @@
         }
 
 
+        /*
         // SECURE RESET OPTION
         register_setting( 
             'wprss_secure_reset',                           // A settings group name.
             'wprss_secure_reset_code',                      // The name of an option to sanitize and save.
-            'wprss_secure_reset_code_validate'              // A callback function that sanitizes the option's value.
+            ''                                              // A callback function that sanitizes the option's value.
         );
         add_settings_section( 
             'wprss_secure_reset_section',                   // ID of section
@@ -206,6 +207,7 @@
             'wprss_settings_general',                       // The page on which to display the setting
             "wprss_secure_reset_section"                    // The section in which to display the setting
         );
+        */
 
 
 
