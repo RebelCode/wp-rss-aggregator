@@ -158,7 +158,9 @@ jQuery(window).load( function(){
             var viewerID = slider.attr('data-collapse-viewer');
             var viewer = $( '#' + viewerID );
             var editLink = viewer.next();
-            var field = slider.find('*').first();
+
+            var hybrid = slider.attr('data-hybrid');
+            var fields = ( typeof hybrid !== 'undefined' && hybrid !== false ) ? $( hybrid ) : slider.find('*').first();
             var label = slider.find('label.description');
             var defaultValue = slider.attr('data-default-value');
             // Edit link opens the settings
@@ -171,10 +173,13 @@ jQuery(window).load( function(){
 
             // Create the OK Button
             var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text('OK').click( function(){
-                // On click, get the value of the field
-                val = field.val();
+                // On click, get the value of the fields
+                var val = '';
+                fields.each( function(){
+                    val += ' ' + $(this).val();
+                });
                 // If empty, use the default value
-                if ( val === '' ) val = defaultValue;
+                if ( val.trim() === '' ) val = defaultValue;
                 // Set the text of the viewer to the value
                 viewer.text( val );
             });
@@ -192,3 +197,10 @@ jQuery(window).load( function(){
 
     });
 })(jQuery);
+
+// Utility string trim method, if it does not exist
+if ( !String.prototype.trim ) {
+    String.prototype.trim = function(){
+        return this.replace(/^\s+|\s+$/g, '');
+    };
+}
