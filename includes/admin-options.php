@@ -88,6 +88,10 @@
                         'label'     =>  __( 'Custom feed limit', 'wprss' ),
                         'callback'  =>  'wprss_setings_custom_feed_limit_callback'
                     ),
+                    'tracking'  =>  array(
+                        'label'     =>  __( 'Anonymous tracking', 'wprss' ),
+                        'callback'  =>  'wprss_tracking_callback',
+                    )
                 ),
 
                 'display'   =>  array(
@@ -141,10 +145,6 @@
                         'label'     =>  __( 'Feed display limit', 'wprss' ),
                         'callback'  =>  'wprss_setting_feed_limit_callback'
                     ),
-                    'tracking'  =>  array(
-                        'label'     =>  __( 'Anonymous tracking', 'wprss' ),
-                        'callback'  =>  'wprss_tracking_callback',
-                    )
                 ),
 
                 'styles'    =>  array(
