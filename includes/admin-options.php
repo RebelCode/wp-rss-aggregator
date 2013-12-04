@@ -265,7 +265,7 @@
 
                 if ( $active_tab === 'general_settings' ) {
                     settings_fields( 'wprss_settings_general' ); 
-                    settings_fields( 'wprss_secure_reset' );
+                    //settings_fields( 'wprss_secure_reset' );
                     do_settings_sections( 'wprss_settings_general' );
                 }
                 elseif ( $show_tabs ) {
