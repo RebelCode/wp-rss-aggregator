@@ -223,7 +223,7 @@
 
 				// from version 3.8
 				'limit_feed_items_age'		=> '',
-				'limit_feed_items_age_unit'	=> 'month',
+				'limit_feed_items_age_unit'	=> 'days',
 
 				// tracking
 				'tracking'					=> 0,

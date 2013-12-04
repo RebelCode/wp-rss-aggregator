@@ -497,20 +497,23 @@
     function wprss_setting_limit_feed_items_age_callback() {
         $limit_feed_items_age = wprss_get_general_setting( 'limit_feed_items_age' );
         $limit_feed_items_age_unit = wprss_get_general_setting( 'limit_feed_items_age_unit' );
+        $units = wprss_age_limit_units();
         ?>
 
         <input id="limit-feed-items-age" name="wprss_settings_general[limit_feed_items_age]" type="number" min="0"
             class="wprss-number-roller" placeholder="No limit" value="<?php echo $limit_feed_items_age; ?>" />
 
-        <select>
-            <option>days</option>
-            <option>weeks</option>
-            <option>months</option>
-            <option>years</option>
+        <select id="limit-feed-items-age-unit" name="wprss_settings_general[limit_feed_items_age_unit]">
+        <?php foreach ( $units as $unit ) : ?>
+            <option value="<?php echo $unit; ?>" <?php selected( $limit_feed_items_age_unit, $unit ); ?> ><?php echo $unit; ?></option>
+        <?php endforeach; ?>
         </select>
         
+        <br/>
         <label class='description' for='limit-feed-items-age'>
-            Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items
+            Enter the maximum age of feed items to be stored in the database. Feed items older than the specified age will be deleted everyday at midnight.
+            <br/>
+            Leave empty for no limit.
         </label>
 
         <?php
@@ -835,4 +838,23 @@
             $output['wprss_tracking'] = 0;
         }
         return $output;
+    }
+
+
+
+    /**
+     * Returns the units used for the limit by age option.
+     * 
+     * @since 3.8
+     */
+    function wprss_age_limit_units() {
+        return apply_filters(
+            'wprss_age_limit_units',
+            array(
+                'days',
+                'weeks',
+                'months',
+                'years'
+            )
+        );
     }
