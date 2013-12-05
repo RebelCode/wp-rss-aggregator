@@ -232,10 +232,14 @@
         $state = ( isset( $_POST['wprss_state'] ) )? $_POST['wprss_state'] : 'active';
         $activate = ( isset( $_POST['wprss_activate_feed'] ) )? stripslashes( $_POST['wprss_activate_feed'] ) : '';
         $pause = ( isset( $_POST['wprss_pause_feed'] ) )? stripslashes( $_POST['wprss_pause_feed'] ) : '';
+        $age_limit = ( isset( $_POST['wprss_age_limit'] ) )? stripslashes( $_POST['wprss_age_limit'] ) : '';
+        $age_unit = ( isset( $_POST['wprss_age_unit'] ) )? stripslashes( $_POST['wprss_age_unit'] ) : '';
         
         update_post_meta( $post_id, 'wprss_state', $state );
         update_post_meta( $post_id, 'wprss_activate_feed', $activate );
         update_post_meta( $post_id, 'wprss_pause_feed', $pause );
+        update_post_meta( $post_id, 'wprss_age_limit', $age_limit );
+        update_post_meta( $post_id, 'wprss_age_unit', $age_unit );
 
         // Update the schedules
         wprss_update_feed_processing_schedules( $post_id );
@@ -304,7 +308,7 @@
         $pause = get_post_meta( $post->ID, 'wprss_pause_feed', TRUE );
 
         $age_limit = get_post_meta( $post->ID, 'wprss_age_limit', FALSE );
-        $age_unit = get_post_meta( $post->ID, 'wprss_age_units', FALSE );
+        $age_unit = get_post_meta( $post->ID, 'wprss_age_unit', FALSE );
 
         $age_limit = ( count( $age_limit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age' ) : $age_limit[0];
         $age_unit = ( count( $age_unit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age_unit' ) : $age_unit[0];
