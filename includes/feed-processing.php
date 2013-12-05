@@ -101,6 +101,33 @@
     }
 
 
+
+    /**
+     * Returns all the feed items of a source.
+     *
+     * @since 3.8
+     */
+    function wprss_get_feed_items_for_source( $source_id ) {
+        $args = apply_filters(
+            'wprss_get_feed_items_for_source_args',
+            array(
+                'post_type'     => 'wprss_feed_item',
+                'cache_results' => false,   // Disable caching, used for one-off queries
+                'no_found_rows' => true,    // We don't need pagination, so disable it
+                'posts_per_page'=> -1,
+                'meta_query'    => array(
+                    array(
+                        'key'     => 'wprss_feed_id',
+                        'value'   => $source_id,
+                        'compare' => 'LIKE'
+                    )
+                )
+            )
+        );
+        return new WP_Query( $args );
+    }
+
+
     /**
      * Parameters for query to get feed sources
      *
@@ -278,8 +305,8 @@
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
-				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
-			
+				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );    
+
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL ) {
 			
@@ -607,12 +634,112 @@
         return "'$item'";
     }
 
+
+
     /**
-     * Delete old feed items from the database to avoid bloat
+     * Returns true if the feed item is older than the given timestamp,
+     * false otherwise;
+     * 
+     * @since 3.8
+     */
+    function wprss_is_feed_item_older_than( $id, $timestamp ) {
+        // GET THE DATE
+        $age = get_post_meta( $id, 'wprss_item_date', TRUE );
+        if ( $age === '' ) return FALSE;
+        // Calculate the age difference
+        $difference = $age - $timestamp;
+        // Return whether the difference is negative ( the age is smaller than the timestamp )
+        return ( $difference <= 0 );
+    }
+
+
+    /**
+     * Returns the maximum age setting for a feed source.
+     * 
+     * @since 3.8
+     */
+    function wprss_get_max_age_for_feed_source( $source_id ) {
+        $general_settings = get_option( 'wprss_settings_general' );
+        // Get the meta data for age for this feed source
+        $age_limit = get_post_meta( $source_id, 'wprss_age_limit', FALSE );
+        $age_unit = get_post_meta( $source_id, 'wprss_age_unit', FALSE );
+        // If the meta does not exist, use the global settings
+        $age_limit = ( count( $age_limit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age' ) : $age_limit[0];
+        $age_unit = ( count( $age_unit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age_unit' ) : $age_unit[0];
+        // If the age limit is an empty string, use no limit
+        if ( $age_limit === '' ) {
+            return FALSE;
+        }
+        // Return the timestamp of the max age date
+        return strtotime( "-$age_limit $age_unit" );
+    }
+
+
+    /**
+     * Delete old feed items from the database to avoid bloat.
+     * As if 3.8, it uses the new feed age system.
+     *
+     * @since 3.8
+     */
+    function wprss_truncate_posts() {
+        $general_settings = get_option( 'wprss_settings_general' );
+
+        // Get all feed sources
+        $feed_sources = wprss_get_all_feed_sources();
+
+
+        if( $feed_sources->have_posts() ) {
+
+            // FOR EACH FEED SOURCE
+            while ( $feed_sources->have_posts() ) {
+                $feed_sources->the_post();
+
+                // Get the max age setting for this feed source
+                $max_age = wprss_get_max_age_for_feed_source( get_the_ID() );
+
+                // If the data is empty, do not delete
+                if ( $max_age !== FALSE ) {
+
+                    // Get all feed items for this source
+                    $feed_items = wprss_get_feed_items_for_source( get_the_ID() );
+
+                    // FOR EACH FEED ITEM
+                    if ( $feed_items-> have_posts() ) {
+                        while ( $feed_items->have_posts() ) {
+                            $feed_items->the_post();
+                            // If the post is older than the maximum age
+                            if ( wprss_is_feed_item_older_than( get_the_ID(), $max_age ) === TRUE ){
+                                // Delete the post
+                                wp_delete_post( get_the_ID(), true );
+                            }   
+                        }
+                        // Reset feed items query data
+                        wp_reset_postdata();
+                    }
+
+                }
+            }
+            // Reset feed sources query data
+            wp_reset_postdata();
+        }
+
+        // If the filter to use the fixed limit is enabled, call the old truncation function
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === TRUE && isset( $general_settings['limit_feed_items_db'] ) ) {
+            wprss_old_truncate_posts();
+        }
+
+    }
+
+
+
+
+    /**
+     * The old truncation function.
+     * This truncation method uses the deprecated fixed feed limit.
      *
      * @since 2.0
      */
-    function wprss_truncate_posts() {
+    function wprss_old_truncate_posts() {
         global $wpdb;
         $general_settings = get_option( 'wprss_settings_general' );
 
@@ -652,6 +779,29 @@
                 $purge = wp_delete_post( $post->ID, true );
             }
         }
+    }
+
+
+    add_filter( 'wprss_insert_post_item_conditionals', 'wprss_check_feed_item_date_on_import', 2, 3 );
+    /**
+     * When a feed item is imported, it's date is compared against the max age of it's feed source.
+     * 
+     * 
+     * @since 3.8
+     */
+    function wprss_check_feed_item_date_on_import( $item, $source, $permalink ){
+        if ( $item === NULL ) return NULL;
+
+        // Get the age of the item and the max age setting for its feed source
+        $age = $item->get_date( 'U' );
+        $max_age = wprss_get_max_age_for_feed_source( $source );
+
+        if ( $age === '' ) return $item;
+
+        // Calculate the age difference
+        $difference = $age - $max_age;
+        
+        return ( $difference <= 0 )? NULL : $item;
     }
 
 
