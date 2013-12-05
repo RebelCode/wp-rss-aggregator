@@ -74,11 +74,12 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>New Feature: State system - Feed sources can be activated/paused.</li>
-								<li>New Feature: State system - Feed sources can be set to activate or pause themselves at a specific date and time.</li>
-								<li>Enhanced: Added compatibility with nested outline elements in OPML files.</li>
-								<li>Enhanced: Admin menu icon image will change into a Dashicon, when WordPress is updated to 3.8 (Decemeber 2013).</li>
-								<li>Fixed bug: Custom Post types were breaking when the plugin is activated.</li>
+								<li>New Feature: Feed items can be limited and deleted by their age.</li>
+								<li>Enhanced: Added utility functions for shorter filters.</li>
+								<li>Fixed bug: License codes were being erased when add-ons were deactivated.</li>
+								<li>Fixed bug: Some feed sources could not be set to active from the table controls.</li>
+								<li>Fixed bug: str_pos errors appear when custom feed url is left empty.</li>
+								<li>Fixed bug: Some options were producing undefined index errors.</li>
 							</ul>
 
 
