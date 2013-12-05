@@ -169,6 +169,9 @@ jQuery(window).load( function(){
                 if ( !slider.hasClass('wprss-open') )
                     slider.slideDown().addClass('wprss-open');
                 e.preventDefault();
+                fields.each( function(){
+                    $(this).attr( 'data-old-value', $(this).val() );
+                });
             });
 
             // Create the OK Button
@@ -184,7 +187,12 @@ jQuery(window).load( function(){
                 viewer.text( val );
             });
             // Create the Cancel Button
-            var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel');
+            var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel').click( function() {
+                fields.each( function(){
+                    $(this).val( $(this).attr( 'data-old-value' ) );
+                    $(this).removeAttr( 'data-old-value' );
+                });
+            });
 
             // Add the buttons and a break tag before the description label
             slider.append( $('<br>') ).append( $('<br>') ).append( okBtn ).append( cancelBtn );
