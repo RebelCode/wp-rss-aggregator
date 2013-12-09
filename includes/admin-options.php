@@ -681,6 +681,9 @@
      *
      */
     function wprss_interval( $since ) {
+        if ( $since === wprss_get_default_feed_source_update_interval() ) {
+            return __( 'Default', 'wprss' );
+        }
         // array of time period chunks
         $chunks = array(
             array(60 * 60 * 24 * 365 , _n_noop('%s year', '%s years', 'crontrol')),
