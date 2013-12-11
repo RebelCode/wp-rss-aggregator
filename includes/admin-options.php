@@ -681,6 +681,9 @@
      *
      */
     function wprss_interval( $since ) {
+        if ( $since === wprss_get_default_feed_source_update_interval() ) {
+            return __( 'Default', 'wprss' );
+        }
         // array of time period chunks
         $chunks = array(
             array(60 * 60 * 24 * 365 , _n_noop('%s year', '%s years', 'crontrol')),
@@ -810,8 +813,35 @@
                 $licenses[ $addon ] = $license_code;
             }
         }
+        wprss_check_license_statuses();
         // Return the new licenses
         return $licenses;
+    }
+
+
+
+    add_action( 'wprss_check_license_statuses', 'wprss_check_license_statuses' );
+    /**
+     * Checks the license statuses
+     * 
+     * @since 3.8.1
+     */
+    function wprss_check_license_statuses() {
+        $license_statuses = get_option( 'wprss_settings_license_statuses', array() );
+
+        if ( count( $license_statuses ) === 0 ) return;
+
+        $found_inactive = FALSE;
+        foreach ( $license_statuses as $addon => $status ) {
+            if ( $status !== 'active' ) {
+                $found_inactive = TRUE;
+                break;
+            }
+        }
+
+        if ( $found_inactive ) {
+            set_transient( 'wprss_notify_inactive_licenses', 1, 0 );
+        }
     }
 
 

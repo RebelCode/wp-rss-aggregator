@@ -179,7 +179,10 @@ jQuery(window).load( function(){
                 // On click, get the value of the fields
                 var val = '';
                 fields.each( function(){
-                    val += ' ' + $(this).val();
+                    if ( $(this).is('select') ) {
+                        val += ' ' + $( this ).find('option:selected').text();
+                    }
+                    else val += ' ' + $(this).val();
                 });
                 // If empty, use the default value
                 if ( val.trim() === '' ) val = defaultValue;

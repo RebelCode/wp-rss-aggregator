@@ -172,3 +172,13 @@
         $time = explode( ':', $parts[1] );
         return mktime( $time[0], $time[1], $time[2], $date[1], $date[0], $date[2] );
     }
+
+
+    /**
+     * Returns the default value for the per feed source update interval
+     * 
+     * @since 3.9
+     */
+    function wprss_get_default_feed_source_update_interval() {
+        return 'global';
+    }

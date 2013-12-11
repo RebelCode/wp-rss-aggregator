@@ -234,12 +234,14 @@
         $pause = ( isset( $_POST['wprss_pause_feed'] ) )? stripslashes( $_POST['wprss_pause_feed'] ) : '';
         $age_limit = ( isset( $_POST['wprss_age_limit'] ) )? stripslashes( $_POST['wprss_age_limit'] ) : '';
         $age_unit = ( isset( $_POST['wprss_age_unit'] ) )? stripslashes( $_POST['wprss_age_unit'] ) : '';
-        
+        $update_interval = ( isset( $_POST['wprss_update_interval'] ) )? stripslashes( $_POST['wprss_update_interval'] ) : wprss_get_default_feed_source_update_interval();
+
         update_post_meta( $post_id, 'wprss_state', $state );
         update_post_meta( $post_id, 'wprss_activate_feed', $activate );
         update_post_meta( $post_id, 'wprss_pause_feed', $pause );
         update_post_meta( $post_id, 'wprss_age_limit', $age_limit );
         update_post_meta( $post_id, 'wprss_age_unit', $age_unit );
+        update_post_meta( $post_id, 'wprss_update_interval', $update_interval );
 
         // Update the schedules
         wprss_update_feed_processing_schedules( $post_id );
@@ -306,6 +308,7 @@
         $state = get_post_meta( $post->ID, 'wprss_state', TRUE );
         $activate = get_post_meta( $post->ID, 'wprss_activate_feed', TRUE );
         $pause = get_post_meta( $post->ID, 'wprss_pause_feed', TRUE );
+        $update_interval = get_post_meta( $post->ID, 'wprss_update_interval', TRUE );
 
         $age_limit = get_post_meta( $post->ID, 'wprss_age_limit', FALSE );
         $age_unit = get_post_meta( $post->ID, 'wprss_age_unit', FALSE );
@@ -321,6 +324,20 @@
         $states = array(
             'active'    =>  __( 'Active', 'wprss' ),
             'paused'    =>  __( 'Paused', 'wprss' ),
+        );
+
+        // Prepare the schedules
+        $default_interval = __( 'Default', 'wprss' );
+        $wprss_schedules = apply_filters( 'wprss_schedules', wprss_get_schedules() );
+        $default_interval_key = wprss_get_default_feed_source_update_interval();
+        $schedules = array_merge(
+            array(
+                $default_interval_key => array(
+                    'display'   =>  $default_interval,
+                    'interval'  =>  $default_interval,
+                ),
+            ),
+            $wprss_schedules
         );
 
         ?>
@@ -373,6 +390,31 @@
             </div>
         </div>
 
+
+        <div class="wprss-meta-side-setting">
+            <p>
+                <label for="">Update interval every: </label>
+                <strong id="wprss-feed-update-interval-viewer"><?php echo ( ( $update_interval !== '' )? wprss_interval( $schedules[$update_interval]['interval'] ) : $default_interval ); ?></strong>
+                <a href="#">Edit</a>
+            </p>
+            <div class="wprss-meta-slider" data-collapse-viewer="wprss-feed-update-interval-viewer" data-default-value="<?php echo $default_interval; ?>">
+                <select id="feed-update-interval" name="wprss_update_interval">
+                <?php foreach ( $schedules as $value => $schedule ) : ?>
+                    <?php $text = ( $value === wprss_get_default_feed_source_update_interval() )? $default_interval : wprss_interval( $schedule['interval'] ); ?>
+                    <option value="<?php echo $value; ?>" <?php selected( $update_interval, $value ); ?> ><?php echo $text; ?></option>
+                <?php endforeach; ?>
+                </select>
+                
+                <br/>
+                <span class='description' for='limit-feed-items-age'>
+                    Enter the maximum age of feed items to be stored in the database. Feed items older than the specified age will be deleted everyday at midnight.
+                    <br/>
+                    Leave empty for no limit.
+                </span>
+            </div>
+        </div>
+
+
         <div class="wprss-meta-side-setting">
             <p>
                 <label for="">Delete feeds older than: </label>
@@ -398,6 +440,27 @@
         </div>
 
         <?php
+        /*
+        $options = get_option( 'wprss_settings_general' );  
+        $current = $options['cron_interval'];
+
+        $schedules = wprss_get_schedules();    
+        // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
+        $wprss_schedules = apply_filters( 
+                            'wprss_schedules',
+                            array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' )
+        );        
+        echo "<select id='cron-interval' name='wprss_settings_general[cron_interval]'>";
+        foreach( $schedules as $schedule_name => $schedule_data ) { 
+            if ( in_array( $schedule_name, $wprss_schedules ) ) { ?>
+                <option value="<?php echo $schedule_name; ?>" <?php selected( $current, $schedule_name ); ?> >
+                    <?php echo $schedule_data['display']; ?> (<?php echo wprss_interval( $schedule_data['interval'] ); ?>)
+                </option>
+            <?php } ?>
+        <?php } ?>
+        </select><?php
+        */
+        
     }
 
 
