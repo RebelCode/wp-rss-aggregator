@@ -50,7 +50,7 @@
 
         add_meta_box(
             'wprss-like-meta',
-            __( 'Like this plugin?', 'wprss' ),
+            __( 'Like This Plugin?', 'wprss' ),
             'wprss_like_meta_box_callback',
             'wprss_feed',
             'side',
@@ -59,7 +59,7 @@
 
         add_meta_box(
             'wprss-follow-meta',
-            __( 'Follow us', 'wprss' ),
+            __( 'Follow Us', 'wprss' ),
             'wprss_follow_meta_box_callback',
             'wprss_feed',
             'side',
@@ -427,14 +427,14 @@
      * 
      */      
     function wprss_like_meta_box_callback() { ?>
-        <p><?php _e( 'Why not do any or all of the following', 'wprss' ) ?>:</p>
+        
         <ul>
-            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org.', 'wprss' ) ?></a></li>                               
-            <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e('Donate a token of your appreciation.', 'wprss' ); ?></a></li>
+            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org', 'wprss' ) ?></a></li>                               
+            <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e('Donate a token of your appreciation', 'wprss' ); ?></a></li>
         </ul>       
         <?php
         echo '<p><strong>'; 
-        _e( 'Check out the premium add-ons:', 'wprss' );
+        _e( 'Check out the Premium Extensions:', 'wprss' );
         echo '</strong>'; ?>
         <ul>
             <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>                                         
