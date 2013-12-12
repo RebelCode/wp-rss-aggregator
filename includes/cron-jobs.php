@@ -166,6 +166,12 @@
 
 
 
+    /**
+     * Pareses the date time string into a UTC timestamp.
+     * The string must be in the format: m/d/y h:m:s
+     * 
+     * @since 3.9
+     */
     function wprss_strtotime( $str ){
         $parts = explode(' ', $str);
         $date = explode( '/', $parts[0] );
