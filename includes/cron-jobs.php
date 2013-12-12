@@ -104,6 +104,7 @@
      * Removes the current schedules and adds the ones in the feed source's meta.
      * 
      * @param $feed_id  The id of the wprss_feed
+     * @since 3.8
      */
     function wprss_update_feed_processing_schedules( $feed_id ) {
         // Get the new feed processing schedules
@@ -149,6 +150,9 @@
     function wprss_activate_feed_source( $feed_id ) {
         update_post_meta( $feed_id, 'wprss_state', 'active' );
         update_post_meta( $feed_id, 'wprss_activate_feed', '' );
+
+        // Add an action hook, so functions can be run when a feed source is activated
+        do_action( 'wprss_on_feed_source_activated', $feed_id );
     }
 
 
@@ -162,10 +166,88 @@
     function wprss_pause_feed_source( $feed_id ) {
         update_post_meta( $feed_id, 'wprss_state', 'paused' );
         update_post_meta( $feed_id, 'wprss_pause_feed', '' );
+
+        // Add an action hook, so functions can be run when a feed source is paused
+        do_action( 'wprss_on_feed_source_paused', $feed_id );
+    }
+
+
+    add_action( 'wprss_on_feed_source_activated', 'wprss_start_feed_source_updating' );
+    /**
+     * Starts the looping schedule for a feed source. Runs on a schedule
+     * 
+     * @param $feed_id The ID of the feed source
+     * @since 3.9
+     */
+    function wprss_start_feed_source_updating( $feed_id ) {
+        // Stop any currently scheduled update operations
+        wprss_stop_feed_source_update( $feed_id );
+        // Prepare the schedule
+        $schedule_args = array( $feed_id );
+        // wp_schedule_single_event( , 'wprss_feed_source_update_loop', $schedule_args );
+    }
+
+
+    add_action( 'wprss_feed_source_update_loop', 'wprss_feed_source_update_loop' );
+    /**
+     * This scheduled event runs the feed fetching function and re-schedules itself
+     *
+     * @since 3.9
+     */
+    function wprss_feed_source_update_loop( $feed_id ) {
+        wprss_fetch_insert_single_feed_items( $feed_id );
+        // @todo: re-loop
     }
 
 
 
+    add_action( 'wprss_on_feed_source_paused', 'wprss_start_feed_source_updating' );
+    /**
+     * Stops any scheduled update operations for a feed source. Runs on a schedule.
+     * 
+     * @param $feed_id The ID of the feed source ( wprss_feed )
+     * @since 3.9
+     */
+    function wprss_stop_feed_source_update( $feed_id ) {
+        $schedule_timestamp = wprss_get_next_feed_source_update( $feed_id );
+        // If a schedule exists, unschedule it
+        if ( $schedule_timestamp !== FALSE ) {
+            $schedule_args = array( $feed_id );
+            wp_unschedule_event( $schedule_timestamp, 'wprss_feed_source_update', $schedule_args );
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Returns the timestamp for the next feed source update
+     * 
+     * @param $feed_id The ID of the feed source ( wprss_feed )
+     * @return  The timestamp of the next update operation, or false is no
+     *          update is scheduled.
+     * @since 3.9
+     */
+    function wprss_get_next_feed_source_update( $feed_id ) {
+        $schedule_args = array( $feed_id );
+        $timestamp = wp_next_scheduled( 'wprss_feed_source_update', $schedule_args );
+        return $timestamp;
+    }
+
+
+
+    /**
+     * Parses the date time string into a UTC timestamp.
+     * The string must be in the format: m/d/y h:m:s
+     * 
+     * @since 3.9
+     */
     function wprss_strtotime( $str ){
         $parts = explode(' ', $str);
         $date = explode( '/', $parts[0] );
