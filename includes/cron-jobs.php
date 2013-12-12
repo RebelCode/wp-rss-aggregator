@@ -24,7 +24,7 @@
             wp_schedule_event( time(), $cron_interval, 'wprss_fetch_all_feeds_hook' );
         }
 
-        add_action( 'wprss_fetch_all_feeds_hook', 'wprss_fetch_insert_all_feed_items' );
+        add_action( 'wprss_fetch_all_feeds_hook', 'wprss_fetch_insert_all_feed_items_from_cron' );
     }
 
 

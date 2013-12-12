@@ -508,10 +508,12 @@
      *
      * This function is used by the cron job or the debugging functions to get all feeds from all feed sources
      *
+     * @param $all  If set to TRUE, the function will pull from all feed sources, regardless of their individual
+     *              update interval. If set to FALSE, only feed sources using the global update system will be updated.
+     *              (Optional) Default: TRUE.
      * @since 3.0
      */
-    function wprss_fetch_insert_all_feed_items() {
-
+    function wprss_fetch_insert_all_feed_items( $all = TRUE ) {
         // Get all feed sources
         $feed_sources = wprss_get_all_feed_sources();
 
@@ -520,10 +522,25 @@
             // fetching feed items and adding them to the database in each pass
             while ( $feed_sources->have_posts() ) {
                 $feed_sources->the_post();
-				wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( get_the_ID() ) );
+
+                $interval = get_post_meta( get_the_ID(), 'wprss_update_interval', TRUE );
+                $using_global_interval = ( $interval === wprss_get_default_feed_source_update_interval() || $interval === '' );
+
+                // Check if fetching from all, or if feed source uses the global interval
+                if ( $all === TRUE || $using_global_interval ) {
+				    wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( get_the_ID() ) );
+                }
             }
             wp_reset_postdata(); // Restore the $post global to the current post in the main query
         }
+    }
+    /**
+     * Runs the above function with parameter FALSE
+     * 
+     * @since 3.9
+     */
+    function wprss_fetch_insert_all_feed_items_from_cron() {
+        wprss_fetch_insert_all_feed_items( FALSE );
     }
 
 
@@ -851,7 +868,7 @@
      */
     function wprss_feed_reset() {
         wp_schedule_single_event( time(), 'wprss_delete_all_feed_items_hook' );
-        wprss_fetch_insert_all_feed_items();
+        wprss_fetch_insert_all_feed_items( TRUE );
     }
 
   /*  add_action( 'wp_feed_options', 'wprss_feed_options' );
