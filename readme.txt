@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.8
-Stable tag: 3.8
+Stable tag: 3.9
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -144,6 +144,10 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 
 == Changelog ==
+
+= 3.9 (2013-12-12) =
+* New Feature: Feed sources can have their own update interval.
+* New Feature: The time remaining until the next update has been added to the Feed Source table.
 
 = 3.8 (2013-12-05) =
 * New Feature: Feed items can be limited and deleted by their age.

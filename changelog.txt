@@ -1,4 +1,4 @@
-3.9
+3.9 (2013-12-12)
 New Feature: Feed sources can have their own update interval.
 New Feature: The time remaining until the next update has been added to the Feed Source table.
 

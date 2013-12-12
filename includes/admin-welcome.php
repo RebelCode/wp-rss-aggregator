@@ -74,12 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>New Feature: Feed items can be limited and deleted by their age.</li>
-								<li>Enhanced: Added utility functions for shorter filters.</li>
-								<li>Fixed bug: License codes were being erased when add-ons were deactivated.</li>
-								<li>Fixed bug: Some feed sources could not be set to active from the table controls.</li>
-								<li>Fixed bug: str_pos errors appear when custom feed url is left empty.</li>
-								<li>Fixed bug: Some options were producing undefined index errors.</li>
+								<li>New Feature: Feed sources can have their own update interval.</li>
+								<li>New Feature: The time remaining until the next update has been added to the Feed Source table.</li>
 							</ul>
 
 
