@@ -172,48 +172,43 @@
     }
 
 
-    add_action( 'wprss_on_feed_source_activated', 'wprss_start_feed_source_updating' );
+    add_action( 'wprss_on_feed_source_activated', 'wprss_feed_source_update_start_schedule' );
     /**
      * Starts the looping schedule for a feed source. Runs on a schedule
      * 
      * @param $feed_id The ID of the feed source
      * @since 3.9
      */
-    function wprss_start_feed_source_updating( $feed_id ) {
+    function wprss_feed_source_update_start_schedule( $feed_id ) {
         // Stop any currently scheduled update operations
-        wprss_stop_feed_source_update( $feed_id );
+        wprss_feed_source_update_stop_schedule( $feed_id );
         // Prepare the schedule
-        $schedule_args = array( $feed_id );
-        // wp_schedule_single_event( , 'wprss_feed_source_update_loop', $schedule_args );
-    }
+        $schedule_args = array( strval( $feed_id ) );
 
+        // Get the interval
+        $interval = get_post_meta( $feed_id, 'wprss_update_interval', TRUE );
+        // Do nothing if the feed source has no update interval (not sure if possible) or if the interval
+        // is set to global
+        if ( $interval === '' || $interval === wprss_get_default_feed_source_update_interval() ) return;
 
-    add_action( 'wprss_feed_source_update_loop', 'wprss_feed_source_update_loop' );
-    /**
-     * This scheduled event runs the feed fetching function and re-schedules itself
-     *
-     * @since 3.9
-     */
-    function wprss_feed_source_update_loop( $feed_id ) {
-        wprss_fetch_insert_single_feed_items( $feed_id );
-        // @todo: re-loop
+        wp_schedule_event( time(), $interval , 'wprss_fetch_single_feed_hook', $schedule_args );
     }
 
 
 
-    add_action( 'wprss_on_feed_source_paused', 'wprss_start_feed_source_updating' );
+    add_action( 'wprss_on_feed_source_paused', 'wprss_feed_source_update_stop_schedule' );
     /**
      * Stops any scheduled update operations for a feed source. Runs on a schedule.
      * 
      * @param $feed_id The ID of the feed source ( wprss_feed )
      * @since 3.9
      */
-    function wprss_stop_feed_source_update( $feed_id ) {
+    function wprss_feed_source_update_stop_schedule( $feed_id ) {
         $schedule_timestamp = wprss_get_next_feed_source_update( $feed_id );
         // If a schedule exists, unschedule it
         if ( $schedule_timestamp !== FALSE ) {
-            $schedule_args = array( $feed_id );
-            wp_unschedule_event( $schedule_timestamp, 'wprss_feed_source_update', $schedule_args );
+            $schedule_args = array( strval( $feed_id ) );
+            wp_unschedule_event( $schedule_timestamp, 'wprss_fetch_single_feed_hook', $schedule_args );
         }
     }
 
@@ -235,8 +230,8 @@
      * @since 3.9
      */
     function wprss_get_next_feed_source_update( $feed_id ) {
-        $schedule_args = array( $feed_id );
-        $timestamp = wp_next_scheduled( 'wprss_feed_source_update', $schedule_args );
+        $schedule_args = array( strval( $feed_id ) );
+        $timestamp = wp_next_scheduled( 'wprss_fetch_single_feed_hook', $schedule_args );
         return $timestamp;
     }
 
