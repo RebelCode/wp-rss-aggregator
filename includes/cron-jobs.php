@@ -150,6 +150,9 @@
     function wprss_activate_feed_source( $feed_id ) {
         update_post_meta( $feed_id, 'wprss_state', 'active' );
         update_post_meta( $feed_id, 'wprss_activate_feed', '' );
+
+        // Add an action hook, so functions can be run when a feed source is activated
+        do_action( 'wprss_on_feed_source_activated', $feed_id );
     }
 
 
@@ -163,6 +166,9 @@
     function wprss_pause_feed_source( $feed_id ) {
         update_post_meta( $feed_id, 'wprss_state', 'paused' );
         update_post_meta( $feed_id, 'wprss_pause_feed', '' );
+
+        // Add an action hook, so functions can be run when a feed source is paused
+        do_action( 'wprss_on_feed_source_paused', $feed_id );
     }
 
 
