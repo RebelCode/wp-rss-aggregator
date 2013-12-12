@@ -1,3 +1,7 @@
+3.9
+New Feature: Feed sources can have their own update interval.
+New Feature: The time remaining until the next update has been added to the Feed Source table.
+
 3.8 (2013-12-05)
 New Feature: Feed items can be limited and deleted by their age.
 Enhanced: Added utility functions for shorter filters.
