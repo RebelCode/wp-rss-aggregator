@@ -235,18 +235,31 @@
         $age_limit = ( isset( $_POST['wprss_age_limit'] ) )? stripslashes( $_POST['wprss_age_limit'] ) : '';
         $age_unit = ( isset( $_POST['wprss_age_unit'] ) )? stripslashes( $_POST['wprss_age_unit'] ) : '';
         $update_interval = ( isset( $_POST['wprss_update_interval'] ) )? stripslashes( $_POST['wprss_update_interval'] ) : wprss_get_default_feed_source_update_interval();
+        $old_update_interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
 
-        update_post_meta( $post_id, 'wprss_state', $state );
+        // Update the feed source meta
         update_post_meta( $post_id, 'wprss_activate_feed', $activate );
         update_post_meta( $post_id, 'wprss_pause_feed', $pause );
         update_post_meta( $post_id, 'wprss_age_limit', $age_limit );
         update_post_meta( $post_id, 'wprss_age_unit', $age_unit );
         update_post_meta( $post_id, 'wprss_update_interval', $update_interval );
 
+        // Check if the state or the update interval has changed
+        if ( get_post_meta( $post_id, 'wprss_state', TRUE ) !== $state || $old_update_interval !== $update_interval ) {
+            // Pause the feed source, and if it is active, re-activate it.
+            // This should update the feed's scheduling
+            wprss_pause_feed_source( $post_id );
+            if ( $state === 'active' )
+                wprss_activate_feed_source( $post_id );
+        }
+
         // Update the schedules
         wprss_update_feed_processing_schedules( $post_id );
 
-        wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
+        // If the feed source uses the global updating system, update the feed on publish
+        if ( $update_interval === wprss_get_default_feed_source_update_interval() ) {
+            wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
+        }
     } 
 
 
@@ -393,7 +406,7 @@
 
         <div class="wprss-meta-side-setting">
             <p>
-                <label for="">Update interval every: </label>
+                <label for="">Update interval: </label>
                 <strong id="wprss-feed-update-interval-viewer"><?php echo ( ( $update_interval !== '' )? wprss_interval( $schedules[$update_interval]['interval'] ) : $default_interval ); ?></strong>
                 <a href="#">Edit</a>
             </p>
@@ -406,10 +419,8 @@
                 </select>
                 
                 <br/>
-                <span class='description' for='limit-feed-items-age'>
-                    Enter the maximum age of feed items to be stored in the database. Feed items older than the specified age will be deleted everyday at midnight.
-                    <br/>
-                    Leave empty for no limit.
+                <span class='description' for='feed-update-interval'>
+                    Enter the interval at which to update this feed. The feed will only be updated if it is <strong>active</strong>.
                 </span>
             </div>
         </div>
