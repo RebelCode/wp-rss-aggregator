@@ -168,7 +168,7 @@
 
 
     /**
-     * Pareses the date time string into a UTC timestamp.
+     * Parses the date time string into a UTC timestamp.
      * The string must be in the format: m/d/y h:m:s
      * 
      * @since 3.9
