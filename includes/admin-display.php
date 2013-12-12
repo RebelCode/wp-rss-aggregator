@@ -18,8 +18,8 @@
         $columns['id'] = __( 'ID', 'wprss' );
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
-            $columns['state'] = __( 'State', 'wprss' );
             $columns['next-update'] = __( 'Next Update', 'wprss' );
+            $columns['state'] = __( 'State', 'wprss' );
         }
         return $columns;
     }    
@@ -68,13 +68,17 @@
             break;
 
         case 'next-update':
+            $interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
             $timestamp = wprss_get_next_feed_source_update( $post_id );
-
             ?>
 
             <p>
                 <code>
-                    <?php if ( $timestamp === FALSE ) : ?>
+                    <?php if ( !wprss_is_feed_source_active( $post_id ) ): ?>
+                        Paused
+                    <?php elseif ( $interval === wprss_get_default_feed_source_update_interval() || $interval === '' ) : ?>
+                        Using global interval
+                    <?php elseif ( $timestamp === FALSE ) : ?>
                         None
                     <?php else: ?>
                         <?php echo human_time_diff( $timestamp, time() ); ?>
