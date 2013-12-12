@@ -86,7 +86,32 @@ foreach ( $plugins as $plugin_path => $plugin ):
 
 echo $plugin['Name']; ?>: <?php echo $plugin['Version'] ."\n";
 
-endforeach; ?>
+endforeach; 
+
+if ( is_multisite() ) :
+?>
+
+NETWORK ACTIVE PLUGINS:
+
+<?php
+$plugins = wp_get_active_network_plugins();
+$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
+
+foreach ( $plugins as $plugin_path ) {
+	$plugin_base = plugin_basename( $plugin_path );
+
+	// If the plugin isn't active, don't show it.
+	if ( ! array_key_exists( $plugin_base, $active_plugins ) )
+		continue;
+
+	$plugin = get_plugin_data( $plugin_path );
+
+	echo $plugin['Name'] . ': ' . $plugin['Version'] ."\n";
+}
+
+endif; 
+
+if ( ! is_multisite() ) : ?>
 
 DEACTIVATED PLUGINS:
 
@@ -96,7 +121,9 @@ foreach ( $inactive_plugins as $inactive_plugin ):
 
 echo $inactive_plugin['Name']; ?>: <?php echo $inactive_plugin['Version'] ."\n";
 
-endforeach; ?>
+endforeach; 
+
+endif; ?>
 
 CURRENT THEME:
 
