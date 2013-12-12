@@ -104,6 +104,7 @@
      * Removes the current schedules and adds the ones in the feed source's meta.
      * 
      * @param $feed_id  The id of the wprss_feed
+     * @since 3.8
      */
     function wprss_update_feed_processing_schedules( $feed_id ) {
         // Get the new feed processing schedules
