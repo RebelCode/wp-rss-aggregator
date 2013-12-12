@@ -16,8 +16,10 @@
         );
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
         $columns['id'] = __( 'ID', 'wprss' );
+        // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
             $columns['state'] = __( 'State', 'wprss' );
+            $columns['next-update'] = __( 'Next Update', 'wprss' );
         }
         return $columns;
     }    
@@ -61,6 +63,25 @@
                     <i class='fa fa-<?php echo $icon; ?>'></i>
                 </button>
             </p>
+            <?php
+
+            break;
+
+        case 'next-update':
+            $timestamp = wprss_get_next_feed_source_update( $post_id );
+
+            ?>
+
+            <p>
+                <code>
+                    <?php if ( $timestamp === FALSE ) : ?>
+                        None
+                    <?php else: ?>
+                        <?php echo human_time_diff( $timestamp, time() ); ?>
+                    <?php endif; ?>
+                </code>
+            </p>
+
             <?php
 
             break;
