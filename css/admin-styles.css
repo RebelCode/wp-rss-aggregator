@@ -284,3 +284,11 @@ div.wprss-meta-side-setting a.wprss-slider-button {
 div.inside .wprss-meta-side-setting:last-child {
     border-bottom: 0 solid transparent;
 }
+
+
+.column-title { text-align: left; width:20% !important; overflow:hidden }
+.column-url { text-align: left; width:40% !important; overflow:hidden }
+.column-category { text-align: left; width:15% !important; overflow:hidden }
+.column-id { text-align: left; width:5% !important; overflow:hidden }
+.column-next-update { text-align: left; width:10% !important; overflow:hidden }
+.column-state { text-align: left; width:10% !important; overflow:hidden }
