@@ -195,7 +195,6 @@
     }
 
 
-
     add_action( 'wprss_on_feed_source_paused', 'wprss_feed_source_update_stop_schedule' );
     /**
      * Stops any scheduled update operations for a feed source. Runs on a schedule.
@@ -213,14 +212,6 @@
     }
 
 
-
-
-
-
-
-
-
-
     /**
      * Returns the timestamp for the next feed source update
      * 
@@ -234,7 +225,6 @@
         $timestamp = wp_next_scheduled( 'wprss_fetch_single_feed_hook', $schedule_args );
         return $timestamp;
     }
-
 
 
     /**

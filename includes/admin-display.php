@@ -74,7 +74,7 @@
 
             <p>
                 <code>
-                    <?php if ( !wprss_is_feed_source_active( $post_id ) ): ?>
+                    <?php if ( ! wprss_is_feed_source_active( $post_id ) ): ?>
                         Paused
                     <?php elseif ( $interval === wprss_get_default_feed_source_update_interval() || $interval === '' ) : ?>
                         Using global interval
