@@ -12,7 +12,7 @@
             'cb'          => '<input type="checkbox" />',
             'title'       => __( 'Name', 'wprss' ),
             'url'         => __( 'URL', 'wprss' ),
-            'description' => __( 'Description', 'wprss' )
+        //  'description' => __( 'Description', 'wprss' )
         );
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
         $columns['id'] = __( 'ID', 'wprss' );
