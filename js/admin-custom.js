@@ -161,7 +161,20 @@ jQuery(window).load( function(){
 
             var hybrid = slider.attr('data-hybrid');
             var fields = ( typeof hybrid !== 'undefined' && hybrid !== false ) ? $( hybrid ) : slider.find('*').first();
-            var label = slider.find('label.description');
+
+            var labelAttr = slider.attr('data-label');
+            var label = ( typeof labelAttr !== 'undefined' && labelAttr !== false ) ? $( labelAttr ) : null;
+
+            // The controller is the field that, when using hybrid fields, determines if the value is empty or not
+            var controllerAttr = slider.attr( 'data-empty-controller' );
+            var controller = ( typeof controllerAttr !== 'undefined' && controllerAttr !== false ) ? $( controllerAttr ) : null;
+
+            var labelWhenEmpty = null;
+            if ( label !== null ) {
+                var whenEmpty = label.attr('data-when-empty');
+                labelWhenEmpty = ( typeof whenEmpty !== 'undefined' && whenEmpty !== false ) ? whenEmpty : label.text();
+            }
+
             var defaultValue = slider.attr('data-default-value');
             // Edit link opens the settings
             editLink.click(function( e ){
@@ -184,8 +197,35 @@ jQuery(window).load( function(){
                     }
                     else val += ' ' + $(this).val();
                 });
+                // check the controller
+                var controllerVal = '=';
+                if ( controller !== null ) {
+                    if ( controller.is('select') ) {
+                        controllerVal = ' ' + controller.find('option:selected').text();
+                    } else controllerVal = ' ' + controller.val();
+                }
                 // If empty, use the default value
-                if ( val.trim() === '' ) val = defaultValue;
+                if ( val.trim() === '' || controllerVal.trim() === '' ) {
+                    val = defaultValue;
+                    // If the label is set, and it has alternate text for empty values, switch its text and attr
+                    if ( label !== null ) {
+                        var whenEmpty = label.attr('data-when-empty');
+                        var labelWhenEmpty = ( typeof whenEmpty !== 'undefined' && whenEmpty !== false ) ? whenEmpty : null;
+                        if ( labelWhenEmpty !== null ) {
+                            label.attr( 'data-when-not-empty', label.text() ).text( labelWhenEmpty );
+                        }
+                    }
+                }
+                // Otherwise if the value is not empty, and the label is set to its empty counterpart, switch it back
+                else {
+                    if ( label !== null ) {
+                        var whenNotEmpty = label.attr('data-when-not-empty');
+                        var labelWhenNotEmpty = ( typeof whenNotEmpty !== 'undefined' && whenNotEmpty !== false ) ? whenNotEmpty : null;
+                        if ( labelWhenNotEmpty !== null ) {
+                            label.attr( 'data-when-empty', label.text() ).text( labelWhenNotEmpty );
+                        }
+                    }
+                }
                 // Set the text of the viewer to the value
                 viewer.text( val );
             });
@@ -197,7 +237,7 @@ jQuery(window).load( function(){
                 });
             });
 
-            // Add the buttons and a break tag before the description label
+            // Add the buttons
             slider.append( $('<br>') ).append( $('<br>') ).append( okBtn ).append( cancelBtn );
 
             // Make both buttons close the div
