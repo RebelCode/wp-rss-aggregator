@@ -407,7 +407,14 @@
         <div class="wprss-meta-side-setting">
             <p>
                 <label for="">Update interval: </label>
-                <strong id="wprss-feed-update-interval-viewer"><?php echo ( ( $update_interval !== '' )? wprss_interval( $schedules[$update_interval]['interval'] ) : $default_interval ); ?></strong>
+                <strong id="wprss-feed-update-interval-viewer">
+                    <?php
+                        if ( $update_interval === '' || $update_interval === wprss_get_default_feed_source_update_interval() )
+                            echo $default_interval;
+                        else
+                            echo wprss_interval( $schedules[$update_interval]['interval'] );
+                    ?>
+                </strong>
                 <a href="#">Edit</a>
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-feed-update-interval-viewer" data-default-value="<?php echo $default_interval; ?>">
