@@ -409,10 +409,12 @@
                 <label for="">Update interval: </label>
                 <strong id="wprss-feed-update-interval-viewer">
                     <?php
-                        if ( $update_interval === '' || $update_interval === wprss_get_default_feed_source_update_interval() )
+                        if ( $update_interval === '' || $update_interval === wprss_get_default_feed_source_update_interval() ) {
                             echo $default_interval;
-                        else
+                        }
+                        else {
                             echo wprss_interval( $schedules[$update_interval]['interval'] );
+                        }
                     ?>
                 </strong>
                 <a href="#">Edit</a>
