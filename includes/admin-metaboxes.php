@@ -428,11 +428,11 @@
 
         <div class="wprss-meta-side-setting">
             <p>
-                <label for="">Delete feeds older than: </label>
+                <label id="wprss-age-limit-feed-label" for="" data-when-empty="Delete old feed items:">Delete feed items older than: </label>
                 <strong id="wprss-age-limit-feed-viewer"><?php echo $age_limit . ' ' . $age_unit; ?></strong>
                 <a href="#">Edit</a>
             </p>
-            <div class="wprss-meta-slider" data-collapse-viewer="wprss-age-limit-feed-viewer" data-default-value="Do not delete feeds" data-hybrid="#limit-feed-items-age, #limit-feed-items-age-unit">
+            <div class="wprss-meta-slider" data-collapse-viewer="wprss-age-limit-feed-viewer" data-label="#wprss-age-limit-feed-label" data-default-value="" data-empty-controller="#limit-feed-items-age" data-hybrid="#limit-feed-items-age, #limit-feed-items-age-unit">
                 <input id="limit-feed-items-age" name="wprss_age_limit" type="number" min="0" class="wprss-number-roller" placeholder="No limit" value="<?php echo $age_limit; ?>" />
 
                 <select id="limit-feed-items-age-unit" name="wprss_age_unit">
