@@ -451,27 +451,6 @@
         </div>
 
         <?php
-        /*
-        $options = get_option( 'wprss_settings_general' );  
-        $current = $options['cron_interval'];
-
-        $schedules = wprss_get_schedules();    
-        // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
-        $wprss_schedules = apply_filters( 
-                            'wprss_schedules',
-                            array( 'fifteen_min', 'thirty_min', 'hourly', 'two_hours', 'twicedaily', 'daily' )
-        );        
-        echo "<select id='cron-interval' name='wprss_settings_general[cron_interval]'>";
-        foreach( $schedules as $schedule_name => $schedule_data ) { 
-            if ( in_array( $schedule_name, $wprss_schedules ) ) { ?>
-                <option value="<?php echo $schedule_name; ?>" <?php selected( $current, $schedule_name ); ?> >
-                    <?php echo $schedule_data['display']; ?> (<?php echo wprss_interval( $schedule_data['interval'] ); ?>)
-                </option>
-            <?php } ?>
-        <?php } ?>
-        </select><?php
-        */
-        
     }
 
 
