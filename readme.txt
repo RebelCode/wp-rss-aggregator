@@ -145,6 +145,9 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 == Changelog ==
 
+= 3.9.2 (2013-12-21) = 
+* Fixed bug: Incorrect file include call
+
 = 3.9.1 (2013-12-12) =
 * Enhanced: Improved date and time handling for imported feed items.
 * Fixed bug: Incorrect values being shown in the Feed Processing metabox.
