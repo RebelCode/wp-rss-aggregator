@@ -1,3 +1,6 @@
+4.0
+Fixed bug: Feed limits set to zero were causing feeds to not be imported.
+
 3.9 (2013-12-12)
 New Feature: Feed sources can have their own update interval.
 New Feature: The time remaining until the next update has been added to the Feed Source table.
