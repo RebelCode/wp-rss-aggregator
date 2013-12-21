@@ -74,6 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
+								<li>Enhanced: Improved date and time handling for imported feed items.</li>
 								<li>Fixed bug: Incorrect values being shown in the Feed Processing metabox.</li>
 								<li>Fixed bug: Feed limits set to zero were causing feeds to not be imported.</li>
 							</ul>
