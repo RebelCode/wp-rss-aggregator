@@ -762,6 +762,11 @@
             
         } // end foreach
 
+        // If limit_feed_items_age_unit is not set or it set to zero, set it to empty
+        if ( ! isset( $input['limit_feed_items_age_unit'] ) || strval( $input['limit_feed_items_age_unit'] ) == '0' ) {
+            $output['limit_feed_items_age_unit'] = '';
+        }
+
         if (  ! isset( $input['title_link'] )  ||  $input['title_link'] != '1' ) 
             $output['title_link'] = 0; 
         else 
