@@ -126,7 +126,7 @@
     require_once ( WPRSS_INC . 'misc-functions.php' ); 
 
     /* Load the OPML Class file */
-    require_once ( WPRSS_INC . 'opml.php' );
+    require_once ( WPRSS_INC . 'OPML.php' );
 
     /* Load the OPML Importer file */
     require_once ( WPRSS_INC . 'opml-importer.php' );
