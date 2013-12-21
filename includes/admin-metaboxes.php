@@ -218,6 +218,11 @@
         if ( defined( 'DOING_CRON' ) && DOING_CRON )
             return;        
         
+        // Change the limit, if it is zero, to an empty string
+        if ( isset( $_POST['wprss_limit'] ) && strval( $_POST['wprss_limit'] ) == '0' ) {
+            $_POST['wprss_limit'] = '';
+        }
+
         // loop through fields and save the data
         foreach ( $meta_fields as $field ) {
             $old = get_post_meta( $post_id, $field[ 'id' ], true );
