@@ -317,10 +317,12 @@
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
 						array(
-							'post_title'   => $item->get_title(),
-							'post_content' => '',
-							'post_status'  => 'publish',
-							'post_type'    => 'wprss_feed_item',
+							'post_title'     => $item->get_title(),
+							'post_content'   => '',
+							'post_status'    => 'publish',
+							'post_type'      => 'wprss_feed_item',
+                            'post_date'      => get_date_from_gmt( $item->get_date( 'Y-m-d H:i:s' ) ), 
+                            'post_date_gmt'  => $item->get_date( 'Y-m-d H:i:s' ),
 						),
 						$item
 					);
