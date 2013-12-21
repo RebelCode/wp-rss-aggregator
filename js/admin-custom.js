@@ -187,8 +187,8 @@ jQuery(window).load( function(){
                 });
             });
 
-            // Create the OK Button
-            var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text('OK').click( function(){
+            // The update function
+            var update = function(){
                 // On click, get the value of the fields
                 var val = '';
                 fields.each( function(){
@@ -228,7 +228,10 @@ jQuery(window).load( function(){
                 }
                 // Set the text of the viewer to the value
                 viewer.text( val );
-            });
+            };
+
+            // Create the OK Button
+            var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text('OK').click( update );
             // Create the Cancel Button
             var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel').click( function() {
                 fields.each( function(){
@@ -244,6 +247,9 @@ jQuery(window).load( function(){
             slider.find('.wprss-slider-button').click( function(){
                 slider.slideUp().removeClass('wprss-open');
             });
+
+            // Update when ready
+            update();
         });
 
     });
