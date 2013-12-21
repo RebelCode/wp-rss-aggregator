@@ -74,8 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>New Feature: Feed sources can have their own update interval.</li>
-								<li>New Feature: The time remaining until the next update has been added to the Feed Source table.</li>
+								<li>Fixed bug: Incorrect values being shown in the Feed Processing metabox.</li>
+								<li>Fixed bug: Feed limits set to zero were causing feeds to not be imported.</li>
 							</ul>
 
 

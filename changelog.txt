@@ -1,4 +1,4 @@
-4.0
+3.9.1 (2013-12-12)
 Fixed bug: Incorrect values being shown in the Feed Processing metabox.
 Fixed bug: Feed limits set to zero were causing feeds to not be imported.
 
