@@ -186,7 +186,7 @@
      * @since 3.6
      */
     function wprss_check_tracking_notice( $pointers ){
-        $settings = get_option( 'wprss_settings_general' );
+        $settings = get_option( 'wprss_settings_general', array( 'tracking' => '' ) );
         $wprss_tracking = ( isset( $settings['tracking'] ) )? $settings['tracking'] : '';
 
         if ( $wprss_tracking === '' ) {
