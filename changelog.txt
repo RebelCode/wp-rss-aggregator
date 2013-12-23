@@ -1,5 +1,8 @@
+3.9.3 (2013-12-23)
+Fixed bug: Fixed tracking pointer appearing on saving settings.
+
 3.9.2 (2013-12-21)
-Fixed bug: Incorrect file include call
+Fixed bug: Incorrect file include call.
 
 3.9.1 (2013-12-21)
 Enhanced: Improved date and time handling for imported feed items.
