@@ -119,13 +119,8 @@
                 'cache_results' => false,   // Disable caching, used for one-off queries
                 'no_found_rows' => true,    // We don't need pagination, so disable it
                 'posts_per_page'=> -1,
-                'meta_query'    => array(
-                    array(
-                        'key'     => 'wprss_feed_id',
-                        'value'   => $source_id,
-                        'compare' => 'LIKE'
-                    )
-                )
+                'meta_key'      => 'wprss_feed_id',
+                'meta_value'    => $source_id,
             )
         );
         return new WP_Query( $args );
