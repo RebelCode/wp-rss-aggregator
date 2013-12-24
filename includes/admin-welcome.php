@@ -74,7 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>Fixed bug: Fixed tracking pointer appearing on saving settings.</li>
+								<li>Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.</li>
+								<li>Fixed bug: Leaving the delete old feed items empty did not ignore the delete.</li>
 							</ul>
 
 

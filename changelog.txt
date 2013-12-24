@@ -1,5 +1,6 @@
-3.x.x
+3.9.4 (2013-12-24)
 Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.
+Fixed bug: Leaving the delete old feed items empty did not ignore the delete.
 
 3.9.3 (2013-12-23)
 Fixed bug: Fixed tracking pointer appearing on saving settings.
