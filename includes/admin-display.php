@@ -20,7 +20,7 @@
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
             $columns['next-update'] = __( 'Next Update', 'wprss' );
             $columns['state'] = __( 'State', 'wprss' );
-            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Feed items' ), 'wprss' );
+            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
         }
         return $columns;
     }    
