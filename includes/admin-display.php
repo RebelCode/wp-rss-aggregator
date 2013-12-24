@@ -20,6 +20,7 @@
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
             $columns['next-update'] = __( 'Next Update', 'wprss' );
             $columns['state'] = __( 'State', 'wprss' );
+            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Feed items' ), 'wprss' );
         }
         return $columns;
     }    
@@ -88,6 +89,11 @@
 
             <?php
 
+            break;
+
+        case 'feed-count':
+            $items = wprss_get_feed_items_for_source( $post_id );
+            echo '<p>' . $items->post_count . '</p>';
             break;
       }
     }
