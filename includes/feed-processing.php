@@ -814,7 +814,10 @@
         $age = $item->get_date( 'U' );
         $max_age = wprss_get_max_age_for_feed_source( $source );
 
-        if ( $age === '' ) return $item;
+        // If the age is not a valid timestamp, and the max age setting is disabled, return the item
+        if ( $age === '' || $age === NULL || $max_age === FALSE || $max_age === NULL ) {
+            return $item;
+        }
 
         // Calculate the age difference
         $difference = $age - $max_age;
