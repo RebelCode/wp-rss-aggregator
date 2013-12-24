@@ -1,3 +1,6 @@
+3.x.x
+Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.
+
 3.9.3 (2013-12-23)
 Fixed bug: Fixed tracking pointer appearing on saving settings.
 
