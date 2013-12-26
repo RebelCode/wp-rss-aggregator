@@ -71,14 +71,16 @@
         case 'next-update':
             $interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
             $timestamp = wprss_get_next_feed_source_update( $post_id );
+            // If using the global interval, get the timestamp of the next glboal update
+            if ( $interval === wprss_get_default_feed_source_update_interval() || $interval === '' ) {
+              $timestamp = wp_next_scheduled( 'wprss_fetch_all_feeds_hook', array() );
+            }
             ?>
 
             <p>
                 <code>
                     <?php if ( ! wprss_is_feed_source_active( $post_id ) ): ?>
                         Paused
-                    <?php elseif ( $interval === wprss_get_default_feed_source_update_interval() || $interval === '' ) : ?>
-                        Using global interval
                     <?php elseif ( $timestamp === FALSE ) : ?>
                         None
                     <?php else: ?>
