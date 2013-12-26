@@ -100,5 +100,7 @@
 }
 
 #validate-feed-link {
-	margin-left: 15px;
+	font-size: 0.85em;
+	text-decoration: none;
+	margin-left: 10px;
 }
