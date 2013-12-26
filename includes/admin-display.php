@@ -274,7 +274,7 @@
             if ( get_post_status( get_the_ID() ) !== 'trash' ) {
                 $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Feeds', 'wprss' ) ) .'" >' . __( 'Fetch Feeds', 'wprss' ) . '</a>';
 
-                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete feed items' );
+                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete Feed Items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title ', 'Delete feed items imported by this feed source' );
                 $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
             }
