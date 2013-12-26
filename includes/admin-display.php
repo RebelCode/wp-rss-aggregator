@@ -173,7 +173,9 @@
                 break;         
             
             case "publishdate":
-                $publishdate = date( 'Y-m-d H:i:s', get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) ;          
+                $item_date = get_post_meta( get_the_ID(), 'wprss_item_date', true );
+                $item_date = ( $item_date === '' )? date('U') : $item_date;
+                $publishdate = date( 'Y-m-d H:i:s', $item_date ) ;          
                 echo $publishdate;
                 break;   
             
