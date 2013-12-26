@@ -74,8 +74,11 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.</li>
-								<li>Fixed bug: Leaving the delete old feed items empty did not ignore the delete.</li>
+								<li>Enhanced: Added a feed validator link in the New/Edit Feed Sources page.</li>
+								<li>Enhanced: The Next Update column also shows the time remaining for next update, for feed source on the global update interval.</li>
+								<li>Enhanced: The custom feed has been improved, and is now identical to the feeds displayed with the shortcode.</li>
+								<li>Enhanced: License notifications only appear on the main site when using WordPress multisite.</li>
+								<li>Fixed bug: The Imported Items column was always showing zero.</li>
 							</ul>
 
 
