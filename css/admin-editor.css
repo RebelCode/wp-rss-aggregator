@@ -98,3 +98,7 @@
 #wprss-dialog-exclude-label {
 	vertical-align: top;
 }
+
+#validate-feed-link {
+	margin-left: 15px;
+}

@@ -95,6 +95,10 @@
             'paged'            => $paged,
             'suppress_filters' => true
 		);
+
+        if ( isset( $settings['no-paged'] ) && $settings['no-paged'] === TRUE ) {
+            unset( $feed_items_args['no-paged'] );
+        }
 		
 		// If either the source or exclude arguments are set (but not both), prepare a meta query
 		if ( isset( $settings['source'] ) xor isset( $settings['exclude'] ) ) {
@@ -126,7 +130,9 @@
         // Query to get all feed items for display
         $feed_items = new WP_Query( $feed_items_args );
 
-        return $feed_items;
+        if ( isset( $settings['get-args'] ) && $settings['get-args'] === TRUE ) {
+            return $feed_items_args;
+        } else return $feed_items;
     }
 
 

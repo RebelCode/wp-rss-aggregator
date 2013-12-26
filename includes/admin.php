@@ -115,7 +115,9 @@
 
 
 
-    add_action( 'admin_notices', 'wprss_notify_inactive_licenses' );
+    if ( is_main_site() ) {
+        add_action( 'admin_notices', 'wprss_notify_inactive_licenses' );
+    }
     /**
      * Shows a notification that tells the user that there are saved licenses that have not been activated.
      * 
