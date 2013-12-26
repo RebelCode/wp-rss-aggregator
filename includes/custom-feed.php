@@ -64,6 +64,7 @@
     function wprss_addfeed_do_feed( $in ) {
 
         // Prepare the post query
+        /*
         $wprss_custom_feed_query = apply_filters(            
                 'wprss_custom_feed_query',
                 array(
@@ -72,7 +73,20 @@
                 'cache_results' => false,   // disable caching
             ) 
             
+        );*/
+        $wprss_custom_feed_query = wprss_get_feed_items_query(
+            apply_filters(
+                'wprss_custom_feed_query',
+                array(
+                    'get-args'      =>  TRUE, // Get the query args instead of the query object
+                    'no-paged'      =>  TRUE, // ignore pagination
+                    'feed_limit'    =>  0, // ignore limit
+                )
+            )
         );
+
+        // Suppress caching
+        $wprss_custom_feed_query['cache_results'] = FALSE;
 
         // Get options
         $options = get_option( 'wprss_settings_general' );
