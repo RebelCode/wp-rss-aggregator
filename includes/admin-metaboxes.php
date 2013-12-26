@@ -93,7 +93,8 @@
             'label' => __( 'URL', 'wprss' ),
             'desc'  => __( 'Enter feed URL (including http://)', 'wprss' ),
             'id'    => $prefix .'url',
-            'type'  => 'text'
+            'type'  => 'text',
+            'after' => 'wprss_validate_feed_link',
         );
         
         $wprss_meta_fields[ 'description' ] = array(
@@ -131,7 +132,6 @@
             echo '<table class="form-table wprss-form-table">';
 
             foreach ( $meta_fields as $field ) {
-
                 // get value of this field if it exists for this post
                 $meta = get_post_meta( $post->ID, $field['id'], true );
                 // begin a table row with
@@ -139,6 +139,10 @@
                         <th><label for="' . $field['id'] . '">' . $field['label'] . '</label></th>
                         <td>';
                         
+                        if ( isset( $field['before'] ) && !empty( $field['before'] ) ) {
+                            call_user_func( $field['before'] );
+                        }
+
                         switch( $field['type'] ) {
                         
                             // text
@@ -176,11 +180,51 @@
                             break;
 
                         } //end switch
+
+                        if ( isset( $field['after'] ) && !empty( $field['after'] ) ) {
+                            call_user_func( $field['after'] );
+                        }
+
                 echo '</td></tr>';
             } // end foreach
             echo '</table>'; // end table
     }
   
+
+    /**
+     * Adds the link that validates the feed
+     * @since 3.9.5 
+     */
+    function wprss_validate_feed_link() {
+        ?>
+            <a href="#" id="validate-feed-link">Validate feed</a>
+            <script type="text/javascript">
+                (function($){
+                    // When the DOM is ready
+                    $(document).ready( function(){
+                        // Move the link immediately after the url text field, and add the click event handler
+                        $('#validate-feed-link').insertAfter('#wprss_url').click(function(e){
+                            // Get the url and proceed only if the url is not empty
+                            var url = $('#wprss_url').val();
+                            if ( url.trim().length > 0 ) {
+                                // Encode the url and generate the full url to the w3 feed validator
+                                var encodedUrl = encodeURIComponent( url );
+                                var fullURL = 'http://validator.w3.org/feed/check.cgi?url=' + encodedUrl;
+                                // Open the window / tab
+                                window.open( fullURL, 'wprss-feed-validator' );
+                            }
+                            // Suppress the default link click behaviour
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return false;
+                        });
+                    });
+                })(jQuery);
+            </script>
+        <?php
+    }
+
+
 
     add_action( 'save_post', 'wprss_save_custom_fields', 10, 2 ); 
     /**     
