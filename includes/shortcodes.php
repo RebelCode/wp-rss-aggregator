@@ -13,6 +13,18 @@
         ob_start(); // start an output buffer to output of the following function
         wprss_display_feed_items( $atts ); 
         $feed_items = ob_get_clean(); // save the current buffer and clear it
+
+        //Enqueue scripts / styles
+        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );         
+        wp_enqueue_script( 'custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );  
+
+        $general_settings = get_option( 'wprss_settings_general' );
+
+        if( ! $general_settings['styles_disable'] == 1 ) {         
+            wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.33' );     
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );         
+        }
+        
         return apply_filters( 'wprss_shortcode_output', $feed_items );
     }
     
