@@ -217,7 +217,7 @@
         $feed_item_limit = $general_settings['limit_feed_items_imported'];
         
         // Don't fetch the feed if feed item limit is 0, there's no need, huge speed improvement
-        if ( $feed_item_limit == 0 ) return;
+        if ( $feed_item_limit === '' ) return;
 
         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 
@@ -491,9 +491,9 @@
 			$items = wprss_get_feed_items( $feed_url );
             if ( $items === NULL ) $items = array();
 
-            // If the feed has its own meta limit,
+            // If the feed has its own meta limit, which is not zero,
             // slice the items array using the feed meta limit
-            if ( !empty( $feed_limit ) )
+            if ( !empty( $feed_limit ) && $feed_limit !== 0 )
                 $items_to_insert = array_slice($items, 0, $feed_limit);
             else $items_to_insert = $items;
             
