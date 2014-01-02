@@ -170,7 +170,7 @@
                 $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
                 // Fallback for feeds created with older versions of the plugin
                 if ( $source_url === '' )
-                    $source_url      = get_post_meta( $feed_source_id, 'wprss_url', true );
+                    $source_url = get_post_meta( $feed_source_id, 'wprss_url', true );
 
                 do_action( 'wprss_get_post_data' );
 
@@ -181,7 +181,7 @@
                     $output .= "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $permalink . '">'. get_the_title(). '</a>';
                 }
                 else {
-                    $output .= get_the_title();
+                    $output .= "$link_before" . get_the_title();
                 }
 
                 if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 1 ) )  {
