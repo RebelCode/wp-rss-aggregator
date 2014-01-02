@@ -59,8 +59,8 @@
      * @since 3.0
      */      
     function wprss_load_scripts() {                     
-        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );         
-        wp_enqueue_script( 'custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );  
+      /*  wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );         
+        wp_enqueue_script( 'custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );  */
         do_action( 'wprss_register_scripts' );         
     } // end wprss_head_scripts_styles
 
@@ -96,7 +96,7 @@
      */  
     function wprss_register_styles() {   
 
-        $general_settings = get_option( 'wprss_settings_general' );
+       /* $general_settings = get_option( 'wprss_settings_general' );
 
         if( $general_settings['styles_disable'] == 1 )
             return;
