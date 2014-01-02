@@ -78,7 +78,9 @@
 								<li>Enhanced: The Next Update column also shows the time remaining for next update, for feed source on the global update interval.</li>
 								<li>Enhanced: The custom feed has been improved, and is now identical to the feeds displayed with the shortcode.</li>
 								<li>Enhanced: License notifications only appear on the main site when using WordPress multisite.</li>
+								<li>Enhanced: Updated Colorbox script to 1.4.33</li>
 								<li>Fixed bug: The Imported Items column was always showing zero.</li>
+								<li>Fixed bug: Feed items not being imported with limit set to zero. Should be unlimited.</li>
 							</ul>
 
 
