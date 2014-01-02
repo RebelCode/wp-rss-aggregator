@@ -5,6 +5,7 @@ Enhanced: The custom feed has been improved, and is now identical to the feeds d
 Enhanced: License notifications only appear on the main site when using WordPress multisite.
 Enhanced: Updated Colorbox script to 1.4.33
 Fixed bug: The Imported Items column was always showing zero.
+Fixed bug: Feed items not being imported with limit set to zero. Should be unlimited.
 
 3.9.4 (2013-12-24)
 Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.
