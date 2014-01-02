@@ -153,6 +153,7 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 * Enhanced: Updated Colorbox script to 1.4.33
 * Fixed bug: The Imported Items column was always showing zero.
 * Fixed bug: Feed items not being imported with limit set to zero. Should be unlimited.
+* Fixed bug: Fat header in Feed Sources page
 
 = 3.9.4 (2013-12-24) =
 * Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.

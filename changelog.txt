@@ -7,6 +7,7 @@ Enhanced: Updated Colorbox script to 1.4.33
 Fixed bug: The Imported Items column was always showing zero.
 Fixed bug: Feed items not being imported with limit set to zero. Should be unlimited.
 Fixed bug: Broken display template if titles are not linked and no source and date are displayed.
+Fixed bug: Fat header in Feed Sources page
 
 3.9.4 (2013-12-24)
 Enhanced: Added a column in the Feed Sources page that shows the number of feed items imported for each feed source.
