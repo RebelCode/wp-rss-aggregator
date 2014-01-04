@@ -1,6 +1,12 @@
 <?php 
+    /**
+     * Functions for the admin section, columns and row actions 
+     * 
+     * @package WP RSS Aggregator
+     */ 
 
-    add_filter( 'manage_edit-wprss_feed_columns', 'wprss_set_feed_custom_columns'); 
+
+    add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns'); 
     /**     
      * Set up the custom columns for the wprss_feed list
      * 
@@ -14,14 +20,17 @@
             'url'         => __( 'URL', 'wprss' ),
         //  'description' => __( 'Description', 'wprss' )
         );
+
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
         $columns['id'] = __( 'ID', 'wprss' );
+
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
             $columns['next-update'] = __( 'Next Update', 'wprss' );
             $columns['state'] = __( 'State', 'wprss' );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
         }
+
         return $columns;
     }    
 
@@ -141,7 +150,7 @@
     }
 
 
-    add_filter( 'manage_edit-wprss_feed_item_columns', 'wprss_set_feed_item_custom_columns'); 
+    add_filter( 'manage_wprss_feed_item_posts_columns', 'wprss_set_feed_item_custom_columns'); 
     /**
      * Set up the custom columns for the wprss_feed source list
      * 
