@@ -219,7 +219,7 @@
         $feed_item_limit = $general_settings['limit_feed_items_imported'];
         
         // Don't fetch the feed if feed item limit is 0, there's no need, huge speed improvement
-        if ( $feed_item_limit === '' ) return;
+        // if ( $feed_item_limit === '' ) return;
 
         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 
