@@ -201,7 +201,6 @@
         $feed->handle_content_type();
 
         if ( $feed->error() ) {
-            wprss_log( 'Failed to fetch feed ' . $url );
             return new WP_Error( 'simplepie-error', $feed->error() );
         }
 
@@ -248,7 +247,10 @@
             return $items;
         }
 
-        else { return; }
+        else {
+            wprss_log( 'Failed to fetch feed ' . $url );
+            return;
+        }
     }
 
 
@@ -311,7 +313,11 @@
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
-				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );    
+				$new_item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
+                if ( $new_item === NULL ) {
+                    wprss_log( 'Feed item skipped (got null): ' . $item->get_title() );
+                }
+                $item = $new_item;
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL ) {
@@ -353,6 +359,9 @@
 
                         // Remember newly added permalink
                         $existing_permalinks[] = $permalink;
+                    }
+                    else {
+                        wprss_log_obj( 'Failed to insert post', $feed_item, 'wprss_items_insert_post > wp_insert_post' );
                     }
 				}
             }
@@ -829,7 +838,12 @@
         // Calculate the age difference
         $difference = $age - $max_age;
         
-        return ( $difference <= 0 )? NULL : $item;
+        if ( $difference <= 0 ) {
+            wprss_log( 'Feed item skipped (older than specified settings): ' . $item->get_title() );
+            return NULL;
+        } else {
+            return $item;
+        }
     }
 
 
