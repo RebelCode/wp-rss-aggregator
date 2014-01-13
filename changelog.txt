@@ -1,4 +1,4 @@
-3.9.6
+3.9.6 (2014-01-13)
 Enhanced: Added error logging.
 
 3.9.5 (2014-01-02)
