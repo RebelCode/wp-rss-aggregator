@@ -200,8 +200,10 @@
         $feed->init();
         $feed->handle_content_type();
 
-        if ( $feed->error() )
+        if ( $feed->error() ) {
+            wprss_log( 'Failed to fetch feed ' . $url );
             return new WP_Error( 'simplepie-error', $feed->error() );
+        }
 
         return $feed;
     }

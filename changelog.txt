@@ -1,3 +1,6 @@
+3.9.6
+Enhanced: Added error logging.
+
 3.9.5 (2014-01-02)
 Enhanced: Added a feed validator link in the New/Edit Feed Sources page.
 Enhanced: The Next Update column also shows the time remaining for next update, for feed source on the global update interval.

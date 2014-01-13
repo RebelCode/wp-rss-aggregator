@@ -80,6 +80,10 @@
     // Set the constant path to the plugin's includes directory. 
     if( !defined( 'WPRSS_INC' ) )
         define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ), true );
+
+    // Set the constant path to the plugin's log file.
+    if( !defined( 'WPRSS_LOG_FILE' ) )
+        define( 'WPRSS_LOG_FILE', WPRSS_DIR . 'log.txt', true );
     
 
     /**
@@ -160,6 +164,9 @@
     // require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
 
     require_once ( WPRSS_INC . 'admin-editor.php' );
+
+    // Load the logging functions file
+    require_once ( WPRSS_INC . 'admin-log.php' );
 
     
     register_activation_hook( __FILE__ , 'wprss_activate' );

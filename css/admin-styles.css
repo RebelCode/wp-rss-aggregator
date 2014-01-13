@@ -292,3 +292,16 @@ div.inside .wprss-meta-side-setting:last-child {
 .column-id { text-align: left; width:5% !important; overflow:hidden }
 .column-next-update { text-align: left; width:10% !important; overflow:hidden }
 .column-state { text-align: left; width:10% !important; overflow:hidden }
+
+
+/* Log textarea styles */
+#wprss-error-log-textarea {
+    width: 800px;
+    height: 400px;
+    font-family: Menlo, Monaco, monospace;
+    background: none;
+    white-space: pre;
+    overflow: auto;
+    display: block;
+    background: rgb( 255, 245, 245 );
+}
