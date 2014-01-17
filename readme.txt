@@ -145,7 +145,7 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 == Changelog ==
 
-= 3.9.6 (2014-01-13) =
+= 3.9.6 (2014-01-17) =
 * Enhanced: Added error logging.
 
 = 3.9.5 (2014-01-02) =
