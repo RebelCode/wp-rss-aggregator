@@ -1,3 +1,6 @@
+3.9.7 (2014-01-17)
+Fixed bug: Bug in admin-debugging.php causing trouble with admin login
+
 3.9.6 (2014-01-17)
 Enhanced: Added error logging.
 
