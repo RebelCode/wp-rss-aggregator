@@ -175,11 +175,11 @@ input#thumbnails-width {
     cursor: default;
 }
 
-#system-info-textarea {
+#system-info-textarea, 
+#wprss-error-log-textarea {
     width: 800px;
     height: 400px;
     font-family: Menlo, Monaco, monospace;
-    background: none;
     white-space: pre;
     overflow: auto;
     display: block;

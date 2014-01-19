@@ -125,8 +125,6 @@
     }
 
 
-
-
     /**
      * Renders the Clear Log button
      * 
@@ -145,8 +143,6 @@
 
         <?php
     }
-
-
 
 
     /**
