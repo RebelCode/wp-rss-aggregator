@@ -504,9 +504,12 @@
 
             // If the feed has its own meta limit, which is not zero,
             // slice the items array using the feed meta limit
-            if ( !empty( $feed_limit ) && $feed_limit !== 0 )
+            if ( !empty( $feed_limit ) && $feed_limit !== 0 ) {
                 $items_to_insert = array_slice($items, 0, $feed_limit);
-            else $items_to_insert = $items;
+            }
+            else { 
+                $items_to_insert = $items;
+            }
             
             // Insert the items into the db
 			if ( !empty( $items_to_insert ) ) {
