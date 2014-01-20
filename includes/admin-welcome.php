@@ -74,7 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>Fixed bug: Bug in admin-debugging.php causing trouble with admin login</li>
+								<li>Fixed bug: Removed excessive logging from Debugging Error Log.</li>
 							</ul>
 
 
