@@ -313,11 +313,7 @@
             if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
-				$new_item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
-                if ( $new_item === NULL ) {
-                    wprss_log( 'Feed item skipped (got null): ' . $item->get_title() );
-                }
-                $item = $new_item;
+				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL ) {
@@ -842,7 +838,6 @@
         $difference = $age - $max_age;
         
         if ( $difference <= 0 ) {
-            wprss_log( 'Feed item skipped (older than specified settings): ' . $item->get_title() );
             return NULL;
         } else {
             return $item;
