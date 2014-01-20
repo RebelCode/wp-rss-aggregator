@@ -37,9 +37,11 @@
 	/**
 	 * Adds the button action JS file to TinyMCE's plugin list
 	 *
+	 * @todo add filter to skip showing the editor button
 	 * @since 3.5
 	 */
 	function wprss_register_tinymce_plugin($plugin_array) {
+		// add filter here
 		$plugin_array['wprss'] = WPRSS_JS . 'editor.js';
 		return $plugin_array;
 	}
