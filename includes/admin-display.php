@@ -362,7 +362,6 @@
     }
 
 
-
     /**
      * Shows a notification that tells the user that feed items for a particular source are being deleted
      * 
@@ -372,7 +371,6 @@
         $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feeds for this feed source are being deleted in the background.' ), 'wprss' );
         echo '<div class="updated"><p>' . $message . '</p></div>';
     }
-
 
 
     add_action( 'wp_ajax_wprss_fetch_feeds_row_action', 'wprss_fetch_feeds_action_hook' );
