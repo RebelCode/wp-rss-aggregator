@@ -248,7 +248,7 @@
         }
 
         else {
-            wprss_log( 'Failed to fetch feed ' . $url );
+            wprss_log( 'Failed to fetch feed "' . $url . '"' );
             return;
         }
     }
