@@ -74,7 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li>Fixed bug: Removed excessive logging from Debugging Error Log.</li>
+								<li><b>Enhanced:</b> The custom feed can now be extended by add-ons.</li>
 							</ul>
 
 
