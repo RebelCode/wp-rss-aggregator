@@ -110,7 +110,7 @@
         header('Expires: 0'); // Proxies.
         echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?' . '>';
         ?>
-        <feed xmlns="http://www.w3.org/2005/Atom">
+        <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" >
             <title type="text">Latest imported feed items on <?php bloginfo_rss('name'); ?></title>
             <?php
             // Start the Loop
