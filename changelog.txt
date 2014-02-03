@@ -1,3 +1,6 @@
+3.9.9
+Enhanced: The custom feed can now be extended by add-ons.
+
 3.9.8 (2014-01-20)
 Fixed bug: Removed excessive logging from Debugging Error Log.
 
