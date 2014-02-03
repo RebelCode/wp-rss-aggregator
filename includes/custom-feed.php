@@ -124,6 +124,7 @@
                 <!--<link href="<?php the_permalink_rss(); ?>" />-->
                 <published><?php echo get_post_time( 'Y-m-d\TH:i:s\Z' ); ?></published>
                 <content type="html"><![CDATA[<?php the_content(); ?>]]></content>
+                <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?>
             </entry>
             <?php
             // End of the Loop
