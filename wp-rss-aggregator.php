@@ -103,7 +103,13 @@
     require_once ( WPRSS_INC . 'roles-capabilities.php' ); 
 
     /* Load the feed processing functions file */
-    require_once ( WPRSS_INC . 'feed-processing.php' );   
+    require_once ( WPRSS_INC . 'feed-processing.php' );
+
+    /* Load the feed importing functions file */
+    require_once ( WPRSS_INC . 'feed-importing.php' );
+
+    /* Load the feed states functions file */
+    require_once ( WPRSS_INC . 'feed-states.php' );   
 
     /* Load the feed display functions file */
     require_once ( WPRSS_INC . 'feed-display.php' );            
