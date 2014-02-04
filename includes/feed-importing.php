@@ -46,9 +46,43 @@
 			// If the feed has its own meta limit,
 			if ( $feed_limit !== NULL ) {
 				// slice the items array using the feed meta limit
-				// @todo - Check current number of feed items for source, and delete oldest to make room for new, to keep to the limit.
-				// 		   ( use wprss_get_feed_items_for_source )
+				// @todo -	Check current number of feed items for source, and delete oldest to make room for new, to keep to the limit.
+				//			Use wprss_get_feed_items_for_source
+				
 				$items_to_insert = array_slice( $items, 0, $feed_limit );
+
+				// Gather the permalinks of existing feed item's related to this feed source
+				$existing_permalinks = get_existing_permalinks( $feed_ID );
+
+				// Generate a list of items fetched, that are not already in the DB
+				$new_items = array();
+				foreach( $items as $item ) {
+					$permalink = $item->get_permalink();
+					if ( !in_array( $permalink, $existing_permalinks ) ) {
+						$new_items = array_push( $new_items, $item );
+					}
+				}
+
+				// Get the number of feed items in DB, and their count
+				$db_feed_items = wprss_get_feed_items_for_source( $feed_ID );
+				$num_db_feed_items = $db_feed_items->post_count;
+				// Get the number of feed items we can store until we reach the limit
+				$num_can_insert = $feed_limit - $num_db_feed_items;
+				
+				// Calculate how many feed items we must delete before importing, to keep to the limit
+				$num_feed_items_to_delete = count( $new_items ) - $num_can_insert;
+
+				// Get an array with the DB feed items in reverse order (oldest first)
+				$db_feed_items_reversed = array_reverse( $db_feed_items->posts );
+				// Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
+				$feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
+				// Iterate the feed items and delete them
+				foreach ( $feed_items_to_delete as $key => $post ) {
+					wp_delete_post( $post->ID, TRUE );
+				}
+
+				//$items_to_insert = $new_items;
+
 			}
 			else { 
 				$items_to_insert = $items;
@@ -159,6 +193,55 @@
 
 
 
+	/**
+	 * Converts YouTube, Vimeo and DailyMotion video urls
+	 * into embedded video player urls.
+	 * If the permalink is not a video url, the permalink is returned as is.
+	 *
+	 * @param	$permalink The string permalink url to convert.
+	 * @return	A string, with the convert permalink, or the same permalink passed as parameter if
+	 *			not a video url.
+	 * @since 4.0
+	 */
+	function wprss_convert_video_permalink( $permalink ) {
+		// CHECK PERMALINK FOR VIDEO HOSTS : YOUTUBE, VIMEO AND DAILYMOTION
+		$found_video_host = preg_match( '/http[s]?:\/\/(www\.)?(youtube|dailymotion|vimeo)\.com\/(.*)/i', $permalink, $matches );
+
+		// If video host was found
+		if ( $found_video_host !== 0 && $found_video_host !== FALSE ) {
+		
+			// Get general options
+			$options = get_option( 'wprss_settings_general' );
+			// Get the video link option entry, or false if it does not exist
+			$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
+		
+			// If the video link option is true, change the video URL to its repective host's embedded
+			// video player URL. Otherwise, leave the permalink as is.
+			if ( strtolower( $video_link ) === 'true' ) {
+				$host = $matches[2];
+				switch( $host ) {
+					case 'youtube':
+						preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
+						$permalink = 'http://www.youtube.com/embed/' . $yt_matches[2];
+						break;
+					case 'vimeo':
+						preg_match( '/(\d*)$/i', $permalink, $vim_matches );
+						$permalink = 'http://player.vimeo.com/video/' . $vim_matches[0];
+						break;
+					case 'dailymotion':
+						preg_match( '/(\.com\/)(video\/)(.*)/i', $permalink, $dm_matches );
+						$permalink = 'http://www.dailymotion.com/embed/video/' . $dm_matches[3];
+						break;
+				}
+			}
+		}
+
+		return $permalink;
+	}
+
+
+
+
 
 	/**
 	 * Insert wprss_feed_item posts into the DB
@@ -172,43 +255,11 @@
 
 		foreach ( $items as $item ) {
 
-			// normalize permalink to pass through feed proxy URL
-			$permalink = $item->get_permalink();
-
-			// CHECK PERMALINK FOR VIDEO HOSTS : YOUTUBE, VIMEO AND DAILYMOTION
-			$found_video_host = preg_match( '/http[s]?:\/\/(www\.)?(youtube|dailymotion|vimeo)\.com\/(.*)/i', $permalink, $matches );
-			
-			// If video host was found
-			if ( $found_video_host !== 0 && $found_video_host !== FALSE ) {
-			
-				// Get general options
-				$options = get_option( 'wprss_settings_general' );
-				// Get the video link option entry, or false if it does not exist
-				$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
-			
-				// If the video link option is true, change the video URL to its repective host's embedded
-				// video player URL. Otherwise, leave the permalink as is.
-				if ( strtolower( $video_link ) === 'true' ) {
-					$host = $matches[2];
-					switch( $host ) {
-						case 'youtube':
-							preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
-							$permalink = 'http://www.youtube.com/embed/' . $yt_matches[2];
-							break;
-						case 'vimeo':
-							preg_match( '/(\d*)$/i', $permalink, $vim_matches );
-							$permalink = 'http://player.vimeo.com/video/' . $vim_matches[0];
-							break;
-						case 'dailymotion':
-							preg_match( '/(\.com\/)(video\/)(.*)/i', $permalink, $dm_matches );
-							$permalink = 'http://www.dailymotion.com/embed/video/' . $dm_matches[3];
-							break;
-					}
-				}
-			}
+			// Convert the url if it is a video url and the conversion is enabled in the settings.
+			$permalink = wprss_convert_video_permalink( $item->get_permalink() );
 
 
-			/*
+			/* OLD NORMALIZATION CODE - TO NORMALIZE URLS FROM PROXY URLS
 			$response = wp_remote_head( $permalink );
 			if ( !is_wp_error(  $response ) && isset( $response['headers']['location'] ) ) {
 				$permalink = current( explode( '?', $response['headers']['location'] ) );
