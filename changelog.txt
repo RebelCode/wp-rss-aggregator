@@ -1,3 +1,7 @@
+4.0 (2014-02-04)
+Enhanced: Improved some internal queries, for better performance.
+Fixed bug: Feed limits were not working properly.
+
 3.9.9 (2014-02-03)
 Enhanced: The custom feed can now be extended by add-ons.
 

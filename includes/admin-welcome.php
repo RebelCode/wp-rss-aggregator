@@ -74,7 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><b>Enhanced:</b> The custom feed can now be extended by add-ons.</li>
+								<li><b>Enhanced:</b> Improved some internal queries, for better performance.</li>
+								<li><b>Fixed bug:</b> Feed limits were not working properly.</li>
 							</ul>
 
 
