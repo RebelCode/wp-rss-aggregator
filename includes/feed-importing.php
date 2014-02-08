@@ -59,11 +59,10 @@
 				foreach( $items as $item ) {
 					$permalink = $item->get_permalink();
 					if ( !in_array( $permalink, $existing_permalinks ) ) {
-						if ( is_array( $new_items ) && is_array( $item ) ) {
-							$new_items = array_push( $new_items, $item );
-						} else {
-							wprss_log_obj( 'Encounter a minor error. $new_items: ', $new_items );
+						if ( ! is_array( $new_items ) ) {
+							$new_items = array();
 						}
+						$new_items = array_push( $new_items, $item );
 					}
 				}
 
