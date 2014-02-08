@@ -1,4 +1,4 @@
-4.0.1
+4.0.1 (2014-02-08)
 Fixed bug: Empty array of feed items bug caused importing problems.
 
 4.0 (2014-02-04)
