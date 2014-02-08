@@ -4,6 +4,30 @@ function fetch_items_row_action_callback(){
     var original_text = link.text();
     var id = link.attr('pid');
     var url = link.attr('purl');
+
+    jQuery.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+            'action': 'wprss_fetch_feeds_row_action',
+            'id':   id
+        },
+        success: function( response, status, jqXHR ){
+            console.log( jqXHR );
+            link.text( 'Feed items imported!' );
+            setTimeout( function(){
+                link.text( original_text ).click( fetch_items_row_action_callback );
+            }, 3500 );
+        },
+        error: function( response ){
+            link.text( 'Failed to import: ' + response );
+            setTimeout( function(){
+                link.text( original_text ).click( fetch_items_row_action_callback );
+            }, 3500 );
+        },
+        timeout: 60000 // set timeout to 1 minute
+    });
+    /*
     jQuery.post(
         url, 
         {
@@ -16,7 +40,7 @@ function fetch_items_row_action_callback(){
                 link.text( original_text ).click( fetch_items_row_action_callback );
             }, 3500 );
         }
-    );
+    );*/
     link.text('Please wait ...');
     link.unbind('click');
 };
