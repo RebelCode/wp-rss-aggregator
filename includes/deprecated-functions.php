@@ -30,7 +30,7 @@
                         
                         add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' );
                         //$feed = fetch_feed( $feed_url );                        
-                        $feed = wprss_fetch_feed( $feed_url );                        
+                        $feed = wprss_fetch_feed( $feed_url, $feed_ID );                        
                         remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_return_7200' ); 
 
                     //    $feed->strip_htmltags( array_merge( $feed->strip_htmltags, array('h1', 'a', 'img') ) ); 

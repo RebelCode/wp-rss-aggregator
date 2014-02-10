@@ -39,7 +39,7 @@
 		// Filter the URL for validaty
 		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) ) {
 			// Get the feed items from the source
-			$items = wprss_get_feed_items( $feed_url );
+			$items = wprss_get_feed_items( $feed_url, $feed_ID );
 			// If got NULL, convert to an empty array
 			if ( $items === NULL ) $items = array();
 
@@ -110,7 +110,7 @@
 	 *
 	 * @since 3.0
 	 */
-	function wprss_get_feed_items( $feed_url ) {
+	function wprss_get_feed_items( $feed_url, $source ) {
 		$general_settings = get_option( 'wprss_settings_general' );
 		$feed_item_limit = $general_settings['limit_feed_items_imported'];
 		
@@ -122,7 +122,7 @@
 		/* Disable caching of feeds */
 		add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 		/* Fetch the feed from the soure URL specified */
-		$feed = wprss_fetch_feed( $feed_url );
+		$feed = wprss_fetch_feed( $feed_url, $source );
 		//$feed = new SimplePie();
 		//$feed->set_feed_url( $feed_url );
 		//$feed->init();
@@ -163,7 +163,7 @@
 	 *
 	 * @since 3.5
 	 */
-	function wprss_fetch_feed( $url ) {
+	function wprss_fetch_feed( $url, $source = NULL ) {
 		require_once ( ABSPATH . WPINC . '/class-feed.php' );
 
 		$feed = new SimplePie();
@@ -181,8 +181,13 @@
 
 		$feed->set_feed_url( $url );
 
-		$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
+		//$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
+		$feed->enable_cache( FALSE );
 		do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
+
+		$tags_to_strip = apply_filters( 'wprss_feed_tags_to_strip', $feed->strip_htmltags, $source );
+		$feed->strip_htmltags( $tags_to_strip );
+
 		$feed->init();
 		$feed->handle_content_type();
 
