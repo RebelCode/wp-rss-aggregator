@@ -74,7 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><b>Fixed bug:</b> Empty array of feed items bug caused importing problems.</li>
+								<li><b>Enhanced:</b> Added a filter to change the html tags allowed in feed item content.</li>
 							</ul>
 
 
