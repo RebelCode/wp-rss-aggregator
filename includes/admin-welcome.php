@@ -74,7 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><b>Enhanced:</b> Added a filter to change the html tags allowed in feed item content.</li>
+								<li><b>Fixed bug:</b> The general setting for deleting feed items by age was not working.</li>
 							</ul>
 
 
