@@ -1,3 +1,6 @@
+4.0.3
+Fixed bug: The general setting for deleting feed items by age was not working.
+
 4.0.2 (2014-02-10)
 Enhanced: Added a filter to change the html tags allowed in feed item content.
 
