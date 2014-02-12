@@ -383,7 +383,7 @@
 
     /**
      * Delete old feed items from the database to avoid bloat.
-     * As if 3.8, it uses the new feed age system.
+     * As of 3.8, it uses the new feed age system.
      *
      * @since 3.8
      */
