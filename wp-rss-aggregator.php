@@ -83,7 +83,9 @@
 
     // Set the constant path to the plugin's log file.
     if( !defined( 'WPRSS_LOG_FILE' ) )
-        define( 'WPRSS_LOG_FILE', WPRSS_DIR . 'log.txt', true );
+        define( 'WPRSS_LOG_FILE', WPRSS_DIR . 'log', true );
+    if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
+        define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
     
 
     /**
