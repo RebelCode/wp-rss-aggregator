@@ -13,12 +13,20 @@
      */
     function wprss_get_display_settings( $settings ) {
 
+        $args = wp_parse_args(
+            $settings,
+            array(
+                'open_dd'   =>  'New Window',
+                'follow_dd' =>  '',
+            )
+        );
+
         $display_settings = array(
             'open'      =>  '',
             'follow'    =>  ''
         );
 
-        switch ( $settings['open_dd'] ) {
+        switch ( $args['open_dd'] ) {
 
             case 'Lightbox' :
                 $display_settings['open'] = 'class="colorbox"';
@@ -29,7 +37,7 @@
                 break;
         }
 
-        switch ( $settings['follow_dd'] ) {
+        switch ( $args['follow_dd'] ) {
 
             case 'no_follow' :
                 $display_settings['follow'] = 'rel="nofollow"';

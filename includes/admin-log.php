@@ -2,12 +2,22 @@
 
 
 	/**
+	 * Returns the log file path.
+	 * 
+	 * @since 4.0.4
+	 */
+	function wprss_log_file() {
+		return WPRSS_LOG_FILE . '-' . get_current_blog_id() . WPRSS_LOG_FILE_EXT;
+	}
+
+
+	/**
 	 * Clears the log file.
 	 *
 	 * @since 3.9.6
 	 */
 	function wprss_clear_log() {
-		file_put_contents( WPRSS_LOG_FILE, '' );
+		file_put_contents( wprss_log_file(), '' );
 	}
 
 
@@ -37,7 +47,7 @@
 		$str = "[$date] $source:\n";
 		$str .= str_repeat(' ', strlen( strval( $date ) ) + 3 );
 		$str .= "$message\n";
-		file_put_contents( WPRSS_LOG_FILE , $str, FILE_APPEND );
+		file_put_contents( wprss_log_file() , $str, FILE_APPEND );
 
 		add_action( 'shutdown', 'wprss_log_separator' );
 	}
@@ -58,14 +68,14 @@
 	 * @since 3.9.6
 	 */
 	function wprss_get_log() {
-		if ( !file_exists( WPRSS_LOG_FILE ) ) {
+		if ( !file_exists( wprss_log_file() ) ) {
 			wprss_clear_log();
 		}
-		$contents = file_get_contents(  WPRSS_LOG_FILE , '' );
+		$contents = file_get_contents(  wprss_log_file() , '' );
 		// Trim the log file to a fixed number of chars
 		$limit = 10000;
 		if ( strlen( $contents ) > $limit ) {
-			file_put_contents( WPRSS_LOG_FILE, substr( $contents, 0, $limit ) );
+			file_put_contents( wprss_log_file(), substr( $contents, 0, $limit ) );
 			return wprss_get_log();
 		} else {
 			return $contents;
@@ -82,5 +92,5 @@
 	 * @since 3.9.6
 	 */
 	function wprss_log_separator() {
-		file_put_contents( WPRSS_LOG_FILE, "\n", FILE_APPEND );	
+		file_put_contents( wprss_log_file(), "\n", FILE_APPEND );	
 	}

@@ -1,3 +1,7 @@
+4.0.4
+Enhanced: Logging is now site dependant on multisite.
+Fixed bug: Undefined display settings where appearing on the front end.
+
 4.0.3 (2014-02-12)
 Fixed bug: The general setting for deleting feed items by age was not working.
 
