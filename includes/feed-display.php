@@ -218,6 +218,10 @@
 
                 // No source, no date
                 else { $output .= "$link_after"; }
+
+                if ( $general_settings['time_ago_format_enable'] == 1 ) {
+                    $output .= '<div class="time-ago">' . human_time_diff( $timestamp, time() ) . ' ago</div>';
+                }
                 
 
             }
@@ -306,6 +310,11 @@
 		elseif ( isset( $args['exclude'] ) ) {
 			$query_args['exclude'] = $args['exclude'];
 		}
+
+        if ( $display_settings['time_ago_format_enable'] === 1 ) {
+            
+        }
+
 
 		$feed_items = wprss_get_feed_items_query( $query_args );
 

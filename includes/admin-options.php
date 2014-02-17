@@ -136,6 +136,10 @@
                         'label'     =>  __( 'Date format', 'wprss' ),
                         'callback'  =>  'wprss_setting_date_format_callback'
                     ),
+                    'time-ago-format-enable' => array(
+                        'label'     =>  __( 'Time ago format', 'wprss' ),
+                        'callback'  =>  'wprss_setting_time_ago_format_enable_callback'
+                    ),
                     'text-preceding-date' => array(
                         'label'     =>  __( 'Text preceding date', 'wprss' ),
                         'callback'  =>  'wprss_setting_text_preceding_date_callback'
@@ -345,7 +349,7 @@
         echo "<input type='hidden' name='wprss_settings_general[follow_dd]' value='follow'>";
         echo "<input type='checkbox' id='follow-dd' name='wprss_settings_general[follow_dd]' value='no_follow' $checked_attr>";
 
-        echo '<label class="description" id="follow-dd">';
+        echo '<label class="description" for="follow-dd">';
         echo    '"Nofollow" provides a way for webmasters to tell search engines "Don\'t follow links on this page" or "Don\'t follow this specific link."';
         echo '</label>';
     }
@@ -656,6 +660,16 @@
         echo "<input type='checkbox' id='tracking' name='wprss_settings_general[tracking]' value='1' " . checked( 1, $tracking, false ) . " />";
         echo "<label class='description' for='tracking'>Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.</label>";
         echo "<p class='description'>No sensitive data will be sent.</p>";
+    }
+
+    /**
+     * Time ago format checkbox
+     * @since 4.2
+     */
+    function wprss_setting_time_ago_format_enable_callback() {
+        $time_ago_format = wprss_get_general_setting( 'time_ago_format_enable' );
+        echo "<input type='checkbox' id='time-ago-format' name='wprss_settings_general[time_ago_format_enable]' value='1' " . checked( 1, $time_ago_format, false ) . " />";
+        echo "<label class='description' for='time-ago-format'>Check this box to show time since update e.g.: 2 hours ago.</label>";
     }
 
 
