@@ -150,7 +150,7 @@
      * 
      * @since 3.0
      */ 
-    function wprss_debugging_page_display() {             
+    function wprss_debugging_page_display() {
         $debug_messages = apply_filters(
             'wprss_debug_messages',
             array(

@@ -181,14 +181,19 @@
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
 
-    add_action( 'init', 'wprss_init' );     
+    add_action( 'init', 'wprss_init' );
     /**
      * Initialise the plugin
      *
      * @since  1.0
      * @return void
      */     
-    function wprss_init() {                    
+    function wprss_init() {
+        //If user requested to download system info, generate the download.
+        if ( isset( $_POST['wprss-sysinfo'] ) ) {
+            do_action( 'wprss_download_sysinfo' );
+        }
+
         do_action( 'wprss_init' );
     }
 
