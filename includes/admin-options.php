@@ -824,6 +824,10 @@
     function wprss_settings_license_keys_validate( $input ) {
         // Get the current licenses option
         $licenses = get_option( 'wprss_settings_license_keys' );
+        // If no licenses have been defined yet, create an empty array
+        if ( !is_array( $licenses ) ) {
+            $licenses = array();
+        }
         // For each entry in the received input
         foreach ( $input as $addon => $license_code ) {
             // If the entry does not exist OR the code is different
