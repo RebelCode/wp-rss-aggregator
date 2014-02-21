@@ -286,12 +286,42 @@ div.inside .wprss-meta-side-setting:last-child {
 }
 
 
+/******************************
+ * FEED SOURCES PAGE COLUMNS
+ */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th {
+    text-align: left;
+    overflow: hidden;
+}
+/* ID */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
+    width: 50px !important;
+}
+/* NEXT UPDATE */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#next-update {
+    width: 120px !important;
+}
+/* STATE */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
+    width: 100px !important;
+}
+/* FEED COUNT */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
+    width: 120px !important;
+}
+/* CATEGORIES */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
+    width: 120px !important;
+}
+
+/*
 .column-title { text-align: left; width:20% !important; overflow:hidden }
 .column-url { text-align: left; width:40% !important; overflow:hidden }
 .column-category { text-align: left; width:15% !important; overflow:hidden }
 .column-id { text-align: left; width:5% !important; overflow:hidden }
 .column-next-update { text-align: left; width:10% !important; overflow:hidden }
 .column-state { text-align: left; width:10% !important; overflow:hidden }
+*/
 
 
 /* Log textarea styles */

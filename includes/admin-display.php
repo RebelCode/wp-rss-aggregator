@@ -15,19 +15,19 @@
     function wprss_set_feed_custom_columns( $columns ) {
 
         $columns = array(
-            'cb'          => '<input type="checkbox" />',
-            'title'       => __( 'Name', 'wprss' ),
-            'url'         => __( 'URL', 'wprss' ),
-        //  'description' => __( 'Description', 'wprss' )
+            'cb'          =>  '<input type="checkbox" />',
+            'title'       =>  __( 'Name', 'wprss' ),
+            'id'          =>  __( 'ID', 'wprss' ),
+            // 'url'         => __( 'URL', 'wprss' ),
+            // 'description' => __( 'Description', 'wprss' )
         );
 
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
-        $columns['id'] = __( 'ID', 'wprss' );
 
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
-            $columns['next-update'] = __( 'Next Update', 'wprss' );
             $columns['state'] = __( 'State', 'wprss' );
+            $columns['next-update'] = __( 'Next Update', 'wprss' );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
         }
 
