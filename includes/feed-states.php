@@ -32,6 +32,45 @@
     }
 
 
+
+
+
+
+    
+    /**
+     * Activates the feed source. Runs on a schedule.
+     * 
+     * @param $feed_id  The of of the wprss_feed
+     * @since 3.7
+     */
+    function wprss_activate_feed_source( $feed_id ) {
+        update_post_meta( $feed_id, 'wprss_state', 'active' );
+        update_post_meta( $feed_id, 'wprss_activate_feed', '' );
+
+        // Add an action hook, so functions can be run when a feed source is activated
+        do_action( 'wprss_on_feed_source_activated', $feed_id );
+    }
+
+
+    /**
+     * Pauses the feed source. Runs on a schedule.
+     * 
+     * @param $feed_id  The of of the wprss_feed
+     * @since 3.7
+     */
+    function wprss_pause_feed_source( $feed_id ) {
+        update_post_meta( $feed_id, 'wprss_state', 'paused' );
+        update_post_meta( $feed_id, 'wprss_pause_feed', '' );
+
+        // Add an action hook, so functions can be run when a feed source is paused
+        do_action( 'wprss_on_feed_source_paused', $feed_id );
+    }
+
+
+
+
+
+
     /**
      * Returns whether or not a feed source is active.
      * 

@@ -6,6 +6,11 @@
      */
 
 
+    // CRON HOOKS TO ACTIVATE/PAUSE FEED SOURCES
+    add_action( 'wprss_activate_feed_schedule_hook', 'wprss_activate_feed_source', 10, 1 );
+    add_action( 'wprss_pause_feed_schedule_hook', 'wprss_pause_feed_source', 10 , 1 );
+
+
     add_action( 'init', 'wprss_schedule_fetch_all_feeds_cron' );
     /**
      * Creates the cron to fetch feeds every hour
@@ -137,38 +142,6 @@
             wp_schedule_single_event( $new_pause_time, 'wprss_pause_feed_schedule_hook', $schedule_args );
         }
         
-    }
-
-
-    add_action( 'wprss_activate_feed_schedule_hook', 'wprss_activate_feed_source', 10, 1 );
-    /**
-     * Activates the feed source. Runs on a schedule.
-     * 
-     * @param $feed_id  The of of the wprss_feed
-     * @since 3.7
-     */
-    function wprss_activate_feed_source( $feed_id ) {
-        update_post_meta( $feed_id, 'wprss_state', 'active' );
-        update_post_meta( $feed_id, 'wprss_activate_feed', '' );
-
-        // Add an action hook, so functions can be run when a feed source is activated
-        do_action( 'wprss_on_feed_source_activated', $feed_id );
-    }
-
-
-    add_action( 'wprss_pause_feed_schedule_hook', 'wprss_pause_feed_source', 10 , 1 );
-    /**
-     * Pauses the feed source. Runs on a schedule.
-     * 
-     * @param $feed_id  The of of the wprss_feed
-     * @since 3.7
-     */
-    function wprss_pause_feed_source( $feed_id ) {
-        update_post_meta( $feed_id, 'wprss_state', 'paused' );
-        update_post_meta( $feed_id, 'wprss_pause_feed', '' );
-
-        // Add an action hook, so functions can be run when a feed source is paused
-        do_action( 'wprss_on_feed_source_paused', $feed_id );
     }
 
 
