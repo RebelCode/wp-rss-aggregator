@@ -9,8 +9,8 @@
 		var bulk_actions_select = $( 'select[name="action"]' );
 		var bulk_actions_trash = bulk_actions_select.find( "option[value='trash']" );
 		
-		var activate_action = $( '<option>' ).attr( 'value', 'activate' ).text( 'Activate' ).insertBefore( bulk_actions_trash );
-		var pause_action = $( '<option>' ).attr( 'value', 'pause' ).text( 'Pause' ).insertBefore( bulk_actions_trash );
+		$( '<option>' ).attr( 'value', 'activate' ).text( 'Activate' ).insertBefore( bulk_actions_trash );
+		$( '<option>' ).attr( 'value', 'pause' ).text( 'Pause' ).insertBefore( bulk_actions_trash );
 	});
 
 
