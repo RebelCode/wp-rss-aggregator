@@ -1,4 +1,4 @@
-4.0.4 (2014-02-17)
+4.0.4 (2014-02-22)
 Enhanced: Added Activate/Pause bulk actions in the Feed Sources page.
 Enhanced: Feed Sources page table has been re-designed.
 Enhanced: Logging is now site dependant on multisite.
