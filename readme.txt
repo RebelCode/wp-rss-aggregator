@@ -146,6 +146,8 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 == Changelog ==
 
 = 4.0.4 (2014-02-17) =
+* Enhanced: Added Activate/Pause bulk actions in the Feed Sources page.
+* Enhanced: Feed Sources page table has been re-designed.
 * Enhanced: Logging is now site dependant on multisite.
 * Fixed bug: Undefined display settings where appearing on the front end.
 

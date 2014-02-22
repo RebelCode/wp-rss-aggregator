@@ -74,6 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
+								<li><b>Enhanced:</b> Added Activate/Pause bulk actions in the Feed Sources page.</li>
+								<li><b>Enhanced:</b> Feed Sources page table has been re-designed.</li>
 								<li><b>Enhanced:</b> Logging is now site dependant on multisite.</li>
 								<li><b>Fixed bug:</b> Undefined display settings where appearing on the front end.</li>
 							</ul>
