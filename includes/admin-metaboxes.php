@@ -322,7 +322,7 @@
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
         
         if( ! empty( $feed_url ) ) {             
-            $feed = fetch_feed( $feed_url ); 
+            $feed = wprss_fetch_feed( $feed_url ); 
             if ( ! is_wp_error( $feed ) ) {
                 $items = $feed->get_items();        
                 // Figure out how many total items there are, but limit it to 5. 
