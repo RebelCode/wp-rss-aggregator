@@ -58,7 +58,7 @@
     }
 
 
-    add_action( 'init', 'wprss_debug_operations' );
+    add_action( 'admin_init', 'wprss_debug_operations' );
     /**
      * Performs debug operations, depending on the POST request.
      *

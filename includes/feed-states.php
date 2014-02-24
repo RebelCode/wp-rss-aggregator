@@ -6,7 +6,7 @@
      */
 
 
-    add_action( 'init', 'wprss_change_feed_state' );
+    add_action( 'admin_init', 'wprss_change_feed_state' );
     /**
      * Changes the state of a feed source, using POST data
      * 
@@ -34,7 +34,7 @@
 
 
 
-    add_action( 'init', 'wprss_bulk_change_state', 2 );
+    add_action( 'admin_init', 'wprss_bulk_change_state', 2 );
     /**
      * Changes the state of feed sources selected from the table bulk actions.
      * 
@@ -79,7 +79,7 @@
 
 
 
-    add_action( 'init', 'check_for_state_notice_after_redirect', 1 );
+    add_action( 'admin_init', 'check_for_state_notice_after_redirect', 1 );
     /**
      * Checks if the 'wprss_notify_bulk_change_state' transient is set.
      * If it is, it will show the appropriate admin notice

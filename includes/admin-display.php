@@ -296,7 +296,7 @@
     }
 
 
-    add_action( 'init', 'check_delete_for_feed_source' );
+    add_action( 'admin_init', 'check_delete_for_feed_source' );
     /**
      * Checks the GET data for the delete per feed source action request
      * 
