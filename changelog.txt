@@ -1,3 +1,6 @@
+4.0.5
+Enhanced: The plugin now allows the use of RSS and Atom feeds that do not specify the correct MIME type.
+
 4.0.4 (2014-02-22)
 Enhanced: Added Activate/Pause bulk actions in the Feed Sources page.
 Enhanced: Feed Sources page table has been re-designed.
