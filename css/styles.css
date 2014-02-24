@@ -16,3 +16,8 @@ span.feed-source { font-size: 90%; }
 .green {
 	color: #0BD600;
 }
+
+.nav-links {
+	overflow: hidden;
+	margin-bottom: 20px;
+}
