@@ -45,7 +45,6 @@
 		$date =  date( 'd-m-Y H:i:s' );
 		$source = 'WPRSS' . ( ( strlen( $src ) > 0 )? " > $src" : '' ) ;
 		$str = "[$date] $source:\n";
-		$str .= str_repeat(' ', strlen( strval( $date ) ) + 3 );
 		$str .= "$message\n";
 		file_put_contents( wprss_log_file() , $str, FILE_APPEND );
 
