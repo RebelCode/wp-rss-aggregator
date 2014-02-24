@@ -7,7 +7,7 @@
      */
 
 
-    add_action('init', 'wprss_add_caps');
+    add_action( 'admin_init', 'wprss_add_caps' );
     /**
      * Add feed aggregator-specific capabilities
      * 
