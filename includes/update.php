@@ -225,6 +225,9 @@
 				'limit_feed_items_age'		=> '',
 				'limit_feed_items_age_unit'	=> 'days',
 
+				// from version [no here]
+				'time_ago_format_enable'    => 0,
+
 				// tracking
 				'tracking'					=> 0,
 			)			
