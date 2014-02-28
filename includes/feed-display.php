@@ -321,11 +321,6 @@
 			$query_args['exclude'] = $args['exclude'];
 		}
 
-        if ( $display_settings['time_ago_format_enable'] === 1 ) {
-            
-        }
-
-
 		$feed_items = wprss_get_feed_items_query( $query_args );
 
         do_action( 'wprss_display_template', $display_settings, $args, $feed_items );
