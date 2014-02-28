@@ -182,8 +182,10 @@
 
                 do_action( 'wprss_get_post_data' );
 
+                $timestamp = intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) );
+
                 // convert from Unix timestamp
-                $date = date_i18n( $general_settings['date_format'], intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) ) );
+                $date = date_i18n( $general_settings['date_format'], $timestamp );
 
                 if ( $general_settings['title_link'] == 1 ) {
                     $output .= "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $permalink . '">'. get_the_title(). '</a>';
