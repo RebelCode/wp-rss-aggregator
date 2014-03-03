@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -144,6 +144,14 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 
 == Changelog ==
+
+= 4.0.5 (2014-03-03) =
+* New Feature: Time ago added as an option.
+* Enhanced: The plugin now allows the use of RSS and Atom feeds that do not specify the correct MIME type.
+* Enhanced: Better performance due to better hook usage.
+* Fixed bug: Facebook page feed URL conversion was not being triggered for new feed sources.
+* Fixed bug: Styles fix for pagination.
+* Fixed bug: Removed empty spaces in logging.
 
 = 4.0.4 (2014-02-17) =
 * Enhanced: Added Activate/Pause bulk actions in the Feed Sources page.

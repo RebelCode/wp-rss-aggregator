@@ -1,7 +1,7 @@
-4.0.5
+4.0.5 (2014-03-03)
+New Feature: Time ago added as an option.
 Enhanced: The plugin now allows the use of RSS and Atom feeds that do not specify the correct MIME type.
 Enhanced: Better performance due to better hook usage.
-New Feature: Time ago added as an option.
 Fixed bug: Facebook page feed URL conversion was not being triggered for new feed sources.
 Fixed bug: Styles fix for pagination.
 Fixed bug: Removed empty spaces in logging.
