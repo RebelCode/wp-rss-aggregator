@@ -227,6 +227,7 @@
 
 
 
+    add_action( 'added_post_meta', 'wprss_update_feed_meta', 10, 4 );
     add_action( 'updated_post_meta', 'wprss_update_feed_meta', 10, 4 );
     /**
      * This function is run whenever a post is saved or updated.
