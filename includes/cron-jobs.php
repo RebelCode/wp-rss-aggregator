@@ -11,7 +11,7 @@
     add_action( 'wprss_pause_feed_schedule_hook', 'wprss_pause_feed_source', 10 , 1 );
 
 
-    add_action( 'admin_init', 'wprss_schedule_fetch_all_feeds_cron' );
+    add_action( 'init', 'wprss_schedule_fetch_all_feeds_cron' );
     /**
      * Creates the cron to fetch feeds every hour
      *
@@ -33,7 +33,7 @@
     }
 
 
-    add_action( 'admin_init', 'wprss_schedule_truncate_posts_cron' );
+    add_action( 'init', 'wprss_schedule_truncate_posts_cron' );
     /**
      * Creates the cron to truncate wprss_feed_item posts daily
      *

@@ -145,6 +145,9 @@ Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to
 
 == Changelog ==
 
+= 4.0.6 (2014-03-05) =
+* Fixed bug: Hook change in last version suspected reason for some installations having non-updated feed items.
+
 = 4.0.5 (2014-03-03) =
 * New Feature: Time ago added as an option.
 * Enhanced: The plugin now allows the use of RSS and Atom feeds that do not specify the correct MIME type.
