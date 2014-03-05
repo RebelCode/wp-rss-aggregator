@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.0.5
+    Version: 4.0.6
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,10 +29,10 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.0.5
+     * @version   4.0.6
      * @since     1.0
      * @author    Jean Galea <info@jeangalea.com>
-     * @copyright Copyright (c) 2012-2013, Jean Galea
+     * @copyright Copyright (c) 2012-2014, Jean Galea
      * @link      http://www.wpmayor.com/
      * @license   http://www.gnu.org/licenses/gpl.html
      */
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.0.5', true );
+        define( 'WPRSS_VERSION', '4.0.6', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
