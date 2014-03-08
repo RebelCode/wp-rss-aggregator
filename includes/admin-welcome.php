@@ -74,7 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Fixed bug:</strong> Hook change in last version suspected reason for some installations having non-updated feed items.</li>
+								<li><strong>Fixed bug:</strong> The plugin prevented uploading of header images.</li>
 							</ul>
 
 
