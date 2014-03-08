@@ -17,16 +17,14 @@
             wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );         
         }
                 
-        if ( !empty ($atts) ) {
+        if ( !empty ( $atts ) ) {
             foreach ( $atts as $key => &$val ) {
-                $val = html_entity_decode($val);
+                $val = html_entity_decode( $val );
             }
         }      
         ob_start(); // start an output buffer to output of the following function
         wprss_display_feed_items( $atts ); 
         $feed_items = ob_get_clean(); // save the current buffer and clear it
-
-
         
         return apply_filters( 'wprss_shortcode_output', $feed_items );
     }
