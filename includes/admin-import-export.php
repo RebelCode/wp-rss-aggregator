@@ -96,23 +96,25 @@
             //Hope this plugin don't use admin.php for anything
             return;
         }
-        if ( isset( $_FILES['import'] ) && check_admin_referer( 'wprss-settings-import' ) ) {
-            if ( $_FILES['import']['error'] > 0) {
-                wp_die( "Error during import" );
-            } else {
-                $file_name = $_FILES['import']['name'];
-                $file_ext = strtolower( end( explode( ".", $file_name ) ) );
-                $file_size = $_FILES['import']['size'];
-                if ( ( $file_ext == "json" ) && ( $file_size < 500000 ) ) {
-                    $encode_options = file_get_contents( $_FILES['import']['tmp_name'] );
-                    $options = json_decode( $encode_options, true );
-                    foreach ( $options as $key => $value ) {
-                        update_option( $key, $value );
+        elseif ( $pagenow == 'edit.php' ) {
+            if ( isset( $_FILES['import'] ) && check_admin_referer( 'wprss-settings-import' ) ) {
+                if ( $_FILES['import']['error'] > 0) {
+                    wp_die( "Error during import" );
+                } else {
+                    $file_name = $_FILES['import']['name'];
+                    $file_ext = strtolower( end( explode( ".", $file_name ) ) );
+                    $file_size = $_FILES['import']['size'];
+                    if ( ( $file_ext == "json" ) && ( $file_size < 500000 ) ) {
+                        $encode_options = file_get_contents( $_FILES['import']['tmp_name'] );
+                        $options = json_decode( $encode_options, true );
+                        foreach ( $options as $key => $value ) {
+                            update_option( $key, $value );
+                        }
+                        add_action( 'admin_notices', 'wp_rss_aggregator_import_notice1' );
                     }
-                    add_action( 'admin_notices', 'wp_rss_aggregator_import_notice1' );
-                }
-                else {
-                    add_action( 'admin_notices', 'wp_rss_aggregator_import_notice2' );
+                    else {
+                        add_action( 'admin_notices', 'wp_rss_aggregator_import_notice2' );
+                    }
                 }
             }
         }
