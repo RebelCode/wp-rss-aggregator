@@ -167,7 +167,7 @@
     /* Load the security reset file */
     require_once ( WPRSS_INC . 'secure-reset.php' );
    
-    
+    /* Load the admin editor file */
     require_once ( WPRSS_INC . 'admin-editor.php' );
 
     // Load the logging functions file
