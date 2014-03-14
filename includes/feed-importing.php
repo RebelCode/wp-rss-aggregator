@@ -181,6 +181,7 @@
 
 		$feed->set_feed_url( $url );
 		$feed->force_feed( TRUE );
+		$feed->set_timeout( 30 );
 
 		//$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
 		$feed->enable_cache( FALSE );
