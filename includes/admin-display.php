@@ -384,7 +384,9 @@
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
             $id = $_POST['id'];
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
-            wprss_fetch_insert_single_feed_items( $id );
+            // Prepare the schedule
+            $schedule_args = array( strval( $id ) );
+            wp_schedule_event( time(), $interval , 'wprss_fetch_single_feed_hook', $schedule_args );
             die();
         }
     }

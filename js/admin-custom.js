@@ -6,7 +6,7 @@ function fetch_items_row_action_callback(){
     var url = link.attr('purl');
 
     jQuery.ajax({
-        url: url,
+        url: ajaxurl,
         type: 'POST',
         data: {
             'action': 'wprss_fetch_feeds_row_action',
@@ -14,13 +14,13 @@ function fetch_items_row_action_callback(){
         },
         success: function( response, status, jqXHR ){
             console.log( jqXHR );
-            link.text( 'Feed items imported!' );
+            link.text( 'Feed items are being imported!' );
             setTimeout( function(){
                 link.text( original_text ).click( fetch_items_row_action_callback );
             }, 3500 );
         },
-        error: function( response ){
-            link.text( 'Failed to import: ' + response );
+        error: function( response, status, error ){
+            link.text( 'Failed to import: ' + error );
             setTimeout( function(){
                 link.text( original_text ).click( fetch_items_row_action_callback );
             }, 3500 );
