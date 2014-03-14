@@ -386,7 +386,7 @@
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
             // Prepare the schedule
             $schedule_args = array( strval( $id ) );
-            wp_schedule_event( time(), $interval , 'wprss_fetch_single_feed_hook', $schedule_args );
+            wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', $schedule_args );
             die();
         }
     }
