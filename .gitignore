@@ -1,4 +1,4 @@
 .DS_Store
 .idea
 log.txt
-.gitignore
+log-*.txt
