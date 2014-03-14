@@ -166,11 +166,8 @@
 
     /* Load the security reset file */
     require_once ( WPRSS_INC . 'secure-reset.php' );
-
-    /* Load the logging class 
-       Need to make a check to avoid conflicts before loading. Not being used at the moment */
-    // require_once ( WPRSS_INC . 'libraries/WP_Logging.php' );   
-
+   
+    /* Load the admin editor file */
     require_once ( WPRSS_INC . 'admin-editor.php' );
 
     // Load the logging functions file
