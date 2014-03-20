@@ -1,10 +1,10 @@
 jQuery( document ).ready( function($) {
 
 	$('.ajax-close-addon-notice').click( function() {
-		addon = $(this).attr( 'data-addon' );
-		notice = $(this).attr( 'data-notice' );
-		element = $(this).parent().parent();
-		if ( addon !== false && typeof addon !== 'undefined' && notice !== false && typeof notice !== 'undefined' ) {
+		var addon = $(this).attr( 'data-addon' ),
+			notice = $(this).attr( 'data-notice' ),
+			element = $(this).parent().parent();
+		if ( addon !== false && addon !== undefined && notice !== false && notice !== undefined ) {
 			$.ajax({
 				url: ajaxurl,
 				type: 'POST',
