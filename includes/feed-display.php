@@ -155,6 +155,7 @@
         global $paged;
         $old_wp_query = $wp_query;
         $wp_query = $feed_items;
+
         $general_settings = get_option( 'wprss_settings_general' );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
@@ -241,20 +242,20 @@
 
             $output = apply_filters( 'feed_output', $output );
 
-            echo $output;
-
-            wp_reset_postdata();
+            echo $output;           
 
         } else {
             $output = apply_filters( 'no_feed_items_found', __( 'No feed items found.', 'wprss' ) );
             echo $output;
         }
-        $wp_query = $old_wp_query;
+
+        $wp_query = $old_wp_query;  
+
+        wp_reset_postdata();
     }
     
 
     add_filter( 'wprss_pagination', 'wprss_pagination_links' );
-
     /**
      * Display pagination links
      *
@@ -267,7 +268,6 @@
         $output .= '</div>';  
         return $output;              
     }
-
 
 
     add_filter( 'the_title', 'wprss_shorten_title', 10, 2 );
@@ -289,7 +289,6 @@
         // Otherwise, return the same title
         return $title;
     }
-
 
 
     /**
