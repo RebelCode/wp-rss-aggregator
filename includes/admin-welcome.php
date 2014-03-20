@@ -74,7 +74,7 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Fixed bug:</strong> The plugin prevented uploading of header images.</li>
+								<li><strong>Fixed bug:</strong> Using the shortcode makes the comments section always open.</li>
 							</ul>
 
 
