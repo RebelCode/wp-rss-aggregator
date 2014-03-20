@@ -1,4 +1,6 @@
 4.0.8 (2014-03-20)
+Enhanced: Fetch feeds row action now registers a cron job.
+Enhanced: Increased fetch feed timeout to 30 seconds.
 Fixed bug: Using the shortcode makes the comments section always open.
 
 4.0.7 (2014-03-08)
