@@ -71,6 +71,7 @@ WP RSS Aggregator uses the SimplePie class to import and handle feeds, and store
 Italian - Davide De Maestri
 
 = Reviewed On =
+* [WP Kube](http://www.wpkube.com/wp-rss-aggregator-wordpress-review/)
 * [Kikolani](http://kikolani.com/create-latest-posts-portfolio-page-wp-rss-aggregator.html) 
 * [IndexWP](www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
@@ -133,6 +134,10 @@ You can do that with the [Feed to Post](http://www.wprssaggregator.com/extension
 = Some RSS feeds only give a short excerpt, any way around that? =
 
 Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on we have an advanced feature that can get the full content of those feeds that only supply a short excerpt.
+
+= Where can I find the documentation for the plugin? =
+
+The full documentation section can be found on the [WP RSS Aggregator website](www.wprssaggregator.com/documentation/), the documentation also includes an extensive FAQ list.
 
 
 == Screenshots ==
