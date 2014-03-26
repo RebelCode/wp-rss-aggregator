@@ -74,7 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Fixed bug:</strong> Using the shortcode makes the comments section always open.</li>
+								<li><strong>Enhanced: </strong>Added a filter to modify the feeds template.</li>
+								<li><strong>Fixed bug: </strong>Nested lists in feeds template.</li>
 							</ul>
 
 
