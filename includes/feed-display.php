@@ -234,6 +234,7 @@
                     $output .= '<div class="time-ago">' . human_time_diff( $timestamp, time() ) . ' ago</div>';
                 }
                 
+                $output .= apply_filters( 'wprss_single_feed_output', $output );
 
             }
             $output .= "$links_after";
