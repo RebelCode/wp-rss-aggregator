@@ -206,7 +206,7 @@
                     
                     $output .= ' | ' .
                     ( !empty( $general_settings['text_preceding_date'] ) ? $general_settings['text_preceding_date'] . ' ' : '' ) . $date .
-                    '</span></div>' . "$link_after";
+                    '</span></div>';
                 }
 
                 else if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 0 ) )  {
@@ -218,23 +218,21 @@
                     } 
                     else $output .= $source_name;
 
-                    $output .= '</span></div>' . "$link_after";
+                    $output .= '</span></div>';
                 }
 
                 else if ( ( $general_settings['source_enable'] == 0 ) && ( $general_settings['date_enable'] == 1 ) )  {
                     $output .= '<div class="source-date"><span class="feed-source">' .
                     ( !empty( $general_settings['text_preceding_date'] ) ? $general_settings['text_preceding_date'] . ' ' : '' ) . $date .
-                    '</span></div>' . "$link_after";
+                    '</span></div>';
                 }
-
-                // No source, no date
-                else { $output .= "$link_after"; }
 
                 if ( $general_settings['time_ago_format_enable'] == 1 ) {
                     $output .= '<div class="time-ago">' . human_time_diff( $timestamp, time() ) . ' ago</div>';
                 }
                 
-                $output .= apply_filters( 'wprss_single_feed_output', $output );
+                $output = apply_filters( 'wprss_single_feed_output', $output );
+                $output .= "$link_after";
 
             }
             $output .= "$links_after";
