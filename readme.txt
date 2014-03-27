@@ -156,7 +156,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.0.9 (2014-03-26) =
+= 4.0.9 (2014-03-27) =
 * Enhanced: Added a filter to modify the feeds template.
 * Fixed bug: Nested lists in feeds template.
 
