@@ -14,6 +14,10 @@ function wprss_send_tracking_data() {
 	$transient = get_transient( 'wprss_tracking_transient' );
 	// If the transient did not expire, exit out of function
 	if ( $transient !== FALSE && !isset( $_GET['wprss_send_report'] ) ) return;
+	// If the GET parameter is set, show an admin notice
+	if ( isset( $_GET['wprss_send_report'] ) ) {
+		add_action( 'admin_notices', 'wprss_tracking_notice' );
+	}
 
 	// Check if running on localhost
 	$site_url = site_url();
@@ -127,4 +131,18 @@ function wprss_send_tracking_data() {
 	// Set a transient that expires in 1 day. When it expires, this function will run agai
 	// Expiration: 60secs * 60mins * 24hrs = 1 day
 	set_transient( 'wprss_tracking_transient', '-', 60 * 60 * 24 );
+}
+
+
+/**
+ * Shows a notice that notifies the user that the data report has been sent.
+ * 
+ * @since 1.0
+ */
+function wprss_tracking_notice() {
+	?>
+	<div class="updated">
+		<p><b>WP RSS Aggregator:</b> Data report sent!</p>
+	</div>
+	<?php
 }
