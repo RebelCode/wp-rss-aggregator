@@ -78,10 +78,26 @@ function wprss_send_tracking_data() {
 	}
 
 
+	// Detect add-ons
+	$addons = array();
+	if ( defined( 'WPRSS_C_VERSION' ) ) {
+		$addons[] = 'Categories';
+	}
+	if ( defined( 'WPRSS_ET_VERSION' ) ) {
+		$addons[] = 'Excerpts & Thumbnails';
+	}
+	if ( defined( 'WPRSS_KF_VERSION' ) ) {
+		$addons[] = 'Keyword Filtering';
+	}
+	if ( defined( 'WPRSS_FTP_VERSION' ) ) {
+		$addons[] = 'Feed to Post';
+	}
+
 	// Compile the data
 	$data = array(
 		'Site URL'					=>	base64_encode( $site_url ),
 		'Plugin Version'			=>	$plugin_data['Version'],
+		'Active Add-ons'			=>	$addons,
 		'Theme Name'				=>	$theme_name,
 		'Site Name'					=>	str_replace( ' ', '', get_bloginfo( 'name' ) ),
 		'Plugin Count'				=>	count( get_option( 'active_plugins' ) ),
