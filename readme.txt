@@ -70,9 +70,10 @@ WP RSS Aggregator uses the SimplePie class to import and handle feeds, and store
 = Translations =
 Italian - Davide De Maestri
 
-= Reviewed On =
+= As featured on =
 * [WP Kube](http://www.wpkube.com/wp-rss-aggregator-wordpress-review/)
 * [Kikolani](http://kikolani.com/create-latest-posts-portfolio-page-wp-rss-aggregator.html) 
+* [ManageWP Plugins of the Month](http://managewp.com/free-wordpress-plugins-march-2014)
 * [WP Eka](www.wpeka.com/wp-rss-aggregators-plugin.html)
 * [IndexWP](www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
