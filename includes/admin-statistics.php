@@ -10,6 +10,10 @@ if ( !defined( 'WPRSS_TRACKING_INTEVAL' ) )
 add_action( 'admin_init', 'wprss_send_tracking_data' );
 function wprss_send_tracking_data() {
 
+	// Check the tracking option - if turned off, exit out of function
+	$tracking_option = wprss_get_general_setting('tracking');
+	if ( $tracking_option == 0 || $tracking_option == FALSE ) return;
+
 	// Get the tracking transient.
 	$transient = get_transient( 'wprss_tracking_transient' );
 	// If the transient did not expire, exit out of function
