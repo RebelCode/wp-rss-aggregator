@@ -159,7 +159,8 @@
                         
                             // checkbox
                             case 'checkbox':
-                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ', esc_attr( $meta ) ? ' checked="checked"' : '','/>
+                                echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
+                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />
                                     <label for="'.$field['id'].'">'.$field['desc'].'</label>';
                             break;    
                         
