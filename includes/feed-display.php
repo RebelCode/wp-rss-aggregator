@@ -319,6 +319,8 @@
 			$query_args['exclude'] = $args['exclude'];
 		}
 
+        $query_args = apply_filters( 'wprss_process_shortcode_args', $query_args, $args );
+
 		$feed_items = wprss_get_feed_items_query( $query_args );
 
         do_action( 'wprss_display_template', $display_settings, $args, $feed_items );
