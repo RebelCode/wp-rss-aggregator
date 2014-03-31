@@ -268,6 +268,13 @@
 			// Convert the url if it is a video url and the conversion is enabled in the settings.
 			$permalink = wprss_convert_video_permalink( $item->get_permalink() );
 
+			// Save the enclosure URL
+			$enclosure_url = '';
+			if ( $enclosure = $item->get_enclosure(0) ) {
+				if ( $enclosure->get_link() ) {
+					$enclosure_url = $enclosure->get_link();
+				}
+			}
 
 			/* OLD NORMALIZATION CODE - TO NORMALIZE URLS FROM PROXY URLS
 			$response = wp_remote_head( $permalink );
@@ -318,7 +325,7 @@
 						}
 
 						// Create and insert post meta into the DB
-						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
+						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );
 
 						// Remember newly added permalink
 						$existing_permalinks[] = $permalink;
@@ -342,8 +349,9 @@
 	 *
 	 * @since 2.3
 	 */
-	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $feed_url) {
-		update_post_meta( $inserted_ID, 'wprss_item_permalink', $feed_url );
+	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
+		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
+		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 		update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
 		update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
