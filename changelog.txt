@@ -1,3 +1,7 @@
+4.1 (2014-04-03)
+New Feature: Feed items can now link to enclosure links in the feed.
+Enhanced: Added a filter to allow add-ons to modify feed item queries.
+
 4.0.9 (2014-03-27)
 Enhanced: Added a filter to modify the feeds template.
 Fixed bug: Nested lists in feeds template.
