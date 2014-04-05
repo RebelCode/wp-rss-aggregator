@@ -38,8 +38,8 @@
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', 'wprss' ), __( 'Settings', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );             
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', 'wprss' ), __( 'Import & Export', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );                     
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', 'wprss' ), __( 'Debugging', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );                             
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', 'wprss' ), __( 'Help & Support', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );                             
     }
-
 
     add_filter('admin_body_class', 'wprss_base_admin_body_class');
     /** 
