@@ -180,6 +180,7 @@
 		$feed->set_file_class( 'WP_SimplePie_File' );
 
 		$feed->set_feed_url( $url );
+		$feed->set_autodiscovery_level( SIMPLEPIE_LOCATOR_ALL );
 		$feed->force_feed( TRUE );
 		$feed->set_timeout( 30 );
 
