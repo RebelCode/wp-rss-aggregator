@@ -386,8 +386,9 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     position: relative;
 }
 
-#add-ons .add-on-active .button {
-    padding-left: 4px;
+#add-ons .add-on-active .button-disabled:focus,
+#add-ons .add-on-active .button-disabled:active {
+    background: #fafafa;
 }
 
 #add-ons .add-on-title {

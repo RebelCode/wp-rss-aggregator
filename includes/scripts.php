@@ -14,7 +14,7 @@
      */   
     function wprss_admin_scripts_styles() {
 
-        // Only load scripts if we are on this plugin's options or settings pages (admin)
+        // Only load scripts if we are on particular pages of the plugin in admin
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' 
             || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' || $_GET['page'] == 'wprss-addons' ) ) {        
             wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
@@ -34,7 +34,7 @@
             wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
             wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
             wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
-            wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+            wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );

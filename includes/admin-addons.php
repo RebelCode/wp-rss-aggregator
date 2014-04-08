@@ -1,6 +1,6 @@
 <?php
     /**
-     * Build the Add-ons page
+     * Build the Add-ons page (Code borrowed from the ACF plugin)
      * 
      * @since 4.2
      * @link http://www.advancedcustomfields.com/
@@ -51,18 +51,18 @@
                 <div class="add-on-group clearfix">
                 <?php foreach( $premium as $addon ): ?>
                 <div class="add-on wp-box <?php if( $addon['active'] ): ?>add-on-active<?php endif; ?>">
-                    <a target="_blank" href="<?php echo $addon['url']; ?>">
+                   <!--  <a target="_blank" href="<?php echo $addon['url']; ?>">
                         <img src="<?php echo $addon['thumbnail']; ?>" />
-                    </a>
+                    </a> -->
                     <div class="inner">
                         <h3><a target="_blank" href="<?php echo $addon['url']; ?>"><?php echo $addon['title']; ?></a></h3>
                         <p><?php echo $addon['description']; ?></p>
                     </div>
                     <div class="footer">
                         <?php if( $addon['active'] ): ?>
-                            <a class="button button-disabled"><span class="wprss-sprite-tick"></span><?php _e("Installed",'wprss'); ?></a>
+                            <a class="button button-disabled"><span class="wprss-sprite-tick"></span><?php _e( "Installed", 'wprss' ); ?></a>
                         <?php else: ?>
-                            <a target="_blank" href="<?php echo $addon['url']; ?>" class="button"><?php _e("Purchase & Install",'wprss'); ?></a>
+                            <a target="_blank" href="<?php echo $addon['url']; ?>" class="button"><?php _e( "Purchase & Install", 'wprss' ); ?></a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -72,23 +72,7 @@
             </div>
             
         </div>
-        <script type="text/javascript">
-        (function($) {
-            $(window).load(function(){                
-                $('#add-ons .add-on-group').each(function(){                
-                    var $el = $(this),
-                        h = 0;                                        
-                    $el.find('.add-on').each(function(){                        
-                        h = Math.max( $(this).height(), h );                        
-                    });                    
-                    $el.find('.add-on').height( h );                    
-                });                
-            });            
-        })(jQuery); 
-        </script>
+
                 <?php
                         
     }
-
-
-

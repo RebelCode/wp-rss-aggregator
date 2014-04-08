@@ -158,13 +158,10 @@ jQuery(window).load( function(){
         
     }
 
-
-
     // GENERATES A RANDOM STRING FOR THE SECURE RESET CODE FIELD
     jQuery('#wprss-secure-reset-generate').click( function(){
         jQuery('input#wprss-secure-reset-code').val( Math.random().toString(36).substr(2) );
     });
-
 
 });
 
@@ -285,3 +282,17 @@ if ( !String.prototype.trim ) {
         return this.replace(/^\s+|\s+$/g, '');
     };
 }
+
+// For add-ons page
+(function($) {
+    $(window).load(function(){                
+        $('#add-ons .add-on-group').each(function(){                
+            var $el = $(this),
+                h = 0;                                        
+            $el.find('.add-on').each(function(){                        
+                h = Math.max( $(this).height(), h );                        
+            });                    
+            $el.find('.add-on').height( h );                    
+        });                
+    });            
+})(jQuery); 
