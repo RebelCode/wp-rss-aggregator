@@ -314,15 +314,6 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 120px !important;
 }
 
-/*
-.column-title { text-align: left; width:20% !important; overflow:hidden }
-.column-url { text-align: left; width:40% !important; overflow:hidden }
-.column-category { text-align: left; width:15% !important; overflow:hidden }
-.column-id { text-align: left; width:5% !important; overflow:hidden }
-.column-next-update { text-align: left; width:10% !important; overflow:hidden }
-.column-state { text-align: left; width:10% !important; overflow:hidden }
-*/
-
 
 /* Log textarea styles */
 #wprss-log-textarea {
@@ -335,3 +326,66 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     display: block;
     background: rgb( 255, 245, 245 );
 }
+
+
+
+/*--------------------------------------------------------------------------
+*
+*   Add-Ons
+*   
+*-------------------------------------------------------------------------*/
+
+#add-ons {
+    margin-bottom: 20px;
+}
+
+#add-ons .add-on-group {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: #F5F5F5 solid 1px;  
+}
+
+#add-ons .add-on-group:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0 none; 
+}
+
+#add-ons .add-on {
+    float: left;
+    width: 220px;
+    margin: 10px;
+}
+
+#add-ons .add-on h3 {
+    margin-top: 0.5em;
+}
+
+#add-ons .add-on h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#add-ons .add-on .inner {
+    min-height: 105px;
+}
+
+#add-ons .add-on-active .button {
+    padding-left: 4px;
+}
+
+.acf-sprite-tick {
+    width: 14px;
+    height: 14px;
+    margin: 4px 5px 0 0;
+    background-position: 0px -300px;
+}
+
+#add-ons .add-on-title {
+    float: left;
+    width: 100%;
+    margin: 25px 0 25px;
+    border-top: #F5F5F5 solid 1px;
+}
+
+
