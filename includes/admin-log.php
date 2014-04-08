@@ -1,6 +1,5 @@
 <?php
 
-
 	/**
 	 * Returns the log file path.
 	 * 
@@ -31,7 +30,6 @@
 	}
 
 
-
 	/**
 	 * Adds a log entry to the log file.
 	 *
@@ -50,6 +48,7 @@
 
 		add_action( 'shutdown', 'wprss_log_separator' );
 	}
+
 
 	/**
 	 * Dumps an object to the log file.

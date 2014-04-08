@@ -7,7 +7,7 @@
      * @since 2.0
      * @deprecated 3.0
      */
-     function wprss_fetch_all_feed_items( ) {            
+     /*function wprss_fetch_all_feed_items( ) {            
         
             // Get all feed sources
             $feed_sources = new WP_Query( array(
@@ -19,7 +19,7 @@
             if( $feed_sources->have_posts() ) {
                 /* Start by getting one feed source, we will cycle through them one by one, 
                    fetching feed items and adding them to the database in each pass */
-                while ( $feed_sources->have_posts() ) {                
+           /*     while ( $feed_sources->have_posts() ) {                
                     $feed_sources->the_post();
                     
                     $feed_ID = get_the_ID();

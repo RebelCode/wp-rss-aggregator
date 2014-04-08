@@ -146,6 +146,12 @@
     /* Load the system info file */
     require_once ( WPRSS_INC . 'admin-debugging.php' );     
 
+    /* Load the system info file */
+    require_once ( WPRSS_INC . 'admin-help.php' );   
+    
+    /* Load the system info file */
+    require_once ( WPRSS_INC . 'admin-addons.php' );   
+
     /* Load the admin display-related functions */
     require_once ( WPRSS_INC . 'admin-display.php' );     
 

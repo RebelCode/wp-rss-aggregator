@@ -16,7 +16,7 @@
 
         // Only load scripts if we are on this plugin's options or settings pages (admin)
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' 
-            || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' ) ) {        
+            || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' || $_GET['page'] == 'wprss-addons' ) ) {        
             wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
         } 
 
