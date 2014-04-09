@@ -253,6 +253,10 @@
         if ( get_bloginfo( 'version' ) < '3.3' )
             return;
 
+        // If the user is not an admin, do not show the pointer
+        if ( !current_user_can( 'manage_options' ) )
+            return;
+
         $screen = get_current_screen();
         $screen_id = $screen->id;
 
