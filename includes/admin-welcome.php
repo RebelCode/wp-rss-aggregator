@@ -74,8 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>New Feature:</strong> Feed items can now link to enclosure links in the feed.</li>
-								<li><strong>Enhanced:</strong> Added a filter to allow add-ons to modify feed item queries.</li>
+								<li><strong>Enhanced:</strong> Tracking notices only appear for admin users.</li>
+								<li><strong>Fixed bug:</strong> Auto Feed Discovery was not working.</li>
 							</ul>
 
 
