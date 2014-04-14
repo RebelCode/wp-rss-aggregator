@@ -278,7 +278,7 @@
         // loop through fields and save the data
         foreach ( $meta_fields as $field ) {
             $old = get_post_meta( $post_id, $field[ 'id' ], true );
-            $new = $_POST[ $field[ 'id' ] ];
+            $new = trim( $_POST[ $field[ 'id' ] ] );
             if ( $new && $new != $old ) {
                 update_post_meta( $post_id, $field[ 'id' ], $new );
             } elseif ( '' == $new && $old ) {

@@ -166,6 +166,9 @@
 	function wprss_fetch_feed( $url, $source = NULL ) {
 		require_once ( ABSPATH . WPINC . '/class-feed.php' );
 
+		// Trim the URL
+		$url = trim( $url );
+
 		$feed = new SimplePie();
 
 		// Commented out Sanitization, due to a conflict with google RSS image URLS.
