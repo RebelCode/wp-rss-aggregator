@@ -104,6 +104,13 @@
             'suppress_filters' => true
 		);
 
+        if ( isset($settings['pagination']) ) {
+            $pagination = strtolower( $settings['pagination'] );
+            if ( in_array($pagination, array('false','off','0',0)) ) {
+                unset( $feed_items_args['paged'] );
+            }
+        }
+
         if ( isset( $settings['no-paged'] ) && $settings['no-paged'] === TRUE ) {
             unset( $feed_items_args['no-paged'] );
         }
@@ -243,7 +250,9 @@
             }
             $output .= "$links_after";
 
-            $output = apply_filters( 'wprss_pagination', $output );
+            if ( !isset( $args['pagination'] ) || !in_array( $args['pagination'], array('off','false','0',0) ) ) {
+                $output = apply_filters( 'wprss_pagination', $output );
+            }
 
             $output = apply_filters( 'feed_output', $output );
 
@@ -317,6 +326,10 @@
 				),
 			) );
 		}
+
+        if ( isset( $args['pagination'] ) ) {
+            $query_args['pagination'] = $args['pagination'];
+        }
 
 		if ( isset( $args['source'] ) ) {
 			$query_args['source'] = $args['source'];
