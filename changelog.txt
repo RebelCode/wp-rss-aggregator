@@ -1,3 +1,8 @@
+4.1.2
+Enhanced: Improved the custom feed, by allowing a custom title.
+Enhanced: Improved shortcode, by adding the "pagination" parameter.
+Enhanced: Modified a filter to fix some bugs in the add-ons.
+
 4.1.1 (2014-04-09)
 Enhanced: Tracking notices only appear for admin users.
 Fixed bug: Auto Feed Discovery was not working.
