@@ -230,6 +230,9 @@
 
 				// tracking
 				'tracking'					=> 0,
+
+				// from version 4.1.2
+				'custom_feed_title'			=> 'Latest imported feed items on ' . get_bloginfo('name'),
 			)			
 		);
 

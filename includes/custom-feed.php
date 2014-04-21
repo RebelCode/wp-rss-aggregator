@@ -102,6 +102,8 @@
         // Submit the query to get latest feed items
         query_posts( $wprss_custom_feed_query );
 
+        $custom_feed_title = wprss_get_general_setting( 'custom_feed_title' );
+
         // Send content header and start ATOM output
         header('Content-Type: text/xml');
         // Disabling caching
@@ -111,7 +113,7 @@
         echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?' . '>';
         ?>
         <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" >
-            <title type="text">Latest imported feed items on <?php bloginfo_rss('name'); ?></title>
+            <title type="text"><?php echo $custom_feed_title; ?></title>
             <?php
             // Start the Loop
             while ( have_posts() ) : the_post();
