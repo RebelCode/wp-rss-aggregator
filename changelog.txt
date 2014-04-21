@@ -1,4 +1,4 @@
-4.1.2
+4.1.2 (yyyy-mm-dd)
 Enhanced: Improved the custom feed, by allowing a custom title.
 Enhanced: Improved shortcode, by adding the "pagination" parameter.
 Enhanced: Modified a filter to fix some bugs in the add-ons.

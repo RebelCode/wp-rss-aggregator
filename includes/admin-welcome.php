@@ -74,8 +74,9 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Enhanced:</strong> Tracking notices only appear for admin users.</li>
-								<li><strong>Fixed bug:</strong> Auto Feed Discovery was not working.</li>
+								<li><strong>Enhanced:</strong> Improved the custom feed, by allowing a custom title.</li>
+								<li><strong>Enhanced:</strong> Improved shortcode, by adding the "pagination" parameter.</li>
+								<li><strong>Enhanced:</strong> Modified a filter to fix some bugs in the add-ons.</li>
 							</ul>
 
 
