@@ -82,7 +82,11 @@
                     ),
                     'custom-feed-url' => array(
                         'label'     =>  __( 'Custom feed URL', 'wprss' ),
-                        'callback'  =>  'wprss_setings_custom_feed_url_callback'
+                        'callback'  =>  'wprss_settings_custom_feed_url_callback'
+                    ),
+                    'custom-feed-title' => array(
+                        'label'     =>  __( 'Custom feed Title', 'wprss' ),
+                        'callback'  =>  'wprss_settings_custom_feed_title_callback'
                     ),
                     'custom-feed-limit' => array(
                         'label'     =>  __( 'Custom feed limit', 'wprss' ),
@@ -587,10 +591,20 @@
      * Sets the custom feed URL
      * @since 3.3
      */
-    function wprss_setings_custom_feed_url_callback() {
+    function wprss_settings_custom_feed_url_callback() {
         $custom_feed_url = wprss_get_general_setting( 'custom_feed_url' );
         echo "<input id='custom_feed_url' name='wprss_settings_general[custom_feed_url]' type='text' value='$custom_feed_url' />";
-        echo "<label class='description' for='custom_feed_url'>" . __( 'Custom feed URL', 'wprss' ) . "</label>";
+        echo "<label class='description' for='custom_feed_url'>" . __( 'The URL of the custom feed. This might require you to re-save your Permalink settings for the custom feed to work.', 'wprss' ) . "</label>";
+    }
+
+    /**
+     * Sets the custom feed title
+     * @since 4.1.2
+     */
+    function wprss_settings_custom_feed_title_callback() {
+        $custom_feed_title = wprss_get_general_setting( 'custom_feed_title' );
+        echo "<input id='custom_feed_title' name='wprss_settings_general[custom_feed_title]' type='text' value='$custom_feed_title' />";
+        echo "<label class='description' for='custom_feed_title'>" . __( 'The title of the custom feed', 'wprss' ) . "</label>";
     }
 
     /**

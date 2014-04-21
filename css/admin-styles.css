@@ -186,6 +186,12 @@ input#thumbnails-width {
 }
 
 
+@media screen and (min-width: 782px) {
+    #custom_feed_title {
+        width: 400px;
+    }
+}
+
 /* Number Roller for Feed Source Limit */
 .wprss-number-roller {
     width: 120px;
