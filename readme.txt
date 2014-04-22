@@ -161,7 +161,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.1.2 (yyyy-mm-dd) =
+= 4.1.2 (2014-04-22) =
 * Enhanced: Improved the custom feed, by allowing a custom title.
 * Enhanced: Improved shortcode, by adding the "pagination" parameter.
 * Enhanced: Modified a filter to fix some bugs in the add-ons.
