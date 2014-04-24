@@ -69,16 +69,18 @@ WP RSS Aggregator uses the SimplePie class to import and handle feeds, and store
 
 = Translations =
 Italian - Davide De Maestri
+
 Spanish - Andrew Kurtis
 
 = As featured on =
-* [WP Beginner] (http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
-* [WPEXplorer] (http://www.wpexplorer.com/custom-rss-aggregator-plugin/)
+* [WP Beginner](http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
+* [WPEXplorer](http://www.wpexplorer.com/custom-rss-aggregator-plugin/)
 * [WP Kube](http://www.wpkube.com/wp-rss-aggregator-wordpress-review/)
 * [Torquemag](http://torquemag.io/wp-rss-aggregator-review-do-more-with-rss-feeds/)
+* [MyWPExpert](http://www.mywpexpert.com/wordpress-rss-aggregator-plugin)
 * [Kikolani](http://kikolani.com/create-latest-posts-portfolio-page-wp-rss-aggregator.html) 
 * [ManageWP Plugins of the Month](http://managewp.com/free-wordpress-plugins-march-2014)
-* [WP Eka](www.wpeka.com/wp-rss-aggregators-plugin.html)
+* [WP Eka](http://www.wpeka.com/wp-rss-aggregators-plugin.html)
 * [IndexWP](www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
 * [Kevin Muldoon](http://www.kevinmuldoon.com/wp-rss-aggregator-wordpress-plugin/)
