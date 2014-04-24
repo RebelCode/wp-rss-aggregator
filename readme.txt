@@ -80,7 +80,7 @@ Spanish - Andrew Kurtis
 * [MyWPExpert](http://www.mywpexpert.com/wordpress-rss-aggregator-plugin)
 * [Kikolani](http://kikolani.com/create-latest-posts-portfolio-page-wp-rss-aggregator.html) 
 * [ManageWP Plugins of the Month](http://managewp.com/free-wordpress-plugins-march-2014)
-* [WP Eka](www.wpeka.com/wp-rss-aggregators-plugin.html)
+* [WP Eka](http://www.wpeka.com/wp-rss-aggregators-plugin.html)
 * [IndexWP](www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
 * [Kevin Muldoon](http://www.kevinmuldoon.com/wp-rss-aggregator-wordpress-plugin/)
