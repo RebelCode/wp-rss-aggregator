@@ -73,10 +73,11 @@ Italian - Davide De Maestri
 Spanish - Andrew Kurtis
 
 = As featured on =
-* [WP Beginner] (http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
-* [WPEXplorer] (http://www.wpexplorer.com/custom-rss-aggregator-plugin/)
+* [WP Beginner](http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
+* [WPEXplorer](http://www.wpexplorer.com/custom-rss-aggregator-plugin/)
 * [WP Kube](http://www.wpkube.com/wp-rss-aggregator-wordpress-review/)
 * [Torquemag](http://torquemag.io/wp-rss-aggregator-review-do-more-with-rss-feeds/)
+* [MyWPExpert](http://www.mywpexpert.com/wordpress-rss-aggregator-plugin)
 * [Kikolani](http://kikolani.com/create-latest-posts-portfolio-page-wp-rss-aggregator.html) 
 * [ManageWP Plugins of the Month](http://managewp.com/free-wordpress-plugins-march-2014)
 * [WP Eka](www.wpeka.com/wp-rss-aggregators-plugin.html)
