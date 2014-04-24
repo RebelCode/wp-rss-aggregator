@@ -69,6 +69,7 @@ WP RSS Aggregator uses the SimplePie class to import and handle feeds, and store
 
 = Translations =
 Italian - Davide De Maestri
+
 Spanish - Andrew Kurtis
 
 = As featured on =
