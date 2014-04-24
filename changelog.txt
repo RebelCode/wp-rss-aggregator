@@ -1,3 +1,6 @@
+4.1.3
+Fixed bug: HTML entities in feed item titles are now being decoded.
+
 4.1.2 (2014-04-22)
 Enhanced: Improved the custom feed, by allowing a custom title.
 Enhanced: Improved shortcode, by adding the "pagination" parameter.

@@ -299,7 +299,7 @@
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
 						array(
-							'post_title'     => $item->get_title(),
+							'post_title'     => html_entity_decode( $item->get_title() ),
 							'post_content'   => '',
 							'post_status'    => 'publish',
 							'post_type'      => 'wprss_feed_item',
