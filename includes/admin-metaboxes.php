@@ -286,6 +286,7 @@
             }
         } // end foreach
 
+        $force_feed = ( isset( $_POST['wprss_force_feed'] ) )? $_POST['wprss_force_feed'] : 'false';
         $state = ( isset( $_POST['wprss_state'] ) )? $_POST['wprss_state'] : 'active';
         $activate = ( isset( $_POST['wprss_activate_feed'] ) )? stripslashes( $_POST['wprss_activate_feed'] ) : '';
         $pause = ( isset( $_POST['wprss_pause_feed'] ) )? stripslashes( $_POST['wprss_pause_feed'] ) : '';
@@ -295,6 +296,7 @@
         $old_update_interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
 
         // Update the feed source meta
+        update_post_meta( $post_id, 'wprss_force_feed', $force_feed );
         update_post_meta( $post_id, 'wprss_activate_feed', $activate );
         update_post_meta( $post_id, 'wprss_pause_feed', $pause );
         update_post_meta( $post_id, 'wprss_age_limit', $age_limit );
@@ -330,7 +332,7 @@
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
         
         if( ! empty( $feed_url ) ) {             
-            $feed = wprss_fetch_feed( $feed_url ); 
+            $feed = wprss_fetch_feed( $feed_url, $post->ID ); 
             if ( ! is_wp_error( $feed ) ) {
                 $items = $feed->get_items();        
                 // Figure out how many total items there are, but limit it to 5. 
@@ -357,9 +359,42 @@
                 }  
                 echo '</ul>';
             }
-            else _e( '<span class="invalid-feed-url"><strong>Invalid feed URL</strong> - Double check the feed source URL setting above.</span>
-                      <p>Not sure where to find the RSS feed on a website? 
-                      <a target="_blank" href="http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm">Click here</a> for a visual guide' , 'wprss' );
+            else {
+                ?>
+                <span class="invalid-feed-url">
+                    <strong><?php _e( 'Invalid feed URL', 'wprss' ); ?></strong> - 
+                    <?php _e( 'Double check the feed source URL setting above.' , 'wprss' ); ?>
+                </span>
+
+                <p><?php _e( 'Not sure where to find the RSS feed on a website?', 'wprss' ); ?>
+                    <a target="_blank" href="http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm">
+                        <?php _e( 'Click here' ); ?>
+                    </a>
+                    <?php _e( 'for a visual guide' , 'wprss' ); ?>
+                </p>
+
+                <?php
+            }
+
+            $force_feed = get_post_meta( $post->ID, 'wprss_force_feed', TRUE ); ?>
+
+            <hr/>
+
+            <p>
+                <label for="wprss-force-feed">
+                    <strong><?php _e('Are you seeing an error, but sure the feed URL is correct?', 'wprss' ); ?></strong>
+                </label>
+            </p>
+            <p>
+                <label for="wprss-force-feed">Force the feed</label>
+                <input type="hidden" name="wprss_force_feed" value="false" />
+                <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
+            </p>
+            <p class="description">
+                <strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.
+            </p>
+
+            <?php
         }
 
         else _e( 'No feed URL defined yet', 'wprss' );
@@ -516,6 +551,7 @@
             </div>
         </div>
 
+        
         <?php
     }
 

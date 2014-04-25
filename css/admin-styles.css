@@ -291,6 +291,9 @@ div.inside .wprss-meta-side-setting:last-child {
     border-bottom: 0 solid transparent;
 }
 
+input[type="checkbox"]#wprss-force-feed {
+    margin-left: 10px;
+}
 
 /******************************
  * FEED SOURCES PAGE COLUMNS
