@@ -74,9 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Enhanced:</strong> Improved the custom feed, by allowing a custom title.</li>
-								<li><strong>Enhanced:</strong> Improved shortcode, by adding the "pagination" parameter.</li>
-								<li><strong>Enhanced:</strong> Modified a filter to fix some bugs in the add-ons.</li>
+								<li><strong>Enhanced:</strong> Added a force feed option, for valid RSS feeds with incorrect header content types.</li>
+								<li><strong>Fixed bug:</strong> HTML entities in feed item titles are now being decoded.</li>
 							</ul>
 
 
