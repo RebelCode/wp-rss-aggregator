@@ -28,8 +28,7 @@
      *
      * @since 2.1
      */
-    function wprss_feed_cache_lifetime( $seconds )
-    {
+    function wprss_feed_cache_lifetime( $seconds ) {
         return 1; // one second
     }
 
