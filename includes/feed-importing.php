@@ -111,42 +111,24 @@
 	 * @since 3.0
 	 */
 	function wprss_get_feed_items( $feed_url, $source ) {
-		$general_settings = get_option( 'wprss_settings_general' );
-		$feed_item_limit = $general_settings['limit_feed_items_imported'];
-		
-		// Don't fetch the feed if feed item limit is 0, there's no need, huge speed improvement
-		// if ( $feed_item_limit === '' ) return;
-
+		// Add filters and actions prior to fetching the feed items
 		add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
-
-		/* Disable caching of feeds */
 		add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
+
 		/* Fetch the feed from the soure URL specified */
 		$feed = wprss_fetch_feed( $feed_url, $source );
-		//$feed = new SimplePie();
-		//$feed->set_feed_url( $feed_url );
-		//$feed->init();
-		/* Remove action here because we only don't want it active feed imports outside of our plugin */
-		remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 
-		//$feed = wprss_fetch_feed( $feed_url );
+		// Remove previously added filters and actions
+		remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 		remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 		
 		if ( !is_wp_error( $feed ) ) {
-
-			// Figure out how many total items there are, but limit it to the number of items set in options.
-			$maxitems = $feed->get_item_quantity( $feed_item_limit );
-
-			if ( $maxitems == 0 ) { return; }
-
-			// Build an array of all the items, starting with element 0 (first element).
-			$items = $feed->get_items( 0, $maxitems );
-			return $items;
+			// Return the items in the feed.
+			return $feed->get_items();
 		}
-
 		else {
 			wprss_log( 'Failed to fetch feed "' . $feed_url . '". ' . $feed->get_error_message() );
-			return;
+			return NULL;
 		}
 	}
 
@@ -164,24 +146,17 @@
 	 * @since 3.5
 	 */
 	function wprss_fetch_feed( $url, $source = NULL ) {
+		// Import SimplePie
 		require_once ( ABSPATH . WPINC . '/class-feed.php' );
 
 		// Trim the URL
 		$url = trim( $url );
 
+		// Initialize the Feed
 		$feed = new SimplePie();
-
-		// Commented out Sanitization, due to a conflict with google RSS image URLS.
-		// With sanitization on, the urls get truncated from the front.
-
-		// $feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
-		// We must manually overwrite $feed->sanitize because SimplePie's
-		// constructor sets it before we have a chance to set the sanitization class
-		// $feed->sanitize = new WP_SimplePie_Sanitize_KSES();
-
-		$feed->set_cache_class( 'WP_Feed_Cache' );
-		$feed->set_file_class( 'WP_SimplePie_File' );
-
+		// Obselete method calls ?
+		//$feed->set_cache_class( 'WP_Feed_Cache' );
+		//$feed->set_file_class( 'WP_SimplePie_File' );
 		$feed->set_feed_url( $url );
 		$feed->set_autodiscovery_level( SIMPLEPIE_LOCATOR_ALL );
 
@@ -195,22 +170,30 @@
 			}
 		}
 		
+		// Set timeout to 30s. Default: 15s
 		$feed->set_timeout( 30 );
 
 		//$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
 		$feed->enable_cache( FALSE );
+
+		// Reference array action hook, for the feed object and the URL
 		do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 
+		// Prepare the tags to strip from the feed
 		$tags_to_strip = apply_filters( 'wprss_feed_tags_to_strip', $feed->strip_htmltags, $source );
+		// Strip them
 		$feed->strip_htmltags( $tags_to_strip );
 
+		// Fetch the feed
 		$feed->init();
 		$feed->handle_content_type();
 
+		// Convert the feed error into a WP_Error, if applicable
 		if ( $feed->error() ) {
 			return new WP_Error( 'simplepie-error', $feed->error() );
 		}
 
+		// If no error, return the feed
 		return $feed;
 	}
 
