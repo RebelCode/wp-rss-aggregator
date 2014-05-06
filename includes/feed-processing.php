@@ -563,9 +563,60 @@
         wprss_fetch_insert_all_feed_items( TRUE );
     }
 
-  /*  add_action( 'wp_feed_options', 'wprss_feed_options' );
+
+    /*add_action( 'wp_feed_options', 'wprss_feed_options' );
     function wprss_feed_options( $feed) {
         $feed->strip_htmltags(array_merge($feed->strip_htmltags, array('h1', 'a', 'img','em')));
+    }*/
+
+
+    /**
+     * Deletes N oldest feed items for the given source
+     *
+     * @since 4.2
+     */
+    function wprss_delete_oldest_feed_items( $n, $source ) {
+        // If the source does not exist, do nothing
+        if ( get_post( $source ) == NULL ) return;
+
+        // Make sure $n is an integer
+        $n = intval($n);
+
+        // Do nothing if n is zero or negative
+        if ( $n <= 0 ) return;
+
+        // Get the feed items, as an array, not WP_Query.
+        // We will need to perform some array operations
+        $feed_items = wprss_get_feed_items_for_source( $source );
+        $feed_items = $feed_items->get_posts();
+        // Get number of feed items
+        $count = count( $feed_items );
+
+        // Index of first feed item to delete
+        $start = $count - $n;
+        // Cut the array of feed items to get the items to delete
+        $to_delete = array_slice( $feed_items, $start );
+        // log -- for now
+        foreach( $to_delete as $fi ) {
+            wprss_log_obj( "To delete" , $fi->ID );
+        }
     }
 
-*/
+
+    /**
+     * Deletes the required number of feed items for the given source,
+     * to keep the number of feed items below its limit.
+     *
+     * @since 4.2
+     */
+    function wprss_truncate_feed_items_for_source( $source ) {
+        // Get the limit setting
+        $limit = get_post_meta( $source, 'wprss_limit', true );
+
+        // Calculate the number of feed items to delete
+        $feed_items = wprss_get_feed_items_for_source( $source );
+        $n = intval($feed_items->found_posts) - intval($limit);
+
+        // Delete the feed items
+        wprss_delete_oldest_feed_items( $n, $source );
+    }
