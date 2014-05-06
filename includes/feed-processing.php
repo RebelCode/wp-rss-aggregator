@@ -519,41 +519,6 @@
 
 
     /**
-     * Custom version of the WP fetch_feed() function, since we want custom sanitization of a feed
-     *
-     * Not being used at the moment, until we decide whether we can still use fetch_feed and modify its handling of sanitization
-     *
-     * @since 3.0
-     *
-     */
-    /*function wprss_fetch_feed($url) {
-        require_once (ABSPATH . WPINC . '/class-feed.php');
-
-        $feed = new SimplePie();
-
-        // $feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
-        // We must manually overwrite $feed->sanitize because SimplePie's
-        // constructor sets it before we have a chance to set the sanitization class
-        // $feed->sanitize = new WP_SimplePie_Sanitize_KSES();
-
-        $feed->set_cache_class( 'WP_Feed_Cache' );
-        $feed->set_file_class( 'WP_SimplePie_File' );
-
-        $feed->set_feed_url($url);
-        $feed->strip_htmltags(array_merge($feed->strip_htmltags, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'a' )));
-        $feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
-        do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
-        $feed->init();
-        $feed->handle_content_type();
-
-        if ( $feed->error() )
-            return new WP_Error('simplepie-error', $feed->error());
-
-        return $feed;
-    }*/
-
-
-    /**
      * Deletes all imported feeds and re-imports everything
      *
      * @since 3.0
@@ -562,12 +527,6 @@
         wp_schedule_single_event( time(), 'wprss_delete_all_feed_items_hook' );
         wprss_fetch_insert_all_feed_items( TRUE );
     }
-
-
-    /*add_action( 'wp_feed_options', 'wprss_feed_options' );
-    function wprss_feed_options( $feed) {
-        $feed->strip_htmltags(array_merge($feed->strip_htmltags, array('h1', 'a', 'img','em')));
-    }*/
 
 
     /**
