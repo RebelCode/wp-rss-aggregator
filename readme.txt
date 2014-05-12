@@ -68,9 +68,8 @@ Created by Jean Galea from [WP Mayor](http://www.wpmayor.com)
 WP RSS Aggregator uses the SimplePie class to import and handle feeds, and stores all feed sources and feed items as custom post types in the WordPress default table structure, thus no custom tables are added. 
 
 = Translations =
-Italian - Davide De Maestri
-
-Spanish - Andrew Kurtis
+* Italian - Davide De Maestri
+* Spanish - Andrew Kurtis
 
 = As featured on =
 * [WP Beginner](http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
