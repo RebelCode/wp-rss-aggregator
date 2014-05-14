@@ -197,15 +197,18 @@
                 // convert from Unix timestamp
                 $date = date_i18n( $general_settings['date_format'], $timestamp );
 
+				// Prepare the title. Decode any html entitities
+				$feed_item_title = html_entity_decode( get_the_title() );
+
                 if ( $general_settings['title_link'] == 1 ) {
                     $feed_item_title_link = $permalink;
                     if ( $link_enclosure === 'true' && $enclosure !== '' ) {
                         $feed_item_title_link = $enclosure;
                     }
-                    $output .= "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $feed_item_title_link . '">'. get_the_title(). '</a>';
+                    $output .= "$link_before" . '<a ' . $display_settings['open'] . ' ' . $display_settings['follow'] . ' href="'. $feed_item_title_link . '">'. $feed_item_title. '</a>';
                 }
                 else {
-                    $output .= "$link_before" . get_the_title();
+                    $output .= "$link_before" . $feed_item_title;
                 }
 
                 if ( ( $general_settings['source_enable'] == 1 ) && ( $general_settings['date_enable'] == 1 ) )  {
