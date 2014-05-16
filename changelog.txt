@@ -1,3 +1,7 @@
+4.1.4 (2014-05-16)
+Enhanced: Minor improvements to feed importing and handling.
+Fixed bug: HTML entities were not being decoded in feed item titles.
+
 4.1.3 (2014-04-28)
 Enhanced: Added a force feed option, for valid RSS feeds with incorrect header content types.
 Fixed bug: HTML entities in feed item titles are now being decoded.
