@@ -74,8 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Enhanced:</strong> Added a force feed option, for valid RSS feeds with incorrect header content types.</li>
-								<li><strong>Fixed bug:</strong> HTML entities in feed item titles are now being decoded.</li>
+								<li><strong>Enhanced:</strong> Minor improvements to feed importing and handling.</li>
+								<li><strong>Fixed bug:</strong> HTML entities were not being decoded in feed item titles.</li>
 							</ul>
 
 
