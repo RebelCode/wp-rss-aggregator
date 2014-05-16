@@ -625,7 +625,7 @@
     function wprss_remove_meta_boxes() {
         if ( 'wprss_feed' !== get_current_screen()->id ) return;   
         // Remove meta boxes of other plugins that tend to appear on all posts          
-        remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
+        //remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
         remove_meta_box( 'postpsp', 'wprss_feed' ,'normal' );
         remove_meta_box( 'su_postmeta', 'wprss_feed' ,'normal' );
         remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' ); 
