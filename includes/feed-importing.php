@@ -58,11 +58,8 @@
 				$new_items = array();
 				foreach( $items as $item ) {
 					$permalink = $item->get_permalink();
-					if ( !in_array( $permalink, $existing_permalinks ) ) {
-						if ( ! is_array( $new_items ) ) {
-							$new_items = array();
-						}
-						$new_items = array_push( $new_items, $item );
+					if ( !in_array( trim($permalink), $existing_permalinks ) ) {
+						$new_items[] = $item;
 					}
 				}
 
@@ -95,6 +92,8 @@
 			if ( !empty( $items_to_insert ) ) {
 				wprss_items_insert_post( $items_to_insert, $feed_ID );
 			}
+		} else {
+			wprss_log("The feed URL is not valid! Please recheck.");
 		}
 	}
 
