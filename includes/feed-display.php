@@ -198,7 +198,7 @@
                 $date = date_i18n( $general_settings['date_format'], $timestamp );
 
 				// Prepare the title. Decode any html entitities
-				$feed_item_title = html_entity_decode( get_the_title() );
+				$feed_item_title = htmlentities( get_the_title() );
 
                 if ( $general_settings['title_link'] == 1 ) {
                     $feed_item_title_link = $permalink;
