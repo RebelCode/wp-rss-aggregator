@@ -189,10 +189,13 @@
 
 		// Convert the feed error into a WP_Error, if applicable
 		if ( $feed->error() ) {
+			if ( $source !== NULL ) {
+				update_post_meta( $source, "wprss_error_last_import", "true" );
+			}
 			return new WP_Error( 'simplepie-error', $feed->error() );
 		}
-
-		// If no error, return the feed
+		// If no error, return the feed and remove any error meta
+		delete_post_meta( $source, "wprss_error_last_import" );
 		return $feed;
 	}
 
@@ -327,6 +330,7 @@
 						$existing_permalinks[] = $permalink;
 					}
 					else {
+						update_post_meta( $source, "wprss_error_last_import", "true" );
 						wprss_log_obj( 'Failed to insert post', $feed_item, 'wprss_items_insert_post > wp_insert_post' );
 					}
 				}

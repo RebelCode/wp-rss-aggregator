@@ -16,6 +16,7 @@
 
         $columns = array(
             'cb'          =>  '<input type="checkbox" />',
+            'errors'      =>  '',
             'title'       =>  __( 'Name', 'wprss' ),
             'id'          =>  __( 'ID', 'wprss' ),
             // 'url'         => __( 'URL', 'wprss' ),
@@ -44,6 +45,13 @@
     function wprss_show_custom_columns( $column, $post_id ) {
      
       switch ( $column ) {    
+        case 'errors':
+          $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
+          if ( $errors === 'true') {
+              $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
+              echo '<i title="'.$msg.'" class="wprss-feed-error-symbol fa fa-warning fa-fixed-width"></i>';
+          }
+          break;
         case 'url':
           $url = get_post_meta( $post_id, 'wprss_url', true);
           echo '<a href="' . esc_url($url) . '">' . esc_url($url) . '</a>';
