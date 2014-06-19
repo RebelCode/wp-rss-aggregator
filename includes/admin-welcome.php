@@ -74,8 +74,8 @@
 
 							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 							<ul>
-								<li><strong>Enhanced:</strong> Minor improvements to feed importing and handling.</li>
-								<li><strong>Fixed bug:</strong> HTML entities were not being decoded in feed item titles.</li>
+								<li><strong>Enhanced:</strong> The Feed Sources table now indicates which feed sources encountered errors during their last import.</li>
+								<li><strong>Fixed bug:</strong> Feed titles were not being decoded for HTML entities.</li>
 							</ul>
 
 
