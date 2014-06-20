@@ -23,9 +23,9 @@ With WP RSS Aggregator, you can:
 
 You can add any number of feeds through an administration panel, the plugin will then pull feed items from these sites, merge them and display them in date order.
 
-To display your imported feed items, you can use a shortcode or call the display function directly from within your theme.
+To [display your imported feed items](http://wordpress.org/plugins/wp-rss-aggregator/screenshots/), you can use a shortcode or call the display function directly from within your theme.
 
-__More Features__: 
+= Highlighted Features = 
 
 * Export a custom RSS feed based on your feed sources
 * Pagination
