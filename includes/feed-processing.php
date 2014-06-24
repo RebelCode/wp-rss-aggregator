@@ -87,7 +87,8 @@
                         'value'     => $source_id,
                         'compare'   => 'LIKE',
                     ),
-                )
+                ),
+                'suppress_filters'  => 1
             ), $source_id
         );
         return new WP_Query( $args );
