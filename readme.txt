@@ -79,6 +79,7 @@ WP RSS Aggregator uses the SimplePie class to import and handle feeds, and store
 * [MyWPExpert](http://www.mywpexpert.com/wordpress-rss-aggregator-plugin)
 * [Kikolani](http://kikolani.com/create-latest-posts-portfolio-page-wp-rss-aggregator.html) 
 * [ManageWP Plugins of the Month](http://managewp.com/free-wordpress-plugins-march-2014)
+* [TidyRepo](http://tidyrepo.com/wp-rss-aggregator/)
 * [WP Eka](http://www.wpeka.com/wp-rss-aggregators-plugin.html)
 * [IndexWP](www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
