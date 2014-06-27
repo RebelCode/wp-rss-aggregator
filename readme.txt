@@ -167,7 +167,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 * Fixed bug: Results returned by wprss_get_feed_items_for_source() will no longer be affected by filters.
 * Fixed bug: Charset issue in titles
 
-= 4.1.5 (2014-05-19) =
+= 4.1.5 (2014-06-19) =
 * Enhanced: The Feed Sources table now indicates which feed sources encountered errors during the last import.
 * Fixed bug: Feed titles were not being decoded for HTML entities.
 
