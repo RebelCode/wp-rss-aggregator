@@ -163,7 +163,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.1.6 () = 
+= 4.1.6 (2014-06-28) = 
 * Fixed bug: Results returned by wprss_get_feed_items_for_source() will no longer be affected by filters.
 * Fixed bug: Charset issue in titles
 
