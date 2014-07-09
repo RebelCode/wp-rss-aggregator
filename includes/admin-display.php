@@ -126,7 +126,15 @@
 
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
-            echo '<p>' . $items->post_count . '</p>';
+            $milliseconds_for_next_update = time() - wprss_get_next_feed_source_update( $post_id );
+            
+            echo '<p>';
+            echo $items->post_count;
+            if ( $milliseconds_for_next_update < 1000 ) {
+              ?><i class="fa fa-fw fa-refresh fa-spin" title="Fetching feeds"></i><?php
+            }
+            echo '</p>';
+
             break;
       }
     }
