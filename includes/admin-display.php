@@ -131,7 +131,7 @@
             echo '<p>';
             echo $items->post_count;
             if ( $milliseconds_for_next_update < 1000 ) {
-              ?><i class="fa fa-fw fa-refresh fa-spin" title="Fetching feeds"></i><?php
+              ?><i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon" title="Updating feed source"></i><?php
             }
             echo '</p>';
 

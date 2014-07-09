@@ -327,6 +327,9 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 120px !important;
 }
 
+i.wprss-updating-feed-icon {
+    margin-left: 8px;
+}
 
 /* Log textarea styles */
 #wprss-log-textarea {
