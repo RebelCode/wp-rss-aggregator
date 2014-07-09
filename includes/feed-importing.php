@@ -201,6 +201,60 @@
 
 
 
+	/**
+	 * Normalizes the given permalink.
+	 *
+	 * @param $permalink The permalink to normalize
+	 * @return string The normalized permalink
+	 */
+	function wprss_normalize_permalink( $permalink ) {
+		// Apply normalization functions on the permalink
+		$permalink = trim( $permalink );
+		$permalink = wprss_google_news_url_fix( $permalink );
+		$permalink = wprss_convert_video_permalink( $permalink );
+		// Return the normalized permalink
+		return $permalink;
+	}
+
+
+
+	/**
+	 * Checks if the permalink is a Google News permalink, and if it is,
+	 * returns the normalized URL of the proper feed item article.
+	 *
+	 * Fixes the issue with equivalent Google News items having different URLs,
+	 * that contain randomly generated GET parameters. Example:
+	 *
+	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=V3e9U6izMMnm1QaB1YHoDA&url=http://abcd...
+	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=One9U-HQLsTp1Aal-oDQBQ&url=http://abcd...
+	 *
+	 * @param $permalink The permalink URL to check and/or normalize.
+	 * @return string The normalized URL of the original article, as indicated by the `url`
+	 *					parameter in the URL query string.
+	 */
+	function wprss_google_news_url_fix( $permalink ) {
+		// Parse the url
+		$parsed = parse_url( urldecode( html_entity_decode( $permalink ) ) );
+		
+		// If parsing failed, return the permalink
+		if ( $parsed === FALSE || $parsed === NULL ) return $permalink;
+
+		// Determine if it's a google news item
+		if ( strtolower( $parsed['host'] ) !== 'news.google.com' ) return $permalink;
+		// Check if the url GET query string is present
+		if ( !isset( $parsed['query'] ) ) return $permalink;
+		
+		// Parse the query string
+		$query = array();
+		parse_str( $parsed['query'], $query );
+		
+		// Check if the url GET parameter is present in the query string
+		if ( !is_array($query) || !isset( $query['url'] ) ) return $permalink;
+		
+		return urldecode( $query['url'] );
+	}
+
+
 
 	/**
 	 * Converts YouTube, Vimeo and DailyMotion video urls
