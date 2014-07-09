@@ -28,7 +28,7 @@
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
             $columns['state'] = __( 'State', 'wprss' );
-            $columns['next-update'] = __( 'Next Update', 'wprss' );
+            $columns['next-update'] = __( 'Updates', 'wprss' );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
         }
 
@@ -86,27 +86,41 @@
             break;
 
         case 'next-update':
-            $interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
-            $timestamp = wprss_get_next_feed_source_update( $post_id );
-            // If using the global interval, get the timestamp of the next glboal update
-            if ( $interval === wprss_get_default_feed_source_update_interval() || $interval === '' ) {
-              $timestamp = wp_next_scheduled( 'wprss_fetch_all_feeds_hook', array() );
+            // Get the update interval
+            $update_interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
+            // Get the last updated and next update data
+            $last_update = get_post_meta( $post_id, 'wprss_last_update', TRUE );
+            $last_update_items = get_post_meta( $post_id, 'wprss_last_update_items', TRUE );
+            $next_update = wprss_get_next_feed_source_update( $post_id );
+
+            // If using the global interval, get the timestamp of the next global update
+            if ( $update_interval === wprss_get_default_feed_source_update_interval() || $update_interval === '' ) {
+              $next_update = wp_next_scheduled( 'wprss_fetch_all_feeds_hook', array() );
             }
             ?>
 
             <p>
+                Next update:
                 <code>
                     <?php if ( ! wprss_is_feed_source_active( $post_id ) ): ?>
                         Paused
-                    <?php elseif ( $timestamp === FALSE ) : ?>
+                    <?php elseif ( $next_update === FALSE ) : ?>
                         None
                     <?php else: ?>
-                        <?php echo human_time_diff( $timestamp, time() ); ?>
+                        <?php echo human_time_diff( $next_update, time() ); ?>
                     <?php endif; ?>
                 </code>
             </p>
 
-            <?php
+            <?php if ( $last_update !== '' ): ?>
+              <p>
+                Last updated:
+                <code><?php echo human_time_diff( $last_update, time() ); ?> <?php _e('ago'); ?></code>
+                <?php if ( $last_update_items !== '' ): ?>
+                    <br/>Last update imported: <code><?php echo $last_update_items; ?></code> items
+                <?php endif; ?>
+              </p>
+            <?php endif;
 
             break;
 
