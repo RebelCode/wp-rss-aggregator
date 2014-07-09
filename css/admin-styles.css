@@ -304,7 +304,7 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th {
 }
 /* ERRORS */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#errors {
-    width: 20px !important;
+    width: 15px !important;
 }
 /* ID */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
