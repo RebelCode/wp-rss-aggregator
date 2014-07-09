@@ -312,11 +312,11 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
 }
 /* NEXT UPDATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#next-update {
-    width: 120px !important;
+    width: 200px !important;
 }
 /* STATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
-    width: 100px !important;
+    width: 80px !important;
 }
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
