@@ -56,8 +56,8 @@
 
 				// Generate a list of items fetched, that are not already in the DB
 				$new_items = array();
-				foreach( $items as $item ) {
-					$permalink = $item->get_permalink();
+				foreach( $items_to_insert as $item ) {
+					$permalink = wprss_convert_video_permalink( $item->get_permalink() );
 					if ( !in_array( trim($permalink), $existing_permalinks ) ) {
 						$new_items[] = $item;
 					}
