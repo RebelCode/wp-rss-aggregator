@@ -88,6 +88,8 @@
 				$items_to_insert = $items;
 			}
 			
+			update_post_meta( $feed_ID, 'wprss_last_update', time() );
+
 			// Insert the items into the db
 			if ( !empty( $items_to_insert ) ) {
 				wprss_items_insert_post( $items_to_insert, $feed_ID );
@@ -262,6 +264,9 @@
 		// Gather the permalinks of existing feed item's related to this feed source
 		$existing_permalinks = get_existing_permalinks( $feed_ID );
 
+		// Count of items inserted
+		$items_inserted = 0;
+
 		foreach ( $items as $item ) {
 
 			// Convert the url if it is a video url and the conversion is enabled in the settings.
@@ -323,6 +328,10 @@
 							}
 						}
 
+						// Increment the inserted items counter
+						$items_inserted++;
+						wprss_log( $inserted_ID );
+
 						// Create and insert post meta into the DB
 						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );
 
@@ -336,6 +345,8 @@
 				}
 			}
 		}
+
+		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
 	}
 
 
