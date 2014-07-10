@@ -311,7 +311,7 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
     width: 50px !important;
 }
 /* NEXT UPDATE */
-body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#next-update {
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates {
     width: 200px !important;
 }
 /* STATE */

@@ -28,7 +28,7 @@
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
             $columns['state'] = __( 'State', 'wprss' );
-            $columns['next-update'] = __( 'Updates', 'wprss' );
+            $columns['updates'] = __( 'Updates', 'wprss' );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
         }
 
@@ -85,7 +85,7 @@
 
             break;
 
-        case 'next-update':
+        case 'updates':
             // Get the update interval
             $update_interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
             // Get the last updated and next update data
