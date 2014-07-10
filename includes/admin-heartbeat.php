@@ -1,0 +1,66 @@
+<?php
+
+add_action( 'heartbeat_received', 'wprss_heartbeat_received', 10, 2 );
+/**
+ *
+ */
+function wprss_heartbeat_received( $response, $data ) {
+	if ( empty($data['wprss_heartbeat']) ) return $response;
+
+	// Get the wprss heartbeat data and extract the data
+	$wprss_heartbeat = $data['wprss_heartbeat'];
+	extract( $wprss_heartbeat );
+
+	// Perform the action specified by the heartbeat data
+	switch( $action ) {
+		/* FEED SOURCE UPDATING STATUS
+		 * Used to determine whether or not to show the updating icon in the feed source table.
+		 */
+		case 'feed_sources':
+			// Prepare array of IDs for feed sources currently updating
+			$feed_sources_data = array();
+			// Iterate all feed sources
+			foreach ( $params as $feed_id ) {
+				$feed_sources_data[$feed_id] = array();
+				$feed_source_data = &$feed_sources_data[$feed_id];
+
+				// Check if the feed source is updating
+				$seconds_for_next_update = wprss_get_next_feed_source_update( $feed_id ) - time();
+				$feed_source_data['updating'] = ( $seconds_for_next_update < 15 && $seconds_for_next_update > 0 );
+
+				// Add the number of imported items
+				$items = wprss_get_feed_items_for_source( $feed_id );
+				$feed_source_data['items'] = $items->post_count;
+
+				// Add the next update time
+				$next_update = wprss_get_next_feed_source_update( $feed_id );
+				$update_interval = get_post_meta( $feed_id, 'wprss_update_interval', TRUE );
+				// If using the global interval, get the timestamp of the next global update
+				if ( $update_interval === wprss_get_default_feed_source_update_interval() || $update_interval === '' ) {
+					$next_update = wp_next_scheduled( 'wprss_fetch_all_feeds_hook', array() );
+				}
+				// Set the text appropriately
+				if ( ! wprss_is_feed_source_active( $feed_id ) ) {
+					$feed_source_data['next-update'] = "Paused";
+				}
+				elseif( $next_update === FALSE ) {
+					$feed_source_data['next-update'] = "None";
+				}
+				else {
+					$feed_source_data['next-update'] = human_time_diff( $next_update, time() );
+				}
+
+				// Add the last update information
+				$last_update = get_post_meta( $feed_id, 'wprss_last_update', TRUE );
+				$last_update_items = get_post_meta( $feed_id, 'wprss_last_update_items', TRUE );
+
+            	$feed_source_data['last-update'] = ( $last_update === '' )? '' : human_time_diff( $last_update, time() );
+            	$feed_source_data['last-update-imported'] = $last_update_items;
+			}
+			// Send back all the IDs
+			$response['wprss_feed_sources_data'] = $feed_sources_data;
+			break;
+	}
+	// Return the response
+	return $response;
+}

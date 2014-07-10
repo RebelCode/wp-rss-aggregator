@@ -35,6 +35,9 @@
             wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
             wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
             wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
+            // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
+            wp_enqueue_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js', array('heartbeat') );
+            // Heartbeat script
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
