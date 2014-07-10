@@ -101,7 +101,7 @@
 
             <p>
                 Next update:
-                <code>
+                <code class="next-update">
                     <?php if ( ! wprss_is_feed_source_active( $post_id ) ): ?>
                         Paused
                     <?php elseif ( $next_update === FALSE ) : ?>
@@ -113,11 +113,11 @@
             </p>
 
             <?php if ( $last_update !== '' ): ?>
-              <p>
+              <p class="last-update-container">
                 Last updated:
-                <code><?php echo human_time_diff( $last_update, time() ); ?> <?php _e('ago'); ?></code>
+                <code class="last-update"><?php echo human_time_diff( $last_update, time() ); ?> <?php _e('ago'); ?></code>
                 <?php if ( $last_update_items !== '' ): ?>
-                    <br/>Last update imported: <code><?php echo $last_update_items; ?></code> items
+                    <span class="last-update-imported-container"><br/>Last update imported: <code class="last-update-imported"><?php echo $last_update_items; ?></code> items</span>
                 <?php endif; ?>
               </p>
             <?php endif;
@@ -126,13 +126,12 @@
 
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
-            $milliseconds_for_next_update = time() - wprss_get_next_feed_source_update( $post_id );
-            
+            $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
+            $showClass = ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 )? 'wprss-show' : '';
+
             echo '<p>';
-            echo $items->post_count;
-            if ( $milliseconds_for_next_update < 1000 ) {
-              ?><i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon" title="Updating feed source"></i><?php
-            }
+            echo "<span class=\"items-imported\">{$items->post_count}</span>";
+            echo "<i class=\"fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon $showClass\" title=\"Updating feed source\"></i>";
             echo '</p>';
 
             break;
