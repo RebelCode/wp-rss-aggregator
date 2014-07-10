@@ -66,19 +66,28 @@
 			var stopUpdating = icon.hasClass('wprss-show') && !feed_source['updating'];
 			// Check if the item count changed
 			var itemCountChanged = feed_source['items'] != itemCount.text();
+			
 			// Check if we are waiting for the item count to update
 			var waiting = itemsCol.hasClass('waiting');
 
+			// Check if the updating stopped, but the item count remained the same.
+			// If we were previously waiting, prevent this which causes the script to "wait" again (forever)
+			if ( stopUpdating && !itemCountChanged && !waiting ) {
+				// If so, then we must wait for next heartbeat pulse to get the item count and remove the spinning icon
+				itemsCol.addClass('waiting');
+			}
+			// Otherwise,
+			else {
+				// Update the count and the icon appropriately
+				itemCount.text( feed_source['items'] );
+				icon.toggleClass( 'wprss-show', feed_source['updating'] );
+			}
+
+			// If we were waiting, we are not anymore. Remove the waiting class
 			if ( waiting ) {
 				itemsCol.removeClass('waiting');
 			}
 
-			if ( stopUpdating && !itemCountChanged ) {
-				itemsCol.addClass('waiting');
-			} else {
-				itemCount.text( feed_source['items'] );
-				icon.toggleClass( 'wprss-show', feed_source['updating'] );
-			}
 		}
 
 	};
