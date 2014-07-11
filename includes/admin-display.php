@@ -323,7 +323,7 @@
                   admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
                   get_the_ID()
                 );
-                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View Items' );
+                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
                 $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', 'Fetch items' );
