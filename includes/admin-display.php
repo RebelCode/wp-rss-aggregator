@@ -473,3 +473,41 @@
         }
         return apply_filters( 'wprss_change_publish_button_text', $translation );
     }        
+
+
+
+    if ( is_admin() ){
+      add_filter('pre_get_posts', 'wprss_view_feed_items_query');
+      /**
+       * Alters the main query in the WordPress admin, when the wprss_feed GET parameter is set.
+       * The queried items are then filtered down to the items imported by the feed source with
+       * the ID given in the wprss_feed GET parameter.
+       *
+       * @since 4.1.7
+       */
+      function wprss_view_feed_items_query( $query ) {
+        if ( is_admin() && $query->is_main_query() && !empty($_GET['wprss_feed']) ) {
+          // Get the ID from the GET param
+          $id = $_GET['wprss_feed'];
+          // Get the existing meta query
+          $mq = $query->get('meta_query');
+          // If the meta query is not yet set
+          if ( !is_array($mq) ) {
+            // initialize it
+            $mq = array(
+              'relation'  =>  'AND',
+            );
+          }
+          // Add the custom meta query
+          $mq[] = array(
+            'key'   =>  'wprss_feed_id',
+            'value'   =>  $id,
+            'compare' =>  '='
+          );
+          // Set the new meta query
+          $query->set('meta_query', $mq);
+        }
+        // Return the query
+        return $query;
+      }
+    }
