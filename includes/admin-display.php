@@ -323,12 +323,12 @@
                   admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
                   get_the_ID()
                 );
-                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View Feed Items' );
+                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View Items' );
                 $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
 
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Feeds', 'wprss' ) ) .'" >' . __( 'Fetch Feeds', 'wprss' ) . '</a>';
+                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch items', 'wprss' ) ) .'" >' . __( 'Fetch items', 'wprss' ) . '</a>';
 
-                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete Feed Items' );
+                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete Items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title ', 'Delete feed items imported by this feed source' );
                 $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
             }
