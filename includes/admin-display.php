@@ -314,6 +314,15 @@
         elseif ( get_post_type() === 'wprss_feed' ) {
             unset( $actions[ 'view'] );
             if ( get_post_status( get_the_ID() ) !== 'trash' ) {
+
+                $view_items_link = apply_filters(
+                  'wprss_view_feed_items_row_action_link',
+                  admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
+                  get_the_ID()
+                );
+                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View Feed Items' );
+                $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
+
                 $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Feeds', 'wprss' ) ) .'" >' . __( 'Fetch Feeds', 'wprss' ) . '</a>';
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete Feed Items' );
