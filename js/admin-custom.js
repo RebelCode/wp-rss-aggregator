@@ -14,7 +14,7 @@ function fetch_items_row_action_callback(){
         },
         success: function( response, status, jqXHR ){
             console.log( jqXHR );
-            link.text( 'Feed items are being imported!' );
+            link.text( 'Items are importing!' );
             jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
             setTimeout( function(){
                 link.text( original_text ).click( fetch_items_row_action_callback );
