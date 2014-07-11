@@ -499,10 +499,14 @@
             );
           }
           // Add the custom meta query
-          $mq[] = array(
-            'key'   =>  'wprss_feed_id',
-            'value'   =>  $id,
-            'compare' =>  '='
+          $mq[] = apply_filters(
+            'wprss_view_feed_items_meta_query',
+            array(
+              'key'   =>  'wprss_feed_id',
+              'value'   =>  $id,
+              'compare' =>  '='
+            ),
+            $id
           );
           // Set the new meta query
           $query->set('meta_query', $mq);
