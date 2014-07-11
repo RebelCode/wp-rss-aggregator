@@ -397,7 +397,7 @@
      * @since 3.5
      */
     function wprss_notify_about_deleting_source_feed_items() {
-        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feeds for this feed source are being deleted in the background.' ), 'wprss' );
+        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feed items for this feed source are being deleted in the background.' ), 'wprss' );
         echo '<div class="updated"><p>' . $message . '</p></div>';
     }
 
