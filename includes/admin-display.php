@@ -47,10 +47,10 @@
       switch ( $column ) {    
         case 'errors':
           $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
-          if ( $errors === 'true') {
-              $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
-              echo '<i title="'.$msg.'" class="wprss-feed-error-symbol fa fa-warning fa-fixed-width"></i>';
-          }
+          $showClass = ( $errors === 'true' )? 'wprss-show' : '';
+
+          $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
+          echo "<i title=\"$msg\" class=\"fa fa-warning fa-fw wprss-feed-error-symbol $showClass\"></i>";
           break;
         case 'url':
           $url = get_post_meta( $post_id, 'wprss_url', true);
