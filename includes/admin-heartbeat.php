@@ -56,6 +56,10 @@ function wprss_heartbeat_received( $response, $data ) {
 
             	$feed_source_data['last-update'] = ( $last_update === '' )? '' : human_time_diff( $last_update, time() );
             	$feed_source_data['last-update-imported'] = $last_update_items;
+
+            	// Add any error info
+            	$errors = get_post_meta( $feed_id, 'wprss_error_last_import', true );
+            	$feed_source_data['errors'] = $errors === 'true';
 			}
 			// Send back all the IDs
 			$response['wprss_feed_sources_data'] = $feed_sources_data;
