@@ -127,7 +127,7 @@
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
             $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
-            $showClass = ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 )? 'wprss-show' : '';
+            $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
             echo '<p>';
             echo "<span class=\"items-imported\">{$items->post_count}</span>";
@@ -353,6 +353,7 @@
             wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $source_id ) );
             // Set a transient
             set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
+            update_post_meta( $source_id, 'wprss_feed_is_deleting_items', 'true' );
             // Refresh the page without the GET parameter
             header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' ) );
             exit();

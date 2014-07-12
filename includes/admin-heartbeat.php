@@ -26,7 +26,7 @@ function wprss_heartbeat_received( $response, $data ) {
 
 				// Check if the feed source is updating
 				$seconds_for_next_update = wprss_get_next_feed_source_update( $feed_id ) - time();
-				$feed_source_data['updating'] = ( $seconds_for_next_update < 15 && $seconds_for_next_update > 0 );
+				$feed_source_data['updating'] = ( $seconds_for_next_update < 15 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $feed_id );
 
 				// Add the number of imported items
 				$items = wprss_get_feed_items_for_source( $feed_id );
