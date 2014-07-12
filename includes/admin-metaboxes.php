@@ -93,7 +93,7 @@
             'label' => __( 'URL', 'wprss' ),
             'desc'  => __( 'Enter feed URL (including http://)', 'wprss' ),
             'id'    => $prefix .'url',
-            'type'  => 'text',
+            'type'  => 'url',
             'after' => 'wprss_validate_feed_link',
         );
         
