@@ -494,6 +494,7 @@
      */
     function wprss_modify_admin_bar() {
       global $wp_admin_bar;
+      if ( !is_admin() ) return;
       $screen = get_current_screen();
       // Check if we are in the wprss_feed edit page
       if ( $screen->base == 'post' && $screen->post_type == 'wprss_feed' && !empty( $_GET['action'] ) && $_GET['action'] == 'edit' ) {
