@@ -152,9 +152,10 @@
 
                         switch( $field['type'] ) {
                         
-                            // text
+                            // text/url
+                            case 'url':
                             case 'text':
-                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" size="55" />
+                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" size="55" />
                                     <br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
