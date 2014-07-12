@@ -482,6 +482,50 @@
 
 
 
+    add_action( 'wp_before_admin_bar_render', 'wprss_modify_admin_bar' );
+    /**
+     * Removes the old "View Source" menu item from the admin bar and adds a new
+     * "View items" menu bar item, that opens a new tab, showing the items imported
+     * from that feed source.
+     *
+     * Only shown on the wprss_feed edit page.
+     *
+     * @since 4.2
+     */
+    function wprss_modify_admin_bar() {
+      global $wp_admin_bar;
+      $screen = get_current_screen();
+      // Check if we are in the wprss_feed edit page
+      if ( $screen->base == 'post' && $screen->post_type == 'wprss_feed' && !empty( $_GET['action'] ) && $_GET['action'] == 'edit' ) {
+        // Remove the old 'View Source' menu item
+        $wp_admin_bar->remove_node( 'view' );
+
+        // Prepare the view items link and text
+        $view_items_link = apply_filters(
+          'wprss_view_feed_items_row_action_link',
+          admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
+          get_the_ID()
+        );
+        $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
+
+        // Prepare the link target
+        $link_target = 'wprss-view-items-' . get_the_ID();
+
+        // Add the new menu item
+        $wp_admin_bar->add_node( array(
+          'href'    =>  $view_items_link,
+          'id'      =>  'view',
+          'title'   =>  $view_items_text,
+          'meta'    =>  array(
+            'target'  =>  $link_target
+          )
+        ));
+      }
+    }
+
+
+
+
     if ( is_admin() ){
       add_filter('pre_get_posts', 'wprss_view_feed_items_query');
       /**
@@ -489,7 +533,7 @@
        * The queried items are then filtered down to the items imported by the feed source with
        * the ID given in the wprss_feed GET parameter.
        *
-       * @since 4.1.7
+       * @since 4.2
        */
       function wprss_view_feed_items_query( $query ) {
         if ( is_admin() && $query->is_main_query() && !empty($_GET['wprss_feed']) ) {
