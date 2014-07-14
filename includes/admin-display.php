@@ -314,9 +314,9 @@
         elseif ( get_post_type() === 'wprss_feed' ) {
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
-            $trash = $actions['trash'];
-            unset( $actions['trash'] );
             if ( get_post_status( get_the_ID() ) !== 'trash' ) {
+                $trash = $actions['trash'];
+                unset( $actions['trash'] );
 
                 $view_items_link = apply_filters(
                   'wprss_view_feed_items_row_action_link',
@@ -332,8 +332,9 @@
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', 'Delete items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', 'Delete feed items imported by this feed source' );
                 $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
+                
+                $actions['trash'] = $trash;
             }
-            $actions['trash'] = $trash;
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
     }
