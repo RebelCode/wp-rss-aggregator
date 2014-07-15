@@ -384,7 +384,6 @@
 
 						// Increment the inserted items counter
 						$items_inserted++;
-						wprss_log( $inserted_ID );
 
 						// Create and insert post meta into the DB
 						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );

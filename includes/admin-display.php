@@ -47,10 +47,10 @@
       switch ( $column ) {    
         case 'errors':
           $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
-          if ( $errors === 'true') {
-              $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
-              echo '<i title="'.$msg.'" class="wprss-feed-error-symbol fa fa-warning fa-fixed-width"></i>';
-          }
+          $showClass = ( $errors === 'true' )? 'wprss-show' : '';
+
+          $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
+          echo "<i title=\"$msg\" class=\"fa fa-warning fa-fw wprss-feed-error-symbol $showClass\"></i>";
           break;
         case 'url':
           $url = get_post_meta( $post_id, 'wprss_url', true);
@@ -127,7 +127,7 @@
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
             $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
-            $showClass = ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 )? 'wprss-show' : '';
+            $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
             echo '<p>';
             echo "<span class=\"items-imported\">{$items->post_count}</span>";
@@ -313,12 +313,27 @@
         }
         elseif ( get_post_type() === 'wprss_feed' ) {
             unset( $actions[ 'view'] );
+            unset( $actions[ 'inline hide-if-no-js'] );
             if ( get_post_status( get_the_ID() ) !== 'trash' ) {
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php" title="'. esc_attr( __( 'Fetch Feeds', 'wprss' ) ) .'" >' . __( 'Fetch Feeds', 'wprss' ) . '</a>';
+                $trash = $actions['trash'];
+                unset( $actions['trash'] );
 
-                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text ', 'Delete Feed Items' );
-                $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title ', 'Delete feed items imported by this feed source' );
+                $view_items_link = apply_filters(
+                  'wprss_view_feed_items_row_action_link',
+                  admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
+                  get_the_ID()
+                );
+                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
+                $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
+
+                $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', 'Fetch items' );
+                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, 'wprss' ) . '</a>';
+
+                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', 'Delete items' );
+                $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', 'Delete feed items imported by this feed source' );
                 $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
+                
+                $actions['trash'] = $trash;
             }
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
@@ -339,6 +354,7 @@
             wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $source_id ) );
             // Set a transient
             set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
+            update_post_meta( $source_id, 'wprss_feed_is_deleting_items', 'true' );
             // Refresh the page without the GET parameter
             header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' ) );
             exit();
@@ -464,3 +480,90 @@
         }
         return apply_filters( 'wprss_change_publish_button_text', $translation );
     }        
+
+
+
+    add_action( 'wp_before_admin_bar_render', 'wprss_modify_admin_bar' );
+    /**
+     * Removes the old "View Source" menu item from the admin bar and adds a new
+     * "View items" menu bar item, that opens a new tab, showing the items imported
+     * from that feed source.
+     *
+     * Only shown on the wprss_feed edit page.
+     *
+     * @since 4.2
+     */
+    function wprss_modify_admin_bar() {
+      global $wp_admin_bar;
+      if ( !is_admin() ) return;
+      $screen = get_current_screen();
+      // Check if we are in the wprss_feed edit page
+      if ( $screen->base == 'post' && $screen->post_type == 'wprss_feed' && !empty( $_GET['action'] ) && $_GET['action'] == 'edit' ) {
+        // Remove the old 'View Source' menu item
+        $wp_admin_bar->remove_node( 'view' );
+
+        // Prepare the view items link and text
+        $view_items_link = apply_filters(
+          'wprss_view_feed_items_row_action_link',
+          admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
+          get_the_ID()
+        );
+        $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
+
+        // Prepare the link target
+        $link_target = 'wprss-view-items-' . get_the_ID();
+
+        // Add the new menu item
+        $wp_admin_bar->add_node( array(
+          'href'    =>  $view_items_link,
+          'id'      =>  'view',
+          'title'   =>  $view_items_text,
+          'meta'    =>  array(
+            'target'  =>  $link_target
+          )
+        ));
+      }
+    }
+
+
+
+
+    if ( is_admin() ){
+      add_filter('pre_get_posts', 'wprss_view_feed_items_query');
+      /**
+       * Alters the main query in the WordPress admin, when the wprss_feed GET parameter is set.
+       * The queried items are then filtered down to the items imported by the feed source with
+       * the ID given in the wprss_feed GET parameter.
+       *
+       * @since 4.2
+       */
+      function wprss_view_feed_items_query( $query ) {
+        if ( is_admin() && $query->is_main_query() && !empty($_GET['wprss_feed']) ) {
+          // Get the ID from the GET param
+          $id = $_GET['wprss_feed'];
+          // Get the existing meta query
+          $mq = $query->get('meta_query');
+          // If the meta query is not yet set
+          if ( !is_array($mq) ) {
+            // initialize it
+            $mq = array(
+              'relation'  =>  'AND',
+            );
+          }
+          // Add the custom meta query
+          $mq[] = apply_filters(
+            'wprss_view_feed_items_meta_query',
+            array(
+              'key'   =>  'wprss_feed_id',
+              'value'   =>  $id,
+              'compare' =>  '='
+            ),
+            $id
+          );
+          // Set the new meta query
+          $query->set('meta_query', $mq);
+        }
+        // Return the query
+        return $query;
+      }
+    }

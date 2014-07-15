@@ -26,7 +26,7 @@ function wprss_heartbeat_received( $response, $data ) {
 
 				// Check if the feed source is updating
 				$seconds_for_next_update = wprss_get_next_feed_source_update( $feed_id ) - time();
-				$feed_source_data['updating'] = ( $seconds_for_next_update < 15 && $seconds_for_next_update > 0 );
+				$feed_source_data['updating'] = ( $seconds_for_next_update < 15 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $feed_id );
 
 				// Add the number of imported items
 				$items = wprss_get_feed_items_for_source( $feed_id );
@@ -56,6 +56,10 @@ function wprss_heartbeat_received( $response, $data ) {
 
             	$feed_source_data['last-update'] = ( $last_update === '' )? '' : human_time_diff( $last_update, time() );
             	$feed_source_data['last-update-imported'] = $last_update_items;
+
+            	// Add any error info
+            	$errors = get_post_meta( $feed_id, 'wprss_error_last_import', true );
+            	$feed_source_data['errors'] = $errors === 'true';
 			}
 			// Send back all the IDs
 			$response['wprss_feed_sources_data'] = $feed_sources_data;
