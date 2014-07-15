@@ -57,7 +57,7 @@
 				// Generate a list of items fetched, that are not already in the DB
 				$new_items = array();
 				foreach( $items_to_insert as $item ) {
-					$permalink = wprss_convert_video_permalink( $item->get_permalink() );
+					$permalink = wprss_normalize_permalink( $item->get_permalink() );
 					if ( !in_array( trim($permalink), $existing_permalinks ) ) {
 						$new_items[] = $item;
 					}
@@ -323,8 +323,8 @@
 
 		foreach ( $items as $item ) {
 
-			// Convert the url if it is a video url and the conversion is enabled in the settings.
-			$permalink = wprss_convert_video_permalink( $item->get_permalink() );
+			// Normalize the URL
+			$permalink = wprss_normalize_permalink( $item->get_permalink() );
 
 			// Save the enclosure URL
 			$enclosure_url = '';
