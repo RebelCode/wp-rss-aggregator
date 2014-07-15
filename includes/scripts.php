@@ -20,6 +20,10 @@
             wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
         } 
 
+        if ( is_admin() ) {
+            wp_enqueue_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css' );
+        }
+
         $screen = get_current_screen();
 
         wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
@@ -46,10 +50,6 @@
 
         else if ( 'dashboard_page_wprss-welcome' === $screen->base ) {
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
-        }
-
-        if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ) {
-            wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-3.8.css' );
         }
 
         do_action( 'wprss_admin_scripts_styles' );
