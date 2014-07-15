@@ -1,3 +1,10 @@
+4.2 ()
+New Feature: Can now view each feed source's imported feed items separate from other feed sources' feed items.
+Enhanced: Major visual update to the Feed Sources page with new live updates.
+Enhanced: The custom feed now includes the feed source.
+Fixed bug: Google News feeds were importing duplicate items on every update.
+Fixed bug: Multiple minor bug fixes with old filters.
+
 4.1.6 (2014-06-28)
 Fixed bug: Results returned by wprss_get_feed_items_for_source() will no longer be affected by filters.
 Fixed bug: Charset issue in titles
