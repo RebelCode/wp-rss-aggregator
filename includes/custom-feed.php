@@ -117,15 +117,16 @@
             <?php
             // Start the Loop
             while ( have_posts() ) : the_post();
+            $source = get_post_meta( get_the_ID(), 'wprss_feed_id', TRUE );
             $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
             ?>
             <entry>
                 <title><![CDATA[<?php the_title_rss(); ?>]]></title>
                 <link href="<?php echo $permalink; ?>" />
                 <?php // Enable below to link to post on our site rather than original source ?>
-                <!--<link href="<?php the_permalink_rss(); ?>" />-->
                 <published><?php echo get_post_time( 'Y-m-d\TH:i:s\Z' ); ?></published>
                 <content type="html"><![CDATA[<?php the_content(); ?>]]></content>
+                <source url="<?php echo get_post_meta( $source, 'wprss_url', TRUE ); ?>"><?php echo get_the_title( $source ); ?></source>
                 <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?>
             </entry>
             <?php
