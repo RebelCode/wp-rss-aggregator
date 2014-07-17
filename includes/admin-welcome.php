@@ -106,7 +106,12 @@
 
 		 						<hr/>
 
-								<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
+		 						<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
+		 						<ul>
+									<li><strong>Enhanced:</strong> Feed Sources page is now more responsive.</li>
+		 						</ul>
+		 
+								<h3>Changelog for v4.2</h3>
 								<ul>
 									<li><strong>New Feature:</strong> Can now view each feed source's imported feed items separate from other feed sources' feed items.</li>
 									<li><strong>Enhanced:</strong> Major visual update to the Feed Sources page with new live updates.</li>
