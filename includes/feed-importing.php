@@ -26,6 +26,8 @@
 		if ( wprss_feed_source_force_next_fetch( $feed_ID ) ) {
 			delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
 		}
+		
+		update_post_meta( $feed_ID, 'wprss_feed_is_updating', time() );
 
 		// Get the feed source URL from post meta, and filter it
 		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
@@ -97,6 +99,8 @@
 		} else {
 			wprss_log("The feed URL is not valid! Please recheck.");
 		}
+		
+		delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
 	}
 
 

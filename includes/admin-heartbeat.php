@@ -1,14 +1,16 @@
 <?php
 
-add_action( 'heartbeat_received', 'wprss_heartbeat_received', 10, 2 );
+add_action( 'wp_ajax_wprss_feed_source_table_ajax', 'wprss_feed_source_updates');
 /**
  *
  */
-function wprss_heartbeat_received( $response, $data ) {
-	if ( empty($data['wprss_heartbeat']) ) return $response;
+function wprss_feed_source_updates() {
+	$response = array();
+	
+	if ( empty($_POST['wprss_heartbeat']) ) return $response;
 
 	// Get the wprss heartbeat data and extract the data
-	$wprss_heartbeat = $data['wprss_heartbeat'];
+	$wprss_heartbeat = $_POST['wprss_heartbeat'];
 	extract( $wprss_heartbeat );
 
 	// Perform the action specified by the heartbeat data
@@ -26,7 +28,7 @@ function wprss_heartbeat_received( $response, $data ) {
 
 				// Check if the feed source is updating
 				$seconds_for_next_update = wprss_get_next_feed_source_update( $feed_id ) - time();
-				$feed_source_data['updating'] = ( $seconds_for_next_update < 15 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $feed_id );
+				$feed_source_data['updating'] = ( $seconds_for_next_update < 2 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_updating( $feed_id ) || wprss_is_feed_source_deleting( $feed_id );
 
 				// Add the number of imported items
 				$items = wprss_get_feed_items_for_source( $feed_id );
@@ -66,5 +68,5 @@ function wprss_heartbeat_received( $response, $data ) {
 			break;
 	}
 	// Return the response
-	return $response;
+	die( json_encode($response) );
 }
