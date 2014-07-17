@@ -102,7 +102,6 @@
 										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf">Keyword Filtering</a></strong></li>
 									</ul>
 								</p>
-								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
 								<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
 
 		 						<hr/>
@@ -115,6 +114,7 @@
 									<li><strong>Fixed bug:</strong> Google News feeds were importing duplicate items on every update.</li>
 									<li><strong>Fixed bug:</strong> Multiple minor bug fixes with old filters.</li>
 								</ul>
+								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
 
 							</div>
 
