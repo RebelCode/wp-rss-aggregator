@@ -1,4 +1,4 @@
-4.2 ()
+4.2 (2014-07-17)
 New Feature: Can now view each feed source's imported feed items separate from other feed sources' feed items.
 Enhanced: Major visual update to the Feed Sources page with new live updates.
 Enhanced: The custom feed now includes the feed source.
