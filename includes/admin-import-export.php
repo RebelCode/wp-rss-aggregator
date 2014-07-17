@@ -111,6 +111,7 @@
                             update_option( $key, $value );
                         }
                         add_action( 'admin_notices', 'wp_rss_aggregator_import_notice1' );
+                        do_action( 'wprss_settings_imported' );
                     }
                     else {
                         add_action( 'admin_notices', 'wp_rss_aggregator_import_notice2' );
@@ -135,6 +136,7 @@
                 <h3><?php _e( 'Export Settings', 'wprss' ); ?></h3>
                 <p><?php _e( 'Click the <strong>Export Settings</strong> button to generate a file containing all the settings used by WP RSS Aggregator', 'wprss' ); ?></p>
                 <p><?php _e( 'After exporting, you can either use the backup file to restore your settings to this site or to another WordPress site.</p>', 'wprss' ); ?></p>
+                <?php do_action( 'wprss_export_section' ); ?>
                 <form method="post">
                     <p class="submit">
                         <?php wp_nonce_field( 'wprss-settings-export' ); ?>
@@ -145,6 +147,7 @@
                 <h3><?php _e( 'Import Settings', 'wprss' ); ?></h3>
                 <p><?php _e( 'Click the <strong>Choose file</strong> button and choose a backup file.', 'wprss' ); ?></p>
                 <p><?php _e( 'Press the <strong>Import Settings</strong> button, and WordPress will do the rest for you.', 'wprss' ); ?></p>
+                <?php do_action( 'wprss_import_section' ); ?>
                 <form method='post' enctype='multipart/form-data'>
                     <p class="submit">
                         <?php wp_nonce_field( 'wprss-settings-import' ); ?>

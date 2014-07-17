@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 4.1.6
+Stable tag: 4.2
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -162,6 +162,13 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.2 (2014-07-17) =
+* New Feature: Can now view each feed source's imported feed items separate from other feed sources' feed items.
+* Enhanced: Major visual update to the Feed Sources page with new live updates.
+* Enhanced: The custom feed now includes the feed source.
+* Fixed bug: Google News feeds were importing duplicate items on every update.
+* Fixed bug: Multiple minor bug fixes with old filters.
 
 = 4.1.6 (2014-06-28) = 
 * Fixed bug: Results returned by wprss_get_feed_items_for_source() will no longer be affected by filters.

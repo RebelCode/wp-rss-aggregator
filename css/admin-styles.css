@@ -304,19 +304,22 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th {
 }
 /* ERRORS */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#errors {
-    width: 20px !important;
+    width: 15px !important;
 }
 /* ID */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
     width: 50px !important;
 }
 /* NEXT UPDATE */
-body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#next-update {
-    width: 120px !important;
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates {
+    width: 200px !important;
+}
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts td.column-updates p {
+    margin-bottom: 0 !important;
 }
 /* STATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
-    width: 100px !important;
+    width: 80px !important;
 }
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
@@ -327,6 +330,23 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 120px !important;
 }
 
+
+i.wprss-feed-error-symbol {
+    display: none;
+    font-size: 1.2em;
+    vertical-align: middle;
+    color: rgb(200,0,0);
+}
+
+i.wprss-updating-feed-icon {
+    margin-left: 8px;
+    display: none;
+}
+
+i.wprss-feed-error-symbol.wprss-show,
+i.wprss-updating-feed-icon.wprss-show {
+    display: inline-block;
+}
 
 /* Log textarea styles */
 #wprss-log-textarea {
@@ -340,13 +360,6 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     background: rgb( 255, 245, 245 );
 }
 
-
-
-.wprss-feed-error-symbol {
-    font-size: 1.2em;
-    vertical-align: middle;
-    color: rgb(200,0,0);
-}
 
 
 /*--------------------------------------------------------------------------

@@ -56,8 +56,8 @@
 
 				// Generate a list of items fetched, that are not already in the DB
 				$new_items = array();
-				foreach( $items as $item ) {
-					$permalink = $item->get_permalink();
+				foreach( $items_to_insert as $item ) {
+					$permalink = wprss_normalize_permalink( $item->get_permalink() );
 					if ( !in_array( trim($permalink), $existing_permalinks ) ) {
 						$new_items[] = $item;
 					}
@@ -88,6 +88,8 @@
 				$items_to_insert = $items;
 			}
 			
+			update_post_meta( $feed_ID, 'wprss_last_update', time() );
+
 			// Insert the items into the db
 			if ( !empty( $items_to_insert ) ) {
 				wprss_items_insert_post( $items_to_insert, $feed_ID );
@@ -201,6 +203,60 @@
 
 
 
+	/**
+	 * Normalizes the given permalink.
+	 *
+	 * @param $permalink The permalink to normalize
+	 * @return string The normalized permalink
+	 */
+	function wprss_normalize_permalink( $permalink ) {
+		// Apply normalization functions on the permalink
+		$permalink = trim( $permalink );
+		$permalink = wprss_google_news_url_fix( $permalink );
+		$permalink = wprss_convert_video_permalink( $permalink );
+		// Return the normalized permalink
+		return $permalink;
+	}
+
+
+
+	/**
+	 * Checks if the permalink is a Google News permalink, and if it is,
+	 * returns the normalized URL of the proper feed item article.
+	 *
+	 * Fixes the issue with equivalent Google News items having different URLs,
+	 * that contain randomly generated GET parameters. Example:
+	 *
+	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=V3e9U6izMMnm1QaB1YHoDA&url=http://abcd...
+	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=One9U-HQLsTp1Aal-oDQBQ&url=http://abcd...
+	 *
+	 * @param $permalink The permalink URL to check and/or normalize.
+	 * @return string The normalized URL of the original article, as indicated by the `url`
+	 *					parameter in the URL query string.
+	 */
+	function wprss_google_news_url_fix( $permalink ) {
+		// Parse the url
+		$parsed = parse_url( urldecode( html_entity_decode( $permalink ) ) );
+		
+		// If parsing failed, return the permalink
+		if ( $parsed === FALSE || $parsed === NULL ) return $permalink;
+
+		// Determine if it's a google news item
+		if ( strtolower( $parsed['host'] ) !== 'news.google.com' ) return $permalink;
+		// Check if the url GET query string is present
+		if ( !isset( $parsed['query'] ) ) return $permalink;
+		
+		// Parse the query string
+		$query = array();
+		parse_str( $parsed['query'], $query );
+		
+		// Check if the url GET parameter is present in the query string
+		if ( !is_array($query) || !isset( $query['url'] ) ) return $permalink;
+		
+		return urldecode( $query['url'] );
+	}
+
+
 
 	/**
 	 * Converts YouTube, Vimeo and DailyMotion video urls
@@ -262,10 +318,13 @@
 		// Gather the permalinks of existing feed item's related to this feed source
 		$existing_permalinks = get_existing_permalinks( $feed_ID );
 
+		// Count of items inserted
+		$items_inserted = 0;
+
 		foreach ( $items as $item ) {
 
-			// Convert the url if it is a video url and the conversion is enabled in the settings.
-			$permalink = wprss_convert_video_permalink( $item->get_permalink() );
+			// Normalize the URL
+			$permalink = wprss_normalize_permalink( $item->get_permalink() );
 
 			// Save the enclosure URL
 			$enclosure_url = '';
@@ -323,6 +382,9 @@
 							}
 						}
 
+						// Increment the inserted items counter
+						$items_inserted++;
+
 						// Create and insert post meta into the DB
 						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );
 
@@ -336,6 +398,8 @@
 				}
 			}
 		}
+
+		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
 	}
 
 

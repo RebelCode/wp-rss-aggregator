@@ -20,6 +20,10 @@
             wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
         } 
 
+        if ( is_admin() ) {
+            wp_enqueue_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css' );
+        }
+
         $screen = get_current_screen();
 
         wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
@@ -35,6 +39,9 @@
             wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
             wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
             wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
+            // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
+            wp_enqueue_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js', array('heartbeat') );
+            // Heartbeat script
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
@@ -43,10 +50,6 @@
 
         else if ( 'dashboard_page_wprss-welcome' === $screen->base ) {
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
-        }
-
-        if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ) {
-            wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-3.8.css' );
         }
 
         do_action( 'wprss_admin_scripts_styles' );

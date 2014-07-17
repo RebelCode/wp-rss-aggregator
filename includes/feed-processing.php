@@ -328,6 +328,32 @@
     }
 
 
+
+    /**
+     * Returns whether or not the feed source is deleting its feeed items.
+     *
+     * @param (string|int) The id of the feed source
+     * @return (bool) TRUE if the feed source is currently deleting its items, FALSE otherwise.
+     *
+     */
+    function wprss_is_feed_source_deleting( $id ) {
+        $is_deleting_meta = get_post_meta( $id, 'wprss_feed_is_deleting_items', TRUE );
+
+        if ( $is_deleting_meta === '' ) {
+            return FALSE;
+        }
+
+        $items = wprss_get_feed_items_for_source( $id );
+        if ( $items->post_count == 0 ) {
+            delete_post_meta( $id, 'wprss_feed_is_deleting_items' );
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+
+
     /**
      * Returns the given parameter as a string. Used in wprss_truncate_posts()
      *
