@@ -328,6 +328,31 @@
     }
 
 
+	/**
+     * Returns whether or not the feed source is updating.
+     *
+     * @param (string|int) The id of the feed source
+     * @return (bool) TRUE if the feed source is currently updating, FALSE otherwise.
+     *
+     */
+    function wprss_is_feed_source_updating( $id ) {
+        $is_updating_meta = get_post_meta( $id, 'wprss_feed_is_updating', TRUE );
+
+        if ( $is_updating_meta === '' ) {
+            return FALSE;
+        }
+		
+		$diff = time() - $is_updating_meta;
+		
+		if ( $diff > 300 ) {
+			delete_post_meta( $id, 'wprss_feed_is_updating' );
+			return FALSE;
+		}
+
+		return TRUE;
+    }
+
+
 
     /**
      * Returns whether or not the feed source is deleting its feeed items.
@@ -342,9 +367,11 @@
         if ( $is_deleting_meta === '' ) {
             return FALSE;
         }
+		
+		$diff = time() - $is_updating_meta;
 
         $items = wprss_get_feed_items_for_source( $id );
-        if ( $items->post_count == 0 ) {
+        if ( $items->post_count == 0 || $diff > 300 ) {
             delete_post_meta( $id, 'wprss_feed_is_deleting_items' );
             return FALSE;
         }
