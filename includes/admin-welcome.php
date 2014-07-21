@@ -110,11 +110,7 @@
 		 						<ul>
 									<li><strong>Enhanced:</strong> Feed Sources page is now more responsive.</li>
 		 						</ul>
-		 
-								<h3>Changelog for v4.2</h3>
-								<ul>
-									<li><strong>Enhanced:</strong> Improved live updating performace on the Feed Sources page.</li>
-								</ul>
+		 						
 								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
 
 							</div>
