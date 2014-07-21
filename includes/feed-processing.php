@@ -368,7 +368,7 @@
             return FALSE;
         }
 		
-		$diff = time() - $is_updating_meta;
+		$diff = time() - $is_deleting_meta;
 
         $items = wprss_get_feed_items_for_source( $id );
         if ( $items->post_count == 0 || $diff > 300 ) {
