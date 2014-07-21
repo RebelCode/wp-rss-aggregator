@@ -108,6 +108,7 @@
 			},
 			success: function(data, status, jqXHR){
 				updateFeedSourceTable(data);
+				setTimeout(wprssFeedSourceTableAjax, 3000);
 			},
 			dataType: 'json'
 		});
@@ -115,7 +116,7 @@
 	
 	
 	$(document).ready( function(){
-		setInterval(wprssFeedSourceTableAjax, 1000);
+		wprssFeedSourceTableAjax();
 	});
 	
 
