@@ -305,6 +305,7 @@
      */       
     function wprss_remove_row_actions( $actions )
     {
+        $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type() === 'wprss_feed_item' )  {
             unset( $actions[ 'edit' ] );
             unset( $actions[ 'view' ] );
@@ -331,7 +332,7 @@
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', 'Delete items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', 'Delete feed items imported by this feed source' );
-                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
+                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() . $page ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
                 
                 $actions['trash'] = $trash;
             }
@@ -355,8 +356,9 @@
             // Set a transient
             set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
             update_post_meta( $source_id, 'wprss_feed_is_deleting_items', 'true' );
+            $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
             // Refresh the page without the GET parameter
-            header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' ) );
+            header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' . $page ) );
             exit();
         } else {
             // Get the notification transient
