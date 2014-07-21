@@ -16,12 +16,12 @@
 	/**
 	 * Attach the heartbeat data
 	 */
-	var checkFeedSourcesUpdatingStatus = function(e, data) {
+	var checkFeedSourcesUpdatingStatus = function() {
 		var ids = getFeedSourceIDS();
 		// If no feed sources found, do nothing. Performance boost
 		if ( ids.length === 0 ) return;
-		// Send the data
-		data['wprss_heartbeat'] = {
+		// Return the data
+		return {
 			action: 'feed_sources',
 			params: ids
 		};
@@ -32,7 +32,7 @@
 	/**
 	 * Updates the feed source table using the heartbeat data.
 	 */
-	var updateFeedSourceTable = function(e, data) {
+	var updateFeedSourceTable = function(data) {
 		if ( !data['wprss_feed_sources_data'] ) return;
 
 		// Get the feed sources data
@@ -97,14 +97,26 @@
 
 	};
 
-
-
-	// Hook into the heartbeat-send
-	$(document).on('heartbeat-send', checkFeedSourcesUpdatingStatus);
-
-	// Listen for heartbeat events
-	$(document).on('heartbeat-tick', updateFeedSourceTable);
-
-
+	var wprssFeedSourceTableAjax = function(){
+		var data = checkFeedSourcesUpdatingStatus();
+		$.ajax({
+			url: ajaxurl,
+			type: "POST",
+			data: {
+				action: 'wprss_feed_source_table_ajax',
+				wprss_heartbeat: data
+			},
+			success: function(data, status, jqXHR){
+				updateFeedSourceTable(data);
+			},
+			dataType: 'json'
+		});
+	};
+	
+	
+	$(document).ready( function(){
+		setInterval(wprssFeedSourceTableAjax, 1000);
+	});
+	
 
 })(jQuery);

@@ -25,7 +25,7 @@
 
 	 <div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to WP RSS Aggregator %s !', 'wprss' ), WPRSS_VERSION ); ?></h1>
-			<div class="about-text">
+			<div class="wprss-about-text">
 				Thank you for upgrading to the latest version! 
 			</div>
 			<!-- <div class="wprss-badge">Version</div>-->
@@ -34,7 +34,7 @@
 			<h2 class="nav-tab-wrapper">
 				<a class="nav-tab <?php if ( $tab === null ) echo 'nav-tab-active'; ?>"
 					href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'wprss-welcome' ), 'index.php' ) ) ); ?>">
-					Overview
+					What's New?
 				</a>
 
 				<!-- SHOW ALL TABS -->
@@ -56,28 +56,67 @@
 
 					// Default tab. ( when tab = null )
 					default: ?>
+		 					<div class="changelog">
 
-							<p class="about-description">
-								Check out our add-ons:</p> 
+								<h3>Feed Sources Page Visual Updated!</h3>
 
+								<div class="feature-section col three-col">
+
+									<div class="col-1">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/spinning-icon.gif" />
+										<h4>Live Updates</h4>
+										<p>
+											Your feed sources page now shows you new information as soon as it's available.
+											With the new live updates, you no longer have to refresh the page to check for updates and changes.
+										</p>
+									</div>
+
+									<div class="col-2">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/updates.png" />
+										<h4>More Information</h4>
+										<p>
+											We've renamed the <strong>Next Update</strong> column to <strong>Updates</strong>,
+											and added to it <strong>two</strong> new fields, showing you the last time
+											your feed source was updated, and how many items it imported.
+										</p>
+									</div>
+
+									<div class="col-3 last-feature">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/view-items.png" />
+										<h4>View Items</h4>
+										<p>
+											The new <strong>View items</strong> row action link lets you view the feed items for that feed source
+											alone, separate from the rest of your imported feed items. We've also cleaned up the rest of the row actions.
+										</p>
+									</div>
+								</div>
+
+								<hr/>
+
+								<h3>Check out our add-ons:</h3>
+
+									<ul>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/feed-post/" target="wprss_ftp">Feed to Post</a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et">Excerpts &amp; Thumbnails</a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat">Categories</a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf">Keyword Filtering</a></strong></li>
+									</ul>
+								</p>
+								<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
+
+		 						<hr/>
+
+								<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 								<ul>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/feed-post/" target="wprss_ftp">Feed to Post</a> <!--<span style="color: green;">*New*</span></strong>--></li>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et">Excerpts &amp; Thumbnails</a></strong></li>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat">Categories</a></strong></li>
-									<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf">Keyword Filtering</a></strong></li>
+									<li><strong>New Feature:</strong> Can now view each feed source's imported feed items separate from other feed sources' feed items.</li>
+									<li><strong>Enhanced:</strong> Major visual update to the Feed Sources page with new live updates.</li>
+									<li><strong>Enhanced:</strong> The custom feed now includes the feed source.</li>
+									<li><strong>Fixed bug:</strong> Google News feeds were importing duplicate items on every update.</li>
+									<li><strong>Fixed bug:</strong> Multiple minor bug fixes with old filters.</li>
 								</ul>
-							</p>
-							<p>Need functionality not already available in core or the add-ons? You <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
-							<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
+								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
 
-
-
-							<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
-							<ul>
-								<li><strong>Enhanced:</strong> The Feed Sources table now indicates which feed sources encountered errors during their last import.</li>
-								<li><strong>Fixed bug:</strong> Feed titles were not being decoded for HTML entities.</li>
-							</ul>
-
+							</div>
 
 						<?php
 						break;

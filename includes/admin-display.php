@@ -355,7 +355,9 @@
             wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $source_id ) );
             // Set a transient
             set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
-            update_post_meta( $source_id, 'wprss_feed_is_deleting_items', 'true' );
+            // Mark feed as deleting its items
+            update_post_meta( $source_id, 'wprss_feed_is_deleting_items', time() );
+            // check pagination
             $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
             // Refresh the page without the GET parameter
             header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' . $page ) );
