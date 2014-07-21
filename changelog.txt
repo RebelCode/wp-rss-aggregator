@@ -1,3 +1,9 @@
+4.2.2 (2014-07-21)
+Enhanced: Improved live updating performace on the Feed Sources page.
+
+4.2.1 (2014-07-17)
+Enhanced: Feed Sources page is now more responsive.
+
 4.2 (2014-07-17)
 New Feature: Can now view each feed source's imported feed items separate from other feed sources' feed items.
 Enhanced: Major visual update to the Feed Sources page with new live updates.
