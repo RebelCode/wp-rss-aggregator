@@ -45,7 +45,7 @@
             }
         }
         // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
-        if ( 'edit' === $screen->base && $screen->post_type === 'wprss_feed' ) {
+        if ( 'edit' === $screen->base && $screen->post_type === 'wprss_feed' && apply_filters('wprss_ajax_polling', TRUE) === TRUE ) {
             wp_enqueue_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js' );
         }
 
