@@ -263,7 +263,7 @@
                 # If an id is present ...
                 if ( isset( $json['id'] ) ) {
                     # Generate the final URL for this feed and update the post meta
-                    $final_url = "http://www.facebook.com/feeds/page.php?format=atom10&id=" . $json['id'];
+                    $final_url = "http://www.facebook.com/feeds/page.php?format=rss20&id=" . $json['id'];
                     update_post_meta( $post_id, 'wprss_url', $final_url, $url );   
                 }
             }
