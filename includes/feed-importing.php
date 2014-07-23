@@ -103,6 +103,7 @@
 		$next_scheduled = get_post_meta( $feed_ID, 'wprss_reschedule_event', TRUE );
 		if ( $next_scheduled !== '' ) {
 			wprss_feed_source_update_start_schedule( $feed_ID );
+			delete_post_meta( $feed_ID, 'wprss_reschedule_event' );
 		}
 
 		delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
