@@ -37,6 +37,13 @@
             'active' => is_plugin_active( 'wp-rss-feed-to-post/wp-rss-feed-to-post.php' ),
             'url' => 'http://www.wprssaggregator.com/extensions/feed-to-post/'
         );
+        $premium[] = array(
+            'title' => __( "WordAi", 'wprss' ),
+            'description' => __( "Allows you to spin the content for posts imported by Feed to Post using WordAi. Cleverly rewrite your posts without changing their meaning and maintaining human readability.", 'wprss' ),
+            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'active' => is_plugin_active( 'wp-rss-wordai/wp-rss-wordai.php' ),
+            'url' => 'http://www.wprssaggregator.com/extension/wordai/'
+        );
         
         ?>
         <div class="wrap">
