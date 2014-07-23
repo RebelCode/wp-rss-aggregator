@@ -434,6 +434,9 @@
             $id = $_POST['id'];
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
 
+            // Prepare the schedule args
+            $schedule_args = array( strval( $id ) );
+
             // Get the current schedule - do nothing if not scheduled
             $next_scheduled = wp_next_scheduled( 'wprss_fetch_single_feed_hook', $schedule_args );
             if ( $next_scheduled !== FALSE ) {
@@ -449,8 +452,7 @@
               }
             }
 
-            // Prepare the schedule - runs 5 seconds from now
-            $schedule_args = array( strval( $id ) );
+            // Schedule the event for 5 seconds from now
             wp_schedule_single_event( time() + 5, 'wprss_fetch_single_feed_hook', $schedule_args );
             die();
         }
