@@ -1,8 +1,6 @@
-4.2.3 (2014-07-23)
-Enhanced: Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.
-
-4.2.2 (2014-07-21)
+4.2.2 (2014-07-23)
 Enhanced: Improved live updating performace on the Feed Sources page.
+Enhanced: Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.
 
 4.2.1 (2014-07-17)
 Enhanced: Feed Sources page is now more responsive.

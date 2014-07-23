@@ -100,6 +100,7 @@
 										<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et">Excerpts &amp; Thumbnails</a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat">Categories</a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf">Keyword Filtering</a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/wordai/" target="wprss_ai">WordAi</a></strong></li>
 									</ul>
 								</p>
 								<p>More information about add-ons can be found on our website <a href="http://www.wprssaggregator.com">www.wprssaggregator.com</a></p>
@@ -108,6 +109,7 @@
 
 		 						<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 		 						<ul>
+									<li><strong>Enhanced:</strong> Improved live updating performace on the Feed Sources page.</li>
 									<li><strong>Enhanced:</strong> Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.</li>
 		 						</ul>
 		 						
