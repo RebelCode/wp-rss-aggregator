@@ -441,7 +441,7 @@
             $next_scheduled = wp_next_scheduled( 'wprss_fetch_single_feed_hook', $schedule_args );
             if ( $next_scheduled !== FALSE ) {
               // If scheduled, unschedule it
-              wp_schedule_single_event( $next_scheduled, 'wprss_fetch_single_feed_hook', $schedule_args );
+              wp_unschedule_event( $next_scheduled, 'wprss_fetch_single_feed_hook', $schedule_args );
 
               // Get the interval option for the feed source
               $interval = get_post_meta( $feed_id, 'wprss_update_interval', TRUE );
