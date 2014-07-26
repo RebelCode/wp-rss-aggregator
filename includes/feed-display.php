@@ -278,12 +278,30 @@
      *
      * @since 3.5
      */
-    function wprss_pagination_links( $output ) { 
-        $output .= '<div class="nav-links">';
-        $output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
-        $output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
-        $output .= '</div>';  
-        return $output;              
+    function wprss_pagination_links( $output ) {
+		// Get the general setting
+		$pagination = wprss_get_general_setting( 'pagination' );;
+		
+		// Check the pagination setting, if using page numbers
+		if ( $pagination === 'numbered' ) {
+			global $wp_query;
+			$big = 999999999; // need an unlikely integer
+			$output .= paginate_links( array(
+				'base'		=> str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+				'format'	=> '?paged=%#%',
+				'current'	=> max( 1, get_query_var('paged') ),
+				'total'		=> $wp_query->max_num_pages
+			) );
+			return $output;
+		}
+		// Otherwise, using default paginations
+		else {
+			$output .= '<div class="nav-links">';
+			$output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
+			$output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
+			$output .= '</div>';  
+			return $output;
+		}
     }
 
 
