@@ -1,3 +1,6 @@
+4.x ()
+Fixed bug: A PHP warning error was being shown in the System Info.
+
 4.2.2 (2014-07-21)
 Enhanced: Improved live updating performace on the Feed Sources page.
 
