@@ -148,7 +148,10 @@
                         'label'     =>  __( 'Text preceding date', 'wprss' ),
                         'callback'  =>  'wprss_setting_text_preceding_date_callback'
                     ),                    
-
+					'pagination' =>	array(
+						'label'		=>	__( 'Pagination type', 'wprss' ),
+						'callback'	=>	'wprss_setting_pagination_type_callback',
+					),
                     'feed-limit' => array(
                         'label'     =>  __( 'Feed display limit', 'wprss' ),
                         'callback'  =>  'wprss_setting_feed_limit_callback'
@@ -494,6 +497,27 @@
         $text_preceding_date = wprss_get_general_setting( 'text_preceding_date' );
         echo "<input id='text-preceding-date' name='wprss_settings_general[text_preceding_date]' type='text' value='$text_preceding_date' />";
         echo "<label class='description' for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
+    }
+
+
+	/** 
+     * Pagination Type
+     * 
+     * @since 4.2.3
+     */
+    function wprss_setting_pagination_type_callback() {
+        $pagination = wprss_get_general_setting( 'pagination' );
+		$options = array(
+			'default'	=>	'"Older posts" and "Newer posts" links',
+			'numbered'	=>	'Page numbers with "Next" and "Previous" page links',
+		);
+        echo "<select id='pagination' name='wprss_settings_general[pagination]'>";
+		foreach( $options as $value => $text ) {
+			$selected = ( $value === $pagination )? 'selected="selected"' : '';
+			echo "<option value='$value' $selected>$text</option>";
+		}
+		echo "</select>";
+        echo "<label class='description' for='pagination'>Choose the pagination type to use when displaying multiple pages of feed items.</label>";
     }
 
 
