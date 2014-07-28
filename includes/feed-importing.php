@@ -219,6 +219,7 @@
 	 *
 	 * @param $permalink The permalink to normalize
 	 * @return string The normalized permalink
+	 * @since 4.2.3
 	 */
 	function wprss_normalize_permalink( $permalink ) {
 		// Apply normalization functions on the permalink
@@ -231,7 +232,9 @@
 	
 	/**
 	 * Extracts the actual URL from a Google News permalink
+	 * 
 	 * @param string $permalink The permalink to normalize.
+	 * @since 4.2.3
 	 */
 	function wprss_google_news_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?' . preg_quote('news.google.com', '!') . '.*!');
@@ -239,7 +242,9 @@
 	
 	/**
 	 * Extracts the actual URL from a Bing permalink
+	 * 
 	 * @param string $permalink The permalink to normalize.
+	 * @since 4.2.3
 	 */
 	function wprss_bing_news_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('bing.com/news', '!') . '.*!');
@@ -262,6 +267,7 @@
 	 * @param string Name of the query argument that specifies the actual URL.
 	 * @return string The normalized URL of the original article, as indicated by the `url`
 	 *					parameter in the URL query string.
+	 * @since 4.2.3
 	 */
 	function wprss_tracking_url_fix( $permalink, $patterns, $argName = 'url' ) {
 		// Parse the url
