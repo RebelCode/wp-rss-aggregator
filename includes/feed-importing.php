@@ -280,7 +280,6 @@
 		    }
 		}
 		
-		wprss_log_obj( sprintf('Pattern "%1$s" ' . ($isMatch ? 'matches' : 'does not match') . ' permalink', $patterns[0]), $permalink, __FUNCTION__);
 		if( !$isMatch ) return $permalink;
 		
 		// Check if the url GET query string is present
