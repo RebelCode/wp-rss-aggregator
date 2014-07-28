@@ -8,6 +8,7 @@
 
 	// Warning: Order may be important
 	add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix');
+	add_filter('wprss_normalize_permalink', 'wprss_bing_news_url_fix');
 	add_filter('wprss_normalize_permalink', 'wprss_convert_video_permalink');
 	
 
@@ -234,6 +235,14 @@
 	 */
 	function wprss_google_news_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?' . preg_quote('news.google.com', '!') . '.*!');
+	}
+	
+	/**
+	 * Extracts the actual URL from a Bing permalink
+	 * @param string $permalink The permalink to normalize.
+	 */
+	function wprss_bing_news_url_fix($permalink) {
+	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('bing.com/news', '!') . '.*!');
 	}
 
 	/**
