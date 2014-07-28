@@ -106,7 +106,7 @@
 
         if ( isset($settings['pagination']) ) {
             $pagination = strtolower( $settings['pagination'] );
-            if ( in_array($pagination, array('false','off','0',0)) ) {
+            if ( in_array( $pagination, array('false','off','0') ) ) {
                 unset( $feed_items_args['paged'] );
             }
         }
