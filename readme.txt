@@ -163,7 +163,8 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.2.2 (2014-07-21) =
+= 4.2.2 (2014-07-23) =
+* Enhanced: Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.
 * Enhanced: Improved live updating performace on the Feed Sources page.
 
 = 4.2.1 (2014-07-17) =
