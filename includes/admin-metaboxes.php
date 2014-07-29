@@ -336,12 +336,14 @@
             $feed = wprss_fetch_feed( $feed_url, $post->ID ); 
             if ( ! is_wp_error( $feed ) ) {
                 $items = $feed->get_items();        
-                // Figure out how many total items there are, but limit it to 5. 
-                $maxitems = $feed->get_item_quantity(5); 
+                // Figure out how many total items there are
+                $total = $feed->get_item_quantity();
+                // Get the number of items again, but limit it to 5.
+                $maxitems = $feed->get_item_quantity(5);
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $items = $feed->get_items( 0, $maxitems );  
-                echo '<h4>Latest 5 feed items available from ' . get_the_title() . '</h4>';
+                echo "<h4>Latest $maxitems feed items out of $total available from " . get_the_title() . '</h4>';
                 echo '<ul>';
                 foreach ( $items as $item ) { 
                     // Get human date (comment if you want to use non human date)
