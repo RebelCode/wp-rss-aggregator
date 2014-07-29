@@ -433,9 +433,27 @@
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
             $id = $_POST['id'];
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
-            // Prepare the schedule
+
+            // Prepare the schedule args
             $schedule_args = array( strval( $id ) );
-            wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', $schedule_args );
+
+            // Get the current schedule - do nothing if not scheduled
+            $next_scheduled = wp_next_scheduled( 'wprss_fetch_single_feed_hook', $schedule_args );
+            if ( $next_scheduled !== FALSE ) {
+              // If scheduled, unschedule it
+              wp_unschedule_event( $next_scheduled, 'wprss_fetch_single_feed_hook', $schedule_args );
+
+              // Get the interval option for the feed source
+              $interval = get_post_meta( $feed_id, 'wprss_update_interval', TRUE );
+              // if the feed source uses its own interval
+              if ( $interval !== '' && $interval !== wprss_get_default_feed_source_update_interval() ) {
+                // Add meta in feed source. This is used to notify the source that it needs to reschedule it
+                update_post_meta( $id, 'wprss_reschedule_event', $next_scheduled );
+              }
+            }
+
+            // Schedule the event for 5 seconds from now
+            wp_schedule_single_event( time() + 1, 'wprss_fetch_single_feed_hook', $schedule_args );
             die();
         }
     }

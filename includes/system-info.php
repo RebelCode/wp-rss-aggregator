@@ -76,7 +76,7 @@ ACTIVE PLUGINS:
 <?php
 $plugins = get_plugins();
 $active_plugins = get_option( 'active_plugins', array() );
-
+$inactive_plugins = array();
 foreach ( $plugins as $plugin_path => $plugin ):
 	// If the plugin isn't active, don't show it.
 	if ( ! in_array( $plugin_path, $active_plugins ) ) {

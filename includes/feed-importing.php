@@ -6,6 +6,13 @@
 	 */
 
 
+	// Warning: Order may be important
+	add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix', 8);
+	add_filter('wprss_normalize_permalink', 'wprss_bing_news_url_fix', 9);
+	add_filter('wprss_normalize_permalink', 'wprss_convert_video_permalink', 100);
+	
+
+
 
 	add_action( 'wprss_fetch_single_feed_hook', 'wprss_fetch_insert_single_feed_items' );
 	/**
@@ -100,6 +107,12 @@
 			wprss_log("The feed URL is not valid! Please recheck.");
 		}
 		
+		$next_scheduled = get_post_meta( $feed_ID, 'wprss_reschedule_event', TRUE );
+		if ( $next_scheduled !== '' ) {
+			wprss_feed_source_update_start_schedule( $feed_ID );
+			delete_post_meta( $feed_ID, 'wprss_reschedule_event' );
+		}
+
 		delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
 	}
 
@@ -212,41 +225,75 @@
 	 *
 	 * @param $permalink The permalink to normalize
 	 * @return string The normalized permalink
+	 * @since 4.2.3
 	 */
 	function wprss_normalize_permalink( $permalink ) {
 		// Apply normalization functions on the permalink
 		$permalink = trim( $permalink );
-		$permalink = wprss_google_news_url_fix( $permalink );
-		$permalink = wprss_convert_video_permalink( $permalink );
+		$permalink = apply_filters( 'wprss_normalize_permalink', $permalink );
 		// Return the normalized permalink
 		return $permalink;
 	}
-
-
+	
+	
+	/**
+	 * Extracts the actual URL from a Google News permalink
+	 * 
+	 * @param string $permalink The permalink to normalize.
+	 * @since 4.2.3
+	 */
+	function wprss_google_news_url_fix($permalink) {
+	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?' . preg_quote('news.google.com', '!') . '.*!');
+	}
+	
+	/**
+	 * Extracts the actual URL from a Bing permalink
+	 * 
+	 * @param string $permalink The permalink to normalize.
+	 * @since 4.2.3
+	 */
+	function wprss_bing_news_url_fix($permalink) {
+	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('bing.com/news', '!') . '.*!');
+	}
 
 	/**
-	 * Checks if the permalink is a Google News permalink, and if it is,
-	 * returns the normalized URL of the proper feed item article.
+	 * Checks if the permalink is a tracking permalink based on host, and if
+	 * it is, returns the normalized URL of the proper feed item article,
+	 * determined by the named query argument.
 	 *
-	 * Fixes the issue with equivalent Google News items having different URLs,
-	 * that contain randomly generated GET parameters. Example:
-	 *
+	 * Fixes the issue with equivalent Google News etc. items having
+	 * different URLs, that contain randomly generated GET parameters.
+	 * Example:
+	 * 
 	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=V3e9U6izMMnm1QaB1YHoDA&url=http://abcd...
 	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=One9U-HQLsTp1Aal-oDQBQ&url=http://abcd...
 	 *
-	 * @param $permalink The permalink URL to check and/or normalize.
+	 * @param string $permalink The permalink URL to check and/or normalize.
+	 * @param string|array $patterns One or an array of host names, for which the URL should be fixed.
+	 * @param string Name of the query argument that specifies the actual URL.
 	 * @return string The normalized URL of the original article, as indicated by the `url`
 	 *					parameter in the URL query string.
+	 * @since 4.2.3
 	 */
-	function wprss_google_news_url_fix( $permalink ) {
+	function wprss_tracking_url_fix( $permalink, $patterns, $argName = 'url' ) {
 		// Parse the url
 		$parsed = parse_url( urldecode( html_entity_decode( $permalink ) ) );
+		$patterns = is_array($patterns) ? $patterns :array($patterns);
 		
 		// If parsing failed, return the permalink
 		if ( $parsed === FALSE || $parsed === NULL ) return $permalink;
 
-		// Determine if it's a google news item
-		if ( strtolower( $parsed['host'] ) !== 'news.google.com' ) return $permalink;
+		// Determine if it's a tracking item
+		$isMatch = false;
+		foreach( $patterns as $_idx => $_pattern ) {
+		    if( preg_match($_pattern, $permalink) ) {
+			$isMatch = true;
+			break;
+		    }
+		}
+		
+		if( !$isMatch ) return $permalink;
+		
 		// Check if the url GET query string is present
 		if ( !isset( $parsed['query'] ) ) return $permalink;
 		
@@ -255,13 +302,13 @@
 		parse_str( $parsed['query'], $query );
 		
 		// Check if the url GET parameter is present in the query string
-		if ( !is_array($query) || !isset( $query['url'] ) ) return $permalink;
+		if ( !is_array($query) || !isset( $query[$argName] ) ) return $permalink;
 		
-		return urldecode( $query['url'] );
+		return urldecode( $query[$argName] );
 	}
 
 
-
+	
 	/**
 	 * Converts YouTube, Vimeo and DailyMotion video urls
 	 * into embedded video player urls.
