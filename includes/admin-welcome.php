@@ -58,8 +58,26 @@
 					default: ?>
 		 					<div class="changelog">
 
-								<h3>Feed Sources Page Visual Updated!</h3>
+								<h2 class="about-headline-callout">New Pagination Options</h2>
+								<div class="feature-section col two-col">
+									<div class="col-1">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/default-pagination.png" />
+										<h4>Default Pagination</h4>
+										<p>The default pagination from the previous versions of WP RSS Aggregator.</p>
+									</div>
+									<div class="col-2 last-feature">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/numbered-pagination.png" />
+										<h4>Numbered Pagination</h4>
+										<p>The new numbered pagination - Show <strong>Next</strong> and <strong>Previous</strong> links,
+										along with links for each page.</p>
+									</div>
+								</div>
 
+
+								<hr/>
+
+
+								<h2 class="about-headline-callout">Feed Sources Page Visual Updated!</h2>
 								<div class="feature-section col three-col">
 
 									<div class="col-1">
@@ -109,8 +127,12 @@
 
 		 						<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 		 						<ul>
-									<li><strong>Enhanced:</strong> Improved live updating performace on the Feed Sources page.</li>
-									<li><strong>Enhanced:</strong> Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.</li>
+									<li><strong>Enhanced:</strong> Added an option to choose between the current pagination type, and numbered pagination.</li>
+									<li><strong>Enhanced:</strong> The Feed Preview now also shows the total number of items in the feed.</li>
+									<li><strong>Fixed bug:</strong> A PHP warning error was being shown in the System Info.</li>
+									<li><strong>Fixed bug:</strong> Language files were not always being referenced correctly.</li>
+									<li><strong>Fixed bug:</strong> Manually fetching a feed fails if the feed is scheduled to update in the next 10 minutes.</li>
+									<li><strong>Fixed bug:</strong> Bing RSS feeds were importing duplicates on every update.</li>
 		 						</ul>
 		 						
 								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
