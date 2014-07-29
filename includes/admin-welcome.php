@@ -63,13 +63,18 @@
 									<div class="col-1">
 										<img src="<?php echo WPRSS_IMG;?>welcome-page/default-pagination.png" />
 										<h4>Default Pagination</h4>
-										<p>The default pagination from the previous versions of WP RSS Aggregator.</p>
+										<p>
+											The default pagination from the previous versions of WP RSS Aggregator,
+											showing links for <strong>Older Posts</strong> and <strong>Newer Posts</strong>.
+										</p>
 									</div>
 									<div class="col-2 last-feature">
 										<img src="<?php echo WPRSS_IMG;?>welcome-page/numbered-pagination.png" />
 										<h4>Numbered Pagination</h4>
-										<p>The new numbered pagination - Show <strong>Next</strong> and <strong>Previous</strong> links,
-										along with links for each page.</p>
+										<p>
+											The new numbered pagination - Show <strong>Next</strong> and <strong>Previous</strong> links,
+											along with links for each page of feed items.
+										</p>
 									</div>
 								</div>
 
