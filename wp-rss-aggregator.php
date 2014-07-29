@@ -81,6 +81,9 @@
     if( !defined( 'WPRSS_INC' ) )
         define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ), true );
 
+    if( !defined( 'WPRSS_LANG' ) )
+        define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ), true );
+    
     // Set the constant path to the plugin's log file.
     if( !defined( 'WPRSS_LOG_FILE' ) )
         define( 'WPRSS_LOG_FILE', WPRSS_DIR . 'log', true );
@@ -397,7 +400,7 @@
      * @return void     
      */  
     function wprss_load_textdomain() { 
-        load_plugin_textdomain( 'wprss', false, plugin_dir_path( __FILE__ ) . '/languages/' );
+        load_plugin_textdomain( 'wprss', false, WPRSS_LANG );
     }
     
     
