@@ -1,8 +1,14 @@
-4.x ()
+4.2.3 (2014-07-29)
+Enhanced: Added an option to choose between the current pagination type, and numbered pagination.
+Enhanced: The Feed Preview now also shows the total number of items in the feed.
 Fixed bug: A PHP warning error was being shown in the System Info.
+Fixed bug: Language files were not always being referenced correctly.
+Fixed bug: Manually fetching a feed fails if the feed is scheduled to update in the next 10 minutes.
+Fixed bug: Bing RSS feeds were importing duplicates on every update.
 
-4.2.2 (2014-07-21)
+4.2.2 (2014-07-23)
 Enhanced: Improved live updating performace on the Feed Sources page.
+Enhanced: Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.
 
 4.2.1 (2014-07-17)
 Enhanced: Feed Sources page is now more responsive.
