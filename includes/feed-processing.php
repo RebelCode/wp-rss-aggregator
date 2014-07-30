@@ -85,7 +85,7 @@
                     array(
                         'key'       => 'wprss_feed_id',
                         'value'     => $source_id,
-                        'compare'   => 'LIKE',
+                        'compare'   => '=',
                     ),
                 ),
                 'suppress_filters'  => 1
