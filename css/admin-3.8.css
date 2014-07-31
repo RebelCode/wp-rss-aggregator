@@ -34,3 +34,14 @@
 #check-out-addons {
 	margin-top: 15px;
 }
+
+/* WP 3.8+ Settings Page */
+
+body.wprss_feed_page_wprss-aggregator-settings .wrap h3 {
+	font-size: 1.5em;
+	margin-top: 1.8em;
+	margin-bottom: 0.6em;
+}
+body.wprss_feed_page_wprss-aggregator-settings .wrap h3 + p {
+	margin-top: 0.4em;
+}
