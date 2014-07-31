@@ -12,7 +12,7 @@
      * @since 3.0
      */
     function wprss_get_display_settings( $settings ) {
-
+        // Parse the arguments together with their default values
         $args = wp_parse_args(
             $settings,
             array(
@@ -21,32 +21,25 @@
             )
         );
 
-        $display_settings = array(
-            'open'      =>  '',
-            'follow'    =>  ''
-        );
-
+        // Prepare the 'open' setting - how to open links for feed items
+        $open = '';
         switch ( $args['open_dd'] ) {
-
             case 'Lightbox' :
                 $display_settings['open'] = 'class="colorbox"';
                 break;
-
             case 'New window' :
                 $display_settings['open'] = 'target="_blank"';
                 break;
         }
 
-        switch ( $args['follow_dd'] ) {
+        // Prepare the 'follow' setting - whether links marked as nofollow or not
+        $follow = ( $args['follow_dd'] == 'no_follow' )? 'rel="nofollow"' : '';
 
-            case 'no_follow' :
-                $display_settings['follow'] = 'rel="nofollow"';
-                break;
-
-            default:
-                $display_settings['follow'] = '';
-                break;
-        }
+        // Prepare the final settings array
+        $display_settings = array(
+            'open'      =>  $open,
+            'follow'    =>  $follow
+        );
 
         do_action( 'wprss_get_settings' );
 
