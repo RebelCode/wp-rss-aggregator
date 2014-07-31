@@ -469,6 +469,12 @@
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 		update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
 		update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
+		
+		$author = $item->get_author();
+		if ( $author ) {
+			update_post_meta( $inserted_ID, 'wprss_item_author', $author->get_name() );
+		}
+		
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
 		do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
 	}
