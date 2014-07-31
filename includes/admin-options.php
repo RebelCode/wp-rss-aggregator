@@ -148,7 +148,10 @@
                         'label'     =>  __( 'Text preceding date', 'wprss' ),
                         'callback'  =>  'wprss_setting_text_preceding_date_callback'
                     ),                    
-					'pagination' =>	array(
+					'authors-enable' =>    array(
+                        'label'     =>  __( 'Show authors', 'wprss' ),
+                        'callback'  =>  'wprss_setting_authors_enable_callback',
+                    ),'pagination' =>	array(
 						'label'		=>	__( 'Pagination type', 'wprss' ),
 						'callback'	=>	'wprss_setting_pagination_type_callback',
 					),
@@ -497,6 +500,18 @@
         $text_preceding_date = wprss_get_general_setting( 'text_preceding_date' );
         echo "<input id='text-preceding-date' name='wprss_settings_general[text_preceding_date]' type='text' value='$text_preceding_date' />";
         echo "<label class='description' for='text-preceding-date'>Enter the text you want shown before the feed item's publish date</label>";
+    }
+
+
+    /** 
+     * Shows the feed item authors option
+     *
+     * @since 4.2.4
+     */
+    function wprss_setting_authors_enable_callback() {
+        $authors_enable = wprss_get_general_setting( 'authors_enable' );
+        echo "<input id='authors-enable' name='wprss_settings_general[authors_enable]' type='checkbox' value='1' " . checked( 1, $authors_enable, false ) . " />";
+        echo "<label class='description' for='authors-enable'>Check this box to show the author name for each feed item, if specified in the feed.</label>";
     }
 
 
