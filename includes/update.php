@@ -236,7 +236,10 @@
 				
 				// From version 4.2.3
 				'pagination'				=>	'default',
-			)			
+
+				// From 4.2.4
+				'authors_enable'			=>	0,
+			)
 		);
 
 		// Return the default settings
