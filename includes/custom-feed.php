@@ -105,35 +105,50 @@
         $custom_feed_title = wprss_get_general_setting( 'custom_feed_title' );
 
         // Send content header and start ATOM output
-        header('Content-Type: text/xml');
+        header('Content-Type: application/rss+xml');
         // Disabling caching
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
         header('Pragma: no-cache'); // HTTP 1.0.
         header('Expires: 0'); // Proxies.
-        echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?' . '>';
-        ?>
-        <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" >
-            <title type="text"><?php echo $custom_feed_title; ?></title>
-            <?php
-            // Start the Loop
-            while ( have_posts() ) : the_post();
-            $source = get_post_meta( get_the_ID(), 'wprss_feed_id', TRUE );
-            $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
-            ?>
-            <entry>
-                <title><![CDATA[<?php the_title_rss(); ?>]]></title>
-                <link href="<?php echo $permalink; ?>" />
-                <?php // Enable below to link to post on our site rather than original source ?>
-                <published><?php echo get_post_time( 'Y-m-d\TH:i:s\Z' ); ?></published>
-                <content type="html"><![CDATA[<?php the_content(); ?>]]></content>
-                <source url="<?php echo get_post_meta( $source, 'wprss_url', TRUE ); ?>"><?php echo get_the_title( $source ); ?></source>
-                <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?>
-            </entry>
-            <?php
-            // End of the Loop
-            endwhile;
-            ?>
-        </feed>
+        echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?>';
+    ?>
+
+        <rss version="2.0"
+            xmlns:content="http://purl.org/rss/1.0/modules/content/"
+            xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:atom="http://www.w3.org/2005/Atom"
+            xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+            xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+            xmlns:media="http://search.yahoo.com/mrss/" >
+            <channel>
+                <title><?php echo $custom_feed_title; ?></title>
+                <description></description>
+                <link><?php echo get_site_url(); ?></link>
+                <atom:link href="<?php echo $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>" rel="self" type="application/rss+xml" />
+                <?php
+                // Start the Loop
+                while ( have_posts() ) : the_post();
+                    $source = get_post_meta( get_the_ID(), 'wprss_feed_id', TRUE );
+                    $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
+                    ?>
+                    <item>
+                        <title><![CDATA[<?php the_title_rss(); ?>]]></title>
+                        <link><?php echo $permalink; ?></link>
+                        <guid isPermaLink="true"><?php echo $permalink; ?></guid>
+                        <?php // Enable below to link to post on our site rather than original source ?>
+                        <pubDate><?php echo get_post_time( DATE_RSS ); ?></pubDate>
+                        <description><![CDATA[<?php the_content(); ?>]]></description>
+                        <content:encoded><![CDATA[<?php the_content(); ?>]]></content:encoded>
+                        <source url="<?php echo get_post_meta( $source, 'wprss_url', TRUE ); ?>"><?php echo get_the_title( $source ); ?></source>
+                        <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?>
+                    </item>
+                <?php
+                    // End of the Loop
+                    endwhile;
+                ?>
+            </channel>
+            </rss>
         <?php
     }    
 
