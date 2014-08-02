@@ -126,29 +126,27 @@
                 <description></description>
                 <link><?php echo get_site_url(); ?></link>
                 <atom:link href="<?php echo $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ?>" rel="self" type="application/rss+xml" />
-                <?php
-                // Start the Loop
+                <?php // Start the Loop
                 while ( have_posts() ) : the_post();
                     $source = get_post_meta( get_the_ID(), 'wprss_feed_id', TRUE );
                     $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
-                    ?>
-                    <item>
+                
+                ?> 
+                <item>
                         <title><![CDATA[<?php the_title_rss(); ?>]]></title>
                         <link><?php echo $permalink; ?></link>
                         <guid isPermaLink="true"><?php echo $permalink; ?></guid>
-                        <?php // Enable below to link to post on our site rather than original source ?>
                         <pubDate><?php echo get_post_time( DATE_RSS ); ?></pubDate>
                         <description><![CDATA[<?php the_content(); ?>]]></description>
                         <content:encoded><![CDATA[<?php the_content(); ?>]]></content:encoded>
                         <source url="<?php echo get_post_meta( $source, 'wprss_url', TRUE ); ?>"><?php echo get_the_title( $source ); ?></source>
-                        <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?>
-                    </item>
+                        <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?> 
+                </item>
                 <?php
-                    // End of the Loop
-                    endwhile;
-                ?>
+                    endwhile; // END OF LOOP 
+                ?> 
             </channel>
-            </rss>
+        </rss>
         <?php
     }    
 
