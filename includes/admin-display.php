@@ -297,42 +297,42 @@
     }           
 
 
-    add_filter( 'post_row_actions', 'wprss_remove_row_actions', 10, 1 );
+    add_filter( 'post_row_actions', 'wprss_remove_row_actions', 10, 2 );
     /**
      * Remove actions row for imported feed items, we don't want them to be editable or viewable
      * 
      * @since 2.0
      */       
-    function wprss_remove_row_actions( $actions )
+    function wprss_remove_row_actions( $actions, $post )
     {
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
-        if ( get_post_type() === 'wprss_feed_item' )  {
+        if ( get_post_type($post) === 'wprss_feed_item' )  {
             unset( $actions[ 'edit' ] );
             unset( $actions[ 'view' ] );
             //unset( $actions[ 'trash' ] );
             unset( $actions[ 'inline hide-if-no-js' ] );
         }
-        elseif ( get_post_type() === 'wprss_feed' ) {
+        elseif ( get_post_type($post) === 'wprss_feed' ) {
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
-            if ( get_post_status( get_the_ID() ) !== 'trash' ) {
+            if ( get_post_status( $post->ID ) !== 'trash' ) {
                 $trash = $actions['trash'];
                 unset( $actions['trash'] );
 
                 $view_items_link = apply_filters(
                   'wprss_view_feed_items_row_action_link',
-                  admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . get_the_ID() ),
-                  get_the_ID()
+                  admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . $post->ID ),
+                  $post->ID
                 );
                 $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
                 $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', 'Fetch items' );
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. get_the_ID() .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, 'wprss' ) . '</a>';
+                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, 'wprss' ) . '</a>';
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', 'Delete items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', 'Delete feed items imported by this feed source' );
-                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . get_the_ID() . $page ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
+                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
                 
                 $actions['trash'] = $trash;
             }
