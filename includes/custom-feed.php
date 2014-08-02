@@ -104,6 +104,8 @@
 
         $custom_feed_title = wprss_get_general_setting( 'custom_feed_title' );
 
+        $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+        header( "$protocol 200 OK" );
         // Send content header and start ATOM output
         header('Content-Type: application/rss+xml');
         // Disabling caching
