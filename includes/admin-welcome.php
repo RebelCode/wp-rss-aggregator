@@ -123,6 +123,7 @@
 									<li><strong>Enhanced:</strong> Improved the display template for feed items.</li>
 									<li><strong>Fixed bug:</strong> Custom feed was not working in Firefox.</li>
 									<li><strong>Fixed bug:</strong> Some feed items were showing items from another feed source.</li>
+									<li><strong>Fixed bug:</strong> The feed limit in the global settings was not working.</li>
 		 						</ul>
 		 						
 								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
