@@ -238,6 +238,14 @@
                         </span>
                     <?php endif; ?>
 
+                    <!-- AUTHOR -->
+                    <?php $author = get_post_meta( get_the_ID(), 'wprss_item_author', TRUE );
+                    if ( wprss_get_general_setting('authors_enable') == 1 && $author !== NULL && is_string( $author ) && $author !== '' ) : ?>
+                        <span class="feed-author">
+                            By <?php echo $author; ?>
+                        </span>
+                    <?php endif; ?>
+
                 </div>
 
                 <?php // TIME AGO
