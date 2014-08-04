@@ -211,7 +211,7 @@
 				'text_preceding_date' 		=> 'Published on',
 
 				// from version 3.1
-				'limit_feed_items_imported' => 200,
+				'limit_feed_items_imported' => 0,
 
 				// from version 3.3
 				'custom_feed_url'			=> 'wprss',
@@ -236,7 +236,10 @@
 				
 				// From version 4.2.3
 				'pagination'				=>	'default',
-			)			
+
+				// From 4.2.4
+				'authors_enable'			=>	0,
+			)
 		);
 
 		// Return the default settings

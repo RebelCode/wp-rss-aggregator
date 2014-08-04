@@ -20,6 +20,8 @@
 	if ( isset( $_GET['tab'] ) && !empty( $_GET['tab'] ) ) {
 		$tab = $_GET['tab'];
 	}
+
+	$settings_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings');
 	
 ?>
 
@@ -58,6 +60,24 @@
 					default: ?>
 		 					<div class="changelog">
 
+								<h2 class="about-headline-callout">New Author Importing!</h2>
+								<div class="about-overview">
+									<img src="<?php echo WPRSS_IMG;?>welcome-page/authors.png" />
+									<h4>Author Names for Feed Items</h4>
+									<p>
+										Show the name of the author for each feed item you import!
+										<br/>
+										Perfect for giving attribution to the original author of an article.
+										<br/>
+										Head over to the
+										<a href="<?php echo $settings_url; ?>">settings page</a>
+										to enable the option and start importing authors names!
+										<br/>
+										More options soon!
+									</p>
+								</div>
+								
+								
 								<h2 class="about-headline-callout">New Pagination Options</h2>
 								<div class="feature-section col two-col">
 									<div class="col-1">
@@ -80,41 +100,7 @@
 
 
 								<hr/>
-
-
-								<h2 class="about-headline-callout">Feed Sources Page Visual Updated!</h2>
-								<div class="feature-section col three-col">
-
-									<div class="col-1">
-										<img src="<?php echo WPRSS_IMG;?>welcome-page/spinning-icon.gif" />
-										<h4>Live Updates</h4>
-										<p>
-											Your feed sources page now shows you new information as soon as it's available.
-											With the new live updates, you no longer have to refresh the page to check for updates and changes.
-										</p>
-									</div>
-
-									<div class="col-2">
-										<img src="<?php echo WPRSS_IMG;?>welcome-page/updates.png" />
-										<h4>More Information</h4>
-										<p>
-											We've renamed the <strong>Next Update</strong> column to <strong>Updates</strong>,
-											and added to it <strong>two</strong> new fields, showing you the last time
-											your feed source was updated, and how many items it imported.
-										</p>
-									</div>
-
-									<div class="col-3 last-feature">
-										<img src="<?php echo WPRSS_IMG;?>welcome-page/view-items.png" />
-										<h4>View Items</h4>
-										<p>
-											The new <strong>View items</strong> row action link lets you view the feed items for that feed source
-											alone, separate from the rest of your imported feed items. We've also cleaned up the rest of the row actions.
-										</p>
-									</div>
-								</div>
-
-								<hr/>
+								
 
 								<h3>Check out our add-ons:</h3>
 
@@ -132,12 +118,12 @@
 
 		 						<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 		 						<ul>
-									<li><strong>Enhanced:</strong> Added an option to choose between the current pagination type, and numbered pagination.</li>
-									<li><strong>Enhanced:</strong> The Feed Preview now also shows the total number of items in the feed.</li>
-									<li><strong>Fixed bug:</strong> A PHP warning error was being shown in the System Info.</li>
-									<li><strong>Fixed bug:</strong> Language files were not always being referenced correctly.</li>
-									<li><strong>Fixed bug:</strong> Manually fetching a feed fails if the feed is scheduled to update in the next 10 minutes.</li>
-									<li><strong>Fixed bug:</strong> Bing RSS feeds were importing duplicates on every update.</li>
+									<li><strong>New Feature:</strong> Feed items now also import authors.</li>
+									<li><strong>Enhanced:</strong> Custom feed is now in RSS 2.0 format.</li>
+									<li><strong>Enhanced:</strong> Improved the display template for feed items.</li>
+									<li><strong>Fixed bug:</strong> Custom feed was not working in Firefox.</li>
+									<li><strong>Fixed bug:</strong> Some feed items were showing items from another feed source.</li>
+									<li><strong>Fixed bug:</strong> The feed limit in the global settings was not working.</li>
 		 						</ul>
 		 						
 								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
@@ -181,7 +167,7 @@
 
 			<hr/>
 
-			<p><a href="<?php echo admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings'); ?>">Go to WP RSS Aggregator settings</a></p>
+			<p><a href="<?php echo $settings_url; ?>">Go to WP RSS Aggregator settings</a></p>
 
 	</div>
 

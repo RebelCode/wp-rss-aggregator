@@ -42,8 +42,17 @@
 
 		// Get the feed limit from post meta
 		$feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
-		// Sanitize the limit. If smaller or equal to zero, or an empty string, set to NULL.
-		$feed_limit = ( $feed_limit <= 0 || empty( $feed_limit ) )? NULL : $feed_limit;
+		
+		// If the feed has no individual limit
+		if ( $feed_limit === '' || intval($feed_limit) <= 0 ) {
+			// Get the global limit
+			$global_limit = wprss_get_general_setting('limit_feed_items_imported');
+			// If no global limit is set, mark as NULL
+			if ( $global_limit === '' || intval($global_limit) <= 0 ) {
+				$feed_limit = NULL;
+			}
+			else $feed_limit = $global_limit;
+		}
 
 		// Filter the URL for validaty
 		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) ) {
@@ -52,7 +61,7 @@
 			// If got NULL, convert to an empty array
 			if ( $items === NULL ) $items = array();
 
-			// If the feed has its own meta limit,
+			// If using a limit ...
 			if ( $feed_limit !== NULL ) {
 				// slice the items array using the feed meta limit
 				// @todo -	Check current number of feed items for source, and delete oldest to make room for new, to keep to the limit.
@@ -469,6 +478,12 @@
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 		update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
 		update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
+		
+		$author = $item->get_author();
+		if ( $author ) {
+			update_post_meta( $inserted_ID, 'wprss_item_author', $author->get_name() );
+		}
+		
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
 		do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
 	}
