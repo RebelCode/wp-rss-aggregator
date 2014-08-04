@@ -279,7 +279,6 @@
         $wp_query = $old_wp_query;
         wp_reset_postdata();
     }
-    
 
 
     /**
@@ -296,8 +295,6 @@
         $a = $bool ? "<a {$display_settings['open']} {$display_settings['follow']} href='$link'>$text</a>" : $text;
         return $a;
     }
-
-
 
 
     add_filter( 'wprss_pagination', 'wprss_pagination_links' );
