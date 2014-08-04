@@ -1,3 +1,11 @@
+4.3 (2014-08-04)
+New Feature: Feed items now also import authors.
+Enhanced: Custom feed is now in RSS 2.0 format.
+Enhanced: Improved the display template for feed items.
+Fixed bug: Custom feed was not working in Firefox.
+Fixed bug: Some feed items were showing items from another feed source.
+Fixed bug: The feed limit in the global settings was not working.
+
 4.2.3 (2014-07-29)
 Enhanced: Added an option to choose between the current pagination type, and numbered pagination.
 Enhanced: The Feed Preview now also shows the total number of items in the feed.
