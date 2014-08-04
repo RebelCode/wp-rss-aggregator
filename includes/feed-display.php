@@ -227,7 +227,7 @@
                     <!-- SOURCE -->
                     <?php if ( wprss_get_general_setting('source_enable') == 1 ) : ?>
                         <span class='feed-source'>
-                            <?php echo $text_preceding_source . wprss_link_display( $source_name, $source_url, $source_link ); ?>
+                            <?php echo $text_preceding_source . wprss_link_display( $source_url, $source_name, $source_link ); ?>
                         </span>
                     <?php endif; ?>
 
