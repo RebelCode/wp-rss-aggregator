@@ -30,9 +30,11 @@
         wp_enqueue_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css' );
         wp_enqueue_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
 
+		$page = isset( $_GET['page'] )? $_GET['page'] : '';
+		
         if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && 
-            ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) || ( isset( $_GET['page'] ) && 
-            ( $_GET['page'] == 'wprss-aggregator-settings' ) ) ) {
+            ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) ||
+			$page == 'wprss-aggregator-settings' || $screen->post_type === 'wprss_blacklist' ) {
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
             wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
