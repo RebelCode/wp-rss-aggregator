@@ -122,9 +122,11 @@ function wprss_check_if_blacklist_item() {
 	
 	// Check the current page, and generate the URL query string for the page
 	$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
-	$url = admin_url( "edit.php?post_type=$post_type" ) . $paged;
-	
-	wp_redirect( $url );
+	// Get the blacklisting post type
+	$post_type = wprss_blacklist_post_type();
+	// Refresh the page without the GET parameter
+	header( 'Location: ' . admin_url( "edit.php?post_type=$post_type" . $paged ) );
+	exit();
 }
 
 
