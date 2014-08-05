@@ -109,6 +109,9 @@
 
     /* Load the feed processing functions file */
     require_once ( WPRSS_INC . 'feed-processing.php' );
+	
+	/* Load the blacklist functions file */
+    require_once ( WPRSS_INC . 'feed-blacklist.php' );
 
     /* Load the feed importing functions file */
     require_once ( WPRSS_INC . 'feed-importing.php' );
@@ -184,9 +187,6 @@
 
     // Load the statistics functions file
     require_once ( WPRSS_INC . 'admin-statistics.php' );
-
-	// Load the blacklist functions file
-    require_once ( WPRSS_INC . 'feed-blacklist.php' );
 
     // Load the logging functions file
     require_once ( WPRSS_INC . 'admin-log.php' );
