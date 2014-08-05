@@ -15,10 +15,38 @@
  */
 
 
-// On init, check if the 'blacklist' GET param is set
+// Check if the 'blacklist' GET param is set
 add_action( 'init', 'wprss_check_if_blacklist_item' );
+// Register custom post type
+add_action( 'init', 'wprss_blacklist_cpt' );
 // Add the row actions to the targetted post type
 add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
+// Force delete when a post is trashed
+add_action( 'before_delete_post', 'wprss_blacklist_force_delet' );
+
+
+/**
+ * Registers the Blacklist Custom Post Type.
+ * 
+ * @since 4.4
+ */
+function wprss_blacklist_cpt() {
+	register_post_type( 'wprss_blacklist', array(
+		'label'				=>	'Blacklist',
+		'public'			=>	false,
+		'show_ui'			=>	true,
+		'show_in_menu'		=>	'edit.php?post_type=wprss_feed',
+		'supports'			=>	array('title'),
+		'capability_type'	=>	'wprss_blacklist',
+		'labels'			=>	array(
+			'name'					=> __( 'Blacklist', 'wprss' ),
+			'singular_name'			=> __( 'Blacklist', 'wprss' ),
+			'all_items'				=> __( 'Blacklist', 'wprss' ),
+			'search_items'			=> __( 'Search Blacklist', 'wprss' ),
+			'not_found'				=> __( 'You do not have any items blacklisted yet!', 'wprss' ),
+		)
+	));
+}
 
 
 /**
@@ -44,7 +72,7 @@ function wprss_get_blacklist() {
 	// Get the option
 	$blacklist_option = get_option('wprss_blacklist');
 	// If the option does not exist
-	if ( $blacklist_option === FALSE ) {
+	if ( $blacklist_option === FALSE || !is_array( $blacklist_option ) ) {
 		// create it
 		update_option( 'wprss_blacklist', array() );
 		$blacklist_option = array();
@@ -78,8 +106,13 @@ function wprss_blacklist_item( $ID ) {
 	// Delete the item
 	wp_delete_post( $ID, TRUE );
 	
-	// Update the option
-	update_option( 'wprss_blacklist', $blacklist );
+	// Add the blacklisted item
+	$id = wp_insert_post(array(
+		'post_title'	=>	$title,
+		'post_content'	=>	$permalink,
+		'post_type'		=>	'wprss_blacklist',
+		'post_status'	=>	'publish'
+	));
 }
 
 
@@ -167,6 +200,14 @@ function wprss_blacklist_row_actions( $actions ) {
 		$actions['blacklist-item'] = "<a href='$url'>$text</a>";
 		// Add the trash action
 		$actions['trash'] = $trash_action;
+	}
+	
+	// For the blacklisted item
+	elseif ( get_post_type() === 'wprss_blacklist' ) {
+		$remove_url = wp_nonce_url( 'post.php?post='.get_the_ID().'&action=trash' );
+		$actions = array(
+			'trash'	=>	'<a href="'.$url.'">Remove from Blacklist</a>'
+		);
 	}
 	
 	// Return the actions
