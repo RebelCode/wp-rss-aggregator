@@ -93,7 +93,7 @@ function wprss_blacklist_item( $ID ) {
  */
 function wprss_is_blacklisted( $permalink ) {
 	// Get the blacklisted items
-	$blacklist = wprss_get_blacklisted_items();
+	$blacklist = wprss_get_blacklist();
 	// Add to the blacklist
 	return isset( $blacklist[ $permalink ] );
 }
@@ -141,8 +141,7 @@ function wprss_blacklist_row_actions( $actions ) {
 	// Check the current page, and generate the URL query string for the page
 	$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
 	
-	// Get the post type - allow filters
-	$post_type = apply_filters( 'wprss_blacklist_post_type', 'wprss_feed_item' );
+	$post_type = wprss_blacklist_post_type();
 	
 	// Check the post type
 	if ( get_post_type() == $post_type ) {
