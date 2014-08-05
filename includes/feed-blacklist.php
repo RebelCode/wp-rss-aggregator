@@ -80,7 +80,6 @@ function wprss_blacklist_item( $ID ) {
 	
 	// Update the option
 	update_option( 'wprss_blacklist', $blacklist );
-	wprss_log_obj( 'Blacklist', $blacklist );
 }
 
 
