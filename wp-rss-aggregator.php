@@ -185,6 +185,9 @@
     // Load the statistics functions file
     require_once ( WPRSS_INC . 'admin-statistics.php' );
 
+	// Load the blacklist functions file
+    require_once ( WPRSS_INC . 'feed-blacklist.php' );
+
     // Load the logging functions file
     require_once ( WPRSS_INC . 'admin-log.php' );
 
