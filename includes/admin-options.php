@@ -54,9 +54,9 @@
             'wprss_settings_sections_array',
             array(
                 'general'  =>  __( 'General plugin settings', 'wprss' ),
-                'display'  =>  __( 'Display settings', 'wprss' ),
-                'source'   =>  __( 'Source settings', 'wprss' ),
-                'date'     =>  __( 'Date settings', 'wprss' ),
+                'display'  =>  __( 'General display settings', 'wprss' ),
+                'source'   =>  __( 'Source display settings', 'wprss' ),
+                'date'     =>  __( 'Date display settings', 'wprss' ),
                 'styles'   =>  __( 'Styles', 'wprss' ),
             )
         );
@@ -330,7 +330,7 @@
      * @since 3.5
      */
     function wprss_settings_display_callback() {
-        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'In this section you can find some general options that control how the feed items are displayed.', 'wprss' ) . '</p>';
     }
 
 
@@ -340,7 +340,7 @@
      * @since 4.2.4
      */
     function wprss_settings_source_callback() {
-        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Options that control how the feed item\'s source is displayed.', 'wprss' ) . '</p>';
     }
 
     /**
@@ -349,7 +349,7 @@
      * @since 4.2.4
      */
     function wprss_settings_date_callback() {
-        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Options that control how the feed item\'s date is displayed.', 'wprss' ) . '</p>';
     }
 
 
