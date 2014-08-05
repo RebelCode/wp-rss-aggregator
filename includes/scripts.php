@@ -37,7 +37,6 @@
 			$page == 'wprss-aggregator-settings' || $screen->post_type === 'wprss_blacklist' ) {
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
-            wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
             wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
             wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
             wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
@@ -45,6 +44,9 @@
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
+			if ( 'wprss_feed' === $screen->post_type ) {
+				wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
+			}
         }
         // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
         if ( 'edit' === $screen->base && $screen->post_type === 'wprss_feed' && apply_filters('wprss_ajax_polling', TRUE) === TRUE ) {

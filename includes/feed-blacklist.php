@@ -22,31 +22,11 @@ add_action( 'init', 'wprss_blacklist_cpt' );
 // Add the row actions to the targetted post type
 add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
 // Force delete when a post is trashed
-add_action( 'before_delete_post', 'wprss_blacklist_force_delet' );
-
-
-/**
- * Registers the Blacklist Custom Post Type.
- * 
- * @since 4.4
- */
-function wprss_blacklist_cpt() {
-	register_post_type( 'wprss_blacklist', array(
-		'label'				=>	'Blacklist',
-		'public'			=>	false,
-		'show_ui'			=>	true,
-		'show_in_menu'		=>	'edit.php?post_type=wprss_feed',
-		'supports'			=>	array('title'),
-		'capability_type'	=>	'wprss_blacklist',
-		'labels'			=>	array(
-			'name'					=> __( 'Blacklist', 'wprss' ),
-			'singular_name'			=> __( 'Blacklist', 'wprss' ),
-			'all_items'				=> __( 'Blacklist', 'wprss' ),
-			'search_items'			=> __( 'Search Blacklist', 'wprss' ),
-			'not_found'				=> __( 'You do not have any items blacklisted yet!', 'wprss' ),
-		)
-	));
-}
+add_action( 'before_delete_post', 'wprss_blacklist_force_delete' );
+// Changes the wprss_blacklist table columns
+add_filter( 'manage_wprss_blacklist_posts_columns', 'wprss_blacklist_columns');
+// Changes the wprss_blacklist bulk actions
+add_filter('bulk_actions-edit-wprss_blacklist','wprss_blacklist_bulk_actions', 5, 1 );
 
 
 /**
@@ -163,6 +143,32 @@ function wprss_check_if_blacklist_item() {
 }
 
 
+
+
+/**
+ * Registers the Blacklist Custom Post Type.
+ * 
+ * @since 4.4
+ */
+function wprss_blacklist_cpt() {
+	register_post_type( 'wprss_blacklist', array(
+		'label'				=>	'Blacklist',
+		'public'			=>	false,
+		'show_ui'			=>	true,
+		'show_in_menu'		=>	'edit.php?post_type=wprss_feed',
+		'supports'			=>	array('title'),
+		'capability_type'	=>	'wprss_blacklist',
+		'labels'			=>	array(
+			'name'					=> __( 'Blacklist', 'wprss' ),
+			'singular_name'			=> __( 'Blacklist', 'wprss' ),
+			'all_items'				=> __( 'Blacklist', 'wprss' ),
+			'search_items'			=> __( 'Search Blacklist', 'wprss' ),
+			'not_found'				=> __( 'You do not have any items blacklisted yet!', 'wprss' ),
+		)
+	));
+}
+
+
 /**
  * Adds the row actions to the targetted post type.
  * Default post type = wprss_feed_item
@@ -206,10 +212,49 @@ function wprss_blacklist_row_actions( $actions ) {
 	elseif ( get_post_type() === 'wprss_blacklist' ) {
 		$remove_url = wp_nonce_url( 'post.php?post='.get_the_ID().'&action=trash' );
 		$actions = array(
-			'trash'	=>	'<a href="'.$url.'">Remove from Blacklist</a>'
+			'trash'	=>	str_replace( '>Trash<', '>Remove from blacklist<', $actions['trash'] )
 		);
 	}
 	
 	// Return the actions
 	return $actions;
+}
+
+
+/**
+ * 
+ */
+function wprss_blacklist_force_delete( $post_id ) {
+	global $post_type;
+	if ( $post_type === 'wprss_blacklist' ) {
+		wp_delete_post( $post_id, TRUE );
+	}
+}
+
+
+/**
+ * Returns the custom columns for the blacklist post type
+ * 
+ * @since 4.4
+ * @params array $cols The columns to filter
+ * @return array The new columns
+ */
+function wprss_blacklist_columns( $cols ) {
+	return array(
+		'cb'		=>	$cols['cb'],
+		'title'		=>	__( 'Title' ),
+		'permalink'	=>	__( 'Permalink' )
+	);
+}
+
+
+/**
+ * Removes the bulk actions for the Blacklist post type
+ * 
+ * @since 4.4
+ * @param array $actions The array of actions to be filtered
+ * @return array An empty array
+ */
+function wprss_blacklist_bulk_actions( $actions ) {
+	return array();
 }

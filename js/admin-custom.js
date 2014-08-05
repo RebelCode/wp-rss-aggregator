@@ -277,6 +277,19 @@ jQuery(window).load( function(){
     });
 })(jQuery);
 
+
+// For Blacklist
+(function($) {
+	$(window).load( function(){
+		if ( $('body').hasClass('post-type-wprss_blacklist') ) {
+			$('<a>').addClass('button').attr('href', '#').text('Remove selected from Blacklist').appendTo(
+				$('div.tablenav.top div.bulkactions')
+			);
+		}
+	});
+})(jQuery);
+
+
 // Utility string trim method, if it does not exist
 if ( !String.prototype.trim ) {
     String.prototype.trim = function(){

@@ -434,6 +434,12 @@ i.wprss-updating-feed-icon.wprss-show {
 
 
 /*== BLACKLIST */
-body.post-type-wprss_blacklist .add-new-h2 {
+body.post-type-wprss_blacklist .add-new-h2,
+body.post-type-wprss_blacklist ul.subsubsub,
+body.post-type-wprss_blacklist .alignleft.actions {
 	display: none;
+}
+
+body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
+	display: inline-block;
 }
