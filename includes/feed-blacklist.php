@@ -20,6 +20,18 @@ add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
 
 
 /**
+ * Returns the post type being used or blacklisting.
+ * 
+ * @since 4.4
+ * @return string The post type being used for blacklisting.
+ */
+function wprss_blacklist_post_type() {
+	// Return the post type - allow filter
+	return apply_filters( 'wprss_blacklist_post_type', 'wprss_feed_item' );
+}
+
+
+/**
  * Retrieves the blacklisted items.
  * 
  * @since 4.4
