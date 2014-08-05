@@ -38,7 +38,7 @@ function wprss_blacklist_post_type() {
  * @return array An associative array of blacklisted item, each entry
  * 		having the key as the permalink, and the value as the title. 
  */
-function wprss_get_blacklisted_items() {
+function wprss_get_blacklist() {
 	// Get the option
 	$blacklist_option = get_option('wprss_blacklist');
 	// If the option does not exist
@@ -69,8 +69,8 @@ function wprss_blacklist_item( $item ) {
 	$permalink = apply_filters( 'wprss_blacklist_permalink', trim($item_permalink) );
 	
 	// Get the blacklisted items
-	$blacklist = wprss_get_blacklisted_items();
-	// Add to the blacklist
+	$blacklist = wprss_get_blacklist();
+	// Add the item to the blacklist
 	$blacklist[ $permalink ] = $title;
 	
 	// Update the option
