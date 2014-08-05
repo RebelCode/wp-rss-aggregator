@@ -15,6 +15,8 @@
  */
 
 
+// On init, check if the 'blacklist' GET param is set
+add_action( 'init', 'wprss_check_if_blacklist_item' );
 // Add the row actions to the targetted post type
 add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
 
@@ -90,6 +92,36 @@ function wprss_is_blacklisted( $permalink ) {
 	$blacklist = wprss_get_blacklisted_items();
 	// Add to the blacklist
 	return isset( $blacklist[ $permalink ] );
+}
+
+
+/**
+ * Check if the 'blacklist' GET param is set, and prepare to blacklist
+ * the item.
+ */
+function wprss_check_if_blacklist_item() {
+	// If the GET param is not set, do nothing. Return.
+	if ( empty( $_GET['wprss_blacklist'] ) ) return;
+	
+	// Get the ID from the GET param
+	$ID = $_GET['wprss_blacklist'];
+	// If the post does not exist, stop. Show a message
+	if ( get_post($ID) === NULL ) {
+		wp_die('The item you are trying to blacklist does not exist');
+	}
+	
+	// If the post type is not correct, 
+	if ( get_post_type($ID) !== wprss_blacklist_post_type() ) {
+		wp_die('The item you are trying to blacklist is not valid!');
+	}
+	
+	wprss_blacklist_item( $ID );
+	
+	// Check the current page, and generate the URL query string for the page
+	$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
+	$url = admin_url( "edit.php?post_type=$post_type" ) . $paged;
+	
+	wp_redirect( $url );
 }
 
 
