@@ -59,13 +59,13 @@ function wprss_get_blacklist() {
  * @since 4.4
  * @param int|string The ID of the feed item to add to the blacklist
  */
-function wprss_blacklist_item( $item ) {
+function wprss_blacklist_item( $ID ) {
 	// Return if feed item is null
-	if ( is_null($item) ) return;
+	if ( is_null($ID) ) return;
 	
 	// Get the feed item data
-	$item_title = get_the_title( $item );
-	$item_permalink = get_post_meta( $item, 'wprss_item_permalink', TRUE );
+	$item_title = get_the_title( $ID );
+	$item_permalink = get_post_meta( $ID, 'wprss_item_permalink', TRUE );
 	// Prepare the data for blacklisting
 	$title = apply_filters( 'wprss_blacklist_title', trim($item_title) );
 	$permalink = apply_filters( 'wprss_blacklist_permalink', trim($item_permalink) );
@@ -75,8 +75,12 @@ function wprss_blacklist_item( $item ) {
 	// Add the item to the blacklist
 	$blacklist[ $permalink ] = $title;
 	
+	// Delete the item
+	wp_delete_post( $ID, TRUE );
+	
 	// Update the option
 	update_option( 'wprss_blacklist', $blacklist );
+	wprss_log_obj( 'Blacklist', $blacklist );
 }
 
 
