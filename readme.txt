@@ -163,6 +163,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.3.1 () =
+* Enhanced: Better wording on settings page
+
 = 4.3 (2014-08-04) =
 * New Feature: Feed items now also import authors.
 * Enhanced: Custom feed is now in RSS 2.0 format.
