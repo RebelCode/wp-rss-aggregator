@@ -120,6 +120,8 @@ function wprss_is_blacklisted( $permalink ) {
 /**
  * Check if the 'blacklist' GET param is set, and prepare to blacklist
  * the item.
+ * 
+ * @since 4.4
  */
 function wprss_check_if_blacklist_item() {
 	// If the GET param is not set, do nothing. Return.
