@@ -191,11 +191,7 @@ function wprss_blacklist_row_actions( $actions ) {
 	$post_type = wprss_blacklist_post_type();
 	
 	// Check the post type
-	if ( get_post_type() == $post_type ) {
-		// Unset the trash action
-		$trash_action = $actions['trash'];
-		unset( $actions['trash'] );
-		
+	if ( get_post_type() == $post_type && get_post_status() == 'trash' ) {
 		// Get the Post ID
 		$ID = get_the_ID();
 		
@@ -205,21 +201,28 @@ function wprss_blacklist_row_actions( $actions ) {
 			admin_url( "edit.php?post_type=$post_type&wprss_blacklist=$ID" ),
 			$ID
 		) . $paged;
+		
 		// Prepare the text
-		$text = apply_filters( 'wprss_blacklist_row_action_text', 'Blacklist' );
+		$text = apply_filters( 'wprss_blacklist_row_action_text', 'Delete Permanently &amp; Blacklist' );
 		$text = __( $text, 'wprss' );
 		
+		// Prepare the hint
+		$hint = apply_filters(
+			'wprss_blacklist_row_action_hint',
+			"The item will be deleted permanently, and its permalink will be recorded in the blacklist"
+		);
+		$hint = esc_attr( __( $hint, 'wprss' ) );
+		
 		// Add the blacklist action
-		$actions['blacklist-item'] = "<a href='$url'>$text</a>";
-		// Add the trash action
-		$actions['trash'] = $trash_action;
+		$actions['blacklist-item'] = "<span class='delete'><a title='$hint' href='$url'>$text</a></span>";
 	}
 	
 	// For the blacklisted item
 	elseif ( get_post_type() === 'wprss_blacklist' ) {
-		$remove_url = wp_nonce_url( 'post.php?post='.get_the_ID().'&action=trash' );
+		$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
+		$remove_url = wp_nonce_url( 'post.php?wprss-blacklist-remove='.get_the_ID(), 'blacklist-remove-' . get_the_ID(), 'wprss_blacklist_trash' );
 		$actions = array(
-			'trash'	=>	str_replace( '>Trash<', '>Remove from blacklist<', $actions['trash'] )
+			'trash'	=>	'<a href="'.$remove_url.'">Remove from blacklist</a>'
 		);
 	}
 	
