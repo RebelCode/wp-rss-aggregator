@@ -158,13 +158,14 @@ function wprss_check_if_blacklist_item() {
  */
 function wprss_blacklist_cpt() {
 	register_post_type( 'wprss_blacklist', array(
-		'label'				=>	'Blacklist',
-		'public'			=>	false,
-		'show_ui'			=>	true,
-		'show_in_menu'		=>	'edit.php?post_type=wprss_feed',
-		'supports'			=>	array('title'),
-		'capability_type'	=>	'wprss_blacklist',
-		'labels'			=>	array(
+		'label'					=>	'Blacklist',
+		'public'				=>	false,
+		'exclude_from_search'   => true,
+		'show_ui'				=>	true,
+		'show_in_menu'			=>	'edit.php?post_type=wprss_feed',
+		'capability_type'		=>	'wprss_blacklist',
+		'supports'				=>	array('title'),
+		'labels'				=>	array(
 			'name'					=> __( 'Blacklist', 'wprss' ),
 			'singular_name'			=> __( 'Blacklist', 'wprss' ),
 			'all_items'				=> __( 'Blacklist', 'wprss' ),
