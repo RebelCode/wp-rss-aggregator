@@ -624,8 +624,14 @@
      */
     function wprss_setting_limit_feed_items_imported_callback() {
         $limit_feed_items_imported = wprss_get_general_setting( 'limit_feed_items_imported' );
-        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='$limit_feed_items_imported' />";   
-        echo "<label class='description' for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed source; enter 0 for unlimited feed items</label>";
+        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='$limit_feed_items_imported' placeholder='No Limit' />";   
+        ?>
+		<label class='description' for='limit-feed-items-imported'>
+			Enter the maximum number of feed items to import, for each feed source that does not have its own limit.
+			<br/>
+			<small>Use 0 or leave empty to use no limit.</small>
+		</label>
+		<?php
     }
 
 
