@@ -106,10 +106,14 @@ function wprss_blacklist_item( $ID ) {
  * @return bool TRUE if the permalink is found, FALSE otherwise.
  */
 function wprss_is_blacklisted( $permalink ) {
-	// Get the blacklisted items
-	$blacklist = wprss_get_blacklist();
-	// Add to the blacklist
-	return isset( $blacklist[ $permalink ] );
+	// Query the blacklist entries, for an item with the given permalink
+	$query = new WP_Query(array(
+		'post_type'		=>	'wprss_blacklist',
+		'meta_key'		=>	'wprss_permalink',
+		'meta_value'	=>	$permalink
+	));
+	// Return TRUE if the query returned a result, FALSE otherwise
+	return $query->have_posts();
 }
 
 
