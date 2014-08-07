@@ -280,11 +280,37 @@ jQuery(window).load( function(){
 
 // For Blacklist
 (function($) {
-	$(window).load( function(){
+	$(document).ready( function(){
 		if ( $('body').hasClass('post-type-wprss_blacklist') ) {
-			$('<a>').addClass('button').attr('href', '#').text('Remove selected from Blacklist').appendTo(
-				$('div.tablenav.top div.bulkactions')
-			);
+			
+			
+			
+			$('<p>').text('The feed items listed here will be disregarded when importing new items from your feed sources.')
+			.insertBefore( $('.tablenav.top') );
+			
+			
+			// Construct the bulk delete button
+			$('<a>').addClass('button').attr('href', '#').text('Remove selected from Blacklist')
+			// Add it to the page
+			.appendTo( $('div.tablenav.top div.bulkactions') )
+			// Bind the click event
+			.click( function(e){
+				var ids = [];
+				$('table.wp-list-table tbody th.check-column').each( function(){
+					var checkbox = $(this).find('input[type="checkbox"]');
+					if ( checkbox.is(':checked') ) {
+						var idAttr = checkbox.attr('id');
+						var id = idAttr.split('-')[2];
+						ids.push( id );
+					}
+				});
+				var id_str = ids.join();
+				$(this).attr('href', 'edit.php?wprss-blacklist-remove=' + id_str + '&wprss-bulk=1');
+				//e.preventDefault();
+			});
+			
+			// Unlink the titles in the table
+			$('table.wp-list-table a.row-title').contents().unwrap();
 		}
 	});
 })(jQuery);
