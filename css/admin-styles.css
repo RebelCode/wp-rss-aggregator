@@ -331,6 +331,16 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
 }
 
 
+/* For feed items */
+body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#publishdate {
+	width: 150px;
+}
+body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#source {
+	width: 200px;
+}
+
+
+
 i.wprss-feed-error-symbol {
     display: none;
     font-size: 1.2em;
@@ -442,4 +452,9 @@ body.post-type-wprss_blacklist .alignleft.actions {
 
 body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 	display: inline-block;
+}
+
+.wprss-header-small {
+	color: #777;
+	font-size: 0.7em;
 }
