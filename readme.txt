@@ -45,31 +45,22 @@ To [display your imported feed items](http://wordpress.org/plugins/wp-rss-aggreg
 * Integrated with the Simplepie library that come with WordPress. This includes RSS 0.91 and RSS 1.0 formats, the popular RSS 2.0 format, Atom etc.
 
 = Premium Add-Ons =	
-Add-Ons that add more functionality to the core plugin are now [available for purchase](http://www.wprssaggregator.com/extensions/). 
+Add-Ons that add more functionality to the core plugin are [available for purchase](http://www.wprssaggregator.com/extensions/). 
 
-* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS feeds into posts or custom post types. Populate a website in minutes (autoblog).
+* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS feeds into posts or custom post types. Populate a website in minutes (autoblog). This is the most popular extension.
 * [Keyword Filtering](http://www.wprssaggregator.com/extensions/keyword-filtering) - filter imported feeds based on keywords, so you only get items you're interested in.
 * [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) - display excerpts and thumbnails together with the title, date and source.
 * [Categories](http://www.wprssaggregator.com/extensions/categories) - categorise your feed sources and display items from a particular category at will within your site.
+* [WordAi](http://www.wprssaggregator.com/extension/wordai/) - WordAi allows users to take an RSS feed and turn it into new content that is both completely unique and completely readable..
 
 = Demo =
-The plugin can be seen in use on the [demo page](http://www.wprssaggregator.com/demo/).
+The core plugin can be seen in use on the [demo page](http://www.wprssaggregator.com/demo/).
 
 = Video Walkthrough =
 [youtube http://www.youtube.com/watch?v=5J-S2vXtQ5w]
 
 = Documentation =
 Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
-
-= Credit = 
-Created by Jean Galea from [WP Mayor](http://www.wpmayor.com)
-
-= Technical Stuff =
-WP RSS Aggregator uses the SimplePie class to import and handle feeds, and stores all feed sources and feed items as custom post types in the WordPress default table structure, thus no custom tables are added. 
-
-= Translations =
-* Italian - Davide De Maestri
-* Spanish - Andrew Kurtis
 
 = As featured on =
 * [WP Beginner](http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
@@ -84,6 +75,10 @@ WP RSS Aggregator uses the SimplePie class to import and handle feeds, and store
 * [IndexWP](www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
 * [Kevin Muldoon](http://www.kevinmuldoon.com/wp-rss-aggregator-wordpress-plugin/)
+
+= Translations =
+* Italian - Davide De Maestri
+* Spanish - Andrew Kurtis
 
 == Installation ==
 
@@ -100,10 +95,14 @@ The parameters accepted are:
 * link_after
 * limit
 * source
+* exclude
+* pagination
 
 An example of a shortcode with parameters:
 `[wp_rss_aggregator link_before='<li class="feed-link">' link_after='</li>']`
 It is advisable to use the 'HTML' view of the editor when inserting the shortcode with paramters.
+
+For a full list of shortcode parameters and usage guide please refer to the [documentation](http://www.wprssaggregator.com/docs/shortcodes/).
 
 __Usage within theme files__
 
