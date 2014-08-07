@@ -25,6 +25,8 @@ add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
 add_action( 'before_delete_post', 'wprss_blacklist_force_delete' );
 // Changes the wprss_blacklist table columns
 add_filter( 'manage_wprss_blacklist_posts_columns', 'wprss_blacklist_columns');
+// Prints the table data for each blacklist entry
+add_action( 'manage_wprss_blacklist_posts_custom_column' , 'wprss_blacklist_table_contents', 10, 2 );
 // Changes the wprss_blacklist bulk actions
 add_filter('bulk_actions-edit-wprss_blacklist','wprss_blacklist_bulk_actions', 5, 1 );
 
@@ -245,6 +247,23 @@ function wprss_blacklist_columns( $cols ) {
 		'title'		=>	__( 'Title' ),
 		'permalink'	=>	__( 'Permalink' )
 	);
+}
+
+
+/**
+ * Prints the cell data in the table for each blacklist entry
+ * 
+ * @since 4.4
+ * @param string $column The column slug
+ * @param string|int $ID The ID of the post currently being printed
+ */
+function wprss_blacklist_table_contents( $column, $ID ) {
+	switch ( $column ) {
+		case 'permalink':
+			$permalink = get_post_meta( $ID, 'wprss_permalink', TRUE );
+			echo '<a href="'.$permalink.'" target="_blank">'.$permalink.'</a>';
+			break;
+	}
 }
 
 
