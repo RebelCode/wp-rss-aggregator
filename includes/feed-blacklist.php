@@ -21,8 +21,8 @@ add_action( 'init', 'wprss_check_if_blacklist_item' );
 add_action( 'init', 'wprss_blacklist_cpt' );
 // Add the row actions to the targetted post type
 add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
-// Force delete when a post is trashed
-add_action( 'before_delete_post', 'wprss_blacklist_force_delete' );
+// Check if deleting a blacklist item, from the GET parameter
+add_action( 'init', 'wprss_check_if_blacklist_delete' );
 // Changes the wprss_blacklist table columns
 add_filter( 'manage_wprss_blacklist_posts_columns', 'wprss_blacklist_columns');
 // Prints the table data for each blacklist entry
@@ -232,13 +232,40 @@ function wprss_blacklist_row_actions( $actions ) {
 
 
 /**
+ * Checks for the GET parameter wprss-blacklist-remove, and if present,
+ * deletes the appropriate blacklist entry. Uses nonce 'wprss_blacklist_trash'
+ * with action 'blacklist-remove-$ID'
  * 
+ * @since 4.4
  */
-function wprss_blacklist_force_delete( $post_id ) {
-	global $post_type;
-	if ( $post_type === 'wprss_blacklist' ) {
-		wp_delete_post( $post_id, TRUE );
+function wprss_check_if_blacklist_delete() {
+	// If the GET param is not set, do nothing. Return.
+	if ( empty( $_GET['wprss-blacklist-remove'] ) ) return;
+	
+	// The array of blacklist entries to delete
+	$to_delete = array();
+	// The ID of the blacklist entry - if only deleting a single entry
+	$ID = $_GET['wprss-blacklist-remove'];
+	
+	// check if deleting in bulk
+	if ( isset( $_GET['wprss-bulk'] ) && $_GET['wprss-bulk'] == '1' ) {
+		$to_delete = explode( ',', $ID );
+	} else {
+		$to_delete = array( $ID );
+		// Get the ID from the GET param
+		// Verify the nonce
+		check_admin_referer( 'blacklist-remove-' . $ID, 'wprss_blacklist_trash' );
 	}
+	
+	// Delete the posts marked for delete
+	foreach( $to_delete as $delete_id ) {
+		wp_delete_post( $delete_id, TRUE );
+	}
+	
+	// Redirect back to blacklists page
+	$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
+	header('Location: ' . admin_url('edit.php?post_type=wprss_blacklist' . $paged ) );
+	exit;
 }
 
 
