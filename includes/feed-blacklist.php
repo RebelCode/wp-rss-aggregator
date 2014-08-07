@@ -91,10 +91,10 @@ function wprss_blacklist_item( $ID ) {
 	// Add the blacklisted item
 	$id = wp_insert_post(array(
 		'post_title'	=>	$title,
-		'post_content'	=>	$permalink,
 		'post_type'		=>	'wprss_blacklist',
 		'post_status'	=>	'publish'
 	));
+	update_post_meta( $id, 'wprss_permalink', $permalink );
 }
 
 
