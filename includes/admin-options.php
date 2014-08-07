@@ -436,7 +436,12 @@
             $selected = ( $open_dd == $item ) ? 'selected="selected"' : '';
             echo "<option value='$item' $selected>$item</option>";
         }
-        echo "</select>";   
+        echo "</select>";
+		?>
+		<label for="open-dd" class="description">
+			Choose how to open links for your feed items.
+		</label>
+		<?php
     }
 
 
