@@ -130,6 +130,10 @@
                         'label'     =>  __( 'Feed display limit', 'wprss' ),
                         'callback'  =>  'wprss_setting_feed_limit_callback'
                     ),
+                    'open-dd' => array(
+                        'label'     =>  __( 'Open links behaviour', 'wprss' ),
+                        'callback'  =>  'wprss_setting_open_dd_callback'
+                    ),
                     'follow-dd' => array(
                         'label'     =>  __( 'Set links as nofollow', 'wprss' ),
                         'callback'  =>  'wprss_setting_follow_dd_callback'
@@ -149,10 +153,6 @@
                     'source-link' => array(
                         'label'     =>  __( 'Link source', 'wprss' ),
                         'callback'  =>  'wprss_setting_source_link_callback'
-                    ),
-                    'open-dd' => array(
-                        'label'     =>  __( 'Source link open behaviour', 'wprss' ),
-                        'callback'  =>  'wprss_setting_open_dd_callback'
                     ),
                 ),
 
