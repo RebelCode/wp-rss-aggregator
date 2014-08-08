@@ -25,10 +25,10 @@
         $open = '';
         switch ( $args['open_dd'] ) {
             case 'Lightbox' :
-                $display_settings['open'] = 'class="colorbox"';
+                $open = 'class="colorbox"';
                 break;
             case 'New window' :
-                $display_settings['open'] = 'target="_blank"';
+                $open = 'target="_blank"';
                 break;
         }
 

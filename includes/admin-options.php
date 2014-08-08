@@ -54,9 +54,9 @@
             'wprss_settings_sections_array',
             array(
                 'general'  =>  __( 'General plugin settings', 'wprss' ),
-                'display'  =>  __( 'Display settings', 'wprss' ),
-                'source'   =>  __( 'Source settings', 'wprss' ),
-                'date'     =>  __( 'Date settings', 'wprss' ),
+                'display'  =>  __( 'General display settings', 'wprss' ),
+                'source'   =>  __( 'Source display settings', 'wprss' ),
+                'date'     =>  __( 'Date display settings', 'wprss' ),
                 'styles'   =>  __( 'Styles', 'wprss' ),
             )
         );
@@ -130,6 +130,10 @@
                         'label'     =>  __( 'Feed display limit', 'wprss' ),
                         'callback'  =>  'wprss_setting_feed_limit_callback'
                     ),
+                    'open-dd' => array(
+                        'label'     =>  __( 'Open links behaviour', 'wprss' ),
+                        'callback'  =>  'wprss_setting_open_dd_callback'
+                    ),
                     'follow-dd' => array(
                         'label'     =>  __( 'Set links as nofollow', 'wprss' ),
                         'callback'  =>  'wprss_setting_follow_dd_callback'
@@ -149,10 +153,6 @@
                     'source-link' => array(
                         'label'     =>  __( 'Link source', 'wprss' ),
                         'callback'  =>  'wprss_setting_source_link_callback'
-                    ),
-                    'open-dd' => array(
-                        'label'     =>  __( 'Source link open behaviour', 'wprss' ),
-                        'callback'  =>  'wprss_setting_open_dd_callback'
                     ),
                 ),
 
@@ -330,7 +330,7 @@
      * @since 3.5
      */
     function wprss_settings_display_callback() {
-        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'In this section you can find some general options that control how the feed items are displayed.', 'wprss' ) . '</p>';
     }
 
 
@@ -340,7 +340,7 @@
      * @since 4.2.4
      */
     function wprss_settings_source_callback() {
-        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Options that control how the feed item\'s source is displayed.', 'wprss' ) . '</p>';
     }
 
     /**
@@ -349,7 +349,7 @@
      * @since 4.2.4
      */
     function wprss_settings_date_callback() {
-        echo '<p>' . __( 'In this section you can find the options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Options that control how the feed item\'s date is displayed.', 'wprss' ) . '</p>';
     }
 
 
@@ -436,7 +436,12 @@
             $selected = ( $open_dd == $item ) ? 'selected="selected"' : '';
             echo "<option value='$item' $selected>$item</option>";
         }
-        echo "</select>";   
+        echo "</select>";
+		?>
+		<label for="open-dd" class="description">
+			Choose how to open links for your feed items.
+		</label>
+		<?php
     }
 
 
@@ -619,8 +624,14 @@
      */
     function wprss_setting_limit_feed_items_imported_callback() {
         $limit_feed_items_imported = wprss_get_general_setting( 'limit_feed_items_imported' );
-        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='$limit_feed_items_imported' />";   
-        echo "<label class='description' for='limit-feed-items-imported'>Enter the maximum number of feeds to import per feed source; enter 0 for unlimited feed items</label>";
+        echo "<input id='limit-feed-items-imported' name='wprss_settings_general[limit_feed_items_imported]' type='text' value='$limit_feed_items_imported' placeholder='No Limit' />";   
+        ?>
+		<label class='description' for='limit-feed-items-imported'>
+			Enter the maximum number of feed items to import, for each feed source that does not have its own limit.
+			<br/>
+			<small>Use 0 or leave empty to use no limit.</small>
+		</label>
+		<?php
     }
 
 
