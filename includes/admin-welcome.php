@@ -118,12 +118,9 @@
 
 		 						<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 		 						<ul>
-									<li><strong>New Feature:</strong> Feed items now also import authors.</li>
-									<li><strong>Enhanced:</strong> Custom feed is now in RSS 2.0 format.</li>
-									<li><strong>Enhanced:</strong> Improved the display template for feed items.</li>
-									<li><strong>Fixed bug:</strong> Custom feed was not working in Firefox.</li>
-									<li><strong>Fixed bug:</strong> Some feed items were showing items from another feed source.</li>
-									<li><strong>Fixed bug:</strong> The feed limit in the global settings was not working.</li>
+									<li><strong>Enhanced:</strong> Better wording on settings page.</li>
+									<li><strong>Fixed bug:</strong> The <strong>Links Behaviour</strong> option in the settings was not working.</li>
+									<li><strong>Fixed bug:</strong> The wrong feed items were being shown for some sources when using the "View Items" row action.</li>
 		 						</ul>
 		 						
 								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
