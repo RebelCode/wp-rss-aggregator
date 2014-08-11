@@ -41,6 +41,13 @@
                     'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=2',
                     'render'    =>  'wprss_debug_reimport_feeds',
                 ),
+				
+				'reset-settings' => array(
+					'nonce'     =>  'wprss-reset-settings',
+                    'run'       =>  'wprss_reset_settings',
+                    'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=4',
+                    'render'    =>  'wprss_debug_reset_settings',
+				),
             )
         );
 
@@ -125,6 +132,27 @@
     }
 
 
+	/**
+     * Render the reset settings button
+     * 
+     * @since 4.4
+     */
+    function wprss_debug_reset_settings() {
+        ?>
+        <h3><?php _e( 'Reset Default Settings', 'wprss' ); ?></h3>
+        <p><?php _e( 'Click the red button to reset the plugin settings to default.', 'wprss' ); ?></p>
+        <p><?php _e( '<em><strong>Note:</strong> This cannot be undone. Once the settings have been reset, your old settings cannot be restored.</em>', 'wprss' ); ?></p>
+        
+        <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="post"> 
+            
+                <?php wp_nonce_field( 'wprss-reset-settings' );
+                submit_button( __( 'Reset Default Settings', 'wprss' ), 'button-red', 'reset-settings', true  ); ?>            
+            
+        </form>
+        <?php
+    }
+
+
     /**
      * Renders the Clear Log button
      * 
@@ -157,6 +185,7 @@
                 '1'     =>  'wprss_debugging_admin_notice_update_feeds',
                 '2'     =>  'wprss_debugging_admin_notice_reimport_feeds',
                 '3'     =>  'wprss_debugging_admin_notice_clear_log',
+				'4'		=>	'wprss_debugging_admin_notice_reset_settings'
             )
         );
         
@@ -221,3 +250,43 @@
     function wprss_debugging_admin_notice_clear_log() {        
         echo '<div class="updated"><p>The error log has been cleared.</p></div>';
     }
+
+	
+	/**
+     * Output admin notice that log has been cleard
+     * 
+     * @since 4.4
+     */ 
+    function wprss_debugging_admin_notice_reset_settings() {        
+        echo '<div class="updated"><p>The plugin settings have been reset.</p></div>';
+    }
+
+
+	/**
+	 * Resets the plugin settings to default
+	 * 
+	 * @since 4.4
+	 */
+	function wprss_reset_settings() {
+		// Action Hook
+		do_action( 'wprss_before_reset_settings' );
+		
+		// Prepare the settings to reset
+		$settings_to_reset = apply_filters(
+			'wprss_settings_to_reset',
+			array(
+				'wprss_settings_general',
+				'wprss_settings_notices',
+				'wprss_addon_notices',
+				'wprss_pwsv',
+				'wprss_db_version'
+			)
+		);
+		// Delete the settings
+		foreach( $settings_to_reset as $setting ) {
+			delete_option( $setting );
+		}
+		
+		// Action Hook
+		do_action( 'wprss_after_reset_settings' );
+	}
