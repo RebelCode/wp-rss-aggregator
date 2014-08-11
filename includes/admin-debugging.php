@@ -105,7 +105,7 @@
 
 
     /**
-     * Build the Update Feeds section
+     * Build the Delete and Re-Import Feeds section
      * 
      * @since 3.4.6
      */
