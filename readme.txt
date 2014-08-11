@@ -162,6 +162,11 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.4 (2014-08-11) =
+* New Feature: Blacklist - delete items and blacklist them to never import them again.
+* Enhanced: Added a button in the Debugging page to reset the plugin settings to default.
+* Enhanced: WordPress Yoast SEO metaboxes and custom columns will no longer appear.
+
 = 4.3.1 (2014-08-08) =
 * Enhanced: Better wording on settings page.
 * Fixed bug: The Links Behaviour option in the settings was not working.

@@ -88,6 +88,36 @@
 					default: ?>
 		 					<div class="changelog">
 
+								<h2 class="about-headline-callout">New Feed Item Blacklist</h2>
+								<div class="feature-section col three-col">
+									<div class="col-1">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/trash-feed-item.png" />
+										<h4>Trash undesired items</h4>
+										<p>
+											Did a feed import an item that you do not wish to keep? Up till now, <strong>WP RSS Aggregator</strong>
+											only allowed you to trash the item and keep it in your trash.
+										</p>
+									</div>
+									<div class="col-2">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/blacklist-feed-item.png" />
+										<h4>Blacklist Trashed Items</h4>
+										<p>
+											Permanently deleting the item will cause it to be re-imported.
+											Using the new <strong>Delete Permanently &amp; Blacklist</strong> option, the feed item is deleted
+											and added to the <strong>Blacklist</strong>.
+										</p>
+									</div>
+									<div class="col-3 last-feature">
+										<img src="<?php echo WPRSS_IMG;?>welcome-page/blacklist.png" />
+										<h4>The Blacklist</h4>
+										<p>
+											This is your list of unwanted feed item links. Any item in this list will be ignored by
+											<strong>WP RSS Aggregator</strong> in the future, meaning it won't be imported from any of your
+											feed sources.
+										</p>
+									</div>
+								</div>
+								
 								<h2 class="about-headline-callout">New Author Importing!</h2>
 								<div class="about-overview">
 									<img src="<?php echo WPRSS_IMG;?>welcome-page/authors.png" />
@@ -105,27 +135,6 @@
 									</p>
 								</div>
 								
-								
-								<h2 class="about-headline-callout">New Pagination Options</h2>
-								<div class="feature-section col two-col">
-									<div class="col-1">
-										<img src="<?php echo WPRSS_IMG;?>welcome-page/default-pagination.png" />
-										<h4>Default Pagination</h4>
-										<p>
-											The default pagination from the previous versions of WP RSS Aggregator,
-											showing links for <strong>Older Posts</strong> and <strong>Newer Posts</strong>.
-										</p>
-									</div>
-									<div class="col-2 last-feature">
-										<img src="<?php echo WPRSS_IMG;?>welcome-page/numbered-pagination.png" />
-										<h4>Numbered Pagination</h4>
-										<p>
-											The new numbered pagination - Show <strong>Next</strong> and <strong>Previous</strong> links,
-											along with links for each page of feed items.
-										</p>
-									</div>
-								</div>
-
 
 								<hr/>
 								
@@ -146,9 +155,11 @@
 
 		 						<h3>Changelog for v<?php echo WPRSS_VERSION; ?></h3>
 		 						<ul>
-									<li><strong>Enhanced:</strong> Better wording on settings page.</li>
-									<li><strong>Fixed bug:</strong> The <strong>Links Behaviour</strong> option in the settings was not working.</li>
-									<li><strong>Fixed bug:</strong> The wrong feed items were being shown for some sources when using the "View Items" row action.</li>
+									<?php // CHANGELOG
+										$changelog = wprss_parse_changelog();
+										foreach( $changelog as $entry ): ?>
+											<li><strong><?php echo $entry['type']; ?></strong>: <?php echo $entry['desc']; ?></li>
+									<?php endforeach; ?>
 		 						</ul>
 		 						
 								<p>Need functionality not already available in core or the add-ons? You can <a href="http://www.wprssaggregator.com/feature-requests/">suggest new features</a>!</p>
