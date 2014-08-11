@@ -8,6 +8,34 @@
 	if ( ! defined( 'ABSPATH' ) ) exit;
 
 
+	function wprss_parse_changelog() {
+		$contents = file_get_contents( WPRSS_DIR . 'changelog.txt' );
+		$lines = explode( "\n", $contents );
+		unset($lines[0]);
+		
+		$chosen = array();
+		foreach( $lines as $line ) {
+			if ( trim($line) == '' ) {
+				break;
+			}
+			$chosen[] = $line;
+		}
+		
+		$final = array();
+		foreach( $chosen as $line ) {
+			$colon = strpos( $line, ":" );
+			$key = trim( substr( $line, 0, $colon ) );
+			$val = trim( substr( $line, $colon + 1 ) );
+			$final[] = array(
+				'type'	=>	$key,
+				'desc'	=>	$val
+			);
+		}
+		
+		return $final;
+	}
+
+
 	// The tabs to be shown
 	$tabs = array(
 	/*	'cat'	=>	'Categories',
