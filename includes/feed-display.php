@@ -238,7 +238,9 @@
                     <!-- DATE -->
                     <?php if ( wprss_get_general_setting('date_enable') == 1 ) : ?>
                         <span class='feed-date'>
-                            <?php echo $text_preceding_date . $date; ?>
+                            <?php $date_text = apply_filters('wprss_item_date', $date) ?>
+                            <?php $date_text = $text_preceding_date . $date_text; ?>
+                            <?php echo $date_text; ?>
                         </span>
                     <?php endif; ?>
 
