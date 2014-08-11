@@ -375,6 +375,17 @@
             // Sets a transient to trigger a redirect upon completion of activation procedure
             set_transient( '_wprss_activation_redirect', true, 30 );
         }
+		
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		// check for plugin using plugin name
+		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
+			$wpseo_titles = get_option('wpseo_titles', array());
+			if ( isset( $wpseo_titles['hideeditbox-wprss_feed'] ) ) {
+				$wpseo_titles['hideeditbox-wprss_feed'] = TRUE;
+				$wpseo_titles['hideeditbox-wprss_feed_item'] = TRUE;
+			}
+			update_option( 'wpseo_titles', $wpseo_titles );
+		} 
     }    
 
 
