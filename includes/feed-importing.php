@@ -62,31 +62,34 @@
 			if ( $items === NULL ) $items = array();
 
 			// If using a limit ...
-			if ( $feed_limit !== NULL ) {
-				// slice the items array using the feed meta limit
-				// @todo -	Check current number of feed items for source, and delete oldest to make room for new, to keep to the limit.
-				//			Use wprss_get_feed_items_for_source
-				
+			if ( $feed_limit === NULL ) {
+				$items_to_insert = $items;
+			} else {
 				$items_to_insert = array_slice( $items, 0, $feed_limit );
+			}
 
-				// Gather the permalinks of existing feed item's related to this feed source
-				$existing_permalinks = get_existing_permalinks( $feed_ID );
+			// Gather the permalinks of existing feed item's related to this feed source
+			$existing_permalinks = get_existing_permalinks( $feed_ID );
 
-				// Generate a list of items fetched, that are not already in the DB
-				$new_items = array();
-				foreach( $items_to_insert as $item ) {
-					$permalink = wprss_normalize_permalink( $item->get_permalink() );
-					if ( !in_array( trim($permalink), $existing_permalinks ) ) {
-						$new_items[] = $item;
-					}
+			// Generate a list of items fetched, that are not already in the DB
+			$new_items = array();
+			foreach( $items_to_insert as $item ) {
+				$permalink = wprss_normalize_permalink( $item->get_permalink() );
+				// Check if not blacklisted and not already imported
+				if ( wprss_is_blacklisted( $permalink ) === FALSE && !in_array( trim($permalink), $existing_permalinks ) ) {
+					$new_items[] = $item;
 				}
+			}
+			$items_to_insert = $new_items;
 
+			// If using a limit - delete any excess items to make room for the new items
+			if ( $feed_limit !== NULL ) {
 				// Get the number of feed items in DB, and their count
 				$db_feed_items = wprss_get_feed_items_for_source( $feed_ID );
 				$num_db_feed_items = $db_feed_items->post_count;
+				
 				// Get the number of feed items we can store until we reach the limit
 				$num_can_insert = $feed_limit - $num_db_feed_items;
-				
 				// Calculate how many feed items we must delete before importing, to keep to the limit
 				$num_feed_items_to_delete = count( $new_items ) - $num_can_insert;
 
@@ -94,16 +97,11 @@
 				$db_feed_items_reversed = array_reverse( $db_feed_items->posts );
 				// Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
 				$feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
+
 				// Iterate the feed items and delete them
 				foreach ( $feed_items_to_delete as $key => $post ) {
 					wp_delete_post( $post->ID, TRUE );
 				}
-
-				//$items_to_insert = $new_items;
-
-			}
-			else { 
-				$items_to_insert = $items;
 			}
 			
 			update_post_meta( $feed_ID, 'wprss_last_update', time() );
