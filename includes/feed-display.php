@@ -219,7 +219,9 @@
                 echo $link_before;
 
                 // The Title
-                echo wprss_link_display( $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link') );
+                $item_title = wprss_link_display( $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link') );
+                $item_title = apply_filters('wprss_item_title', $item_title, $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link'));
+                echo $item_title;
 
                 // FEED ITEM META ?>
                 <div class='wprss-feed-meta'>
