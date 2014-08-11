@@ -259,7 +259,8 @@
                 if ( wprss_get_general_setting('date_enable') == 1 && wprss_get_general_setting('time_ago_format_enable') == 1 ) {
                     $time_ago = human_time_diff( $timestamp, time() ); ?>
                     <div class="wprss-time-ago">
-                        <?php echo $time_ago; ?> ago
+                        <?php $time_ago_text = apply_filters('wprss_item_time_ago', $time_ago) ?>
+                        <?php echo $time_ago_text; ?> ago
                     </div>
                     <?php
                 }
