@@ -248,7 +248,8 @@
                     <?php $author = get_post_meta( get_the_ID(), 'wprss_item_author', TRUE );
                     if ( wprss_get_general_setting('authors_enable') == 1 && $author !== NULL && is_string( $author ) && $author !== '' ) : ?>
                         <span class="feed-author">
-                            By <?php echo $author; ?>
+                            <?php $author_text = apply_filters('wprss_item_author', $author) ?>
+                            By <?php echo $author_text; ?>
                         </span>
                     <?php endif; ?>
 
