@@ -19,7 +19,7 @@
             'wprss_feed_post_type_labels', 
             array(
                 'name'                  => __( 'Feed Sources', 'wprss' ),
-                'singular_name'         => __( 'Feed', 'wprss' ),
+                'singular_name'         => __( 'Feed Source', 'wprss' ),
                 'add_new'               => __( 'Add New', 'wprss' ),
                 'all_items'             => __( 'All Feed Sources', 'wprss' ),
                 'add_new_item'          => __( 'Add New Feed Source', 'wprss' ),
@@ -68,13 +68,13 @@
         $labels = apply_filters( 
             'wprss_feed_item_post_type_labels', 
             array(
-                'name'                  => __( 'Imported Feeds', 'wprss' ),
-                'singular_name'         => __( 'Imported Feed', 'wprss' ),
-                'all_items'             => __( 'Imported Feeds', 'wprss' ),
-                'view_item'             => __( 'View Imported Feed', 'wprss' ),                            
-                'search_items'          => __( 'Search Imported Feeds', 'wprss' ),
-                'not_found'             => __( 'No Imported Feeds Found', 'wprss' ),
-                'not_found_in_trash'    => __( 'No Imported Feeds Found In Trash', 'wprss' )
+                'name'                  => __( 'Feed Items', 'wprss' ),
+                'singular_name'         => __( 'Feed Item', 'wprss' ),
+                'all_items'             => __( 'Feed Items', 'wprss' ),
+                'view_item'             => __( 'View Feed Items', 'wprss' ),
+                'search_items'          => __( 'Search Feed Items', 'wprss' ),
+                'not_found'             => __( 'No Feed Items Found', 'wprss' ),
+                'not_found_in_trash'    => __( 'No Feed Items Found In Trash', 'wprss' )
             )
         );
 
