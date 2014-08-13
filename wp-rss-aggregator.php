@@ -515,7 +515,7 @@
 
 		if ( empty($tzstring) ) { 
             $offset = (int)get_option( 'gmt_offset' );
-            $tzstring = timezone_name_from_abbr( '', $offset * 60 * 60, 0 );
+            $tzstring = timezone_name_from_abbr( '', $offset * 60 * 60, 1 );
 		}
 
 		return $tzstring;
