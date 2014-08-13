@@ -50,14 +50,16 @@
         );
         */
 
-        add_meta_box(
-            'wprss-like-meta',
-            __( 'Like This Plugin?', 'wprss' ),
-            'wprss_like_meta_box_callback',
-            'wprss_feed',
-            'side',
-            'low'
-        );
+        if ( !defined('WPRSS_FTP_VERSION') ) {
+            add_meta_box(
+                'wprss-like-meta',
+                __( 'Like This Plugin?', 'wprss' ),
+                'wprss_like_meta_box_callback',
+                'wprss_feed',
+                'side',
+                'low'
+            );
+        }
 
         /*
         add_meta_box(
