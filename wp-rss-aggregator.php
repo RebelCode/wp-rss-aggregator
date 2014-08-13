@@ -521,3 +521,44 @@
 		return $tzstring;
 	}
     
+    /**
+     * @see http://wordpress.stackexchange.com/questions/94755/converting-timestamps-to-local-time-with-date-l18n#135049
+     * @param string|null $format Format to use. Default: Wordpress date and time format.
+     * @param int|null $timestamp The timestamp to localize. Default: time().
+     * @return string The formatted datetime, localized and offset for local timezone.
+     */
+    function local_date_i18n($timestamp = null, $format = null) {
+        $format = is_null($format) ? get_option('date_format') . ' ' . get_option('time_format') : $format;
+        $timestamp = $timestamp ?: time();
+        
+        $timezone_str = get_timezone_string() ?: 'UTC';
+        $timezone = new \DateTimeZone($timezone_str);
+
+        // The date in the local timezone.
+        $date = new \DateTime(null, $timezone);
+        $date->setTimestamp($timestamp);
+        $date_str = $date->format('Y-m-d H:i:s');
+        
+        // Pretend the local date is UTC to get the timestamp
+        // to pass to date_i18n().
+        $utc_timezone = new \DateTimeZone('UTC');
+        $utc_date = new \DateTime($date_str, $utc_timezone);
+        $timestamp = $utc_date->getTimestamp();
+
+        return date_i18n($format, $timestamp, true);
+    }
+    
+    /**
+     * Gets an internationalized and localized datetime string, defaulting
+     * to WP RSS format.
+     * 
+     * @see local_date_i18n;
+     * @param string|null $format Format to use. Default: Wordpress date and time format.
+     * @param int|null $timestamp The timestamp to localize. Default: time().
+     * @return string The formatted datetime, localized and offset for local timezone.
+     */
+    function wprss_date_i18n($timestamp = null, $format = null) {
+        $format = is_null($format) ? wprss_get_general_setting('date_format') : $format;
+        
+        return local_date_i18n($timestamp, $format);
+    }
