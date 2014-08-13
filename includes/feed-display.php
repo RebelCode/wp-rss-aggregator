@@ -195,7 +195,7 @@
                 // Fallback for feeds created with older versions of the plugin
                 if ( $source_url === '' ) $source_url = get_post_meta( $feed_source_id, 'wprss_url', true );
                 // convert from Unix timestamp
-                $date = date_i18n( wprss_get_general_setting('date_format'), $timestamp );
+                $date = wprss_date_i18n( $timestamp );
 
                 // Prepare the title
                 $feed_item_title = get_the_title();
