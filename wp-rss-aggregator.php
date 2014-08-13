@@ -499,3 +499,25 @@
     function wprss_disable() {
         return FALSE;
     }
+    
+    /**
+     * Gets the timezone string that corresponds to the timezone set for
+     * this site. If the timezone is a UTC offset, or if it is not set, still
+     * returns a valid timezone string.
+     * However, if no actual zone exists in the configured offset, the result
+     * may be rounded up, or failure.
+     * 
+     * @see http://pl1.php.net/manual/en/function.timezone-name-from-abbr.php
+     * @return string A valid timezone string, or false on failure.
+     */
+    function get_timezone_string() {
+		$tzstring = get_option( 'timezone_string' );
+
+		if ( empty($tzstring) ) { 
+            $offset = (int)get_option( 'gmt_offset' );
+            $tzstring = timezone_name_from_abbr( '', $offset * 60 * 60, 0 );
+		}
+
+		return $tzstring;
+	}
+    
