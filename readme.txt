@@ -51,7 +51,8 @@ Add-Ons that add more functionality to the core plugin are [available for purcha
 * [Keyword Filtering](http://www.wprssaggregator.com/extensions/keyword-filtering) - filter imported feeds based on keywords, so you only get items you're interested in.
 * [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) - display excerpts and thumbnails together with the title, date and source.
 * [Categories](http://www.wprssaggregator.com/extensions/categories) - categorise your feed sources and display items from a particular category at will within your site.
-* [WordAi](http://www.wprssaggregator.com/extension/wordai/) - WordAi allows users to take an RSS feed and turn it into new content that is both completely unique and completely readable..
+* [WordAi](http://www.wprssaggregator.com/extension/wordai/) - WordAi allows users to take an RSS feed and turn it into new content that is both completely unique and completely readable.
+* [Full Text RSS Feeds](http://www.wprssaggregator.com/extension/full-text-rss-feeds/) - connectivity to our Full Text Premium service, which gives you unlimited feed items returned per feed source.
 
 = Demo =
 The core plugin can be seen in use on the [demo page](http://www.wprssaggregator.com/demo/).
