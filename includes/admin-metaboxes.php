@@ -3,9 +3,9 @@
     add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
     /**
      * Set up the input boxes for the wprss_feed post type
-     * 
+     *
      * @since 2.0
-     */   
+     */
     function wprss_add_meta_boxes() {
         global $wprss_meta_fields;
         
@@ -14,7 +14,7 @@
         
         add_meta_box(
             'submitdiv',                            // $id
-            __( 'Save Feed Source', 'wprss' ),      // $title 
+            __( 'Save Feed Source', 'wprss' ),      // $title
             'post_submit_meta_box',                 // $callback
             'wprss_feed',                           // $page
             'side',                                 // $context
@@ -22,23 +22,24 @@
         );
 
         add_meta_box(
-            'preview_meta_box', 
-            __( 'Feed Preview', 'wprss' ), 
-            'wprss_preview_meta_box_callback', 
-            'wprss_feed', 
-            'side', 
+            'preview_meta_box',
+            __( 'Feed Preview', 'wprss' ),
+            'wprss_preview_meta_box_callback',
+            'wprss_feed',
+            'side',
             'high'
         );
 
          add_meta_box(
-            'wprss-feed-processing-meta', 
-            __( 'Feed Processing', 'wprss' ), 
-            'wprss_feed_processing_meta_box_callback', 
-            'wprss_feed', 
-            'side', 
+            'wprss-feed-processing-meta',
+            __( 'Feed Processing', 'wprss' ),
+            'wprss_feed_processing_meta_box_callback',
+            'wprss_feed',
+            'side',
             'high'
         );
 
+        /*
         add_meta_box(
             'wprss-help-meta',
             __( 'WP RSS Aggregator Help', 'wprss' ),
@@ -46,17 +47,21 @@
             'wprss_feed',
             'side',
             'low'
-        );  
+        );
+        */
 
-        add_meta_box(
-            'wprss-like-meta',
-            __( 'Like This Plugin?', 'wprss' ),
-            'wprss_like_meta_box_callback',
-            'wprss_feed',
-            'side',
-            'low'
-        );   
+        if ( !defined('WPRSS_FTP_VERSION') ) {
+            add_meta_box(
+                'wprss-like-meta',
+                __( 'Like This Plugin?', 'wprss' ),
+                'wprss_like_meta_box_callback',
+                'wprss_feed',
+                'side',
+                'low'
+            );
+        }
 
+        /*
         add_meta_box(
             'wprss-follow-meta',
             __( 'Follow Us', 'wprss' ),
@@ -64,20 +69,21 @@
             'wprss_feed',
             'side',
             'low'
-        );   
+        );
+        */
 
         
         add_meta_box(
-            'custom_meta_box', 
-            __( 'Feed Source Details', 'wprss' ), 
-            'wprss_show_meta_box_callback', 
-            'wprss_feed', 
-            'normal', 
+            'custom_meta_box',
+            __( 'Feed Source Details', 'wprss' ),
+            'wprss_show_meta_box_callback',
+            'wprss_feed',
+            'normal',
             'high'
         );
 
         
-    } 
+    }
 
 
     /**     
