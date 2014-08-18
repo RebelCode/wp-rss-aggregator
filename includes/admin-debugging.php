@@ -62,6 +62,7 @@
 				'run'       =>  'wprss_restore_settings',
 				'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=4',
 				'render'    =>  'wprss_debug_restore_settings',
+				'pos'		=>	'bottom'
 			)
 		);
 
@@ -213,15 +214,30 @@
 
             do_action( 'wprss_debugging_before' );
 
+			$bottom = array();
             $debug_operations = wprss_get_debug_operations();
             foreach( $debug_operations as $id => $data ) {
-                if ( isset( $data['render'] ) )
+                if ( !isset( $data['render'] ) ) continue;
+				$pos = isset( $data['pos'] ) ? $data['pos'] : 'normal';
+				if ( $pos == 'normal' ) {
                     call_user_func( $data['render'] );
+				} elseif( $pos == 'bottom' ) {
+					$bottom[$id] = $data;
+				}
             }
 
             do_action( 'wprss_debugging_after' );
 
-            wprss_system_info(); ?>
+            wprss_system_info();
+			
+			if ( count($bottom) > 0 ) {
+				foreach( $bottom as $id => $data ) {
+					if ( !isset( $data['render'] ) ) continue;
+					call_user_func( $data['render'] );
+				}
+			}
+			
+			?>
         </div>
     <?php
     }       
