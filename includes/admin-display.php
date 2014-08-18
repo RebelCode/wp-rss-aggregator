@@ -444,7 +444,7 @@
               wp_unschedule_event( $next_scheduled, 'wprss_fetch_single_feed_hook', $schedule_args );
 
               // Get the interval option for the feed source
-              $interval = get_post_meta( $feed_id, 'wprss_update_interval', TRUE );
+              $interval = get_post_meta( $id, 'wprss_update_interval', TRUE );
               // if the feed source uses its own interval
               if ( $interval !== '' && $interval !== wprss_get_default_feed_source_update_interval() ) {
                 // Add meta in feed source. This is used to notify the source that it needs to reschedule it
