@@ -8,30 +8,48 @@
 	if ( ! defined( 'ABSPATH' ) ) exit;
 
 
+	/**
+	 * Parses the changelog, and returns an array of the last version entry.
+	 * 
+	 * @since 4.4
+	 * @return array
+	 */
 	function wprss_parse_changelog() {
+		// Read changelog file
 		$contents = file_get_contents( WPRSS_DIR . 'changelog.txt' );
+		// Split into lines and remove first line
 		$lines = explode( "\n", $contents );
 		unset($lines[0]);
 		
+		// Lines chosen for last changelog entry i.e. lines until an empty line is encountered
 		$chosen = array();
+		// Iterate the lines
 		foreach( $lines as $line ) {
+			// if the line is empty, stop iterating
 			if ( trim($line) == '' ) {
 				break;
 			}
+			// otherwise, add it to chosen
 			$chosen[] = $line;
 		}
 		
 		$final = array();
+		// Iterate lines
 		foreach( $chosen as $line ) {
+			// Split by colon
 			$colon = strpos( $line, ":" );
-			$key = trim( substr( $line, 0, $colon ) );
-			$val = trim( substr( $line, $colon + 1 ) );
+			// Get the type (New Feature, Enhanced, Fixed Bug)
+			$type = trim( substr( $line, 0, $colon ) );
+			// Get the description
+			$desc = trim( substr( $line, $colon + 1 ) );
+			// Add it to the final array
 			$final[] = array(
-				'type'	=>	$key,
-				'desc'	=>	$val
+				'type'	=>	$type,
+				'desc'	=>	$desc
 			);
 		}
 		
+		// Return the final array
 		return $final;
 	}
 
