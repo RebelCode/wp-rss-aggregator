@@ -41,13 +41,7 @@
                     'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=2',
                     'render'    =>  'wprss_debug_reimport_feeds',
                 ),
-				
-				'reset-settings' => array(
-					'nonce'     =>  'wprss-reset-settings',
-                    'run'       =>  'wprss_reset_settings',
-                    'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=4',
-                    'render'    =>  'wprss_debug_reset_settings',
-				),
+
             )
         );
 
@@ -60,6 +54,16 @@
                 'render'    =>  'wprss_debug_clear_log_button'
             )
         );
+
+		$operations ['reset-settings'] = apply_filters(
+			'wprss_debug_reset_settings_operation',
+			array(
+				'nonce'     =>  'wprss-reset-settings',
+				'run'       =>  'wprss_reset_settings',
+				'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=4',
+				'render'    =>  'wprss_debug_reset_settings',
+			)
+		);
 
         return $operations;
     }
@@ -96,7 +100,7 @@
     function wprss_debug_update_feeds() {
         ?>
         <h3><?php _e( 'Update All Feeds Now', 'wprss' ); ?></h3>
-        <p><?php _e( 'Click the blue button to update all feed items now. This will check all feed sources for any new feed items.', 'wprss' ); ?>
+        <p><?php _e( 'Click the blue button to update all active feed items now. This will check all feed sources for any new feed items.', 'wprss' ); ?>
             <br><?php _e( 'Existing feed items will not be modified.', 'wprss' ); ?>
         </p>
         <p><?php _e( '<strong>Note:</strong> This might take more than a few seconds if you have many feed sources.', 'wprss' ); ?></p>            
