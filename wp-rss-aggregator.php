@@ -531,18 +531,18 @@
         $format = is_null($format) ? get_option('date_format') . ' ' . get_option('time_format') : $format;
         $timestamp = $timestamp ? $timestamp : time();
         
-        $timezone_str = wprss_get_timezone_string() ?: 'UTC';
-        $timezone = new \DateTimeZone($timezone_str);
+        $timezone_str = wprss_get_timezone_string() ? wprss_get_timezone_string() : 'UTC';
+        $timezone = new DateTimeZone($timezone_str);
 
         // The date in the local timezone.
-        $date = new \DateTime(null, $timezone);
+        $date = new DateTime(null, $timezone);
         $date->setTimestamp($timestamp);
         $date_str = $date->format('Y-m-d H:i:s');
         
         // Pretend the local date is UTC to get the timestamp
         // to pass to date_i18n().
-        $utc_timezone = new \DateTimeZone('UTC');
-        $utc_date = new \DateTime($date_str, $utc_timezone);
+        $utc_timezone = new DateTimeZone('UTC');
+        $utc_date = new DateTime($date_str, $utc_timezone);
         $timestamp = $utc_date->getTimestamp();
 
         return date_i18n($format, $timestamp, true);
