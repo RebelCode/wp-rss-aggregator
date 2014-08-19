@@ -4,7 +4,7 @@
      * 
      * @since 4.2
      */ 
-    function wprss_help_page_display() {        
+    function wprss_help_page_display() {
         ?>
 
         <div class="wrap">
@@ -20,8 +20,8 @@
             <h3>Support Forums - Core (free version) Plugin Users Only</h3>
             <p>If you're using the free version of the plugin found on WordPress.org, you can ask questions on the <a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.</p>
             <h3>Email Ticketing System - Premium Add-on Users Only</h3>
-            <p>If you still can't find an answer to your query after reading the documentation and going through the FAQ, just <a href="http://www.wprssaggregator.com/contact/">open a support request ticket</a>.<br> 
+            <p>If you still can't find an answer to your query after reading the documentation and going through the FAQ, just <a href="http://www.wprssaggregator.com/contact/">open a support request ticket</a>.<br>
             We'll be happy to help you out.</p>
         </div>
     <?php
-    }  
+    }
