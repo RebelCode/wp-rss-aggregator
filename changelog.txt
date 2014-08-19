@@ -1,3 +1,6 @@
+4.4.2 (2014-08-19)
+Fixed bug: Fatal error when using PHP version 5.3 or lower.
+
 4.4.1 (2014-08-18)
 Enhanced: Various improvements to the plugin interface and texts.
 Enhanced: Moved the restore default settings button farther down the Debugging page, to avoid confusion with the delete button.
