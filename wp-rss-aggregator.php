@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.4.1
+    Version: 4.4.2
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.4.1
+     * @version   4.4.2
      * @since     1.0
      * @author    Jean Galea <info@jeangalea.com>
      * @copyright Copyright (c) 2012-2014, Jean Galea
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.4.1', true );
+        define( 'WPRSS_VERSION', '4.4.2', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
@@ -529,7 +529,7 @@
      */
     function wprss_local_date_i18n($timestamp = null, $format = null) {
         $format = is_null($format) ? get_option('date_format') . ' ' . get_option('time_format') : $format;
-        $timestamp = $timestamp ?: time();
+        $timestamp = $timestamp ? $timestamp : time();
         
         $timezone_str = wprss_get_timezone_string() ?: 'UTC';
         $timezone = new \DateTimeZone($timezone_str);
