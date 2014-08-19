@@ -1,11 +1,11 @@
 === WP RSS Aggregator ===
-Contributors: jeangalea, wprssaggregator, Mekku, xedin.unknown
+Contributors: jeangalea, Mekku, xedin.unknown
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
 Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 4.4.2
+Stable tag: 4.4.3
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -162,6 +162,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.4.3 (2014-08-19) =
+* Fixed bug: Fatal error when using PHP version 5.3 or lower.
 
 = 4.4.2 (2014-08-19) =
 * Fixed bug: Fatal error when using PHP version 5.3 or lower.

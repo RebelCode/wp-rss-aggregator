@@ -1,3 +1,6 @@
+4.4.3 (2014-08-19)
+Fixed bug: Fatal error when using PHP version 5.3 or lower.
+
 4.4.2 (2014-08-19)
 Fixed bug: Fatal error when using PHP version 5.3 or lower.
 
