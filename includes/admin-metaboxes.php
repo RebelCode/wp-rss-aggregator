@@ -140,6 +140,9 @@
 
         // Use nonce for verification
         wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
+            
+            // Fix for WordpRess SEO JS issue
+            echo '<input type="hidden" id="content" value="" />';
 
             // Begin the field table and loop
             echo '<table class="form-table wprss-form-table">';
