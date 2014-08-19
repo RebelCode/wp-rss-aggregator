@@ -31,9 +31,9 @@
      * @package   WPRSSAggregator
      * @version   4.4.3
      * @since     1.0
-     * @author    Jean Galea <info@jeangalea.com>
+     * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2014, Jean Galea
-     * @link      http://www.wpmayor.com/
+     * @link      http://www.wprssaggregator.com/
      * @license   http://www.gnu.org/licenses/gpl.html
      */
 
