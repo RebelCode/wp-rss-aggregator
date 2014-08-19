@@ -529,7 +529,7 @@
      */
     function wprss_local_date_i18n($timestamp = null, $format = null) {
         $format = is_null($format) ? get_option('date_format') . ' ' . get_option('time_format') : $format;
-        $timestamp = $timestamp ?: time();
+        $timestamp = $timestamp ? $timestamp : time();
         
         $timezone_str = wprss_get_timezone_string() ?: 'UTC';
         $timezone = new \DateTimeZone($timezone_str);
