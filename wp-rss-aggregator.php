@@ -468,7 +468,7 @@
         $timestamp = $timestamp ? $timestamp : time();
         
         $timezone_str = wprss_get_timezone_string() ? wprss_get_timezone_string() : 'UTC';
-        $timezone = new \DateTimeZone( $timezone_str );
+        $timezone = new DateTimeZone( $timezone_str );
 
         // The date in the local timezone.
         $date = new DateTime( null, $timezone );
