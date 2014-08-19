@@ -213,7 +213,6 @@
     }
 
 
-
     add_filter( 'wprss_admin_pointers', 'wprss_check_tracking_notice' );
     /**
      * Сhecks the tracking option and if not set, shows a pointer with opt in and out options.
@@ -248,7 +247,6 @@
         }
         else return $pointers;
     }
-
 
 
     add_action( 'admin_enqueue_scripts', 'wprss_prepare_pointers', 1000 );
@@ -380,9 +378,9 @@
         }
 		
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		// check for plugin using plugin name
+		// Check if WordPress SEO is activate, if yes set its options for hiding the metaboxes on the wprss_feed and wprss_feed_item screens
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-			$wpseo_titles = get_option('wpseo_titles', array());
+			$wpseo_titles = get_option( 'wpseo_titles', array() );
 			if ( isset( $wpseo_titles['hideeditbox-wprss_feed'] ) ) {
 				$wpseo_titles['hideeditbox-wprss_feed'] = TRUE;
 				$wpseo_titles['hideeditbox-wprss_feed_item'] = TRUE;
@@ -398,7 +396,7 @@
      * @since 1.0
      */           
     function wprss_deactivate() {
-        // on deactivation remove the cron job 
+        // On deactivation remove the cron job 
         if ( wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {
             wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
         }
@@ -418,7 +416,6 @@
     }
 
 
-
     /**
      * Utility filter function that returns TRUE;
      *
@@ -427,6 +424,7 @@
     function wprss_enable() {
         return TRUE;
     }
+
 
      /**
      * Utility filter function that returns FALSE;
@@ -451,40 +449,42 @@
 		$tzstring = get_option( 'timezone_string' );
 
 		if ( empty($tzstring) ) { 
-            $offset = (int)get_option( 'gmt_offset' );
+            $offset = ( int )get_option( 'gmt_offset' );
             $tzstring = timezone_name_from_abbr( '', $offset * 60 * 60, 1 );
 		}
 
 		return $tzstring;
 	}
     
+
     /**
      * @see http://wordpress.stackexchange.com/questions/94755/converting-timestamps-to-local-time-with-date-l18n#135049
      * @param string|null $format Format to use. Default: Wordpress date and time format.
      * @param int|null $timestamp The timestamp to localize. Default: time().
      * @return string The formatted datetime, localized and offset for local timezone.
      */
-    function wprss_local_date_i18n($timestamp = null, $format = null) {
-        $format = is_null($format) ? get_option('date_format') . ' ' . get_option('time_format') : $format;
+    function wprss_local_date_i18n( $timestamp = null, $format = null ) {
+        $format = is_null( $format ) ? get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) : $format;
         $timestamp = $timestamp ? $timestamp : time();
         
         $timezone_str = wprss_get_timezone_string() ?: 'UTC';
-        $timezone = new \DateTimeZone($timezone_str);
+        $timezone = new \DateTimeZone( $timezone_str );
 
         // The date in the local timezone.
-        $date = new \DateTime(null, $timezone);
-        $date->setTimestamp($timestamp);
-        $date_str = $date->format('Y-m-d H:i:s');
+        $date = new \DateTime( null, $timezone );
+        $date->setTimestamp( $timestamp );
+        $date_str = $date->format( 'Y-m-d H:i:s' );
         
         // Pretend the local date is UTC to get the timestamp
         // to pass to date_i18n().
-        $utc_timezone = new \DateTimeZone('UTC');
-        $utc_date = new \DateTime($date_str, $utc_timezone);
+        $utc_timezone = new \DateTimeZone( 'UTC' );
+        $utc_date = new \DateTime( $date_str, $utc_timezone );
         $timestamp = $utc_date->getTimestamp();
 
-        return date_i18n($format, $timestamp, true);
+        return date_i18n( $format, $timestamp, true );
     }
     
+
     /**
      * Gets an internationalized and localized datetime string, defaulting
      * to WP RSS format.
@@ -494,8 +494,8 @@
      * @param int|null $timestamp The timestamp to localize. Default: time().
      * @return string The formatted datetime, localized and offset for local timezone.
      */
-    function wprss_date_i18n($timestamp = null, $format = null) {
-        $format = is_null($format) ? wprss_get_general_setting('date_format') : $format;
+    function wprss_date_i18n( $timestamp = null, $format = null ) {
+        $format = is_null( $format ) ? wprss_get_general_setting( 'date_format' ) : $format;
         
-        return wprss_local_date_i18n($timestamp, $format);
+        return wprss_local_date_i18n( $timestamp, $format );
     }
