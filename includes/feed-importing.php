@@ -12,8 +12,6 @@
 	add_filter('wprss_normalize_permalink', 'wprss_convert_video_permalink', 100);
 	
 
-
-
 	add_action( 'wprss_fetch_single_feed_hook', 'wprss_fetch_insert_single_feed_items' );
 	/**
 	 * The main feed fetching function.
