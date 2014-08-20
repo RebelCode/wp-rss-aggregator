@@ -5,7 +5,6 @@
      * @package WPRSSAggregator
      */
 
-
     /**
      * Returns whether or not the feed source will forcefully fetch the next fetch,
      * ignoring whether or not it is paused or not.
@@ -18,7 +17,6 @@
         $force = get_post_meta( $source_id, 'wprss_force_next_fetch', TRUE );
         return ( $force !== '' || $force == '1' );
     }
-
 
 
     /**
@@ -62,7 +60,6 @@
         ) );
         return $feed_sources;
     }
-
 
 
     /**
@@ -148,7 +145,6 @@
     }
 
 
-
     /**
      * Returns the image of the feed.
      * The reason this function exists is for add-ons to be able to detect if the plugin core
@@ -224,7 +220,6 @@
         	}
         }
     }
-
 
 
     add_action( 'added_post_meta', 'wprss_update_feed_meta', 10, 4 );
@@ -353,7 +348,6 @@
     }
 
 
-
     /**
      * Returns whether or not the feed source is deleting its feeed items.
      *
@@ -380,7 +374,6 @@
     }
 
 
-
     /**
      * Returns the given parameter as a string. Used in wprss_truncate_posts()
      *
@@ -390,7 +383,6 @@
     function wprss_return_as_string( $item ) {
         return "'$item'";
     }
-
 
 
     /**
@@ -487,10 +479,7 @@
         if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === TRUE && isset( $general_settings['limit_feed_items_db'] ) ) {
             wprss_old_truncate_posts();
         }
-
     }
-
-
 
 
     /**

@@ -122,10 +122,6 @@
 	}
 
 
-
-
-
-
 	/**
 	 * Fetches the feed items from a feed at the given URL.
 	 *
@@ -154,11 +150,6 @@
 			return NULL;
 		}
 	}
-
-
-
-
-
 
 
 	/**
@@ -224,7 +215,6 @@
 	}
 
 
-
 	/**
 	 * Normalizes the given permalink.
 	 *
@@ -251,6 +241,7 @@
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?' . preg_quote('news.google.com', '!') . '.*!');
 	}
 	
+
 	/**
 	 * Extracts the actual URL from a Bing permalink
 	 * 
@@ -260,6 +251,7 @@
 	function wprss_bing_news_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('bing.com/news', '!') . '.*!');
 	}
+
 
 	/**
 	 * Checks if the permalink is a tracking permalink based on host, and if
@@ -313,7 +305,6 @@
 	}
 
 
-	
 	/**
 	 * Converts YouTube, Vimeo and DailyMotion video urls
 	 * into embedded video player urls.
@@ -359,9 +350,6 @@
 
 		return $permalink;
 	}
-
-
-
 
 
 	/**
@@ -459,9 +447,6 @@
 	}
 
 
-
-
-
 	/**
 	 * Inserts the appropriate post meta for feed items.
 	 *
@@ -483,11 +468,6 @@
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
 		do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
 	}
-
-
-
-
-
 
 
 	/**
@@ -522,6 +502,7 @@
 			wp_reset_postdata(); // Restore the $post global to the current post in the main query
 		}
 	}
+
 
 	/**
 	 * Runs the above function with parameter FALSE
