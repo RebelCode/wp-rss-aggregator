@@ -164,13 +164,13 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 == Changelog ==
 
 = 4.4.4 (2014-08-19) =
-* Fixed bug: More fatal errors when using PHP version 5.3 or lower.
+* Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
 = 4.4.3 (2014-08-19) =
-* Fixed bug: Fatal error when using PHP version 5.3 or lower.
+* Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
 = 4.4.2 (2014-08-19) =
-* Fixed bug: Fatal error when using PHP version 5.3 or lower.
+* Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
 = 4.4.1 (2014-08-18) =
 * Enhanced: Various improvements to the plugin interface and texts.
