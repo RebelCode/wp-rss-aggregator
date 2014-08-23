@@ -98,11 +98,11 @@ function wprss_default_license_settings( $addon ) {
 /**
  * Returns the saved license code.
  *
- * @since 2.9.6
+ * @since 4.4.5
  */
 function wprss_get_license_key( $addon ) {
 	// Get default and current options
-	$defaults = wpprs_default_license_settings( $addon );
+	$defaults = wprss_default_license_settings( $addon );
 	$keys = get_option( 'wprss_settings_license_keys', array() );
 	// Prepare the array key and target
 	$k = "{$addon}_license_key";
@@ -114,11 +114,11 @@ function wprss_get_license_key( $addon ) {
 /**
  * Returns the saved license code.
  *
- * @since 2.9.6
+ * @since 4.4.5
  */
 function wprss_get_license_status( $addon ) {
 	// Get the default and current options
-	$defaults = wpprs_default_license_settings( $addon );
+	$defaults = wprss_default_license_settings( $addon );
 	$statuses = get_option( 'wprss_settings_license_statuses', array() );
 	// Prepare the key
 	$k = "{$addon}_license_status";
