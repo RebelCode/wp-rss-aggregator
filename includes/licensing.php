@@ -78,13 +78,13 @@ function wprss_edd_deactivate_license( $addon, $license_key = NULL ) {
 /**
 * Returns an array of the default license settings. Used for plugin activation.
 *
-* @since 1.0
+* @since 4.4.5
 *
 */
-function wpprs_default_license_settings( $addon ) {
+function wprss_default_license_settings( $addon ) {
 	// Set up the default license settings
 	$settings = apply_filters(
-		'wpprs_default_license_settings',
+		'wprss_default_license_settings',
 		array(
 			"{$addon}_license_key"		=> FALSE,
 			"{$addon}_license_status"	=> 'invalid'
