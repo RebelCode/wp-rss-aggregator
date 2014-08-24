@@ -376,7 +376,7 @@ class WPRSS_Help {
 		$args = func_get_args();
 		
 		// Adding sufix
-		$args[0] = $filter_name = '_options';
+		$args[0] = $filter_name = 'options';
 		
 		// Applying defaults
 		$args[1] = $options = $this->get_options( $options );
