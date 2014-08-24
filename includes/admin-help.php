@@ -549,9 +549,14 @@ class WPRSS_Help {
 		// Get handle HTML
 		$output = $this->get_tooltip_handle_html( $text, $id, $options );
 		
-		return $this->evaluate_boolean( $options['is_enqueue_tooltip_content'] )
-				? $output->get_tooltip_content_html( $text, $id, $options )
-				: $output;
+		if( $this->evaluate_boolean( $options['is_enqueue_tooltip_content'] ) ) {
+			$this->enqueue_tooltip_content($text, $id, $options);
+		}
+		else {
+			$output .= $this->get_tooltip_content_html( $text, $id, $options );
+		}
+		
+		return $output;
 	}
 	
 	public function enqueue_tooltip_content( $text, $id, $options = array() ) {
