@@ -90,6 +90,7 @@ class WPRSS_Help {
 	public static function init() {
 		// Actions
 		add_action( 'admin_enqueue_scripts', array( self::get_instance(), '_admin_enqueue_scripts' ) );
+		add_action( 'admin_footer', array( self::get_instance(), '_admin_footer' ) );
 	}
 	
 
@@ -108,7 +109,8 @@ class WPRSS_Help {
 			'tooltip_content_class'			=> 'wprss-tooltip-content',
 			'is_enqueue_tooltip_content'	=> '0',
 			'tooltip_handle_template'		=> '%1$s/help-tooltip-handle.php',
-			'tooltip_content_template'		=> '%1$s/help-tooltip-content.php'
+			'tooltip_content_template'		=> '%1$s/help-tooltip-content.php',
+			'admin_footer_js_template'		=> '%1$s/help-footer-js.php'
 		));
 		$this->_set_options( $this->array_merge_recursive_distinct( $this->get_options_db(), $defaults ) );
 
@@ -267,9 +269,19 @@ class WPRSS_Help {
 		return $this;
 	}
 	
+	
+	public function _admin_footer() {
+		$html = $this->get_admin_footer_js_html();
+		$html = $this->apply_filters( 'admin_footer', $html );
+		
+		echo $html;
+	}
+	
+	
 	public function is_overrides_default_prefix( $string ) {
 		return strpos( $string, self::OVERRIDE_DEFAULT_PREFIX ) === 0;
 	}
+	
 	
 	/**
 	 * @return string This class's text domain
@@ -385,6 +397,48 @@ class WPRSS_Help {
 		$options = call_user_func_array( array( $this, 'apply_filters' ), $args );
 		
 		return $options;
+	}
+	
+	
+	/**
+	 * Parses the tooltip handle template path for placeholders.
+	 * 
+	 * Filters used:
+	 * 
+	 * - `wprss_help_admin_footer_js_html_template`
+	 * 
+	 * @param null|string $path Optional path to parse and retrieve. Default: value of the 'admin_footer_js_template' option.
+	 * @return string Path to the template.
+	 */
+	public function get_admin_footer_js_html_template( $path = null ) {
+		// Default is from options
+		if ( is_null( $path ) ) {
+			$path = $this->get_options( 'admin_footer_js_template' );
+		}
+		
+		// Entry point
+		$path = $this->apply_filters( 'admin_footer_js_html_template', $path );
+		
+		return $this->parse_path( $path );
+	}
+	
+	
+	/**
+	 * Get the HTML of the JavaScript for the footer in Admin Panel.
+	 * 
+	 * Filters used:
+	 * 
+	 * - `wprss_help_admin_footer_js_html`
+	 * 
+	 * @param array $options Any additional options to be used with defaults.
+	 * @return string The HTML.
+	 */
+	public function get_admin_footer_js_html( $options = array() ) {
+		$options = $this->apply_options_filters( 'admin_footer_js_html', $options, $text, $id);
+		
+		$templatePath = $this->get_admin_footer_js_html_template( $options['admin_footer_js_template'] );
+		
+		return $this->get_template($templatePath, $options);
 	}
 	
 	
