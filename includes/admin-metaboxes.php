@@ -101,6 +101,7 @@
             'id'    => $prefix .'url',
             'type'  => 'url',
             'after' => 'wprss_validate_feed_link',
+//			'tooltip' => __( 'We will be retrieving the items from this URL', 'wprss' ) // Example
         );
         
         $wprss_meta_fields[ 'description' ] = array(
@@ -137,6 +138,8 @@
     function wprss_show_meta_box_callback() {
         global $post;
         $meta_fields = wprss_get_custom_fields();
+		$field_tooltip_id_prefix = 'field_';
+		$help = WPRSS_Help::get_instance();
 
         // Use nonce for verification
         wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
@@ -158,27 +161,39 @@
                         if ( isset( $field['before'] ) && !empty( $field['before'] ) ) {
                             call_user_func( $field['before'] );
                         }
+						
+						$tooltip = isset( $field['tooltip'] ) ? trim($field['tooltip']) : null;
+						$tooltip_id = isset( $field['id'] ) ? $field_tooltip_id_prefix . $field['id'] : uniqid( $field_tooltip_id_prefix );
 
                         switch( $field['type'] ) {
                         
                             // text/url
                             case 'url':
                             case 'text':
-                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" size="55" />
-                                    <br><span class="description">'.$field['desc'].'</span>';
+                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" size="55" />';
+								if( $tooltip ) {
+									echo $help->add_tooltip( $tooltip, $tooltip_id );
+								}
+                                echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
                             // textarea
                             case 'textarea':
-                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>
-                                    <br><span class="description">'.$field['desc'].'</span>';
+                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>';
+								if( $tooltip ) {
+									echo $help->add_tooltip( $tooltip, $tooltip_id );
+								}
+								echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
                             // checkbox
                             case 'checkbox':
                                 echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
-                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />
-                                    <label for="'.$field['id'].'">'.$field['desc'].'</label>';
+                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />';
+								if( $tooltip ) {
+									echo $help->add_tooltip( $tooltip, $tooltip_id );
+								}
+                                echo '<label for="'.$field['id'].'">'.$field['desc'].'</label>';
                             break;    
                         
                             // select
@@ -187,13 +202,22 @@
                                 foreach ($field['options'] as $option) {
                                     echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
                                 }
-                                echo '</select><br><span class="description">'.$field['desc'].'</span>';
+                                echo '</select>';
+								
+								if( $tooltip ) {
+									echo $help->add_tooltip( $tooltip, $tooltip_id );
+								}
+								
+								echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;                                            
                         
                             // number
                             case 'number':
-                                echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
-                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />';
+								if( $tooltip ) {
+									echo $help->add_tooltip( $tooltip, $tooltip_id );
+								}
+                                echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
 
                             break;
 
