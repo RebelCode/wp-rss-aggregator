@@ -64,7 +64,7 @@ class WPRSS_Help {
 	static $_instance;
 	
 	protected $_options;
-	protected $_enqueued_tooltip_content;
+	protected $_enqueued_tooltip_content = array();
 
 	const OPTION_NAME = 'wprss_settings_help';
 	const CODE_PREFIX = 'wprss_help_';
@@ -271,7 +271,9 @@ class WPRSS_Help {
 	
 	
 	public function _admin_footer() {
-		$html = $this->get_admin_footer_js_html();
+		$html = '';
+		$html .= $this->get_enqueued_tooltip_content_html() . "\n";
+		$html .= $this->get_admin_footer_js_html();
 		$html = $this->apply_filters( 'admin_footer', $html );
 		
 		echo $html;
@@ -526,7 +528,7 @@ class WPRSS_Help {
 	 * @return string The HTML.
 	 */
 	public function get_tooltip_content_html( $text, $id, $options = array() ) {
-		$options = $this->apply_options_filters( 'tooltip_content_html', $options, $text, $id);
+		$options = $this->apply_options_filters( 'tooltip_content_html', $options, $text, $id );
 		
 		// Add template varialbes
 		$options['tooltip_id'] = $id;
@@ -534,12 +536,12 @@ class WPRSS_Help {
 		
 		$templatePath = $this->get_tooltip_content_html_template( $options['tooltip_content_template'] );
 		
-		return $this->get_template($templatePath, $options);
+		return $this->get_template( $templatePath, $options );
 	}
 	
 	
 	public function add_tooltip( $text, $id, $options = array() ) {
-		if ( !is_array($options) ) {
+		if ( !is_array( $options ) ) {
 			$options = array( 'is_enqueue_tooltip_content' => $options );
 		}
 		
@@ -564,7 +566,7 @@ class WPRSS_Help {
 		
 		// "Error handling" WP style
 		if ( !is_callable( $queue_method ) ) {
-			return new WP_Error( $this->prefix( 'invalid_queue_method' ), $this->__('Could not enqueue tooltip content: the queue method is not a valid callable.'), array(
+			return new WP_Error( $this->prefix( 'invalid_queue_method' ), $this->__( 'Could not enqueue tooltip content: the queue method is not a valid callable.' ), array(
 				'queue_method'			=> $queue_method,
 				'text'					=> $text,
 				'id'					=> $id,
@@ -572,7 +574,7 @@ class WPRSS_Help {
 			));
 		}
 		
-		call_user_func_array( $queue_method, array($text, $id, $options) );
+		call_user_func_array( $queue_method, array( $text, $id, $options ) );
 		
 		return $this;
 	}
@@ -588,11 +590,19 @@ class WPRSS_Help {
 		return $this;
 	}
 	
-	public function get_enqueued_tooltip_content( $hash = null ) {
+	public function get_enqueued_tooltip_content() {
 		return $this->_enqueued_tooltip_content;
 	}
 	
-//	public function get_enqueued_tooltip_content_html
+	public function get_enqueued_tooltip_content_html() {
+		$output = '';
+		foreach ( $this->get_enqueued_tooltip_content() as $_hash => $_vars ) {
+			$options = is_array( $_vars['options'] ) ? $_vars['options'] : array();
+			$output = $this->get_tooltip_content_html( $_vars['text'], $_vars['id'], $options );
+		}
+		
+		echo $output;
+	}
 	
 	
 	/**
@@ -603,7 +613,7 @@ class WPRSS_Help {
 	 * @return boolean Whether or not the value is considered to be false.
 	 */
 	public function evaluate_boolean( $value ) {
-		return (empty( $value ) || strtolower($value) === 'false' || strtolower( $value ) === 'no')
+		return (empty( $value ) || strtolower( $value ) === 'false' || strtolower( $value ) === 'no')
 				? false
 				: true;
 	}
@@ -646,12 +656,12 @@ class WPRSS_Help {
 		$result = array();
 		
 		// If map is not an array, assume it's an indicator
-		if ( !is_array($map) ) {
+		if ( !is_array( $map ) ) {
 			$array = array_values( $array );
 		}
 		
 		// If map is empty, assume keys are in order
-		if ( empty($map) ) {
+		if ( empty( $map ) ) {
 			return $array;
 		}
 		
