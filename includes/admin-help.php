@@ -318,7 +318,7 @@ class WPRSS_Help {
 	 * @return string The hash.
 	 */
 	public function get_hash( $value ) {
-		$args = func_get_array();
+		$args = func_get_args();
 		$glue = self::HASHING_CONCATENATOR;
 		
 		$blob = '';
