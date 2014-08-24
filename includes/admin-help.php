@@ -340,8 +340,8 @@ class WPRSS_Help {
 	 */
 	public function prefix( $string ) {
 		return $this->is_overrides_default_prefix( $string )
-				? $this->get_code_prefix( $string )
-				: substr( $string, 1 );
+				? substr( $string, 1 )
+				: $this->get_code_prefix( $string );
 	}
 	
 	/**
