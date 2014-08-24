@@ -626,6 +626,7 @@ class WPRSS_Help {
 	 */
 	public function parse_template( $string, $data, $map = null ) {
 		$data = $this->array_to_numeric( $data, $map );
+		array_unshift( $data, $string );
 		return call_user_func_array( 'sprintf', $data );
 	}
 }
