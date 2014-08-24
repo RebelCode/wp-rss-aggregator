@@ -245,7 +245,7 @@ class WPRSS_Help {
 	 * @return WPRSS_Help This instance.
 	 */
 	public function _admin_enqueue_scripts() {
-		$scripts = apply_filters( 'wprss_help_admin_scripts', array(
+		$scripts = $this->apply_filters( 'admin_scripts', array(
 			'jquery-ui-tooltip'				=> array()
 		));
 		
