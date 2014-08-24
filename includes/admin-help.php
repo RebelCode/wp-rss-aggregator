@@ -407,7 +407,7 @@ class WPRSS_Help {
 		// Entry point
 		$path = $this->apply_filters( 'tooltip_handle_html_template', $path );
 		
-		return $this->parse_template( $path, array( 'wprss_templates_dir' => wprss_get_templates_dir() ) );
+		return $this->parse_path( $path );
 	}
 	
 	
@@ -455,7 +455,7 @@ class WPRSS_Help {
 		// Entry point
 		$path = $this->apply_filters( 'tooltip_content_html_template', $path );
 		
-		return $this->parse_template( $path, array( 'wprss_templates_dir' => wprss_get_templates_dir() ) );
+		return $this->parse_path( $path  );
 	}
 	
 	
@@ -628,6 +628,39 @@ class WPRSS_Help {
 		$data = $this->array_to_numeric( $data, $map );
 		array_unshift( $data, $string );
 		return call_user_func_array( 'sprintf', $data );
+	}
+	
+	
+	/**
+	 * Parses a path template specifically with WPRSS_Help path placeholders.
+	 * 
+	 * Filters used (in order):
+	 * 
+	 *  1. `parse_path_data_default`;
+	 *  2. `parse_path_data`;
+	 *  3. `parse_path_map`;
+	 *  4. `parse_path_path`.
+	 * 
+	 * @see WPRSS_Help::parse_template()
+	 * @param string $path The path to parse.
+	 * @param null|array $data Any additional data. Will be merged with defaults.
+	 * @param null|array $map The map for parsing.
+	 * @return string The path with placeholders replaced
+	 */
+	public function parse_path( $path, $data = null, $map = null ) {
+		if( is_null( $data ) ) {
+			$data = array();
+		}
+		
+		$defaults = $this->apply_filters( 'parse_path_data_default', array(
+			'wprss_templates_dir'			=> wprss_get_templates_dir()
+		));
+		$data = $this->array_merge_recursive_distinct( $data, $defaults );
+		$data = $this->apply_filters( 'parse_path_data', $data, $path, $map );
+		$map = $this->apply_filters( 'parse_path_map', $map, $data, $path );
+		$path = $this->apply_filters( 'parse_path_path', $path, $data, $map );
+		
+		return $this->parse_template( $path, $data, $map );
 	}
 }
 
