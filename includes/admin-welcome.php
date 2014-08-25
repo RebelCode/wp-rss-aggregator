@@ -106,7 +106,22 @@
 					default: ?>
 		 					<div class="changelog">
 
-								<h2 class="about-headline-callout">New Feed Item Blacklist</h2>
+								<h2 class="about-headline-callout">Bulk Adding Feed Sources</h2>
+								<div class="about-overview">
+									<img src="<?php echo WPRSS_IMG;?>welcome-page/bulk-add.png" />
+									<p>
+										The new bulk adding option saves you time by allowing you to enter your feed names and URLs
+										all at once.
+										<br/>
+										Simply type in or paste your feed sources, and with the press of a button, your feed sources will instantly be created!
+										<br/>
+										Try it now from the 
+										<a href="<?php echo admin_url('edit.php?post_type=wprss_feed&page=wprss-import-export-settings'); ?>">Import &amp; Export</a>
+										page.
+									</p>
+								</div>
+								
+								<h2 class="about-headline-callout">Feed Item Blacklist</h2>
 								<div class="feature-section col three-col">
 									<div class="col-1">
 										<img src="<?php echo WPRSS_IMG;?>welcome-page/trash-feed-item.png" />
@@ -135,27 +150,8 @@
 										</p>
 									</div>
 								</div>
-								
-								<h2 class="about-headline-callout">New Author Importing!</h2>
-								<div class="about-overview">
-									<img src="<?php echo WPRSS_IMG;?>welcome-page/authors.png" />
-									<h4>Author Names for Feed Items</h4>
-									<p>
-										Show the name of the author for each feed item you import!
-										<br/>
-										Perfect for giving attribution to the original author of an article.
-										<br/>
-										Head over to the
-										<a href="<?php echo $settings_url; ?>">settings page</a>
-										to enable the option and start importing authors names!
-										<br/>
-										More options soon!
-									</p>
-								</div>
-								
 
 								<hr/>
-								
 
 								<h3>Check out our add-ons:</h3>
 
