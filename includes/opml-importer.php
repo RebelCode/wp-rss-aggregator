@@ -129,35 +129,42 @@
 		 * @since 3.3
 		 * @param $outline The outline OPML element
 		 */
-		 private function import_opml_feed( $outline ) {
-		 	// IF the necassary fields are not present in the element
-		 	if ( !isset( $outline['title'] ) && !isset( $outline['xmlUrl'] ) ) {
-		 		// Check if the element is an array
-		 		if ( is_array( $outline ) ) {
-		 			// Treat it as an array of sub <outline> elements
-		 			$inserted_ids = array();
-		 			// Insert all sub outline elements
-		 			foreach ( $outline as $key => $sub_outline ) {
-		 				$inserted_ids[] = $this->import_opml_feed( $sub_outline );
-		 			}
-		 			// Return the inserted IDs
-		 			return $inserted_ids;
-		 		}
-		 		// IF not an array, return NULL
-		 		else return NULL;
-		 	}
-
-		 	// Create an associative array, with the feed's properties
-			$feed = array(
-				'post_title' => $outline['title'],
-				'post_content' => '',
-				'post_status' => 'publish',
-				'post_type' => 'wprss_feed'
+		private function import_opml_feed( $outline ) {
+			// IF the necassary fields are not present in the element
+			if ( !isset( $outline['title'] ) && !isset( $outline['xmlUrl'] ) ) {
+				// Check if the element is an array
+				if ( is_array( $outline ) ) {
+					// Treat it as an array of sub <outline> elements
+					$inserted_ids = array();
+					// Insert all sub outline elements
+					foreach ( $outline as $key => $sub_outline ) {
+						$inserted_ids[] = $this->import_opml_feed( $sub_outline );
+					}
+					// Return the inserted IDs
+					return $inserted_ids;
+				}
+				// IF not an array, return NULL
+				else return NULL;
+			} 
+			// Create an associative array, with the feed's properties
+			$feed = apply_filters(
+				'wprss_opml_insert_feed', 
+				array(
+					'post_title' => $outline['title'],
+					'post_content' => '',
+					'post_status' => 'publish',
+					'post_type' => 'wprss_feed'
+				)
 			);
+			
 			// Insert the post into the database and store the inserted ID
 			$inserted_id = wp_insert_post( $feed );
 			// Update the post's meta
-			update_post_meta( $inserted_id, 'wprss_url', $outline['xmlUrl'] );
+			update_post_meta( $inserted_id, 'wprss_url', $outline['xmlUrl'] ); 
+			
+			// Trigger an action, to allow modifications to the inserted feed, based on the outline element
+			do_action( 'wprss_opml_inserted_feed', $inserted_id, $outline );
+
 			// Return inserted ID
 			return $inserted_id;
 		 }

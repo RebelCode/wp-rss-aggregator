@@ -108,6 +108,12 @@ class WPRSS_OPML {
 			'description' => (string) $element['description']
 		);
 
+		// Check for category attribute
+		if ( isset( $element['category'] ) ) {
+			// split categories by comma, and trim each category string
+			$result['categories'] = array_map( 'trim', explode(',', $category) );
+		}
+		
 		/*
 		 * Check for existence of htmlUrl and xmlUrl.
 		 * If not found, use lowercased attribute names.
