@@ -2,6 +2,16 @@
 
 
 /**
+ * Returns all registered addons.
+ * 
+ * @since 4.4.5
+ */
+function wprss_get_addons() {
+	return apply_filters( 'wprss_register_addon', array() );
+}
+
+
+/**
  * Calls the EDD Software Licensing API to perform licensing tasks on the addon's store server.
  *
  * @since 4.4.5
@@ -124,16 +134,6 @@ function wprss_get_license_status( $addon ) {
 	$k = "{$addon}_license_status";
 	// Return the appropriate value
 	return isset( $statuses["{$addon}_license_status"] )? $statuses[$k] : $defaults[$k];
-}
-
-
-/**
- * Returns all registered addons.
- * 
- * @since 4.4.5
- */
-function wprss_get_addons() {
-	return apply_filters( 'wprss_register_addon', array() );
 }
 
 
