@@ -30,12 +30,12 @@
 				// Split by comma
 				$parts = array_map('trim', explode(",", $line) );
 				// Check if split was successful
-				if ( count($parts) < 2 || empty($name) || empty($url) ) {
-					continue;
-				}
+				if ( count($parts) < 2 ) continue;
 				// Prepare the feed data
 				$name = $parts[0];
 				$url = $parts[1];
+				// Check if both name and url are set
+				if ( empty($name) || empty($url) ) continue;
 				$feed = array(
 					'post_title'	=> $name,
 					'post_status'	=> 'publish',
