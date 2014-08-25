@@ -77,7 +77,13 @@
      * @since 3.0
      */
     function wprss_get_feed_items_query( $settings ) {
-        $posts_per_page = ( isset( $settings['posts_per_page'] ) )? $settings['posts_per_page'] : $settings['feed_limit'];
+		if ( isset( $settings['posts_per_page'] ) ) {
+			$posts_per_page = $settings['posts_per_page'];
+		} elseif( isset( $settings['feed_limit'] ) ) {
+			$posts_per_page = isset( $settings['feed_limit'] );
+		} else {
+			$posts_per_page = -1;
+		}
         global $paged;
         if ( get_query_var('paged') ) {
             $paged = get_query_var('paged');
