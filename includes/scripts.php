@@ -57,6 +57,12 @@
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
         }
 
+		wp_localize_script( 'wprss-admin-custom', 'wprss_urls',
+			array(
+				'import_export' => admin_url('edit.php?post_type=wprss_feed&page=wprss-import-export-settings')
+			)
+		);
+		
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
 
