@@ -57,6 +57,7 @@
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
         }
 
+		// Creates the wprss_urls object in JS
 		wp_localize_script( 'wprss-admin-custom', 'wprss_urls',
 			array(
 				'import_export' => admin_url('edit.php?post_type=wprss_feed&page=wprss-import-export-settings')
