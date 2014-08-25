@@ -6,6 +6,62 @@
      * @since 3.1
      */
 
+	add_action( 'admin_init', 'wp_rss_aggregator_bulk_import' );
+	/**
+	 * Checks for the submission of a bulk import.
+	 * If a bulk submission is made, creates the feed sources.
+	 * 
+	 * @since 4.5
+	 */
+	function wp_rss_aggregator_bulk_import() {
+		// Check if recieving
+		if ( !empty( $_POST['bulk-feeds'] ) ) {
+			// Check nonce
+			check_admin_referer('wprss-bulk-import', 'wprss-bulk-import');
+			// Get the text
+			$bulk_feeds = $_POST['bulk-feeds'];
+			// Split by lines
+			$lines = explode("\n", $bulk_feeds);
+			// Keep a counter
+			global $wprss_bulk_count;
+			$wprss_bulk_count = 0;
+			// Iterate each line
+			foreach( $lines as $line ) {
+				// Split by comma
+				$parts = array_map('trim', explode(",", $line) );
+				// Check if split was successful
+				if ( count($parts) < 2 ) continue;
+				// Prepare the feed data
+				$name = $parts[0];
+				$url = $parts[1];
+				// Check if both name and url are set
+				if ( empty($name) || empty($url) ) continue;
+				$feed = array(
+					'post_title'	=> $name,
+					'post_status'	=> 'publish',
+					'post_type'		=> 'wprss_feed'
+				);
+				// Insert the feed into the DB
+				$inserted_id = wp_insert_post( $feed );
+				// Check if an error occurred
+				if ( is_wp_error($inserted_id) ) continue;
+				// Set the URL
+				update_post_meta($inserted_id, 'wprss_url', $url);
+				// Increment the counter
+				$wprss_bulk_count++;
+			}
+			add_action('admin_notices', 'wprss_notify_bulk_add');
+		}
+	}
+
+	function wprss_notify_bulk_add() {
+		global $wprss_bulk_count; ?>
+		<div class="updated">
+			<p><?php _e('Successfully imported', 'wprss'); ?> <code><?php echo $wprss_bulk_count; ?></code> <?php _e('feed sources','wprss'); ?>.</p>
+		</div>
+		<?php
+	}
+
 
     add_action( 'admin_init', 'wp_rss_aggregator_export', 1 );
 
@@ -131,7 +187,23 @@
         if ( !isset( $_POST['export'] ) ) { ?>
             <div class="wrap">
                 <?php screen_icon( 'wprss-aggregator' ); ?>
-                    <h2><?php _e( 'Import & Export Settings', 'wprss' ); ?></h2>
+				
+				<!-- Bulk Add -->
+				<h2><?php _e( 'Bulk Feed Import', 'wprss' ); ?></h2>
+				<p><?php _e('Import multiple feed sources at once, by entering the name and URLs of your feeds below.', 'wprss'); ?></p>
+				<p><?php _e('Separate the name and the URL using a comma on each line:', 'wprss'); ?>
+					<code><?php _e('Feed Name, http://www.myfeed.com', 'wprss'); ?></code>
+				</p>
+				<form id="bulk-add-form" method="POST">
+					<textarea rows="6" cols="80" form="bulk-add-form" name="bulk-feeds" autofocus></textarea>
+					<br/>
+					<?php wp_nonce_field('wprss-bulk-import', 'wprss-bulk-import'); ?>
+					<input type="submit" class="button-secondary" name="bulk-add" value="Bulk Import" />
+				</form>
+				<hr/>
+				
+				<!-- Settings Import/Export -->
+                <h2><?php _e( 'Import & Export Settings', 'wprss' ); ?></h2>
 
                 <h3><?php _e( 'Export Settings', 'wprss' ); ?></h3>
                 <p><?php _e( 'Click the <strong>Export Settings</strong> button to generate a file containing all the settings used by WP RSS Aggregator', 'wprss' ); ?></p>

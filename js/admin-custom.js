@@ -173,6 +173,9 @@ jQuery(window).load( function(){
 (function($){
     $(window).load( function(){
 
+		// Adds the Bulk Add button
+		$('<a>').text('Bulk Add').attr('href', wprss_urls.import_export).addClass('add-new-h2').insertAfter( $('.add-new-h2') );
+		
         // Initialize all collapsable meta settings
         $('.wprss-meta-slider').each(function(){
             // Get all required elements
