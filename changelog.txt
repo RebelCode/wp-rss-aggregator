@@ -1,3 +1,9 @@
+4.5 (2014-08-25)
+New Feature: Bulk importer allows you to create multiple feed sources at once.
+Enhanced: Improved OPML importer with added hooks.
+Enhanced: Centralized add-on licensing, fixing multiple bugs.
+Fixed bug: Undefined `feed_limit` errors when using the shortcode.
+
 4.4.4 (2014-08-19)
 Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
