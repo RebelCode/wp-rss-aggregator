@@ -245,7 +245,7 @@ function wprss_activate_license_button( $args ) {
 }
 
 
-//add_action( 'admin_init', 'wprss_process_addon_license' );    
+add_action( 'admin_init', 'wprss_process_addon_license' );
 /**
  * Handles the activation/deactivation process 
  * 
@@ -275,15 +275,11 @@ function wprss_process_addon_license() {
 		}
 		
 		// Prepare the action to take
-		if ( isset( $_POST['wprss_kf_license_activate'] ) ) {
-			$action = 'activate';
+		if ( isset( $_POST["wprss_{$id}_license_activate"] ) ) {
+			wprss_edd_activate_license( $id, $license );
 		}
-		elseif ( isset( $_POST['wprss_kf_license_deactivate'] ) ) {
-			$action = 'deactivate';
-		} 
-		else continue;
-		
-		// Call the API accordingly
-		wprss_edd_licensing_api( $id, $license, $action );
+		elseif ( isset( $_POST["wprss_{$id}_license_deactivate"] ) ) {
+			wprss_edd_deactivate_license( $id, $license );
+		}
 	}
 }
