@@ -600,7 +600,7 @@
         $to_delete = array_slice( $feed_items, $start );
         // log -- for now
         foreach( $to_delete as $fi ) {
-            wprss_log_obj( "To delete" , $fi->ID );
+            //wprss_log_obj( "To delete" , $fi->ID );
         }
     }
 
