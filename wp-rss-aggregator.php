@@ -474,15 +474,21 @@
         $timezone = new DateTimeZone( $timezone_str );
 
         // The date in the local timezone.
-        $date = new DateTime( null, $timezone );
-        $date->setTimestamp( $timestamp );
+		$date = new DateTime( null, $timezone );
+		if ( version_compare(PHP_VERSION, '5.3', '>=') ) {
+			$date->setTimestamp( $timestamp );
+		} else {
+			$datetime = getdate( intval($timestamp) );
+			$date->setDate( $datetime['year'] , $datetime['mon'] , $datetime['mday'] );
+			$date->setTime( $datetime['hours'] , $datetime['minutes'] , $datetime['seconds'] );
+		}
         $date_str = $date->format( 'Y-m-d H:i:s' );
         
         // Pretend the local date is UTC to get the timestamp
         // to pass to date_i18n().
         $utc_timezone = new DateTimeZone( 'UTC' );
         $utc_date = new DateTime( $date_str, $utc_timezone );
-        $timestamp = $utc_date->getTimestamp();
+        $timestamp = intval( $utc_date->format('U') );
 
         return date_i18n( $format, $timestamp, true );
     }
