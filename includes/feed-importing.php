@@ -392,7 +392,7 @@
 				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
-				if ( $item !== NULL ) {
+				if ( $item !== NULL || !is_bool($item) ) {
 			
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
@@ -439,6 +439,11 @@
 						update_post_meta( $source, "wprss_error_last_import", "true" );
 						wprss_log_obj( 'Failed to insert post', $feed_item, 'wprss_items_insert_post > wp_insert_post' );
 					}
+				}
+				// If the item is TRUE, then a hook function in the filter inserted the item.
+				// increment the inserted counter
+				elseif ( is_bool($item) && $item === TRUE ) {
+					$items_inserted++;
 				}
 			}
 		}
