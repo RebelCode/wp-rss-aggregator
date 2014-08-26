@@ -392,7 +392,7 @@
 				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
-				if ( $item !== NULL || !is_bool($item) ) {
+				if ( $item !== NULL && !is_bool($item) ) {
 			
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
