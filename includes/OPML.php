@@ -111,7 +111,7 @@ class WPRSS_OPML {
 		// Check for category attribute
 		if ( isset( $element['category'] ) ) {
 			// split categories by comma, and trim each category string
-			$result['categories'] = array_map( 'trim', explode(',', $category) );
+			$result['categories'] = array_map( 'trim', explode(',', $element['category']) );
 		}
 		
 		/*
