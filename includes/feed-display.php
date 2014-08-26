@@ -77,12 +77,10 @@
      * @since 3.0
      */
     function wprss_get_feed_items_query( $settings ) {
-		if ( isset( $settings['posts_per_page'] ) ) {
-			$posts_per_page = $settings['posts_per_page'];
-		} elseif( isset( $settings['feed_limit'] ) ) {
-			$posts_per_page = isset( $settings['feed_limit'] );
+		if( isset( $settings['feed_limit'] ) ) {
+			$posts_per_page = $settings['feed_limit'];
 		} else {
-			$posts_per_page = -1;
+			$posts_per_page = wprss_get_general_setting('feed_limit');
 		}
         global $paged;
         if ( get_query_var('paged') ) {
