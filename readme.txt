@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 4.5
+Stable tag: 4.5.1
 License: GPLv2 or later
 Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
 
@@ -162,6 +162,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.5.1 (2014-08-26) =
+* Fixed bug: Last import feed item count stays at zero.
+* Fixed bug: Datetime::setTimestamp error when using PHP 5.2 or earlier.
+* Fixed bug: The display limit was not working.
+* Fixed bug: Minor bug in licensing.
 
 = 4.5 (2014-08-25) =
 * New Feature: Bulk importer allows you to create multiple feed sources at once.

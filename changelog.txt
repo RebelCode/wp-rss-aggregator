@@ -1,3 +1,9 @@
+4.5.1 (2014-08-26)
+Fixed bug: Last import feed item count stays at zero.
+Fixed bug: Datetime::setTimestamp error when using PHP 5.2 or earlier.
+Fixed bug: The display limit was not working.
+Fixed bug: Minor bug in licensing.
+
 4.5 (2014-08-25)
 New Feature: Bulk importer allows you to create multiple feed sources at once.
 Enhanced: Improved OPML importer with added hooks.
