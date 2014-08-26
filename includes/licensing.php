@@ -149,7 +149,7 @@ function wprss_license_settings() {
 		// Settings Section
 		add_settings_section(
 			"wprss_settings_{$addon_id}_licenses_section",
-			$addon_name . __( 'License', 'wprss' ),
+			$addon_name .' '. __( 'License', 'wprss' ),
 			'__return_empty_string',
 			'wprss_settings_license_keys'
 		);
