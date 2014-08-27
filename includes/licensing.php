@@ -283,3 +283,34 @@ function wprss_process_addon_license() {
 		}
 	}
 }
+
+
+///////////////////////////////////////\\
+//// SET UP UPDATERS					\\
+//////////////////////////////////////////
+$addons = wprss_get_addons();
+// retrieve our license key from the DB
+$licenses = get_option( 'wprss_settings_license_keys' );
+
+// setup the updater
+if ( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+	// load our custom updater
+	include ( WPRSS_INC . 'libraries/EDD_licensing/EDD_SL_Plugin_Updater.php' );
+}
+
+// Iterate the addons
+foreach( $addons as $id => $name ) {
+	// Prepare the data
+	$license = wprss_get_license_key( $id );
+	$uid = strtoupper( $id );
+	$name = constant("WPRSS_{$uid}_SL_ITEM_NAME");
+	$version = constant("WPRSS_{$uid}_VERSION");
+	$path = constant("WPRSS_{$uid}_PATH");
+	// Set up an updater
+	$edd_updater = new EDD_SL_Plugin_Updater( WPRSS_SL_STORE_URL, $path, array( 
+		'version'   => $version,				// current version number
+		'license'   => $license,				// license key (used get_option above to retrieve from DB)
+		'item_name' => $name,					// name of this plugin
+		'author'    => 'Jean Galea'				// author of this plugin
+	));
+}

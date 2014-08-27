@@ -90,6 +90,9 @@
     if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
         define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
     
+	if ( !defined('WPRSS_SL_STORE_URL') ) {
+		define( 'WPRSS_SL_STORE_URL', 'http://www.wprssaggregator.com', TRUE );
+	}
 
     /**
      * Load required files.
