@@ -278,7 +278,7 @@
 
                 // END TEMPLATE - Retrieve buffered output
                 $output .= ob_get_clean();
-                $output = apply_filters( 'wprss_single_feed_output', $output );
+                $output = apply_filters( 'wprss_single_feed_output', $output, $permalink );
                 $output .= "$link_after";
 
             }
