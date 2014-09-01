@@ -167,7 +167,7 @@
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
 		
-		$extra_options = apply_filters( 'wprss_template_extra_options', array(), $args, $feed_source_id );
+		$extra_options = apply_filters( 'wprss_template_extra_options', array(), $args );
 
         // Normalize the source_link option
         $source_link = isset( $general_settings['source_link'] )? $general_settings['source_link'] : 0;
@@ -216,7 +216,8 @@
                 
                 do_action( 'wprss_get_post_data' );
 				
-				$extra_meta = apply_filters( 'wprss_template_extra_meta', array(), $args, get_the_ID(), $feed_source_id );
+				$meta = $extra_options;
+				$extra_meta = apply_filters( 'wprss_template_extra_meta', $meta, $args, get_the_ID() );
 
                 ///////////////////////////////////////////////////////////////
                 // BEGIN TEMPLATE
