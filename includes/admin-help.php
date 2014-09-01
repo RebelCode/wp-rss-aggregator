@@ -71,6 +71,7 @@ class WPRSS_Help {
 	const OVERRIDE_DEFAULT_PREFIX = '!';
 	const TEXT_DOMAIN = 'wprss';
 	const HASHING_CONCATENATOR = '|';
+	const OPTIONS_FILTER_SUFFIX = '_options';
 
 	/**
 	 * Retrieve the singleton instance
@@ -390,7 +391,7 @@ class WPRSS_Help {
 		$args = func_get_args();
 		
 		// Adding sufix
-		$args[0] = $filter_name = 'options';
+		$args[0] = $filter_name .= self::OPTIONS_FILTER_SUFFIX;
 		
 		// Applying defaults
 		$args[1] = $options = $this->get_options( $options );
