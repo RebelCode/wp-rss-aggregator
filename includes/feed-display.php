@@ -213,6 +213,8 @@
                 $text_preceding_date = ltrim( $text_preceding_date . ' ' );
                 
                 do_action( 'wprss_get_post_data' );
+				
+				$extra_meta = apply_filters( 'wprss_feed_item_extra_meta', array() );
 
                 ///////////////////////////////////////////////////////////////
                 // BEGIN TEMPLATE
@@ -223,22 +225,30 @@
                 echo $link_before;
 
                 // The Title
-                echo wprss_link_display( $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link') );
+                $item_title = wprss_link_display( $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link') );
+                $item_title = apply_filters('wprss_item_title', $item_title, $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link'));
+                echo $item_title;
 
+				do_action( 'wprss_after_feed_item_title', get_the_ID(), $feed_source_id, $extra_meta );
+				
                 // FEED ITEM META ?>
                 <div class='wprss-feed-meta'>
 
                     <!-- SOURCE -->
                     <?php if ( wprss_get_general_setting('source_enable') == 1 ) : ?>
                         <span class='feed-source'>
-                            <?php echo $text_preceding_source . wprss_link_display( $source_url, $source_name, $source_link ); ?>
+                            <?php $source_link_text = apply_filters('wprss_item_source_link', wprss_link_display( $source_url, $source_name, $source_link )) ?>
+                            <?php $source_link_text = $text_preceding_source . $source_link_text ?>
+                            <?php echo $source_link_text ?>
                         </span>
                     <?php endif; ?>
 
                     <!-- DATE -->
                     <?php if ( wprss_get_general_setting('date_enable') == 1 ) : ?>
                         <span class='feed-date'>
-                            <?php echo $text_preceding_date . $date; ?>
+                            <?php $date_text = apply_filters('wprss_item_date', $date) ?>
+                            <?php $date_text = $text_preceding_date . $date_text; ?>
+                            <?php echo $date_text; ?>
                         </span>
                     <?php endif; ?>
 
@@ -246,7 +256,8 @@
                     <?php $author = get_post_meta( get_the_ID(), 'wprss_item_author', TRUE );
                     if ( wprss_get_general_setting('authors_enable') == 1 && $author !== NULL && is_string( $author ) && $author !== '' ) : ?>
                         <span class="feed-author">
-                            By <?php echo $author; ?>
+                            <?php $author_text = apply_filters('wprss_item_author', $author) ?>
+                            By <?php echo $author_text; ?>
                         </span>
                     <?php endif; ?>
 
@@ -256,7 +267,8 @@
                 if ( wprss_get_general_setting('date_enable') == 1 && wprss_get_general_setting('time_ago_format_enable') == 1 ) {
                     $time_ago = human_time_diff( $timestamp, time() ); ?>
                     <div class="wprss-time-ago">
-                        <?php echo $time_ago; ?> ago
+                        <?php $time_ago_text = apply_filters('wprss_item_time_ago', $time_ago) ?>
+                        <?php echo $time_ago_text; ?> ago
                     </div>
                     <?php
                 }
