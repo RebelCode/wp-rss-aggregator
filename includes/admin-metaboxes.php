@@ -162,8 +162,18 @@
                             call_user_func( $field['before'] );
                         }
 						
-						$tooltip = isset( $field['tooltip'] ) ? trim($field['tooltip']) : null;
+						$tooltip = isset( $field['tooltip'] ) ? trim( $field['tooltip'] ) : null;
 						$tooltip_id = isset( $field['id'] ) ? $field_tooltip_id_prefix . $field['id'] : uniqid( $field_tooltip_id_prefix );
+						
+						/*
+						 * So, here's how tooltips work here.
+						 * Tooltip output will be attempted in any case.
+						 * If 'tooltip' index is not defined, or is null, then
+						 * a registered tooltip will be attempted. If that is
+						 * not found, default value will be output. This value
+						 * is by default an empty string, but can be altered
+						 * by the `tooltip_not_found_handle_html` option of `WPRSS_Help`.
+						 */
 
                         switch( $field['type'] ) {
                         
@@ -171,18 +181,14 @@
                             case 'url':
                             case 'text':
                                 echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" size="55" />';
-								if( $tooltip ) {
-									echo $help->add_tooltip( $tooltip, $tooltip_id );
-								}
+								echo $help->tooltip( $tooltip_id, $tooltip );
                                 echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
                             // textarea
                             case 'textarea':
                                 echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>';
-								if( $tooltip ) {
-									echo $help->add_tooltip( $tooltip, $tooltip_id );
-								}
+								echo $help->tooltip( $tooltip_id, $tooltip );
 								echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
@@ -190,9 +196,7 @@
                             case 'checkbox':
                                 echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
                                 echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />';
-								if( $tooltip ) {
-									echo $help->add_tooltip( $tooltip, $tooltip_id );
-								}
+								echo $help->tooltip( $tooltip_id, $tooltip );
                                 echo '<label for="'.$field['id'].'">'.$field['desc'].'</label>';
                             break;    
                         
@@ -204,9 +208,7 @@
                                 }
                                 echo '</select>';
 								
-								if( $tooltip ) {
-									echo $help->add_tooltip( $tooltip, $tooltip_id );
-								}
+								echo $help->tooltip( $tooltip_id, $tooltip );
 								
 								echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;                                            
@@ -214,9 +216,7 @@
                             // number
                             case 'number':
                                 echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />';
-								if( $tooltip ) {
-									echo $help->add_tooltip( $tooltip, $tooltip_id );
-								}
+								echo $help->tooltip( $tooltip_id, $tooltip );
                                 echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
 
                             break;

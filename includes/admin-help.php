@@ -65,6 +65,7 @@ class WPRSS_Help {
 	
 	protected $_options;
 	protected $_enqueued_tooltip_content = array();
+	protected $_tooltips = array();
 
 	const OPTION_NAME = 'wprss_settings_help';
 	const CODE_PREFIX = 'wprss_help_';
@@ -111,7 +112,8 @@ class WPRSS_Help {
 			'is_enqueue_tooltip_content'	=> '0',
 			'tooltip_handle_template'		=> '%1$s/help-tooltip-handle.php',
 			'tooltip_content_template'		=> '%1$s/help-tooltip-content.php',
-			'admin_footer_js_template'		=> '%1$s/help-footer-js.php'
+			'admin_footer_js_template'		=> '%1$s/help-footer-js.php',
+			'tooltip_not_found_handle_html' => ''
 		));
 		$this->_set_options( $this->array_merge_recursive_distinct( $this->get_options_db(), $defaults ) );
 
@@ -542,20 +544,73 @@ class WPRSS_Help {
 	
 	
 	/**
-	 * Get tooltip HTML.
+	 * Add tooltip and get tooltip HTML.
+	 * If $text is null, just get the HTML of tooltip with specified ID.
 	 * The `is_enqueue_tooltip_content` option determines whether to enqueue
 	 * the content, instead of outputting it after the handle.
+	 * 
+	 * @param string $id ID for this tooltip
+	 * @param string|null $text Text of this tooltip. If null, tooltip will not be added, but only retrieved.
+	 * @param array|bool $options The options for this operation, or a boolean indicating whether or not content is to be enqueued
+	 * @return string The tooltip handle and, optionally, content.
+	 */
+	public function tooltip( $id, $text = null, $options = array() ) {
+		if( !is_null( $text ) ) {
+			$this->add_tooltip( $id, $text, $options );
+		}
+		
+		return $this->do_tooltip( $id );
+	}
+	
+	
+	public function add_tooltip( $id, $text, $options = array() ) {
+		$this->_tooltips[ $id ] = array(
+			'id'			=> $id,
+			'text'			=> $text,
+			'options'		=> $options
+		);
+		
+		return $this;
+	}
+	
+	
+	public function get_tooltip( $id = null, $default = null ) {
+		if ( is_null( $id ) ) {
+			return $this->_tooltips;
+		}
+		
+		return $this->has_tooltip( $id ) ? $this->_tooltips[ $id ] : $default;
+	}
+	
+	
+	public function has_tooltip( $id ) {
+		return isset( $this->_tooltips[ $id ] );
+	}
+	
+	/**
+	 * Get registered tooltip HTML.
 	 * 
 	 * Filters used:
 	 * 
 	 *  - `wprss_help_tooltip_options` - Filters options used for tooltip
 	 * 
-	 * @param string $text Text of this tooltip
 	 * @param string $id ID for this tooltip
+	 * @param string $text Text of this tooltip
 	 * @param array|bool $options The options for this operation, or a boolean indicating whether or not content is to be enqueued
 	 * @return string The tooltip handle and, optionally, content.
 	 */
-	public function add_tooltip( $text, $id, $options = array() ) {
+	public function do_tooltip( $id ) {
+		$options = $this->get_options();
+		
+		if ( !($tooltip = $this->get_tooltip( $id )) ) {
+			return isset( $options['tooltip_not_found_handle_html'] )
+					? $options['tooltip_not_found_handle_html']
+					: null;
+		}
+		
+		$options = isset( $tooltip['options'] ) ? $tooltip['options'] : null;
+		$text = isset( $tooltip['text'] ) ? $tooltip['text'] : null;
+		
 		if ( !is_array( $options ) ) {
 			$options = array( 'is_enqueue_tooltip_content' => $options );
 		}
