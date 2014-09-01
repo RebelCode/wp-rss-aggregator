@@ -166,6 +166,8 @@
         $general_settings = get_option( 'wprss_settings_general' );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
+		
+		$extra_options = apply_filters( 'wprss_template_extra_options', array(), $args, $feed_source_id );
 
         // Normalize the source_link option
         $source_link = isset( $general_settings['source_link'] )? $general_settings['source_link'] : 0;
