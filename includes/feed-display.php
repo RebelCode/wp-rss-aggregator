@@ -209,6 +209,8 @@
                 $text_preceding_date = ltrim( $text_preceding_date . ' ' );
                 
                 do_action( 'wprss_get_post_data' );
+				
+				$extra_meta = apply_filters( 'wprss_feed_item_extra_meta', array() );
 
                 ///////////////////////////////////////////////////////////////
                 // BEGIN TEMPLATE
