@@ -541,6 +541,20 @@ class WPRSS_Help {
 	}
 	
 	
+	/**
+	 * Get tooltip HTML.
+	 * The `is_enqueue_tooltip_content` option determines whether to enqueue
+	 * the content, instead of outputting it after the handle.
+	 * 
+	 * Filters used:
+	 * 
+	 *  - `wprss_help_tooltip_options` - Filters options used for tooltip
+	 * 
+	 * @param string $text Text of this tooltip
+	 * @param string $id ID for this tooltip
+	 * @param array|bool $options The options for this operation, or a boolean indicating whether or not content is to be enqueued
+	 * @return string The tooltip handle and, optionally, content.
+	 */
 	public function add_tooltip( $text, $id, $options = array() ) {
 		if ( !is_array( $options ) ) {
 			$options = array( 'is_enqueue_tooltip_content' => $options );
