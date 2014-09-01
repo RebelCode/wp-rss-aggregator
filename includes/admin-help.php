@@ -563,6 +563,14 @@ class WPRSS_Help {
 	}
 	
 	
+	/**
+	 * Add a tooltip for later display.
+	 * 
+	 * @param string $id The ID of this tooltip
+	 * @param string $text Text for this tooltip
+	 * @param array $options Options for this tooltip.
+	 * @return WPRSS_Help This instance.
+	 */
 	public function add_tooltip( $id, $text, $options = array() ) {
 		$this->_tooltips[ $id ] = array(
 			'id'			=> $id,
@@ -574,6 +582,13 @@ class WPRSS_Help {
 	}
 	
 	
+	/**
+	 * Retrieve one tooltip, or an array containing all tooltips.
+	 * 
+	 * @param string|null $id The ID of the tooltip to retrieve.
+	 * @param mixed|null $default What to return if tooltip with specified ID not found.
+	 * @return array An array that contains the following indexes: 'id', 'text', 'options'. See {@link add_tooltip()} for details.
+	 */
 	public function get_tooltip( $id = null, $default = null ) {
 		if ( is_null( $id ) ) {
 			return $this->_tooltips;
@@ -583,6 +598,12 @@ class WPRSS_Help {
 	}
 	
 	
+	/**
+	 * Check whether a tooltip with the specified ID exists.
+	 * 
+	 * @param string $id ID of the tooltip to check for.
+	 * @return boolean True if a tooltip with the specified ID exists; false otherwise.
+	 */
 	public function has_tooltip( $id ) {
 		return isset( $this->_tooltips[ $id ] );
 	}
@@ -621,7 +642,7 @@ class WPRSS_Help {
 		// Get handle HTML
 		$output = $this->get_tooltip_handle_html( $text, $id, $options );
 		
-		if( $this->evaluate_boolean( $options['is_enqueue_tooltip_content'] ) ) {
+		if ( $this->evaluate_boolean( $options['is_enqueue_tooltip_content'] ) ) {
 			$this->enqueue_tooltip_content($text, $id, $options);
 		}
 		else {
@@ -631,6 +652,15 @@ class WPRSS_Help {
 		return $output;
 	}
 	
+	
+	/**
+	 * Enqueue tooltip content to be displayed in another part of the page.
+	 * 
+	 * @param string $text The text of the tooltip content to enqueue.
+	 * @param string $id ID of the tooltip, the content of which to enqueue.
+	 * @param array $options This tooltip's options.
+	 * @return \WP_Error|\WPRSS_Help This instance, or error if enqueue method is invalid.
+	 */
 	public function enqueue_tooltip_content( $text, $id, $options = array() ) {
 		$queue_method = $this->apply_filters( 'enqueue_tooltip_content_method', array( $this, '_enqueue_tooltip_content' ), $options, $id, $text );
 		
@@ -649,6 +679,7 @@ class WPRSS_Help {
 		return $this;
 	}
 	
+	
 	public function _enqueue_tooltip_content( $text, $id, $options = array() ) {
 		$hash = $this->get_hash( $text, $id, $options );
 		$this->_enqueued_tooltip_content[ $hash ] = array(
@@ -660,9 +691,11 @@ class WPRSS_Help {
 		return $this;
 	}
 	
+	
 	public function get_enqueued_tooltip_content() {
 		return $this->_enqueued_tooltip_content;
 	}
+	
 	
 	public function get_enqueued_tooltip_content_html() {
 		$output = '';
@@ -711,6 +744,7 @@ class WPRSS_Help {
 
 		return $merged;
 	}
+	
 	
 	/**
 	 * Converts an array to a numeric array.
