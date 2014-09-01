@@ -210,7 +210,7 @@
                 
                 do_action( 'wprss_get_post_data' );
 				
-				$extra_meta = apply_filters( 'wprss_feed_item_extra_meta', array() );
+				$extra_meta = apply_filters( 'wprss_feed_item_extra_meta', array(), get_the_ID(), $feed_source_id );
 
                 ///////////////////////////////////////////////////////////////
                 // BEGIN TEMPLATE
