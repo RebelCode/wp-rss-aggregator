@@ -1,5 +1,5 @@
 === WP RSS Aggregator ===
-Contributors: jeangalea, Mekku, xedin.unknown
+Contributors: jeangalea, Mekku, xedin.unknown, mrkzahra
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
 Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
@@ -7,7 +7,7 @@ Requires at least: 3.3
 Tested up to: 4.0
 Stable tag: 4.5.1
 License: GPLv2 or later
-Imports and aggregates multiple RSS Feeds using SimplePie. Outputs feeds sorted by date (latest first).
+The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
 
 == Description ==
