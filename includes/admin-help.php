@@ -439,7 +439,7 @@ class WPRSS_Help {
 	 * @return string The HTML.
 	 */
 	public function get_admin_footer_js_html( $options = array() ) {
-		$options = $this->apply_options_filters( 'admin_footer_js_html', $options, $text, $id);
+		$options = $this->apply_options_filters( 'admin_footer_js_html', $options);
 		
 		$templatePath = $this->get_admin_footer_js_html_template( $options['admin_footer_js_template'] );
 		
