@@ -115,7 +115,8 @@ class WPRSS_Help {
 			'admin_footer_js_template'		=> '%1$s/help-footer-js.php',
 			'tooltip_not_found_handle_html' => ''
 		));
-		$this->_set_options( $this->array_merge_recursive_distinct( $this->get_options_db(), $defaults ) );
+		$db_options = $this->get_options_db();
+		$this->_set_options( $this->array_merge_recursive_distinct( $db_options, $defaults ) );
 
 		$this->_construct();
 	}
