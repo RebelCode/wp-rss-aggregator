@@ -364,6 +364,9 @@
     function wprss_preview_meta_box_callback() {
         global $post;
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
+		
+		$help = WPRSS_Help::get_instance();
+		/* @var $help WPRSS_Help */
         
         if ( ! empty( $feed_url ) ) {
             $feed = wprss_fetch_feed( $feed_url, $post->ID );
@@ -429,6 +432,7 @@
                 <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
                 <input type="hidden" name="wprss_force_feed" value="false" />
                 <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
+				<?php echo $help->tooltip( 'field_wprss_force_feed' ) ?>
             </p>
             <p class="description">
                 <?php _e("<strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.") ?>
