@@ -365,22 +365,24 @@
         global $post;
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
         
-        if( ! empty( $feed_url ) ) {             
-            $feed = wprss_fetch_feed( $feed_url, $post->ID ); 
+        if ( ! empty( $feed_url ) ) {
+            $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
-                $items = $feed->get_items();        
+                $items = $feed->get_items();
                 // Figure out how many total items there are
                 $total = $feed->get_item_quantity();
                 // Get the number of items again, but limit it to 5.
                 $maxitems = $feed->get_item_quantity(5);
 
                 // Build an array of all the items, starting with element 0 (first element).
-                $items = $feed->get_items( 0, $maxitems );  
-                echo "<h4>Latest $maxitems feed items out of $total available from " . get_the_title() . '</h4>';
-                echo '<ul>';
-                foreach ( $items as $item ) { 
+                $items = $feed->get_items( 0, $maxitems );
+                ?>
+				<h4><?php echo sprintf( __( 'Latest %1$s feed items out of %2$s available from %3$s' ), $maxitems, $total, get_the_title() ) ?></h4>
+                <ul>
+				<?php
+                foreach ( $items as $item ) {
                     // Get human date (comment if you want to use non human date)
-                    $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );                                   
+                    $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
                     // Start displaying item content within a <li> tag
                     echo '<li>';
                     // create item link
@@ -392,8 +394,10 @@
                     echo ' <div class="rss-date"><small>'.$item_date.'</small></div>';
                     // End <li> tag
                     echo '</li>';
-                }  
-                echo '</ul>';
+                }
+                ?>
+				</ul>
+				<?php
             }
             else {
                 ?>
@@ -422,12 +426,12 @@
                 </label>
             </p>
             <p>
-                <label for="wprss-force-feed">Force the feed</label>
+                <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
                 <input type="hidden" name="wprss_force_feed" value="false" />
                 <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
             </p>
             <p class="description">
-                <strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.
+                <?php _e("<strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.") ?>
             </p>
 
             <?php
