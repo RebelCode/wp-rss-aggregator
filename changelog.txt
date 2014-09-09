@@ -1,3 +1,8 @@
+4.5.2 (2014-09-09)
+Enhanced: Optimized plugin for WordPress 4.0.
+Enhanced: Improved template and added filters for add-on hooking.
+Fixed bug: Editor toolbar visible over the WP RSS shortcode dialog.
+
 4.5.1 (2014-08-26)
 Fixed bug: Last import feed item count stays at zero.
 Fixed bug: Datetime::setTimestamp error when using PHP 5.2 or earlier.
