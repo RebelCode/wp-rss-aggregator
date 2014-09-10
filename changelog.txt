@@ -1,3 +1,6 @@
+4.x.x ()
+New Featured: Added filter to allow adding RSS feeds to the head of your site's pages for CPTs.
+
 4.5.2 (2014-09-09)
 Enhanced: Optimized plugin for WordPress 4.0.
 Enhanced: Improved template and added filters for add-on hooking.
