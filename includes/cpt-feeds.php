@@ -1,7 +1,9 @@
 <?php
 
 	add_action( 'wp_head', 'wprss_cpt_feeds' );
-
+	/**
+	 * Adds Link tags to the head of the page, for CPTs' feeds.
+	 */
 	function wprss_cpt_feeds() {
 		// Get all post types
 		$post_types = get_post_types(array(
@@ -21,7 +23,6 @@
 		// Array: particular post types
 		// String: Single post type
 		$post_type_feeds = apply_filters( 'wprss_cpt_feeds', FALSE );
-
 		switch( gettype( $post_type_feeds ) ) {
 			// If it's a boolean ...
 			case 'boolean':
