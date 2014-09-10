@@ -358,7 +358,8 @@
 	 * @since 3.0
 	 */
 	function wprss_items_insert_post( $items, $feed_ID ) {
-
+		update_post_meta( $feed_ID, 'wprss_feed_is_updating', time() );
+		
 		// Gather the permalinks of existing feed item's related to this feed source
 		$existing_permalinks = get_existing_permalinks( $feed_ID );
 
