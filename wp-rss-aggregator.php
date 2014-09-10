@@ -128,6 +128,9 @@
     /* Load the custom feed file */
     require_once ( WPRSS_INC . 'custom-feed.php' );            
 
+    /* Load the custom post type feeds file */
+    require_once ( WPRSS_INC . 'cpt-feeds.php' );
+
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' ); 
 
