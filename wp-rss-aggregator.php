@@ -402,10 +402,21 @@
      * @since 1.0
      */           
     function wprss_deactivate() {
-        // On deactivation remove the cron job 
-        if ( wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {
-            wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
+        // On deactivation remove the cron job  
+        wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
+        wp_clear_scheduled_hook( 'wprss_truncate_posts_hook' );
+        // Uschedule cron jobs for all feed sources
+        $feed_sources = wprss_get_all_feed_sources();
+        if( $feed_sources->have_posts() ) {
+            // For each feed source
+            while ( $feed_sources->have_posts() ) {
+                // Stop its cron job
+                $feed_sources->the_post();
+                wprss_feed_source_update_stop_schedule( get_the_ID() );
+            }
+            wp_reset_postdata();
         }
+        // Flush the rewrite rules
         flush_rewrite_rules();
     }
 
