@@ -489,6 +489,9 @@
             $wprss_schedules
         );
 
+		// Inline help
+		$help = WPRSS_Help::get_instance();
+		
         ?>
 
         <div class="wprss-meta-side-setting">
@@ -498,6 +501,7 @@
                     <option value="<?php echo $value; ?>" <?php selected( $state, $value ) ?> ><?php echo $label; ?></option>
                 <?php endforeach; ?>
             </select>
+			<?php echo $help->tooltip( 'field_wprss_state' ) ?>
         </div>
 
         <div class="wprss-meta-side-setting">
@@ -508,6 +512,7 @@
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="<?php echo $default_activate; ?>">
                 <input id="wprss_activate_feed" class="wprss-datetimepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
+				<?php echo $help->tooltip( 'field_wprss_activate_feed' ) ?>
 
                 <label class="description" for="wprss_activate_feed">
                     Leave blank to activate the feed immediately.
@@ -529,6 +534,7 @@
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-pause-feed-viewer" data-default-value="<?php echo $default_pause; ?>">
                 <input id="wprss_pause_feed" class="wprss-datetimepicker-from-today" name="wprss_pause_feed" value="<?php echo $pause; ?>" />
+				<?php echo $help->tooltip( 'field_wprss_pause_feed' ) ?>
                 <label class="description" for="wprss_pause_feed">
                     Leave blank to never pause the feed.
                 </label>
@@ -562,6 +568,7 @@
                     <option value="<?php echo $value; ?>" <?php selected( $update_interval, $value ); ?> ><?php echo $text; ?></option>
                 <?php endforeach; ?>
                 </select>
+				<?php echo $help->tooltip( 'field_wprss_update_interval' ) ?>
                 
                 <br/>
                 <span class='description' for='feed-update-interval'>
@@ -579,12 +586,14 @@
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-age-limit-feed-viewer" data-label="#wprss-age-limit-feed-label" data-default-value="" data-empty-controller="#limit-feed-items-age" data-hybrid="#limit-feed-items-age, #limit-feed-items-age-unit">
                 <input id="limit-feed-items-age" name="wprss_age_limit" type="number" min="0" class="wprss-number-roller" placeholder="No limit" value="<?php echo $age_limit; ?>" />
+				<?php echo $help->tooltip( 'field_wprss_age_limit' ) ?>
 
                 <select id="limit-feed-items-age-unit" name="wprss_age_unit">
                 <?php foreach ( wprss_age_limit_units() as $unit ) : ?>
                     <option value="<?php echo $unit; ?>" <?php selected( $age_unit, $unit ); ?> ><?php echo $unit; ?></option>
                 <?php endforeach; ?>
                 </select>
+				<?php echo $help->tooltip( 'field_wprss_age_unit' ) ?>
                 
                 <br/>
                 <span class='description' for='limit-feed-items-age'>
