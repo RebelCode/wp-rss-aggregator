@@ -20,7 +20,7 @@
 		// True: all
 		// Array: particular post types
 		// String: Single post type
-		$post_type_feeds = apply_filters( 'wprss_cpt_feeds', TRUE );
+		$post_type_feeds = apply_filters( 'wprss_cpt_feeds', FALSE );
 
 		switch( gettype( $post_type_feeds ) ) {
 			// If it's a boolean ...
