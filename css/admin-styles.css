@@ -458,3 +458,31 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 	color: #777;
 	font-size: 0.7em;
 }
+
+/* Inline Help ============================================================== */
+.wprss-tooltip {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+    border: 1px solid #cccccc;
+    padding: 2px;
+    margin: auto 3px;
+    border-radius: 12px;
+    background-color: transparent;
+    text-decoration: none;
+    line-height: 12px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.wprss-tooltip,
+.wprss-tooltip:hover,
+.wprss-tooltip:focus {
+    color: #aaaaaa;
+    outline: none;
+}
+
+.wprss-tooltip-content {
+    display: none;
+}
