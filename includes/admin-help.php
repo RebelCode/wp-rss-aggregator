@@ -109,6 +109,7 @@ class WPRSS_Help {
 			'tooltip_handle_text'			=> '?',
 			'tooltip_handle_class'			=> 'wprss-tooltip',
 			'tooltip_content_class'			=> 'wprss-tooltip-content',
+			'tooltip_class'					=> 'wprss-ui-tooltip', // Overrides default jQuery UI class
 			'is_enqueue_tooltip_content'	=> '0',
 			'tooltip_handle_template'		=> '%1$s/help-tooltip-handle.php',
 			'tooltip_content_template'		=> '%1$s/help-tooltip-content.php',

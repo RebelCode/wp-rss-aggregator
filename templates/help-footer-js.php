@@ -18,6 +18,13 @@
 			tooltipHandleClass.length && (function() {
 				$('.'+tooltipHandleClass).tooltip({
 					items: '*',
+					tooltipClass: '<?php echo $vars['tooltip_class'] ?>',
+					hide: 200,
+					show: 200,
+					position:  {
+						my: 'left+3 top+3',
+						at: 'right bottom'
+					},
 					content: function(){
 						var $this = $(this);
 						return $($this.attr('href')).html();
