@@ -183,7 +183,7 @@
                             case 'checkbox':
                                 echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
                                 echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />
-                                    <label for="'.$field['id'].'">'.$field['desc'].'</label>';
+                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
                             break;    
                         
                             // select
