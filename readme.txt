@@ -154,11 +154,13 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 2. The output from the aggregator with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) add-on installed.
 
-3. Adding a new feed source.
+3. Adding/Editing a feed source.
 
-4. Imported feeds.
+4. The feed sources.
 
-5. Plugin settings page.
+5. The imported feeds items.
+
+6. Plugin settings page.
 
 
 == Changelog ==
