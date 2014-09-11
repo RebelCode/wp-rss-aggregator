@@ -467,7 +467,8 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     overflow: hidden;
     border: 1px solid #cccccc;
     padding: 2px;
-    margin: auto 3px;
+    margin: auto;
+    margin-left: 6px;
     border-radius: 12px;
     background-color: transparent;
     text-decoration: none;
@@ -485,4 +486,14 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 
 .wprss-tooltip-content {
     display: none;
+}
+
+.wprss-ui-tooltip {
+    font-size: 1em !important;
+    padding: 6px 8px !important;
+    background: #fefefe !important;
+    border: 1px solid #ccc !important;
+    border-radius: 1px !important;
+    font-family: "Open Sans", sans-serif !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.17) !important;
 }

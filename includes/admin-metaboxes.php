@@ -101,7 +101,7 @@
             'id'    => $prefix .'url',
             'type'  => 'url',
             'after' => 'wprss_validate_feed_link',
-//			'tooltip' => __( 'We will be retrieving the items from this URL', 'wprss' ) // Example
+			'tooltip' => __( 'We will be retrieving the items from this URL', 'wprss' ) // Example
         );
         
         $wprss_meta_fields[ 'description' ] = array(

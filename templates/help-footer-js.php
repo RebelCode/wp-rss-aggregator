@@ -14,6 +14,13 @@
 		$(function() {
 			$(document).tooltip({
 				items: '.<?php echo $vars['tooltip_handle_class'] ?>',
+				tooltipClass: 'wprss-ui-tooltip',
+				hide: 200,
+				show: 200,
+				position:  {
+					my: 'left+3 top+3',
+					at: 'right bottom'
+				},
 				content: function(){
 					var $this = $(this);
 					return $($this.attr('href')).html();
