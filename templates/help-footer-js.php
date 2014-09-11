@@ -14,19 +14,20 @@
 		$(function() {
 			var tooltipHandleClass = '<?php echo isset( $vars['tooltip_handle_class'] ) ? $vars['tooltip_handle_class'] : '' ?>';
 			
-			// If class defined, register tooltips
-			tooltipHandleClass.length && $(document).tooltip({
-				items: '.'+tooltipHandleClass,
-				content: function(){
-					var $this = $(this);
-					return $($this.attr('href')).html();
-				}
-			});
-			
-			// If class defined, prevent tooltip handles from changing URL
-			tooltipHandleClass.length && $('.'+tooltipHandleClass).on('click', function(e) {
-				e.preventDefault();
-			});
+			// If class defined
+			tooltipHandleClass.length && (function() {
+				$('.'+tooltipHandleClass).tooltip({
+					items: '*',
+					content: function(){
+						var $this = $(this);
+						return $($this.attr('href')).html();
+					}
+				});
+				
+				$('.'+tooltipHandleClass).on('click', function(e) {
+					e.preventDefault();
+				});
+			})();
 		});
 	})(jQuery, document, top, undefined);
 </script>
