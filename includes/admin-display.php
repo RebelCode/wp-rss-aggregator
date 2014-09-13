@@ -6,7 +6,7 @@
      */ 
 
 
-    add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns'); 
+    add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns', 20, 1 ); 
     /**     
      * Set up the custom columns for the wprss_feed list
      * 
@@ -179,7 +179,7 @@
     }
 
 
-    add_filter( 'manage_wprss_feed_item_posts_columns', 'wprss_set_feed_item_custom_columns'); 
+    add_filter( 'manage_wprss_feed_item_posts_columns', 'wprss_set_feed_item_custom_columns', 20, 1 ); 
     /**
      * Set up the custom columns for the wprss_feed source list
      * 
