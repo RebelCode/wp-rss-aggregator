@@ -21,6 +21,12 @@
     width: 400px;
 }
 
+.wprss-text-input {
+    display: block;
+    width: 400px;
+    max-width: 100%;
+}
+
 #icon-wprss-aggregator {
     background: transparent url( '../images/icon-adminpage32.png' ) no-repeat !important;
 }
@@ -30,7 +36,48 @@ body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
 #misc-publishing-actions,
 #minor-publishing-actions { display: none; }
 
-#custom_meta_box .form-table th { width: 100px; }
+
+
+/* FORM TABLES */
+.wprss-form-table th {
+    width: 120px;
+    max-width: 120px;
+}
+.wprss-form-table td label {
+    line-height: 15px;
+}
+@media screen and (max-width: 1025px) {
+    .wprss-form-table th {
+        display: block;
+        padding: 0;
+    }
+    .wprss-form-table td {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .wprss-form-table td input[type="text"],
+    .wprss-form-table td input[type="url"],
+    .wprss-form-table td select {
+        display: block;
+        width: 100%;
+    }
+
+    .wprss-form-table td span.description {
+        display: inline;
+    }
+
+    .wprss-form-table td input[type="checkbox"] + label {
+        display: inline !important;
+    }
+
+    .wprss-form-table td input {
+        line-height: normal;
+    }
+}
+
+
 
 body.post-type-wprss_feed_item .add-new-h2, 
 body.post-type-wprss_feed_item .tablenav select[name="m"],
@@ -194,7 +241,14 @@ input#thumbnails-width {
 
 /* Number Roller for Feed Source Limit */
 .wprss-number-roller {
-    width: 120px;
+    width: 80px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+@media screen and (max-width: 782px) {
+    .wprss-number-roller {
+        width: 100px;
+    }
 }
 
 /* Welcome Screen */
