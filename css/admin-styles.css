@@ -27,6 +27,10 @@
     max-width: 100%;
 }
 
+label.description {
+    font-style: italic;
+}
+
 #icon-wprss-aggregator {
     background: transparent url( '../images/icon-adminpage32.png' ) no-repeat !important;
 }

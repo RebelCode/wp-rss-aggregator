@@ -170,20 +170,20 @@
                             case 'url':
                             case 'text':
                                 echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" placeholder="'.__($field['placeholder'], 'wprss').'" class="wprss-text-input"/>
-                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;
                         
                             // textarea
                             case 'textarea':
                                 echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>
-                                    <br/><label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    <br/><label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;
                         
                             // checkbox
                             case 'checkbox':
                                 echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
                                 echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />
-                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;    
                         
                             // select
@@ -192,13 +192,13 @@
                                 foreach ($field['options'] as $option) {
                                     echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
                                 }
-                                echo '</select><br/><label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                echo '</select><br/><label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;                                            
                         
                             // number
                             case 'number':
                                 echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
-                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
 
                             break;
 
@@ -241,7 +241,7 @@
                             e.stopPropagation();
                             return false;
                         })
-                        .appendTo('td label[for="wprss_url"] span.description');
+                        .appendTo('td label[for="wprss_url"].description');
                     });
                 })(jQuery);
             </script>
