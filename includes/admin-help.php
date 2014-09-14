@@ -73,6 +73,10 @@ class WPRSS_Help {
 	const TEXT_DOMAIN = 'wprss';
 	const HASHING_CONCATENATOR = '|';
 	const OPTIONS_FILTER_SUFFIX = '_options';
+	
+	const TOOLTIP_DATA_KEY_ID = 'id';
+	const TOOLTIP_DATA_KEY_TEXT = 'text';
+	const TOOLTIP_DATA_KEY_OPTIONS = 'options';
 
 	/**
 	 * Retrieve the singleton instance
@@ -631,8 +635,8 @@ class WPRSS_Help {
 					: null;
 		}
 		
-		$options = isset( $tooltip['options'] ) ? $tooltip['options'] : null;
-		$text = isset( $tooltip['text'] ) ? $tooltip['text'] : null;
+		$options = isset( $tooltip[ self::TOOLTIP_DATA_KEY_OPTIONS ] ) ? $tooltip[ self::TOOLTIP_DATA_KEY_OPTIONS ] : null;
+		$text = isset( $tooltip[ self::TOOLTIP_DATA_KEY_TEXT ] ) ? $tooltip[ self::TOOLTIP_DATA_KEY_TEXT ] : null;
 		
 		if ( !is_array( $options ) ) {
 			$options = array( 'is_enqueue_tooltip_content' => $options );
@@ -685,9 +689,9 @@ class WPRSS_Help {
 	public function _enqueue_tooltip_content( $text, $id, $options = array() ) {
 		$hash = $this->get_hash( $text, $id, $options );
 		$this->_enqueued_tooltip_content[ $hash ] = array(
-			'text'			=> $text,
-			'id'			=> $id,
-			'options'		=> $options
+			self::TOOLTIP_DATA_KEY_TEXT			=> $text,
+			self::TOOLTIP_DATA_KEY_ID			=> $id,
+			self::TOOLTIP_DATA_KEY_OPTIONS		=> $options
 		);
 		
 		return $this;
@@ -702,8 +706,8 @@ class WPRSS_Help {
 	public function get_enqueued_tooltip_content_html() {
 		$output = '';
 		foreach ( $this->get_enqueued_tooltip_content() as $_hash => $_vars ) {
-			$options = is_array( $_vars['options'] ) ? $_vars['options'] : array();
-			$output = $this->get_tooltip_content_html( $_vars['text'], $_vars['id'], $options );
+			$options = is_array( $_vars[ self::TOOLTIP_DATA_KEY_OPTIONS ] ) ? $_vars[ self::TOOLTIP_DATA_KEY_OPTIONS ] : array();
+			$output = $this->get_tooltip_content_html( $_vars[ self::TOOLTIP_DATA_KEY_ID ], $_vars[ self::TOOLTIP_DATA_KEY_ID ], $options );
 		}
 		
 		echo $output;
