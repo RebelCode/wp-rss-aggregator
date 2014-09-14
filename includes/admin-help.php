@@ -562,27 +562,46 @@ class WPRSS_Help {
 	 * @return string The tooltip handle and, optionally, content.
 	 */
 	public function tooltip( $id, $text = null, $options = array() ) {
-		if( !is_null( $text ) ) {
-			$this->add_tooltip( $id, $text, $options );
-		}
-		
+		$this->add_tooltip( $id, $text, $options );
 		return $this->do_tooltip( $id );
 	}
 	
 	
 	/**
 	 * Add a tooltip for later display.
+	 * Text and options will be replaced by existing text and options, if they
+	 * are empty, and a tooltip with the same ID is already registered.
 	 * 
 	 * @param string $id The ID of this tooltip
 	 * @param string $text Text for this tooltip
 	 * @param array $options Options for this tooltip.
 	 * @return WPRSS_Help This instance.
 	 */
-	public function add_tooltip( $id, $text, $options = array() ) {
+	public function add_tooltip( $id, $text = null, $options = array() ) {
+		if ( $tooltip = $this->get_tooltip( $id ) ) {
+			if ( is_null( $text ) ) $text = isset( $tooltip[ self::TOOLTIP_DATA_KEY_TEXT ] ) ? $tooltip[ self::TOOLTIP_DATA_KEY_TEXT ] : $text;
+			if ( empty( $options ) ) $options = isset( $tooltip[ self::TOOLTIP_DATA_KEY_OPTIONS ] ) ? $tooltip[ self::TOOLTIP_DATA_KEY_OPTIONS ] : $options;
+		}
+		
+		$this->set_tooltip( $id, $text, $options );
+		
+		return $this;
+	}
+	
+	
+	/**
+	 * Set a tooltip, existing or not.
+	 * 
+	 * @param string $id The ID of this tooltip
+	 * @param string $text Text for this tooltip
+	 * @param array $options Options for this tooltip.
+	 * @return WPRSS_Help This instance.
+	 */
+	public function set_tooltip( $id, $text = null, $options = array() ) {
 		$this->_tooltips[ $id ] = array(
-			'id'			=> $id,
-			'text'			=> $text,
-			'options'		=> $options
+			self::TOOLTIP_DATA_KEY_ID			=> $id,
+			self::TOOLTIP_DATA_KEY_TEXT			=> $text,
+			self::TOOLTIP_DATA_KEY_OPTIONS		=> $options
 		);
 		
 		return $this;
@@ -630,7 +649,7 @@ class WPRSS_Help {
 	public function do_tooltip( $id ) {
 		$options = $this->get_options();
 		
-		if ( !($tooltip = $this->get_tooltip( $id )) ) {
+		if ( !($tooltip = $this->get_tooltip( $id )) || !isset($tooltip[ self::TOOLTIP_DATA_KEY_TEXT ]) || !$tooltip[ self::TOOLTIP_DATA_KEY_TEXT ] ) {
 			return isset( $options['tooltip_not_found_handle_html'] )
 					? $options['tooltip_not_found_handle_html']
 					: null;
