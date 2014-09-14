@@ -10,5 +10,5 @@
  */
 ?>
 <?php /* @var $vars array Contains combined options for this template */ ?>
-<a class="<?php echo $vars['tooltip_handle_class'] ?>" href="#<?php echo $vars['tooltip_id_prefix'] . $vars['tooltip_id'] ?>"><?php echo $vars['tooltip_handle_text'] ?></a>
+<a class="<?php echo $vars['tooltip_handle_class'] ?><?php if( !empty($vars['tooltip_handle_class_extra']) ): ?> <?php echo $vars['tooltip_handle_class_extra'] ?><?php endif ?>" href="#<?php echo $vars['tooltip_id_prefix'] . $vars['tooltip_id'] ?>"><?php echo $vars['tooltip_handle_text'] ?></a>
 

@@ -110,15 +110,16 @@ class WPRSS_Help {
 	public function __construct( $options = array() ) {
 		$defaults = apply_filters( 'wprss_help_default_options', array(
 			'tooltip_id_prefix'				=> 'wprss-tooltip-',
-			'tooltip_handle_text'			=> '?',
-			'tooltip_handle_class'			=> 'wprss-tooltip',
+			'tooltip_handle_text'			=> '',
+			'tooltip_handle_class'			=> 'wprss-tooltip-handle', // Used in logic to identify handle elements
+			'tooltip_handle_class_extra'	=> 'fa fa-question-circle', // Not used in logic
 			'tooltip_content_class'			=> 'wprss-tooltip-content',
 			'tooltip_class'					=> 'wprss-ui-tooltip', // Overrides default jQuery UI class
 			'is_enqueue_tooltip_content'	=> '0',
 			'tooltip_handle_template'		=> '%1$s/help-tooltip-handle.php',
 			'tooltip_content_template'		=> '%1$s/help-tooltip-content.php',
 			'admin_footer_js_template'		=> '%1$s/help-footer-js.php',
-			'tooltip_not_found_handle_html' => ''
+			'tooltip_not_found_handle_html'	=> ''
 		));
 		$db_options = $this->get_options_db();
 		$this->_set_options( $this->array_merge_recursive_distinct( $db_options, $defaults ) );

@@ -460,28 +460,18 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 }
 
 /* Inline Help ============================================================== */
-.wprss-tooltip {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    overflow: hidden;
-    border: 1px solid #cccccc;
-    padding: 2px;
-    margin: auto;
-    margin-left: 6px;
-    border-radius: 12px;
-    background-color: transparent;
-    text-decoration: none;
-    line-height: 12px;
-    vertical-align: middle;
-    text-align: center;
-}
 
-.wprss-tooltip,
-.wprss-tooltip:hover,
-.wprss-tooltip:focus {
+.wprss-tooltip-handle,
+.wprss-tooltip-handle:hover,
+.wprss-tooltip-handle:focus {
+    text-decoration: none;
     color: #aaaaaa;
     outline: none;
+}
+
+.wprss-tooltip-handle {
+    font-size: 1.3em;
+    color: rgb(190, 190, 190);
 }
 
 .wprss-tooltip-content {
