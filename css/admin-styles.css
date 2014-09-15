@@ -474,6 +474,10 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     color: rgb(190, 190, 190);
 }
 
+.wprss-tooltip-handle-side {
+    float: right;
+}
+
 .wprss-tooltip-content {
     display: none;
 }
