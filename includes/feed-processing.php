@@ -339,7 +339,7 @@
 		
 		$diff = time() - $is_updating_meta;
 		
-		if ( $diff > 300 ) {
+		if ( $diff > 30 ) {
 			delete_post_meta( $id, 'wprss_feed_is_updating' );
 			return FALSE;
 		}

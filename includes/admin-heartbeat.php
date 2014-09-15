@@ -33,6 +33,8 @@ function wprss_feed_source_updates() {
 				// Add the number of imported items
 				$items = wprss_get_feed_items_for_source( $feed_id );
 				$feed_source_data['items'] = $items->post_count;
+				// Update the meta field 
+				update_post_meta( $feed_id, 'wprss_items_imported', $items->post_count );
 
 				// Add the next update time
 				$next_update = wprss_get_next_feed_source_update( $feed_id );
@@ -51,6 +53,8 @@ function wprss_feed_source_updates() {
 				else {
 					$feed_source_data['next-update'] = human_time_diff( $next_update, time() );
 				}
+				// Update the meta field
+				update_post_meta( $feed_id, 'wprss_next_update', $feed_source_data['next-update'] );
 
 				// Add the last update information
 				$last_update = get_post_meta( $feed_id, 'wprss_last_update', TRUE );

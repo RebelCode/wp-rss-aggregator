@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.5.2
+    Version: 4.5.3
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.5.2
+     * @version   4.5.3
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2014, Jean Galea
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.5.2', true );
+        define( 'WPRSS_VERSION', '4.5.3', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
@@ -127,6 +127,9 @@
 
     /* Load the custom feed file */
     require_once ( WPRSS_INC . 'custom-feed.php' );            
+
+    /* Load the custom post type feeds file */
+    require_once ( WPRSS_INC . 'cpt-feeds.php' );
 
     /* Load the cron job scheduling functions. */
     require_once ( WPRSS_INC . 'cron-jobs.php' ); 
@@ -402,10 +405,21 @@
      * @since 1.0
      */           
     function wprss_deactivate() {
-        // On deactivation remove the cron job 
-        if ( wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {
-            wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
+        // On deactivation remove the cron job  
+        wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
+        wp_clear_scheduled_hook( 'wprss_truncate_posts_hook' );
+        // Uschedule cron jobs for all feed sources
+        $feed_sources = wprss_get_all_feed_sources();
+        if( $feed_sources->have_posts() ) {
+            // For each feed source
+            while ( $feed_sources->have_posts() ) {
+                // Stop its cron job
+                $feed_sources->the_post();
+                wprss_feed_source_update_stop_schedule( get_the_ID() );
+            }
+            wp_reset_postdata();
         }
+        // Flush the rewrite rules
         flush_rewrite_rules();
     }
 

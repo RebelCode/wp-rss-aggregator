@@ -21,6 +21,21 @@
     width: 400px;
 }
 
+.wprss-text-input {
+    display: block;
+    width: 400px;
+    max-width: 100%;
+}
+
+label.description {
+    font-size: 13px;
+    font-style: italic;
+}
+
+span.wprss-row-id {
+	color: #8f8f8f;
+}
+
 #icon-wprss-aggregator {
     background: transparent url( '../images/icon-adminpage32.png' ) no-repeat !important;
 }
@@ -30,7 +45,48 @@ body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
 #misc-publishing-actions,
 #minor-publishing-actions { display: none; }
 
-#custom_meta_box .form-table th { width: 100px; }
+
+
+/* FORM TABLES */
+.wprss-form-table th {
+    width: 120px;
+    max-width: 120px;
+}
+.wprss-form-table td label {
+    line-height: 15px;
+}
+@media screen and (max-width: 1025px) {
+    .wprss-form-table th {
+        display: block;
+        padding: 0;
+    }
+    .wprss-form-table td {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .wprss-form-table td input[type="text"],
+    .wprss-form-table td input[type="url"],
+    .wprss-form-table td select {
+        display: block;
+        width: 100%;
+    }
+
+    .wprss-form-table td span.description {
+        display: inline;
+    }
+
+    .wprss-form-table td input[type="checkbox"] + label {
+        display: inline !important;
+    }
+
+    .wprss-form-table td input {
+        line-height: normal;
+    }
+}
+
+
 
 body.post-type-wprss_feed_item .add-new-h2, 
 body.post-type-wprss_feed_item .tablenav select[name="m"],
@@ -194,7 +250,14 @@ input#thumbnails-width {
 
 /* Number Roller for Feed Source Limit */
 .wprss-number-roller {
-    width: 120px;
+    width: 80px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+@media screen and (max-width: 782px) {
+    .wprss-number-roller {
+        width: 100px;
+    }
 }
 
 /* Welcome Screen */
@@ -310,24 +373,48 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#errors {
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
     width: 50px !important;
 }
+/* NAME */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#title {
+    width: 65% !important;
+}
 /* NEXT UPDATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates {
-    width: 200px !important;
+    width: 220px !important;
 }
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts td.column-updates p {
     margin-bottom: 0 !important;
 }
 /* STATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
-    width: 80px !important;
+    width: 90px !important;
 }
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
-    width: 120px !important;
+    width: 140px !important;
 }
 /* CATEGORIES */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
-    width: 120px !important;
+    width: 130px !important;
+}
+
+
+/** FEED SOURCES TABLE RESPONSIVENESS */
+@media screen and (max-width: 1020px) {
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-updates,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-updates {
+        display: none;
+    }
+}
+@media screen and (max-width: 660px) {
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-id,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-id,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-state,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-state {
+        display: none;
+    }
 }
 
 

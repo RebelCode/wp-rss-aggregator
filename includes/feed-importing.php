@@ -358,7 +358,8 @@
 	 * @since 3.0
 	 */
 	function wprss_items_insert_post( $items, $feed_ID ) {
-
+		update_post_meta( $feed_ID, 'wprss_feed_is_updating', time() );
+		
 		// Gather the permalinks of existing feed item's related to this feed source
 		$existing_permalinks = get_existing_permalinks( $feed_ID );
 
@@ -390,6 +391,9 @@
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
 				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
+
+				// Check if the imported count should still be updated, even if the item is NULL
+                $still_update_count = apply_filters( 'wprss_still_update_import_count', FALSE );
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL && !is_bool($item) ) {
@@ -442,7 +446,7 @@
 				}
 				// If the item is TRUE, then a hook function in the filter inserted the item.
 				// increment the inserted counter
-				elseif ( is_bool($item) && $item === TRUE ) {
+				elseif ( ( is_bool($item) && $item === TRUE ) || $still_update_count === TRUE ) {
 					$items_inserted++;
 				}
 			}
@@ -462,7 +466,6 @@
 	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
-		update_post_meta( $inserted_ID, 'wprss_item_description', $item->get_description() );
 		update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
 		
 		$author = $item->get_author();

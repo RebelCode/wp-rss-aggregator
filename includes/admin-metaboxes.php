@@ -97,7 +97,7 @@
         // Field Array
         $wprss_meta_fields[ 'url' ] = array(
             'label'			=> __( 'URL', 'wprss' ),
-            'desc'		 	=> __( 'Enter feed URL (including http://)', 'wprss' ),
+            'desc'		 	=> __( 'Enter the RSS feed URL (including http://)', 'wprss' ),
             'id'			=> $prefix .'url',
             'type'			=> 'url',
             'after'			=> 'wprss_validate_feed_link',
@@ -114,14 +114,14 @@
 
         $wprss_meta_fields[ 'limit' ] = array(
             'label' => __( 'Limit', 'wprss' ),
-            'desc'  => __( 'Enter a feed item import/display limit. Leave blank to use the default setting.', 'wprss' ),
+            'desc'  => __( 'Enter the maximum number of items to import.', 'wprss' ),
             'id'    => $prefix . 'limit',
             'type'  => 'number'
         );
 
         $wprss_meta_fields[ 'enclosure' ] = array(
             'label' => __( 'Link to enclosure', 'wprss' ),
-            'desc'  => __( 'Check this box to link the feed item title to the enclosure link in the feed.', 'wprss' ),
+            'desc'  => __( 'Check this box to make the feed items link to their enclosure in the feed.', 'wprss' ),
             'id'    => $prefix . 'enclosure',
             'type'  => 'checkbox'
         );
@@ -169,21 +169,21 @@
                             // text/url
                             case 'url':
                             case 'text':
-                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" placeholder="'.__($field['placeholder'], 'wprss').'" size="55" />
-                                    <br><span class="description">'.$field['desc'].'</span>';
+                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" placeholder="'.__($field['placeholder'], 'wprss').'" class="wprss-text-input"/>
+                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;
                         
                             // textarea
                             case 'textarea':
                                 echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>
-                                    <br><span class="description">'.$field['desc'].'</span>';
+                                    <br/><label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;
                         
                             // checkbox
                             case 'checkbox':
                                 echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
                                 echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />
-                                    <label for="'.$field['id'].'">'.$field['desc'].'</label>';
+                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;    
                         
                             // select
@@ -192,13 +192,13 @@
                                 foreach ($field['options'] as $option) {
                                     echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
                                 }
-                                echo '</select><br><span class="description">'.$field['desc'].'</span>';
+                                echo '</select><br/><label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
                             break;                                            
                         
                             // number
                             case 'number':
                                 echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
-                                    <label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
 
                             break;
 
@@ -226,7 +226,7 @@
                     // When the DOM is ready
                     $(document).ready( function(){
                         // Move the link immediately after the url text field, and add the click event handler
-                        $('#validate-feed-link').insertAfter('#wprss_url').click(function(e){
+                        $('#validate-feed-link').click(function(e){
                             // Get the url and proceed only if the url is not empty
                             var url = $('#wprss_url').val();
                             if ( url.trim().length > 0 ) {
@@ -240,7 +240,8 @@
                             e.preventDefault();
                             e.stopPropagation();
                             return false;
-                        });
+                        })
+                        .appendTo('td label[for="wprss_url"].description');
                     });
                 })(jQuery);
             </script>

@@ -89,7 +89,7 @@
      * @return void
      */  
     function wprss_change_title_text() {
-        return __( 'Enter feed name here (e.g. WP Mayor)', 'wprss' );
+        return __( 'Name this feed (e.g. WP Mayor)', 'wprss' );
     } 
 
 
