@@ -189,6 +189,7 @@
             unset( $settings['general']['limit-feed-items-db'] );
         }
 		
+		$setting_field_id_prefix = 'wprss-settings-';
 
         // Loop through each setting field and register it
         foreach( $settings as $section => $fields ) {
@@ -203,12 +204,26 @@
 
                 foreach ( $fields as $id => $data ) {
 
+					/**
+					 * @var This will be passed to the field callback as the only argument
+					 * @see http://codex.wordpress.org/Function_Reference/add_settings_field#Parameters
+					 */
+					$callback_args = array(
+						'field_id'				=> $id,
+						'field_id_prefix'		=> $setting_field_id_prefix,
+						'section_id'			=> $section,
+						'field_label'			=> isset( $data['label'] ) ? $data['label'] : null,
+						'tooltip'				=> isset( $data['tooltip'] ) ? $data['tooltip'] : null
+					);
+					
+					
                     add_settings_field(
-                        'wprss-settings-' . $id,
+                        $setting_field_id_prefix . $id,
                         $data['label'],
                         $data['callback'],
                         'wprss_settings_general',
-                        "wprss_settings_${section}_section"
+                        "wprss_settings_${section}_section",
+						$callback_args
                     );
 
                 }
