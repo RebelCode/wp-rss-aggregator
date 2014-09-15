@@ -32,6 +32,10 @@ label.description {
     font-style: italic;
 }
 
+span.wprss-row-id {
+	color: #8f8f8f;
+}
+
 #icon-wprss-aggregator {
     background: transparent url( '../images/icon-adminpage32.png' ) no-repeat !important;
 }
