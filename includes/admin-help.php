@@ -568,6 +568,26 @@ class WPRSS_Help {
 	
 	
 	/**
+	 * Add tooltips in a batch, with optionally prefixed ID.
+	 * 
+	 * @param array $tooltips An array where key is tooltip ID and value is tooltip text.
+	 * @param string $prefix A prefix to add to all tooltip IDs.
+	 * @param array $options Arra of options for all the tooltips to add.
+	 * @return \WPRSS_Help
+	 */
+	public function add_tooltips( $tooltips, $prefix = null, $options = array() ) {
+		$prefix = (string) $prefix;
+		if ( !is_array($options) ) $options = array();
+		
+		foreach ( $tooltips as $_id => $_text ) {
+			$this->add_tooltip( $prefix . $_id, $_text, $options );
+		}
+		
+		return $this;
+	}
+	
+	
+	/**
 	 * Add a tooltip for later display.
 	 * Text and options will be replaced by existing text and options, if they
 	 * are empty, and a tooltip with the same ID is already registered.
