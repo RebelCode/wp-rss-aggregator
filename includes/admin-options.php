@@ -241,7 +241,34 @@
 
 
         do_action( 'wprss_admin_init' );
-    }  
+    }
+	
+	
+	/**
+	 * Returns the HTML of a tooltip handle.
+	 * 
+	 * Filters used:
+	 * - `wprss_settings_inline_help_default_options` - The default options for "Settings" page's tooltips
+	 * - `wprss_settings_inline_help_id_prefix` - The prefix for all tooltip IDs for the "Settings" page.
+	 * 
+	 * @param string $id The ID of the tooltip
+	 * @param string|null $text Text for this tooltip, if any.
+	 * @param array $options Any options for this setting.
+	 * @return string Tooltip handle HTML. See {@link WPRSS_Help::tooltip()}.
+	 */
+	function wprss_settings_inline_help( $id, $text = null, $options = array() ) {
+		$help = WPRSS_Help::get_instance();
+		
+		// Default options, entry point
+		$options = $help->array_merge_recursive_distinct( apply_filters( 'wprss_settings_inline_help_default_options', array(
+			'tooltip_handle_class_extra'	=> $help->get_options('tooltip_handle_class_extra') . ' ' . $help->get_options('tooltip_handle_class') . '-setting'
+		)), $options );
+		
+		// ID Prefix
+		$id = apply_filters( 'wprss_settings_inline_help_id_prefix', 'setting-' ) . $id;
+		
+		return $help->tooltip( $id, $text, $options );
+	}
 
 
     /**
