@@ -97,18 +97,21 @@
             if ( $update_interval === wprss_get_default_feed_source_update_interval() || $update_interval === '' ) {
               $next_update = wp_next_scheduled( 'wprss_fetch_all_feeds_hook', array() );
             }
+		  	
+		  	// Update the meta field
+		  	if ( wprss_is_feed_source_active( $post_id ) ) {
+				$next_update_text = $next_update === FALSE ? 'None': human_time_diff( $next_update, time() );
+			} else {
+				$next_update_text = 'Paused';
+			}
+		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
+		  
             ?>
 
             <p>
                 Next update:
                 <code class="next-update">
-                    <?php if ( ! wprss_is_feed_source_active( $post_id ) ): ?>
-                        Paused
-                    <?php elseif ( $next_update === FALSE ) : ?>
-                        None
-                    <?php else: ?>
-                        <?php echo human_time_diff( $next_update, time() ); ?>
-                    <?php endif; ?>
+                   	<?php echo $next_update_text; ?>
                 </code>
             </p>
 
@@ -134,11 +137,15 @@
             echo "<i class=\"fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon $showClass\" title=\"Updating feed source\"></i>";
             echo '</p>';
 
+		  	// Set meta field for items imported
+		  	update_post_meta( $post_id, 'wprss_items_imported', $items->post_count );
+		  
             break;
       }
     }
 
 
+	add_filter( "manage_edit-wprss_feed_sortable_columns", "wprss_feed_sortable_columns" );
     /**
      * Make the custom columns sortable for wprss_feed post type
      * 
@@ -147,7 +154,10 @@
     function wprss_feed_sortable_columns() {
         $sortable_columns = array(
             // meta column id => sortby value used in query
-            'title' => 'title',             
+            'title'			=> 'title',
+			'updates'		=>	'updates',
+			'state'			=>	'state',
+			'feed-count'	=>	'feed-count'
         );
         return apply_filters( 'wprss_feed_sortable_columns', $sortable_columns );
     }
@@ -160,22 +170,44 @@
      * @since 2.2
      */  
     function wprss_feed_source_order( $query ) {
-        if ( ! is_admin() ) {
+		// Check if the query is being processed in WP Admin, is the main query, and is targetted
+		// for the wprss_feed CPT. If not, stop
+        if ( !is_admin() || !$query->is_main_query() || $query->get('post_type') !== 'wprss_feed' ) {
             return;
         }
-
-        $post_type = $query->get('post_type');
-
-        if ( $post_type == 'wprss_feed' ) {
-            /* Post Column: e.g. title */
-            if ( $query->get( 'orderby' ) == '' ) {
-                $query->set( 'orderby', 'title' );
-            }
-            /* Post Order: ASC / DESC */
-            if( $query->get( 'order' ) == '' ){
-                $query->set( 'order', 'ASC' );
-            }
-        }
+		// Check if the orderby query variable is set
+		if ( !( $orderby = $query->get( 'orderby' ) ) ) return;
+        
+		// We will be sorting using the meta value (unless sorting by title)
+		$query->set('orderby', 'meta_value' );
+		// Get the current order
+		$order = strtoupper( $query->get( 'order' ) );
+		// Check if it is valid
+		$got_order = $order === 'ASC' || $order === 'DESC';
+		
+		// Check what we are sorting by
+		switch ( $orderby ) {
+			case 'title':
+				$query->set( 'orderby', 'title' );
+				break;
+			case 'state':
+				$query->set('meta_key', 'wprss_state');
+				break;
+			case 'updates':
+				$query->set('meta_key', 'wprss_next_update');
+				$query->set('orderby', 'meta_value' );
+				if ( !$got_order ) $query->set( 'order', 'ASC' );
+				break;
+			case 'feed-count':
+				$query->set('meta_key', 'wprss_items_imported');
+				$query->set('orderby', 'meta_value_num' );
+				if ( !$got_order ) $query->set( 'order', 'DESC' );
+				break;
+		}
+		
+		if ( !$got_order ){
+			$query->set( 'order', 'ASC' );
+		}
     }
 
 
