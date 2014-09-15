@@ -32,6 +32,10 @@ label.description {
     font-style: italic;
 }
 
+span.wprss-row-id {
+	color: #8f8f8f;
+}
+
 #icon-wprss-aggregator {
     background: transparent url( '../images/icon-adminpage32.png' ) no-repeat !important;
 }
@@ -375,22 +379,22 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#title {
 }
 /* NEXT UPDATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates {
-    width: 200px !important;
+    width: 220px !important;
 }
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts td.column-updates p {
     margin-bottom: 0 !important;
 }
 /* STATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
-    width: 80px !important;
+    width: 90px !important;
 }
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
-    width: 120px !important;
+    width: 140px !important;
 }
 /* CATEGORIES */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
-    width: 120px !important;
+    width: 130px !important;
 }
 
 
