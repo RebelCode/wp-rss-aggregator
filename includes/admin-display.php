@@ -322,10 +322,7 @@
      */       
     function wprss_remove_row_actions( $actions, $post )
     {
-		$actions = array_reverse( $actions );
-		$actions['id'] = "<span class='wprss-row-id'>ID: $post->ID</span>";
-		$actions = array_reverse( $actions );
-		
+        
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type($post) === 'wprss_feed_item' )  {
             unset( $actions[ 'edit' ] );
@@ -334,6 +331,10 @@
             unset( $actions[ 'inline hide-if-no-js' ] );
         }
         elseif ( get_post_type($post) === 'wprss_feed' ) {
+    		$actions = array_reverse( $actions );
+    		$actions['id'] = "<span class='wprss-row-id'>ID: $post->ID</span>";
+    		$actions = array_reverse( $actions );
+            
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
             if ( get_post_status( $post->ID ) !== 'trash' ) {
