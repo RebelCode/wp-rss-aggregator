@@ -493,19 +493,23 @@
 	function wprss_setting_video_links_callback( $field ) {
 		$video_link = wprss_get_general_setting('video_link');
 		$items = array(
-			'false' => __( 'Original page link', 'wprss' ),
-			'true' => __( 'Embedded video player link', 'wprss' )
+			'false' => __( 'Original page link', WPRSS_TEXT_DOMAIN ),
+			'true' => __( 'Embedded video player link', WPRSS_TEXT_DOMAIN )
 		);
-		echo "<select id='{$field['field_id']}' name='wprss_settings_general[video_link]'>";
+		?>
+		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[video_link]">
+		<?php
 		foreach ( $items as $boolean => $text ) {
 			$selected = ( $video_link === $boolean )? 'selected="selected"' : '';
-			echo "<option value='$boolean' $selected>$text</option>";
+			?>
+			<option value="<?php echo $boolean ?>" <?php echo $selected ?>><?php echo $text ?></option>
+			<?php
         }
-		echo "</select>";
 		?>
+		</select>
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
+		<label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'This will not affect already imported feed items.', WPRSS_TEXT_DOMAIN ) ?></label>
 		<?php
-		echo "<label class='description' for='{$field['field_id']}'>This will not affect already imported feed items.</label>";
 	}
 	
 
