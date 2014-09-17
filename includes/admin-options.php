@@ -738,13 +738,13 @@
      * Limit number of feed items stored
      * @since 3.0
      */
-    function wprss_setting_limit_feed_items_callback() {
+    function wprss_setting_limit_feed_items_callback( $field ) {
         $limit_feed_items_db = wprss_get_general_setting( 'limit_feed_items_db' );
-        echo "<input id='limit-feed-items-db' name='wprss_settings_general[limit_feed_items_db]' type='text' value='$limit_feed_items_db' />";
+        echo "<input id='{$field['field_id']}' name='wprss_settings_general[limit_feed_items_db]' type='text' value='$limit_feed_items_db' />";
 		?>
-		<?php echo wprss_settings_inline_help( 'limit-feed-items-db' ) ?>
+		<?php echo wprss_settings_inline_help( $field['field_id'] ) ?>
 		<?php
-        echo "<label class='description' for='limit-feed-items-db'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
+        echo "<label class='description' for='{$field['field_id']}'>Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items</label>";
     }
 
 
