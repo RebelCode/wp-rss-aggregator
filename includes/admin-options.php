@@ -53,11 +53,11 @@
         $sections = apply_filters(
             'wprss_settings_sections_array',
             array(
-                'general'  =>  __( 'General plugin settings', 'wprss' ),
-                'display'  =>  __( 'General display settings', 'wprss' ),
-                'source'   =>  __( 'Source display settings', 'wprss' ),
-                'date'     =>  __( 'Date display settings', 'wprss' ),
-                'styles'   =>  __( 'Styles', 'wprss' ),
+                'general'  =>  __( 'General plugin settings', WPRSS_TEXT_DOMAIN ),
+                'display'  =>  __( 'General display settings', WPRSS_TEXT_DOMAIN ),
+                'source'   =>  __( 'Source display settings', WPRSS_TEXT_DOMAIN ),
+                'date'     =>  __( 'Date display settings', WPRSS_TEXT_DOMAIN ),
+                'styles'   =>  __( 'Styles', WPRSS_TEXT_DOMAIN ),
             )
         );
 
@@ -67,35 +67,35 @@
             array(
                 'general'   =>  array(
                     'limit-feed-items-by-age' => array(
-                        'label'     =>  __( 'Limit feed items by age', 'wprss' ),
+                        'label'     =>  __( 'Limit feed items by age', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
                     ),
                     'limit-feed-items-db' => array(
-                        'label'     => __( 'Limit feed items stored', 'wprss' ),
+                        'label'     => __( 'Limit feed items stored', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_callback'
                     ),
                     'limit-feed-items-imported' => array(
-                        'label'     => __( 'Limit feed items per feed', 'wprss' ),
+                        'label'     => __( 'Limit feed items per feed', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
                     ),
                     'cron-interval' => array(
-                        'label'     =>  __( 'Feed processing interval', 'wprss' ),
+                        'label'     =>  __( 'Feed processing interval', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_cron_interval_callback'
                     ),
                     'custom-feed-url' => array(
-                        'label'     =>  __( 'Custom feed URL', 'wprss' ),
+                        'label'     =>  __( 'Custom feed URL', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_settings_custom_feed_url_callback'
                     ),
                     'custom-feed-title' => array(
-                        'label'     =>  __( 'Custom feed Title', 'wprss' ),
+                        'label'     =>  __( 'Custom feed Title', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_settings_custom_feed_title_callback'
                     ),
                     'custom-feed-limit' => array(
-                        'label'     =>  __( 'Custom feed limit', 'wprss' ),
+                        'label'     =>  __( 'Custom feed limit', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setings_custom_feed_limit_callback'
                     ),
                     'tracking'  =>  array(
-                        'label'     =>  __( 'Anonymous tracking', 'wprss' ),
+                        'label'     =>  __( 'Anonymous tracking', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_tracking_callback',
                     )
                 ),
@@ -103,11 +103,11 @@
                 'display'   =>  array(
                     // Title options
                     'link-enable' => array(
-                        'label'     =>  __( 'Link title', 'wprss' ),
+                        'label'     =>  __( 'Link title', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_title_link_callback'
                     ),
                     'title-limit' => array(
-                        'label'     =>  __( 'Title maximum length', 'wprss' ),
+                        'label'     =>  __( 'Title maximum length', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_title_length_callback'
                     ),
 
@@ -115,27 +115,27 @@
 
                     // Misc Options
                     'authors-enable' =>    array(
-                        'label'     =>  __( 'Show authors', 'wprss' ),
+                        'label'     =>  __( 'Show authors', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_authors_enable_callback',
                     ),
                     'video-links' => array(
-                        'label'     =>  __( 'For video feed items use', 'wprss' ),
+                        'label'     =>  __( 'For video feed items use', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_video_links_callback'
                     ),
                     'pagination' =>   array(
-                        'label'     =>  __( 'Pagination type', 'wprss' ),
+                        'label'     =>  __( 'Pagination type', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_pagination_type_callback',
                     ),
                     'feed-limit' => array(
-                        'label'     =>  __( 'Feed display limit', 'wprss' ),
+                        'label'     =>  __( 'Feed display limit', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_feed_limit_callback'
                     ),
                     'open-dd' => array(
-                        'label'     =>  __( 'Open links behaviour', 'wprss' ),
+                        'label'     =>  __( 'Open links behaviour', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_open_dd_callback'
                     ),
                     'follow-dd' => array(
-                        'label'     =>  __( 'Set links as nofollow', 'wprss' ),
+                        'label'     =>  __( 'Set links as nofollow', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_follow_dd_callback'
                     ),
                 ),
@@ -143,15 +143,15 @@
                 // Source Options
                 'source' => array(
                     'source-enable' => array(
-                        'label'     =>  __( 'Show source', 'wprss' ),
+                        'label'     =>  __( 'Show source', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_source_enable_callback'
                     ),
                     'text-preceding-source' => array(
-                        'label'     =>  __( 'Text preceding source', 'wprss' ),
+                        'label'     =>  __( 'Text preceding source', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_text_preceding_source_callback'
                     ),
                     'source-link' => array(
-                        'label'     =>  __( 'Link source', 'wprss' ),
+                        'label'     =>  __( 'Link source', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_source_link_callback'
                     ),
                 ),
@@ -159,26 +159,26 @@
                 // Date options
                 'date' => array(
                     'date-enable' => array(
-                        'label'     =>  __( 'Show date', 'wprss' ),
+                        'label'     =>  __( 'Show date', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_date_enable_callback'
                     ),
                     'text-preceding-date' => array(
-                        'label'     =>  __( 'Text preceding date', 'wprss' ),
+                        'label'     =>  __( 'Text preceding date', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_text_preceding_date_callback'
                     ),
                     'date-format' => array(
-                        'label'     =>  __( 'Date format', 'wprss' ),
+                        'label'     =>  __( 'Date format', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_date_format_callback'
                     ),
                     'time-ago-format-enable' => array(
-                        'label'     =>  __( 'Time ago format', 'wprss' ),
+                        'label'     =>  __( 'Time ago format', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_time_ago_format_enable_callback'
                     ),
                 ),
 
                 'styles'    =>  array(
                     'styles-disable' => array(
-                        'label'     =>  __( 'Disable Styles', 'wprss' ),
+                        'label'     =>  __( 'Disable Styles', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_styles_disable_callback'
                     )
                 )
@@ -241,13 +241,13 @@
         );
         add_settings_section( 
             'wprss_secure_reset_section',                   // ID of section
-            __( 'Secure Reset', 'wprss' ),                  // Title of section
+            __( 'Secure Reset', WPRSS_TEXT_DOMAIN ),                  // Title of section
             'wprss_secure_reset_section_callback',          // Callback that renders the section header
             'wprss_settings_general'                        // The page on which to display the section
         );
         add_settings_field(
             'wprss-settings-secure-reset',                  // ID of setting
-            __( 'Secure Reset', 'wprss' ),                  // The title of the setting
+            __( 'Secure Reset', WPRSS_TEXT_DOMAIN ),                  // The title of the setting
             'wprss_settings_secure_reset_code_callback',    // The callback that renders the setting
             'wprss_settings_general',                       // The page on which to display the setting
             "wprss_secure_reset_section"                    // The section in which to display the setting
@@ -338,7 +338,7 @@
         <div class="wrap">
             <?php screen_icon( 'wprss-aggregator' ); ?>            
         
-            <h2><?php _e( 'WP RSS Aggregator Settings', 'wprss' ); ?></h2>   
+            <h2><?php _e( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ); ?></h2>   
 
             <?php settings_errors(); ?> 
 
@@ -348,11 +348,11 @@
 
             $default_tabs = array(
 				'general' => array( 
-					'label' => __( 'General', 'wprss' ),
+					'label' => __( 'General', WPRSS_TEXT_DOMAIN ),
 					'slug'  => 'general_settings',
 				),
 				'licenses' => array(
-					'label' => __( 'Licenses', 'wprss' ),
+					'label' => __( 'Licenses', WPRSS_TEXT_DOMAIN ),
 					'slug'  => 'licenses_settings'
 				)
             );
@@ -392,7 +392,7 @@
                     do_action( 'wprss_add_settings_fields_sections', $active_tab );
                 }
 
-                submit_button( __( 'Save Settings', 'wprss' ) );
+                submit_button( __( 'Save Settings', WPRSS_TEXT_DOMAIN ) );
 
                 ?>
             </form>
@@ -406,7 +406,7 @@
      * @since 3.0
      */
     function wprss_settings_general_callback() {
-        echo '<p>' . __( 'These are the general settings for WP RSS Aggregator.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'These are the general settings for WP RSS Aggregator.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
 
@@ -415,7 +415,7 @@
      * @since 3.5
      */
     function wprss_settings_display_callback() {
-        echo '<p>' . __( 'In this section you can find some general options that control how the feed items are displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'In this section you can find some general options that control how the feed items are displayed.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
 
@@ -425,7 +425,7 @@
      * @since 4.2.4
      */
     function wprss_settings_source_callback() {
-        echo '<p>' . __( 'Options that control how the feed item\'s source is displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Options that control how the feed item\'s source is displayed.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
     /**
@@ -434,7 +434,7 @@
      * @since 4.2.4
      */
     function wprss_settings_date_callback() {
-        echo '<p>' . __( 'Options that control how the feed item\'s date is displayed.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Options that control how the feed item\'s date is displayed.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
 
@@ -443,7 +443,7 @@
      * @since 3.0
      */
     function wprss_settings_styles_callback() {
-        echo '<p>' . __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
 
@@ -452,7 +452,7 @@
      * @since 3.0
      */
     function wprss_secure_reset_section_callback() {
-        echo '<p>' . __( 'Set your security reset code, in case of any errors.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Set your security reset code, in case of any errors.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
 
@@ -461,7 +461,7 @@
      * @since 3.0
      */
     function wprss_tracking_section_callback() {
-        echo '<p>' . __( 'Participate in helping us make the plugin better.', 'wprss' ) . '</p>';
+        echo '<p>' . __( 'Participate in helping us make the plugin better.', WPRSS_TEXT_DOMAIN ) . '</p>';
     }
 
 
@@ -521,9 +521,9 @@
         $open_dd = wprss_get_general_setting('open_dd');
 
         $items = array( 
-            __( 'Lightbox', 'wprss' ), 
-            __( 'New window', 'wprss' ), 
-            __( 'Self', 'wprss' )
+            __( 'Lightbox', WPRSS_TEXT_DOMAIN ), 
+            __( 'New window', WPRSS_TEXT_DOMAIN ), 
+            __( 'Self', WPRSS_TEXT_DOMAIN )
         );
         echo "<select id='{$field['field_id']}' name='wprss_settings_general[open_dd]'>";
         foreach( $items as $item ) {
@@ -816,7 +816,7 @@
 		?>
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
 		<?php
-        echo "<label class='description' for='{$field['field_id']}'>" . __( 'The URL of the custom feed. This might require you to re-save your Permalink settings for the custom feed to work.', 'wprss' ) . "</label>";
+        echo "<label class='description' for='{$field['field_id']}'>" . __( 'The URL of the custom feed. This might require you to re-save your Permalink settings for the custom feed to work.', WPRSS_TEXT_DOMAIN ) . "</label>";
     }
 
     /**
@@ -829,7 +829,7 @@
 		?>
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
 		<?php
-        echo "<label class='description' for='{$field['field_id']}'>" . __( 'The title of the custom feed', 'wprss' ) . "</label>";
+        echo "<label class='description' for='{$field['field_id']}'>" . __( 'The title of the custom feed', WPRSS_TEXT_DOMAIN ) . "</label>";
     }
 
     /**
@@ -842,7 +842,7 @@
 		?>
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
 		<?php
-        echo "<label class='description' for='{$field['field_id']}'>" . __( 'Number of items to show in the custom feed', 'wprss' ) . "</label>";
+        echo "<label class='description' for='{$field['field_id']}'>" . __( 'Number of items to show in the custom feed', WPRSS_TEXT_DOMAIN ) . "</label>";
     }
 
     /** 
@@ -947,7 +947,7 @@
      */
     function wprss_interval( $since ) {
         if ( $since === wprss_get_default_feed_source_update_interval() ) {
-            return __( 'Default', 'wprss' );
+            return __( 'Default', WPRSS_TEXT_DOMAIN );
         }
         // array of time period chunks
         $chunks = array(
@@ -962,7 +962,7 @@
 
 
         if( $since <= 0 ) {
-            return __( 'now', 'wprss' );
+            return __( 'now', WPRSS_TEXT_DOMAIN );
         }
 
         // we only want to output two chunks of time here, eg:
@@ -984,7 +984,7 @@
             }
 
         // set output var
-        $output = sprintf(_n($name[0], $name[1], $count, 'wprss'), $count);
+        $output = sprintf(_n($name[0], $name[1], $count, WPRSS_TEXT_DOMAIN), $count);
 
         // step two: the second chunk
         if ($i + 1 < $j)
@@ -995,7 +995,7 @@
             if (($count2 = floor(($since - ($seconds * $count)) / $seconds2)) != 0)
                 {
                 // add to output var
-                $output .= ' '.sprintf(_n($name2[0], $name2[1], $count2, 'wprss'), $count2);
+                $output .= ' '.sprintf(_n($name2[0], $name2[1], $count2, WPRSS_TEXT_DOMAIN), $count2);
                 }
             }
 
