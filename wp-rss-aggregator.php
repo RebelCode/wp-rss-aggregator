@@ -90,6 +90,8 @@
     if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
         define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
     
+	if ( !defined( 'WPRSS_TEXT_DOMAIN' ) )
+		define( 'WPRSS_TEXT_DOMAIN', 'wprss' );
 
     /**
      * Load required files.
