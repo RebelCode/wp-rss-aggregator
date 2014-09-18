@@ -70,7 +70,7 @@ class WPRSS_Help {
 	const OPTION_NAME = 'wprss_settings_help';
 	const CODE_PREFIX = 'wprss_help_';
 	const OVERRIDE_DEFAULT_PREFIX = '!';
-	const TEXT_DOMAIN = 'wprss';
+	const TEXT_DOMAIN = WPRSS_TEXT_DOMAIN;
 	const HASHING_CONCATENATOR = '|';
 	const OPTIONS_FILTER_SUFFIX = '_options';
 	
@@ -119,7 +119,8 @@ class WPRSS_Help {
 			'tooltip_handle_template'		=> '%1$s/help-tooltip-handle.php',
 			'tooltip_content_template'		=> '%1$s/help-tooltip-content.php',
 			'admin_footer_js_template'		=> '%1$s/help-footer-js.php',
-			'tooltip_not_found_handle_html'	=> ''
+			'tooltip_not_found_handle_html'	=> '',
+			'text_domain'					=> self::TEXT_DOMAIN
 		));
 		$db_options = $this->get_options_db();
 		$this->_set_options( $this->array_merge_recursive_distinct( $db_options, $defaults ) );
