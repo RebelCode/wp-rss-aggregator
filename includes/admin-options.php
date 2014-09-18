@@ -276,9 +276,11 @@
 		$help = WPRSS_Help::get_instance();
 		
 		// Default options, entry point
-		$options = $help->array_merge_recursive_distinct( apply_filters( 'wprss_settings_inline_help_default_options', array(
+		$defaults = apply_filters( 'wprss_settings_inline_help_default_options', array(
 			'tooltip_handle_class_extra'	=> $help->get_options('tooltip_handle_class_extra') . ' ' . $help->get_options('tooltip_handle_class') . '-setting'
-		)), $options );
+		));
+
+		$options = $help->array_merge_recursive_distinct( $defaults, $options );
 		
 		// ID Prefix
 		$id = apply_filters( 'wprss_settings_inline_help_id_prefix', 'setting-' ) . $id;
