@@ -559,6 +559,7 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 .wprss-tooltip-handle {
     font-size: 1.3em;
     color: rgb(190, 190, 190);
+    vertical-align: middle;
 }
 
 .wprss-tooltip-handle-side {
@@ -570,11 +571,26 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 }
 
 .wprss-ui-tooltip {
-    font-size: 1em !important;
-    padding: 6px 8px !important;
+    color: #444 !important;
+    padding: 8px 10px !important;
     background: #fefefe !important;
     border: 1px solid #ccc !important;
     border-radius: 1px !important;
     font-family: "Open Sans", sans-serif !important;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.17) !important;
+}
+.wprss-ui-tooltip p:first-child {
+    margin-top: 0;
+}
+.wprss-ui-tooltip p:last-child {
+    margin-bottom: 0;
+}
+.wprss-ui-tooltip p {
+    margin: 8px 0;
+}
+.wprss-ui-tooltip p, code {
+    font-size: 0.9em !important;
+}
+.wprss-ui-tooltip hr {
+    margin: 0;
 }
