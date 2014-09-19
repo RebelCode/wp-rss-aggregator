@@ -164,7 +164,11 @@
 
     /* Load the admin help file */
     require_once ( WPRSS_INC . 'admin-help.php' );
+
+    /* Load the admin metaboxes help file */
     require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
+    
+    /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
     
     /* Load the addons page file */
