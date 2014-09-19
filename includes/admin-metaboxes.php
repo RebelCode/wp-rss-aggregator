@@ -139,6 +139,8 @@
     function wprss_show_meta_box_callback() {
         global $post;
         $meta_fields = wprss_get_custom_fields();
+		$field_tooltip_id_prefix = 'field_';
+		$help = WPRSS_Help::get_instance();
 
         // Use nonce for verification
         wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
@@ -163,27 +165,43 @@
 				
 						// Add default placeholder value
 						$field = wp_parse_args( $field, array( 'placeholder' => '' ) );
-				
+						
+						$tooltip = isset( $field['tooltip'] ) ? trim( $field['tooltip'] ) : null;
+						$tooltip_id = isset( $field['id'] ) ? $field_tooltip_id_prefix . $field['id'] : uniqid( $field_tooltip_id_prefix );
+						
+						/*
+						 * So, here's how tooltips work here.
+						 * Tooltip output will be attempted in any case.
+						 * If 'tooltip' index is not defined, or is null, then
+						 * a registered tooltip will be attempted. If that is
+						 * not found, default value will be output. This value
+						 * is by default an empty string, but can be altered
+						 * by the `tooltip_not_found_handle_html` option of `WPRSS_Help`.
+						 */
+                        
                         switch( $field['type'] ) {
                         
                             // text/url
                             case 'url':
                             case 'text':
-                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" placeholder="'.__($field['placeholder'], 'wprss').'" class="wprss-text-input"/>
-                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
+                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" placeholder="'.__($field['placeholder'], 'wprss').'" class="wprss-text-input"/>';
+								echo $help->tooltip( $tooltip_id, $tooltip );
+                                echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;
                         
                             // textarea
                             case 'textarea':
-                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>
-                                    <br/><label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
+                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>';
+                                echo $help->tooltip( $tooltip_id, $tooltip );
+                                echo '<br/><label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
                             break;
                         
                             // checkbox
                             case 'checkbox':
                                 echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
-                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />
-                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
+                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />';
+                                echo $help->tooltip( $tooltip_id, $tooltip );
+                                echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
                             break;    
                         
                             // select
@@ -192,14 +210,17 @@
                                 foreach ($field['options'] as $option) {
                                     echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
                                 }
-                                echo '</select><br/><label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
+
+                                echo '</select>';
+								echo $help->tooltip( $tooltip_id, $tooltip );
+								echo '<br><span class="description">'.$field['desc'].'</span>';
                             break;                                            
                         
                             // number
                             case 'number':
-                                echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />
-                                    <label for="'.$field['id'].'" class="description">'.$field['desc'].'</label>';
-
+                                echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />';
+								echo $help->tooltip( $tooltip_id, $tooltip );
+                                echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
                             break;
 
                         } //end switch
@@ -346,23 +367,28 @@
     function wprss_preview_meta_box_callback() {
         global $post;
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
+		
+		$help = WPRSS_Help::get_instance();
+		/* @var $help WPRSS_Help */
         
-        if( ! empty( $feed_url ) ) {             
-            $feed = wprss_fetch_feed( $feed_url, $post->ID ); 
+        if ( ! empty( $feed_url ) ) {
+            $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
-                $items = $feed->get_items();        
+                $items = $feed->get_items();
                 // Figure out how many total items there are
                 $total = $feed->get_item_quantity();
                 // Get the number of items again, but limit it to 5.
                 $maxitems = $feed->get_item_quantity(5);
 
                 // Build an array of all the items, starting with element 0 (first element).
-                $items = $feed->get_items( 0, $maxitems );  
-                echo "<h4>Latest $maxitems feed items out of $total available from " . get_the_title() . '</h4>';
-                echo '<ul>';
-                foreach ( $items as $item ) { 
+                $items = $feed->get_items( 0, $maxitems );
+                ?>
+				<h4><?php echo sprintf( __( 'Latest %1$s feed items out of %2$s available from %3$s' ), $maxitems, $total, get_the_title() ) ?></h4>
+                <ul>
+				<?php
+                foreach ( $items as $item ) {
                     // Get human date (comment if you want to use non human date)
-                    $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );                                   
+                    $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
                     // Start displaying item content within a <li> tag
                     echo '<li>';
                     // create item link
@@ -374,8 +400,10 @@
                     echo ' <div class="rss-date"><small>'.$item_date.'</small></div>';
                     // End <li> tag
                     echo '</li>';
-                }  
-                echo '</ul>';
+                }
+                ?>
+				</ul>
+				<?php
             }
             else {
                 ?>
@@ -404,12 +432,13 @@
                 </label>
             </p>
             <p>
-                <label for="wprss-force-feed">Force the feed</label>
+                <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
                 <input type="hidden" name="wprss_force_feed" value="false" />
                 <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
+				<?php echo $help->tooltip( 'field_wprss_force_feed' ) ?>
             </p>
             <p class="description">
-                <strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.
+                <?php _e("<strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.") ?>
             </p>
 
             <?php
@@ -463,6 +492,10 @@
             $wprss_schedules
         );
 
+		// Inline help
+		$help = WPRSS_Help::get_instance();
+		$help_options = array('tooltip_handle_class_extra' => $help->get_options('tooltip_handle_class_extra') . ' ' . $help->get_options('tooltip_handle_class') . '-side');
+		
         ?>
 
         <div class="wprss-meta-side-setting">
@@ -472,6 +505,7 @@
                     <option value="<?php echo $value; ?>" <?php selected( $state, $value ) ?> ><?php echo $label; ?></option>
                 <?php endforeach; ?>
             </select>
+			<?php echo $help->tooltip( 'field_wprss_state', null, $help_options ) ?>
         </div>
 
         <div class="wprss-meta-side-setting">
@@ -479,6 +513,7 @@
                 <label for="">Activate feed: </label>
                 <strong id="wprss-activate-feed-viewer"><?php echo ( ( $activate !== '' )? $activate : $default_activate ); ?></strong>
                 <a href="#">Edit</a>
+				<?php echo $help->tooltip( 'field_wprss_activate_feed', null, $help_options ) ?>
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="<?php echo $default_activate; ?>">
                 <input id="wprss_activate_feed" class="wprss-datetimepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
@@ -500,6 +535,7 @@
                 <label for="">Pause feed: </label>
                 <strong id="wprss-pause-feed-viewer"><?php echo ( ( $pause !== '' )? $pause : $default_pause ); ?></strong>
                 <a href="#">Edit</a>
+				<?php echo $help->tooltip( 'field_wprss_pause_feed', null, $help_options ) ?>
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-pause-feed-viewer" data-default-value="<?php echo $default_pause; ?>">
                 <input id="wprss_pause_feed" class="wprss-datetimepicker-from-today" name="wprss_pause_feed" value="<?php echo $pause; ?>" />
@@ -528,6 +564,7 @@
                     ?>
                 </strong>
                 <a href="#">Edit</a>
+				<?php echo $help->tooltip( 'field_wprss_update_interval', null, $help_options ) ?>
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-feed-update-interval-viewer" data-default-value="<?php echo $default_interval; ?>">
                 <select id="feed-update-interval" name="wprss_update_interval">
@@ -550,6 +587,7 @@
                 <label id="wprss-age-limit-feed-label" for="" data-when-empty="Delete old feed items:">Delete feed items older than: </label>
                 <strong id="wprss-age-limit-feed-viewer"><?php echo $age_limit . ' ' . $age_unit; ?></strong>
                 <a href="#">Edit</a>
+				<?php echo $help->tooltip( 'field_wprss_age_limit', null, $help_options ) ?>
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-age-limit-feed-viewer" data-label="#wprss-age-limit-feed-label" data-default-value="" data-empty-controller="#limit-feed-items-age" data-hybrid="#limit-feed-items-age, #limit-feed-items-age-unit">
                 <input id="limit-feed-items-age" name="wprss_age_limit" type="number" min="0" class="wprss-number-roller" placeholder="No limit" value="<?php echo $age_limit; ?>" />

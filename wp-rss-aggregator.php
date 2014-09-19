@@ -94,6 +94,10 @@
 		define( 'WPRSS_SL_STORE_URL', 'http://www.wprssaggregator.com', TRUE );
 	}
 
+	if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
+		define( 'WPRSS_TEXT_DOMAIN', 'wprss' );
+    }
+
     /**
      * Load required files.
      */
