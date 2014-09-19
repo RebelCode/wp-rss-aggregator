@@ -162,8 +162,10 @@
     /* Load the system info file */
     require_once ( WPRSS_INC . 'admin-debugging.php' );     
 
-    /* Load the system info file */
-    require_once ( WPRSS_INC . 'admin-help.php' );   
+    /* Load the admin help file */
+    require_once ( WPRSS_INC . 'admin-help.php' );
+    require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
+    require_once ( WPRSS_INC . 'admin-help-settings.php' );
     
     /* Load the system info file */
     require_once ( WPRSS_INC . 'admin-addons.php' );   
