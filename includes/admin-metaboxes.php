@@ -39,18 +39,7 @@
             'high'
         );
 
-        /*
-        add_meta_box(
-            'wprss-help-meta',
-            __( 'WP RSS Aggregator Help', 'wprss' ),
-            'wprss_help_meta_box_callback',
-            'wprss_feed',
-            'side',
-            'low'
-        );
-        */
-
-        if ( !defined('WPRSS_FTP_VERSION') ) {
+        if ( !defined('WPRSS_FTP_VERSION') && !defined('WPRSS_ET_VERSION') && !defined('WPRSS_C_VERSION') ) {
             add_meta_box(
                 'wprss-like-meta',
                 __( 'Like This Plugin?', 'wprss' ),
@@ -60,18 +49,6 @@
                 'low'
             );
         }
-
-        /*
-        add_meta_box(
-            'wprss-follow-meta',
-            __( 'Follow Us', 'wprss' ),
-            'wprss_follow_meta_box_callback',
-            'wprss_feed',
-            'side',
-            'low'
-        );
-        */
-
         
         add_meta_box(
             'custom_meta_box',
@@ -81,7 +58,6 @@
             'normal',
             'high'
         );
-
         
     }
 
@@ -244,6 +220,7 @@
      */
     function wprss_validate_feed_link() {
         ?>
+            <br/>
             <a href="#" id="validate-feed-link">Validate feed</a>
             <script type="text/javascript">
                 (function($){
@@ -264,8 +241,7 @@
                             e.preventDefault();
                             e.stopPropagation();
                             return false;
-                        })
-                        .appendTo('td label[for="wprss_url"].description');
+                        });
                     });
                 })(jQuery);
             </script>
@@ -430,18 +406,10 @@
             <hr/>
 
             <p>
-                <label for="wprss-force-feed">
-                    <strong><?php _e('Are you seeing an error, but sure the feed URL is correct?', 'wprss' ); ?></strong>
-                </label>
-            </p>
-            <p>
                 <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
                 <input type="hidden" name="wprss_force_feed" value="false" />
                 <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
 				<?php echo $help->tooltip( 'field_wprss_force_feed' ) ?>
-            </p>
-            <p class="description">
-                <?php _e("<strong>Note:</strong> This will disable auto discovery of the RSS feed, meaning you will have to use the feed's URL. Using the site's URL will not work.") ?>
             </p>
 
             <?php
@@ -520,15 +488,8 @@
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-activate-feed-viewer" data-default-value="<?php echo $default_activate; ?>">
                 <input id="wprss_activate_feed" class="wprss-datetimepicker-from-today" name="wprss_activate_feed" value="<?php echo $activate; ?>" />
-
-                <label class="description" for="wprss_activate_feed">
-                    Leave blank to activate the feed immediately.
-                </label>
-
-                <br/><br/>
-
                 <span class="description">
-                    <b>Note:</b> WordPress uses UTC time for schedules, not local time. Current UTC time is: <code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
+                    Current UTC time is:<br/><code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
                 </span>
             </div>
         </div>
@@ -542,12 +503,8 @@
             </p>
             <div class="wprss-meta-slider" data-collapse-viewer="wprss-pause-feed-viewer" data-default-value="<?php echo $default_pause; ?>">
                 <input id="wprss_pause_feed" class="wprss-datetimepicker-from-today" name="wprss_pause_feed" value="<?php echo $pause; ?>" />
-                <label class="description" for="wprss_pause_feed">
-                    Leave blank to never pause the feed.
-                </label>
-                <br/><br/>
                 <span class="description">
-                    <b>Note:</b> WordPress uses UTC time for schedules, not local time. Current UTC time is: <code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
+                    Current UTC time is:<br/><code><?php echo date( 'd/m/Y H:i:s', current_time('timestamp',1) ); ?></code>
                 </span>
             </div>
         </div>
@@ -576,11 +533,6 @@
                     <option value="<?php echo $value; ?>" <?php selected( $update_interval, $value ); ?> ><?php echo $text; ?></option>
                 <?php endforeach; ?>
                 </select>
-                
-                <br/>
-                <span class='description' for='feed-update-interval'>
-                    Enter the interval at which to update this feed. The feed will only be updated if it is <strong>active</strong>.
-                </span>
             </div>
         </div>
 
@@ -600,13 +552,6 @@
                     <option value="<?php echo $unit; ?>" <?php selected( $age_unit, $unit ); ?> ><?php echo $unit; ?></option>
                 <?php endforeach; ?>
                 </select>
-                
-                <br/>
-                <span class='description' for='limit-feed-items-age'>
-                    Enter the maximum age of feed items to be stored in the database. Feed items older than the specified age will be deleted everyday at midnight.
-                    <br/>
-                    Leave empty for no limit.
-                </span>
             </div>
         </div>
 

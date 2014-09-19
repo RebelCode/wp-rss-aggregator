@@ -479,12 +479,7 @@
 		?>
         <input type="hidden" name="wprss_settings_general[follow_dd]" value="follow" />
         <input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[follow_dd]" value="no_follow" <?php echo $checked_attr ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-
-        <label class="description" for="<?php echo $field['field_id'] ?>">
-        <?php _e('"Nofollow" provides a way for webmasters to tell search engines "Don\'t follow links on this page" or "Don\'t follow this specific link."', WPRSS_TEXT_DOMAIN) ?>
-        </label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 	
@@ -508,7 +503,11 @@
 		?>
 		</select>
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-		<label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'This will not affect already imported feed items.', WPRSS_TEXT_DOMAIN ) ?></label>
+		<p>
+            <span class="description">
+                <?php _e( 'This will not affect already imported feed items.', WPRSS_TEXT_DOMAIN ) ?>
+            </span>
+        </p>
 		<?php
 	}
 	
@@ -534,11 +533,7 @@
         }
         ?>
 		</select>
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-		<label for="<?php echo $field['field_id'] ?>" class="description">
-			<?php echo _e( 'Choose how to open links for your feed items.', WPRSS_TEXT_DOMAIN ) ?>
-		</label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -550,9 +545,7 @@
         $feed_limit = wprss_get_general_setting( 'feed_limit' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[feed_limit]" type="text" value="<?php echo $feed_limit ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-		<label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Enter the number of feeds to display on the front end', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -565,7 +558,11 @@
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[date_format]" type="text" value="<?php echo $date_format ?>" />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Date formatting, using the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">PHP date formats</a>', WPRSS_TEXT_DOMAIN ) ?></label>
+        <p>
+            <a href="http://codex.wordpress.org/Formatting_Date_and_Time">
+                <?php _e( 'PHP Date Format Reference', WPRSS_TEXT_DOMAIN ); ?>
+            </a>
+        </p>
 		<?php
     }
 
@@ -579,9 +576,7 @@
         $title_link = wprss_get_general_setting( 'title_link' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[title_link]" type="checkbox" value="1" <?php echo checked( 1, $title_link, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to enable linked titles', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -594,9 +589,7 @@
         $title_limit = wprss_get_general_setting( 'title_limit' );
 		?>
         <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[title_limit]" type="number" class="wprss-number-roller" min="0" value="<?php echo $title_limit ?>" placeholder="<?php _e( 'No limit', WPRSS_TEXT_DOMAIN ) ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Set the maximum number of characters for feed titles.', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -608,9 +601,7 @@
         $source_enable = wprss_get_general_setting( 'source_enable' );
 		?>
         <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[source_enable]" type="checkbox" value="1" <?php echo checked( 1, $source_enable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to enable feed source display', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /** 
@@ -621,9 +612,7 @@
         $source_link = wprss_get_general_setting( 'source_link' );
 		?>
         <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[source_link]" type="checkbox" value="1" <?php echo checked( 1, $source_link, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to enable linked sources', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -635,9 +624,7 @@
         $text_preceding_source = wprss_get_general_setting( 'text_preceding_source' );
 		?>
         <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[text_preceding_source]" type="text" value="<?php echo $text_preceding_source ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( "Enter the text you want shown before the feed item's source", WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
     /** 
      * Enable date
@@ -647,9 +634,7 @@
         $date_enable = wprss_get_general_setting( 'date_enable' );
 		?>
         <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[date_enable]" type="checkbox" value="1" <?php echo checked( 1, $date_enable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to enable display of date published', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }    
 
     /** 
@@ -660,9 +645,7 @@
         $text_preceding_date = wprss_get_general_setting( 'text_preceding_date' );
 		?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[text_preceding_date]" type="text" value="<?php echo $text_preceding_date ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( "Enter the text you want shown before the feed item's publish date", WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -675,9 +658,7 @@
         $authors_enable = wprss_get_general_setting( 'authors_enable' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[authors_enable]" type="checkbox" value="1" <?php echo checked( 1, $authors_enable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to show the author name for each feed item, if specified in the feed.', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -701,9 +682,7 @@
 		}
 		?>
 		</select>
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Choose the pagination type to use when displaying multiple pages of feed items.', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -730,11 +709,6 @@
         <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
 		
         <br/>
-        <label class="description" for="<?php echo $field['field_id'] ?>">
-            <?php _e( 'Enter the maximum age of feed items to be stored in the database. Feed items older than the specified age will be deleted everyday at midnight.
-            <br/>
-            Leave empty for no limit.', WPRSS_TEXT_DOMAIN ) ?>
-        </label>
         <?php
     }
 
@@ -748,9 +722,7 @@
         $limit_feed_items_db = wprss_get_general_setting( 'limit_feed_items_db' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[limit_feed_items_db]" type="text" value="<?php echo $limit_feed_items_db ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Enter the maximum number of feeds to store in the database; enter 0 for unlimited feed items', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -762,13 +734,7 @@
         $limit_feed_items_imported = wprss_get_general_setting( 'limit_feed_items_imported' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[limit_feed_items_imported]" type="text" value="<?php echo $limit_feed_items_imported ?>" placeholder="<?php _e( 'No Limit', WPRSS_TEXT_DOMAIN ) ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-		<label class="description" for="<?php echo $field['field_id'] ?>">
-			<?php _e( 'Enter the maximum number of feed items to import, for each feed source that does not have its own limit.
-			<br/>
-			<small>Use 0 or leave empty to use no limit.</small>', WPRSS_TEXT_DOMAIN ) ?>
-		</label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -819,9 +785,7 @@
         $custom_feed_url = wprss_get_general_setting( 'custom_feed_url' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[custom_feed_url]" type="text" value="<?php echo $custom_feed_url ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'The URL of the custom feed. This might require you to re-save your Permalink settings for the custom feed to work.', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /**
@@ -832,9 +796,7 @@
         $custom_feed_title = wprss_get_general_setting( 'custom_feed_title' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[custom_feed_title]" type="text" value="<?php echo $custom_feed_title ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'The title of the custom feed', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /**
@@ -845,9 +807,7 @@
         $custom_feed_limit = wprss_get_general_setting( 'custom_feed_limit' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[custom_feed_limit]" placeholder="<?php _e( 'Default', WPRSS_TEXT_DOMAIN ) ?>" min="0" class="wprss-number-roller" type="number" value="<?php echo $custom_feed_limit ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Number of items to show in the custom feed', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /** 
@@ -858,10 +818,7 @@
         $styles_disable = wprss_get_general_setting( 'styles_disable' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[styles_disable]" type="checkbox" value="1" <?php echo checked( 1, $styles_disable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to disable all plugin styles', WPRSS_TEXT_DOMAIN ) ?></label>
-        <p class="description"><?php _e( 'You will then be responsible for providing your own CSS styles.', WPRSS_TEXT_DOMAIN ) ?></p>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -910,8 +867,9 @@
         ?>
 		<input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[tracking]" value="1" <?php echo checked( 1, $tracking, false ) ?> />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics.', WPRSS_TEXT_DOMAIN ) ?></label>
-        <p class="description"><?php _e( 'No sensitive data will be sent.', WPRSS_TEXT_DOMAIN ) ?></p>
+        <label class="description" for="<?php echo $field['field_id'] ?>">
+            <?php _e( 'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics. No sensitive data is collected.', WPRSS_TEXT_DOMAIN ) ?>
+        </label>
 		<?php
     }
 
@@ -923,9 +881,7 @@
         $time_ago_format = wprss_get_general_setting( 'time_ago_format_enable' );
         ?>
 		<input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[time_ago_format_enable]" value="1" <?php echo checked( 1, $time_ago_format, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>"><?php _e( 'Check this box to show time since update e.g.: 2 hours ago.', WPRSS_TEXT_DOMAIN ) ?></label>
-		<?php
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 

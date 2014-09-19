@@ -19,8 +19,8 @@
 				$('.'+tooltipHandleClass).tooltip({
 					items: '*',
 					tooltipClass: '<?php echo $vars['tooltip_class'] ?>',
-					hide: 200,
-					show: 200,
+					hide: 100,
+					show: 100,
 					position:  {
 						my: 'left+3 top+3',
 						at: 'right bottom'

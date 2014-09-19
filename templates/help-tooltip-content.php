@@ -10,5 +10,5 @@
  */
 ?>
 <div class="<?php echo $vars['tooltip_content_class'] ?>" id="<?php echo $vars['tooltip_id_prefix'] . $vars['tooltip_id'] ?>">
-<?php echo isset( $vars['text_domain'] ) ? __( $vars['tooltip_text'], $vars['text_domain'] ) : $vars['tooltip_text'] ?>
+<?php echo isset( $vars['text_domain'] ) ? __( wpautop( $vars['tooltip_text'] ), $vars['text_domain'] ) : $vars['tooltip_text'] ?>
 </div>
