@@ -79,8 +79,8 @@
 			$name = $obj->labels->name;
 
 			// Print the <link> tag
-			$feedname = sprintf( __( '%1$s &raquo; %2$s Feed', 'wprss' ), $siteName, $name ); 
-			printf( __( '<link rel="%1$s" type="%2$s" title="%3$s" href="%4$s" />'."\n", 'wprss' ),"alternate","application/rss+xml", $feedname, $feed );
+			$feedname = sprintf( __( '%1$s &raquo; %2$s Feed', WPRSS_TEXT_DOMAIN ), $siteName, $name ); 
+			printf( __( '<link rel="%1$s" type="%2$s" title="%3$s" href="%4$s" />'."\n", WPRSS_TEXT_DOMAIN ),"alternate","application/rss+xml", $feedname, $feed );
 		}
 	}
 

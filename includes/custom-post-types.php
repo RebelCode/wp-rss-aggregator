@@ -18,18 +18,18 @@
         $labels = apply_filters( 
             'wprss_feed_post_type_labels', 
             array(
-                'name'                  => __( 'Feed Sources', 'wprss' ),
-                'singular_name'         => __( 'Feed Source', 'wprss' ),
-                'add_new'               => __( 'Add New', 'wprss' ),
-                'all_items'             => __( 'Feed Sources', 'wprss' ),
-                'add_new_item'          => __( 'Add New Feed Source', 'wprss' ),
-                'edit_item'             => __( 'Edit Feed Source', 'wprss' ),
-                'new_item'              => __( 'New Feed Source', 'wprss' ),
-                'view_item'             => __( 'View Feed Source', 'wprss' ),
-                'search_items'          => __( 'Search Feeds', 'wprss' ),
-                'not_found'             => __( 'No Feed Sources Found', 'wprss' ),
-                'not_found_in_trash'    => __( 'No Feed Sources Found In Trash', 'wprss' ),
-                'menu_name'             => __( 'RSS Aggregator', 'wprss' )
+                'name'                  => __( 'Feed Sources', WPRSS_TEXT_DOMAIN ),
+                'singular_name'         => __( 'Feed Source', WPRSS_TEXT_DOMAIN ),
+                'add_new'               => __( 'Add New', WPRSS_TEXT_DOMAIN ),
+                'all_items'             => __( 'Feed Sources', WPRSS_TEXT_DOMAIN ),
+                'add_new_item'          => __( 'Add New Feed Source', WPRSS_TEXT_DOMAIN ),
+                'edit_item'             => __( 'Edit Feed Source', WPRSS_TEXT_DOMAIN ),
+                'new_item'              => __( 'New Feed Source', WPRSS_TEXT_DOMAIN ),
+                'view_item'             => __( 'View Feed Source', WPRSS_TEXT_DOMAIN ),
+                'search_items'          => __( 'Search Feeds', WPRSS_TEXT_DOMAIN ),
+                'not_found'             => __( 'No Feed Sources Found', WPRSS_TEXT_DOMAIN ),
+                'not_found_in_trash'    => __( 'No Feed Sources Found In Trash', WPRSS_TEXT_DOMAIN ),
+                'menu_name'             => __( 'RSS Aggregator', WPRSS_TEXT_DOMAIN )
             )
         );
 
@@ -68,13 +68,13 @@
         $labels = apply_filters( 
             'wprss_feed_item_post_type_labels', 
             array(
-                'name'                  => __( 'Feed Items', 'wprss' ),
-                'singular_name'         => __( 'Feed Item', 'wprss' ),
-                'all_items'             => __( 'Feed Items', 'wprss' ),
-                'view_item'             => __( 'View Feed Items', 'wprss' ),
-                'search_items'          => __( 'Search Feed Items', 'wprss' ),
-                'not_found'             => __( 'No Feed Items Found', 'wprss' ),
-                'not_found_in_trash'    => __( 'No Feed Items Found In Trash', 'wprss' )
+                'name'                  => __( 'Feed Items', WPRSS_TEXT_DOMAIN ),
+                'singular_name'         => __( 'Feed Item', WPRSS_TEXT_DOMAIN ),
+                'all_items'             => __( 'Feed Items', WPRSS_TEXT_DOMAIN ),
+                'view_item'             => __( 'View Feed Items', WPRSS_TEXT_DOMAIN ),
+                'search_items'          => __( 'Search Feed Items', WPRSS_TEXT_DOMAIN ),
+                'not_found'             => __( 'No Feed Items Found', WPRSS_TEXT_DOMAIN ),
+                'not_found_in_trash'    => __( 'No Feed Items Found In Trash', WPRSS_TEXT_DOMAIN )
             )
         );
 

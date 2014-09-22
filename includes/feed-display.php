@@ -298,7 +298,7 @@
 
         } else {
             // Not items found message
-            echo apply_filters( 'no_feed_items_found', __( 'No feed items found.', 'wprss' ) );
+            echo apply_filters( 'no_feed_items_found', __( 'No feed items found.', WPRSS_TEXT_DOMAIN ) );
         }
 
         // Reset the WordPress query

@@ -36,11 +36,11 @@
         global $submenu;
         unset( $submenu['edit.php?post_type=wprss_feed'][10] );
         //create submenu items        
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', 'wprss' ), __( 'Import & Export', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );                     
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', 'wprss' ), __( 'Settings', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );             
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', 'wprss' ), __( 'Debugging', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );                             
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Add-Ons', 'wprss' ), __( 'Add-Ons', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-addons', 'wprss_addons_page_display' );                             
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', 'wprss' ), __( 'Help & Support', 'wprss' ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );                                     
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', WPRSS_TEXT_DOMAIN ), __( 'Import & Export', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );                     
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ), __( 'Settings', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );             
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', WPRSS_TEXT_DOMAIN ), __( 'Debugging', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );                             
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Add-Ons', WPRSS_TEXT_DOMAIN ), __( 'Add-Ons', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-addons', 'wprss_addons_page_display' );                             
+        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', WPRSS_TEXT_DOMAIN ), __( 'Help & Support', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );                                     
     }
 
     add_filter('admin_body_class', 'wprss_base_admin_body_class');
@@ -90,7 +90,7 @@
      * @return void
      */  
     function wprss_change_title_text() {
-        return __( 'Name this feed (e.g. WP Mayor)', 'wprss' );
+        return __( 'Name this feed (e.g. WP Mayor)', WPRSS_TEXT_DOMAIN );
     } 
 
 
@@ -107,8 +107,8 @@
         // check to make sure we are on the correct plugin
         if ( $plugin_file == 'wp-rss-aggregator/wp-rss-aggregator.php' ) {
             // the anchor tag and href to the URLs we want. 
-            $settings_link = '<a href="' . admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __( 'Settings', 'wprss' ) . '</a>';
-            $docs_link = '<a href="http://www.wprssaggregator.com/documentation/">' . __( 'Documentation', 'wprss' ) . '</a>';
+            $settings_link = '<a href="' . admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __( 'Settings', WPRSS_TEXT_DOMAIN ) . '</a>';
+            $docs_link = '<a href="http://www.wprssaggregator.com/documentation/">' . __( 'Documentation', WPRSS_TEXT_DOMAIN ) . '</a>';
             // add the links to the beginning of the list
             array_unshift( $action_links, $settings_link, $docs_link );
         }

@@ -149,14 +149,14 @@ function wprss_license_settings() {
 		// Settings Section
 		add_settings_section(
 			"wprss_settings_{$addon_id}_licenses_section",
-			$addon_name .' '. __( 'License', 'wprss' ),
+			$addon_name .' '. __( 'License', WPRSS_TEXT_DOMAIN ),
 			'__return_empty_string',
 			'wprss_settings_license_keys'
 		);
 		// License key field
 		add_settings_field(
 			"wprss_settings_{$addon_id}_license",
-			__( 'License Key', 'wprss' ),
+			__( 'License Key', WPRSS_TEXT_DOMAIN ),
 			'wprss_license_key_field',
 			'wprss_settings_license_keys',
 			"wprss_settings_{$addon_id}_licenses_section",
@@ -165,7 +165,7 @@ function wprss_license_settings() {
 		// Activate license button
 		add_settings_field(
 			"wprss_settings_{$addon_id}_activate_license",
-			__( 'Activate License', 'wprss' ),
+			__( 'Activate License', WPRSS_TEXT_DOMAIN ),
 			'wprss_activate_license_button',
 			'wprss_settings_license_keys',
 			"wprss_settings_{$addon_id}_licenses_section",
@@ -187,7 +187,7 @@ function wprss_license_key_field( $args ) {
 		   type="text" value="<?php echo esc_attr( $license ); ?>" style="width: 300px;"
 	/>
 	<label class='description' for='wprss-<?php echo $addon_id; ?>-license-key'>
-		<?php _e( 'Enter your license key', 'wprss' ); ?>
+		<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ); ?>
 	</label> <?
 }
 
@@ -207,11 +207,11 @@ function wprss_activate_license_button( $args ) {
 	$btn_name = "wprss_{$addon_id}_license_" . ( $valid? 'deactivate' : 'activate' );
 	wp_nonce_field( "wprss_{$addon_id}_license_nonce", "wprss_{$addon_id}_license_nonce" ); ?>
 
-	<input type="submit" class="button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, 'wprss' ); ?>" />
+	<input type="submit" class="button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, WPRSS_TEXT_DOMAIN ); ?>" />
 	<span id="wprss-<?php echo $addon_id; ?>-license-status-text">
 		<strong>Status:
 		<span class="wprss-<?php echo $addon_id; ?>-license-<?php echo $status; ?>">
-				<?php _e( ucfirst($status), 'wprss' ); ?>
+				<?php _e( ucfirst($status), WPRSS_TEXT_DOMAIN ); ?>
 				<?php if ( $status === 'valid' ) : ?>
 					<i class="fa fa-check"></i>
 				<?php elseif( $status === 'invalid' ): ?>

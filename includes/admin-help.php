@@ -10,7 +10,7 @@
 		<div class="wrap">
 			<?php screen_icon( 'wprss-aggregator' ); ?>
 
-			<h2><?php _e( 'Help & Support', 'wprss' ); ?></h2>
+			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
 			<h3>Documentation</h3>
 			<p>In the <a href="www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin
 				and all the add-ons.</p><p>There are also some videos to help you make a quick start to setting up and enjoying this plugin.</p>

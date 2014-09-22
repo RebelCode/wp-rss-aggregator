@@ -17,16 +17,16 @@
         $columns = array(
             'cb'          =>  '<input type="checkbox" />',
             'errors'      =>  '',
-            'title'       =>  __( 'Name', 'wprss' ),
+            'title'       =>  __( 'Name', WPRSS_TEXT_DOMAIN ),
         );
 
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
 
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
-            $columns['state'] = __( 'State', 'wprss' );
-            $columns['updates'] = __( 'Updates', 'wprss' );
-            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
+            $columns['state'] = __( 'State', WPRSS_TEXT_DOMAIN );
+            $columns['updates'] = __( 'Updates', WPRSS_TEXT_DOMAIN );
+            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), WPRSS_TEXT_DOMAIN );
         }
 
         return $columns;
@@ -206,10 +206,10 @@
 
         $columns = array (
             'cb'          => '<input type="checkbox" />',
-            'title'       => __( 'Name', 'wprss' ),
-            'permalink'   => __( 'Permalink', 'wprss' ),
-            'publishdate' => __( 'Date published', 'wprss' ),
-            'source'      => __( 'Source', 'wprss' )
+            'title'       => __( 'Name', WPRSS_TEXT_DOMAIN ),
+            'permalink'   => __( 'Permalink', WPRSS_TEXT_DOMAIN ),
+            'publishdate' => __( 'Date published', WPRSS_TEXT_DOMAIN ),
+            'source'      => __( 'Source', WPRSS_TEXT_DOMAIN )
         );
         return apply_filters( 'wprss_set_feed_item_custom_columns', $columns );
     }
@@ -298,16 +298,16 @@
 
         $messages[ 'wprss_feed' ] = array(
             0  => '', // Unused. Messages start at index 1.
-            1  => __( 'Feed source updated. ', 'wprss' ),
-            2  => __( 'Custom field updated.', 'wprss' ),
-            3  => __( 'Custom field deleted.', 'wprss' ),
-            4  => __( 'Feed source updated.', 'wprss' ),        
+            1  => __( 'Feed source updated. ', WPRSS_TEXT_DOMAIN ),
+            2  => __( 'Custom field updated.', WPRSS_TEXT_DOMAIN ),
+            3  => __( 'Custom field deleted.', WPRSS_TEXT_DOMAIN ),
+            4  => __( 'Feed source updated.', WPRSS_TEXT_DOMAIN ),        
             5  => '',
-            6  => __( 'Feed source saved.', 'wprss' ),
-            7  => __( 'Feed source saved.', 'wprss' ),
-            8  => __( 'Feed source submitted.', 'wprss' ),
+            6  => __( 'Feed source saved.', WPRSS_TEXT_DOMAIN ),
+            7  => __( 'Feed source saved.', WPRSS_TEXT_DOMAIN ),
+            8  => __( 'Feed source submitted.', WPRSS_TEXT_DOMAIN ),
             9  => '',
-            10 => __( 'Feed source updated.', 'wprss' )
+            10 => __( 'Feed source updated.', WPRSS_TEXT_DOMAIN )
         );
 
         return apply_filters( 'wprss_feed_updated_messages', $messages );
@@ -347,14 +347,14 @@
                   $post->ID
                 );
                 $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
-                $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
+                $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, WPRSS_TEXT_DOMAIN ) . '</a>';
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', 'Fetch items' );
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, 'wprss' ) . '</a>';
+                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, WPRSS_TEXT_DOMAIN ) . '</a>';
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', 'Delete items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', 'Delete feed items imported by this feed source' );
-                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
+                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . __( $purge_feeds_row_action_title, WPRSS_TEXT_DOMAIN ) . "' >" . __( $purge_feeds_row_action_text, WPRSS_TEXT_DOMAIN ) . "</a>";
                 
                 $actions['trash'] = $trash;
             }
@@ -439,7 +439,7 @@
      * @since 3.5
      */
     function wprss_notify_about_deleting_source_feed_items() {
-        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feed items for this feed source are being deleted in the background.' ), 'wprss' );
+        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feed items for this feed source are being deleted in the background.' ), WPRSS_TEXT_DOMAIN );
         echo '<div class="updated"><p>' . $message . '</p></div>';
     }
 
@@ -520,7 +520,7 @@
     function wprss_change_publish_button_text( $translation, $text ) {
         if ( 'wprss_feed' == get_post_type()) {
             if ( $text == 'Publish' )
-                return __( 'Publish Feed', 'wprss' );
+                return __( 'Publish Feed', WPRSS_TEXT_DOMAIN );
         }
         return apply_filters( 'wprss_change_publish_button_text', $translation );
     }        

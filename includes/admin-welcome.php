@@ -72,7 +72,7 @@
 ?>
 
 	 <div class="wrap about-wrap">
-			<h1><?php printf( __( 'Welcome to WP RSS Aggregator %s !', 'wprss' ), WPRSS_VERSION ); ?></h1>
+			<h1><?php printf( __( 'Welcome to WP RSS Aggregator %s !', WPRSS_TEXT_DOMAIN ), WPRSS_VERSION ); ?></h1>
 			<div class="wprss-about-text">
 				Thank you for upgrading to the latest version! 
 			</div>

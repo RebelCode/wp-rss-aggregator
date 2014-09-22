@@ -61,23 +61,23 @@
         $frequencies = array(
             'five_min' => array(
                 'interval' => 5 * MINUTE_IN_SECONDS,
-                'display' => __( 'Once every five minutes', 'wprss' )
+                'display' => __( 'Once every five minutes', WPRSS_TEXT_DOMAIN )
                 ),
             'ten_min' => array(
                 'interval' => 10 * MINUTE_IN_SECONDS,
-                'display' => __( 'Once every ten minutes', 'wprss' )
+                'display' => __( 'Once every ten minutes', WPRSS_TEXT_DOMAIN )
                 ),
             'fifteen_min' => array(
                 'interval' => 15 * MINUTE_IN_SECONDS,
-                'display' => __( 'Once every fifteen minutes', 'wprss' )
+                'display' => __( 'Once every fifteen minutes', WPRSS_TEXT_DOMAIN )
                 ),
             'thirty_min' => array(
                 'interval' => 30 * MINUTE_IN_SECONDS,
-                'display' => __( 'Once every thirty minutes', 'wprss' )
+                'display' => __( 'Once every thirty minutes', WPRSS_TEXT_DOMAIN )
                 ),
             'two_hours' => array(
                 'interval' => 2 * HOUR_IN_SECONDS,
-                'display' => __( 'Once every two hours', 'wprss' )
+                'display' => __( 'Once every two hours', WPRSS_TEXT_DOMAIN )
                 ),
             );
 

@@ -72,9 +72,9 @@
 				default :
 				case 0 :
 					// Show the Import Message and the import upload form
-					echo '<p>' . __( 'Howdy! Import your feeds here from an OPML (.xml) export file.', 'wprss' ) . '</p>';
-					echo '<p>' . __( "Click the button below, choose your file, and click 'Upload'.", 'wprss' ) . '</p>';
-					echo '<p>' . __( 'We will take care of the rest.', 'wprss' ) . '</p>';
+					echo '<p>' . __( 'Howdy! Import your feeds here from an OPML (.xml) export file.', WPRSS_TEXT_DOMAIN ) . '</p>';
+					echo '<p>' . __( "Click the button below, choose your file, and click 'Upload'.", WPRSS_TEXT_DOMAIN ) . '</p>';
+					echo '<p>' . __( 'We will take care of the rest.', WPRSS_TEXT_DOMAIN ) . '</p>';
 
 					// Show an import upload form that submits to the same page, with GET parameter step=1
 					wp_import_upload_form( 'admin.php?import=wprss_opml_importer&amp;step=1' );
@@ -105,14 +105,14 @@
 
 			// If the 'error' property is set, show the error message and return FALSE
 			if ( isset( $file['error'] ) ) {
-				echo '<p><strong>' . __( 'Sorry, an error has been encountered.', 'wprss' ) . '</strong><br />';
+				echo '<p><strong>' . __( 'Sorry, an error has been encountered.', WPRSS_TEXT_DOMAIN ) . '</strong><br />';
 				echo esc_html( $file['error'] ) . '</p>';
 				return false;
 			// If the file does not exist, then show the error message and return FALSE
 			} else if ( ! file_exists( $file['file'] ) ) {
-				echo '<p><strong>' . __( 'Sorry, it seems your uploaded file has been misplaced!', 'wprss' ) . '</strong><br />';
-				echo __( 'The uploaded file could not be found at ', 'wprss') . '<code>' . esc_html( $file['file'] ) . '</code>';
-				echo __( 'It is likely that this was caused by a permissions problem.' , 'wprss'  );
+				echo '<p><strong>' . __( 'Sorry, it seems your uploaded file has been misplaced!', WPRSS_TEXT_DOMAIN ) . '</strong><br />';
+				echo __( 'The uploaded file could not be found at ', WPRSS_TEXT_DOMAIN ) . '<code>' . esc_html( $file['file'] ) . '</code>';
+				echo __( 'It is likely that this was caused by a permissions problem.' , WPRSS_TEXT_DOMAIN  );
 				echo '</p>';
 				return false;
 			}

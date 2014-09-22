@@ -22,8 +22,8 @@
 	function wprss_admin_menu() {
 		// Welcome Page
 		add_dashboard_page(
-			__( 'Welcome to WP RSS Aggregator', 'wprss' ),
-			__( 'Welcome to WP RSS Aggregator', 'wprss' ),
+			__( 'Welcome to WP RSS Aggregator', WPRSS_TEXT_DOMAIN ),
+			__( 'Welcome to WP RSS Aggregator', WPRSS_TEXT_DOMAIN ),
 			'manage_options',
 			'wprss-welcome',
 			'wprss_show_welcome_screen'

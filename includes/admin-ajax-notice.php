@@ -44,7 +44,7 @@
         $html = '<div id="ajax-notification" class="updated">';
             $html .= '<p>';
             $html .= __( 'Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... Check out the <a target="_blank" href="http://www.wprssaggregator.com/extensions"><strong>extensions</strong></a> page.
-                     <a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">Dismiss this notification</a>', 'wprss' );
+                     <a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">Dismiss this notification</a>', WPRSS_TEXT_DOMAIN );
             $html .= '</p>';
             $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
         $html .= '</div><!-- /.updated -->';

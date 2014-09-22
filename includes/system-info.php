@@ -24,13 +24,13 @@
 
 		$browser =  new Browser();
 	?>
-			<h3><?php _e( 'System Information', 'wprss' ) ?></h3>
+			<h3><?php _e( 'System Information', WPRSS_TEXT_DOMAIN ) ?></h3>
 			<?php
 				$form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' );
 				$nonce_url = wp_nonce_url( $form_url, 'wprss-sysinfo' );
 			?>
 			<form action="<?php echo esc_url( $nonce_url ); ?>" method="post">
-				<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'wprss' ); ?>">
+				<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>">
 ### Begin System Info ###
 
 ## Please include this information when posting support requests ##
@@ -76,7 +76,7 @@ UPLOAD_MAX_FILESIZE:      <?php if ( function_exists( 'phpversion' ) ) echo ( wp
 POST_MAX_SIZE:            <?php if ( function_exists( 'phpversion' ) ) echo ( wprss_let_to_num( ini_get( 'post_max_size' ) )/( 1024*1024 ) )."MB"; ?><?php echo "\n"; ?>
 WordPress Memory Limit:   <?php echo ( wprss_let_to_num( WP_MEMORY_LIMIT )/( 1024*1024 ) )."MB"; ?><?php echo "\n"; ?>
 DISPLAY ERRORS:           <?php echo ( ini_get( 'display_errors' ) ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A'; ?><?php echo "\n"; ?>
-FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? __( 'Your server supports fsockopen.', 'wprss' ) : __( 'Your server does not support fsockopen.', 'wprss' ); ?><?php echo "\n"; ?>
+FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? __( 'Your server supports fsockopen.', WPRSS_TEXT_DOMAIN ) : __( 'Your server does not support fsockopen.', WPRSS_TEXT_DOMAIN ); ?><?php echo "\n"; ?>
 
 ACTIVE PLUGINS:
 
@@ -149,7 +149,7 @@ if ( get_bloginfo( 'version' ) < '3.4' ) {
 				</textarea>
 				<p class="submit">
 					<input type="hidden" name="wprss-action" value="download_sysinfo" />
-					<?php submit_button( __( 'Download System Info File', 'wprss' ), 'primary', 'wprss-download-sysinfo', false ); ?>
+					<?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
 				</p>
 			</form>
 		
