@@ -397,7 +397,13 @@
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL && !is_bool($item) ) {
-			
+					// Get the date and GTM date and normalize if not valid dor not present
+					$format    = 'Y-m-d H:i:s';
+					$has_date  = $item->get_date( 'U' ) ? TRUE : FALSE;
+					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
+					$date      = date( $format, $timestamp );
+					$date_gmt  = gmdate( $format, $timestamp );
+					// Prepare the item data
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
 						array(
@@ -405,8 +411,8 @@
 							'post_content'   => '',
 							'post_status'    => 'publish',
 							'post_type'      => 'wprss_feed_item',
-							'post_date'      => get_date_from_gmt( $item->get_date( 'Y-m-d H:i:s' ) ), 
-							'post_date_gmt'  => $item->get_date( 'Y-m-d H:i:s' ),
+							'post_date'      => $date, 
+							'post_date_gmt'  => $date_gmt
 						),
 						$item
 					);
@@ -466,7 +472,10 @@
 	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
-		update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date( 'U' ) ); // Save as Unix timestamp format
+
+		// Get the item date as a UNIX timestamp. If not found or valid, use current time
+		$timestamp = $item->get_date( 'U' ) ? $item->get_date( 'U' ) : date( 'U' );
+		update_post_meta( $inserted_ID, 'wprss_item_date', $timestamp );
 		
 		$author = $item->get_author();
 		if ( $author ) {
