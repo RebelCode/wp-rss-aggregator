@@ -196,7 +196,7 @@
                 $link_enclosure  = get_post_meta( $feed_source_id, 'wprss_enclosure', true );
                 $source_name     = get_the_title( $feed_source_id );
                 $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
-                $timestamp = intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) );
+                $timestamp       = intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) );
 
                 // Fallback for feeds created with older versions of the plugin
                 if ( $source_url === '' ) $source_url = get_post_meta( $feed_source_id, 'wprss_url', true );
