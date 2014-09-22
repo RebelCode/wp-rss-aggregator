@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 4.0
-Stable tag: 4.5.3
+Stable tag: 4.6
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -164,6 +164,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.6 (2014-09-22) =
+* Enhanced: Improved the user interface, with better responsiveness and tooltips.
+* Enhanced: Removes the ID column. The ID is now shown fixed in row actions.
+* Enhanced: Feed Preview indicates if feed items have no dates.
+* Fixed bug: If a feed item has no date, the date and time it was imported is used.
 
 = 4.5.3 (2014-09-15) =
 * New Featured: Added filter to allow adding RSS feeds to the head of your site's pages for CPTs.
