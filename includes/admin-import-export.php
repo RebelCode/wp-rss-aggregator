@@ -57,7 +57,7 @@
 	function wprss_notify_bulk_add() {
 		global $wprss_bulk_count; ?>
 		<div class="updated">
-			<p><?php _e( 'Successfully imported', WPRSS_TEXT_DOMAIN ); ?> <code><?php echo $wprss_bulk_count; ?></code> <?php _e( 'feed sources', WPRSS_TEXT_DOMAIN ); ?>.</p>
+			<p><?php echo sprintf( __( 'Successfully imported <code>%1$s</code> feed sources.', WPRSS_TEXT_DOMAIN ), $wprss_bulk_count )?></p>
 		</div>
 		<?php
 	}
@@ -229,9 +229,9 @@
                 </form>
 
                 <h3><?php _e( 'Importing/Exporting Feed Sources', WPRSS_TEXT_DOMAIN ); ?></h3>
-                <p><?php _e( 'To import/export your feed sources, please use the standard WordPress <a href="' . get_admin_url() . 'import.php">Import</a> and <a href="' . get_admin_url() . 'export.php">Export</a> functionality.', WPRSS_TEXT_DOMAIN ); ?></p>
-                <p><?php _e( 'On the <a href="' . get_admin_url() . 'export.php">Export</a> page, check the <strong>Feed Sources</strong> radio button and click the <strong>Download Export File</strong> button. WordPress will then create an XML file containing all the feed sources.', WPRSS_TEXT_DOMAIN ); ?></p>
-                <p><?php _e( 'On the <a href="' . get_admin_url() . 'import.php">Import</a> page, choose the previously created file and click the <strong>Upload file and import</strong> button.', WPRSS_TEXT_DOMAIN ); ?></p>
+                <p><?php echo sprintf( __( 'To import/export your feed sources, please use the standard WordPress <a href="%1$simport.php">Import</a> and <a href="%1$sexport.php">Export</a> functionality.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ?></p>
+                <p><?php echo sprintf( __( 'On the <a href="%1$sexport.php">Export</a> page, check the <strong>Feed Sources</strong> radio button and click the <strong>Download Export File</strong> button. WordPress will then create an XML file containing all the feed sources.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ?></p>
+                <p><?php echo sprintf( __( 'On the <a href="%1$simport.php">Import</a> page, choose the previously created file and click the <strong>Upload file and import</strong> button.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ?></p>
 
             </div>
         <?php
