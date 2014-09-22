@@ -21,7 +21,7 @@
                 'name'                  => __( 'Feed Sources', 'wprss' ),
                 'singular_name'         => __( 'Feed Source', 'wprss' ),
                 'add_new'               => __( 'Add New', 'wprss' ),
-                'all_items'             => __( 'All Feed Sources', 'wprss' ),
+                'all_items'             => __( 'Feed Sources', 'wprss' ),
                 'add_new_item'          => __( 'Add New Feed Source', 'wprss' ),
                 'edit_item'             => __( 'Edit Feed Source', 'wprss' ),
                 'new_item'              => __( 'New Feed Source', 'wprss' ),

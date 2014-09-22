@@ -94,8 +94,7 @@
 		$feed_items_args = array(
 			'post_type'        => 'wprss_feed_item',
             'posts_per_page'   => $posts_per_page,
-			'orderby'          => 'meta_value',
-			'meta_key'         => 'wprss_item_date',
+			'orderby'          => 'date',
 			'order'            => 'DESC',
             'paged'            => $paged,
             'suppress_filters' => true
@@ -196,7 +195,7 @@
                 $link_enclosure  = get_post_meta( $feed_source_id, 'wprss_enclosure', true );
                 $source_name     = get_the_title( $feed_source_id );
                 $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
-                $timestamp = intval( get_post_meta( get_the_ID(), 'wprss_item_date', true ) );
+                $timestamp       = get_the_time( 'U', get_the_ID() );
 
                 // Fallback for feeds created with older versions of the plugin
                 if ( $source_url === '' ) $source_url = get_post_meta( $feed_source_id, 'wprss_url', true );

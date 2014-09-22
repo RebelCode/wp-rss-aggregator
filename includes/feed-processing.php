@@ -75,8 +75,7 @@
                 'cache_results' => false,   // Disable caching, used for one-off queries
                 'no_found_rows' => true,    // We don't need pagination, so disable it
                 'posts_per_page'=> -1,
-                'orderby'       => 'meta_value',
-                'meta_key'      => 'wprss_item_date',
+                'orderby'       => 'date',
                 'order'         => 'DESC',
                 'meta_query'    => array(
                     array(
@@ -393,7 +392,7 @@
      */
     function wprss_is_feed_item_older_than( $id, $timestamp ) {
         // GET THE DATE
-        $age = get_post_meta( $id, 'wprss_item_date', TRUE );
+        $age = get_the_time( 'U', $id );
         if ( $age === '' ) return FALSE;
         // Calculate the age difference
         $difference = $age - $timestamp;

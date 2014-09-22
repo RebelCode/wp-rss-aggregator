@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.5.3
+    Version: 4.6
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.5.3
+     * @version   4.6
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2014, Jean Galea
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.5.3', true );
+        define( 'WPRSS_VERSION', '4.6', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
@@ -93,6 +93,10 @@
 	if ( !defined('WPRSS_SL_STORE_URL') ) {
 		define( 'WPRSS_SL_STORE_URL', 'http://www.wprssaggregator.com', TRUE );
 	}
+
+	if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
+		define( 'WPRSS_TEXT_DOMAIN', 'wprss' );
+    }
 
     /**
      * Load required files.
@@ -155,13 +159,19 @@
     /* Load the OPML Importer file */
     require_once ( WPRSS_INC . 'opml-importer.php' );
 
-    /* Load the system info file */
+    /* Load the admin debugging page file */
     require_once ( WPRSS_INC . 'admin-debugging.php' );     
 
-    /* Load the system info file */
-    require_once ( WPRSS_INC . 'admin-help.php' );   
+    /* Load the admin help file */
+    require_once ( WPRSS_INC . 'admin-help.php' );
+
+    /* Load the admin metaboxes help file */
+    require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
     
-    /* Load the system info file */
+    /* Load the admin settings help file */
+    require_once ( WPRSS_INC . 'admin-help-settings.php' );
+    
+    /* Load the addons page file */
     require_once ( WPRSS_INC . 'admin-addons.php' );   
 
     /* Load the admin display-related functions */

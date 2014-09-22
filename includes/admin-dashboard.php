@@ -28,6 +28,7 @@
 			'wprss-welcome',
 			'wprss_show_welcome_screen'
 		);
+		
 	}
 
 

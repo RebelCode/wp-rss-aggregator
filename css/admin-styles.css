@@ -1,3 +1,13 @@
+body.post-type-wprss_feed q {
+    font-style: italic;
+}
+body.post-type-wprss_feed q:before {
+    content: '"';
+}
+body.post-type-wprss_feed q:after {
+    content: '"';
+}
+
 .wprss-input {
     background: none repeat scroll 0 0 #EAF2FA;
     margin-bottom: 20px;
@@ -22,7 +32,7 @@
 }
 
 .wprss-text-input {
-    display: block;
+    display: inline-block;
     width: 400px;
     max-width: 100%;
 }
@@ -135,12 +145,13 @@ color: darkGreen;
 /*.rss-aggregator_page_wprss-aggregator-settings .form-table th { width: 80px; }*/
 
 
-/* For excerpts and thumbnails admin screens */
+/* For excerpts and thumbnails admin screens
 .wprss_feed_page_wprss-aggregator-settings input,
 .wprss_feed_page_wprss-aggregator-settings input[type="checkbox"], 
 .wprss_feed_page_wprss-aggregator-settings input[type="radio"] {
     margin-right: 8px; 
 }
+*/
 
 input#default-thumbnail,
 input#wprss-et-license-key,
@@ -251,7 +262,6 @@ input#thumbnails-width {
 /* Number Roller for Feed Source Limit */
 .wprss-number-roller {
     width: 80px;
-    margin-right: 5px;
     vertical-align: middle;
 }
 @media screen and (max-width: 782px) {
@@ -544,4 +554,54 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 .wprss-header-small {
 	color: #777;
 	font-size: 0.7em;
+}
+
+/* Inline Help ============================================================== */
+
+.wprss-tooltip-handle,
+.wprss-tooltip-handle:hover,
+.wprss-tooltip-handle:focus {
+    text-decoration: none;
+    color: #aaaaaa;
+    outline: none;
+}
+
+.wprss-tooltip-handle {
+    margin-left: 5px;
+    font-size: 1.3em;
+    color: rgb(190, 190, 190);
+    vertical-align: middle;
+}
+
+.wprss-tooltip-handle-side {
+    float: right;
+}
+
+.wprss-tooltip-content {
+    display: none;
+}
+
+.wprss-ui-tooltip {
+    color: #444 !important;
+    padding: 8px 10px !important;
+    background: #fefefe !important;
+    border: 1px solid #ccc !important;
+    border-radius: 1px !important;
+    font-family: "Open Sans", sans-serif !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.17) !important;
+}
+.wprss-ui-tooltip p:first-child {
+    margin-top: 0;
+}
+.wprss-ui-tooltip p:last-child {
+    margin-bottom: 0;
+}
+.wprss-ui-tooltip p {
+    margin: 8px 0;
+}
+.wprss-ui-tooltip p, code {
+    font-size: 0.9em !important;
+}
+.wprss-ui-tooltip hr {
+    margin: 0;
 }

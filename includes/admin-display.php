@@ -230,7 +230,7 @@
                 break;         
             
             case "publishdate":
-                $item_date = get_post_meta( get_the_ID(), 'wprss_item_date', true );
+                $item_date = get_the_time( 'U', get_the_ID() );
                 $item_date = ( $item_date === '' )? date('U') : $item_date;
                 $publishdate = date( 'Y-m-d H:i:s', $item_date ) ;          
                 echo $publishdate;
@@ -280,8 +280,8 @@
             // If user clicks on the reorder link, implement reordering
             $orderby = $query->get( 'orderby');
             if( 'publishdate' == $orderby ) {
-                $query->set( 'meta_key', 'wprss_item_date' );
-                $query->set( 'orderby', 'meta_value_num' );
+                $query->set( 'order', 'DESC' );
+                $query->set( 'orderby', 'date' );
             }
         }
     }    
@@ -322,10 +322,7 @@
      */       
     function wprss_remove_row_actions( $actions, $post )
     {
-		$actions = array_reverse( $actions );
-		$actions['id'] = "<span class='wprss-row-id'>ID: $post->ID</span>";
-		$actions = array_reverse( $actions );
-		
+        
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type($post) === 'wprss_feed_item' )  {
             unset( $actions[ 'edit' ] );
@@ -334,6 +331,10 @@
             unset( $actions[ 'inline hide-if-no-js' ] );
         }
         elseif ( get_post_type($post) === 'wprss_feed' ) {
+    		$actions = array_reverse( $actions );
+    		$actions['id'] = "<span class='wprss-row-id'>ID: $post->ID</span>";
+    		$actions = array_reverse( $actions );
+            
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
             if ( get_post_status( $post->ID ) !== 'trash' ) {
