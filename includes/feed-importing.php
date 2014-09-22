@@ -472,10 +472,6 @@
 	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
-
-		// Get the item date as a UNIX timestamp. If not found or valid, use current time
-		$timestamp = $item->get_date( 'U' ) ? $item->get_date( 'U' ) : date( 'U' );
-		update_post_meta( $inserted_ID, 'wprss_item_date', $timestamp );
 		
 		$author = $item->get_author();
 		if ( $author ) {
