@@ -367,7 +367,12 @@
 				<?php
                 foreach ( $items as $item ) {
                     // Get human date (comment if you want to use non human date)
-                    $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
+                    $has_date = $item->get_date( 'U' ) ? TRUE : FALSE;
+                    if ( $has_date ) {
+                        $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
+                    } else {
+                        $item_date = '<em>[No Date]</em>';
+                    }
                     // Start displaying item content within a <li> tag
                     echo '<li>';
                     // create item link
