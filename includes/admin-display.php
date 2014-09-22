@@ -230,7 +230,7 @@
                 break;         
             
             case "publishdate":
-                $item_date = get_the_time( 'U', $get_the_ID() );
+                $item_date = get_the_time( 'U', get_the_ID() );
                 $item_date = ( $item_date === '' )? date('U') : $item_date;
                 $publishdate = date( 'Y-m-d H:i:s', $item_date ) ;          
                 echo $publishdate;
