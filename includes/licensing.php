@@ -186,9 +186,9 @@ function wprss_license_key_field( $args ) {
 	<input id="wprss-<?php echo $addon_id; ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id; ?>_license_key]"
 		   type="text" value="<?php echo esc_attr( $license ); ?>" style="width: 300px;"
 	/>
-	<label class='description' for='wprss-<?php echo $addon_id; ?>-license-key'>
+	<label class="description" for="wprss-<?php echo $addon_id; ?>-license-key">
 		<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ); ?>
-	</label> <?
+	</label><?php
 }
 
 

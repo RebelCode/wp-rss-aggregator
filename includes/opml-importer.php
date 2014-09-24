@@ -60,9 +60,9 @@
 		 */
 		public function opml_import() {
 			// Show the Icon and Title
-			echo '<div class="wrap">';
+			?><div class="wrap"><?php
 			screen_icon();
-			echo '<h2>Import OPML</h2>';
+			?><h2><?php _e( 'Import OPML', WPRSS_TEXT_DOMAIN ) ?></h2><?php
 
 			// Get the current step from URL query string
 			$step = empty( $_GET['step'] ) ? 0 : (int) $_GET['step'];
@@ -94,7 +94,7 @@
 					break;
 			}
 			
-			echo '</div>';
+			?></div><?php
 		}
 
 
@@ -184,16 +184,16 @@
 				$opml = new WPRSS_OPML( $file );
 
 				// Show Success Message				
-				echo '<h3>Feeds were imported successfully!</h3>';
+				?><h3><?php _e( 'Feeds were imported successfully!', WPRSS_TEXT_DOMAIN ) ?></h3><?php
 
 				// Show imported feeds
 				?>
 				<table class="widefat">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Title</th>
-							<th>URL</th>
+							<th><?php _e( 'ID', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'Title', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'URL', WPRSS_TEXT_DOMAIN ) ?></th>
 						</tr>
 					</thead>
 					
@@ -222,9 +222,9 @@
 					
 					<tfoot>
 						<tr>
-							<th>ID</th>
-							<th>Title</th>
-							<th>URL</th>
+							<th><?php _e( 'ID', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'Title', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'URL', WPRSS_TEXT_DOMAIN ) ?></th>
 						</tr>
 					</tfoot>
 					
@@ -233,7 +233,7 @@
 
 			} catch (Exception $e) {
 				// Show Error Message
-				echo '<div class="error"><p>' . $e->getMessage() . '</p></div>';
+				?><div class="error"><?php echo wpautop( __( $e->getMessage(), WPRSS_TEXT_DOMAIN ) ) ?></div><?php
 			}
 		}
 
@@ -254,12 +254,9 @@
 
 		register_importer(
 			'wprss_opml_importer',
-			'WP RSS OPML',
-			'Import Feeds from an OPML file into WP RSS Aggregator',
+			__( 'WP RSS OPML', WPRSS_TEXT_DOMAIN ),
+			__( 'Import Feeds from an OPML file into WP RSS Aggregator', WPRSS_TEXT_DOMAIN ),
 			array( WPRSS_OPML_Importer::$singleton ,'opml_import' )
 		);
 
 	}
-
-
-?>

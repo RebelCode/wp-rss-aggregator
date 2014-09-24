@@ -107,7 +107,7 @@
     function wprss_notify_feed_sources_activated() {
         ?>
         <div class="updated">
-            <p>The feed sources have been activated!</p>
+            <?php echo wpautop( __( 'The feed sources have been activated!', WPRSS_TEXT_DOMAIN ) ) ?>
         </div>
         <?php
     }
@@ -121,7 +121,7 @@
     function wprss_notify_feed_sources_paused() {
         ?>
         <div class="updated">
-            <p>The feed sources have been paused!</p>
+            <?php echo wpautop( __( 'The feed sources have been paused!!', WPRSS_TEXT_DOMAIN ) ) ?>
         </div>
         <?php
     }

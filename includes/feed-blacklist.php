@@ -224,7 +224,7 @@ function wprss_blacklist_row_actions( $actions ) {
 		$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
 		$remove_url = wp_nonce_url( 'post.php?wprss-blacklist-remove='.get_the_ID(), 'blacklist-remove-' . get_the_ID(), 'wprss_blacklist_trash' );
 		$actions = array(
-			'trash'	=>	'<a href="'.$remove_url.'">Remove from blacklist</a>'
+			'trash'	=>	'<a href="'.$remove_url.'">' . __( 'Remove from blacklist', WPRSS_TEXT_DOMAIN ) . '</a>'
 		);
 	}
 	

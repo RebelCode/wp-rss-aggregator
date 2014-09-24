@@ -113,7 +113,7 @@
      * @since 3.1
      */
     function wp_rss_aggregator_export_notice() {
-         echo '<div class="updated"><p>All options are export successfully.</p></div>';
+        ?><div class="updated"><?php echo wpautop( __( 'All options are exported successfully.', WPRSS_TEXT_DOMAIN ) ) ?></div><?php
 
     }
 
@@ -124,7 +124,7 @@
      * @since 3.1
      */
     function wp_rss_aggregator_import_notice1() {
-          echo '<div class="updated"><p>' . __( 'All options are restored successfully.', WPRSS_TEXT_DOMAIN ) . '</p></div>';
+        ?><div class="updated"><?php echo wpautop( __( 'All options are restored successfully.', WPRSS_TEXT_DOMAIN ) ) ?></div><?php
 
     }
 
@@ -135,7 +135,7 @@
      * @since 3.1
      */
     function wp_rss_aggregator_import_notice2() {
-        echo '<div class="error"><p>' . __( 'Invalid file or file size too big.', WPRSS_TEXT_DOMAIN ) . '</p></div>';
+        ?><div class="error"><?php echo wpautop( __( 'Invalid file or file size too big.', WPRSS_TEXT_DOMAIN ) ) ?></div><?php
 
     }
 
@@ -198,7 +198,7 @@
 					<textarea rows="6" cols="80" form="bulk-add-form" name="bulk-feeds" autofocus></textarea>
 					<br/>
 					<?php wp_nonce_field('wprss-bulk-import', 'wprss-bulk-import'); ?>
-					<input type="submit" class="button-secondary" name="bulk-add" value="Bulk Import" />
+					<input type="submit" class="button-secondary" name="bulk-add" value="<?php _e( 'Bulk Import', WPRSS_TEXT_DOMAIN ) ?>" />
 				</form>
 				<hr/>
 				
@@ -206,8 +206,8 @@
                 <h2><?php _e( 'Import & Export Settings', WPRSS_TEXT_DOMAIN ); ?></h2>
 
                 <h3><?php _e( 'Export Settings', WPRSS_TEXT_DOMAIN ); ?></h3>
-                <p><?php _e( 'Click the <strong>Export Settings</strong> button to generate a file containing all the settings used by WP RSS Aggregator', WPRSS_TEXT_DOMAIN ); ?></p>
-                <p><?php _e( 'After exporting, you can either use the backup file to restore your settings to this site or to another WordPress site.</p>', WPRSS_TEXT_DOMAIN ); ?></p>
+                <?php echo wpautop( __( 'Click the <strong>Export Settings</strong> button to generate a file containing all the settings used by WP RSS Aggregator', WPRSS_TEXT_DOMAIN ) ) ?>
+                <?php echo wpautop( __( 'After exporting, you can either use the backup file to restore your settings to this site or to another WordPress site.', WPRSS_TEXT_DOMAIN ) ) ?>
                 <?php do_action( 'wprss_export_section' ); ?>
                 <form method="post">
                     <p class="submit">
@@ -217,8 +217,8 @@
                 </form>
 
                 <h3><?php _e( 'Import Settings', WPRSS_TEXT_DOMAIN ); ?></h3>
-                <p><?php _e( 'Click the <strong>Choose file</strong> button and choose a backup file.', WPRSS_TEXT_DOMAIN ); ?></p>
-                <p><?php _e( 'Press the <strong>Import Settings</strong> button, and WordPress will do the rest for you.', WPRSS_TEXT_DOMAIN ); ?></p>
+                <?php echo wpautop( __( 'Click the <strong>Choose file</strong> button and choose a backup file.', WPRSS_TEXT_DOMAIN ) ) ?>
+                <?php echo wpautop( __( 'Press the <strong>Import Settings</strong> button, and WordPress will do the rest for you.', WPRSS_TEXT_DOMAIN ) ) ?>
                 <?php do_action( 'wprss_import_section' ); ?>
                 <form method='post' enctype='multipart/form-data'>
                     <p class="submit">
@@ -229,9 +229,9 @@
                 </form>
 
                 <h3><?php _e( 'Importing/Exporting Feed Sources', WPRSS_TEXT_DOMAIN ); ?></h3>
-                <p><?php echo sprintf( __( 'To import/export your feed sources, please use the standard WordPress <a href="%1$simport.php">Import</a> and <a href="%1$sexport.php">Export</a> functionality.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ?></p>
-                <p><?php echo sprintf( __( 'On the <a href="%1$sexport.php">Export</a> page, check the <strong>Feed Sources</strong> radio button and click the <strong>Download Export File</strong> button. WordPress will then create an XML file containing all the feed sources.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ?></p>
-                <p><?php echo sprintf( __( 'On the <a href="%1$simport.php">Import</a> page, choose the previously created file and click the <strong>Upload file and import</strong> button.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ?></p>
+                <?php echo wpautop( sprintf( __( 'To import/export your feed sources, please use the standard WordPress <a href="%1$simport.php">Import</a> and <a href="%1$sexport.php">Export</a> functionality.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ) ?>
+                <?php echo wpautop( sprintf( __( 'On the <a href="%1$sexport.php">Export</a> page, check the <strong>Feed Sources</strong> radio button and click the <strong>Download Export File</strong> button. WordPress will then create an XML file containing all the feed sources.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ) ?>
+                <?php echo wpautop( sprintf( __( 'On the <a href="%1$simport.php">Import</a> page, choose the previously created file and click the <strong>Upload file and import</strong> button.', WPRSS_TEXT_DOMAIN ), get_admin_url() ) ) ?>
 
             </div>
         <?php

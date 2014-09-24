@@ -111,18 +111,18 @@
         wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
             
             // Fix for WordpRess SEO JS issue
-            echo '<input type="hidden" id="content" value="" />';
+            ?><input type="hidden" id="content" value="" /><?php
 
             // Begin the field table and loop
-            echo '<table class="form-table wprss-form-table">';
+            ?><table class="form-table wprss-form-table"><?php
 
             foreach ( $meta_fields as $field ) {
                 // get value of this field if it exists for this post
                 $meta = get_post_meta( $post->ID, $field['id'], true );
                 // begin a table row with
-                echo '<tr>
-                        <th><label for="' . $field['id'] . '">' . $field['label'] . '</label></th>
-                        <td>';
+                ?><tr>
+                        <th><label for="<?php echo $field['id'] ?>"><?php echo $field['label'] /* Should be already translated */ ?></label></th>
+                        <td><?php
                         
                         if ( isset( $field['before'] ) && !empty( $field['before'] ) ) {
                             call_user_func( $field['before'] );
@@ -137,6 +137,8 @@
 						
 						$tooltip = isset( $field['tooltip'] ) ? trim( $field['tooltip'] ) : null;
 						$tooltip_id = isset( $field['id'] ) ? $field_tooltip_id_prefix . $field['id'] : uniqid( $field_tooltip_id_prefix );
+						
+						$field_description = __( $field['desc'], WPRSS_TEXT_DOMAIN );
 						
 						/*
 						 * So, here's how tooltips work here.
@@ -153,52 +155,53 @@
                             // text/url
                             case 'url':
                             case 'text':
-                                echo '<input type="'.$field['type'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'. esc_attr( $meta ) .'" placeholder="'.__($field['placeholder'], WPRSS_TEXT_DOMAIN).'" class="wprss-text-input"/>';
+                                ?><input type="<?php echo $field['type'] ?>" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="<?php echo esc_attr( $meta ) ?>" placeholder="<?php _e( $field['placeholder'], WPRSS_TEXT_DOMAIN ) ?>" class="wprss-text-input"/><?php
 								echo $help->tooltip( $tooltip_id, $tooltip );
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
-                                    echo '<br>label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    ?><br /><label for="<?php echo $field['id'] ?>"><span class="description"><?php _e( $field['desc'], WPRSS_TEXT_DOMAIN ) ?></span></label><?php
                                 }
                             break;
                         
                             // textarea
                             case 'textarea':
-                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'. esc_attr( $meta ) .'</textarea>';
+                                ?><textarea name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" cols="60" rows="4"><?php echo esc_attr( $meta ) ?></textarea><?php
                                 echo $help->tooltip( $tooltip_id, $tooltip );
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
-                                    echo '<br>label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    ?><br /><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;
                         
                             // checkbox
                             case 'checkbox':
-                                echo '<input type="hidden" name="'.$field['id'].'" value="false" />';
-                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" value="true" ', checked( $meta, 'true' ), ' />';
+                                ?>
+								<input type="hidden" name="<?php echo $field['id'] ?>" value="false" />
+                                <input type="checkbox" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="true" <?php checked( $meta, 'true' ) ?> /><?php
                                 echo $help->tooltip( $tooltip_id, $tooltip );
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
-                                    echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;    
                         
                             // select
                             case 'select':
-                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';
+								?><select name="<?php echo $field['id'] ?>" id="<?php $field['id'] ?>"><?php
                                 foreach ($field['options'] as $option) {
-                                    echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
+                                    ?><option<?php if ( $meta == $option['value'] ): ?> selected="selected"<?php endif ?> value="<?php echo $option['value'] ?>"><?php echo $option['label'] ?></option><?php
                                 }
 
-                                echo '</select>';
+                                ?></select><?php
 								echo $help->tooltip( $tooltip_id, $tooltip );
 								if ( strlen( trim( $field['desc'] ) ) > 0 ) {
-                                    echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;                                            
                         
                             // number
                             case 'number':
-                                echo '<input class="wprss-number-roller" type="number" placeholder="Default" min="0" name="'.$field['id'].'" id="'.$field['id'].'" value="'.esc_attr( $meta ).'" />';
+                                ?><input class="wprss-number-roller" type="number" placeholder="<?php _e( 'Default', WPRSS_TEXT_DOMAIN ) ?>" min="0" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="<?php echo esc_attr( $meta ) ?>" /><?php
 								echo $help->tooltip( $tooltip_id, $tooltip );
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
-                                    echo '<label for="'.$field['id'].'"><span class="description">'.$field['desc'].'</span></label>';
+                                    ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;
 
@@ -208,9 +211,9 @@
                             call_user_func( $field['after'] );
                         }
 
-                echo '</td></tr>';
+                ?></td></tr><?php
             } // end foreach
-            echo '</table>'; // end table
+            ?></table><?php
     }
   
 
@@ -371,7 +374,7 @@
                     if ( $has_date ) {
                         $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
                     } else {
-                        $item_date = '<em>[No Date]</em>';
+                        $item_date = '<em>[' . __( 'No Date', WPRSS_TEXT_DOMAIN ) . ']</em>';
                     }
                     // Start displaying item content within a <li> tag
                     echo '<li>';
@@ -392,18 +395,10 @@
             else {
                 ?>
                 <span class="invalid-feed-url">
-                    <strong><?php _e( 'Invalid feed URL', WPRSS_TEXT_DOMAIN ); ?></strong> - 
-                    <?php _e( 'Double check the feed source URL setting above.' , WPRSS_TEXT_DOMAIN ); ?>
+                    <?php _e( '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.', WPRSS_TEXT_DOMAIN ) ?>
                 </span>
-
-                <p><?php _e( 'Not sure where to find the RSS feed on a website?', WPRSS_TEXT_DOMAIN ); ?>
-                    <a target="_blank" href="http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm">
-                        <?php _e( 'Click here' ); ?>
-                    </a>
-                    <?php _e( 'for a visual guide' , WPRSS_TEXT_DOMAIN ); ?>
-                </p>
-
-                <?php
+				<?php
+				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
             }
 
             $force_feed = get_post_meta( $post->ID, 'wprss_force_feed', TRUE ); ?>

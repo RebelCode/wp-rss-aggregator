@@ -135,14 +135,9 @@
 
         // Show the notice ?>
         <div class="updated">
-            <p>
-                <b>WP RSS Aggregator</b>:
-                There are saved licenses that have not yet been actived. Go to the
-                    <a href="<?php echo admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings'; ?>">
-                        License page
-                    </a>
-                to activate them.
-            </p>
+		<?php echo wpautop( sprintf( __('<b>WP RSS Aggregator</b>:'
+			. ' There are saved licenses that have not yet been actived. Go to the'
+			. ' <a href="%1$s">License page</a> to activate them.', WPRSS_TEXT_DOMAIN ), admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ) ?>
         </div>
         <?php
     }

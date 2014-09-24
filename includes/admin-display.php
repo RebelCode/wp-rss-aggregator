@@ -45,7 +45,7 @@
         case 'errors':
           $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
           $showClass = ( $errors === 'true' )? 'wprss-show' : '';
-          $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
+          $msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
           echo "<i title=\"$msg\" class=\"fa fa-warning fa-fw wprss-feed-error-symbol $showClass\"></i>";
           break;
         case 'state':
@@ -58,11 +58,11 @@
 
             ?>
             <p>
-                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php echo $text; ?>">
+                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php _e( $text, WPRSS_TEXT_DOMAIN ) ?>">
                     <i class="fa fa-circle"></i>
                 </span>
                 <input type="hidden" name="wprss-redirect" value="1" />
-                <button type="submit" class='button-secondary' title="<?php echo $button; ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
+                <button type="submit" class='button-secondary' title="<?php _e( $button, WPRSS_TEXT_DOMAIN ) ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
                     <i class='fa fa-<?php echo $icon; ?>'></i>
                 </button>
             </p>
@@ -85,16 +85,16 @@
 		  	
 		  	// Update the meta field
 		  	if ( wprss_is_feed_source_active( $post_id ) ) {
-				$next_update_text = $next_update === FALSE ? 'None': human_time_diff( $next_update, time() );
+				$next_update_text = $next_update === FALSE ? __( 'None', WPRSS_TEXT_DOMAIN ) : human_time_diff( $next_update, time() );
 			} else {
-				$next_update_text = 'Paused';
+				$next_update_text = __( 'Paused', WPRSS_TEXT_DOMAIN );
 			}
 		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
 		  
             ?>
 
             <p>
-                Next update:
+                <?php _e( 'Next update:', WPRSS_TEXT_DOMAIN ) ?>
                 <code class="next-update">
                    	<?php echo $next_update_text; ?>
                 </code>
@@ -102,10 +102,10 @@
 
             <?php if ( $last_update !== '' ): ?>
               <p class="last-update-container">
-                Last updated:
-                <code class="last-update"><?php echo human_time_diff( $last_update, time() ); ?> <?php _e('ago'); ?></code>
+                <?php _e( 'Last updated:', WPRSS_TEXT_DOMAIN ) ?>
+                <code class="last-update"><?php echo sprintf( __( '%1$s ago', WPRSS_TEXT_DOMAIN ), human_time_diff( $last_update, time() ) ) ?></code>
                 <?php if ( $last_update_items !== '' ): ?>
-                    <span class="last-update-imported-container"><br/>Last update imported: <code class="last-update-imported"><?php echo $last_update_items; ?></code> items</span>
+                    <span class="last-update-imported-container"><br/><?php echo sprintf( __( 'Last update imported: <code class="last-update-imported">%1$d</code> items', WPRSS_TEXT_DOMAIN ), $last_update_items ) ?></span>
                 <?php endif; ?>
               </p>
             <?php endif;
@@ -117,10 +117,12 @@
             $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
             $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
-            echo '<p>';
-            echo "<span class=\"items-imported\">{$items->post_count}</span>";
-            echo "<i class=\"fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon $showClass\" title=\"Updating feed source\"></i>";
-            echo '</p>';
+            ?>
+				<p>
+					<span class="items-imported"><?php echo $items->post_count ?></span>
+					<i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
+				</p>
+			<?php
 
 		  	// Set meta field for items imported
 		  	update_post_meta( $post_id, 'wprss_items_imported', $items->post_count );
@@ -332,7 +334,7 @@
         }
         elseif ( get_post_type($post) === 'wprss_feed' ) {
     		$actions = array_reverse( $actions );
-    		$actions['id'] = "<span class='wprss-row-id'>ID: $post->ID</span>";
+    		$actions['id'] = '<span class="wprss-row-id">' . sprintf( __( 'ID: %1$s', WPRSS_TEXT_DOMAIN ), $post->ID ) . '</span>';
     		$actions = array_reverse( $actions );
             
             unset( $actions[ 'view'] );
@@ -561,7 +563,7 @@
         $wp_admin_bar->add_node( array(
           'href'    =>  $view_items_link,
           'id'      =>  'view',
-          'title'   =>  $view_items_text,
+          'title'   =>  __( $view_items_text, WPRSS_TEXT_DOMAIN ),
           'meta'    =>  array(
             'target'  =>  $link_target
           )

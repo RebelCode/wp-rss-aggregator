@@ -84,7 +84,7 @@
 		foreach ( $feed_sources as $source ) {
 			$feed_sources_both_select .= '<option value="' . $source->ID . '" >' . $source->post_title . '</option>';
 		}
-		$feed_sources_both_select .= '</select><p>Hold Ctrl or Mac Command key when clicking to select more than one feed source.</p>';
+		$feed_sources_both_select .= '</select><p>' . __( 'Hold Ctrl or Mac Command key when clicking to select more than one feed source.' , WPRSS_TEXT_DOMAIN ) . '</p>';
 		
 		$feed_sources_select .= $feed_sources_both_select;
 		$feed_sources_exclude_select .= $feed_sources_both_select;
@@ -94,11 +94,11 @@
 			<tbody>
 
 				<tr>
-					<td id="wprss-dialog-all-sources-label">Feed Sources</td>
+					<td id="wprss-dialog-all-sources-label"><?php _e( 'Feed Sources', WPRSS_TEXT_DOMAIN ) ?></td>
 					<td>
-						<input id="wprss-dialog-all-sources" type="checkbox" checked> <label for="wprss-dialog-all-sources">All feed sources</label>
+						<input id="wprss-dialog-all-sources" type="checkbox" checked> <label for="wprss-dialog-all-sources"><?php _e( 'All feed sources', WPRSS_TEXT_DOMAIN ) ?></label>
 						<div id="wprss-dialog-sources-container" style="display:none">
-							<p>Choose the feed source to display:</p>
+							<p><?php _e( 'Choose the feed source to display:', WPRSS_TEXT_DOMAIN ) ?></p>
 							<?php echo $feed_sources_select; ?>
 						</div>
 						<script>
@@ -119,16 +119,16 @@
 				</tr>
 
 				<tr id="wprss-dialog-exclude-row">
-					<td id="wprss-dialog-exclude-label">Exclude:</td>
+					<td id="wprss-dialog-exclude-label"><?php _e( 'Exclude:', WPRSS_TEXT_DOMAIN ) ?></td>
 					<td>
-						<p>Choose the feed sources to exclude:</p>
+						<p><?php _e( 'Choose the feed sources to exclude:', WPRSS_TEXT_DOMAIN ) ?></p>
 						<?php echo $feed_sources_exclude_select; ?>
 					</td>
 				</tr>
 
 				<tr>
-					<td>Feed Limit:</td>
-					<td> <input id="wprss-dialog-feed-limit" type="number" class="wprss-number-roller" placeholder="Ignore" min="0" /> </td>
+					<td><?php _e( 'Feed Limit:', WPRSS_TEXT_DOMAIN ) ?></td>
+					<td> <input id="wprss-dialog-feed-limit" type="number" class="wprss-number-roller" placeholder="<?php _e( 'Ignore', WPRSS_TEXT_DOMAIN ) ?> " min="0" /> </td>
 				</tr>
 
 				<?php do_action( 'wprss_return_dialog_contents' ); ?>
@@ -136,7 +136,7 @@
 				<tr>
 					<td></td>
 					<td>
-						<button id="wprss-dialog-submit">Add shortcode</button>
+						<button id="wprss-dialog-submit"><?php _e( 'Add shortcode', WPRSS_TEXT_DOMAIN ) ?></button>
 					</td>
 				</tr>
 

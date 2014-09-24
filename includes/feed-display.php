@@ -208,10 +208,10 @@
 
                 // Prepare the text that precedes the source
                 $text_preceding_source = wprss_get_general_setting('text_preceding_source');
-                $text_preceding_source = ltrim( $text_preceding_source . ' ' );
+                $text_preceding_source = ltrim( __( $text_preceding_source, WPRSS_TEXT_DOMAIN ) . ' ' );
 
                 $text_preceding_date = wprss_get_general_setting('text_preceding_date');
-                $text_preceding_date = ltrim( $text_preceding_date . ' ' );
+                $text_preceding_date = ltrim( __( $text_preceding_date, WPRSS_TEXT_DOMAIN ) . ' ' );
                 
                 do_action( 'wprss_get_post_data' );
 				
@@ -234,11 +234,11 @@
 				do_action( 'wprss_after_feed_item_title', $extra_meta, $display_settings, get_the_ID() );
 				
                 // FEED ITEM META ?>
-                <div class='wprss-feed-meta'>
+                <div class="wprss-feed-meta">
 
                     <!-- SOURCE -->
                     <?php if ( wprss_get_general_setting('source_enable') == 1 ) : ?>
-                        <span class='feed-source'>
+                        <span class="feed-source">
                             <?php $source_link_text = apply_filters('wprss_item_source_link', wprss_link_display( $source_url, $source_name, $source_link )) ?>
                             <?php $source_link_text = $text_preceding_source . $source_link_text ?>
                             <?php echo $source_link_text ?>
@@ -259,7 +259,7 @@
                     if ( wprss_get_general_setting('authors_enable') == 1 && $author !== NULL && is_string( $author ) && $author !== '' ) : ?>
                         <span class="feed-author">
                             <?php $author_text = apply_filters('wprss_item_author', $author) ?>
-                            By <?php echo $author_text; ?>
+                            <?php printf( __( 'By %1$s', WPRSS_TEXT_DOMAIN ), $author_text ) ?>
                         </span>
                     <?php endif; ?>
 
@@ -270,7 +270,7 @@
                     $time_ago = human_time_diff( $timestamp, time() ); ?>
                     <div class="wprss-time-ago">
                         <?php $time_ago_text = apply_filters('wprss_item_time_ago', $time_ago) ?>
-                        <?php echo $time_ago_text; ?> ago
+						<?php printf( __( '%1$s ago', WPRSS_TEXT_DOMAIN ), $time_ago_text ) ?>
                     </div>
                     <?php
                 }
@@ -348,8 +348,8 @@
 		// Otherwise, using default paginations
 		else {
 			$output .= '<div class="nav-links">';
-			$output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( 'Older posts' ) . '</div>';
-			$output .= '    <div class="nav-next alignright">' . get_previous_posts_link( 'Newer posts' ) . '</div>';
+			$output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( __( 'Older posts', WPRSS_TEXT_DOMAIN ) ) . '</div>';
+			$output .= '    <div class="nav-next alignright">' . get_previous_posts_link( __( 'Newer posts', WPRSS_TEXT_DOMAIN ) ) . '</div>';
 			$output .= '</div>';  
 			return $output;
 		}

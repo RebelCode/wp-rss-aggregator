@@ -11,17 +11,18 @@
 			<?php screen_icon( 'wprss-aggregator' ); ?>
 
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
-			<h3>Documentation</h3>
-			<p>In the <a href="www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin
-				and all the add-ons.</p><p>There are also some videos to help you make a quick start to setting up and enjoying this plugin.</p>
-			<h3>Frequently Asked Questions (FAQ)</h3>
-			<p>If after going through the documentation you still have questions, please take a look at the <a href="http://www.wprssaggregator.com/faq/">FAQ page</a> on the site, we set this
-				up purposely to answer the most commonly asked questions by our users.</p>
-			<h3>Support Forums - Core (free version) Plugin Users Only</h3>
-			<p>If you're using the free version of the plugin found on WordPress.org, you can ask questions on the <a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.</p>
-			<h3>Email Ticketing System - Premium Add-on Users Only</h3>
-			<p>If you still can't find an answer to your query after reading the documentation and going through the FAQ, just <a href="http://www.wprssaggregator.com/contact/">open a support request ticket</a>.<br>
-				We'll be happy to help you out.</p>
+			<h3><?php _e( 'Documentation', WPRSS_TEXT_DOMAIN ) ?></h3>
+			<?php echo wpautop( __('In the <a href="www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
+				
+				There are also some videos to help you make a quick start to setting up and enjoying this plugin.', WPRSS_TEXT_DOMAIN) ) ?>
+			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
+			<?php echo wpautop( __('If after going through the documentation you still have questions, please take a look at the <a href="http://www.wprssaggregator.com/faq/">FAQ page</a> on the site, we set this up purposely to answer the most commonly asked questions by our users.', WPRSS_TEXT_DOMAIN) ) ?>
+			
+			<h3><?php _e( 'Support Forums - Core (free version) Plugin Users Only', WPRSS_TEXT_DOMAIN ) ?></h3>
+			<?php echo wpautop( __( "If you're using the free version of the plugin found on WordPress.org, you can ask questions on the " . '<a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.', WPRSS_TEXT_DOMAIN ) ) ?>
+			<h3><?php _e( 'Email Ticketing System - Premium Add-on Users Only', WPRSS_TEXT_DOMAIN ) ?></h3>
+			<?php echo wpautop( __( "If you still can't find an answer to your query after reading the documentation and going through the FAQ, just " . '<a href="http://www.wprssaggregator.com/contact/">open a support request ticket</a>.' . "
+					We'll be happy to help you out.", WPRSS_TEXT_DOMAIN ) ) ?>
 		</div>
     <?php
     }

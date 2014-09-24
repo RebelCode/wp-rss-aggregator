@@ -146,7 +146,7 @@ function wprss_send_tracking_data() {
 function wprss_tracking_notice() {
 	?>
 	<div class="updated">
-		<p><b>WP RSS Aggregator:</b> Data report sent!</p>
+		<?php echo wpautop( __( '<b>WP RSS Aggregator:</b> Data report sent!', WPRSS_TEXT_DOMAIN ) ) ?>
 	</div>
 	<?php
 }

@@ -248,8 +248,8 @@
      * 
      * @since 3.0
      */ 
-     function wprss_debugging_admin_notice_update_feeds() {        
-        echo '<div class="updated"><p>Feeds are being updated in the background.</p></div>';
+     function wprss_debugging_admin_notice_update_feeds() {
+		?><div class="updated"><p><?php _e( 'Feeds are being updated in the background.', WPRSS_TEXT_DOMAIN ) ?></p></div><?php
     }
 
     /**
@@ -257,8 +257,8 @@
      * 
      * @since 3.0
      */ 
-    function wprss_debugging_admin_notice_reimport_feeds() {        
-        echo '<div class="updated"><p>Feeds deleted and are being re-imported in the background.</p></div>';
+    function wprss_debugging_admin_notice_reimport_feeds() {
+		?><div class="updated"><p><?php _e( 'Feeds deleted and are being re-imported in the background.', WPRSS_TEXT_DOMAIN ) ?></p></div><?php
     }
 
 
@@ -267,8 +267,8 @@
      * 
      * @since 3.9.6
      */ 
-    function wprss_debugging_admin_notice_clear_log() {        
-        echo '<div class="updated"><p>The error log has been cleared.</p></div>';
+    function wprss_debugging_admin_notice_clear_log() {
+		?><div class="updated"><p><?php _e( 'The error log has been cleared.', WPRSS_TEXT_DOMAIN ) ?></p></div><?php
     }
 
 	
@@ -277,8 +277,8 @@
      * 
      * @since 4.4
      */ 
-    function wprss_debugging_admin_notice_reset_settings() {        
-        echo '<div class="updated"><p>The plugin settings have been reset to default.</p></div>';
+    function wprss_debugging_admin_notice_reset_settings() {
+		?><div class="updated"><p><?php _e( 'The plugin settings have been reset to default.', WPRSS_TEXT_DOMAIN ) ?></p></div><?php
     }
 
 
