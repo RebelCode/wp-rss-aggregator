@@ -156,10 +156,11 @@
 								<h3>Check out our add-ons:</h3>
 
 									<ul>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/feed-post/" target="wprss_ftp">Feed to Post</a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/feed-to-post/" target="wprss_ftp">Feed to Post</a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et">Excerpts &amp; Thumbnails</a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat">Categories</a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf">Keyword Filtering</a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/full-text-rss-feeds/" target="wprss_kf">Full Text RSS Feeds</a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/wordai/" target="wprss_ai">WordAi</a></strong></li>
 									</ul>
 								</p>

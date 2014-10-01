@@ -38,6 +38,13 @@
             'url' => 'http://www.wprssaggregator.com/extensions/feed-to-post/'
         );
         $premium[] = array(
+            'title' => __( "Full Text RSS Feeds", 'wprss' ),
+            'description' => __( "This add-ons provides the connectivity to our Full Text Premium service, which gives you unlimited feed items returned per feed source.", 'wprss' ),
+            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'active' => is_plugin_active( 'wp-rss-full-text-feeds/wp-rss-full-text.php' ),
+            'url' => 'http://www.wprssaggregator.com/extension/full-text-rss-feeds/'
+        );        
+        $premium[] = array(
             'title' => __( "WordAi", 'wprss' ),
             'description' => __( "Allows you to spin the content for posts imported by Feed to Post using WordAi. Cleverly rewrite your posts without changing their meaning and maintaining human readability.", 'wprss' ),
             'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
