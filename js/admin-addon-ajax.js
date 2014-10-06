@@ -21,7 +21,7 @@ jQuery( document ).ready( function($) {
 					}
 				}
 			});
-			$(this).text('Please wait ...');
+			$(this).text( wprss_admin_addon_ajax.please_wait );
 		}
 	});
 

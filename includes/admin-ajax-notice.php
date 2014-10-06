@@ -10,46 +10,33 @@
      * 
      */
 
-
-    add_action( 'admin_init', 'wprss_admin_notice' );
-    /**
-     * Serves up a notice to leave a review for this plugin
-     * 
-     * @since 3.0
-     */    
-    function wprss_admin_notice() {
-        global $pagenow, $typenow;
-        if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
-          $post = get_post( $_GET['post'] );
-          if ( $post !== NULL && !is_wp_error( $post ) )
-            $typenow = $post->post_type;
-        }
-        $notices_settings = get_option( 'wprss_settings_notices' ); 
-
-        // Display the admin notice only if it hasn't been hidden and we are on a screen of WP RSS Aggregator
-        if ( ( false == $notices_settings ) && ( ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' ) ) ) { 
-            add_action( 'admin_notices', 'wprss_display_admin_notice' );
-        } 
-
-    } 
-
-        
+    add_action( 'admin_notices', 'wprss_display_admin_notice' );
     /**
      * Renders the administration notice. Also renders a hidden nonce used for security when processing the Ajax request.
      * 
      * @since 3.0
      */
     function wprss_display_admin_notice() {
+        global $pagenow, $typenow;
+        if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
+          $post = get_post( $_GET['post'] );
+          if ( $post !== NULL && !is_wp_error( $post ) )
+            $typenow = $post->post_type;
+        }
+        $notices_settings = get_option( 'wprss_settings_notices' );
 
-        $html = '<div id="ajax-notification" class="updated">';
-            $html .= '<p>';
-            $html .= __( 'Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... Check out the <a target="_blank" href="http://www.wprssaggregator.com/extensions"><strong>extensions</strong></a> page.
-                     <a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">Dismiss this notification</a>', WPRSS_TEXT_DOMAIN );
-            $html .= '</p>';
-            $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
-        $html .= '</div><!-- /.updated -->';
-        
-        echo $html;        
+        if ( ( false == $notices_settings ) && ( ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' ) ) ) {
+            $html = '<div id="ajax-notification" class="updated">';
+                $html .= '<p>';
+                $html .= __( 'Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ', WPRSS_TEXT_DOMAIN );
+                $html .= __( 'Check out the', WPRSS_TEXT_DOMAIN ) . ' <a target="_blank" href="http://www.wprssaggregator.com/extensions"><strong>' . __( 'extensions', 'WPRSS_TEXT_DOMAIN' ) . '</strong></a> ' . __( 'page.', WPRSS_TEXT_DOMAIN );
+                $html .= '<a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">' . __( 'Dismiss this notification', WPRSS_TEXT_DOMAIN ) . '</a>';
+                $html .= '</p>';
+                $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
+            $html .= '</div>';
+            
+            echo $html;
+        }
     } 
     
     
