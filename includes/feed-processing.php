@@ -409,12 +409,14 @@
     function wprss_get_max_age_for_feed_source( $source_id ) {
         $general_settings = get_option( 'wprss_settings_general' );
         // Get the meta data for age for this feed source
-        $age_limit = get_post_meta( $source_id, 'wprss_age_limit', TRUE );
+        $age_limit = trim( get_post_meta( $source_id, 'wprss_age_limit', TRUE ) );
         $age_unit = get_post_meta( $source_id, 'wprss_age_unit', TRUE );
 
         // If the meta does not exist, use the global settings
-        $age_limit = ( $age_limit === '' )? wprss_get_general_setting( 'limit_feed_items_age' ) : $age_limit;
-        $age_unit = ( $age_unit === '' )? wprss_get_general_setting( 'limit_feed_items_age_unit' ) : $age_unit;
+        if( $age_limit === '' ) {
+            $age_limit = trim( wprss_get_general_setting( 'limit_feed_items_age' ) );
+            $age_unit = wprss_get_general_setting( 'limit_feed_items_age_unit' );
+        }
 
         // If the age limit is an empty string, use no limit
         if ( $age_limit === '' ) {
