@@ -109,7 +109,7 @@
 				wprss_items_insert_post( $items_to_insert, $feed_ID );
 			}
 		} else {
-			wprss_log("The feed URL is not valid! Please recheck.");
+			wprss_log_obj('The feed URL is not valid! Please recheck', $feed_url);
 		}
 		
 		$next_scheduled = get_post_meta( $feed_ID, 'wprss_reschedule_event', TRUE );
