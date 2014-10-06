@@ -1,3 +1,7 @@
+4.6.1 (2014-10-06)
+Enhanced: Improved internationalization in the plugin, for better translations.
+Fixed bug: If the feed source age limit was left empty, the global setting was used instead of ignoring the limit.
+
 4.6 (2014-09-22)
 Enhanced: Improved the user interface, with better responsiveness and tooltips.
 Enhanced: Removes the ID column. The ID is now shown fixed in row actions.
