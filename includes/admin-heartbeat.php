@@ -45,10 +45,10 @@ function wprss_feed_source_updates() {
 				}
 				// Set the text appropriately
 				if ( ! wprss_is_feed_source_active( $feed_id ) ) {
-					$feed_source_data['next-update'] = "Paused";
+					$feed_source_data['next-update'] = __( 'Paused', WPRSS_TEXT_DOMAIN );
 				}
 				elseif( $next_update === FALSE ) {
-					$feed_source_data['next-update'] = "None";
+					$feed_source_data['next-update'] = __( 'None', WPRSS_TEXT_DOMAIN );
 				}
 				else {
 					$feed_source_data['next-update'] = human_time_diff( $next_update, time() );

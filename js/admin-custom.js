@@ -14,14 +14,14 @@ function fetch_items_row_action_callback(){
         },
         success: function( response, status, jqXHR ){
             console.log( jqXHR );
-            link.text( 'Items are importing!' );
+            link.text( wprss_admin_custom.items_are_importing + '!' );
             jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
             setTimeout( function(){
                 link.text( original_text ).click( fetch_items_row_action_callback );
             }, 3500 );
         },
         error: function( response, status, error ){
-            link.text( 'Failed to import: ' + error );
+            link.text( wprss_admin_custom.failed_to_import + ': ' + error );
             setTimeout( function(){
                 link.text( original_text ).click( fetch_items_row_action_callback );
             }, 3500 );
@@ -42,7 +42,7 @@ function fetch_items_row_action_callback(){
             }, 3500 );
         }
     );*/
-    link.text('Please wait ...');
+    link.text( wprss_admin_custom.please_wait );
     link.unbind('click');
 };
 
@@ -170,11 +170,11 @@ jQuery(window).load( function(){
 /**
  * WP-like collapsing settings in metabox 
  */
-(function($){
+(function($, wprss_admin_custom){
     $(window).load( function(){
 
 		// Adds the Bulk Add button
-		$('<a>').text('Bulk Add').attr('href', wprss_urls.import_export).addClass('add-new-h2').insertAfter( $('.add-new-h2') );
+		$('<a>').text( wprss_admin_custom.bulk_add ).attr('href', wprss_urls.import_export).addClass('add-new-h2').insertAfter( $('.add-new-h2') );
 		
         // Initialize all collapsable meta settings
         $('.wprss-meta-slider').each(function(){
@@ -256,9 +256,9 @@ jQuery(window).load( function(){
             };
 
             // Create the OK Button
-            var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text('OK').click( update );
+            var okBtn = $('<a>').addClass('wprss-slider-button button-secondary').text( wprss_admin_custom.ok ).click( update );
             // Create the Cancel Button
-            var cancelBtn = $('<a>').addClass('wprss-slider-button').text('Cancel').click( function() {
+            var cancelBtn = $('<a>').addClass('wprss-slider-button').text( wprss_admin_custom.cancel ).click( function() {
                 fields.each( function(){
                     $(this).val( $(this).attr( 'data-old-value' ) );
                     $(this).removeAttr( 'data-old-value' );
@@ -278,22 +278,22 @@ jQuery(window).load( function(){
         });
 
     });
-})(jQuery);
+})(jQuery, wprss_admin_custom);
 
 
 // For Blacklist
-(function($) {
+(function($, wprss_admin_custom) {
 	$(document).ready( function(){
 		if ( $('body').hasClass('post-type-wprss_blacklist') ) {
 			
 			
 			
-			$('<p>').text('The feed items listed here will be disregarded when importing new items from your feed sources.')
+			$('<p>').text( wprss_admin_custom.blacklist_desc )
 			.insertBefore( $('.tablenav.top') );
 			
 			
 			// Construct the bulk delete button
-			$('<a>').addClass('button').attr('href', '#').text('Remove selected from Blacklist')
+			$('<a>').addClass('button').attr('href', '#').text( wprss_admin_custom.blacklist_remove )
 			// Add it to the page
 			.appendTo( $('div.tablenav.top div.bulkactions') )
 			// Bind the click event
@@ -316,7 +316,7 @@ jQuery(window).load( function(){
 			$('table.wp-list-table a.row-title').contents().unwrap();
 		}
 	});
-})(jQuery);
+})(jQuery, wprss_admin_custom);
 
 
 // Utility string trim method, if it does not exist

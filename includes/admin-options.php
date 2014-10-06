@@ -408,7 +408,7 @@
      * @since 3.0
      */
     function wprss_settings_general_callback() {
-        echo '<p>' . __( 'These are the general settings for WP RSS Aggregator.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( 'These are the general settings for WP RSS Aggregator.', WPRSS_TEXT_DOMAIN ) );
     }
 
 
@@ -417,7 +417,7 @@
      * @since 3.5
      */
     function wprss_settings_display_callback() {
-        echo '<p>' . __( 'In this section you can find some general options that control how the feed items are displayed.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( 'In this section you can find some general options that control how the feed items are displayed.', WPRSS_TEXT_DOMAIN ) );
     }
 
 
@@ -427,7 +427,7 @@
      * @since 4.2.4
      */
     function wprss_settings_source_callback() {
-        echo '<p>' . __( 'Options that control how the feed item\'s source is displayed.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( "Options that control how the feed item's source is displayed.", WPRSS_TEXT_DOMAIN ) );
     }
 
     /**
@@ -436,7 +436,7 @@
      * @since 4.2.4
      */
     function wprss_settings_date_callback() {
-        echo '<p>' . __( 'Options that control how the feed item\'s date is displayed.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( "Options that control how the feed item's date is displayed.", WPRSS_TEXT_DOMAIN ) );
     }
 
 
@@ -445,7 +445,7 @@
      * @since 3.0
      */
     function wprss_settings_styles_callback() {
-        echo '<p>' . __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', WPRSS_TEXT_DOMAIN ) );
     }
 
 
@@ -454,7 +454,7 @@
      * @since 3.0
      */
     function wprss_secure_reset_section_callback() {
-        echo '<p>' . __( 'Set your security reset code, in case of any errors.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( 'Set your security reset code, in case of any errors.', WPRSS_TEXT_DOMAIN ) );
     }
 
 
@@ -463,7 +463,7 @@
      * @since 3.0
      */
     function wprss_tracking_section_callback() {
-        echo '<p>' . __( 'Participate in helping us make the plugin better.', WPRSS_TEXT_DOMAIN ) . '</p>';
+        echo wpautop( __( 'Participate in helping us make the plugin better.', WPRSS_TEXT_DOMAIN ) );
     }
 
 
@@ -699,11 +699,11 @@
         ?>
 		
         <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[limit_feed_items_age]" type="number" min="0"
-            class="wprss-number-roller" placeholder="<?php echo _e( 'No limit', WPRSS_TEXT_DOMAIN ) ?>" value="<?php echo $limit_feed_items_age; ?>" />
+            class="wprss-number-roller" placeholder="<?php _e( 'No limit', WPRSS_TEXT_DOMAIN ) ?>" value="<?php echo $limit_feed_items_age; ?>" />
 
         <select id="limit-feed-items-age-unit" name="wprss_settings_general[limit_feed_items_age_unit]">
         <?php foreach ( $units as $unit ) : ?>
-            <option value="<?php echo $unit ?>" <?php selected( $limit_feed_items_age_unit, $unit ) ?> ><?php echo $unit ?></option>
+            <option value="<?php echo $unit ?>" <?php selected( $limit_feed_items_age_unit, $unit ) ?> ><?php _e( $unit, WPRSS_TEXT_DOMAIN ) ?></option>
         <?php endforeach ?>
         </select>
         <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>

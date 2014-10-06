@@ -17,16 +17,16 @@
         $columns = array(
             'cb'          =>  '<input type="checkbox" />',
             'errors'      =>  '',
-            'title'       =>  __( 'Name', 'wprss' ),
+            'title'       =>  __( 'Name', WPRSS_TEXT_DOMAIN ),
         );
 
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
 
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
-            $columns['state'] = __( 'State', 'wprss' );
-            $columns['updates'] = __( 'Updates', 'wprss' );
-            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), 'wprss' );
+            $columns['state'] = __( 'State', WPRSS_TEXT_DOMAIN );
+            $columns['updates'] = __( 'Updates', WPRSS_TEXT_DOMAIN );
+            $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), WPRSS_TEXT_DOMAIN );
         }
 
         return $columns;
@@ -45,7 +45,7 @@
         case 'errors':
           $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
           $showClass = ( $errors === 'true' )? 'wprss-show' : '';
-          $msg = "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.";
+          $msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
           echo "<i title=\"$msg\" class=\"fa fa-warning fa-fw wprss-feed-error-symbol $showClass\"></i>";
           break;
         case 'state':
@@ -58,11 +58,11 @@
 
             ?>
             <p>
-                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php echo $text; ?>">
+                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php _e( $text, WPRSS_TEXT_DOMAIN ) ?>">
                     <i class="fa fa-circle"></i>
                 </span>
                 <input type="hidden" name="wprss-redirect" value="1" />
-                <button type="submit" class='button-secondary' title="<?php echo $button; ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
+                <button type="submit" class='button-secondary' title="<?php _e( $button, WPRSS_TEXT_DOMAIN ) ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
                     <i class='fa fa-<?php echo $icon; ?>'></i>
                 </button>
             </p>
@@ -85,16 +85,16 @@
 		  	
 		  	// Update the meta field
 		  	if ( wprss_is_feed_source_active( $post_id ) ) {
-				$next_update_text = $next_update === FALSE ? 'None': human_time_diff( $next_update, time() );
+				$next_update_text = $next_update === FALSE ? __( 'None', WPRSS_TEXT_DOMAIN ) : human_time_diff( $next_update, time() );
 			} else {
-				$next_update_text = 'Paused';
+				$next_update_text = __( 'Paused', WPRSS_TEXT_DOMAIN );
 			}
 		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
 		  
             ?>
 
             <p>
-                Next update:
+                <?php _e( 'Next update:', WPRSS_TEXT_DOMAIN ) ?>
                 <code class="next-update">
                    	<?php echo $next_update_text; ?>
                 </code>
@@ -102,10 +102,10 @@
 
             <?php if ( $last_update !== '' ): ?>
               <p class="last-update-container">
-                Last updated:
-                <code class="last-update"><?php echo human_time_diff( $last_update, time() ); ?> <?php _e('ago'); ?></code>
+                <?php _e( 'Last updated:', WPRSS_TEXT_DOMAIN ) ?>
+                <code class="last-update"><?php echo sprintf( __( '%1$s ago', WPRSS_TEXT_DOMAIN ), human_time_diff( $last_update, time() ) ) ?></code>
                 <?php if ( $last_update_items !== '' ): ?>
-                    <span class="last-update-imported-container"><br/>Last update imported: <code class="last-update-imported"><?php echo $last_update_items; ?></code> items</span>
+                    <span class="last-update-imported-container"><br/><?php echo sprintf( __( 'Last update imported: <code class="last-update-imported">%1$d</code> items', WPRSS_TEXT_DOMAIN ), $last_update_items ) ?></span>
                 <?php endif; ?>
               </p>
             <?php endif;
@@ -117,10 +117,12 @@
             $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
             $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
-            echo '<p>';
-            echo "<span class=\"items-imported\">{$items->post_count}</span>";
-            echo "<i class=\"fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon $showClass\" title=\"Updating feed source\"></i>";
-            echo '</p>';
+            ?>
+				<p>
+					<span class="items-imported"><?php echo $items->post_count ?></span>
+					<i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
+				</p>
+			<?php
 
 		  	// Set meta field for items imported
 		  	update_post_meta( $post_id, 'wprss_items_imported', $items->post_count );
@@ -206,10 +208,10 @@
 
         $columns = array (
             'cb'          => '<input type="checkbox" />',
-            'title'       => __( 'Name', 'wprss' ),
-            'permalink'   => __( 'Permalink', 'wprss' ),
-            'publishdate' => __( 'Date published', 'wprss' ),
-            'source'      => __( 'Source', 'wprss' )
+            'title'       => __( 'Name', WPRSS_TEXT_DOMAIN ),
+            'permalink'   => __( 'Permalink', WPRSS_TEXT_DOMAIN ),
+            'publishdate' => __( 'Date published', WPRSS_TEXT_DOMAIN ),
+            'source'      => __( 'Source', WPRSS_TEXT_DOMAIN )
         );
         return apply_filters( 'wprss_set_feed_item_custom_columns', $columns );
     }
@@ -298,16 +300,16 @@
 
         $messages[ 'wprss_feed' ] = array(
             0  => '', // Unused. Messages start at index 1.
-            1  => __( 'Feed source updated. ', 'wprss' ),
-            2  => __( 'Custom field updated.', 'wprss' ),
-            3  => __( 'Custom field deleted.', 'wprss' ),
-            4  => __( 'Feed source updated.', 'wprss' ),        
+            1  => __( 'Feed source updated. ', WPRSS_TEXT_DOMAIN ),
+            2  => __( 'Custom field updated.', WPRSS_TEXT_DOMAIN ),
+            3  => __( 'Custom field deleted.', WPRSS_TEXT_DOMAIN ),
+            4  => __( 'Feed source updated.', WPRSS_TEXT_DOMAIN ),        
             5  => '',
-            6  => __( 'Feed source saved.', 'wprss' ),
-            7  => __( 'Feed source saved.', 'wprss' ),
-            8  => __( 'Feed source submitted.', 'wprss' ),
+            6  => __( 'Feed source saved.', WPRSS_TEXT_DOMAIN ),
+            7  => __( 'Feed source saved.', WPRSS_TEXT_DOMAIN ),
+            8  => __( 'Feed source submitted.', WPRSS_TEXT_DOMAIN ),
             9  => '',
-            10 => __( 'Feed source updated.', 'wprss' )
+            10 => __( 'Feed source updated.', WPRSS_TEXT_DOMAIN )
         );
 
         return apply_filters( 'wprss_feed_updated_messages', $messages );
@@ -332,7 +334,7 @@
         }
         elseif ( get_post_type($post) === 'wprss_feed' ) {
     		$actions = array_reverse( $actions );
-    		$actions['id'] = "<span class='wprss-row-id'>ID: $post->ID</span>";
+    		$actions['id'] = '<span class="wprss-row-id">' . sprintf( __( 'ID: %1$s', WPRSS_TEXT_DOMAIN ), $post->ID ) . '</span>';
     		$actions = array_reverse( $actions );
             
             unset( $actions[ 'view'] );
@@ -347,14 +349,14 @@
                   $post->ID
                 );
                 $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', 'View items' );
-                $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, 'wprss' ) . '</a>';
+                $actions['view-items'] = '<a href="' . $view_items_link . '">' . __( $view_items_text, WPRSS_TEXT_DOMAIN ) . '</a>';
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', 'Fetch items' );
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, 'wprss' ) . '</a>';
+                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . __( $fetch_items_row_action_text, WPRSS_TEXT_DOMAIN ) . '</a>';
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', 'Delete items' );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', 'Delete feed items imported by this feed source' );
-                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . __( $purge_feeds_row_action_title, 'wprss' ) . "' >" . __( $purge_feeds_row_action_text, 'wprss' ) . "</a>";
+                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . __( $purge_feeds_row_action_title, WPRSS_TEXT_DOMAIN ) . "' >" . __( $purge_feeds_row_action_text, WPRSS_TEXT_DOMAIN ) . "</a>";
                 
                 $actions['trash'] = $trash;
             }
@@ -439,7 +441,7 @@
      * @since 3.5
      */
     function wprss_notify_about_deleting_source_feed_items() {
-        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feed items for this feed source are being deleted in the background.' ), 'wprss' );
+        $message = __( apply_filters( 'wprss_notify_about_deleting_source_feed_items_message', 'The feed items for this feed source are being deleted in the background.' ), WPRSS_TEXT_DOMAIN );
         echo '<div class="updated"><p>' . $message . '</p></div>';
     }
 
@@ -520,7 +522,7 @@
     function wprss_change_publish_button_text( $translation, $text ) {
         if ( 'wprss_feed' == get_post_type()) {
             if ( $text == 'Publish' )
-                return __( 'Publish Feed', 'wprss' );
+                return __( 'Publish Feed', WPRSS_TEXT_DOMAIN );
         }
         return apply_filters( 'wprss_change_publish_button_text', $translation );
     }        
@@ -561,7 +563,7 @@
         $wp_admin_bar->add_node( array(
           'href'    =>  $view_items_link,
           'id'      =>  'view',
-          'title'   =>  $view_items_text,
+          'title'   =>  __( $view_items_text, WPRSS_TEXT_DOMAIN ),
           'meta'    =>  array(
             'target'  =>  $link_target
           )

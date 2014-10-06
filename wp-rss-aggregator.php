@@ -248,15 +248,15 @@
 
                     'target'            =>  '#wpadminbar',
                     'options'           =>  array(
-                        'content'           =>  '<h3>' . __( 'Help improve WP RSS Aggregator', 'wprss' ) . '</h3>' . '<p>' . __( 'You\'ve just installed WP RSS Aggregator. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wprss' ) . '</p>',
+                        'content'           =>  '<h3>' . __( 'Help improve WP RSS Aggregator', WPRSS_TEXT_DOMAIN ) . '</h3>' . '<p>' . __( 'You\'ve just installed WP RSS Aggregator. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', WPRSS_TEXT_DOMAIN ) . '</p>',
                         'position'          =>  array(
                             'edge'              =>  'top',
                             'align'             =>  'center',
                         ),
                         'active'            =>  TRUE,
                         'btns'              =>  array(
-                            'wprss-tracking-opt-out'    =>  __( 'Do not allow tracking', 'wprss' ),
-                            'wprss-tracking-opt-in'    =>  __( 'Allow tracking', 'wprss' ),
+                            'wprss-tracking-opt-out'    =>  __( 'Do not allow tracking', WPRSS_TEXT_DOMAIN ),
+                            'wprss-tracking-opt-in'    =>  __( 'Allow tracking', WPRSS_TEXT_DOMAIN ),
                         )
                     )
                 )
@@ -442,7 +442,7 @@
      * @return void     
      */  
     function wprss_load_textdomain() { 
-        load_plugin_textdomain( 'wprss', false, WPRSS_LANG );
+        load_plugin_textdomain( WPRSS_TEXT_DOMAIN, false, WPRSS_LANG );
     }
 
 

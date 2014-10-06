@@ -27,6 +27,10 @@
         $screen = get_current_screen();
 
         wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
+        wp_localize_script( 'wprss-admin-addon-ajax', 'wprss_admin_addon_ajax', array(
+            'please_wait'   =>  __( 'Please wait ...', WPRSS_TEXT_DOMAIN )
+        ) );
+
         wp_enqueue_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css' );
         wp_enqueue_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
 
@@ -37,7 +41,19 @@
 			$page == 'wprss-aggregator-settings' || $screen->post_type === 'wprss_blacklist' ) {
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
+
             wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
+            wp_localize_script( 'wprss-admin-custom', 'wprss_admin_custom', array(
+                'failed_to_import'      =>  __( 'Failed to import', WPRSS_TEXT_DOMAIN ),
+                'items_are_importing'   =>  __( 'Items are importing', WPRSS_TEXT_DOMAIN ),
+                'please_wait'           =>  __( 'Please wait ...', WPRSS_TEXT_DOMAIN ),
+                'bulk_add'              =>  __( 'Bulk Add', WPRSS_TEXT_DOMAIN ),
+                'ok'                    =>  __( 'OK', WPRSS_TEXT_DOMAIN ),
+                'cancel'                =>  __( 'Cancel', WPRSS_TEXT_DOMAIN ),
+                'blacklist_desc'        =>  __( 'The feed items listed here will be disregarded when importing new items from your feed sources.', WPRSS_TEXT_DOMAIN ),
+                'blacklist_remove'      =>  __( 'Remove selected from Blacklist', WPRSS_TEXT_DOMAIN ),
+            ) );
+
             wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
             wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
             if ( 'post' === $screen->base && 'wprss_feed' === $screen->post_type ) {
@@ -46,11 +62,18 @@
             }
 			if ( 'wprss_feed' === $screen->post_type ) {
 				wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
+                wp_localize_script( 'wprss-custom-bulk-actions', 'wprss_admin_bulk', array(
+                    'activate'   =>  __( 'Activate', WPRSS_TEXT_DOMAIN ),
+                    'pause'   =>  __( 'Pause', WPRSS_TEXT_DOMAIN )
+                ) );
 			}
         }
         // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
         if ( 'edit' === $screen->base && $screen->post_type === 'wprss_feed' && apply_filters('wprss_ajax_polling', TRUE) === TRUE ) {
             wp_enqueue_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js' );
+            wp_localize_script( 'wprss-feed-source-table-heartbeat', 'wprss_admin_heartbeat', array(
+                'ago'   =>  __( 'ago', WPRSS_TEXT_DOMAIN )
+            ) );
         }
 
         else if ( 'dashboard_page_wprss-welcome' === $screen->base ) {

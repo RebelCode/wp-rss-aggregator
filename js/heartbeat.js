@@ -1,4 +1,4 @@
-(function($){
+(function($, wprss_admin_heartbeat){
 	
 
 	/**
@@ -7,6 +7,7 @@
 	var getFeedSourceIDS = function() {
 		var ids = [];
 		$('table.wp-list-table tbody tr').each( function(){
+			if ( $(this).hasClass('no-items') ) return;
 			ids.push( $(this).attr('id').split('-')[1] );
 		});
 		return ids;
@@ -51,7 +52,7 @@
 			if ( feed_source['last-update'] == '' )
 				updatesCol.find('p.last-update-container').hide();
 			else
-				updatesCol.find('code.last-update').text( feed_source['last-update'] + " ago" );
+				updatesCol.find('code.last-update').text( feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago );
 
 			// Update the last update items count
 			if ( feed_source['last-update-imported'] == '' )
@@ -120,4 +121,4 @@
 	});
 	
 
-})(jQuery);
+})(jQuery, wprss_admin_heartbeat);

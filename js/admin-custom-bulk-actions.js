@@ -3,15 +3,15 @@
  * 
  * @since 2.5
  */
-(function($){
+(function($, wprss_admin_bulk){
 	
 	$(document).ready( function(){
 		var bulk_actions_select = $( 'select[name="action"]' );
 		var bulk_actions_trash = bulk_actions_select.find( "option[value='trash']" );
 		
-		$( '<option>' ).attr( 'value', 'activate' ).text( 'Activate' ).insertBefore( bulk_actions_trash );
-		$( '<option>' ).attr( 'value', 'pause' ).text( 'Pause' ).insertBefore( bulk_actions_trash );
+		$( '<option>' ).attr( 'value', 'activate' ).text( wprss_admin_bulk.activate ).insertBefore( bulk_actions_trash );
+		$( '<option>' ).attr( 'value', 'pause' ).text( wprss_admin_bulk.pause ).insertBefore( bulk_actions_trash );
 	});
 
 
-})(jQuery);
+})(jQuery, wprss_admin_bulk);

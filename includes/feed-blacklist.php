@@ -168,11 +168,11 @@ function wprss_blacklist_cpt() {
 		'capability_type'		=>	'wprss_blacklist',
 		'supports'				=>	array('title'),
 		'labels'				=>	array(
-			'name'					=> __( 'Blacklist', 'wprss' ),
-			'singular_name'			=> __( 'Blacklist', 'wprss' ),
-			'all_items'				=> __( 'Blacklist', 'wprss' ),
-			'search_items'			=> __( 'Search Blacklist', 'wprss' ),
-			'not_found'				=> __( 'You do not have any items blacklisted yet!', 'wprss' ),
+			'name'					=> __( 'Blacklist', WPRSS_TEXT_DOMAIN ),
+			'singular_name'			=> __( 'Blacklist', WPRSS_TEXT_DOMAIN ),
+			'all_items'				=> __( 'Blacklist', WPRSS_TEXT_DOMAIN ),
+			'search_items'			=> __( 'Search Blacklist', WPRSS_TEXT_DOMAIN ),
+			'not_found'				=> __( 'You do not have any items blacklisted yet!', WPRSS_TEXT_DOMAIN ),
 		)
 	));
 }
@@ -206,14 +206,14 @@ function wprss_blacklist_row_actions( $actions ) {
 		
 		// Prepare the text
 		$text = apply_filters( 'wprss_blacklist_row_action_text', 'Delete Permanently &amp; Blacklist' );
-		$text = __( $text, 'wprss' );
+		$text = __( $text, WPRSS_TEXT_DOMAIN );
 		
 		// Prepare the hint
 		$hint = apply_filters(
 			'wprss_blacklist_row_action_hint',
 			"The item will be deleted permanently, and its permalink will be recorded in the blacklist"
 		);
-		$hint = esc_attr( __( $hint, 'wprss' ) );
+		$hint = esc_attr( __( $hint, WPRSS_TEXT_DOMAIN ) );
 		
 		// Add the blacklist action
 		$actions['blacklist-item'] = "<span class='delete'><a title='$hint' href='$url'>$text</a></span>";
@@ -224,7 +224,7 @@ function wprss_blacklist_row_actions( $actions ) {
 		$paged = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
 		$remove_url = wp_nonce_url( 'post.php?wprss-blacklist-remove='.get_the_ID(), 'blacklist-remove-' . get_the_ID(), 'wprss_blacklist_trash' );
 		$actions = array(
-			'trash'	=>	'<a href="'.$remove_url.'">Remove from blacklist</a>'
+			'trash'	=>	'<a href="'.$remove_url.'">' . __( 'Remove from blacklist', WPRSS_TEXT_DOMAIN ) . '</a>'
 		);
 	}
 	

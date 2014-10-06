@@ -64,9 +64,9 @@
 
 			// NO FOLLOW CHANGE FIX
 			$options = get_option( 'wprss_settings_general' );
-			if ( $options['follow_dd'] === __( "No Follow", 'wprss' ) ) {
+			if ( $options['follow_dd'] === __( "No Follow", WPRSS_TEXT_DOMAIN ) ) {
 				$options['follow_dd'] = 'no_follow';
-			} elseif ( $options['follow_dd'] === __( "Follow", 'wprss' ) ) {
+			} elseif ( $options['follow_dd'] === __( "Follow", WPRSS_TEXT_DOMAIN ) ) {
 				$options['follow_dd'] = 'follow';
 			}
 		}

@@ -60,9 +60,9 @@
 		 */
 		public function opml_import() {
 			// Show the Icon and Title
-			echo '<div class="wrap">';
+			?><div class="wrap"><?php
 			screen_icon();
-			echo '<h2>Import OPML</h2>';
+			?><h2><?php _e( 'Import OPML', WPRSS_TEXT_DOMAIN ) ?></h2><?php
 
 			// Get the current step from URL query string
 			$step = empty( $_GET['step'] ) ? 0 : (int) $_GET['step'];
@@ -72,9 +72,9 @@
 				default :
 				case 0 :
 					// Show the Import Message and the import upload form
-					echo '<p>' . __( 'Howdy! Import your feeds here from an OPML (.xml) export file.', 'wprss' ) . '</p>';
-					echo '<p>' . __( "Click the button below, choose your file, and click 'Upload'.", 'wprss' ) . '</p>';
-					echo '<p>' . __( 'We will take care of the rest.', 'wprss' ) . '</p>';
+					echo '<p>' . __( 'Howdy! Import your feeds here from an OPML (.xml) export file.', WPRSS_TEXT_DOMAIN ) . '</p>';
+					echo '<p>' . __( "Click the button below, choose your file, and click 'Upload'.", WPRSS_TEXT_DOMAIN ) . '</p>';
+					echo '<p>' . __( 'We will take care of the rest.', WPRSS_TEXT_DOMAIN ) . '</p>';
 
 					// Show an import upload form that submits to the same page, with GET parameter step=1
 					wp_import_upload_form( 'admin.php?import=wprss_opml_importer&amp;step=1' );
@@ -94,7 +94,7 @@
 					break;
 			}
 			
-			echo '</div>';
+			?></div><?php
 		}
 
 
@@ -105,14 +105,14 @@
 
 			// If the 'error' property is set, show the error message and return FALSE
 			if ( isset( $file['error'] ) ) {
-				echo '<p><strong>' . __( 'Sorry, an error has been encountered.', 'wprss' ) . '</strong><br />';
+				echo '<p><strong>' . __( 'Sorry, an error has been encountered.', WPRSS_TEXT_DOMAIN ) . '</strong><br />';
 				echo esc_html( $file['error'] ) . '</p>';
 				return false;
 			// If the file does not exist, then show the error message and return FALSE
 			} else if ( ! file_exists( $file['file'] ) ) {
-				echo '<p><strong>' . __( 'Sorry, it seems your uploaded file has been misplaced!', 'wprss' ) . '</strong><br />';
-				echo __( 'The uploaded file could not be found at ', 'wprss') . '<code>' . esc_html( $file['file'] ) . '</code>';
-				echo __( 'It is likely that this was caused by a permissions problem.' , 'wprss'  );
+				echo '<p><strong>' . __( 'Sorry, it seems your uploaded file has been misplaced!', WPRSS_TEXT_DOMAIN ) . '</strong><br />';
+				echo __( 'The uploaded file could not be found at ', WPRSS_TEXT_DOMAIN ) . '<code>' . esc_html( $file['file'] ) . '</code>';
+				echo __( 'It is likely that this was caused by a permissions problem.' , WPRSS_TEXT_DOMAIN  );
 				echo '</p>';
 				return false;
 			}
@@ -184,16 +184,16 @@
 				$opml = new WPRSS_OPML( $file );
 
 				// Show Success Message				
-				echo '<h3>Feeds were imported successfully!</h3>';
+				?><h3><?php _e( 'Feeds were imported successfully!', WPRSS_TEXT_DOMAIN ) ?></h3><?php
 
 				// Show imported feeds
 				?>
 				<table class="widefat">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Title</th>
-							<th>URL</th>
+							<th><?php _e( 'ID', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'Title', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'URL', WPRSS_TEXT_DOMAIN ) ?></th>
 						</tr>
 					</thead>
 					
@@ -222,9 +222,9 @@
 					
 					<tfoot>
 						<tr>
-							<th>ID</th>
-							<th>Title</th>
-							<th>URL</th>
+							<th><?php _e( 'ID', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'Title', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'URL', WPRSS_TEXT_DOMAIN ) ?></th>
 						</tr>
 					</tfoot>
 					
@@ -233,7 +233,7 @@
 
 			} catch (Exception $e) {
 				// Show Error Message
-				echo '<div class="error"><p>' . $e->getMessage() . '</p></div>';
+				?><div class="error"><?php echo wpautop( __( $e->getMessage(), WPRSS_TEXT_DOMAIN ) ) ?></div><?php
 			}
 		}
 
@@ -254,12 +254,9 @@
 
 		register_importer(
 			'wprss_opml_importer',
-			'WP RSS OPML',
-			'Import Feeds from an OPML file into WP RSS Aggregator',
+			__( 'WP RSS OPML', WPRSS_TEXT_DOMAIN ),
+			__( 'Import Feeds from an OPML file into WP RSS Aggregator', WPRSS_TEXT_DOMAIN ),
 			array( WPRSS_OPML_Importer::$singleton ,'opml_import' )
 		);
 
 	}
-
-
-?>

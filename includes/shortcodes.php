@@ -8,7 +8,7 @@
 
         //Enqueue scripts / styles
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );         
-        wp_enqueue_script( 'custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );  
+        wp_enqueue_script( 'wprss_custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );  
 
         $general_settings = get_option( 'wprss_settings_general' );
 
