@@ -239,6 +239,9 @@
 
 				// From 4.2.4
 				'authors_enable'			=>	0,
+				
+				/* @todo Add version info */
+				WPRSS_LOG_LEVEL_OPTION_CODE	=> 'default'
 			)
 		);
 

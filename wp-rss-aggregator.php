@@ -209,8 +209,10 @@
 
     // Load the logging functions file
     require_once ( WPRSS_INC . 'admin-log.php' );
+	
+	if ( !defined( 'WPRSS_LOG_LEVEL' ) )
+		define( 'WPRSS_LOG_LEVEL', WPRSS_LOG_LEVEL_ERROR );
 
-    
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
