@@ -1,6 +1,6 @@
 <?php
 
-	define( 'WPRSS_LOG_LEVEL_OPTION_CODE', 'log_level' );
+	define( 'WPRSS_OPTION_CODE_LOG_LEVEL', 'log_level' );
 	define( 'WPRSS_LOG_LEVEL_NONE', 0 );
 	define( 'WPRSS_LOG_LEVEL_INFO', 1 );
 	define( 'WPRSS_LOG_LEVEL_NOTICE', 2 );
@@ -43,7 +43,7 @@
 	 * @return string The string representing the log level threshold or type.
 	 */
 	function wprss_get_log_level_db() {
-		return wprss_get_general_setting( WPRSS_LOG_LEVEL_OPTION_CODE );
+		return wprss_get_general_setting( WPRSS_OPTION_CODE_LOG_LEVEL );
 	}
 	
 	/**
@@ -78,7 +78,7 @@
 					: $log_level === $used_log_level;
 		}
 		
-		return trim($log_level) === trim($used_log_level);
+		return trim( $log_level ) === trim( $used_log_level );
 	}
 	
 	
@@ -123,7 +123,7 @@
 		);
 		
 		if( !$levels_only )
-			$log_levels[WPRSS_LOG_LEVEL_DEFAULT]		= 'Default';
+			$log_levels[ WPRSS_LOG_LEVEL_DEFAULT ]		= 'Default';
 		
 		return apply_filters( 'wprss_log_levels', $log_levels, $levels_only );
 	}
