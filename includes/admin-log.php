@@ -132,6 +132,17 @@
 		
 		return apply_filters( 'wprss_log_levels', $log_levels, $levels_only );
 	}
+	
+	
+	/**
+	 * 
+	 * @param string|int $level Any valid level value.
+	 * @return string The untranslated label of the specified level, or $default if no such level exists.
+	 */
+	function wprss_log_get_level_label( $level, $default = 'N/A' ) {
+		$levels = wprss_log_get_levels( false );
+		return isset( $levels[$level] ) ? $levels[ $level ] : $default;
+	}
 
 
 	/**
@@ -196,3 +207,55 @@
 	function wprss_log_separator() {
 		file_put_contents( wprss_log_file(), "\n", FILE_APPEND );	
 	}
+	
+	
+	/**
+	 * Adding the default setting value.
+	 */
+	add_filter( 'wprss_default_settings_general', 'wprss_log_default_settings_general' );
+	function wprss_log_default_settings_general( $settings ) {
+		/* @todo Add version info */
+		$settings[ WPRSS_OPTION_CODE_LOG_LEVEL ]	= WPRSS_LOG_LEVEL_DEFAULT;
+		return $settings;
+	}
+	
+	
+	/**
+	 * Adding the setting field
+	 */
+	add_filter( 'wprss_settings_array', 'wprss_log_settings_array' );
+	function wprss_log_settings_array( $sections ) {
+		$sections['general'][ WPRSS_OPTION_CODE_LOG_LEVEL ] = array(
+			'label'			=> __( 'Log level threshold', WPRSS_TEXT_DOMAIN ),
+			'callback'		=> 'wprss_setting_' . WPRSS_OPTION_CODE_LOG_LEVEL . '_callback'
+		);
+		return $sections;
+	}
+	
+	
+	/**
+	 * Renders the 'log_level' setting field.
+	 * 
+	 * @param array $field Info about the field
+	 */
+	function wprss_setting_log_level_callback( $field ) {
+        $log_level = wprss_get_general_setting( $field['field_id'] );
+		
+		foreach( wprss_log_get_levels( false ) as $_level => $_label ) {
+			$options[ $_level ] = $_label;
+			if( is_numeric( $_level ) && ($_level/2 >= 1) ) $options[ (int)$_level * -1 ] = $_label . ' and below';
+		}
+		
+		krsort($options, SORT_NATURAL);
+        ?>
+		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]">
+		<?php
+		foreach( $options as $value => $text ) {
+			$selected = ( (string)$value === (string)$log_level )? 'selected="selected"' : '';
+			?><option value="<?php echo $value ?>" <?php echo $selected ?>><?php echo __( $text, WPRSS_TEXT_DOMAIN ) ?></option><?php
+		}
+		?>
+		</select>
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+	}
+	
