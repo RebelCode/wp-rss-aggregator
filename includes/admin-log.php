@@ -117,7 +117,9 @@
 	 */
 	function wprss_log_get_levels( $levels_only = true ) {
 		$log_levels =  array(
+			WPRSS_LOG_LEVEL_NONE			=> 'None',
 			WPRSS_LOG_LEVEL_INFO			=> 'Info',
+			WPRSS_LOG_LEVEL_NOTICE			=> 'Notice',
 			WPRSS_LOG_LEVEL_WARNING			=> 'Warning',
 			WPRSS_LOG_LEVEL_ERROR			=> 'Error'
 		);
