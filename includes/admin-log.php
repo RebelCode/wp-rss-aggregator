@@ -2,10 +2,11 @@
 
 	define( 'WPRSS_OPTION_CODE_LOG_LEVEL', 'log_level' );
 	define( 'WPRSS_LOG_LEVEL_NONE', 0 );
-	define( 'WPRSS_LOG_LEVEL_INFO', 1 );
-	define( 'WPRSS_LOG_LEVEL_NOTICE', 2 );
-	define( 'WPRSS_LOG_LEVEL_WARNING', 4 );
-	define( 'WPRSS_LOG_LEVEL_ERROR', 8 );
+	define( 'WPRSS_LOG_LEVEL_SYSTEM', 1 );
+	define( 'WPRSS_LOG_LEVEL_INFO', 2 );
+	define( 'WPRSS_LOG_LEVEL_NOTICE', 4 );
+	define( 'WPRSS_LOG_LEVEL_WARNING', 8 );
+	define( 'WPRSS_LOG_LEVEL_ERROR', 16 );
 	define( 'WPRSS_LOG_LEVEL_DEFAULT', 'default' );
 	
 
@@ -108,6 +109,7 @@
 		return apply_filters( 'wprss_is_logging_level', $is_log_level, $log_level, $used_log_level, $is_below );
 	}
 	
+	
 	/**
 	 * Get the available log levels.
 	 * 
@@ -118,6 +120,7 @@
 	function wprss_log_get_levels( $levels_only = true ) {
 		$log_levels =  array(
 			WPRSS_LOG_LEVEL_NONE			=> 'None',
+			WPRSS_LOG_LEVEL_SYSTEM			=> 'System',
 			WPRSS_LOG_LEVEL_INFO			=> 'Info',
 			WPRSS_LOG_LEVEL_NOTICE			=> 'Notice',
 			WPRSS_LOG_LEVEL_WARNING			=> 'Warning',
