@@ -42,7 +42,7 @@
 	 * Gets log level from the database.
 	 * @return string The string representing the log level threshold or type.
 	 */
-	function wprss_get_log_level_db() {
+	function wprss_log_get_level_db() {
 		return wprss_get_general_setting( WPRSS_OPTION_CODE_LOG_LEVEL );
 	}
 	
@@ -50,8 +50,8 @@
 	 * Gets log level used.
 	 * @return string The string representing the log level threshold.
 	 */
-	function wprss_get_log_level() {
-		$log_level = wprss_get_log_level_db();
+	function wprss_log_get_level() {
+		$log_level = wprss_log_get_level_db();
 		if ( $log_level === WPRSS_LOG_LEVEL_DEFAULT )
 			$log_level = WPRSS_LOG_LEVEL;
 		
@@ -65,8 +65,8 @@
 	 * 
 	 * @param int $log_level The log level to check. Must be an unsiged whole number.
 	 */
-	function wprss_is_log_level( $log_level, $used_log_level = null ) {
-		$used_log_level = is_null( $used_log_level ) ? wprss_get_log_level() : $used_log_level;
+	function wprss_log_is_level( $log_level, $used_log_level = null ) {
+		$used_log_level = is_null( $used_log_level ) ? wprss_log_get_level() : $used_log_level;
 		
 		if( is_numeric( $log_level ) ) {
 			$log_level = intval( $log_level );
@@ -88,8 +88,8 @@
 	 * @param int $log_level The log level to check. Must be an unsigned whole number
 	 * @return bool True if messages with the specified logging level should be logged; false otherwise.
 	 */
-	function wprss_is_logging_level( $log_level ) {
-		$original_used_level = $used_log_level = wprss_get_log_level();
+	function wprss_log_is_logging_level( $log_level ) {
+		$original_used_level = $used_log_level = wprss_log_get_level();
 		
 		// Whether to use the indicated level and below
 		$is_below = ( substr( $used_log_level, 0, 1 ) === '-' );
@@ -102,7 +102,7 @@
 		else {
 			$is_log_level = $is_below
 					? ((int)$log_level <= (int)$used_log_level && (int)$log_level !== WPRSS_LOG_LEVEL_NONE)
-					: wprss_is_log_level( (int)$log_level, $used_log_level );
+					: wprss_log_is_level( (int)$log_level, $used_log_level );
 		}
 		
 		return apply_filters( 'wprss_is_logging_level', $is_log_level, $log_level, $used_log_level, $is_below );
@@ -115,7 +115,7 @@
 	 * If false, returns other types as well.
 	 * @return array An array, where key is level, and value is level's human-readable name
 	 */
-	function wprss_get_log_levels( $levels_only = true ) {
+	function wprss_log_get_levels( $levels_only = true ) {
 		$log_levels =  array(
 			WPRSS_LOG_LEVEL_INFO			=> 'Info',
 			WPRSS_LOG_LEVEL_WARNING			=> 'Warning',
