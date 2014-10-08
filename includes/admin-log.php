@@ -1,5 +1,6 @@
 <?php
 
+	define( 'WPRSS_LOG_DISPLAY_LIMIT', 100000 ); // Number of chars to display in log
 	define( 'WPRSS_OPTION_CODE_LOG_LEVEL', 'log_level' );
 	define( 'WPRSS_LOG_LEVEL_NONE', 0 );
 	define( 'WPRSS_LOG_LEVEL_SYSTEM', 1 );
@@ -150,14 +151,17 @@
 	 *
 	 * @since 3.9.6
 	 */
-	function wprss_log( $message, $src = NULL ) {
+	function wprss_log( $message, $src = NULL, $log_level = WPRSS_LOG_LEVEL_ERROR ) {
+		if( !wprss_log_is_logging_level( $log_level ) ) return;
+		
 		if ( $src === NULL ) {
 			$callers = debug_backtrace();
 			$src = $callers[1]['function'];
 		}
+		$log_level_label = wprss_log_get_level_label( $log_level );
 		$date =  date( 'd-m-Y H:i:s' );
 		$source = 'WPRSS' . ( ( strlen( $src ) > 0 )? " > $src" : '' ) ;
-		$str = "[$date] $source:\n";
+		$str = "[$date] [$log_level_label] $source:\n";
 		$str .= "$message\n";
 		file_put_contents( wprss_log_file() , $str, FILE_APPEND );
 
@@ -170,8 +174,8 @@
 	 *
 	 * @since 3.9.6
 	 */
-	function wprss_log_obj( $message, $obj, $src = '' ) {
-		wprss_log( "$message: " . print_r( $obj, TRUE ), $src );
+	function wprss_log_obj( $message, $obj, $src = '', $log_level = WPRSS_LOG_LEVEL_ERROR ) {
+		wprss_log( "$message: " . print_r( $obj, TRUE ), $src, $log_level );
 	}
 
 
@@ -186,7 +190,7 @@
 		}
 		$contents = file_get_contents(  wprss_log_file() , '' );
 		// Trim the log file to a fixed number of chars
-		$limit = 10000;
+		$limit = WPRSS_LOG_DISPLAY_LIMIT;
 		if ( strlen( $contents ) > $limit ) {
 			file_put_contents( wprss_log_file(), substr( $contents, 0, $limit ) );
 			return wprss_get_log();
