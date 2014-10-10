@@ -78,7 +78,7 @@
 				$items_to_insert = $items;
 			} else {
 				$items_to_insert = array_slice( $items, 0, $feed_limit );
-				wprss_log_obj( 'Sliced a segment of items', $feed_limit, null, WPRSS_LOG_LEVEL_SYSTEM );
+				wprss_log_obj( 'Sliced a segment of items', count($items_to_insert), null, WPRSS_LOG_LEVEL_SYSTEM );
 			}
 
 			// Gather the permalinks of existing feed item's related to this feed source
@@ -114,7 +114,7 @@
 
 			// If using a limit - delete any excess items to make room for the new items
 			if ( $feed_limit !== NULL ) {
-				wprss_log( 'Some items may be deleted due to limit', null, WPRSS_LOG_LEVEL_SYSTEM );
+				wprss_log_obj( 'Some items may be deleted due to limit', $feed_limit, null, WPRSS_LOG_LEVEL_SYSTEM );
 				
 				// Get the number of feed items in DB, and their count
 				$db_feed_items = wprss_get_feed_items_for_source( $feed_ID );
@@ -129,6 +129,7 @@
 				$db_feed_items_reversed = array_reverse( $db_feed_items->posts );
 				// Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
 				$feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
+				wprss_log( sprintf( 'There already are %1$d items in the database. %2$d items can be inserted. %3$d items will be deleted', $num_db_feed_items, $num_can_insert, $feed_items_to_delete ), null, WPRSS_LOG_LEVEL_SYSTEM );
 
 				// Iterate the feed items and delete them
 				foreach ( $feed_items_to_delete as $key => $post ) {
@@ -160,7 +161,7 @@
 		}
 
 		delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
-		wprss_log_obj( 'Import complete', $feed_ID, null, WPRSS_LOG_LEVEL_INFO );
+		wprss_log_obj( 'Import complete', $feed_ID, __FUNCTION__, WPRSS_LOG_LEVEL_INFO );
 	}
 
 
