@@ -16,7 +16,7 @@ function wprss_get_addons() {
  *
  * @since 4.4.5
  */
-function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_license' ) {
+function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_license', $return = 'license' ) {
 	// If no license argument was given
 	if ( $license_key === NULL ) {
 		// Get the license key
@@ -33,11 +33,12 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 	// data to send in our API request
 	$api_params = array(
 		'edd_action'	=> $action,
-		'license'		=> $license_key,
-		'item_name'		=> urlencode( $item_name_constant )
+		'license'		=> sanitize_text_field( $license_key ),
+		'item_name'		=> urlencode( $item_name_constant ),
+		'url'			=> urlencode( network_site_url() ),
 	);
-
-	// Call the custom API.
+	
+	// Send the request to the API
 	$response = wp_remote_get( add_query_arg( $api_params, $store_url_constant ) );
 
 	// If the response is an error, return the value in the DB
@@ -50,8 +51,12 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 	$license_statuses["{$addon}_license_status"] = $license_data->license;
 	update_option( 'wprss_settings_license_statuses', $license_statuses );
 
-	// Return TRUE if it is 'active', FALSE otherwise
-	return $license_data->license;
+	// Return the data
+	if ( strtoupper( $return ) === 'ALL' ) {
+		return $license_data;
+	} else {
+		return $license_data->$return;
+	}
 }
 
 
@@ -60,8 +65,8 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
  *
  * @since 4.4.5
  */
-function wprss_edd_check_license( $addon, $license_key = NULL ) {
-	return wprss_edd_licensing_api( $addon, $license_key, 'check_license' );
+function wprss_edd_check_license( $addon, $license_key = NULL, $return = 'license' ) {
+	return wprss_edd_licensing_api( $addon, $license_key, 'check_license', $return );
 }
 
 
