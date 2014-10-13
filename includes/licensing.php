@@ -36,6 +36,7 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 		'license'		=> sanitize_text_field( $license_key ),
 		'item_name'		=> urlencode( $item_name_constant ),
 		'url'			=> urlencode( network_site_url() ),
+		'time'			=> time(),
 	);
 	
 	// Send the request to the API
