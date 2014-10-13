@@ -204,8 +204,10 @@ function wprss_license_key_field( $args ) {
  */
 function wprss_activate_license_button( $args ) {
 	$addon_id = $args[0];
-	$status = wprss_edd_check_license( $addon_id );
+	$data = wprss_edd_check_license( $addon_id, NULL, 'ALL' );
+	$status = $data->license;
 	if ( $status === 'site_inactive' ) $status = 'inactive';
+	if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 
 	$valid = $status == 'valid';
 	$btn_text = $valid ? 'Deactivate License' : 'Activate License';
@@ -227,6 +229,28 @@ function wprss_activate_license_button( $args ) {
 			</strong>
 		</span>
 	</span>
+
+	<p>
+		<?php
+			$license_key = wprss_get_license_key( $addon_id );
+			$acts_current = $data->site_count;
+			$acts_left = $data->activations_left;
+			$acts_limit = $data->license_limit;
+			$expires = $data->expires;
+			$expires = substr( $expires, 0, strpos( $expires, " " ) );
+			if ( ! empty( $license_key ) ) : ?>
+				<small>
+					<strong>Activations:</strong>
+						<?php echo $acts_current.'/'.$acts_limit; ?> (<?php echo $acts_left; ?> left)
+					<br/>
+					<strong>Expires on:</strong>
+						<code><?php echo $expires; ?></code>
+					<br/>
+					<strong>Registered to:</strong>
+						<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
+				</small>
+		<?php endif; ?>
+	</p>
 
 	<style type="text/css">
 		.wprss-<?php echo $addon_id; ?>-license-valid {
