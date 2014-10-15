@@ -258,8 +258,12 @@
                     <?php $author = get_post_meta( get_the_ID(), 'wprss_item_author', TRUE );
                     if ( wprss_get_general_setting('authors_enable') == 1 && $author !== NULL && is_string( $author ) && $author !== '' ) : ?>
                         <span class="feed-author">
-                            <?php $author_text = apply_filters('wprss_item_author', $author) ?>
-                            <?php printf( __( 'By %1$s', WPRSS_TEXT_DOMAIN ), $author_text ) ?>
+                            <?php
+                                $author_text = apply_filters( 'wprss_item_author', $author );
+                                $author_prefix_text = apply_filters( 'wprss_author_prefix_text', 'By' );
+                                _e( $author_prefix_text, WPRSS_TEXT_DOMAIN );
+                                echo ' ' . $author_text;
+                            ?>
                         </span>
                     <?php endif; ?>
 

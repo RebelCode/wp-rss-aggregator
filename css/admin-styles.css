@@ -568,7 +568,7 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 
 .wprss-tooltip-handle {
     margin-left: 5px;
-    font-size: 1.3em;
+    font-size: 15px;
     color: rgb(190, 190, 190);
     vertical-align: middle;
 }
@@ -604,4 +604,76 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 }
 .wprss-ui-tooltip hr {
     margin: 0;
+}
+
+/* For non settings page screens */
+@media only screen and (max-width: 1026px) {
+
+    body:not(.wprss_feed_page_wprss-aggregator-settings)
+        .wprss-tooltip-handle {
+            color: #999;
+            font-size: 1em;
+            padding: 6px 10px;
+            margin-left: 0;
+            background: #e5e5e5;
+            border-radius: 3px;
+            vertical-align: middle;
+    }
+
+    body:not(.wprss_feed_page_wprss-aggregator-settings)
+        select + .wprss-tooltip-handle,
+    body:not(.wprss_feed_page_wprss-aggregator-settings)
+        input[type="input"] + .wprss-tooltip-handle,
+    body:not(.wprss_feed_page_wprss-aggregator-settings)
+        input[type="password"] + .wprss-tooltip-handle {
+            margin-top: 5px;
+    }
+
+    body:not(.wprss_feed_page_wprss-aggregator-settings)
+        .wprss-tooltip-handle:after {
+            content: 'Help';
+            margin-left: 5px;
+            font-family: 'Open Sans', sans-serif;
+    }
+
+}
+
+
+/* For settings page screens */
+@media only screen and (max-width: 782px) {
+
+    body.wprss_feed_page_wprss-aggregator-settings
+        .wprss-tooltip-handle {
+            color: #999;
+            font-size: 1em;
+            padding: 6px 10px;
+            margin-left: 0;
+            background: #e5e5e5;
+            border-radius: 3px;
+            vertical-align: middle;
+    }
+
+    body.wprss_feed_page_wprss-aggregator-settings
+        select + .wprss-tooltip-handle,
+    body.wprss_feed_page_wprss-aggregator-settings
+        input[type="input"] + .wprss-tooltip-handle,
+    body.wprss_feed_page_wprss-aggregator-settings
+        input[type="password"] + .wprss-tooltip-handle {
+            margin-top: 5px;
+    }
+
+    body.wprss_feed_page_wprss-aggregator-settings
+        .wprss-tooltip-handle:after {
+            content: 'Help';
+            margin-left: 5px;
+            font-family: 'Open Sans', sans-serif;
+    }
+
+}
+
+
+@media only screen and (max-width: 1026px) {
+    .wprss-tr-hr th {
+        padding-top: 10px;
+    }
 }

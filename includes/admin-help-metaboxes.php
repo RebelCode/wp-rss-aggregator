@@ -21,9 +21,11 @@ if( class_exists('WPRSS_Help') ) {
 
                                         If you already have items imported from this feed source, setting this option now may delete some of your items, in order to comply with the limit.',
             // Link to Enclosure
-            'wprss_enclosure'       => 'Tick this box to make feed items link to their enclosure URL, rather than link to the original article.
+            'wprss_enclosure'       => 'Tick this box to make feed items link to the URL in the enclosure tag, rather than link to the original article.
 
-                                        Enclosure tags are RSS tags that may be included with a feed items. These tags typically contain links to images, audio, videos, attachment files or even flash content.',
+                                        Enclosure tags are RSS tags that may be included with a feed items. These tags typically contain links to images, audio, videos, attachment files or even flash content.
+
+                                        If you are not sure leave this setting blank.',
 
         /* -------------------------
          *  Feed Processing Metabox

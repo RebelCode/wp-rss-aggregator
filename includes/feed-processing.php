@@ -120,14 +120,12 @@
     function get_existing_permalinks( $feed_ID ) {
         global $wpdb;
 
-        $existing_permalinks = $wpdb->get_col(
-                                        "SELECT meta_value
-                                        FROM $wpdb->postmeta
-                                        WHERE meta_key = 'wprss_item_permalink'
-                                        AND post_id IN ( SELECT post_id FROM $wpdb->postmeta WHERE meta_value = $feed_ID )"
+        return $wpdb->get_col(
+            "SELECT q.`meta_value`
+            FROM {$wpdb->postmeta} AS p
+            JOIN {$wpdb->postmeta} AS q ON (q.`meta_key` = 'wprss_item_permalink' AND p.`post_id` = q.`post_id`)
+            WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = {$feed_ID}"
         );
-
-        return $existing_permalinks;
     }
 
 
