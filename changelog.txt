@@ -1,3 +1,11 @@
+4.6.2 (2014-10-15)
+Enhanced: Improved plugin responsiveness.
+Enhanced: Updated some help text in tooltips with better explainations and added clarity.
+Enhanced: Optimized some old SQL queries.
+Enhanced: Added better debug logging.
+Enhanced: Added a new filter to modify the text shown before author names.
+Fixed bug: Licenses were not showing as active, even though they were activated.
+
 4.6.1 (2014-10-06)
 Enhanced: Improved internationalization in the plugin, for better translations.
 Fixed bug: If the feed source age limit was left empty, the global setting was used instead of ignoring the limit.

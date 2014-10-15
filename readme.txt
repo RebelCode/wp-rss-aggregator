@@ -54,6 +54,8 @@ Add-Ons that add more functionality to the core plugin are [available for purcha
 * [WordAi](http://www.wprssaggregator.com/extension/wordai/) - WordAi allows users to take an RSS feed and turn it into new content that is both completely unique and completely readable.
 * [Full Text RSS Feeds](http://www.wprssaggregator.com/extension/full-text-rss-feeds/) - connectivity to our Full Text Premium service, which gives you unlimited feed items returned per feed source.
 
+We also provide a [Feed Creator](http://createfeed.wprssaggregator.com) service, that allows you to generate RSS feeds from any webpage, even if it doesn't have its own RSS feed.
+
 = Demo =
 The core plugin can be seen in use on the [demo page](http://www.wprssaggregator.com/demo/).
 
@@ -164,6 +166,14 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.6.2 (2014-10-15) =
+* Enhanced: Improved plugin responsiveness.
+* Enhanced: Updated some help text in tooltips with better explainations and added clarity.
+* Enhanced: Optimized some old SQL queries.
+* Enhanced: Added better debug logging.
+* Enhanced: Added a new filter to modify the text shown before author names.
+* Fixed bug: Licenses were not showing as active, even though they were activated.
 
 = 4.6.1 (2014-10-06) =
 * Enhanced: Improved internationalization in the plugin, for better translations.
