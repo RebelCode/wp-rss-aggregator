@@ -12,42 +12,42 @@
         $premium[] = array(
             'title' => __( "Excerpts & Thumbnails", WPRSS_TEXT_DOMAIN ),
             'description' => __( "Adds the ability to display thumbnails and excerpts. Perfect for adding some life and color to your feed item display. For more flexibility Feed to Post is a better option.", WPRSS_TEXT_DOMAIN ),
-            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
             'active' => is_plugin_active( 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php' ),
-            'url' => 'http://www.wprssaggregator.com/extensions/excerpts-thumbnails/'
+            'url' => 'http://www.wprssaggregator.com/extension/excerpts-thumbnails/'
         );
         $premium[] = array(
             'title' => __( "Categories", WPRSS_TEXT_DOMAIN ),
             'description' => __( "Assign categories to your feed sources. Then display a particular category or multiple categories on a post or page via shortcodes.", WPRSS_TEXT_DOMAIN ),
-            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
             'active' => is_plugin_active( 'wp-rss-categories/wp-rss-categories.php' ),
-            'url' => 'http://www.wprssaggregator.com/extensions/categories/'
+            'url' => 'http://www.wprssaggregator.com/extension/categories/'
         );
         $premium[] = array(
             'title' => __( "Keyword Filtering", WPRSS_TEXT_DOMAIN ),
             'description' => __( "Import feeds that contain specific keywords in either the title or their content. Control what gets imported to your blog. You can use keywords, keyphrases and categories.", WPRSS_TEXT_DOMAIN ),
-            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
             'active' => is_plugin_active( 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php' ),
-            'url' => 'http://www.wprssaggregator.com/extensions/keyword-filtering/'
+            'url' => 'http://www.wprssaggregator.com/extension/keyword-filtering/'
         );
         $premium[] = array(
             'title' => __( "Feed to Post", WPRSS_TEXT_DOMAIN ),
             'description' => __( "Allows you to import feed items into posts or any other custom post type that you have created. Takes WP RSS Aggregator to a whole new level of flexibility.", WPRSS_TEXT_DOMAIN ),
-            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
             'active' => is_plugin_active( 'wp-rss-feed-to-post/wp-rss-feed-to-post.php' ),
-            'url' => 'http://www.wprssaggregator.com/extensions/feed-to-post/'
+            'url' => 'http://www.wprssaggregator.com/extension/feed-to-post/'
         );
         $premium[] = array(
             'title' => __( "Full Text RSS Feeds", WPRSS_TEXT_DOMAIN ),
             'description' => __( "This add-ons provides the connectivity to our Full Text Premium service, which gives you unlimited feed items returned per feed source.", WPRSS_TEXT_DOMAIN ),
-            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
             'active' => is_plugin_active( 'wp-rss-full-text-feeds/wp-rss-full-text.php' ),
             'url' => 'http://www.wprssaggregator.com/extension/full-text-rss-feeds/'
         );        
         $premium[] = array(
             'title' => __( "WordAi", WPRSS_TEXT_DOMAIN ),
             'description' => __( "Allows you to spin the content for posts imported by Feed to Post using WordAi. Cleverly rewrite your posts without changing their meaning and maintaining human readability.", WPRSS_TEXT_DOMAIN ),
-            'thumbnail' => WPRSS_IMG .'add-ons/wprss.jpg',
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
             'active' => is_plugin_active( 'wp-rss-wordai/wp-rss-wordai.php' ),
             'url' => 'http://www.wprssaggregator.com/extension/wordai/'
         );
