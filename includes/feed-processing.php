@@ -575,6 +575,7 @@
      * Deletes N oldest feed items for the given source
      *
      * @since 4.2
+     * @deprecated
      */
     function wprss_delete_oldest_feed_items( $n, $source ) {
         // If the source does not exist, do nothing
@@ -609,6 +610,7 @@
      * to keep the number of feed items below its limit.
      *
      * @since 4.2
+     * @deprecated
      */
     function wprss_truncate_feed_items_for_source( $source ) {
         // Get the limit setting
