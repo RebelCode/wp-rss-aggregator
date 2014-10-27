@@ -250,7 +250,7 @@
 			if( is_numeric( $_level ) && ($_level/2 >= 1) ) $options[ (int)$_level * -1 ] = $_label . ' and below';
 		}
 		
-		krsort($options, SORT_NATURAL);
+		krsort($options, defined('SORT_NATURAL' ? SORT_NATURAL : SORT_STRING));
         ?>
 		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]">
 		<?php
