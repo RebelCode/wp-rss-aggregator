@@ -42,9 +42,9 @@
      */
     function wprss_bulk_change_state() {
         // If the id and state are in POST data
-        if ( isset( $_GET['post_type'] ) && isset( $_GET['action'] ) && isset( $_GET['post'] ) ) {
+        if ( isset( $_GET['post_type'] ) && (isset( $_GET['action'] ) || isset( $_GET['action2'] )) && isset( $_GET['post'] ) ) {
             // Get the action and post ids from GET request
-            $action = $_GET['action'];
+            $action = isset($_GET['action']) && $_GET['action'] !== '-1' ? $_GET['action'] : $_GET['action2'];
             $post_ids = $_GET['post'];
 
             // check the action
