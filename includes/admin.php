@@ -34,8 +34,9 @@
     // Add the admin options pages as submenus to the Feed CPT   
     function wprss_register_menu_pages() {        
         global $submenu;
-        unset( $submenu['edit.php?post_type=wprss_feed'][10] );
-        //create submenu items        
+        // Uncomment line below to hide "Add New" link from menu
+        // unset( $submenu['edit.php?post_type=wprss_feed'][10] );
+        // create submenu items        
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', WPRSS_TEXT_DOMAIN ), __( 'Import & Export', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );                     
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ), __( 'Settings', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );             
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', WPRSS_TEXT_DOMAIN ), __( 'Debugging', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );                             

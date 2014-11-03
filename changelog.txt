@@ -1,3 +1,11 @@
+4.6.3 (2014-11-3)
+Enhanced: Re-added the "Add New" link in the plugin's menu.
+Enhanced: Improved error logging.
+Enhanced: Bulk actions in the Feed Sources page are now also included in the bottom dropdown menu.
+Fixed bug: Add-on updater was prone to conflicts. Now enclosed in an action.
+Fixed bug: The Full Text RSS Feeds add-on was not showing as active in the "Add-ons" page.
+Fixed bug: Broken links in the "Add-ons" page, to add-on pages on our site.
+
 4.6.2 (2014-10-15)
 Enhanced: Improved plugin responsiveness.
 Enhanced: Updated some help text in tooltips with better explainations and added clarity.

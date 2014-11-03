@@ -6,7 +6,7 @@
 (function($, wprss_admin_bulk){
 	
 	$(document).ready( function(){
-		var bulk_actions_select = $( 'select[name="action"]' );
+		var bulk_actions_select = $( 'select#bulk-action-selector-top, select#bulk-action-selector-bottom' );
 		var bulk_actions_trash = bulk_actions_select.find( "option[value='trash']" );
 		
 		$( '<option>' ).attr( 'value', 'activate' ).text( wprss_admin_bulk.activate ).insertBefore( bulk_actions_trash );
