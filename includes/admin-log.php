@@ -157,6 +157,9 @@
 		if ( $src === NULL ) {
 			$callers = debug_backtrace();
 			$src = $callers[1]['function'];
+			if ( $src === 'wprss_log_obj' ) {
+				$src = $callers[2]['function'];
+			}
 		}
 		$log_level_label = wprss_log_get_level_label( $log_level );
 		$date =  date( 'd-m-Y H:i:s' );
