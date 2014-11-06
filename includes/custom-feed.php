@@ -132,15 +132,15 @@
                 while ( have_posts() ) : the_post();
                     $source = get_post_meta( get_the_ID(), 'wprss_feed_id', TRUE );
                     $permalink = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
-                
+                    $content = apply_filters( 'wprss_custom_feed_item_content', get_the_content() );
                 ?> 
                 <item>
                         <title><![CDATA[<?php the_title_rss(); ?>]]></title>
                         <link><?php echo $permalink; ?></link>
                         <guid isPermaLink="true"><?php echo $permalink; ?></guid>
                         <pubDate><?php echo get_post_time( DATE_RSS ); ?></pubDate>
-                        <description><![CDATA[<?php the_content(); ?>]]></description>
-                        <content:encoded><![CDATA[<?php the_content(); ?>]]></content:encoded>
+                        <description><![CDATA[<?php echo $content; ?>]]></description>
+                        <content:encoded><![CDATA[<?php echo $content; ?>]]></content:encoded>
                         <source url="<?php echo get_post_meta( $source, 'wprss_url', TRUE ); ?>"><?php echo get_the_title( $source ); ?></source>
                         <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?> 
                 </item>
