@@ -42,6 +42,11 @@
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
             wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
 
+            // Prepare the URL for removing bulk from blacklist, with a nonce
+            $blacklist_remove_url = admin_url( 'edit.php?wprss-bulk=1' );
+            $blacklist_remove_url = wp_nonce_url( $blacklist_remove_url, 'blacklist-remove-selected', 'wprss_blacklist_trash' );
+            $blacklist_remove_url .= '&wprss-blacklist-remove=';
+
             wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
             wp_localize_script( 'wprss-admin-custom', 'wprss_admin_custom', array(
                 'failed_to_import'      =>  __( 'Failed to import', WPRSS_TEXT_DOMAIN ),
@@ -52,6 +57,7 @@
                 'cancel'                =>  __( 'Cancel', WPRSS_TEXT_DOMAIN ),
                 'blacklist_desc'        =>  __( 'The feed items listed here will be disregarded when importing new items from your feed sources.', WPRSS_TEXT_DOMAIN ),
                 'blacklist_remove'      =>  __( 'Remove selected from Blacklist', WPRSS_TEXT_DOMAIN ),
+                'blacklist_remove_url'  =>  $blacklist_remove_url
             ) );
 
             wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
