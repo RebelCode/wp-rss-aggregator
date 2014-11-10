@@ -267,6 +267,8 @@ function wprss_check_if_blacklist_delete() {
 	
 	// Delete the posts marked for delete
 	foreach( $to_delete as $delete_id ) {
+		$post = get_post( $delete_id );
+		if ( $post === NULL || get_post_type( $post ) !== 'wprss_blacklist' ) continue;
 		wp_delete_post( $delete_id, TRUE );
 	}
 	
