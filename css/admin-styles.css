@@ -61,6 +61,10 @@ body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
 .wprss-form-table th {
     width: 120px;
     max-width: 120px;
+    padding: 7px 10px 10px 0;
+}
+.wprss-form-table td {
+    padding: 7px 10px;
 }
 .wprss-form-table td label {
     line-height: 15px;

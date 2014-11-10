@@ -308,7 +308,8 @@ jQuery(window).load( function(){
 					}
 				});
 				var id_str = ids.join();
-				$(this).attr('href', 'edit.php?wprss-blacklist-remove=' + id_str + '&wprss-bulk=1');
+                var blacklist_selected_url = wprss_admin_custom.blacklist_remove_url + id_str;
+				$(this).attr('href', blacklist_selected_url);
 				//e.preventDefault();
 			});
 			
