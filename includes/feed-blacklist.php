@@ -139,6 +139,7 @@ function wprss_check_if_blacklist_item() {
 		wp_die('The item you are trying to blacklist is not valid!');
 	}
 	
+	check_admin_referer( 'blacklist-item-' . $ID, 'wprss_blacklist_item' );
 	wprss_blacklist_item( $ID );
 	
 	// Check the current page, and generate the URL query string for the page
@@ -197,12 +198,16 @@ function wprss_blacklist_row_actions( $actions ) {
 		// Get the Post ID
 		$ID = get_the_ID();
 		
+		$remove_url = 
+
 		// Prepare the blacklist URL
-		$url = apply_filters(
+		$plain_url = apply_filters(
 			'wprss_blacklist_row_action_url',
 			admin_url( "edit.php?post_type=$post_type&wprss_blacklist=$ID" ),
 			$ID
 		) . $paged;
+		// Add a nonce to the URL
+		$nonced_url = wp_nonce_url( $plain_url, 'blacklist-item-' . $ID, 'wprss_blacklist_item' );
 		
 		// Prepare the text
 		$text = apply_filters( 'wprss_blacklist_row_action_text', 'Delete Permanently &amp; Blacklist' );
@@ -216,7 +221,7 @@ function wprss_blacklist_row_actions( $actions ) {
 		$hint = esc_attr( __( $hint, WPRSS_TEXT_DOMAIN ) );
 		
 		// Add the blacklist action
-		$actions['blacklist-item'] = "<span class='delete'><a title='$hint' href='$url'>$text</a></span>";
+		$actions['blacklist-item'] = "<span class='delete'><a title='$hint' href='$nonced_url'>$text</a></span>";
 	}
 	
 	// For the blacklisted item
@@ -252,6 +257,7 @@ function wprss_check_if_blacklist_delete() {
 	// check if deleting in bulk
 	if ( isset( $_GET['wprss-bulk'] ) && $_GET['wprss-bulk'] == '1' ) {
 		$to_delete = explode( ',', $ID );
+		check_admin_referer( 'blacklist-remove-selected', 'wprss_blacklist_trash' );
 	} else {
 		$to_delete = array( $ID );
 		// Get the ID from the GET param
