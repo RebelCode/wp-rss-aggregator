@@ -160,16 +160,7 @@
     require_once ( WPRSS_INC . 'opml-importer.php' );
 
     /* Load the admin debugging page file */
-    require_once ( WPRSS_INC . 'admin-debugging.php' );     
-
-    /* Load the admin help file */
-    require_once ( WPRSS_INC . 'admin-help.php' );
-
-    /* Load the admin metaboxes help file */
-    require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
-    
-    /* Load the admin settings help file */
-    require_once ( WPRSS_INC . 'admin-help-settings.php' );
+    require_once ( WPRSS_INC . 'admin-debugging.php' );
     
     /* Load the addons page file */
     require_once ( WPRSS_INC . 'admin-addons.php' );   
@@ -213,6 +204,16 @@
 	if ( !defined( 'WPRSS_LOG_LEVEL' ) )
 		define( 'WPRSS_LOG_LEVEL', WPRSS_LOG_LEVEL_ERROR );
 
+    /* Load the admin help file */
+    require_once ( WPRSS_INC . 'admin-help.php' );
+
+    /* Load the admin metaboxes help file */
+    require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
+    
+    /* Load the admin settings help file */
+    require_once ( WPRSS_INC . 'admin-help-settings.php' );
+
+    
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
