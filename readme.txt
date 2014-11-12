@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger
 Requires at least: 3.3
 Tested up to: 4.0
-Stable tag: 4.6.3
+Stable tag: 4.6.4
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -166,6 +166,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.6.4 (2014-11-10) =
+* Enhanced: Added filters to the custom feed.
+* Enhanced: Updated some styles to improve the user interface.
+* Fixed bug: The "Remove selected from Blacklist" button had no nonce associated with it.
+* Fixed bug: The Blacklist menu entry was not always being shown.
 
 = 4.6.3 (2014-11-3) =
 Enhanced: Re-added the "Add New" link in the plugin's menu.
