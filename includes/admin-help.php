@@ -12,7 +12,7 @@
 
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
 			<h3><?php _e( 'Documentation', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __('In the <a href="www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
+			<?php echo wpautop( __('In the <a href="http://www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
 				
 				There are also some videos to help you make a quick start to setting up and enjoying this plugin.', WPRSS_TEXT_DOMAIN) ) ?>
 			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
