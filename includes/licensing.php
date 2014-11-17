@@ -43,7 +43,9 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 	$response = wp_remote_get( add_query_arg( $api_params, $store_url_constant ) );
 
 	// If the response is an error, return the value in the DB
-	if ( is_wp_error( $response ) ) return $license_status;
+	if ( is_wp_error( $response ) ) {
+		return $license_status;
+	}
 
 	// decode the license data
 	$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -206,7 +208,7 @@ function wprss_license_key_field( $args ) {
 function wprss_activate_license_button( $args ) {
 	$addon_id = $args[0];
 	$data = wprss_edd_check_license( $addon_id, NULL, 'ALL' );
-	$status = $data->license;
+	$status = is_string( $data ) ? $data : $data->license;
 	if ( $status === 'site_inactive' ) $status = 'inactive';
 	if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 
@@ -234,23 +236,29 @@ function wprss_activate_license_button( $args ) {
 	<p>
 		<?php
 			$license_key = wprss_get_license_key( $addon_id );
-			$acts_current = $data->site_count;
-			$acts_left = $data->activations_left;
-			$acts_limit = $data->license_limit;
-			$expires = $data->expires;
-			$expires = substr( $expires, 0, strpos( $expires, " " ) );
-			if ( ! empty( $license_key ) ) : ?>
-				<small>
-					<strong>Activations:</strong>
-						<?php echo $acts_current.'/'.$acts_limit; ?> (<?php echo $acts_left; ?> left)
-					<br/>
-					<strong>Expires on:</strong>
-						<code><?php echo $expires; ?></code>
-					<br/>
-					<strong>Registered to:</strong>
-						<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
-				</small>
-		<?php endif; ?>
+			if ( ! empty( $license_key ) ) :
+				if ( is_object( $data ) ) :
+					$acts_current = $data->site_count;
+					$acts_left = $data->activations_left;
+					$acts_limit = $data->license_limit;
+					$expires = $data->expires;
+					$expires = substr( $expires, 0, strpos( $expires, " " ) );
+					?>
+					<small>
+						<strong>Activations:</strong>
+							<?php echo $acts_current.'/'.$acts_limit; ?> (<?php echo $acts_left; ?> left)
+						<br/>
+						<strong>Expires on:</strong>
+							<code><?php echo $expires; ?></code>
+						<br/>
+						<strong>Registered to:</strong>
+							<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
+					</small>
+				<?php else: ?>
+					<small>Failed to get license information. This is a temporary problem. Check your internet connection and try again later.</small>
+				<?php endif; ?>
+			<?php endif;
+		?>
 	</p>
 
 	<style type="text/css">
@@ -275,7 +283,7 @@ function wprss_activate_license_button( $args ) {
 }
 
 
-add_action( 'admin_init', 'wprss_process_addon_license' );
+add_action( 'admin_init', 'wprss_process_addon_license', 10 );
 /**
  * Handles the activation/deactivation process 
  * 
