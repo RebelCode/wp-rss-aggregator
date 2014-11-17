@@ -37,7 +37,7 @@
 		}
 		
 		update_post_meta( $feed_ID, 'wprss_feed_is_updating', $start_of_update = time() );
-		wprss_log_obj( 'Start of import time updated', $start_of_update, null, WPRSS_LOG_LEVEL_SYSTEM );
+		wprss_log_obj( 'Start of import time updated', date( 'Y-m-d H:i:s', $start_of_update), null, WPRSS_LOG_LEVEL_SYSTEM );
 
 		// Get the feed source URL from post meta, and filter it
 		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );

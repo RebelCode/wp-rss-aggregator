@@ -165,7 +165,7 @@
 		$date =  date( 'd-m-Y H:i:s' );
 		$source = 'WPRSS' . ( ( strlen( $src ) > 0 )? " > $src" : '' ) ;
 		$str = "[$date] [$log_level_label] $source:\n";
-		$str .= "$message\n";
+		$str .= "$message\n\n";
 		file_put_contents( wprss_log_file() , $str, FILE_APPEND );
 
 		add_action( 'shutdown', 'wprss_log_separator' );
