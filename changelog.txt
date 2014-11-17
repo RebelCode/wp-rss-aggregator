@@ -1,3 +1,9 @@
+4.6.5 (2014-11-17)
+Enhanced: Improved the logging.
+Enhanced: Improved the licensing fields.
+Enhanced: Updated the EDD updater class to the latest version.
+Fixed bug: Small random error when viewing the licenses page.
+
 4.6.4 (2014-11-10)
 Enhanced: Added filters to the custom feed.
 Enhanced: Updated some styles to improve the user interface.
