@@ -131,12 +131,12 @@ function wprss_check_if_blacklist_item() {
 	$ID = $_GET['wprss_blacklist'];
 	// If the post does not exist, stop. Show a message
 	if ( get_post($ID) === NULL ) {
-		wp_die('The item you are trying to blacklist does not exist');
+		wp_die( __( 'The item you are trying to blacklist does not exist', WPRSS_TEXT_DOMAIN ) );
 	}
 	
 	// If the post type is not correct, 
 	if ( get_post_type($ID) !== wprss_blacklist_post_type() ) {
-		wp_die('The item you are trying to blacklist is not valid!');
+		wp_die( __( 'The item you are trying to blacklist is not valid!', WPRSS_TEXT_DOMAIN ) );
 	}
 	
 	check_admin_referer( 'blacklist-item-' . $ID, 'wprss_blacklist_item' );
@@ -167,7 +167,7 @@ function wprss_blacklist_cpt() {
 		'show_ui'				=>	true,
 		'show_in_menu'			=>	'edit.php?post_type=wprss_feed',
 		'capability_type'		=>	'feed_source',
-		'supports'				=>	array('title'),
+		'supports'				=>	array( 'title' ),
 		'labels'				=>	array(
 			'name'					=> __( 'Blacklist', WPRSS_TEXT_DOMAIN ),
 			'singular_name'			=> __( 'Blacklist', WPRSS_TEXT_DOMAIN ),
@@ -210,13 +210,13 @@ function wprss_blacklist_row_actions( $actions ) {
 		$nonced_url = wp_nonce_url( $plain_url, 'blacklist-item-' . $ID, 'wprss_blacklist_item' );
 		
 		// Prepare the text
-		$text = apply_filters( 'wprss_blacklist_row_action_text', 'Delete Permanently &amp; Blacklist' );
+		$text = apply_filters( 'wprss_blacklist_row_action_text', htmlentities( __( 'Delete Permanently & Blacklist', WPRSS_TEXT_DOMAIN ) ) );
 		$text = __( $text, WPRSS_TEXT_DOMAIN );
 		
 		// Prepare the hint
 		$hint = apply_filters(
 			'wprss_blacklist_row_action_hint',
-			"The item will be deleted permanently, and its permalink will be recorded in the blacklist"
+			__( 'The item will be deleted permanently, and its permalink will be recorded in the blacklist', WPRSS_TEXT_DOMAIN )
 		);
 		$hint = esc_attr( __( $hint, WPRSS_TEXT_DOMAIN ) );
 		
