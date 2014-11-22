@@ -396,6 +396,7 @@
                 ?>
                 <span class="invalid-feed-url">
                     <?php _e( '<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.', WPRSS_TEXT_DOMAIN ) ?>
+                    <?php wprss_log_obj( 'Failed to preview feed.', $feed->get_error_message(), NULL, WPRSS_LOG_LEVEL_INFO ); ?>
                 </span>
 				<?php
 				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
