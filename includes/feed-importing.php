@@ -23,7 +23,11 @@
 	 */
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
 		wprss_log_obj( 'Starting import of feed', $feed_ID, null, WPRSS_LOG_LEVEL_INFO );
-		
+
+		$time_limit = apply_filters( 'wprss_feed_import_time_limit', 15 );
+		wprss_log_obj( 'Extended execution time limit by', $time_limit, null, WPRSS_LOG_LEVEL_INFO );
+		set_time_limit( $time_limit );
+
 		// Check if the feed source is active.
 		if ( wprss_is_feed_source_active( $feed_ID ) === FALSE && wprss_feed_source_force_next_fetch( $feed_ID ) === FALSE ) {
 			// If it is not active ( paused ), return without fetching the feed items.
