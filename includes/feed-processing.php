@@ -228,7 +228,7 @@
      */
     function wprss_update_feed_meta( $meta_id, $post_id, $meta_key, $meta_value ) {
         $post = get_post( $post_id );
-        if ( $post->post_status === 'publish' && $post->post_type === 'wprss_feed' ) {
+        if ( $post !== NULL && $post->post_status === 'publish' && $post->post_type === 'wprss_feed' ) {
             if ( $meta_key === 'wprss_url' )
                 wprss_change_fb_url( $post_id, $meta_value );
         }
