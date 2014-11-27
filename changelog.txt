@@ -1,3 +1,7 @@
+4.6.6 (yyyy-mm-dd)
+Enhanced: Added time limit extending to prevent script from exhausting its execution time limit while importing.
+Fixed bug: Non-object errors when a feed source is deleted while importing.
+
 4.6.5 (2014-11-17)
 Enhanced: Improved the logging.
 Enhanced: Improved the licensing fields.
