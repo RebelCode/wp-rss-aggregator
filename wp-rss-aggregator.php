@@ -98,6 +98,15 @@
 		define( 'WPRSS_TEXT_DOMAIN', 'wprss' );
     }
 
+    // Maximum time for the feed source to be fetched
+    if ( !defined( 'WPRSS_FEED_FETCH_TIME_LIMIT' ) ) {
+        define( 'WPRSS_FEED_FETCH_TIME_LIMIT', 30, TRUE );
+    }
+    // Maximum time for a single feed item to import
+    if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
+        define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15, TRUE );
+    }
+
     /**
      * Load required files.
      */
