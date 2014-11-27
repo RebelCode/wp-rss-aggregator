@@ -549,6 +549,29 @@
 
 
 	/**
+	 * Returns the time limit for the importing of a single feed item.
+	 * The value if filtered through 'wprss_item_import_time_limit'. The default value is WPRSS_ITEM_IMPORT_TIME_LIMIT.
+	 *
+	 * @since 4.6.6
+	 * @return int The maximum amount of seconds allowed for a single feed item to import.
+	 */
+	function wprss_get_item_import_time_limit() {
+		return apply_filters( 'wprss_item_import_time_limit', WPRSS_ITEM_IMPORT_TIME_LIMIT );
+	}
+
+	/**
+	 * Returns the time limit for a feed fetch operation.
+	 * The value if filtered through 'wprss_feed_fetch_time_limit'. The default value is WPRSS_FEED_FETCH_TIME_LIMIT.
+	 *
+	 * @since 4.6.6
+	 * @return int The maximum amount of seconds allowed for an RSS feed XML document to be fetched.
+	 */
+	function wprss_get_feed_fetch_time_limit() {
+		return apply_filters( 'wprss_feed_fetch_time_limit', WPRSS_FEED_FETCH_TIME_LIMIT );
+	}
+
+
+	/**
 	 * Fetches all feed items from all feed sources.
 	 * Iteratively calls 'wprss_fetch_insert_single_feed_items' for all feed sources.
 	 *
