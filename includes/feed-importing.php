@@ -36,7 +36,7 @@
 			wprss_log( 'Force feed flag removed', null, WPRSS_LOG_LEVEL_SYSTEM );
 		}
 		
-		update_post_meta( $feed_ID, 'wprss_feed_is_updating', $start_of_update = time() );
+		$start_of_update = wprss_flag_feed_as_updating( $feed_ID );
 		wprss_log_obj( 'Start of import time updated', date( 'Y-m-d H:i:s', $start_of_update), null, WPRSS_LOG_LEVEL_SYSTEM );
 
 		// Get the feed source URL from post meta, and filter it
@@ -160,7 +160,7 @@
 			wprss_log( 'Next update rescheduled', null, WPRSS_LOG_LEVEL_SYSTEM );
 		}
 
-		delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
+		wprss_flag_feed_as_idle( $feed_ID );
 		wprss_log_obj( 'Import complete', $feed_ID, __FUNCTION__, WPRSS_LOG_LEVEL_INFO );
 	}
 
