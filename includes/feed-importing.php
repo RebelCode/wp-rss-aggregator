@@ -227,8 +227,9 @@
 			}
 		}
 		
-		// Set timeout to 30s. Default: 15s
-		$feed->set_timeout( 30 );
+		// Set timeout limit
+		$fetch_time_limit = wprss_get_feed_fetch_time_limit();
+		$feed->set_timeout( $fetch_time_limit );
 
 		//$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
 		$feed->enable_cache( FALSE );
