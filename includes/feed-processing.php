@@ -320,6 +320,27 @@
     }
 
 
+    /**
+     * Marks the feed source as 'updating' (importing).
+     *
+     * @since 4.6.6
+     * @return int The time value set in the 'updating' meta field
+     */
+    function wprss_flag_feed_as_updating( $feed_ID ) {
+        update_post_meta( $feed_ID, 'wprss_feed_is_updating', $start_time = time() );
+        return $start_time;
+    }
+
+    /**
+     * Marks the feed source as 'idle' (not importing).
+     *
+     * @since 4.6.6
+     */
+    function wprss_flag_feed_as_idle( $feed_ID ) {
+        delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
+    }
+    
+
 	/**
      * Returns whether or not the feed source is updating.
      *
