@@ -439,8 +439,11 @@
 			if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
 				wprss_log( "Importing (unique) feed item (Source: $feed_ID)", null, WPRSS_LOG_LEVEL_INFO );
 
-				$time_limit = apply_filters( 'wprss_feed_import_time_limit', 15 );
-				wprss_log_obj( 'Extended execution time limit by', $time_limit, null, WPRSS_LOG_LEVEL_INFO );
+				// Extend the importing time and refresh the feed's updating flag to reflect that it is active
+				$extend_time = wprss_flag_feed_as_updating( $feed_ID );
+				$extend_time_f = date( 'Y-m-d H:i:s', $extend_time );
+				$time_limit = wprss_get_item_import_time_limit();
+				wprss_log( "Extended execution time limit by {$time_limit}. (Current Time: {$extend_time_f})", null, WPRSS_LOG_LEVEL_INFO );
 				set_time_limit( $time_limit );
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
