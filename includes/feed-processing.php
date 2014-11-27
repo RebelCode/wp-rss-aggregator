@@ -349,19 +349,39 @@
      *
      */
     function wprss_is_feed_source_updating( $id ) {
+        // Get the 'updating' meta field
         $is_updating_meta = get_post_meta( $id, 'wprss_feed_is_updating', TRUE );
-
+        
+        // Check if the feed has the 'updating' meta field set
         if ( $is_updating_meta === '' ) {
+            // If not, then the feed is not updating
             return FALSE;
         }
-		
-		$diff = time() - $is_updating_meta;
-		
-		if ( $diff > 30 ) {
-			delete_post_meta( $id, 'wprss_feed_is_updating' );
+
+        // Get the limit used for the feed
+        $limit = get_post_meta( $id, 'wprss_limit', true );
+        if ( $limit === '' || intval( $limit ) <= 0 ) {
+            $global_limit = wprss_get_general_setting('limit_feed_items_imported');
+            $limit = ( $global_limit === '' || intval( $global_limit ) <= 0 ) ? NULL : $global_limit;
+        }
+
+		// Calculate the allowed maximum time, based on the maximum number of items allowed to be
+        // imported from this source.
+        // If no limit is used, 60s (1min) is used.
+        $single_item_time_limit = wprss_get_item_import_time_limit();
+		$allowed_time = $limit === NULL ? 60 : $single_item_time_limit * intval( $limit );
+
+        // Calculate how many seconds have passed since the feed last signalled that it is updating
+        $diff = time() - $is_updating_meta;
+
+        // If the difference is greater than the allowed maximum amount of time, mark the feed as idle.
+		if ( $diff > $allowed_time ) {
+			wprss_flag_feed_as_idle( $id );
+            // Feed is not updating
 			return FALSE;
 		}
 
+        // Feed is updating
 		return TRUE;
     }
 
