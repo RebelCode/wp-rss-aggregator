@@ -254,7 +254,8 @@
 		// Convert the feed error into a WP_Error, if applicable
 		if ( $feed->error() ) {
 			if ( $source !== NULL ) {
-				update_post_meta( $source, "wprss_error_last_import", "true" );
+				$msg = sprintf( __( 'Failed to fetch the RSS feed. Error: %s', WPRSS_TEXT_DOMAIN ), $feed->error() );
+				update_post_meta( $source, 'wprss_error_last_import', $msg );
 			}
 			return new WP_Error( 'simplepie-error', $feed->error() );
 		}
@@ -514,7 +515,7 @@
 						wprss_log_obj( 'Item imported', $inserted_ID, null, WPRSS_LOG_LEVEL_INFO );
 					}
 					else {
-						update_post_meta( $source, "wprss_error_last_import", "true" );
+						update_post_meta( $source, 'wprss_error_last_import', 'An error occurred while inserting a feed item into the database.' );
 						wprss_log_obj( 'Failed to insert post', $feed_item, 'wprss_items_insert_post > wp_insert_post' );
 					}
 				}
