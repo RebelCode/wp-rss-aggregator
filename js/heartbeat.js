@@ -93,7 +93,7 @@
 			// Update the error icon
 			var errorsCol = row.find('td.column-errors');
 			var errorIcon = errorsCol.find('i.fa');
-			errorIcon.toggleClass( 'wprss-show', feed_source['errors'] );
+			errorIcon.toggleClass( 'wprss-show', feed_source['errors'] !== '' );
 		}
 
 	};

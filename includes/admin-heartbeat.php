@@ -65,7 +65,7 @@ function wprss_feed_source_updates() {
 
             	// Add any error info
             	$errors = get_post_meta( $feed_id, 'wprss_error_last_import', true );
-            	$feed_source_data['errors'] = $errors === 'true';
+            	$feed_source_data['errors'] = $errors;
 			}
 			// Send back all the IDs
 			$response['wprss_feed_sources_data'] = $feed_sources_data;
