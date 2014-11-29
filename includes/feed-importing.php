@@ -145,6 +145,7 @@
 			}
 			
 			update_post_meta( $feed_ID, 'wprss_last_update', $last_update_time = time() );
+			update_post_meta( $feed_ID, 'wprss_last_update_items', 0 );
 			wprss_log_obj( 'Last import time updated', $last_update_time, null, WPRSS_LOG_LEVEL_SYSTEM );
 
 			// Insert the items into the db
