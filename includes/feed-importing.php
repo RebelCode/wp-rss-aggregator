@@ -24,6 +24,10 @@
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
 		wprss_log_obj( 'Starting import of feed', $feed_ID, null, WPRSS_LOG_LEVEL_INFO );
 
+		global $wprss_importing_feed;
+		$wprss_importing_feed = $feed_ID;
+		register_shutdown_function( 'wprss_detect_exec_timeout' );
+
 		// Check if the feed source is active.
 		if ( wprss_is_feed_source_active( $feed_ID ) === FALSE && wprss_feed_source_force_next_fetch( $feed_ID ) === FALSE ) {
 			// If it is not active ( paused ), return without fetching the feed items.
@@ -616,4 +620,31 @@
 	 */
 	function wprss_fetch_insert_all_feed_items_from_cron() {
 		wprss_fetch_insert_all_feed_items( FALSE );
+	}
+
+
+	/**
+	 * Shutdown function for detecting if the PHP script reaches the maximum execution time limit
+	 * while importing a feed.
+	 *
+	 * @since 4.6.6
+	 */
+	function wprss_detect_exec_timeout() {
+		// Get last error
+		if ( $error = error_get_last() ){
+			// Check if it is an E_ERROR and if it is a max exec time limit error
+			if ( $error['type'] === E_ERROR && stripos( $error['message'], 'maximum execution' ) === 0 ) {
+				// If the importing process was running
+				if ( array_key_exists( 'wprss_importing_feed', $GLOBALS ) && $GLOBALS['wprss_importing_feed'] !== NULL ) {
+					// Get the ID of the feed that was importing
+					$feed_ID = $GLOBALS['wprss_importing_feed'];
+					// Perform clean up
+					wprss_flag_feed_as_idle( $feed_ID );
+					$msg = sprintf( __( 'The PHP script timed out while importing an item from this feed, after %d seconds.', WPRSS_TEXT_DOMAIN ), wprss_get_item_import_time_limit() );
+					update_post_meta( $feed_ID, 'wprss_error_last_import', $msg );
+					// Log the error
+					wprss_log( 'The PHP script timed out while importing feed #' . $feed_ID, NULL, WPRSS_LOG_LEVEL_ERROR );
+				}
+			}
+		}
 	}
