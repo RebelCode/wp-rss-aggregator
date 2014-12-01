@@ -7,14 +7,13 @@
  * Allows plugins to use their own update API.
  *
  * @author Pippin Williamson
- * @version 1.4
+ * @version 1.5
  */
 class EDD_SL_Plugin_Updater {
     private $api_url   = '';
     private $api_data  = array();
     private $name      = '';
     private $slug      = '';
-    private $did_check = false;
 
     /**
      * Class constructor.
@@ -35,7 +34,7 @@ class EDD_SL_Plugin_Updater {
         $this->version  = $_api_data['version'];
 
         // Set up hooks.
-        add_action( 'admin_init', array( $this, 'init' ) );
+        $this->init();
         add_action( 'admin_init', array( $this, 'show_changelog' ) );
     }
 
@@ -68,10 +67,6 @@ class EDD_SL_Plugin_Updater {
      * @return array Modified update array with custom plugin data.
      */
     function check_update( $_transient_data ) {
-
-        if ( $this->did_check ) {
-            return $_transient_data;
-        }
 
         if( ! is_object( $_transient_data ) ) {
             $_transient_data = new stdClass;
@@ -122,7 +117,7 @@ class EDD_SL_Plugin_Updater {
         }
 
         // Remove our filter on the site transient
-        remove_filter( 'pre_site_transient_update_plugins', array( $this, 'check_update' ), 10 );
+        remove_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ), 10 );
 
         $update_cache = get_site_transient( 'update_plugins' );
 
@@ -144,7 +139,7 @@ class EDD_SL_Plugin_Updater {
         }
 
         // Restore our filter
-        add_filter( 'pre_site_transient_update_plugins', array( $this, 'check_update' ) );
+        add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) );
 
         if ( ! empty( $update_cache->response[ $this->name ] ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
 
@@ -303,7 +298,7 @@ class EDD_SL_Plugin_Updater {
         }
 
         if( ! current_user_can( 'update_plugins' ) ) {
-            wp_die( __( 'You do not have permission to install plugin updates' ) );
+            wp_die( __( 'You do not have permission to install plugin updates' ), __( 'Error', 'edd_sl' ), array( 'response' => 401 ) );
         }
 
         $response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );
