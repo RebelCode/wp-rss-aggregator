@@ -92,7 +92,7 @@
                 'show_in_menu'          => 'edit.php?post_type=wprss_feed',
                 'show_in_admin_bar'     => false,
                 'rewrite'               => array(
-                    'slug'       => 'feeds/items',
+                    'slug'       => 'feed-items',
                     'with_front' => false,
                 ),
                 'capability_type'       => 'feed_source',
