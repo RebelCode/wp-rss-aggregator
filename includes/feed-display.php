@@ -345,104 +345,10 @@
 
             // FOR EACH ITEM
             while ( $feed_items->have_posts() ) {
-                // Prepare the item
+                // Get the item
                 $feed_items->the_post();
-                // Get the item meta
-                $permalink       = get_post_meta( get_the_ID(), 'wprss_item_permalink', true );
-                $enclosure       = get_post_meta( get_the_ID(), 'wprss_item_enclosure', true );
-                $feed_source_id  = get_post_meta( get_the_ID(), 'wprss_feed_id', true );
-                $link_enclosure  = get_post_meta( $feed_source_id, 'wprss_enclosure', true );
-                $source_name     = get_the_title( $feed_source_id );
-                $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
-                $timestamp       = get_the_time( 'U', get_the_ID() );
-
-                // Fallback for feeds created with older versions of the plugin
-                if ( $source_url === '' ) $source_url = get_post_meta( $feed_source_id, 'wprss_url', true );
-                // convert from Unix timestamp
-                $date = wprss_date_i18n( $timestamp );
-
-                // Prepare the title
-                $feed_item_title = get_the_title();
-                $feed_item_title_link = ( $link_enclosure === 'true' && $enclosure !== '' )? $enclosure : $permalink;
-
-                // Prepare the text that precedes the source
-                $text_preceding_source = wprss_get_general_setting('text_preceding_source');
-                $text_preceding_source = ltrim( __( $text_preceding_source, WPRSS_TEXT_DOMAIN ) . ' ' );
-
-                $text_preceding_date = wprss_get_general_setting('text_preceding_date');
-                $text_preceding_date = ltrim( __( $text_preceding_date, WPRSS_TEXT_DOMAIN ) . ' ' );
-                
-                do_action( 'wprss_get_post_data' );
-				
-				$meta = $extra_options;
-				$extra_meta = apply_filters( 'wprss_template_extra_meta', $meta, $args, get_the_ID() );
-
-                ///////////////////////////////////////////////////////////////
-                // BEGIN TEMPLATE
-
-                // Begin output buffering
-                ob_start();
-                // Print the links before
-                echo $link_before;
-
-                // The Title
-                $item_title = wprss_link_display( $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link') );
-                $item_title = apply_filters('wprss_item_title', $item_title, $feed_item_title_link, $feed_item_title, wprss_get_general_setting('title_link'));
-                echo $item_title;
-
-				do_action( 'wprss_after_feed_item_title', $extra_meta, $display_settings, get_the_ID() );
-				
-                // FEED ITEM META ?>
-                <div class="wprss-feed-meta">
-
-                    <!-- SOURCE -->
-                    <?php if ( wprss_get_general_setting('source_enable') == 1 ) : ?>
-                        <span class="feed-source">
-                            <?php $source_link_text = apply_filters('wprss_item_source_link', wprss_link_display( $source_url, $source_name, $source_link )) ?>
-                            <?php $source_link_text = $text_preceding_source . $source_link_text ?>
-                            <?php echo $source_link_text ?>
-                        </span>
-                    <?php endif; ?>
-
-                    <!-- DATE -->
-                    <?php if ( wprss_get_general_setting('date_enable') == 1 ) : ?>
-                        <span class='feed-date'>
-                            <?php $date_text = apply_filters('wprss_item_date', $date) ?>
-                            <?php $date_text = $text_preceding_date . $date_text; ?>
-                            <?php echo $date_text; ?>
-                        </span>
-                    <?php endif; ?>
-
-                    <!-- AUTHOR -->
-                    <?php $author = get_post_meta( get_the_ID(), 'wprss_item_author', TRUE );
-                    if ( wprss_get_general_setting('authors_enable') == 1 && $author !== NULL && is_string( $author ) && $author !== '' ) : ?>
-                        <span class="feed-author">
-                            <?php
-                                $author_text = apply_filters( 'wprss_item_author', $author );
-                                $author_prefix_text = apply_filters( 'wprss_author_prefix_text', 'By' );
-                                _e( $author_prefix_text, WPRSS_TEXT_DOMAIN );
-                                echo ' ' . $author_text;
-                            ?>
-                        </span>
-                    <?php endif; ?>
-
-                </div>
-
-                <?php // TIME AGO
-                if ( wprss_get_general_setting('date_enable') == 1 && wprss_get_general_setting('time_ago_format_enable') == 1 ) {
-                    $time_ago = human_time_diff( $timestamp, time() ); ?>
-                    <div class="wprss-time-ago">
-                        <?php $time_ago_text = apply_filters('wprss_item_time_ago', $time_ago) ?>
-						<?php printf( __( '%1$s ago', WPRSS_TEXT_DOMAIN ), $time_ago_text ) ?>
-                    </div>
-                    <?php
-                }
-
-                // END TEMPLATE - Retrieve buffered output
-                $output .= ob_get_clean();
-                $output = apply_filters( 'wprss_single_feed_output', $output, $permalink );
-                $output .= "$link_after";
-
+                // Add the output
+                $output .= wprss_render_feed_item();
             }
 
             // OUTPUT LINKS AFTER LIST OF FEED ITEMS
