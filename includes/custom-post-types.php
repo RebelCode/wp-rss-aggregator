@@ -101,7 +101,9 @@
         );
 
         // Register the 'feed_item' post type
-        register_post_type( 'wprss_feed_item', $feed_item_args );        
+        register_post_type( 'wprss_feed_item', $feed_item_args );
+        // Trigger action
+        do_action( 'wprss_registered_post_types' );
     }
 
 
