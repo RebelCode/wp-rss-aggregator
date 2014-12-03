@@ -4,7 +4,7 @@
      *
      * @since 1.0
      */         
-    function wprss_shortcode( $atts ) {    
+    function wprss_shortcode( $atts = array() ) {    
 
         //Enqueue scripts / styles
         wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );         
