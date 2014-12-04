@@ -1,4 +1,7 @@
 <?php
+
+	define( 'WPRSS_TRANSIENT_NAME_IS_REIMPORTING', 'is_reimporting' );
+
     /**
      * Feed processing related functions
      *
@@ -302,6 +305,7 @@
      * @since 3.0
      */
     function wprss_delete_all_feed_items() {
+		wprss_log( sprintf( 'Deleting all feed items...'), __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM );
         $args = array(
                 'post_type'      => 'wprss_feed_item',
                 'cache_results'  => false,   // Disable caching, used for one-off queries
@@ -310,13 +314,13 @@
                 'posts_per_page' => -1,
         );
 
-        //$feed_items = new WP_Query( $args );
-
         $feed_item_ids = get_posts( $args );
         foreach( $feed_item_ids as $feed_item_id )  {
                 $purge = wp_delete_post( $feed_item_id, true ); // delete the feed item, skipping trash
         }
         wp_reset_postdata();
+		wprss_log( sprintf( 'All feed items deleted: %1$d', count($feed_item_ids) ), __FUNCTION__, WPRSS_LOG_LEVEL_INFO );
+		do_action('wprss_delete_all_feed_items_after', $feed_item_ids);
     }
 
 
@@ -608,8 +612,20 @@
      */
     function wprss_feed_reset() {
         wp_schedule_single_event( time(), 'wprss_delete_all_feed_items_hook' );
-        wprss_fetch_insert_all_feed_items( TRUE );
+		set_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING, true );
     }
+	
+	
+	
+	function wprss_schedule_reimport_all($deleted_ids) {
+		if( !get_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING ) )
+			return;
+		
+		wprss_log( 'Re-import scheduled...', __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM);
+		delete_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING );
+		wprss_fetch_insert_all_feed_items( TRUE );
+	}
+	add_action('wprss_delete_all_feed_items_after', 'wprss_schedule_reimport_all');
 
 
     /**

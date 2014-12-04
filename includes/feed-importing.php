@@ -593,6 +593,7 @@
 	 * @since 3.0
 	 */
 	function wprss_fetch_insert_all_feed_items( $all = TRUE ) {
+		wprss_log( 'Importing from all sources...', __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM );
 		// Get all feed sources
 		$feed_sources = wprss_get_all_feed_sources();
 
