@@ -407,6 +407,7 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count
     width: 140px !important;
 }
 /* CATEGORIES */
+body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#category,
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 130px !important;
 }
