@@ -46,7 +46,7 @@
      * @return string The output
      * @since 4.6.6
      */
-    function wprss_render_feed_item( $ID = NULL, $default = '' ) {
+    function wprss_render_feed_item( $ID = NULL, $default = '', $args = array() ) {
         $ID = ( $ID === NULL )? get_the_ID() : $ID;
         if ( get_post_type( $ID ) !== 'wprss_feed_item' || is_feed() ) return $default;
 
@@ -55,8 +55,7 @@
         $display_settings = wprss_get_display_settings( $general_settings );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
-        
-        $args = wprss_get_shortcode_default_args( array() );
+
         $extra_options = apply_filters( 'wprss_template_extra_options', array(), $args);
 
         // Normalize the source_link option
@@ -311,8 +310,10 @@
      * Default template for feed items display
      *
      * @since 3.0
+     * @param $args       array    The shortcode arguments
+     * @param $feed_items WP_Query The feed items to display
      */
-    function wprss_default_display_template( $display_settings, $args, $feed_items ) {
+    function wprss_default_display_template( $args, $feed_items ) {
         global $wp_query;
         global $paged;
 
@@ -322,51 +323,40 @@
 
         // Prepare the options
         $general_settings = get_option( 'wprss_settings_general' );
+        $display_settings = wprss_get_display_settings( $general_settings );
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
 		
 		$extra_options = apply_filters( 'wprss_template_extra_options', array(), $args );
 
-        // Normalize the source_link option
-        $source_link = isset( $general_settings['source_link'] )? $general_settings['source_link'] : 0;
-
-        // Declare each item in $args as its own variable
-        extract( $args, EXTR_SKIP );
-
         // Prepare the output
         $output = '';
 
-
         // Check if our current query returned any feed items
         if ( $feed_items->have_posts() ) {
-
             // PRINT LINKS BEFORE LIST OF FEED ITEMS
-            $output .= "$links_before";
+            $output .= $args['links_before'];
 
             // FOR EACH ITEM
             while ( $feed_items->have_posts() ) {
                 // Get the item
                 $feed_items->the_post();
                 // Add the output
-                $output .= wprss_render_feed_item();
+                $output .= wprss_render_feed_item( NULL, '', $args );
             }
 
             // OUTPUT LINKS AFTER LIST OF FEED ITEMS
-            $output .= "$links_after";
+            $output .= $args['links_after'];
 
             // Add pagination if needed
             if ( !isset( $args['pagination'] ) || !in_array( $args['pagination'], array('off','false','0',0) ) ) {
                 $output = apply_filters( 'wprss_pagination', $output );
             }
 
-            // Filter the final output
-            $output = apply_filters( 'feed_output', $output );
-
-            // Print the output
-            echo $output;
-
+            // Filter the final output, and print it
+            echo apply_filters( 'feed_output', $output );
         } else {
-            // Not items found message
+            // No items found message
             echo apply_filters( 'no_feed_items_found', __( 'No feed items found.', WPRSS_TEXT_DOMAIN ) );
         }
 
@@ -453,7 +443,6 @@
      */
     function wprss_display_feed_items( $args = array() ) {
         $settings = get_option( 'wprss_settings_general' );
-        $display_settings = wprss_get_display_settings( $settings );
         $args = wprss_get_shortcode_default_args( $args );
 
         $args = apply_filters( 'wprss_shortcode_args', $args );
@@ -483,7 +472,7 @@
 
 		$feed_items = wprss_get_feed_items_query( $query_args );
 
-        do_action( 'wprss_display_template', $display_settings, $args, $feed_items );
+        do_action( 'wprss_display_template', $args, $feed_items );
     }
 
 
