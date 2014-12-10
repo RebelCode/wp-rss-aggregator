@@ -169,7 +169,10 @@
      *
      * @since 3.0
      */
-    function wprss_get_display_settings( $settings ) {
+    function wprss_get_display_settings( $settings = NULL ) {
+        if ( $settings === NULL ) {
+            $settings = get_option( 'wprss_settings_general' );
+        }
         // Parse the arguments together with their default values
         $args = wp_parse_args(
             $settings,
@@ -320,14 +323,6 @@
         // Swap the current WordPress Query with our own
         $old_wp_query = $wp_query;
         $wp_query = $feed_items;
-
-        // Prepare the options
-        $general_settings = get_option( 'wprss_settings_general' );
-        $display_settings = wprss_get_display_settings( $general_settings );
-        $excerpts_settings = get_option( 'wprss_settings_excerpts' );
-        $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
-		
-		$extra_options = apply_filters( 'wprss_template_extra_options', array(), $args );
 
         // Prepare the output
         $output = '';
