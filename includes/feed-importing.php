@@ -521,7 +521,7 @@
 				}
 				// If the item is TRUE, then a hook function in the filter inserted the item.
 				// increment the inserted counter
-				elseif ( ( is_bool($item) && $item === TRUE ) || $still_update_count === TRUE ) {
+				elseif ( ( is_bool($item) && $item === TRUE ) || ( $still_update_count === TRUE && $item !== FALSE ) ) {
 					$items_inserted++;
 				}
 			}
