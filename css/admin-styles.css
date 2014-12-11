@@ -59,8 +59,8 @@ body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
 
 /* FORM TABLES */
 .wprss-form-table th {
-    width: 120px;
-    max-width: 120px;
+    width: 135px;
+    max-width: 135px;
     padding: 7px 10px 10px 0;
 }
 .wprss-form-table td {
