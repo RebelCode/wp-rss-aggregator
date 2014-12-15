@@ -480,6 +480,7 @@
 
             // Schedule the event for 5 seconds from now
             wp_schedule_single_event( time() + 1, 'wprss_fetch_single_feed_hook', $schedule_args );
+            wprss_flag_feed_as_updating( $id );
             die();
         }
     }
