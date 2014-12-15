@@ -456,6 +456,7 @@
      */
     function wprss_fetch_feeds_action_hook() {
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
+            if ( ! current_user_can( 'edit_feed_sources' ) ) die();
             $id = $_POST['id'];
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
 
