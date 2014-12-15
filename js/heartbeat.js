@@ -63,31 +63,13 @@
 			// Update the items imported count and the icon
 			var icon = itemsCol.find('i.fa-spin');
 			var itemCount = itemsCol.find('span.items-imported');
-			// Check if the icon is shown, and the current heartbeat data indicates no updating
-			var stopUpdating = icon.hasClass('wprss-show') && !feed_source['updating'];
-			// Check if the item count changed
-			var itemCountChanged = feed_source['items'] != itemCount.text();
+
+			// Update the count and the icon appropriately
+			itemCount.text( feed_source['items'] );
+			icon.toggleClass( 'wprss-show', feed_source['updating'] );
 			
-			// Check if we are waiting for the item count to update
-			var waiting = itemsCol.hasClass('waiting');
-
-			// Check if the updating stopped, but the item count remained the same.
-			// If we were previously waiting, prevent this which causes the script to "wait" again (forever)
-			if ( stopUpdating && !itemCountChanged && !waiting ) {
-				// If so, then we must wait for next heartbeat pulse to get the item count and remove the spinning icon
-				itemsCol.addClass('waiting');
-			}
-			// Otherwise,
-			else {
-				// Update the count and the icon appropriately
-				itemCount.text( feed_source['items'] );
-				icon.toggleClass( 'wprss-show', feed_source['updating'] );
-			}
-
-			// If we were waiting, we are not anymore. Remove the waiting class
-			if ( waiting ) {
-				itemsCol.removeClass('waiting');
-			}
+			
+			
 
 
 			// Update the error icon
