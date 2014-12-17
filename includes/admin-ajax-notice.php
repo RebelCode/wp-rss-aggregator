@@ -17,6 +17,9 @@
      * @since 3.0
      */
     function wprss_display_admin_notice() {
+        // If not an admin, do not show the notification
+        if ( ! current_user_can( 'manage_options' ) ) return;
+
         global $pagenow, $typenow;
         if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
           $post = get_post( $_GET['post'] );
