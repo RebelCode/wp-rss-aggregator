@@ -167,6 +167,10 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.6.7 (2014-12-17) =
+* Enhanced: Some minor interface updates.
+* Enhanced: Added filters for use by the premium add-ons.
+
 = 4.6.6 (2014-12-06) =
 * Enhanced: Added output layouts for feed sources and feed items.
 * Enhanced: Updated EDD updater class to version 1.5.
