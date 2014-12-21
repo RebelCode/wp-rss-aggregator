@@ -3,7 +3,7 @@
 
 /**
  * Returns all registered addons.
- * 
+ *
  * @since 4.4.5
  */
 function wprss_get_addons() {
@@ -38,7 +38,7 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 		'url'			=> urlencode( network_site_url() ),
 		'time'			=> time(),
 	);
-	
+
 	// Send the request to the API
 	$response = wp_remote_get( add_query_arg( $api_params, $store_url_constant ) );
 
@@ -144,11 +144,105 @@ function wprss_get_license_status( $addon ) {
 	return isset( $statuses["{$addon}_license_status"] )? $statuses[$k] : $defaults[$k];
 }
 
+add_action( 'wp_ajax_wprss_ajax_manage_license', 'wprss_ajax_manage_license' );
+/**
+ * Handles the AJAX request to check a license.
+ *
+ * @since 4.7
+ */
+function wprss_ajax_manage_license() {
+	// Get and sanitize the addon ID we're checking.
+	if ( isset($_GET['addon']) ) {
+		$addon = sanitize_text_field($_GET['addon']);
+	} else {
+		echo_error_and_die( 'No addon ID' );
+	}
+
+	// Check what we've been asked to do with the license.
+	if ( isset($_GET['event']) ) {
+		$event = sanitize_text_field($_GET['event']);
+
+		if ($event !== 'activate' && $event !== 'deactivate' && $event !== 'check') {
+			echo_error_and_die( 'Invalid event specified', $addon);
+		}
+	} else {
+		echo_error_and_die( 'No event specified', $addon);
+	}
+
+	// Get and sanitize the license that was entered.
+	if ( isset($_GET['license']) ) {
+		$license = sanitize_text_field($_GET['license']);
+	} else {
+		echo_error_and_die( 'No license', $addon);
+	}
+
+	// Check the nonce for this particular add-on's validation button.
+	if ( isset($_GET['nonce']) ) {
+		$nonce = sanitize_text_field($_GET['nonce']);
+		$nonce_id = "wprss_{$addon}_license_nonce";
+
+		if ( !wp_verify_nonce($nonce, $nonce_id) ) {
+			echo_error_and_die( 'Bad nonce', $addon);
+		}
+	} else {
+		echo_error_and_die( 'No nonce', $addon);
+	}
+
+	// Call the appropriate EDD licensing function.
+	if ($event === 'activate') {
+		$status = wprss_edd_activate_license($addon, $license);
+	} else if ($event === 'deactivate') {
+		$status = wprss_edd_deactivate_license($addon, $license);
+	} else if ($event === 'check') {
+		$status = wprss_edd_check_license($addon, $license);
+	} else {
+		echo_error_and_die( 'Invalid event specified', $addon);
+	}
+
+	// Update the license key stored in the DB.
+	$license_keys = get_option('wprss_settings_license_keys', array());
+	$license_keys[$addon . '_license_key'] = $license;
+	update_option('wprss_settings_license_keys', $license_keys);
+
+	// Assemble the JSON data to return.
+	$ret = array();
+
+	// Set the validity of the license.
+	if ( $status === 'site_inactive' ) $status = 'inactive';
+	if ( $status === 'item_name_mismatch' ) $status = 'invalid';
+	$ret['validity'] = $status;
+
+	// Set the addon ID for use in the callback.
+	$ret['addon'] = $addon;
+
+	// Set the HTML markup for the new button and validity display.
+	$ret['html'] = wprss_get_activate_license_button($addon);
+
+	// Return the JSON data.
+	echo json_encode($ret);
+	die();
+}
+
+/**
+ * Helper function that echoes a JSON error along with the new
+ * activate/deactivate license button HTML markup and then die()s.
+ *
+ * @since 4.7
+ */
+function echo_error_and_die($msg, $addon = '') {
+	$ret = array(
+		'error' => $msg,
+		'html' => wprss_get_activate_license_button($addon)
+	);
+
+	echo json_encode($ret);
+	die();
+}
 
 add_action( 'wprss_admin_init', 'wprss_license_settings', 100 );
 /**
  * Adds the license sections and settings for registered add-ons.
- * 
+ *
  * @since 4.4.5
  */
 function wprss_license_settings() {
@@ -185,7 +279,7 @@ function wprss_license_settings() {
 
 /**
  * Renders the license field for a particular add-on.
- * 
+ *
  * @since 4.4.5
  */
 function wprss_license_key_field( $args ) {
@@ -202,7 +296,7 @@ function wprss_license_key_field( $args ) {
 
 /**
  * Renders the activate/deactivate license button for a particular add-on.
- * 
+ *
  * @since 4.4.5
  */
 function wprss_activate_license_button( $args ) {
@@ -215,9 +309,10 @@ function wprss_activate_license_button( $args ) {
 	$valid = $status == 'valid';
 	$btn_text = $valid ? 'Deactivate License' : 'Activate License';
 	$btn_name = "wprss_{$addon_id}_license_" . ( $valid? 'deactivate' : 'activate' );
+	$btn_class = "button-" . ( $valid ? 'deactivate' : 'activate' ) . "-license";
 	wp_nonce_field( "wprss_{$addon_id}_license_nonce", "wprss_{$addon_id}_license_nonce" ); ?>
 
-	<input type="submit" class="button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, WPRSS_TEXT_DOMAIN ); ?>" />
+	<input type="button" class="<?php echo $btn_class; ?> button-process-license button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, WPRSS_TEXT_DOMAIN ); ?>" />
 	<span id="wprss-<?php echo $addon_id; ?>-license-status-text">
 		<strong>Status:
 		<span class="wprss-<?php echo $addon_id; ?>-license-<?php echo $status; ?>">
@@ -282,26 +377,42 @@ function wprss_activate_license_button( $args ) {
 	<?php
 }
 
+/**
+ * Returns the activate/deactivate license button markup for a particular add-on.
+ *
+ * @since 4.7
+ */
+function wprss_get_activate_license_button( $addon ) {
+	// Buffer the output from the rendering function.
+	ob_start();
+
+	wprss_activate_license_button(array($addon));
+	$ret = ob_get_contents();
+
+	ob_end_clean();
+
+	return $ret;
+}
 
 add_action( 'admin_init', 'wprss_process_addon_license', 10 );
 /**
- * Handles the activation/deactivation process 
- * 
+ * Handles the activation/deactivation process
+ *
  * @since 1.0
  */
 function wprss_process_addon_license() {
 	$addons = wprss_get_addons();
-	
+
 	// Get for each registered addon
 	foreach( $addons as $id => $name ) {
-		
+
 		// listen for our activate button to be clicked
 		if( isset( $_POST["wprss_{$id}_license_activate"] ) || isset( $_POST["wprss_{$id}_license_deactivate"] ) ) {
-			// run a quick security check 
-			if( ! check_admin_referer( "wprss_{$id}_license_nonce", "wprss_{$id}_license_nonce" ) )   
+			// run a quick security check
+			if( ! check_admin_referer( "wprss_{$id}_license_nonce", "wprss_{$id}_license_nonce" ) )
 				continue; // get out if we didn't click the Activate/Deactivate button
 		}
-		
+
 		// retrieve the license keys and statuses from the database
 		$license = wprss_get_license_key( $id );
 		$license_statuses = get_option( 'wprss_settings_license_statuses' );
@@ -311,7 +422,7 @@ function wprss_process_addon_license() {
 			// Use the license given in POST
 			$license = $_POST['wprss_settings_license_keys'][$id.'_license_key'];
 		}
-		
+
 		// Prepare the action to take
 		if ( isset( $_POST["wprss_{$id}_license_activate"] ) ) {
 			wprss_edd_activate_license( $id, $license );
@@ -350,7 +461,7 @@ function wprss_setup_edd_updater() {
 		$version = constant("WPRSS_{$uid}_VERSION");
 		$path = constant("WPRSS_{$uid}_PATH");
 		// Set up an updater
-		$edd_updater = new EDD_SL_Plugin_Updater( WPRSS_SL_STORE_URL, $path, array( 
+		$edd_updater = new EDD_SL_Plugin_Updater( WPRSS_SL_STORE_URL, $path, array(
 			'version'   => $version,				// current version number
 			'license'   => $license,				// license key (used get_option above to retrieve from DB)
 			'item_name' => $name,					// name of this plugin

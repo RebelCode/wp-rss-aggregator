@@ -92,6 +92,10 @@
 				'import_export' => admin_url('edit.php?post_type=wprss_feed&page=wprss-import-export-settings')
 			)
 		);
+
+        if ( 'wprss_feed_page_wprss-aggregator-settings' === $screen->base ) {
+            wp_enqueue_script( 'wprss-admin-licensing', WPRSS_JS . 'admin-licensing.js' );
+        }
 		
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
