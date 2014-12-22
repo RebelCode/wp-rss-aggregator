@@ -1,37 +1,15 @@
 jQuery( document ).ready( function($) {
 
-	onActivateClick = function() {
-		// The button name is of form "wprss_ftp_license_deactivate", so we grab the "ftp" part.
-		var addon = $(this).attr('name').split('_', 3)[1];
-
-		$(this).attr('disabled', true);
-		$(this).attr('value', 'Activating...');
-
-		manageLicense( 'activate', addon);
-	};
-
-	onDeactivateClick = function() {
-		// The button name is of form "wprss_ftp_license_deactivate", so we grab the "ftp" part.
-		var addon = $(this).attr('name').split('_', 3)[1];
-
-		$(this).attr('disabled', true);
-		$(this).attr('value', 'Deactivating...');
-
-		manageLicense( 'deactivate', addon);
-	};
-
-	$('.button-activate-license').each(function() {
-		// Proxy/hitch the this var so it's available in the handler.
-		$(this).click( $.proxy(onActivateClick, $(this)) );
-	});
-	$('.button-deactivate-license').each(function() {
-		// Proxy/hitch the this var so it's available in the handler.
-		$(this).click( $.proxy(onDeactivateClick, $(this)) );
-	});
-
-	manageLicense = function(action, addon) {
-		var license = $('#wprss-' + addon + '-license-key').val(),
+	manage_license = function() {
+		var button = $(this),
+			action = button.hasClass('button-activate-license') ? 'activate' : 'deactivate',
+			button_orig_label = button.attr('value'),
+			addon = button.attr('name').split('_', 3)[1], // Name has form "wprss_ftp_license_deactivate"; grab the "ftp" part.
+			license = $('#wprss-' + addon + '-license-key').val(),
 			nonce = $('#wprss_' + addon + '_license_nonce').val();
+
+		button.attr('disabled', true);
+		button.attr('value', action === 'activate' ? 'Activating...' : 'Deactivating...');
 
 		$.ajax({
 			url: ajaxurl,
@@ -44,19 +22,14 @@ jQuery( document ).ready( function($) {
 			},
 			success: function( data, status, jqXHR) {
 				var response = JSON.parse(data),
-					button = $('[name="wprss_' + response.addon + '_license_activate"]'),
 					td = button.parent();
 
 				// Inject the new HTML we got to update the UI and hook up the onClick handler.
 				if (response.html !== undefined) {
 					td.empty();
 					td.append(response.html);
-					td.children('.button-activate-license').each(function() {
-						$(this).click( $.proxy(onActivateClick, $(this)) );
-					});
-					td.children('.button-deactivate-license').each(function() {
-						$(this).click( $.proxy(onDeactivateClick, $(this)) );
-					});
+					td.children('.button-activate-license').click(manage_license);
+					td.children('.button-deactivate-license').click(manage_license);
 				}
 
 				// There was an error.
@@ -65,10 +38,14 @@ jQuery( document ).ready( function($) {
 				}
 			},
 			error: function ( error ) {
-				// Reactivate all buttons. User really should refresh, though.
-				$('.button-process-license').attr('disabled', false);
+				console.log('Error: ', error);
+				button.attr('disabled', false);
+				button.attr('value', button_orig_label);
 			}
 		});
-	}
+	};
+
+	$('.button-activate-license').click(manage_license);
+	$('.button-deactivate-license').click(manage_license);
 
 });
