@@ -1,4 +1,5 @@
 jQuery( document ).ready( function($) {
+	var licenseManager = window.wprss.licenseManager;
 
 	manage_license = function() {
 		var button = $(this),
@@ -9,20 +10,12 @@ jQuery( document ).ready( function($) {
 			nonce = $('#wprss_' + addon + '_license_nonce').val();
 
 		button.attr('disabled', true);
-		button.attr('value', action === 'activate' ? 'Activating...' : 'Deactivating...');
+		button.attr('value', action === 'activate' ? wprss_admin_licensing.activating : wprss_admin_licensing.deactivating);
 
-		$.ajax({
-			url: ajaxurl,
-			data: {
-				action: 'wprss_ajax_manage_license',
-				event: action,
-				addon: addon,
-				license: license,
-				nonce: nonce
-			},
-			success: function( data, status, jqXHR) {
-				var response = JSON.parse(data),
-					td = button.parent();
+		licenseManager.
+			activateLicense(addon, license, nonce).
+			then(function( response ) {
+				var td = button.parent();
 
 				// Inject the new HTML we got to update the UI and hook up the onClick handler.
 				if (response.html !== undefined) {
@@ -37,12 +30,12 @@ jQuery( document ).ready( function($) {
 					console.log('There was an error: ' + response.error);
 				}
 			},
-			error: function ( error ) {
+			function ( error ) {
 				console.log('Error: ', error);
 				button.attr('disabled', false);
 				button.attr('value', button_orig_label);
-			}
-		});
+			});
+
 	};
 
 	$('.button-activate-license').click(manage_license);

@@ -1,24 +1,24 @@
-<?php 
+<?php
     /**
      * Scripts
-     * 
+     *
      * @package WPRSSAggregator
-     */ 
+     */
 
 
-    add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' ); 
+    add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );
     /**
      * Insert required scripts, styles and filters on the admin side
-     * 
+     *
      * @since 2.0
-     */   
+     */
     function wprss_admin_scripts_styles() {
 
         // Only load scripts if we are on particular pages of the plugin in admin
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings' 
-            || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' || $_GET['page'] == 'wprss-addons' ) ) {        
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings'
+            || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' || $_GET['page'] == 'wprss-addons' ) ) {
             wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
-        } 
+        }
 
         if ( is_admin() ) {
             wp_enqueue_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css' );
@@ -35,8 +35,8 @@
         wp_enqueue_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
 
 		$page = isset( $_GET['page'] )? $_GET['page'] : '';
-		
-        if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) && 
+
+        if ( ( 'post' === $screen->base || 'edit' === $screen->base || 'wprss-debugging' === $screen->base ) &&
             ( 'wprss_feed' === $screen->post_type || 'wprss_feed_item' === $screen->post_type ) ||
 			$page == 'wprss-aggregator-settings' || $screen->post_type === 'wprss_blacklist' ) {
             wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
@@ -94,9 +94,15 @@
 		);
 
         if ( 'wprss_feed_page_wprss-aggregator-settings' === $screen->base ) {
+            wp_enqueue_script( 'wprss-admin-license-manager', WPRSS_JS . 'admin-license-manager.js' );
+
             wp_enqueue_script( 'wprss-admin-licensing', WPRSS_JS . 'admin-licensing.js' );
+            wp_localize_script( 'wprss-admin-licensing', 'wprss_admin_licensing', array(
+                'activating'    => __('Activating...', WPRSS_TEXT_DOMAIN),
+                'deactivating'  => __('Deactivating...', WPRSS_TEXT_DOMAIN)
+            ) );
         }
-		
+
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
 
@@ -104,13 +110,13 @@
     add_action( 'wp_enqueue_scripts', 'wprss_load_scripts' );
     /**
      * Enqueues the required scripts.
-     * 
+     *
      * @since 3.0
-     */      
-    function wprss_load_scripts() {                     
-      /*  wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );         
+     */
+    function wprss_load_scripts() {
+      /*  wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );
         wp_enqueue_script( 'custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );  */
-        do_action( 'wprss_register_scripts' );         
+        do_action( 'wprss_register_scripts' );
     } // end wprss_head_scripts_styles
 
 
@@ -140,19 +146,19 @@
     /**
      * Register front end CSS styling files
      * Inspiration from Easy Digital Downloads
-     * 
+     *
      * @since 3.0
-     */  
-    function wprss_register_styles() {   
+     */
+    function wprss_register_styles() {
 
        /* $general_settings = get_option( 'wprss_settings_general' );
 
         if( $general_settings['styles_disable'] == 1 )
             return;
-        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.1' );     
-        wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );       
+        wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.1' );
+        wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );
 
-        /* If using DISABLE CSS option: 
+        /* If using DISABLE CSS option:
         global $edd_options;
 
         if( isset( $edd_options['disable_styles'] ) )
@@ -166,14 +172,14 @@
         if ( file_exists( trailingslashit( get_stylesheet_directory() ) . 'wprss_templates/' . $file ) ) {
             $url = trailingslashit( get_stylesheet_directory_uri() ) . 'wprss_templates/' . $file;
 
-        // Check parent theme next            
+        // Check parent theme next
         } elseif ( file_exists( trailingslashit( get_template_directory() ) . 'wprss_templates/' . $file ) ) {
             $url = trailingslashit( get_template_directory_uri() ) . 'wprss_templates/' . $file;
 
-        // Check theme compatibility last            
+        // Check theme compatibility last
         } elseif ( file_exists( trailingslashit( wprss_get_templates_dir() ) . $file ) ) {
             $url = trailingslashit( wprss_get_templates_uri() ) . $file;
-        }        
+        }
 
         wp_enqueue_style( 'wprss-styles', $url, WPRSS_VERSION );*/
     }

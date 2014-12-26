@@ -113,6 +113,7 @@ function wprss_default_license_settings( $addon ) {
 	return $settings;
 }
 
+
 /**
  * Returns the saved license code.
  *
@@ -144,6 +145,7 @@ function wprss_get_license_status( $addon ) {
 	return isset( $statuses["{$addon}_license_status"] )? $statuses[$k] : $defaults[$k];
 }
 
+
 add_action( 'wp_ajax_wprss_ajax_manage_license', 'wprss_ajax_manage_license' );
 /**
  * Handles the AJAX request to check a license.
@@ -155,25 +157,25 @@ function wprss_ajax_manage_license() {
 	if ( isset($_GET['addon']) ) {
 		$addon = sanitize_text_field($_GET['addon']);
 	} else {
-		echo_error_and_die( 'No addon ID' );
+		wprss_echo_error_and_die( 'No addon ID' );
 	}
 
 	// Check what we've been asked to do with the license.
 	if ( isset($_GET['event']) ) {
 		$event = sanitize_text_field($_GET['event']);
 
-		if ($event !== 'activate' && $event !== 'deactivate' && $event !== 'check') {
-			echo_error_and_die( 'Invalid event specified', $addon);
+		if ($event !== 'activate' && $event !== 'deactivate') {
+			wprss_echo_error_and_die( 'Invalid event specified', $addon);
 		}
 	} else {
-		echo_error_and_die( 'No event specified', $addon);
+		wprss_echo_error_and_die( 'No event specified', $addon);
 	}
 
 	// Get and sanitize the license that was entered.
 	if ( isset($_GET['license']) ) {
 		$license = sanitize_text_field($_GET['license']);
 	} else {
-		echo_error_and_die( 'No license', $addon);
+		wprss_echo_error_and_die( 'No license', $addon);
 	}
 
 	// Check the nonce for this particular add-on's validation button.
@@ -182,10 +184,10 @@ function wprss_ajax_manage_license() {
 		$nonce_id = "wprss_{$addon}_license_nonce";
 
 		if ( !wp_verify_nonce($nonce, $nonce_id) ) {
-			echo_error_and_die( 'Bad nonce', $addon);
+			wprss_echo_error_and_die( 'Bad nonce', $addon);
 		}
 	} else {
-		echo_error_and_die( 'No nonce', $addon);
+		wprss_echo_error_and_die( 'No nonce', $addon);
 	}
 
 	// Call the appropriate EDD licensing function.
@@ -193,10 +195,8 @@ function wprss_ajax_manage_license() {
 		$status = wprss_edd_activate_license($addon, $license);
 	} else if ($event === 'deactivate') {
 		$status = wprss_edd_deactivate_license($addon, $license);
-	} else if ($event === 'check') {
-		$status = wprss_edd_check_license($addon, $license);
 	} else {
-		echo_error_and_die( 'Invalid event specified', $addon);
+		wprss_echo_error_and_die( 'Invalid event specified', $addon);
 	}
 
 	// Update the license key stored in the DB.
@@ -223,13 +223,36 @@ function wprss_ajax_manage_license() {
 	die();
 }
 
+
+add_action( 'wp_ajax_wprss_ajax_fetch_license', 'wprss_ajax_fetch_license' );
+/**
+ * Handles the AJAX request to fetch a license's information.
+ *
+ * @since 4.7
+ */
+function wprss_ajax_fetch_license() {
+	// Get and sanitize the addon ID we're checking.
+	if ( isset($_GET['addon']) ) {
+		$addon = sanitize_text_field($_GET['addon']);
+	} else {
+		wprss_echo_error_and_die( 'No addon ID' );
+	}
+
+	// Get the license information from EDD
+	$ret = wprss_edd_check_license( $addon, NULL, 'ALL' );
+
+	echo json_encode($ret);
+	die();
+}
+
+
 /**
  * Helper function that echoes a JSON error along with the new
  * activate/deactivate license button HTML markup and then die()s.
  *
  * @since 4.7
  */
-function echo_error_and_die($msg, $addon = '') {
+function wprss_echo_error_and_die($msg, $addon = '') {
 	$ret = array(
 		'error' => $msg,
 		'html' => wprss_get_activate_license_button($addon)
@@ -238,6 +261,7 @@ function echo_error_and_die($msg, $addon = '') {
 	echo json_encode($ret);
 	die();
 }
+
 
 add_action( 'wprss_admin_init', 'wprss_license_settings', 100 );
 /**
@@ -377,6 +401,7 @@ function wprss_activate_license_button( $args ) {
 	<?php
 }
 
+
 /**
  * Returns the activate/deactivate license button markup for a particular add-on.
  *
@@ -393,6 +418,7 @@ function wprss_get_activate_license_button( $addon ) {
 
 	return $ret;
 }
+
 
 add_action( 'admin_init', 'wprss_process_addon_license', 10 );
 /**
@@ -432,6 +458,7 @@ function wprss_process_addon_license() {
 		}
 	}
 }
+
 
 add_action( 'init', 'wprss_setup_edd_updater' );
 /**
