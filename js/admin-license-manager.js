@@ -3,11 +3,18 @@
 	var licenseManager = wprss.licenseManager = wprss.licenseManager || {};
 
 	$.extend(licenseManager, {
+		/**
+		@class 						LicenseManager
+		@description 				This class provides a way to get add-on license data or de/activate licenses.
+		@... 						The class' methods return jQuery Promises since the license data will be fetched
+		@...						asynchronously. The Promise will resolve if the request was handled successfully,
+		@...						and will otherwise be rejected. Attach .then()/.done()/.fail() handlers as required.
+		*/
 		namespace: 	'wprss.licenseManager',
 		licenses: 	{},
 
 		/**
-		@function 	isValid				 			Returns a Promise to return whether the license for a given addon is valid.
+		@function 	isValid 						Returns a Promise to return whether the license for a given addon is valid.
 		@param 		{String}		addon			The abbr of the addon
 		@returns 	{Object}		promise 		A jQuery Promise
 		@promise	{Boolean} 		isValid 		TRUE when the license is valid.
@@ -19,7 +26,7 @@
 		},
 
 		/**
-		@function 	isInvalid				 		Returns a Promise to return whether the license for a given addon is invalid.
+		@function 	isInvalid 						Returns a Promise to return whether the license for a given addon is invalid.
 		@param 		{String}		addon			The abbr of the addon
 		@returns 	{Object}		promise 		A jQuery Promise
 		@promise	{Boolean} 		isValid 		TRUE when the license is invalid.
@@ -31,7 +38,7 @@
 		},
 
 		/**
-		@function 	getLicense				 		Returns a Promise to return an object containing the full license information as provided by EDD.
+		@function 	getLicense 						Returns a Promise to return an object containing the full license information as provided by EDD.
 		@param 		{String}		addon			The abbr of the addon
 		@param 		{Boolean}		forceFetch 		If TRUE, bypass the cache.
 		@returns 	{Object}		promise 		A jQuery Promise
@@ -61,7 +68,7 @@
 		},
 
 		/**
-		@function 	getExpiry				 		Returns a Promise to return the expiry date for an addon license.
+		@function 	getExpiry 						Returns a Promise to return the expiry date for an addon license.
 		@param 		{String}		addon			The abbr of the addon
 		@returns 	{Object}		promise 		A jQuery Promise
 		@promise	{String} 		date    		Date in "YYYY-MM-DD HH:MM:SS" format.
@@ -73,7 +80,7 @@
 		},
 
 		/**
-		@function 	getName				 			Returns a Promise to return the name an addon license is registered to.
+		@function 	getName							Returns a Promise to return the name an addon license is registered to.
 		@param 		{String}		addon			The abbr of the addon
 		@returns 	{Object}		promise 		A jQuery Promise
 		@promise	{String} 		name 	 		Customer name
@@ -85,7 +92,7 @@
 		},
 
 		/**
-		@function 	getEmail				 		Returns a Promise to return the email an addon license is registered to.
+		@function 	getEmail 						Returns a Promise to return the email an addon license is registered to.
 		@param 		{String}		addon			The abbr of the addon
 		@returns 	{Object}		promise 		A jQuery Promise
 		@promise	{String} 		email 	 		Customer email
