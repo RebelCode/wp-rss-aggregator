@@ -13,9 +13,7 @@
         remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
 
         // Remove some plugin's metaboxes because they're not relevant to the wprss_feed post type.
-        remove_meta_box( 'wpseo_meta', 'wprss_feed', 'normal');                 // WP SEO Yoast
-        remove_meta_box( 'ta-reviews-post-meta-box', 'wprss_feed', 'normal');   // Author hReview
-        remove_meta_box( 'wpdf_editor_section', 'wprss_feed', 'advanced');      // ImageInject
+        wprss_remove_unrelated_meta_boxes();
 
         add_meta_box(
             'submitdiv',                            // $id
@@ -64,6 +62,19 @@
             'high'
         );
 
+    }
+
+
+    /**
+     * Removes some other plugin's metaboxes because they're not relevant to the wprss_feed post type.
+     *
+     * @since 4.7
+     */
+    function wprss_remove_unrelated_meta_boxes() {
+        $post_type = 'wprss_feed';
+        remove_meta_box( 'wpseo_meta', $post_type, 'normal');                 // WP SEO Yoast
+        remove_meta_box( 'ta-reviews-post-meta-box', $post_type, 'normal');   // Author hReview
+        remove_meta_box( 'wpdf_editor_section', $post_type, 'advanced');      // ImageInject
     }
 
 
