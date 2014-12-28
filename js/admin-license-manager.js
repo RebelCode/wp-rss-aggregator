@@ -1,4 +1,4 @@
-(function($, window, document) {
+;(function($, window, document) {
 	var wprss = window.wprss = window.wprss || {};
 	var licenseManager = wprss.licenseManager = wprss.licenseManager || {};
 
