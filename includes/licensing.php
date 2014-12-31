@@ -157,7 +157,7 @@ function wprss_ajax_manage_license() {
 	if ( isset($_GET['addon']) ) {
 		$addon = sanitize_text_field($_GET['addon']);
 	} else {
-		wprss_echo_error_and_die( 'No addon ID' );
+		wprss_echo_error_and_die( __('No addon ID', WPRSS_TEXT_DOMAIN ));
 	}
 
 	// Check what we've been asked to do with the license.
@@ -165,17 +165,17 @@ function wprss_ajax_manage_license() {
 		$event = sanitize_text_field($_GET['event']);
 
 		if ($event !== 'activate' && $event !== 'deactivate') {
-			wprss_echo_error_and_die( 'Invalid event specified', $addon);
+			wprss_echo_error_and_die( __('Invalid event specified', WPRSS_TEXT_DOMAIN), $addon);
 		}
 	} else {
-		wprss_echo_error_and_die( 'No event specified', $addon);
+		wprss_echo_error_and_die( __('No event specified', WPRSS_TEXT_DOMAIN), $addon);
 	}
 
 	// Get and sanitize the license that was entered.
 	if ( isset($_GET['license']) ) {
 		$license = sanitize_text_field($_GET['license']);
 	} else {
-		wprss_echo_error_and_die( 'No license', $addon);
+		wprss_echo_error_and_die( __('No license', WPRSS_TEXT_DOMAIN), $addon);
 	}
 
 	// Check the nonce for this particular add-on's validation button.
@@ -184,10 +184,10 @@ function wprss_ajax_manage_license() {
 		$nonce_id = "wprss_{$addon}_license_nonce";
 
 		if ( !wp_verify_nonce($nonce, $nonce_id) ) {
-			wprss_echo_error_and_die( 'Bad nonce', $addon);
+			wprss_echo_error_and_die( __('Bad nonce', WPRSS_TEXT_DOMAIN), $addon);
 		}
 	} else {
-		wprss_echo_error_and_die( 'No nonce', $addon);
+		wprss_echo_error_and_die( __('No nonce', WPRSS_TEXT_DOMAIN), $addon);
 	}
 
 	// Call the appropriate EDD licensing function.
@@ -196,7 +196,7 @@ function wprss_ajax_manage_license() {
 	} else if ($event === 'deactivate') {
 		$status = wprss_edd_deactivate_license($addon, $license);
 	} else {
-		wprss_echo_error_and_die( 'Invalid event specified', $addon);
+		wprss_echo_error_and_die( __('Invalid event specified', WPRSS_TEXT_DOMAIN), $addon);
 	}
 
 	// Update the license key stored in the DB.
@@ -235,7 +235,7 @@ function wprss_ajax_fetch_license() {
 	if ( isset($_GET['addon']) ) {
 		$addon = sanitize_text_field($_GET['addon']);
 	} else {
-		wprss_echo_error_and_die( 'No addon ID' );
+		wprss_echo_error_and_die( __('No addon ID', WPRSS_TEXT_DOMAIN ));
 	}
 
 	// Get the license information from EDD
@@ -338,12 +338,12 @@ function wprss_activate_license_button( $args ) {
 
 	<input type="button" class="<?php echo $btn_class; ?> button-process-license button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, WPRSS_TEXT_DOMAIN ); ?>" />
 	<span id="wprss-<?php echo $addon_id; ?>-license-status-text">
-		<strong>Status:
+		<strong><?php _e('Status', WPRSS_TEXT_DOMAIN); ?>:
 		<span class="wprss-<?php echo $addon_id; ?>-license-<?php echo $status; ?>">
 				<?php _e( ucfirst($status), WPRSS_TEXT_DOMAIN ); ?>
 				<?php if ( $status === 'valid' ) : ?>
 					<i class="fa fa-check"></i>
-				<?php elseif( $status === 'invalid' ): ?>
+				<?php elseif( $status === 'invalid' || $status === 'expired' ): ?>
 					<i class="fa fa-times"></i>
 				<?php elseif( $status === 'inactive' ): ?>
 					<i class="fa fa-warning"></i>
@@ -364,17 +364,22 @@ function wprss_activate_license_button( $args ) {
 					$expires = substr( $expires, 0, strpos( $expires, " " ) );
 					?>
 					<small>
-						<strong>Activations:</strong>
+						<?php if ( strtotime($expires) < strtotime("+2 weeks") ) : ?>
+						<?php $renewal_url = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $license_key); ?>
+						<a href="<?php echo $renewal_url; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
+						<br/>
+						<?php endif; ?>
+						<strong><?php _e('Activations', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<?php echo $acts_current.'/'.$acts_limit; ?> (<?php echo $acts_left; ?> left)
 						<br/>
-						<strong>Expires on:</strong>
+						<strong><?php _e('Expires on', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<code><?php echo $expires; ?></code>
 						<br/>
-						<strong>Registered to:</strong>
+						<strong><?php _e('Registered to', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
 					</small>
 				<?php else: ?>
-					<small>Failed to get license information. This is a temporary problem. Check your internet connection and try again later.</small>
+					<small><?php _e('Failed to get license information. This is a temporary problem. Check your internet connection and try again later.', WPRSS_TEXT_DOMAIN); ?></small>
 				<?php endif; ?>
 			<?php endif;
 		?>
@@ -384,7 +389,7 @@ function wprss_activate_license_button( $args ) {
 		.wprss-<?php echo $addon_id; ?>-license-valid {
 			color: green;
 		}
-		.wprss-<?php echo $addon_id; ?>-license-invalid {
+		.wprss-<?php echo $addon_id; ?>-license-invalid, .wprss-<?php echo $addon_id; ?>-license-expired {
 			color: #b71919;
 		}
 		.wprss-<?php echo $addon_id; ?>-license-inactive {
