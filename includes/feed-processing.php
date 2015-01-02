@@ -131,6 +131,28 @@
         );
     }
 
+    /**
+     * Checks if a permalink exists.
+     *
+     * Untested!
+     *
+     * @param  string $permalink The permalink, expected to be normalized.
+     * @return   bool
+     */
+    function wprss_permalink_exists( $permalink ) {
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare(
+                "SELECT *
+                FROM {$wpdb->postmeta}
+                WHERE `meta_value` = '{$permalink}'"
+            )
+        );
+
+        return $wpdb->num_rows > 0;
+    }
+
 
     add_action( 'publish_wprss_feed', 'wprss_fetch_insert_feed_items', 10 );
     /**
