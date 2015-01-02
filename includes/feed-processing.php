@@ -127,7 +127,7 @@
             "SELECT q.`meta_value`
             FROM {$wpdb->postmeta} AS p
             JOIN {$wpdb->postmeta} AS q ON (q.`meta_key` = 'wprss_item_permalink' AND p.`post_id` = q.`post_id`)
-            WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = {$feed_ID}"
+            WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = '{$feed_ID}'"
         );
     }
 
