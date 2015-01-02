@@ -51,7 +51,9 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 	$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 	// Update the DB option
+	$license_statuses = get_option( 'wprss_settings_license_statuses' );
 	$license_statuses["{$addon}_license_status"] = $license_data->license;
+	$license_statuses["{$addon}_license_expires"] = $license_data->expires;
 	update_option( 'wprss_settings_license_statuses', $license_statuses );
 
 	// Return the data
@@ -105,7 +107,8 @@ function wprss_default_license_settings( $addon ) {
 		'wprss_default_license_settings',
 		array(
 			"{$addon}_license_key"		=> FALSE,
-			"{$addon}_license_status"	=> 'invalid'
+			"{$addon}_license_status"	=> 'invalid',
+			"{$addon}_license_expires"	=> NULL
 		)
 	);
 
@@ -143,6 +146,23 @@ function wprss_get_license_status( $addon ) {
 	$k = "{$addon}_license_status";
 	// Return the appropriate value
 	return isset( $statuses["{$addon}_license_status"] )? $statuses[$k] : $defaults[$k];
+}
+
+
+/**
+ * Returns the saved license expiry.
+ *
+ * @since 4.6.7
+ */
+function wprss_get_license_expiry( $addon ) {
+	// Get default and current options
+	$defaults = wprss_default_license_settings( $addon );
+	$statuses = get_option( 'wprss_settings_license_statuses', array() );
+	wprss_log_obj('statuses: ', $statuses);
+	// Prepare the key
+	$k = "{$addon}_license_expires";
+	// Return the appropriate value
+	return isset( $statuses[$k] ) ? $statuses[$k] : $defaults[$k];
 }
 
 
