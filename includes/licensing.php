@@ -158,7 +158,6 @@ function wprss_get_license_expiry( $addon ) {
 	// Get default and current options
 	$defaults = wprss_default_license_settings( $addon );
 	$statuses = get_option( 'wprss_settings_license_statuses', array() );
-	wprss_log_obj('statuses: ', $statuses);
 	// Prepare the key
 	$k = "{$addon}_license_expires";
 	// Return the appropriate value
