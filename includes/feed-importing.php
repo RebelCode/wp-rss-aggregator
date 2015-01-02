@@ -87,32 +87,37 @@
 
 			// Gather the permalinks of existing feed item's related to this feed source
 			$existing_permalinks = get_existing_permalinks( $feed_ID );
-			wprss_log_obj( 'Retrieved existing permalinks', count($existing_permalinks), null, WPRSS_LOG_LEVEL_SYSTEM );
+			wprss_log_obj( 'Retrieved existing permalinks', count( $existing_permalinks ), null, WPRSS_LOG_LEVEL_SYSTEM );
 
 			// Generate a list of items fetched, that are not already in the DB
 			$new_items = array();
-			foreach( $items_to_insert as $item ) {
+			foreach ( $items_to_insert as $item ) {
 				$permalink = wprss_normalize_permalink( $item->get_permalink() );
 				wprss_log_obj( 'Normalizing permalink', sprintf('%1$s -> %2$s', $item->get_permalink(), $permalink), null, WPRSS_LOG_LEVEL_SYSTEM );
 				// Check if not blacklisted and not already imported
 				$is_blacklisted = wprss_is_blacklisted( $permalink );
-				$already_exists = in_array( trim($permalink), $existing_permalinks );
-				if ( $is_blacklisted === FALSE && !$already_exists ) {
+				$already_exists = in_array( $permalink, $existing_permalinks );
+				if ( $is_blacklisted === FALSE && $already_exists === FALSE ) {
 					$new_items[] = $item;
-					wprss_log( 'Permalink OK', $permalink, null, WPRSS_LOG_LEVEL_SYSTEM );
+					wprss_log_obj( 'Permalink OK', $permalink, null, WPRSS_LOG_LEVEL_SYSTEM );
 				}
 				else {
-					if ( $is_blacklisted )
+					if ( $is_blacklisted ) {
 						wprss_log( 'Permalink blacklisted', null, WPRSS_LOG_LEVEL_SYSTEM );
-					if( $already_exists)
+					}
+					if ( $already_exists ) {
 						wprss_log( 'Permalink already exists', null, WPRSS_LOG_LEVEL_SYSTEM );
+					}
 				}
 			}
 			
 			$original_count = count( $items_to_insert );
 			$new_count = count( $new_items );
-			if( $new_count !== $original_count )
-				wprss_log_obj( 'Items filtered out', $original_count - $new_count, null, WPRSS_LOG_LEVEL_NOTICE );
+			if ( $new_count !== $original_count ) {
+				wprss_log_obj( 'Items filtered out', $original_count - $new_count, null, WPRSS_LOG_LEVEL_SYSTEM );
+			} else {
+				wprss_log( 'Items to import remained untouched. Not items already exist or are blacklisted.', null, WPRSS_LOG_LEVEL_SYSTEM );
+			}
 			
 			$items_to_insert = $new_items;
 
@@ -133,14 +138,14 @@
 				$db_feed_items_reversed = array_reverse( $db_feed_items->posts );
 				// Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
 				$feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
-				wprss_log( sprintf( 'There already are %1$d items in the database. %2$d items can be inserted. %3$d items will be deleted', $num_db_feed_items, $num_can_insert, $feed_items_to_delete ), null, WPRSS_LOG_LEVEL_SYSTEM );
+				wprss_log( sprintf( 'There already are %1$d items in the database. %2$d items can be inserted. %3$d items will be deleted', $num_db_feed_items, $num_can_insert, $num_feed_items_to_delete ), null, WPRSS_LOG_LEVEL_SYSTEM );
 
 				// Iterate the feed items and delete them
 				foreach ( $feed_items_to_delete as $key => $post ) {
 					wp_delete_post( $post->ID, TRUE );
 				}
 				
-				if( $deleted_items_count = count($feed_items_to_delete) )
+				if ( $deleted_items_count = count( $feed_items_to_delete ) )
 					wprss_log_obj( 'Items deleted due to limit', $deleted_items_count, null, WPRSS_LOG_LEVEL_NOTICE );
 			}
 			
