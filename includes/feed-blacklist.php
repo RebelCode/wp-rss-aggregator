@@ -142,6 +142,33 @@ function wprss_check_if_blacklist_item() {
 }
 
 
+/**
+ * Checks if the transient for the blacklist notice is set, and shows the notice
+ * if it is set.
+ */
+function wprss_check_notice_transient() {
+	// Check if the transient exists
+	$transient = get_transient( 'wprss_item_blacklist_notice' );
+	if ( $transient !== FALSE ) {
+		// Remove the transient
+		delete_transient( 'wprss_item_blacklist_notice' );
+		// Show the notice
+		add_action( 'admin_notices', 'wprss_blacklist_item_notice' );
+	}
+}
+
+/**
+ * The admin notice shown when an item is blacklisted.
+ */
+function wprss_blacklist_item_notice() {
+	?>
+	<div class="updated">
+		<p>
+			The item was deleted successfully and added to the blacklist.
+		</p>
+	</div>
+	<?php
+}
 
 
 /**
