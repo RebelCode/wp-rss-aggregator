@@ -66,6 +66,11 @@ function wprss_blacklist_item( $ID ) {
 	// Get the feed item data
 	$item_title = get_the_title( $ID );
 	$item_permalink = get_post_meta( $ID, 'wprss_item_permalink', TRUE );
+	// If not an imported item, stop
+	if ( $item_permalink === '' ) {
+		wprss_log_obj( 'An item being blacklisted was ignored for not being an imported item', $ID, null, WPRSS_LOG_LEVEL_INFO );
+		return;
+	}
 	// Prepare the data for blacklisting
 	$title = apply_filters( 'wprss_blacklist_title', trim( $item_title ) );
 	$permalink = apply_filters( 'wprss_blacklist_permalink', trim( $item_permalink ) );
