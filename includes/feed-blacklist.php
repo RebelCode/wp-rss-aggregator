@@ -61,14 +61,14 @@ function wprss_get_blacklist() {
  */
 function wprss_blacklist_item( $ID ) {
 	// Return if feed item is null
-	if ( is_null($ID) ) return;
+	if ( is_null( $ID ) ) return;
 	
 	// Get the feed item data
 	$item_title = get_the_title( $ID );
 	$item_permalink = get_post_meta( $ID, 'wprss_item_permalink', TRUE );
 	// Prepare the data for blacklisting
-	$title = apply_filters( 'wprss_blacklist_title', trim($item_title) );
-	$permalink = apply_filters( 'wprss_blacklist_permalink', trim($item_permalink) );
+	$title = apply_filters( 'wprss_blacklist_title', trim( $item_title ) );
+	$permalink = apply_filters( 'wprss_blacklist_permalink', trim( $item_permalink ) );
 	
 	// Get the blacklisted items
 	$blacklist = wprss_get_blacklist();
