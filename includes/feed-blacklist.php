@@ -16,13 +16,13 @@
 
 
 // Check if the 'blacklist' GET param is set
-add_action( 'init', 'wprss_check_if_blacklist_item' );
+add_action( 'admin_init', 'wprss_check_if_blacklist_item' );
 // Register custom post type
-add_action( 'init', 'wprss_blacklist_cpt' );
+add_action( 'admin_init', 'wprss_blacklist_cpt' );
 // Add the row actions to the targetted post type
 add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
 // Check if deleting a blacklist item, from the GET parameter
-add_action( 'init', 'wprss_check_if_blacklist_delete' );
+add_action( 'admin_init', 'wprss_check_if_blacklist_delete' );
 // Changes the wprss_blacklist table columns
 add_filter( 'manage_wprss_blacklist_posts_columns', 'wprss_blacklist_columns');
 // Prints the table data for each blacklist entry
