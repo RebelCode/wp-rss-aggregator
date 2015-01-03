@@ -17,6 +17,8 @@
 
 // Check if the 'blacklist' GET param is set
 add_action( 'admin_init', 'wprss_check_if_blacklist_item' );
+// Checks if the transient is set to show the notice
+add_action( 'admin_init', 'wprss_check_notice_transient' );
 // Register custom post type
 add_action( 'admin_init', 'wprss_blacklist_cpt' );
 // Add the row actions to the targetted post type
