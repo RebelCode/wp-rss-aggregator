@@ -67,7 +67,7 @@
 		wprss_log_obj( 'Feed import limit', $feed_limit, null, WPRSS_LOG_LEVEL_INFO );
 
 		// Filter the URL for validaty
-		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) ) {
+		if ( wprss_validate_url( $feed_url ) ) {
 			wprss_log_obj( 'Feed URL is valid', $feed_url, null, WPRSS_LOG_LEVEL_INFO );
 			// Get the feed items from the source
 			$items = wprss_get_feed_items( $feed_url, $feed_ID );
