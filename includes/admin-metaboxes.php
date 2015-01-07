@@ -1,6 +1,6 @@
 <?php
 
-    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes');
+    add_action( 'add_meta_boxes', 'wprss_add_meta_boxes', 99);
     /**
      * Set up the input boxes for the wprss_feed post type
      *
@@ -8,10 +8,13 @@
      */
     function wprss_add_meta_boxes() {
         global $wprss_meta_fields;
-        
+
         // Remove the default WordPress Publish box, because we will be using custom ones
         remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
-        
+
+        // Remove some plugin's metaboxes because they're not relevant to the wprss_feed post type.
+        wprss_remove_unrelated_meta_boxes();
+
         add_meta_box(
             'submitdiv',                            // $id
             __( 'Save Feed Source', WPRSS_TEXT_DOMAIN ),      // $title
@@ -49,7 +52,7 @@
                 'low'
             );
         }
-        
+
         add_meta_box(
             'custom_meta_box',
             __( 'Feed Source Details', WPRSS_TEXT_DOMAIN ),
@@ -58,18 +61,31 @@
             'normal',
             'high'
         );
-        
+
     }
 
 
-    /**     
+    /**
+     * Removes some other plugin's metaboxes because they're not relevant to the wprss_feed post type.
+     *
+     * @since 4.7
+     */
+    function wprss_remove_unrelated_meta_boxes() {
+        $post_type = 'wprss_feed';
+        remove_meta_box( 'wpseo_meta', $post_type, 'normal');                 // WP SEO Yoast
+        remove_meta_box( 'ta-reviews-post-meta-box', $post_type, 'normal');   // Author hReview
+        remove_meta_box( 'wpdf_editor_section', $post_type, 'advanced');      // ImageInject
+    }
+
+
+    /**
      * Set up fields for the meta box for the wprss_feed post type
-     * 
+     *
      * @since 2.0
-     */       
+     */
     function wprss_get_custom_fields() {
         $prefix = 'wprss_';
-        
+
         // Field Array
         $wprss_meta_fields[ 'url' ] = array(
             'label'			=> __( 'URL', WPRSS_TEXT_DOMAIN ),
@@ -96,11 +112,11 @@
     }
 
 
-    /**     
+    /**
      * Set up the meta box for the wprss_feed post type
-     * 
+     *
      * @since 2.0
-     */ 
+     */
     function wprss_show_meta_box_callback() {
         global $post;
         $meta_fields = wprss_get_custom_fields();
@@ -108,8 +124,8 @@
 		$help = WPRSS_Help::get_instance();
 
         // Use nonce for verification
-        wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' ); 
-            
+        wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' );
+
             // Fix for WordpRess SEO JS issue
             ?><input type="hidden" id="content" value="" /><?php
 
@@ -123,23 +139,23 @@
                 ?><tr>
                         <th><label for="<?php echo $field['id'] ?>"><?php echo $field['label'] /* Should be already translated */ ?></label></th>
                         <td><?php
-                        
+
                         if ( isset( $field['before'] ) && !empty( $field['before'] ) ) {
                             call_user_func( $field['before'] );
                         }
-				
+
 						// Add default placeholder value
 						$field = wp_parse_args( $field, array(
                             'desc'          => '',
                             'placeholder'   => '',
                             'type'          => 'text'
                         ) );
-						
+
 						$tooltip = isset( $field['tooltip'] ) ? trim( $field['tooltip'] ) : null;
 						$tooltip_id = isset( $field['id'] ) ? $field_tooltip_id_prefix . $field['id'] : uniqid( $field_tooltip_id_prefix );
-						
+
 						$field_description = __( $field['desc'], WPRSS_TEXT_DOMAIN );
-						
+
 						/*
 						 * So, here's how tooltips work here.
 						 * Tooltip output will be attempted in any case.
@@ -149,9 +165,9 @@
 						 * is by default an empty string, but can be altered
 						 * by the `tooltip_not_found_handle_html` option of `WPRSS_Help`.
 						 */
-                        
+
                         switch( $field['type'] ) {
-                        
+
                             // text/url
                             case 'url':
                             case 'text':
@@ -161,7 +177,7 @@
                                     ?><br /><label for="<?php echo $field['id'] ?>"><span class="description"><?php _e( $field['desc'], WPRSS_TEXT_DOMAIN ) ?></span></label><?php
                                 }
                             break;
-                        
+
                             // textarea
                             case 'textarea':
                                 ?><textarea name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" cols="60" rows="4"><?php echo esc_attr( $meta ) ?></textarea><?php
@@ -170,7 +186,7 @@
                                     ?><br /><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;
-                        
+
                             // checkbox
                             case 'checkbox':
                                 ?>
@@ -180,8 +196,8 @@
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
                                     ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
-                            break;    
-                        
+                            break;
+
                             // select
                             case 'select':
 								?><select name="<?php echo $field['id'] ?>" id="<?php $field['id'] ?>"><?php
@@ -194,8 +210,8 @@
 								if ( strlen( trim( $field['desc'] ) ) > 0 ) {
                                     ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
-                            break;                                            
-                        
+                            break;
+
                             // number
                             case 'number':
                                 ?><input class="wprss-number-roller" type="number" placeholder="<?php _e( 'Default', WPRSS_TEXT_DOMAIN ) ?>" min="0" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="<?php echo esc_attr( $meta ) ?>" /><?php
@@ -215,11 +231,11 @@
             } // end foreach
             ?></table><?php
     }
-  
+
 
     /**
      * Adds the link that validates the feed
-     * @since 3.9.5 
+     * @since 3.9.5
      */
     function wprss_validate_feed_link() {
         ?>
@@ -253,25 +269,25 @@
 
 
 
-    add_action( 'save_post', 'wprss_save_custom_fields', 10, 2 ); 
-    /**     
+    add_action( 'save_post', 'wprss_save_custom_fields', 10, 2 );
+    /**
      * Save the custom fields
-     * 
+     *
      * @since 2.0
-     */ 
+     */
     function wprss_save_custom_fields( $post_id, $post ) {
         $meta_fields = wprss_get_custom_fields();
 
         /* Verify the nonce before proceeding. */
         if ( !isset( $_POST['wprss_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['wprss_meta_box_nonce'], basename( __FILE__ ) ) )
-            return $post_id;               
+            return $post_id;
 
         /* Get the post type object. */
         $post_type = get_post_type_object( $post->post_type );
 
         /* Check if the current user has permission to edit the post. */
         if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
-            return $post_id;        
+            return $post_id;
 
      /*  // Stop WP from clearing custom fields on autosave - maybe not needed
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
@@ -287,8 +303,8 @@
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
             return;
         if ( defined( 'DOING_CRON' ) && DOING_CRON )
-            return;        
-        
+            return;
+
         // Change the limit, if it is zero, to an empty string
         if ( isset( $_POST['wprss_limit'] ) && strval( $_POST['wprss_limit'] ) == '0' ) {
             $_POST['wprss_limit'] = '';
@@ -338,21 +354,21 @@
         if ( $update_interval === wprss_get_default_feed_source_update_interval() ) {
             wp_schedule_single_event( time(), 'wprss_fetch_single_feed_hook', array( $post_id ) );
         }
-    } 
+    }
 
 
-    /**     
+    /**
      * Generate a preview of the latest 5 posts from the feed source being added/edited
-     * 
+     *
      * @since 2.0
-     */  
+     */
     function wprss_preview_meta_box_callback() {
         global $post;
         $feed_url = get_post_meta( $post->ID, 'wprss_url', true );
-		
+
 		$help = WPRSS_Help::get_instance();
 		/* @var $help WPRSS_Help */
-        
+
         if ( ! empty( $feed_url ) ) {
             $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
@@ -423,7 +439,7 @@
 
     /**
      * Renders the Feed Processing metabox
-     * 
+     *
      * @since 3.7
      */
     function wprss_feed_processing_meta_box_callback() {
@@ -467,7 +483,7 @@
 		// Inline help
 		$help = WPRSS_Help::get_instance();
 		$help_options = array('tooltip_handle_class_extra' => $help->get_options('tooltip_handle_class_extra') . ' ' . $help->get_options('tooltip_handle_class') . '-side');
-		
+
         ?>
 
         <div class="wprss-meta-side-setting">
@@ -556,93 +572,93 @@
             </div>
         </div>
 
-        
+
         <?php
     }
 
 
 
-    /**     
+    /**
      * Generate Help meta box
-     * 
+     *
      * @since 2.0
-     * 
-     */      
-    function wprss_help_meta_box_callback() {        
+     *
+     */
+    function wprss_help_meta_box_callback() {
        echo '<p><a href="http://www.wprssaggregator.com/documentation/">View the documentation</p>';
        echo '<p><strong>';
        _e( 'Need help?', WPRSS_TEXT_DOMAIN );
        echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
-       _e( 'Check out the support forum', WPRSS_TEXT_DOMAIN ); 
+       _e( 'Check out the support forum', WPRSS_TEXT_DOMAIN );
        echo '</a></p>';
-       echo '</strong> <a target="_blank" href="http://www.wprssaggregator.com/feature-requests/">';       
-       _e( 'Suggest a new feature', WPRSS_TEXT_DOMAIN ); 
-       echo '</a></p>';       
+       echo '</strong> <a target="_blank" href="http://www.wprssaggregator.com/feature-requests/">';
+       _e( 'Suggest a new feature', WPRSS_TEXT_DOMAIN );
+       echo '</a></p>';
     }
 
-    /**     
+    /**
      * Generate Like this plugin meta box
-     * 
+     *
      * @since 2.0
-     * 
-     */      
+     *
+     */
     function wprss_like_meta_box_callback() { ?>
-        
+
         <ul>
-            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>                               
+            <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>
             <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e( 'Donate a token of your appreciation', WPRSS_TEXT_DOMAIN ); ?></a></li>
-        </ul>       
+        </ul>
         <?php
-        echo '<p><strong>'; 
+        echo '<p><strong>';
         _e( 'Check out the Premium Extensions:', WPRSS_TEXT_DOMAIN );
         echo '</strong>'; ?>
         <ul>
-            <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>                                         
-            <li><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"><?php echo 'Excerpts & Thumbnails'; ?></a></li>                               
+            <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>
+            <li><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"><?php echo 'Excerpts & Thumbnails'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/categories/"><?php echo 'Categories'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/keyword-filtering/"><?php echo 'Keyword Filtering'; ?></a></li>
-        </ul>   
+        </ul>
          </p>
-    <?php } 
+    <?php }
 
 
-    /**     
+    /**
      * Generate Follow us plugin meta box
-     * 
+     *
      * @since 2.0
-     * 
-     */      
-    function wprss_follow_meta_box_callback() {    
-        ?>                         
+     *
+     */
+    function wprss_follow_meta_box_callback() {
+        ?>
         <ul>
             <li class="twitter"><a href="http://twitter.com/wpmayor"><?php _e( 'Follow WP Mayor on Twitter.', WPRSS_TEXT_DOMAIN ) ?></a></li>
             <li class="facebook"><a href="https://www.facebook.com/wpmayor"><?php _e( 'Like WP Mayor on Facebook.', WPRSS_TEXT_DOMAIN ) ?></a></li>
-        </ul>                               
-    <?php }   
+        </ul>
+    <?php }
 
 
     add_action( 'add_meta_boxes', 'wprss_remove_meta_boxes', 100 );
     /**
      * Remove unneeded meta boxes from add feed source screen
-     * 
+     *
      * @since 2.0
-     */       
+     */
     function wprss_remove_meta_boxes() {
-        if ( 'wprss_feed' !== get_current_screen()->id ) return;   
-        // Remove meta boxes of other plugins that tend to appear on all posts          
+        if ( 'wprss_feed' !== get_current_screen()->id ) return;
+        // Remove meta boxes of other plugins that tend to appear on all posts
         //remove_meta_box( 'wpseo_meta', 'wprss_feed' ,'normal' );
         remove_meta_box( 'postpsp', 'wprss_feed' ,'normal' );
         remove_meta_box( 'su_postmeta', 'wprss_feed' ,'normal' );
-        remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' ); 
-        remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );  
-        remove_meta_box( 'wpar_plugin_meta_box ', 'wprss_feed' ,'normal' );                      
+        remove_meta_box( 'woothemes-settings', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'wpcf-post-relationship', 'wprss_feed' ,'normal' );
+        remove_meta_box( 'wpar_plugin_meta_box ', 'wprss_feed' ,'normal' );
         remove_meta_box( 'sharing_meta', 'wprss_feed' ,'advanced' );
-        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );       
+        remove_meta_box( 'content-permissions-meta-box', 'wprss_feed' ,'advanced' );
         remove_meta_box( 'theme-layouts-post-meta-box', 'wprss_feed' ,'side' );
         remove_meta_box( 'post-stylesheets', 'wprss_feed' ,'side' );
         remove_meta_box( 'hybrid-core-post-template', 'wprss_feed' ,'side' );
         remove_meta_box( 'wpcf-marketing', 'wprss_feed' ,'side' );
-        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' ); 
-        remove_meta_box( 'aiosp', 'wprss_feed' ,'advanced' );                             
-        remove_action( 'post_submitbox_start', 'fpp_post_submitbox_start_action' );    
+        remove_meta_box( 'trackbacksdiv22', 'wprss_feed' ,'advanced' );
+        remove_meta_box( 'aiosp', 'wprss_feed' ,'advanced' );
+        remove_action( 'post_submitbox_start', 'fpp_post_submitbox_start_action' );
     }
