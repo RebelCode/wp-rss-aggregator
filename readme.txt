@@ -1,5 +1,5 @@
 === WP RSS Aggregator ===
-Contributors: jeangalea, Mekku, xedin.unknown, markzahra
+Contributors: jeangalea, Mekku, xedin.unknown, markzahra, doytch
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ
 Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger, rss feeder, rss post importer, autoblog aggregator, autoblog, autopost, content curation, feedwordpress, wp rss multi import, hungryfeed, wp-o-matic, rss feed, rss feed to post, rss retriever, syndication
