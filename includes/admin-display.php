@@ -456,6 +456,7 @@
      */
     function wprss_fetch_feeds_action_hook() {
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
+            if ( ! current_user_can( 'edit_feed_sources' ) ) die();
             $id = $_POST['id'];
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
 
@@ -479,6 +480,7 @@
 
             // Schedule the event for 5 seconds from now
             wp_schedule_single_event( time() + 1, 'wprss_fetch_single_feed_hook', $schedule_args );
+            wprss_flag_feed_as_updating( $id );
             die();
         }
     }
