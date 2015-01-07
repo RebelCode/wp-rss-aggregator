@@ -52,6 +52,7 @@
                     'with_front' => false
                 ),
                 'capability_type'       => 'feed',
+				'map_meta_cap'			=> true,
                 'supports'              => array( 'title' ),
                 'labels'                => $labels   
             )
