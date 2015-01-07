@@ -200,6 +200,10 @@ function wprss_unlicensed_addons_exist() {
 			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
 
 			if ( $expires == 0 || ( $expires < strtotime("+2 weeks") ) ) {
+				return TRUE;
+			}
+		}
+	}
 
 	return FALSE;
 }
