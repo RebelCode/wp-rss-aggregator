@@ -200,6 +200,23 @@ function wprss_unlicensed_addons_exist() {
 			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
 
 			if ( $expires == 0 || ( $expires < strtotime("+2 weeks") ) ) {
+
+	return FALSE;
+}
+
+/**
+ * Check if any add-ons have a valid license and return a boolean.
+ *
+ * @since 4.6.8
+ */
+function wprss_is_premium_user() {
+	// Iterate through license statuses looking for a valid one.
+	$statuses = get_option('wprss_settings_license_statuses', array());
+	foreach ($statuses as $key => $value) {
+		// If we're looking at a license status key...
+		if (strpos($key, '_license_status') !== FALSE) {
+			// ...and the license is valid...
+			if ($value === 'valid') {
 				return TRUE;
 			}
 		}
