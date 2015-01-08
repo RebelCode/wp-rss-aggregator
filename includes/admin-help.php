@@ -1,11 +1,11 @@
 <?php
-    /**
-     * Build the Help page
-     * 
-     * @since 4.2
-     */ 
-    function wprss_help_page_display() {
-        ?>
+	/**
+	 * Build the Help page
+	 * 
+	 * @since 4.2
+	 */ 
+	function wprss_help_page_display() {
+	    ?>
 
 		<div class="wrap">
 			<?php screen_icon( 'wprss-aggregator' ); ?>
@@ -26,11 +26,16 @@
 			}
 			?>
 		</div>
-    <?php
-    }
+	<?php
+	}
 
 
-    function wprss_premium_help_display() {
+	/**
+	 * Print the premium help section with inline support form.
+	 * 
+	 * @since 4.7
+	 */ 
+	function wprss_premium_help_display() {
 		// Get the first valid license.
 		$addon = '';
 		$statuses = get_option( 'wprss_settings_license_statuses', array() );
@@ -94,13 +99,17 @@
 		</div>
 
 		<?php
-    }
+	}
 
-
-    function wprss_free_help_display() {
+	/**
+	 * Print the free help section with link to forums.
+	 * 
+	 * @since 4.7
+	 */ 
+	function wprss_free_help_display() {
 		echo '<h3>' . __( 'Support Forums', WPRSS_TEXT_DOMAIN ) . '</h3>';
 		echo wpautop( __( "Users of the free version of WP RSS Aggregator can ask questions on the " . '<a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.', WPRSS_TEXT_DOMAIN ) );
-    }
+	}
 
 
 	add_action( 'wp_ajax_wprss_ajax_send_premium_support', 'wprss_ajax_send_premium_support' );
@@ -109,7 +118,7 @@
 	 *
 	 * @since 4.7
 	 */
-    function wprss_ajax_send_premium_support() {
+	function wprss_ajax_send_premium_support() {
 		$ret = array();
 
 		// Validate the form fields that were submitted and send any errors.
@@ -140,16 +149,16 @@
 
 		echo json_encode($ret);
 		die();
-    }
+	}
 
 
-    /**
-     * Ensures that all support form fields have been filled out. Returns TRUE 
-     *
-     * @since 4.7
-     * @return FALSE when all fields are valid, or a string containing an error they aren't. 
-     */
-    function wprss_validate_support_request() {
+	/**
+	 * Ensures that all support form fields have been filled out. Returns TRUE 
+	 *
+	 * @since 4.7
+	 * @return FALSE when all fields are valid, or a string containing an error they aren't. 
+	 */
+	function wprss_validate_support_request() {
 		$fields = array(
 			'support-name',
 			'support-email',
@@ -177,12 +186,12 @@
 	}
 
 
-    /**
-     * Creates and returns the support request email's message body.
-     *
-     * @since 4.7
-     */
-    function wprss_create_support_message() {
+	/**
+	 * Creates and returns the support request email's message body.
+	 *
+	 * @since 4.7
+	 */
+	function wprss_create_support_message() {
 		// Get the WP RSS Aggregator log.
 		$log = 'Customer did not send log';
 		if ($_GET['support-include-log'] === 'true') {
@@ -219,22 +228,22 @@
 		$message = apply_filters( 'wprss_support_message', $message );
 
 		return $message;
-    }
+	}
 
 
-    /**
-     * Creates and returns the support request email's headers.
-     *
-     * @since 4.7
-     */
-    function wprss_create_support_headers() {
+	/**
+	 * Creates and returns the support request email's headers.
+	 *
+	 * @since 4.7
+	 */
+	function wprss_create_support_headers() {
 		$headers  = "From: no-reply@wprssaggregator.com\r\n";
 		$headers .= "Reply-to: " . sanitize_text_field($_GET['support-name']) . " <" . sanitize_email($_GET['support-email']) . ">\r\n";
 
 		$headers = apply_filters( 'wprss_support_headers', $headers );
 
 		return $headers;
-    }
+	}
 
     
 /**
