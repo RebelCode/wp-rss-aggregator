@@ -126,14 +126,13 @@
 		$headers  = wprss_create_support_headers();
 
 		// Send the email.
-		//$sent = wp_mail( "support@wprssaggregator.com", $subject, $message, $headers );
-		$sent = wp_mail( "markpd@gmail.com", $subject, $message, $headers );
+		$sent = wp_mail( "support@wprssaggregator.com", $subject, $message, $headers );
 
 		// NB, the retval is a best-guess about email sending. According to the WP Codex it 
 		// doesn't mean the user received the email, it "only means that the method used 
 		// was able to  process the request without any errors."
 		if ($sent === FALSE) {
-			$ret['error'] = sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/'));
+			$ret['error'] = sprintf(__('There was an error sending the form. Please use the <a href="%s" target="_blank">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/'));
 			$ret['message'] = $message;
 		} else {
 			$ret['status'] = 'OK';
