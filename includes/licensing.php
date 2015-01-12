@@ -165,6 +165,123 @@ function wprss_get_license_expiry( $addon ) {
 }
 
 
+add_action( 'admin_init', 'wprss_check_for_expired_licenses');
+/**
+ * Checks whether there are any invalid or expired licenses.
+ *
+ * @since 4.6.9
+ */
+function wprss_check_for_expired_licenses() {
+	$show_notice = FALSE;
+	// Get the license statuses including expiry dates.
+	$statuses = get_option( 'wprss_settings_license_statuses', array() );
+
+	foreach ($statuses as $key => $value) {
+		if ( strpos($key, '_license_status') > 0 ) {
+			if ( $value !== 'valid') {
+				$show_notice = TRUE;
+			}
+		} else if ( strpos($key, '_license_expires') > 0 ) {
+			// Check invalid expiry dates.
+			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
+
+			if ( $expires == 0 || ( $expires < strtotime("+2 weeks") ) ) {
+				$show_notice = TRUE;
+				break;
+			}
+		}
+	}
+
+	// Check if we found any of the licenses to be invalid, expiring or expired
+	// so that we can show the appropriate license nag.
+	if ($show_notice) {
+		add_action( 'all_admin_notices', 'wprss_show_license_notice' );
+	}
+}
+
+
+/**
+ * Shows an admin notice for any invalid/expired licenses.
+ *
+ * @since 4.6.9
+ */
+function wprss_show_license_notice() {
+	// Get the license statuses including expiry dates.
+	$statuses = get_option( 'wprss_settings_license_statuses', array() );
+
+	// Array of notices to show.
+	$notices = array();
+
+	foreach ($statuses as $key => $value) {
+		if ( strpos($key, '_license_status') > 0 ) {
+			if ( $value === 'expired' ) {
+				// License is expired, but we'll show the notice for this when checking the *_license_expires key.
+
+				continue;
+
+			} else if ( $value !== 'valid' ) {
+				// The license is invalid or unactivated.
+
+				$uid = strtoupper( substr( $key, 0, strpos( $key, "_" ) ) );
+
+				// Check if the plugin is currently activated.
+				if ( !defined("WPRSS_{$uid}_SL_ITEM_NAME") ) {
+					continue;
+				} else {
+					$plugin = constant("WPRSS_{$uid}_SL_ITEM_NAME");
+				}
+
+				$msg = sprintf(
+		            __('Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <b>%s</b> add-on, to benefit from updates and support.', WPRSS_TEXT_DOMAIN),
+		            esc_attr(admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' )),
+					$plugin
+				);
+
+				// Save the notice we're going to display
+				$notices[$uid] = '<div class="error"><p>' . $msg . '</p></div>';
+			}
+		} else if ( strpos($key, '_license_expires') > 0 ) {
+			// Check for expired licenses
+
+			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
+			$id = substr( $key, 0, strpos( $key, "_" ) );
+			$uid = strtoupper($id);
+
+			// Check if the plugin is currently activated.
+			if ( !defined("WPRSS_{$uid}_SL_ITEM_NAME") ) {
+				continue;
+			} else {
+				$plugin = constant("WPRSS_{$uid}_SL_ITEM_NAME");
+			}
+
+			if ( $expires < strtotime("+2 weeks") ) {
+				// The license is expired or expiring soon.
+				$license_key = wprss_get_license_key($id);
+				$msg = sprintf(
+					__('<a href="%s">Save 30%% on your license renewal</a> for the WP RSS Aggregator <b>%s</b> add-on and continue receiving updates and support.', WPRSS_TEXT_DOMAIN),
+					esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $license_key),
+					$plugin
+				);
+
+				// User can hide expiring/expired license messages.
+				$hide = '<a href="#" class="ajax-close-addon-notice" style="float:right;" data-addon="categories" data-notice="license">' .
+					__('Dismiss this notification', WPRSS_TEXT_DOMAIN) . '</a>';
+
+				// Only show this notice if there isn't already a notice to show for this add-on.
+				if ( !isset($notices[$uid]) ) {
+					$notices[$uid] = '<div class="error"><p>' . $msg . $hide . '</p></div>';
+				}
+			}
+		}
+	}
+
+	// Display the notices
+	foreach ($notices as $notice) {
+		echo $notice;
+	}
+}
+
+
 add_action( 'wp_ajax_wprss_ajax_manage_license', 'wprss_ajax_manage_license' );
 /**
  * Handles the AJAX request to check a license.
