@@ -141,7 +141,7 @@
                         <pubDate><?php echo get_post_time( DATE_RSS ); ?></pubDate>
                         <description><![CDATA[<?php echo $content; ?>]]></description>
                         <content:encoded><![CDATA[<?php echo $content; ?>]]></content:encoded>
-                        <source url="<?php echo get_post_meta( $source, 'wprss_url', TRUE ); ?>"><?php echo get_the_title( $source ); ?></source>
+                        <source url="<?php echo esc_attr(get_post_meta( $source, 'wprss_url', TRUE )); ?>"><?php echo get_the_title( $source ); ?></source>
                         <?php do_action( 'wprss_custom_feed_entry', get_the_ID() ); ?> 
                 </item>
                 <?php
