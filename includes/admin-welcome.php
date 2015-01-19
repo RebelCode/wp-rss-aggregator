@@ -151,7 +151,7 @@
 										<li><strong><a href="http://www.wprssaggregator.com/extension/wordai/" target="wprss_ai"><?php _e( 'WordAi', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 									</ul>
 								</p>
-								<?php echo wpautop( sprintf( __('More information about add-ons can be found on our website <a href="%1$s">%2$s</a>', WPRSS_TEXT_DOMAIN), 'http://www.wprssaggregator.com', 'www.wprssaggregator.com' ) ) ?>
+								<?php echo wpautop( sprintf( __( 'More information about add-ons can be found on our website <a href="%1$s">%2$s</a>', WPRSS_TEXT_DOMAIN ), 'http://www.wprssaggregator.com', 'www.wprssaggregator.com' ) ) ?>
 
 		 						<hr/>
 
@@ -164,7 +164,7 @@
 									<?php endforeach; ?>
 		 						</ul>
 								
-		 						<?php echo wpautop( sprintf( __('Need functionality not already available in core or the add-ons? You can <a href="%1$s">suggest new features</a>!', WPRSS_TEXT_DOMAIN), 'http://www.wprssaggregator.com/feature-requests/' ) ) ?>
+		 						<?php echo wpautop( sprintf( __( 'Need functionality not already available in core or the add-ons? You can <a href="%1$s">suggest new features</a>!', WPRSS_TEXT_DOMAIN ), 'http://www.wprssaggregator.com/feature-requests/' ) ) ?>
 
 							</div>
 
