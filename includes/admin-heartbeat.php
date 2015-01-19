@@ -7,6 +7,8 @@ add_action( 'wp_ajax_wprss_feed_source_table_ajax', 'wprss_feed_source_updates')
 function wprss_feed_source_updates() {
 	$response = array();
 	
+	if ( ! current_user_can( 'edit_feed_sources' ) ) return $response;
+
 	if ( empty($_POST['wprss_heartbeat']) ) return $response;
 
 	// Get the wprss heartbeat data and extract the data
