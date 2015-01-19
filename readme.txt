@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger, rss feeder, rss post importer, autoblog aggregator, autoblog, autopost, content curation, feedwordpress, wp rss multi import, hungryfeed, wp-o-matic, rss feed, rss feed to post, rss retriever, syndication
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 4.6.8
+Stable tag: 4.6.9
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -167,7 +167,13 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.6.8 (2014-01-07) =
+= 4.6.9 (2015-01-19) =
+* Enhanced: Admin user will now be warned about invalid or expiring licenses.
+* Enhanced: Admin notices logic centralized in this plugin.
+* Fixed: Multiple small-scale security vulnerabilities.
+* Fixed: Ampersand in feed URL no longer causes the product of generated feeds to be invalidated by W3C Validator.
+
+= 4.6.8 (2015-01-07) =
 * Enhanced: Added more logging during feed importing.
 * Enhanced: Irrelevent metaboxes added by other plugins are now removed from the Add/Edit Feed Source page.
 * Fixed bug: Valid feed URLS were being invalidated.

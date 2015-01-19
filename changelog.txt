@@ -1,4 +1,10 @@
-4.6.8 (2014-01-07)
+4.6.9 (2015-01-19)
+Enhanced: Admin user will now be warned about invalid or expiring licenses.
+Enhanced: Admin notices logic centralized in this plugin.
+Fixed: Multiple small-scale security vulnerabilities.
+Fixed: Ampersand in feed URL no longer causes the product of generated feeds to be invalidated by W3C Validator.
+
+4.6.8 (2015-01-07)
 Enhanced: Added more logging during feed importing.
 Enhanced: Irrelevent metaboxes added by other plugins are now removed from the Add/Edit Feed Source page.
 Fixed bug: Valid feed URLS were being invalidated.
