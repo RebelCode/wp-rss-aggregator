@@ -232,7 +232,7 @@ function wprss_show_license_notice() {
 				}
 
 				$msg = sprintf(
-		            __('Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <b>%s</b> add-on, to benefit from updates and support.', WPRSS_TEXT_DOMAIN),
+		            __( 'Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <b>%s</b> add-on to benefit from updates and support.', WPRSS_TEXT_DOMAIN ),
 		            esc_attr(admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' )),
 					$plugin
 				);
