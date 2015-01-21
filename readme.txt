@@ -167,7 +167,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.6.9 (2015-01-19) =
+= 4.6.9 (2015-01-21) =
 * Enhanced: Admin user will now be warned about invalid or expiring licenses.
 * Enhanced: Admin notices logic centralized in this plugin.
 * Fixed: Multiple small-scale security vulnerabilities.
