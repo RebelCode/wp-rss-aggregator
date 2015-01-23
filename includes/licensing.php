@@ -500,10 +500,15 @@ function wprss_activate_license_button( $args ) {
 					$expires = substr( $expires, 0, strpos( $expires, " " ) );
 					?>
 					<small>
+						<?php if ( $status !== 'valid' && $acts_left === 0 ) : ?>
+							<?php $account_url = 'https://www.wprssaggregator.com/account/?action=manage_licenses&payment_id=' . $data->payment_id; ?>
+							<a href="<?php echo $account_url; ?>"><?php _e("No activations left. Click here to manage the sites you've activated licenses on.", WPRSS_TEXT_DOMAIN); ?></a>
+							<br/>
+						<?php endif; ?>
 						<?php if ( strtotime($expires) < strtotime("+2 weeks") ) : ?>
-						<?php $renewal_url = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $license_key); ?>
-						<a href="<?php echo $renewal_url; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
-						<br/>
+							<?php $renewal_url = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $license_key); ?>
+							<a href="<?php echo $renewal_url; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
+							<br/>
 						<?php endif; ?>
 						<strong><?php _e('Activations', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<?php echo $acts_current.'/'.$acts_limit; ?> (<?php echo $acts_left; ?> left)
