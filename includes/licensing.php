@@ -498,6 +498,9 @@ function wprss_activate_license_button( $args ) {
 					$acts_limit = $data->license_limit;
 					$expires = $data->expires;
 					$expires = substr( $expires, 0, strpos( $expires, " " ) );
+
+					// If the license key is garbage, don't show any of the data.
+					if ( !empty($data->payment_id) && !empty($data->license_limit ) ) :
 					?>
 					<small>
 						<?php if ( $status !== 'valid' && $acts_left === 0 ) : ?>
@@ -519,6 +522,7 @@ function wprss_activate_license_button( $args ) {
 						<strong><?php _e('Registered to', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
 					</small>
+					<?php endif; ?>
 				<?php else: ?>
 					<small><?php _e('Failed to get license information. This is a temporary problem. Check your internet connection and try again later.', WPRSS_TEXT_DOMAIN); ?></small>
 				<?php endif; ?>
