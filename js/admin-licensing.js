@@ -30,6 +30,10 @@ jQuery( document ).ready( function($) {
 				td.children('.button-deactivate-license').click(manage_license);
 			}
 
+			if (response.hideActivateLicenseNotice) {
+				$('.wprss-license-notice').remove();
+			}
+
 			// There was an error.
 			if (response.error !== undefined) {
 				console.log('There was an error: ' + response.error);

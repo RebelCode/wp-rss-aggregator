@@ -165,36 +165,45 @@ function wprss_get_license_expiry( $addon ) {
 }
 
 
-add_action( 'admin_init', 'wprss_check_for_expired_licenses');
+add_action( 'admin_init', 'wprss_check_to_show_license_notice');
 /**
  * Checks whether there are any invalid or expired licenses.
  *
- * @since 4.6.9
+ * @since 4.6.10
+ * @return BOOL which is TRUE if any addons are unlicensed, FALSE otherwise.
  */
-function wprss_check_for_expired_licenses() {
-	$show_notice = FALSE;
+function wprss_unlicensed_addons_exist() {
 	// Get the license statuses including expiry dates.
 	$statuses = get_option( 'wprss_settings_license_statuses', array() );
 
 	foreach ($statuses as $key => $value) {
 		if ( strpos($key, '_license_status') > 0 ) {
 			if ( $value !== 'valid') {
-				$show_notice = TRUE;
+				return TRUE;
 			}
 		} else if ( strpos($key, '_license_expires') > 0 ) {
 			// Check invalid expiry dates.
 			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
 
 			if ( $expires == 0 || ( $expires < strtotime("+2 weeks") ) ) {
-				$show_notice = TRUE;
-				break;
+				return TRUE;
 			}
 		}
 	}
 
+	return FALSE;
+}
+
+
+/**
+ * Checks whether we should show the invalid/expired license notices.
+ *
+ * @since 4.6.10
+ */
+function wprss_check_to_show_license_notice() {
 	// Check if we found any of the licenses to be invalid, expiring or expired
 	// so that we can show the appropriate license nag.
-	if ($show_notice) {
+	if (wprss_unlicensed_addons_exist()) {
 		add_action( 'all_admin_notices', 'wprss_show_license_notice' );
 	}
 }
@@ -238,7 +247,7 @@ function wprss_show_license_notice() {
 				);
 
 				// Save the notice we're going to display
-				$notices[$uid] = '<div class="error"><p>' . $msg . '</p></div>';
+				$notices[$uid] = '<div class="error wprss-license-notice"><p>' . $msg . '</p></div>';
 			}
 		} else if ( strpos($key, '_license_expires') > 0 ) {
 			// Check for expired licenses
@@ -269,7 +278,7 @@ function wprss_show_license_notice() {
 
 				// Only show this notice if there isn't already a notice to show for this add-on.
 				if ( !isset($notices[$uid]) ) {
-					$notices[$uid] = '<div class="error"><p>' . $msg . $hide . '</p></div>';
+					$notices[$uid] = '<div class="error wprss-license-notice"><p>' . $msg . $hide . '</p></div>';
 				}
 			}
 		}
@@ -353,6 +362,8 @@ function wprss_ajax_manage_license() {
 
 	// Set the HTML markup for the new button and validity display.
 	$ret['html'] = wprss_get_activate_license_button($addon);
+
+	$ret['hideActivateLicenseNotice'] = ( wprss_unlicensed_addons_exist() === FALSE );
 
 	// Return the JSON data.
 	echo json_encode($ret);
