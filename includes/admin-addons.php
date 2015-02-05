@@ -41,7 +41,7 @@
             'title' => __( "Full Text RSS Feeds", WPRSS_TEXT_DOMAIN ),
             'description' => __( "This add-ons provides the connectivity to our Full Text Premium service, which gives you unlimited feed items returned per feed source.", WPRSS_TEXT_DOMAIN ),
             'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
-            'active' => is_plugin_active( 'wp-rss-full-text/wp-rss-full-text.php' ),
+            'active' => is_plugin_active( 'wp-rss-full-text-feeds/wp-rss-full-text.php' ),
             'url' => 'http://www.wprssaggregator.com/extension/full-text-rss-feeds/'
         );        
         $premium[] = array(
