@@ -239,7 +239,8 @@
      */
     function wprss_validate_feed_link() {
         ?>
-            <br/>
+            <i id="wprss-url-spinner" class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
+            <div id="wprss-url-error" style="color:red"></div>
             <a href="#" id="validate-feed-link">Validate feed</a>
             <script type="text/javascript">
                 (function($){
