@@ -132,7 +132,10 @@
 				// Get the number of feed items we can store until we reach the limit
 				$num_can_insert = $feed_limit - $num_db_feed_items;
 				// Calculate how many feed items we must delete before importing, to keep to the limit
-				$num_feed_items_to_delete = count( $new_items ) - $num_can_insert;
+				$num_new_items = count( $new_items );
+				$num_feed_items_to_delete = $num_can_insert > $num_new_items
+						? 0
+						: $num_new_items - $num_can_insert;
 
 				// Get an array with the DB feed items in reverse order (oldest first)
 				$db_feed_items_reversed = array_reverse( $db_feed_items->posts );
