@@ -165,36 +165,69 @@ function wprss_get_license_expiry( $addon ) {
 }
 
 
-add_action( 'admin_init', 'wprss_check_for_expired_licenses');
+add_action( 'admin_init', 'wprss_check_to_show_license_notice');
 /**
  * Checks whether there are any invalid or expired licenses.
  *
- * @since 4.6.9
+ * @since 4.6.10
+ * @return BOOL which is TRUE if any addons are unlicensed, FALSE otherwise.
  */
-function wprss_check_for_expired_licenses() {
-	$show_notice = FALSE;
+function wprss_unlicensed_addons_exist() {
 	// Get the license statuses including expiry dates.
 	$statuses = get_option( 'wprss_settings_license_statuses', array() );
 
 	foreach ($statuses as $key => $value) {
 		if ( strpos($key, '_license_status') > 0 ) {
 			if ( $value !== 'valid') {
-				$show_notice = TRUE;
+				return TRUE;
 			}
 		} else if ( strpos($key, '_license_expires') > 0 ) {
 			// Check invalid expiry dates.
 			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
 
 			if ( $expires == 0 || ( $expires < strtotime("+2 weeks") ) ) {
-				$show_notice = TRUE;
-				break;
+				return TRUE;
 			}
 		}
 	}
 
+	return FALSE;
+}
+
+/**
+ * Returns an array of addon IDs that are licensed.
+ *
+ * @since 4.6.10
+ * @return Array of addon ID strings that have a valid license status.
+ */
+function wprss_get_licensed_addons() {
+	$addons = array();
+
+	// Get the license statuses.
+	$statuses = get_option( 'wprss_settings_license_statuses', array() );
+
+	foreach ($statuses as $key => $value) {
+		if ( strpos($key, '_license_status') > 0 ) {
+			if ( $value === 'valid') {
+				$addons[] = strtoupper( substr( $key, 0, strpos( $key, "_" ) ) );
+			}
+		}
+	}
+
+	return $addons;
+
+}
+
+
+/**
+ * Checks whether we should show the invalid/expired license notices.
+ *
+ * @since 4.6.10
+ */
+function wprss_check_to_show_license_notice() {
 	// Check if we found any of the licenses to be invalid, expiring or expired
 	// so that we can show the appropriate license nag.
-	if ($show_notice) {
+	if (wprss_unlicensed_addons_exist()) {
 		add_action( 'all_admin_notices', 'wprss_show_license_notice' );
 	}
 }
@@ -238,7 +271,7 @@ function wprss_show_license_notice() {
 				);
 
 				// Save the notice we're going to display
-				$notices[$uid] = '<div class="error"><p>' . $msg . '</p></div>';
+				$notices[$uid] = '<div id="wprss-license-notice-' . $uid . '" class="error wprss-license-notice"><p>' . $msg . '</p></div>';
 			}
 		} else if ( strpos($key, '_license_expires') > 0 ) {
 			// Check for expired licenses
@@ -269,7 +302,7 @@ function wprss_show_license_notice() {
 
 				// Only show this notice if there isn't already a notice to show for this add-on.
 				if ( !isset($notices[$uid]) ) {
-					$notices[$uid] = '<div class="error"><p>' . $msg . $hide . '</p></div>';
+					$notices[$uid] = '<div class="error wprss-license-notice"><p>' . $msg . $hide . '</p></div>';
 				}
 			}
 		}
@@ -326,6 +359,17 @@ function wprss_ajax_manage_license() {
 		wprss_echo_error_and_die( __('No nonce', WPRSS_TEXT_DOMAIN), $addon);
 	}
 
+	$license_keys = get_option('wprss_settings_license_keys', array());
+	// Check if the license key was obfuscated on the client's end.
+	if ( mb_strpos( $license, '•••••' ) === 0 ) {
+		// If so, use the stored license key for de/activation.
+		$license = $license_keys[$addon . '_license_key'];
+	} else {
+		// Otherwise, update the license key stored in the DB.
+		$license_keys[$addon . '_license_key'] = $license;
+		update_option('wprss_settings_license_keys', $license_keys);
+	}
+
 	// Call the appropriate EDD licensing function.
 	if ($event === 'activate') {
 		$status = wprss_edd_activate_license($addon, $license);
@@ -334,11 +378,6 @@ function wprss_ajax_manage_license() {
 	} else {
 		wprss_echo_error_and_die( __('Invalid event specified', WPRSS_TEXT_DOMAIN), $addon);
 	}
-
-	// Update the license key stored in the DB.
-	$license_keys = get_option('wprss_settings_license_keys', array());
-	$license_keys[$addon . '_license_key'] = $license;
-	update_option('wprss_settings_license_keys', $license_keys);
 
 	// Assemble the JSON data to return.
 	$ret = array();
@@ -353,6 +392,8 @@ function wprss_ajax_manage_license() {
 
 	// Set the HTML markup for the new button and validity display.
 	$ret['html'] = wprss_get_activate_license_button($addon);
+
+	$ret['licensedAddons'] = wprss_get_licensed_addons();
 
 	// Return the JSON data.
 	echo json_encode($ret);
@@ -444,7 +485,7 @@ function wprss_license_settings() {
  */
 function wprss_license_key_field( $args ) {
 	$addon_id = $args[0];
-	$license = wprss_get_license_key( $addon_id ); ?>
+	$license = '••••••••••••••••••••••••••••' . substr( wprss_get_license_key( $addon_id ), -4 ); ?>
 	<input id="wprss-<?php echo $addon_id; ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id; ?>_license_key]"
 		   type="text" value="<?php echo esc_attr( $license ); ?>" style="width: 300px;"
 	/>
@@ -498,12 +539,20 @@ function wprss_activate_license_button( $args ) {
 					$acts_limit = $data->license_limit;
 					$expires = $data->expires;
 					$expires = substr( $expires, 0, strpos( $expires, " " ) );
+
+					// If the license key is garbage, don't show any of the data.
+					if ( !empty($data->payment_id) && !empty($data->license_limit ) ) :
 					?>
 					<small>
+						<?php if ( $status !== 'valid' && $acts_left === 0 ) : ?>
+							<?php $account_url = 'https://www.wprssaggregator.com/account/?action=manage_licenses&payment_id=' . $data->payment_id; ?>
+							<a href="<?php echo $account_url; ?>"><?php _e("No activations left. Click here to manage the sites you've activated licenses on.", WPRSS_TEXT_DOMAIN); ?></a>
+							<br/>
+						<?php endif; ?>
 						<?php if ( strtotime($expires) < strtotime("+2 weeks") ) : ?>
-						<?php $renewal_url = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $license_key); ?>
-						<a href="<?php echo $renewal_url; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
-						<br/>
+							<?php $renewal_url = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $license_key); ?>
+							<a href="<?php echo $renewal_url; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
+							<br/>
 						<?php endif; ?>
 						<strong><?php _e('Activations', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<?php echo $acts_current.'/'.$acts_limit; ?> (<?php echo $acts_left; ?> left)
@@ -514,6 +563,7 @@ function wprss_activate_license_button( $args ) {
 						<strong><?php _e('Registered to', WPRSS_TEXT_DOMAIN); ?>:</strong>
 							<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
 					</small>
+					<?php endif; ?>
 				<?php else: ?>
 					<small><?php _e('Failed to get license information. This is a temporary problem. Check your internet connection and try again later.', WPRSS_TEXT_DOMAIN); ?></small>
 				<?php endif; ?>

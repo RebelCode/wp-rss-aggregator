@@ -135,7 +135,7 @@
         delete_transient( 'wprss_notify_inactive_licenses' );
 
         // Show the notice ?>
-        <div class="updated">
+        <div class="wprss-license-notice updated">
 		<?php echo wpautop( sprintf( __('<b>WP RSS Aggregator</b>:'
 			. ' There are saved licenses that have not yet been activated. Go to the'
 			. ' <a href="%1$s">License page</a> to activate them.', WPRSS_TEXT_DOMAIN ), admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ) ?>

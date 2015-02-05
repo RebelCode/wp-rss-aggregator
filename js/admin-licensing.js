@@ -20,7 +20,8 @@ jQuery( document ).ready( function($) {
 		}
 
 		promise.then(function( response ) {
-			var td = button.parent();
+			var td = button.parent(),
+				i;
 
 			// Inject the new HTML we got to update the UI and hook up the onClick handler.
 			if (response.html !== undefined) {
@@ -28,6 +29,12 @@ jQuery( document ).ready( function($) {
 				td.append(response.html);
 				td.children('.button-activate-license').click(manage_license);
 				td.children('.button-deactivate-license').click(manage_license);
+			}
+
+			if (response.licensedAddons) {
+				for (i = 0; i < response.licensedAddons.length; i++) {
+					$('#wprss-license-notice-' + response.licensedAddons[i]).remove();
+				}
 			}
 
 			// There was an error.
