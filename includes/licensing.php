@@ -511,7 +511,7 @@ function wprss_activate_license_button( $args ) {
 	$btn_text = $valid ? 'Deactivate License' : 'Activate License';
 	$btn_name = "wprss_{$addon_id}_license_" . ( $valid? 'deactivate' : 'activate' );
 	$btn_class = "button-" . ( $valid ? 'deactivate' : 'activate' ) . "-license";
-	wp_nonce_field( "wprss_{$addon_id}_license_nonce", "wprss_{$addon_id}_license_nonce" ); ?>
+	wp_nonce_field( "wprss_{$addon_id}_license_nonce", "wprss_{$addon_id}_license_nonce", false ); ?>
 
 	<input type="button" class="<?php echo $btn_class; ?> button-process-license button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, WPRSS_TEXT_DOMAIN ); ?>" />
 	<span id="wprss-<?php echo $addon_id; ?>-license-status-text">
