@@ -194,6 +194,30 @@ function wprss_unlicensed_addons_exist() {
 	return FALSE;
 }
 
+/**
+ * Returns an array of addon IDs that are licensed.
+ *
+ * @since 4.6.10
+ * @return Array of addon ID strings that have a valid license status.
+ */
+function wprss_get_licensed_addons() {
+	$addons = array();
+
+	// Get the license statuses.
+	$statuses = get_option( 'wprss_settings_license_statuses', array() );
+
+	foreach ($statuses as $key => $value) {
+		if ( strpos($key, '_license_status') > 0 ) {
+			if ( $value === 'valid') {
+				$addons[] = strtoupper( substr( $key, 0, strpos( $key, "_" ) ) );
+			}
+		}
+	}
+
+	return $addons;
+
+}
+
 
 /**
  * Checks whether we should show the invalid/expired license notices.
@@ -247,7 +271,7 @@ function wprss_show_license_notice() {
 				);
 
 				// Save the notice we're going to display
-				$notices[$uid] = '<div class="error wprss-license-notice"><p>' . $msg . '</p></div>';
+				$notices[$uid] = '<div id="wprss-license-notice-' . $uid . '" class="error wprss-license-notice"><p>' . $msg . '</p></div>';
 			}
 		} else if ( strpos($key, '_license_expires') > 0 ) {
 			// Check for expired licenses
@@ -369,7 +393,7 @@ function wprss_ajax_manage_license() {
 	// Set the HTML markup for the new button and validity display.
 	$ret['html'] = wprss_get_activate_license_button($addon);
 
-	$ret['hideActivateLicenseNotice'] = ( wprss_unlicensed_addons_exist() === FALSE );
+	$ret['licensedAddons'] = wprss_get_licensed_addons();
 
 	// Return the JSON data.
 	echo json_encode($ret);
