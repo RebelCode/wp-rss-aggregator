@@ -335,6 +335,17 @@ function wprss_ajax_manage_license() {
 		wprss_echo_error_and_die( __('No nonce', WPRSS_TEXT_DOMAIN), $addon);
 	}
 
+	$license_keys = get_option('wprss_settings_license_keys', array());
+	// Check if the license key was obfuscated on the client's end.
+	if ( mb_strpos( $license, '•••••' ) === 0 ) {
+		// If so, use the stored license key for de/activation.
+		$license = $license_keys[$addon . '_license_key'];
+	} else {
+		// Otherwise, update the license key stored in the DB.
+		$license_keys[$addon . '_license_key'] = $license;
+		update_option('wprss_settings_license_keys', $license_keys);
+	}
+
 	// Call the appropriate EDD licensing function.
 	if ($event === 'activate') {
 		$status = wprss_edd_activate_license($addon, $license);
@@ -343,11 +354,6 @@ function wprss_ajax_manage_license() {
 	} else {
 		wprss_echo_error_and_die( __('Invalid event specified', WPRSS_TEXT_DOMAIN), $addon);
 	}
-
-	// Update the license key stored in the DB.
-	$license_keys = get_option('wprss_settings_license_keys', array());
-	$license_keys[$addon . '_license_key'] = $license;
-	update_option('wprss_settings_license_keys', $license_keys);
 
 	// Assemble the JSON data to return.
 	$ret = array();
@@ -455,7 +461,7 @@ function wprss_license_settings() {
  */
 function wprss_license_key_field( $args ) {
 	$addon_id = $args[0];
-	$license = wprss_get_license_key( $addon_id ); ?>
+	$license = '••••••••••••••••••••••••••••' . substr( wprss_get_license_key( $addon_id ), -4 ); ?>
 	<input id="wprss-<?php echo $addon_id; ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id; ?>_license_key]"
 		   type="text" value="<?php echo esc_attr( $license ); ?>" style="width: 300px;"
 	/>
