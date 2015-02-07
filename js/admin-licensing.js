@@ -35,6 +35,7 @@ jQuery( document ).ready( function($) {
 				for (i = 0; i < response.licensedAddons.length; i++) {
 					$('#wprss-license-notice-' + response.licensedAddons[i]).remove();
 				}
+				$('.wprss-license-notice.updated').remove();
 			}
 
 			// There was an error.
