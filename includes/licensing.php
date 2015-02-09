@@ -1,5 +1,11 @@
 <?php
 
+/* What to print in place of license code chars */
+define( 'WPRSS_LICENSE_KEY_MASK_CHAR', '•' );
+/* How many characters of the license code to print as is.
+ * Use negative value to indicate that characters at the end of the key are excluded.
+ */
+define( 'WPRSS_LICENSE_KEY_MASK_EXCLUDE_AMOUNT', -4 );
 
 /**
  * Returns all registered addons.
@@ -361,7 +367,7 @@ function wprss_ajax_manage_license() {
 
 	$license_keys = get_option('wprss_settings_license_keys', array());
 	// Check if the license key was obfuscated on the client's end.
-	if ( mb_strpos( $license, '•••••' ) === 0 ) {
+	if ( wprss_license_key_is_obfuscated( $license ) ) {
 		// If so, use the stored license key for de/activation.
 		$license = $license_keys[$addon . '_license_key'];
 	} else {
@@ -485,12 +491,24 @@ function wprss_license_settings() {
  */
 function wprss_license_key_field( $args ) {
 	$addon_id = $args[0];
-	$license = '••••••••••••••••••••••••••••' . substr( wprss_get_license_key( $addon_id ), -4 ); ?>
-	<input id="wprss-<?php echo $addon_id; ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id; ?>_license_key]"
-		   type="text" value="<?php echo esc_attr( $license ); ?>" style="width: 300px;"
+	$license_key = wprss_get_license_key( $addon_id );
+	$license_key_length = strlen( $license_key );
+	$mask_char = WPRSS_LICENSE_KEY_MASK_CHAR;
+	// How many chars to show
+	$mask_exclude_amount = WPRSS_LICENSE_KEY_MASK_EXCLUDE_AMOUNT;
+	$mask_exclude_amount = abs( $mask_exclude_amount ) > ($license_key_length - 1)
+			? ($license_key_length - 1) * ( $mask_exclude_amount < 0 ? -1 : 1 ) // Making sure to preserve position of mask
+			: $mask_exclude_amount;
+	// How many chars to mask. Always at least one char will be masked.
+	$mask_length = $license_key_length - abs( $mask_exclude_amount );
+	$mask = str_repeat( $mask_char, $mask_length );
+	$excluded_chars = mb_substr( $license_key, $mask_exclude_amount < 0 ? $mask_length : 0, abs( $mask_exclude_amount ) );
+	$displayed_key = sprintf( $mask_exclude_amount > 0 ? '%1$s%2$s' : '%2$s%1$s', $excluded_chars, $mask); ?>
+	<input id="wprss-<?php echo $addon_id ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id ?>_license_key]"
+		   type="text" value="<?php echo esc_attr( $displayed_key ) ?>" style="width: 300px;"
 	/>
-	<label class="description" for="wprss-<?php echo $addon_id; ?>-license-key">
-		<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ); ?>
+	<label class="description" for="wprss-<?php echo $addon_id ?>-license-key">
+		<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ) ?>
 	</label><?php
 }
 
@@ -511,7 +529,7 @@ function wprss_activate_license_button( $args ) {
 	$btn_text = $valid ? 'Deactivate License' : 'Activate License';
 	$btn_name = "wprss_{$addon_id}_license_" . ( $valid? 'deactivate' : 'activate' );
 	$btn_class = "button-" . ( $valid ? 'deactivate' : 'activate' ) . "-license";
-	wp_nonce_field( "wprss_{$addon_id}_license_nonce", "wprss_{$addon_id}_license_nonce" ); ?>
+	wp_nonce_field( "wprss_{$addon_id}_license_nonce", "wprss_{$addon_id}_license_nonce", false ); ?>
 
 	<input type="button" class="<?php echo $btn_class; ?> button-process-license button-secondary" name="<?php echo $btn_name; ?>" value="<?php _e( $btn_text, WPRSS_TEXT_DOMAIN ); ?>" />
 	<span id="wprss-<?php echo $addon_id; ?>-license-status-text">
@@ -686,4 +704,18 @@ function wprss_setup_edd_updater() {
 			'author'    => 'Jean Galea'				// author of this plugin
 		));
 	}
+}
+
+add_filter( 'wprss_settings_license_key_is_valid', 'wprss_license_validate_key_for_save', 10, 2 );
+function wprss_license_validate_key_for_save( $is_valid, $key ) {
+	if ( wprss_license_key_is_obfuscated( $key ) )
+		return false;
+	
+	return $is_valid;
+}
+
+
+function wprss_license_key_is_obfuscated( $key ) {
+	$char = WPRSS_LICENSE_KEY_MASK_CHAR;
+	return mb_stripos( $key, $char ) !== false;
 }

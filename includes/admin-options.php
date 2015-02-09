@@ -1042,11 +1042,19 @@
         }
         // For each entry in the received input
         foreach ( $input as $addon => $license_code ) {
-            // If the entry does not exist OR the code is different
-            if ( !array_key_exists( $addon, $licenses ) || $license_code !== $licenses[ $addon ] ) {
-                // Save it to the licenses option
-                $licenses[ $addon ] = $license_code;
-            }
+			$addon_code = explode( '_', $addon );
+			$addon_code = isset( $addon_code[0] ) ? $addon_code[0] : null;
+            // Only save if the entry does not exist OR the code is different
+            if ( array_key_exists( $addon, $licenses ) && $license_code === $licenses[ $addon ] )
+				continue;
+			
+			$is_valid = apply_filters( 'wprss_settings_license_key_is_valid', true, $license_code );
+			if( $addon_code )
+				$is_valid = apply_filters( "wprss_settings_license_key_{$addon_code}_is_valid", $is_valid, $license_code );
+			if( !$is_valid ) continue;
+			
+			// Save it to the licenses option
+			$licenses[ $addon ] = $license_code;
         }
         wprss_check_license_statuses();
         // Return the new licenses

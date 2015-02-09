@@ -35,6 +35,7 @@ jQuery( document ).ready( function($) {
 				for (i = 0; i < response.licensedAddons.length; i++) {
 					$('#wprss-license-notice-' + response.licensedAddons[i]).remove();
 				}
+				$('.wprss-license-notice.updated').remove();
 			}
 
 			// There was an error.
@@ -50,7 +51,11 @@ jQuery( document ).ready( function($) {
 
 	};
 
-	$('.button-activate-license').click(manage_license);
-	$('.button-deactivate-license').click(manage_license);
+	// This .js is only enqueued on our settings page, so just check the tab we're on.
+	if ( document.location.href.search('tab=licenses_settings') > 0 ) {
+		$('.button-activate-license').click(manage_license);
+		$('.button-deactivate-license').click(manage_license);
+		$('.submit').remove();
+	}
 
 });
