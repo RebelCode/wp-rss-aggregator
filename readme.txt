@@ -171,6 +171,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 * Enhanced: AJAX license activation.
 * Enhanced: License form more reliable.
 * Enhanced: license-related UI improvements
+* New: Markdown library added. Changelog now read from readme.
 * Fixed bug: Saving license keys not longer triggers error in some cases.
 
 = 4.6.9 (2015-01-21) =
