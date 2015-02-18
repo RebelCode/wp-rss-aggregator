@@ -18,6 +18,8 @@
 		if ( !empty( $_POST['bulk-feeds'] ) ) {
 			// Check nonce
 			check_admin_referer('wprss-bulk-import', 'wprss-bulk-import');
+			// Get the site which we should post to
+			$post_site = is_multisite() ? get_current_blog_id() : '';
 			// Get the text
 			$bulk_feeds = $_POST['bulk-feeds'];
 			// Split by lines
@@ -39,7 +41,8 @@
 				$feed = array(
 					'post_title'	=> $name,
 					'post_status'	=> 'publish',
-					'post_type'		=> 'wprss_feed'
+					'post_type'		=> 'wprss_feed',
+					'post_site'		=> $post_site
 				);
 				// Insert the feed into the DB
 				$inserted_id = wp_insert_post( $feed );
