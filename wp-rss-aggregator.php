@@ -454,7 +454,7 @@
      * @return void     
      */  
     function wprss_load_textdomain() { 
-        load_plugin_textdomain( WPRSS_TEXT_DOMAIN, false, WPRSS_LANG );
+        load_plugin_textdomain( WPRSS_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
 
