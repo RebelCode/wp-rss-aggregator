@@ -509,7 +509,7 @@ function wprss_license_key_field( $args ) {
 			: $mask_exclude_amount;
 	// How many chars to mask. Always at least one char will be masked.
 	$mask_length = $license_key_length - abs( $mask_exclude_amount );
-	$mask = str_repeat( $mask_char, $mask_length );
+	$mask = $mask_length > 0 ? str_repeat( $mask_char, $mask_length ) : '';
 	$excluded_chars = mb_substr( $license_key, $mask_exclude_amount < 0 ? $mask_length : 0, abs( $mask_exclude_amount ) );
 	$displayed_key = sprintf( $mask_exclude_amount > 0 ? '%1$s%2$s' : '%2$s%1$s', $excluded_chars, $mask); ?>
 	<input id="wprss-<?php echo $addon_id ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id ?>_license_key]"
