@@ -47,7 +47,7 @@ To [display your imported feed items](http://wordpress.org/plugins/wp-rss-aggreg
 = Premium Add-Ons =	
 Add-Ons that add more functionality to the core plugin are [available for purchase](http://www.wprssaggregator.com/extensions/). 
 
-* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS feeds into posts or custom post types. Populate a website in minutes (autoblog). This is the most popular extension.
+* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS to posts or custom post types. Populate a website in minutes (autoblog). This is the most popular extension.
 * [Keyword Filtering](http://www.wprssaggregator.com/extensions/keyword-filtering) - filter imported feeds based on keywords, so you only get items you're interested in.
 * [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) - display excerpts and thumbnails together with the title, date and source.
 * [Categories](http://www.wprssaggregator.com/extensions/categories) - categorise your feed sources and display items from a particular category at will within your site.
