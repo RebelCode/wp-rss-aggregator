@@ -169,6 +169,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.6.11 (2015-03-04) =
+* Enhanced: The Help page now includes a support form if a premium add-on is detected.
+* Enhanced: Updated some translations for admin options.
+* Fixed bug: Help tooltips are now optimized for iPad screens.
+* Fixed bug: Errors on the licensing page when a license code has not yet been entered.
+
 = 4.6.10 (2015-02-10) =
 * Enhanced: AJAX license activation.
 * Enhanced: License form more reliable.
