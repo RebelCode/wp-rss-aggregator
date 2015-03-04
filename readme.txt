@@ -82,6 +82,8 @@ Instructions for plugin usage are available on the plugin's [documentation page]
 = Translations =
 * Italian - Davide De Maestri
 * Spanish - Andrew Kurtis
+* Brazilian Portugese - Bruno Calheira
+* Dutch - Erick Suiker
 
 == Installation ==
 
