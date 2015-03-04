@@ -1,10 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wprss\n"
-"POT-Creation-Date: 2015-03-04 19:09+0700\n"
-"PO-Revision-Date: 2015-03-04 19:09+0700\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2015-03-04 19:10+0700\n"
+"PO-Revision-Date: 2015-03-04 19:10+0700\n"
+"Last-Translator: Davide De Maestri <davide.demaestri@gmail.com>\n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -220,7 +221,7 @@ msgstr ""
 
 #: includes/admin-display.php:20 includes/admin-display.php:212
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: includes/admin-display.php:27
 msgid "State"
@@ -239,7 +240,7 @@ msgstr ""
 
 #: includes/admin-display.php:89 includes/admin-heartbeat.php:53
 msgid "None"
-msgstr ""
+msgstr "Nessuno"
 
 #: includes/admin-display.php:91 includes/admin-heartbeat.php:50
 #: includes/admin-metaboxes.php:467
@@ -271,39 +272,39 @@ msgstr ""
 
 #: includes/admin-display.php:213 includes/feed-blacklist.php:322
 msgid "Permalink"
-msgstr ""
+msgstr "Permalink"
 
 #: includes/admin-display.php:214
 msgid "Date published"
-msgstr ""
+msgstr "Data di pubblicazione"
 
 #: includes/admin-display.php:215
 msgid "Source"
-msgstr ""
+msgstr "Sorgente"
 
 #: includes/admin-display.php:304
 msgid "Feed source updated. "
-msgstr ""
+msgstr "Sorgente feed aggiornata."
 
 #: includes/admin-display.php:305
 msgid "Custom field updated."
-msgstr ""
+msgstr "Campo personalizzato aggiornato."
 
 #: includes/admin-display.php:306
 msgid "Custom field deleted."
-msgstr ""
+msgstr "Campo personalizzato cancellato."
 
 #: includes/admin-display.php:307 includes/admin-display.php:313
 msgid "Feed source updated."
-msgstr ""
+msgstr "Sorgente feed aggiornata."
 
 #: includes/admin-display.php:309 includes/admin-display.php:310
 msgid "Feed source saved."
-msgstr ""
+msgstr "Sorgente feed salvata."
 
 #: includes/admin-display.php:311
 msgid "Feed source submitted."
-msgstr ""
+msgstr "Sorgente feed inviata."
 
 #: includes/admin-display.php:338
 #, php-format
@@ -328,7 +329,7 @@ msgstr ""
 
 #: includes/admin-display.php:529
 msgid "Publish Feed"
-msgstr ""
+msgstr "Pubblica Feed"
 
 #: includes/admin-editor.php:87
 msgid ""
@@ -339,7 +340,7 @@ msgstr ""
 #: includes/admin-editor.php:97 includes/custom-post-types.php:21
 #: includes/custom-post-types.php:24
 msgid "Feed Sources"
-msgstr ""
+msgstr "Sorgenti Feed"
 
 #: includes/admin-editor.php:99
 msgid "All feed sources"
@@ -813,11 +814,11 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:20
 msgid "Save Feed Source"
-msgstr ""
+msgstr "Salva sorgente feed"
 
 #: includes/admin-metaboxes.php:29
 msgid "Feed Preview"
-msgstr ""
+msgstr "Anteprima Feed"
 
 #: includes/admin-metaboxes.php:38
 msgid "Feed Processing"
@@ -829,12 +830,12 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:58
 msgid "Feed Source Details"
-msgstr ""
+msgstr "Dettagli sorgente feed"
 
 #: includes/admin-metaboxes.php:91 includes/opml-importer.php:196
 #: includes/opml-importer.php:227
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: includes/admin-metaboxes.php:99
 msgid "Limit"
@@ -867,6 +868,8 @@ msgid ""
 "<strong>Invalid feed URL</strong> - Double check the feed source URL setting "
 "above."
 msgstr ""
+"<strong>URL del feed non valido</strong> - Ricontrolla l'URL della sorgente "
+"del feed nelle impostazioni sopra."
 
 #: includes/admin-metaboxes.php:419
 #, php-format
@@ -881,7 +884,7 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:436
 msgid "No feed URL defined yet"
-msgstr ""
+msgstr "Nessun URL del feed ancora definito"
 
 #: includes/admin-metaboxes.php:466
 msgid "Active"
@@ -889,11 +892,11 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:591
 msgid "Need help?"
-msgstr ""
+msgstr "Hai bisogno di aiuto?"
 
 #: includes/admin-metaboxes.php:593
 msgid "Check out the support forum"
-msgstr ""
+msgstr "Controlla il forum di supporto"
 
 #: includes/admin-metaboxes.php:596
 msgid "Suggest a new feature"
@@ -913,11 +916,11 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:635
 msgid "Follow WP Mayor on Twitter."
-msgstr ""
+msgstr "Segui WP Mayor su Twitter"
 
 #: includes/admin-metaboxes.php:636
 msgid "Like WP Mayor on Facebook."
-msgstr ""
+msgstr "Segui WP Mayor su Facebook"
 
 #: includes/admin-options.php:56
 msgid "General plugin settings"
@@ -997,7 +1000,7 @@ msgstr ""
 
 #: includes/admin-options.php:134
 msgid "Open links behaviour"
-msgstr ""
+msgstr "Comportamento di apertura dei links"
 
 #: includes/admin-options.php:138
 msgid "Set links as nofollow"
@@ -1037,7 +1040,7 @@ msgstr ""
 
 #: includes/admin-options.php:343 includes/admin.php:41
 msgid "WP RSS Aggregator Settings"
-msgstr ""
+msgstr "Impostazioni WP RSS Aggregator"
 
 #: includes/admin-options.php:353
 msgid "General"
@@ -1049,7 +1052,7 @@ msgstr ""
 
 #: includes/admin-options.php:397
 msgid "Save Settings"
-msgstr ""
+msgstr "Salva impostazioni"
 
 #: includes/admin-options.php:411
 msgid "These are the general settings for WP RSS Aggregator."
@@ -1097,11 +1100,11 @@ msgstr ""
 
 #: includes/admin-options.php:523
 msgid "Lightbox"
-msgstr ""
+msgstr "Lightbox"
 
 #: includes/admin-options.php:524 includes/update.php:195
 msgid "New window"
-msgstr ""
+msgstr "Nuova finestra"
 
 #: includes/admin-options.php:525
 msgid "Self"
@@ -1301,7 +1304,7 @@ msgstr ""
 
 #: includes/admin.php:41 includes/admin.php:111
 msgid "Settings"
-msgstr ""
+msgstr "Impostazioni"
 
 #: includes/admin.php:94
 msgid "Name this feed (e.g. WP Mayor)"
@@ -1354,35 +1357,35 @@ msgstr ""
 
 #: includes/custom-post-types.php:25
 msgid "Add New Feed Source"
-msgstr ""
+msgstr "Aggiungi nuova sorgente Feed"
 
 #: includes/custom-post-types.php:26
 msgid "Edit Feed Source"
-msgstr ""
+msgstr "Modifica sorgente feed"
 
 #: includes/custom-post-types.php:27
 msgid "New Feed Source"
-msgstr ""
+msgstr "Nuova sorgente feed"
 
 #: includes/custom-post-types.php:28
 msgid "View Feed Source"
-msgstr ""
+msgstr "Visualizza sorgente feed"
 
 #: includes/custom-post-types.php:29
 msgid "Search Feeds"
-msgstr ""
+msgstr "Cerca feeds"
 
 #: includes/custom-post-types.php:30
 msgid "No Feed Sources Found"
-msgstr ""
+msgstr "Nessuna sorgente di feed trovata"
 
 #: includes/custom-post-types.php:31
 msgid "No Feed Sources Found In Trash"
-msgstr ""
+msgstr "Nessuna sorgente di feed trovata nel cestino"
 
 #: includes/custom-post-types.php:32
 msgid "RSS Aggregator"
-msgstr ""
+msgstr "Aggregatore RSS"
 
 #: includes/custom-post-types.php:72 includes/custom-post-types.php:74
 msgid "Feed Items"
@@ -1719,7 +1722,7 @@ msgstr ""
 
 #: includes/update.php:69
 msgid "Follow"
-msgstr ""
+msgstr "Follow"
 
 #: wp-rss-aggregator.php:263
 msgid "Help improve WP RSS Aggregator"
@@ -1743,3 +1746,81 @@ msgstr ""
 #: wp-rss-aggregator.php:397
 msgid "This plugin requires WordPress version 3.3 or higher."
 msgstr ""
+
+#~ msgid "Enter feed name here (e.g. WP Mayor)"
+#~ msgstr "Inserisci il nome del feed qui (es: WP Mayor)"
+
+#~ msgid "No feed items found"
+#~ msgstr "Nessun feed trovato"
+
+#~ msgid "This plugin requires WordPress version 3.2 or higher."
+#~ msgstr "Questo plugin richiede la  versione di WordPress 3.2 o superiore"
+
+#~ msgid "Set links as"
+#~ msgstr "Imposta links come"
+
+#~ msgid "Feed limit"
+#~ msgstr "Limite Feed"
+
+#~ msgid "No follow"
+#~ msgstr "No follow"
+
+#~ msgid "Once Weekly"
+#~ msgstr "Una volta alla settimana"
+
+#~ msgid "Feed"
+#~ msgstr "Feed"
+
+#~ msgid "All Feed Sources"
+#~ msgstr "Tutte le sorgenti feed"
+
+#~ msgid "Imported Feeds"
+#~ msgstr "Feeds importati"
+
+#~ msgid "Imported Feed"
+#~ msgstr "Feed importato"
+
+#~ msgid "View Imported Feed"
+#~ msgstr "Visualizza feed importato"
+
+#~ msgid "Search Imported Feeds"
+#~ msgstr "Cerca feeds importati"
+
+#~ msgid "No Imported Feeds Found"
+#~ msgstr "Nessun feed importato trovato"
+
+#~ msgid "No Imported Feeds Found In Trash"
+#~ msgstr "Nessun feed importato trovato nel cestino"
+
+#~ msgid "Description"
+#~ msgstr "Descrizione"
+
+#~ msgid "WP RSS Aggregator Help"
+#~ msgstr "Aiuto WP RSS Aggregator"
+
+#~ msgid "Like this plugin?"
+#~ msgstr "Ti piace questo plugin?"
+
+#~ msgid "Follow us"
+#~ msgstr "Seguici"
+
+#~ msgid "Enter feed URL (including http://)"
+#~ msgstr "Inserisci l'URL del feed (includi http://)"
+
+#~ msgid "A short description about this feed source (optional)"
+#~ msgstr "Una breve descrizione di questa sorgente feed (opzionale)"
+
+#~ msgid "Delete Permanently"
+#~ msgstr "Elimina permanentemente"
+
+#~ msgid "Move to Trash"
+#~ msgstr "Sposta nel cestino"
+
+#~ msgid "Why not do any or all of the following"
+#~ msgstr "Perchè non fare alcuna o tutte delle seguenti cose"
+
+#~ msgid "Give it a 5 star rating on WordPress.org."
+#~ msgstr "Dare 5 stelle su WordPress.org"
+
+#~ msgid "Donate a token of your appreciation."
+#~ msgstr "Donare una moneta come ringraziamento."

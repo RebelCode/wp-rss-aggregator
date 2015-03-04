@@ -612,7 +612,7 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 }
 
 /* For non settings page screens */
-@media only screen and (max-width: 1026px) {
+@media only screen and (max-width: 850px) {
 
     body:not(.wprss_feed_page_wprss-aggregator-settings)
         .wprss-tooltip-handle {

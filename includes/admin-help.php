@@ -1,11 +1,11 @@
 <?php
-    /**
-     * Build the Help page
-     * 
-     * @since 4.2
-     */ 
-    function wprss_help_page_display() {
-        ?>
+	/**
+	 * Build the Help page
+	 * 
+	 * @since 4.2
+	 */ 
+	function wprss_help_page_display() {
+	    ?>
 
 		<div class="wrap">
 			<?php screen_icon( 'wprss-aggregator' ); ?>
@@ -18,14 +18,233 @@
 			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
 			<?php echo wpautop( __('If after going through the documentation you still have questions, please take a look at the <a href="http://www.wprssaggregator.com/faq/">FAQ page</a> on the site, we set this up purposely to answer the most commonly asked questions by our users.', WPRSS_TEXT_DOMAIN) ) ?>
 			
-			<h3><?php _e( 'Support Forums - Core (free version) Plugin Users Only', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __( "If you're using the free version of the plugin found on WordPress.org, you can ask questions on the " . '<a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.', WPRSS_TEXT_DOMAIN ) ) ?>
-			<h3><?php _e( 'Email Ticketing System - Premium Add-on Users Only', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __( "If you still can't find an answer to your query after reading the documentation and going through the FAQ, just " . '<a href="http://www.wprssaggregator.com/contact/">open a support request ticket</a>.' . "
-					We'll be happy to help you out.", WPRSS_TEXT_DOMAIN ) ) ?>
+			<?php
+			if ( wprss_is_premium_user() ) {
+				wprss_premium_help_display();
+			} else {
+				wprss_free_help_display();
+			}
+			?>
 		</div>
-    <?php
-    }
+	<?php
+	}
+
+
+	/**
+	 * Print the premium help section with inline support form.
+	 * 
+	 * @since 4.7
+	 */ 
+	function wprss_premium_help_display() {
+		// Get the first valid license.
+		$addon = '';
+		$statuses = get_option( 'wprss_settings_license_statuses', array() );
+		foreach ( $statuses as $key => $value ) {
+			// If we're looking at a license status key...
+			if ( strpos($key, '_license_status') !== FALSE ) {
+				// ...and the license is valid...
+				if ($value === 'valid') {
+					$addon = substr( $key, 0, strpos( $key, '_license_status' ) );
+					break;
+				}
+			}
+		}
+
+		// If we didn't find an add-on with a valid license, show the free help text.
+		if ( $addon === '' ) {
+			wprss_free_help_display();
+			return;
+		}
+
+		// Get the full license info so we can prefill the name and email
+		$license = wprss_edd_check_license($addon, NULL, 'ALL');
+		$customer_name = is_object($license) ? $license->customer_name : '';
+		$customer_email = is_object($license) ? $license->customer_email : '';
+
+		echo '<h3>' . __( 'Email Support', WPRSS_TEXT_DOMAIN ) . '</h3>';
+		echo wpautop( __( "If you still can't find an answer to your query after reading the documentation and going through the FAQ, just fill out the support request form below. We'll be happy to help you out.", WPRSS_TEXT_DOMAIN ) );
+
+		?>
+
+		<form method="post">
+			<table>
+				<tr>
+					<td><strong><?php _e('From: ', WPRSS_TEXT_DOMAIN); ?></strong></td>
+					<td><input type='text' name='support-name' value="<?php echo esc_attr($customer_name); ?>" placeholder='<?php echo esc_attr('Name', WPRSS_TEXT_DOMAIN); ?>' style='width:100%;'></td>
+					<td><input type='text' name='support-email' value="<?php echo esc_attr($customer_email); ?>" placeholder='<?php echo esc_attr('Email', WPRSS_TEXT_DOMAIN); ?>' style='width:100%;'></td>
+				</tr>
+				<tr>
+					<td colspan="3" style="text-align:right;"><small><?php _e('Replies will be sent to this email address.'); ?></small></td>
+				</tr>
+				<tr>
+					<td colspan="3"><input type='text' name='support-subject' placeholder='<?php echo esc_attr('Subject', WPRSS_TEXT_DOMAIN); ?>' style='width:100%;'></td>
+				</tr>
+				<tr>
+					<td colspan="3"><textarea name='support-message' rows='10' cols='80' placeholder='<?php echo esc_attr('Message', WPRSS_TEXT_DOMAIN); ?>'></textarea></td>
+				</tr>
+				<tr>
+					<td colspan="3"><strong><?php _e('Attachments', WPRSS_TEXT_DOMAIN);?>: </strong></td>
+				</tr>
+				<tr>
+					<td colspan="3"><input type='checkbox' name='support-include-log' value='checked' checked><?php _e('WP RSS Aggregator log file', WPRSS_TEXT_DOMAIN); ?></td>
+				</tr>
+				<tr>
+					<td colspan="3"><input type='checkbox' name='support-include-sys' value='checked' checked><?php _e('WordPress information', WPRSS_TEXT_DOMAIN); ?></td>
+				</tr>
+			</table>
+		</form>
+		<div style='line-height:2.3em;'>
+			<button id='send-message-btn' class='button button-primary'><?php _e('Send Message', WPRSS_TEXT_DOMAIN); ?></button>
+			<span id='support-error'></span>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Print the free help section with link to forums.
+	 * 
+	 * @since 4.7
+	 */ 
+	function wprss_free_help_display() {
+		echo '<h3>' . __( 'Support Forums', WPRSS_TEXT_DOMAIN ) . '</h3>';
+		echo wpautop( __( "Users of the free version of WP RSS Aggregator can ask questions on the " . '<a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.', WPRSS_TEXT_DOMAIN ) );
+	}
+
+
+	add_action( 'wp_ajax_wprss_ajax_send_premium_support', 'wprss_ajax_send_premium_support' );
+	/**
+	 * Handles the AJAX request to send the support form. Returns a JSON status.
+	 *
+	 * @since 4.7
+	 */
+	function wprss_ajax_send_premium_support() {
+		$ret = array();
+
+		// Validate the form fields that were submitted and send any errors.
+		$error = wprss_validate_support_request();
+		if ($error !== FALSE) {
+			$ret['error'] = $error;
+			echo json_encode($ret);
+			die();
+		}
+
+		// Create the email content.
+		$subject = sanitize_text_field($_GET['support-subject']);
+		$message = wprss_create_support_message();
+		$headers  = wprss_create_support_headers();
+
+		// Send the email.
+		$sent = wp_mail( "support@wprssaggregator.com", $subject, $message, $headers );
+
+		// NB, the retval is a best-guess about email sending. According to the WP Codex it 
+		// doesn't mean the user received the email, it "only means that the method used 
+		// was able to  process the request without any errors."
+		if ($sent === FALSE) {
+			$ret['error'] = sprintf(__('There was an error sending the form. Please use the <a href="%s" target="_blank">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/'));
+			$ret['message'] = $message;
+		} else {
+			$ret['status'] = 'OK';
+		}
+
+		echo json_encode($ret);
+		die();
+	}
+
+
+	/**
+	 * Ensures that all support form fields have been filled out. Returns TRUE 
+	 *
+	 * @since 4.7
+	 * @return FALSE when all fields are valid, or a string containing an error they aren't. 
+	 */
+	function wprss_validate_support_request() {
+		$fields = array(
+			'support-name',
+			'support-email',
+			'support-subject',
+			'support-message'
+		);
+
+		// Ensure that each required field is present and filled out.
+		foreach ($fields as $field) {
+			if (!isset($_GET[$field]) || $_GET[$field] === "") {
+
+				return sprintf(
+					__('Please fill out all the fields in the form, including the <strong>%s</strong> field.', WPRSS_TEXT_DOMAIN), 
+					ucfirst(substr($field, strpos($field, '-') + 1))
+				);
+			}
+		}
+
+		// Ensure the email is of a valid format.
+		if (is_email($_GET['support-email']) === FALSE) {
+			return __('Please enter a valid email address.', WPRSS_TEXT_DOMAIN);
+		}
+
+		return FALSE;
+	}
+
+
+	/**
+	 * Creates and returns the support request email's message body.
+	 *
+	 * @since 4.7
+	 */
+	function wprss_create_support_message() {
+		// Get the WP RSS Aggregator log.
+		$log = 'Customer did not send log';
+		if ($_GET['support-include-log'] === 'true') {
+			$log = wprss_get_log();
+		}
+
+		// Get the system information.
+		$sys_info = 'Customer did not send system information';
+		if ($_GET['support-include-sys'] === 'true') {
+			ob_start();
+			wprss_print_system_info();
+			$sys_info = ob_get_contents();
+			ob_end_clean();
+		}
+
+		// Get the license keys.
+		$keys = json_encode( get_option( 'wprss_settings_license_keys', array() ), JSON_PRETTY_PRINT );
+
+			// Get the message they entered.
+		$message  = sanitize_text_field($_GET['support-message']);
+
+		// Remove any generated system data that may be present from previous form submission attempts.
+		$idx = strpos($message, "----------------------------------------------");
+		if ($idx !== FALSE) {
+			$message  = substr($message, 0, $idx);
+		}
+
+		// Append the generated system data.
+		$message .= "\n\n----------------------------------------------\n";
+		$message .= "\nLicense Information:\n" . $keys;
+		$message .= "\n\n\nError Log:\n" . $log;
+		$message .= "\n\n\nSystem Information:\n" . $sys_info . "\n";
+
+		$message = apply_filters( 'wprss_support_message', $message );
+
+		return $message;
+	}
+
+
+	/**
+	 * Creates and returns the support request email's headers.
+	 *
+	 * @since 4.7
+	 */
+	function wprss_create_support_headers() {
+		$headers  = "From: no-reply@wprssaggregator.com\r\n";
+		$headers .= "Reply-to: " . sanitize_text_field($_GET['support-name']) . " <" . sanitize_email($_GET['support-email']) . ">\r\n";
+
+		$headers = apply_filters( 'wprss_support_headers', $headers );
+
+		return $headers;
+	}
+
     
 /**
  * Encapsulates features for providing inline help in the admin interface.

@@ -103,6 +103,15 @@
             ) );
         }
 
+        if ( 'wprss_feed_page_wprss-help' === $screen->base ) {
+            wp_enqueue_script( 'wprss-admin-help', WPRSS_JS . 'admin-help.js' );
+            wp_localize_script( 'wprss-admin-help', 'wprss_admin_help', array(
+                'sending'       => __('Sending...', WPRSS_TEXT_DOMAIN),
+                'sent-error'    => sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/')),
+                'sent-ok'       => __("Your message has been sent. We'll look at it soon.")
+            ) );
+        }
+
         do_action( 'wprss_admin_scripts_styles' );
     } // end wprss_admin_scripts_styles
 

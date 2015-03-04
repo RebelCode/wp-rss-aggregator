@@ -31,6 +31,25 @@
 			?>
 			<form action="<?php echo esc_url( $nonce_url ); ?>" method="post">
 				<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>">
+				<?php wprss_print_system_info(); ?>
+				</textarea>
+				<p class="submit">
+					<input type="hidden" name="wprss-action" value="download_sysinfo" />
+					<?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
+				</p>
+			</form>
+
+	<?php
+	}
+
+
+	/**
+	 * Prints the system information
+	 *
+	 * @since 4.6.8
+	 */
+	function wprss_print_system_info() {
+?>
 ### Begin System Info ###
 
 ## Please include this information when posting support requests ##
@@ -146,15 +165,9 @@ if ( get_bloginfo( 'version' ) < '3.4' ) {
 
 
 ### End System Info ###
-				</textarea>
-				<p class="submit">
-					<input type="hidden" name="wprss-action" value="download_sysinfo" />
-					<?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
-				</p>
-			</form>
-		
-	<?php
+<?php
 	}
+
 
 	/**
 	 * Generates the System Info Download File
