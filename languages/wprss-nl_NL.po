@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: wprss\n"
 "POT-Creation-Date: 2015-03-04 19:10+0700\n"
 "PO-Revision-Date: 2015-03-04 19:10+0700\n"
-"Last-Translator: Bruno Calheira <bruno@calheira.com>\n"
-"Language-Team: Bruno Calheira <bruno@calheira.com>\n"
-"Language: pt_BR\n"
+"Last-Translator: Eric Suiker <esuiker@hotmail.com>\n"
+"Language-Team: \n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.7.1\n"
 "X-Poedit-KeywordsList: _;__;_e\n"
 "X-Poedit-Basepath: ../\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: includes/OPML.php:42
@@ -222,7 +222,7 @@ msgstr ""
 
 #: includes/admin-display.php:20 includes/admin-display.php:212
 msgid "Name"
-msgstr "Nome"
+msgstr "Naam"
 
 #: includes/admin-display.php:27
 msgid "State"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: includes/admin-display.php:89 includes/admin-heartbeat.php:53
 msgid "None"
-msgstr "Nenhum"
+msgstr "Geen"
 
 #: includes/admin-display.php:91 includes/admin-heartbeat.php:50
 #: includes/admin-metaboxes.php:467
@@ -277,35 +277,35 @@ msgstr "Permalink"
 
 #: includes/admin-display.php:214
 msgid "Date published"
-msgstr "Data da publicação"
+msgstr "Datum van publicatie"
 
 #: includes/admin-display.php:215
 msgid "Source"
-msgstr "Fonte"
+msgstr "Bron"
 
 #: includes/admin-display.php:304
 msgid "Feed source updated. "
-msgstr "Fonte de Feed atualizada."
+msgstr "Feed bron bijgewerkt."
 
 #: includes/admin-display.php:305
 msgid "Custom field updated."
-msgstr "Campo personalizado atualizado."
+msgstr "Aangepast veld bijgewerkt."
 
 #: includes/admin-display.php:306
 msgid "Custom field deleted."
-msgstr "Campo personalizado apagado."
+msgstr "Aangepast veld verwijderd."
 
 #: includes/admin-display.php:307 includes/admin-display.php:313
 msgid "Feed source updated."
-msgstr "Fonte de feed atualizada."
+msgstr "Feed bron bijgewerkt."
 
 #: includes/admin-display.php:309 includes/admin-display.php:310
 msgid "Feed source saved."
-msgstr "Fonte de feed salva."
+msgstr "Feed bron opgeslagen."
 
 #: includes/admin-display.php:311
 msgid "Feed source submitted."
-msgstr "Fonte de feed enviada."
+msgstr "Feed bron ingediend."
 
 #: includes/admin-display.php:338
 #, php-format
@@ -330,7 +330,7 @@ msgstr ""
 
 #: includes/admin-display.php:529
 msgid "Publish Feed"
-msgstr "Publicar Feed"
+msgstr "Feed Publiceren"
 
 #: includes/admin-editor.php:87
 msgid ""
@@ -341,7 +341,7 @@ msgstr ""
 #: includes/admin-editor.php:97 includes/custom-post-types.php:21
 #: includes/custom-post-types.php:24
 msgid "Feed Sources"
-msgstr "Fontes dos Feeds"
+msgstr "Feed Bronnen"
 
 #: includes/admin-editor.php:99
 msgid "All feed sources"
@@ -815,11 +815,11 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:20
 msgid "Save Feed Source"
-msgstr "Salvar Fonte de Feed"
+msgstr "Feed Bron Opslaan"
 
 #: includes/admin-metaboxes.php:29
 msgid "Feed Preview"
-msgstr "Preview do Feed"
+msgstr "Feed Voorbeeld"
 
 #: includes/admin-metaboxes.php:38
 msgid "Feed Processing"
@@ -831,7 +831,7 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:58
 msgid "Feed Source Details"
-msgstr "Detalhes da Fonte de Feed"
+msgstr "Details Feed Bron"
 
 #: includes/admin-metaboxes.php:91 includes/opml-importer.php:196
 #: includes/opml-importer.php:227
@@ -869,8 +869,8 @@ msgid ""
 "<strong>Invalid feed URL</strong> - Double check the feed source URL setting "
 "above."
 msgstr ""
-"<strong>URL do feed inválida</strong> - Confirme a URL da  fonte de feed "
-"configurada."
+"<strong>Ongeldig feed URL</strong> - Controleer de feed bron URL instelling "
+"hierboven."
 
 #: includes/admin-metaboxes.php:419
 #, php-format
@@ -885,7 +885,7 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:436
 msgid "No feed URL defined yet"
-msgstr "Nenhum URL de feed definida ainda"
+msgstr "Nog geen feed URL gedefinieerd"
 
 #: includes/admin-metaboxes.php:466
 msgid "Active"
@@ -893,11 +893,11 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:591
 msgid "Need help?"
-msgstr "Precisa de ajuda?"
+msgstr "Hulp nodig?"
 
 #: includes/admin-metaboxes.php:593
 msgid "Check out the support forum"
-msgstr "Verifique nosso fórum de suporte"
+msgstr "Bekijk het support forum"
 
 #: includes/admin-metaboxes.php:596
 msgid "Suggest a new feature"
@@ -917,11 +917,11 @@ msgstr ""
 
 #: includes/admin-metaboxes.php:635
 msgid "Follow WP Mayor on Twitter."
-msgstr "Seguir WP Mayor no Twitter."
+msgstr "WP Mayor Volgen op Twitter."
 
 #: includes/admin-metaboxes.php:636
 msgid "Like WP Mayor on Facebook."
-msgstr "Curtir WP Mayor no Facebook."
+msgstr "Like WP Mayor op Facebook."
 
 #: includes/admin-options.php:56
 msgid "General plugin settings"
@@ -1001,7 +1001,7 @@ msgstr ""
 
 #: includes/admin-options.php:134
 msgid "Open links behaviour"
-msgstr "Abrir comportamento dos links"
+msgstr "Koppelingen openen met"
 
 #: includes/admin-options.php:138
 msgid "Set links as nofollow"
@@ -1041,7 +1041,7 @@ msgstr ""
 
 #: includes/admin-options.php:343 includes/admin.php:41
 msgid "WP RSS Aggregator Settings"
-msgstr "Configurações do WP RSS Aggregator"
+msgstr "WP RSS Aggregator Instellingen"
 
 #: includes/admin-options.php:353
 msgid "General"
@@ -1053,7 +1053,7 @@ msgstr ""
 
 #: includes/admin-options.php:397
 msgid "Save Settings"
-msgstr "Salvar Configurações"
+msgstr "Instellingen Opslaan"
 
 #: includes/admin-options.php:411
 msgid "These are the general settings for WP RSS Aggregator."
@@ -1105,7 +1105,7 @@ msgstr "Lightbox"
 
 #: includes/admin-options.php:524 includes/update.php:195
 msgid "New window"
-msgstr "Nova janela"
+msgstr "Nieuw venster"
 
 #: includes/admin-options.php:525
 msgid "Self"
@@ -1305,7 +1305,7 @@ msgstr ""
 
 #: includes/admin.php:41 includes/admin.php:111
 msgid "Settings"
-msgstr "Configurações"
+msgstr "Instellingen"
 
 #: includes/admin.php:94
 msgid "Name this feed (e.g. WP Mayor)"
@@ -1358,35 +1358,35 @@ msgstr ""
 
 #: includes/custom-post-types.php:25
 msgid "Add New Feed Source"
-msgstr "Adicionar nova Fonte de Feed"
+msgstr "Nieuwe Feed Bron Toevoegen"
 
 #: includes/custom-post-types.php:26
 msgid "Edit Feed Source"
-msgstr "Editar Fonte de Feed"
+msgstr "Bewerk Feed Bron"
 
 #: includes/custom-post-types.php:27
 msgid "New Feed Source"
-msgstr "Nova Fonte de Feed"
+msgstr "Nieuwe Feed Bron"
 
 #: includes/custom-post-types.php:28
 msgid "View Feed Source"
-msgstr "Ver Fonte de Feed"
+msgstr "Feed Bron Weergeven"
 
 #: includes/custom-post-types.php:29
 msgid "Search Feeds"
-msgstr "Buscar Feeds"
+msgstr "Zoek Feeds"
 
 #: includes/custom-post-types.php:30
 msgid "No Feed Sources Found"
-msgstr "Nenhuma Fonte de Feed Encontrada"
+msgstr "Geen Feed Bronnen Gevonden"
 
 #: includes/custom-post-types.php:31
 msgid "No Feed Sources Found In Trash"
-msgstr "Nenhuma Fonte de Feed Encontrada na Lixeira"
+msgstr "Geen Feed Bronnen Gevonden In Prullenbak"
 
 #: includes/custom-post-types.php:32
 msgid "RSS Aggregator"
-msgstr "Agredador de RSS"
+msgstr "RSS Aggregator"
 
 #: includes/custom-post-types.php:72 includes/custom-post-types.php:74
 msgid "Feed Items"
@@ -1723,7 +1723,7 @@ msgstr ""
 
 #: includes/update.php:69
 msgid "Follow"
-msgstr "Siga"
+msgstr "Follow"
 
 #: wp-rss-aggregator.php:263
 msgid "Help improve WP RSS Aggregator"
@@ -1749,79 +1749,79 @@ msgid "This plugin requires WordPress version 3.3 or higher."
 msgstr ""
 
 #~ msgid "Enter feed name here (e.g. WP Mayor)"
-#~ msgstr "Insira o nome do feed aqui (ex. WP Mayor)"
+#~ msgstr "Voer feed naam hier in (bijvoorbeeld WP Mayor)"
 
 #~ msgid "No feed items found"
-#~ msgstr "Nenhum item de feed encontrado"
+#~ msgstr "Geen feed items gevonden"
 
 #~ msgid "This plugin requires WordPress version 3.2 or higher."
-#~ msgstr "Este plugin requer WordPress na versão 3.2 ou superior."
+#~ msgstr "Deze plugin vereist WordPress versie 3.2 of hoger."
 
 #~ msgid "Set links as"
-#~ msgstr "Configurar links como"
+#~ msgstr "Links instellen als"
 
 #~ msgid "Feed limit"
-#~ msgstr "Limite de Feed"
+#~ msgstr "Feed limiet"
 
 #~ msgid "No follow"
-#~ msgstr "Não siga"
+#~ msgstr "No Follow"
 
 #~ msgid "Once Weekly"
-#~ msgstr "Semanalmente"
+#~ msgstr "Eenmaal per week"
 
 #~ msgid "Feed"
 #~ msgstr "Feed"
 
 #~ msgid "All Feed Sources"
-#~ msgstr "Todas as Fontes de Feed"
+#~ msgstr "Alle Feed Bronnen"
 
 #~ msgid "Imported Feeds"
-#~ msgstr "Feeds Importados"
+#~ msgstr "Geïmporteerde Feeds"
 
 #~ msgid "Imported Feed"
-#~ msgstr "Feed Importado"
+#~ msgstr "Geïmporteerde Feed"
 
 #~ msgid "View Imported Feed"
-#~ msgstr "Ver Feed Importado"
+#~ msgstr "Geïmporteerde Feeds Bekijken"
 
 #~ msgid "Search Imported Feeds"
-#~ msgstr "Buscar Feeds Importados"
+#~ msgstr "Geïmporteerde Feeds Zoeken"
 
 #~ msgid "No Imported Feeds Found"
-#~ msgstr "Nenhum Feed Importado Encontrado"
+#~ msgstr "Geen Geïmporteerde Feeds Gevonden"
 
 #~ msgid "No Imported Feeds Found In Trash"
-#~ msgstr "Nenhum Feed Importado Encontrado na Lixeira"
+#~ msgstr "Geen Geïmporteerde Feeds Gevonden In Prullenbak"
 
 #~ msgid "Description"
-#~ msgstr "Descrição"
+#~ msgstr "Omschrijving"
 
 #~ msgid "WP RSS Aggregator Help"
-#~ msgstr "Ajuda do WP RSS Aggregator"
+#~ msgstr "WP RSS Aggregator Help"
 
 #~ msgid "Like this plugin?"
-#~ msgstr "Gostou deste plugin?"
+#~ msgstr "Vindt u deze plugin leuk?"
 
 #~ msgid "Follow us"
-#~ msgstr "Siga-nos"
+#~ msgstr "Volg ons"
 
 #~ msgid "Enter feed URL (including http://)"
-#~ msgstr "Insira a URL do feed (incluindo http://)"
+#~ msgstr "Feed URL invoeren (inclusief http://)"
 
 #~ msgid "A short description about this feed source (optional)"
-#~ msgstr "Uma descrição curta desta fonte de feed (opcional)"
+#~ msgstr "Een korte beschrijving van deze feed bron (optioneel)"
 
 #~ msgid "Delete Permanently"
-#~ msgstr "Apagar Permanentemente"
+#~ msgstr "Permanent Verwijderen"
 
 #~ msgid "Move to Trash"
-#~ msgstr "Mover para a Lixeira"
+#~ msgstr "Naar Prullenbak Verplaatsen"
 
 #~ msgid "Why not do any or all of the following"
-#~ msgstr "Por que não fazer qualquer ou todas as seguintes"
+#~ msgstr "Waarom niet een of meer van het volgende"
 
 #~ msgid "Give it a 5 star rating on WordPress.org."
-#~ msgstr "Avaliar com 5 estrelas no WordPress.org."
+#~ msgstr "Geef het een 5 sterren rating op WordPress.org."
 
 #~ msgid "Donate a token of your appreciation."
-#~ msgstr "Doar um token de sua apreciação."
+#~ msgstr "Doneren een blijk van uw waardering."
