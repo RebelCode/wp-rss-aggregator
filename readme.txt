@@ -169,6 +169,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.6.12 (2015-03-09) =
+* Fixed bug: The "Force feed" option was being removed by the Feed to Post add-on.
+
 = 4.6.11 (2015-03-04) =
 * Enhanced: The Help page now includes a support form if a premium add-on is detected.
 * Enhanced: Updated some translations for admin options.
