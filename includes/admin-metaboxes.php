@@ -444,7 +444,7 @@
             <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
             <input type="hidden" name="wprss_force_feed" value="false" />
             <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
-            <?php echo $help->tooltip( 'field_wprss_force_feed' ) ?>
+            <?php echo WPRSS_Help::get_instance()->tooltip( 'field_wprss_force_feed' ) ?>
         </p>
         <?php
         if ( ! $echo ) return ob_get_clean();
