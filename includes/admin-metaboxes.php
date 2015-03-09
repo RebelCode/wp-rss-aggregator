@@ -429,7 +429,8 @@
     /**
      * Renders the Force Feed option for the Feed Preview.
      *
-     * @param int|string $feed_source_id The ID of the feed source for the option will be rendered.
+     * @param int|string $feed_source_id (Optional) The ID of the feed source for the option will be rendered. If not given or
+     *                                   its value is null, the option will not be checked.
      * @param bool       $echo           (Optional) If set to true, the function will immediately echo the option,
      *                                   rather than return a string of the option's markup. Default: False.
      * @return string|null               A string containing the HTML for the rendered option if $echo is set to false,
