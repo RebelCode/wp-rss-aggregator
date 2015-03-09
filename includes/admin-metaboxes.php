@@ -437,9 +437,9 @@
      *                                   or null if $echo is set to true.
      * @since 4.6.12
      */
-    function wprss_render_force_feed_option( $feed_source_id, $echo = FALSE ) {
+    function wprss_render_force_feed_option( $feed_source_id = NULL, $echo = FALSE ) {
         if ( ! $echo ) ob_start();
-        $force_feed = get_post_meta( $feed_source_id, 'wprss_force_feed', TRUE ); ?>
+        $force_feed = $feed_source_id === NULL ? '' : get_post_meta( $feed_source_id, 'wprss_force_feed', TRUE ); ?>
         <hr/>
         <p>
             <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
