@@ -437,6 +437,31 @@
     }
 
 
+    /**
+     * Renders the Force Feed option for the Feed Preview.
+     *
+     * @param int|string $feed_source_id The ID of the feed source for the option will be rendered.
+     * @param bool       $echo           (Optional) If set to true, the function will immediately echo the option,
+     *                                   rather than return a string of the option's markup. Default: False.
+     * @return string|null               A string containing the HTML for the rendered option if $echo is set to false,
+     *                                   or null if $echo is set to true.
+     * @since 4.6.12
+     */
+    function wprss_render_force_feed_option( $feed_source_id, $echo = false ) {
+        if ( ! $echo ) ob_start();
+        $force_feed = get_post_meta( $feed_source_id, 'wprss_force_feed', TRUE ); ?>
+        <hr/>
+        <p>
+            <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
+            <input type="hidden" name="wprss_force_feed" value="false" />
+            <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
+            <?php echo $help->tooltip( 'field_wprss_force_feed' ) ?>
+        </p>
+        <?php
+        if ( ! $echo ) return ob_get_clean();
+        return NULL;
+    }
+
 
     /**
      * Renders the Feed Processing metabox
