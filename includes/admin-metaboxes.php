@@ -370,6 +370,8 @@
 		$help = WPRSS_Help::get_instance();
 		/* @var $help WPRSS_Help */
 
+        echo '<div id="feed-preview-container">';
+
         if ( ! empty( $feed_url ) ) {
             $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
@@ -418,11 +420,16 @@
 				<?php
 				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
             }
-
-            wprss_render_force_feed_option( $post->ID, TRUE );
+            
         }
+        else {
+            echo '<p>' . __( 'No feed URL defined yet', WPRSS_TEXT_DOMAIN ) . '</p>';
+        }
+        echo '</div>';
 
-        else _e( 'No feed URL defined yet', WPRSS_TEXT_DOMAIN );
+        echo '<div id="force-feed-container">';
+        wprss_render_force_feed_option( $post->ID, TRUE );
+        echo '</div>';
     }
 
 
@@ -440,7 +447,6 @@
     function wprss_render_force_feed_option( $feed_source_id = NULL, $echo = FALSE ) {
         if ( ! $echo ) ob_start();
         $force_feed = $feed_source_id === NULL ? '' : get_post_meta( $feed_source_id, 'wprss_force_feed', TRUE ); ?>
-        <hr/>
         <p>
             <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
             <input type="hidden" name="wprss_force_feed" value="false" />
