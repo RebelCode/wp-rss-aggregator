@@ -55,6 +55,9 @@ body.post-type-wprss_feed #titlediv div.inside { display: none !important; }
 #misc-publishing-actions,
 #minor-publishing-actions { display: none; }
 
+div#force-feed-container {
+    border-top: 1px solid #ddd;
+}
 
 
 /* FORM TABLES */
