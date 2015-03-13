@@ -209,6 +209,27 @@ function wprss_unlicensed_addons_exist() {
 }
 
 /**
+ * Check if any add-ons have a valid license and return a boolean.
+ *
+ * @since 4.6.8
+ */
+function wprss_is_premium_user() {
+	// Iterate through license statuses looking for a valid one.
+	$statuses = get_option('wprss_settings_license_statuses', array());
+	foreach ($statuses as $key => $value) {
+		// If we're looking at a license status key...
+		if (strpos($key, '_license_status') !== FALSE) {
+			// ...and the license is valid...
+			if ($value === 'valid') {
+				return TRUE;
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+/**
  * Returns an array of addon IDs that are licensed.
  *
  * @since 4.6.10
@@ -509,7 +530,7 @@ function wprss_license_key_field( $args ) {
 			: $mask_exclude_amount;
 	// How many chars to mask. Always at least one char will be masked.
 	$mask_length = $license_key_length - abs( $mask_exclude_amount );
-	$mask = str_repeat( $mask_char, $mask_length );
+	$mask = $mask_length > 0 ? str_repeat( $mask_char, $mask_length ) : '';
 	$excluded_chars = mb_substr( $license_key, $mask_exclude_amount < 0 ? $mask_length : 0, abs( $mask_exclude_amount ) );
 	$displayed_key = sprintf( $mask_exclude_amount > 0 ? '%1$s%2$s' : '%2$s%1$s', $excluded_chars, $mask); ?>
 	<input id="wprss-<?php echo $addon_id ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id ?>_license_key]"

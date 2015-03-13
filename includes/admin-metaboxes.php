@@ -370,6 +370,8 @@
 		$help = WPRSS_Help::get_instance();
 		/* @var $help WPRSS_Help */
 
+        echo '<div id="feed-preview-container">';
+
         if ( ! empty( $feed_url ) ) {
             $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
@@ -418,24 +420,43 @@
 				<?php
 				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
             }
-
-            $force_feed = get_post_meta( $post->ID, 'wprss_force_feed', TRUE ); ?>
-
-            <hr/>
-
-            <p>
-                <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
-                <input type="hidden" name="wprss_force_feed" value="false" />
-                <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
-				<?php echo $help->tooltip( 'field_wprss_force_feed' ) ?>
-            </p>
-
-            <?php
+            
         }
+        else {
+            echo '<p>' . __( 'No feed URL defined yet', WPRSS_TEXT_DOMAIN ) . '</p>';
+        }
+        echo '</div>';
 
-        else _e( 'No feed URL defined yet', WPRSS_TEXT_DOMAIN );
+        echo '<div id="force-feed-container">';
+        wprss_render_force_feed_option( $post->ID, TRUE );
+        echo '</div>';
     }
 
+
+    /**
+     * Renders the Force Feed option for the Feed Preview.
+     *
+     * @param int|string $feed_source_id (Optional) The ID of the feed source for the option will be rendered. If not given or
+     *                                   its value is null, the option will not be checked.
+     * @param bool       $echo           (Optional) If set to true, the function will immediately echo the option,
+     *                                   rather than return a string of the option's markup. Default: False.
+     * @return string|null               A string containing the HTML for the rendered option if $echo is set to false,
+     *                                   or null if $echo is set to true.
+     * @since 4.6.12
+     */
+    function wprss_render_force_feed_option( $feed_source_id = NULL, $echo = FALSE ) {
+        if ( ! $echo ) ob_start();
+        $force_feed = $feed_source_id === NULL ? '' : get_post_meta( $feed_source_id, 'wprss_force_feed', TRUE ); ?>
+        <p>
+            <label for="wprss-force-feed"><?php _e('Force the feed') ?></label>
+            <input type="hidden" name="wprss_force_feed" value="false" />
+            <input type="checkbox" name="wprss_force_feed" id="wprss-force-feed" value="true" <?php echo checked( $force_feed, 'true' ); ?> />
+            <?php echo WPRSS_Help::get_instance()->tooltip( 'field_wprss_force_feed' ) ?>
+        </p>
+        <?php
+        if ( ! $echo ) return ob_get_clean();
+        return NULL;
+    }
 
 
     /**

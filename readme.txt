@@ -5,7 +5,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger, rss feeder, rss post importer, autoblog aggregator, autoblog, autopost, content curation, feedwordpress, wp rss multi import, hungryfeed, wp-o-matic, rss feed, rss feed to post, rss retriever, syndication
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 4.6.10
+Stable tag: 4.6.12
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -47,7 +47,7 @@ To [display your imported feed items](http://wordpress.org/plugins/wp-rss-aggreg
 = Premium Add-Ons =	
 Add-Ons that add more functionality to the core plugin are [available for purchase](http://www.wprssaggregator.com/extensions/). 
 
-* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS feeds into posts or custom post types. Populate a website in minutes (autoblog). This is the most popular extension.
+* [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) - an advanced importer that lets you import RSS to posts or custom post types. Populate a website in minutes (autoblog). This is the most popular extension.
 * [Keyword Filtering](http://www.wprssaggregator.com/extensions/keyword-filtering) - filter imported feeds based on keywords, so you only get items you're interested in.
 * [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) - display excerpts and thumbnails together with the title, date and source.
 * [Categories](http://www.wprssaggregator.com/extensions/categories) - categorise your feed sources and display items from a particular category at will within your site.
@@ -82,6 +82,8 @@ Instructions for plugin usage are available on the plugin's [documentation page]
 = Translations =
 * Italian - Davide De Maestri
 * Spanish - Andrew Kurtis
+* Brazilian Portugese - Bruno Calheira
+* Dutch - Erick Suiker
 
 == Installation ==
 
@@ -166,6 +168,15 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.6.12 (2015-03-09) =
+* Fixed bug: The "Force feed" option was being removed by the Feed to Post add-on.
+
+= 4.6.11 (2015-03-04) =
+* Enhanced: The Help page now includes a support form if a premium add-on is detected.
+* Enhanced: Updated some translations for admin options.
+* Fixed bug: Help tooltips are now optimized for iPad screens.
+* Fixed bug: Errors on the licensing page when a license code has not yet been entered.
 
 = 4.6.10 (2015-02-10) =
 * Enhanced: AJAX license activation.

@@ -185,13 +185,13 @@
 	 *
 	 * @since 3.0
 	 */
-	function wprss_get_feed_items( $feed_url, $source ) {
+	function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
 		// Add filters and actions prior to fetching the feed items
 		add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 		add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 
 		/* Fetch the feed from the soure URL specified */
-		$feed = wprss_fetch_feed( $feed_url, $source );
+		$feed = wprss_fetch_feed( $feed_url, $source, $force_feed );
 
 		// Remove previously added filters and actions
 		remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
@@ -215,7 +215,7 @@
 	 *
 	 * @since 3.5
 	 */
-	function wprss_fetch_feed( $url, $source = NULL ) {
+	function wprss_fetch_feed( $url, $source = NULL, $param_force_feed = FALSE ) {
 		// Import SimplePie
 		require_once ( ABSPATH . WPINC . '/class-feed.php' );
 
@@ -231,11 +231,11 @@
 		$feed->set_autodiscovery_level( SIMPLEPIE_LOCATOR_ALL );
 
 		// If a feed source was passed
-		if ( $source !== NULL ) {
+		if ( $source !== NULL || $param_force_feed ) {
 			// Get the force feed option for the feed source
 			$force_feed = get_post_meta( $source, 'wprss_force_feed', TRUE );
 			// If turned on, force the feed
-			if ( $force_feed == 'true' ) {
+			if ( $force_feed == 'true' || $param_force_feed ) {
 				$feed->force_feed( TRUE );
 			}
 		}
