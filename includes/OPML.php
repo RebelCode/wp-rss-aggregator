@@ -39,7 +39,7 @@ class WPRSS_OPML {
 
 		} catch (Exception $e) {
 			// If an exception is caught. Throw an error message
-			throw new Exception( __( 'An error occured: The file might not be a valid OPML file or is corrrupt. ', WPRSS_TEXT_DOMAIN ), 1);
+			throw new Exception( __( 'An error occurred: The file might not be a valid OPML file or is corrupt. ', WPRSS_TEXT_DOMAIN ), 1);
 		}
 	}
 

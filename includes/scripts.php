@@ -66,13 +66,19 @@
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
-			if ( 'wprss_feed' === $screen->post_type ) {
-				wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
+      			if ( 'wprss_feed' === $screen->post_type ) {
+        				wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
                 wp_localize_script( 'wprss-custom-bulk-actions', 'wprss_admin_bulk', array(
                     'activate'   =>  __( 'Activate', WPRSS_TEXT_DOMAIN ),
                     'pause'   =>  __( 'Pause', WPRSS_TEXT_DOMAIN )
                 ) );
-			}
+      			}
+            if ( 'wprss_feed_item' === $screen->post_type) {
+                wp_enqueue_script( 'wprss-custom-bulk-actions-feed-item', WPRSS_JS . 'admin-custom-bulk-actions-feed-item.js', array( 'jquery' ) );
+                wp_localize_script( 'wprss-custom-bulk-actions-feed-item', 'wprss_admin_bulk_feed_item', array(
+                    'trash' => __( 'Move to Trash', WPRSS_TEXT_DOMAIN )
+                ) );
+            }
         }
         // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
         if ( 'edit' === $screen->base && $screen->post_type === 'wprss_feed' && apply_filters('wprss_ajax_polling', TRUE) === TRUE ) {

@@ -489,12 +489,11 @@
 
     add_filter( 'bulk_actions-edit-wprss_feed_item', 'wprss_custom_feed_item_bulk_actions' );
     /**
-     * Remove bulk action link to edit imported feed items
+     * Allow filtering bulk actions for feed items
      * 
      * @since 2.0
      */       
     function wprss_custom_feed_item_bulk_actions( $actions ){
-        unset( $actions[ 'edit' ] );
         return apply_filters( 'wprss_custom_feed_item_bulk_actions', $actions );
     }
 
