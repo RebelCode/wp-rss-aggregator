@@ -1,7 +1,7 @@
 /**
  * Adds and manages custom bulk actions for the Feed Items page.
  *
- * @since 3.6.12
+ * @since 4.6.12
  */
 (function($, wprss_admin_bulk_feed_item){
 
