@@ -66,6 +66,7 @@ The core plugin can be seen in use on the [demo page](http://www.wprssaggregator
 Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
 
 = As featured on =
+* [Latest WP](http://www.latestwp.com/2015/03/15/wp-rss-aggregator-plugin-review/)
 * [WP Beginner](http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
 * [WPEXplorer](http://www.wpexplorer.com/custom-rss-aggregator-plugin/)
 * [WP Kube](http://www.wpkube.com/wp-rss-aggregator-wordpress-review/)
