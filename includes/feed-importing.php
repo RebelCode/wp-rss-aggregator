@@ -89,28 +89,38 @@
 			$existing_permalinks = get_existing_permalinks( $feed_ID );
 			wprss_log_obj( 'Retrieved existing permalinks', count( $existing_permalinks ), null, WPRSS_LOG_LEVEL_SYSTEM );
 
+			// Gather the titles of existing feed item's related to this feed source
+			$skip_same_titled_posts = apply_filters( 'wprss_skip_same_titled_posts', TRUE );
+			$existing_titles = $skip_same_titled_posts ? get_existing_titles( $feed_ID ) : array();
+			wprss_log_obj( 'Retrieved existing titles', $existing_titles, null, WPRSS_LOG_LEVEL_SYSTEM );
+
 			// Generate a list of items fetched, that are not already in the DB
 			$new_items = array();
 			foreach ( $items_to_insert as $item ) {
 				$permalink = wprss_normalize_permalink( $item->get_permalink() );
 				wprss_log_obj( 'Normalizing permalink', sprintf('%1$s -> %2$s', $item->get_permalink(), $permalink), null, WPRSS_LOG_LEVEL_SYSTEM );
+
 				// Check if not blacklisted and not already imported
 				$is_blacklisted = wprss_is_blacklisted( $permalink );
-				$already_exists = in_array( $permalink, $existing_permalinks );
-				if ( $is_blacklisted === FALSE && $already_exists === FALSE ) {
+				$permalink_exists = in_array( $permalink, $existing_permalinks );
+				$title_exists = in_array( $item->get_title(), $existing_titles );
+
+				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
 					$new_items[] = $item;
 					wprss_log_obj( 'Permalink OK', $permalink, null, WPRSS_LOG_LEVEL_SYSTEM );
-				}
-				else {
+				} else {
 					if ( $is_blacklisted ) {
 						wprss_log( 'Permalink blacklisted', null, WPRSS_LOG_LEVEL_SYSTEM );
 					}
-					if ( $already_exists ) {
+					if ( $permalink_exists ) {
 						wprss_log( 'Permalink already exists', null, WPRSS_LOG_LEVEL_SYSTEM );
+					}
+					if ( $title_exists ) {
+						wprss_log( 'Title already exists', null, WPRSS_LOG_LEVEL_SYSTEM );
 					}
 				}
 			}
-			
+
 			$original_count = count( $items_to_insert );
 			$new_count = count( $new_items );
 			if ( $new_count !== $original_count ) {

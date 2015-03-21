@@ -131,6 +131,26 @@
         );
     }
 
+
+    /**
+     * Database query to get existing permalinks
+     *
+     * @since 4.6.14
+     */
+    function get_existing_titles( $feed_ID ) {
+        global $wpdb;
+
+        $cols = $wpdb->get_col(
+            "SELECT p.`post_title`
+            FROM `{$wpdb->posts}` AS p
+            JOIN `{$wpdb->postmeta}` AS q ON p.`ID` = q.`post_id`
+            WHERE q.`meta_key` = 'wprss_feed_id' AND q.`meta_value` = '{$feed_ID}'"
+        );
+
+        return array_unique( $cols );
+    }
+
+
     /**
      * Checks if a permalink exists.
      *
