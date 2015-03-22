@@ -107,6 +107,7 @@
 
 				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
 					$new_items[] = $item;
+					$existing_titles[] = $item->get_title();
 					wprss_log_obj( 'Permalink OK', $permalink, null, WPRSS_LOG_LEVEL_SYSTEM );
 				} else {
 					if ( $is_blacklisted ) {
