@@ -107,6 +107,12 @@
             'type'  => 'checkbox'
         );
 
+        $wprss_meta_fields[ 'unique_titles' ] = array(
+            'label' => __( 'Unique titles only', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'unique_titles',
+            'type'  => 'checkbox'
+        );
+
         // for extensibility, allows more meta fields to be added
         return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }

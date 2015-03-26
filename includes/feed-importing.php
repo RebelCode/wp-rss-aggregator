@@ -89,10 +89,18 @@
 			$existing_permalinks = get_existing_permalinks( $feed_ID );
 			wprss_log_obj( 'Retrieved existing permalinks', count( $existing_permalinks ), null, WPRSS_LOG_LEVEL_SYSTEM );
 
-			// Gather the titles of existing feed item's related to this feed source
-			$skip_same_titled_posts = apply_filters( 'wprss_skip_same_titled_posts', TRUE );
-			$existing_titles = $skip_same_titled_posts ? get_existing_titles( $feed_ID ) : array();
-			wprss_log_obj( 'Retrieved existing titles', $existing_titles, null, WPRSS_LOG_LEVEL_SYSTEM );
+			// Check if we should only import uniquely-titled feed items.
+			$existing_titles = array();
+			$unique_titles = FALSE;
+			if ( wprss_get_general_setting( 'unique_titles' ) ) {
+				$unique_titles = TRUE;
+				$existing_titles = get_existing_titles( );
+				wprss_log_obj( 'Retrieved existing titles from global', $existing_titles, null, WPRSS_LOG_LEVEL_SYSTEM );
+			} else if ( get_post_meta( $feed_ID, 'wprss_unique_titles', true ) === 'true' ) {
+				$unique_titles = TRUE;
+				$existing_titles = get_existing_titles( $feed_ID );
+				wprss_log_obj( 'Retrieved existing titles from feed source', $existing_titles, null, WPRSS_LOG_LEVEL_SYSTEM );
+			}
 
 			// Generate a list of items fetched, that are not already in the DB
 			$new_items = array();
@@ -107,8 +115,11 @@
 
 				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
 					$new_items[] = $item;
-					$existing_titles[] = $item->get_title();
 					wprss_log_obj( 'Permalink OK', $permalink, null, WPRSS_LOG_LEVEL_SYSTEM );
+
+					if ( $unique_titles ) {
+						$existing_titles[] = $item->get_title();
+					}
 				} else {
 					if ( $is_blacklisted ) {
 						wprss_log( 'Permalink blacklisted', null, WPRSS_LOG_LEVEL_SYSTEM );

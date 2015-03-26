@@ -133,18 +133,20 @@
 
 
     /**
-     * Database query to get existing permalinks
+     * Database query to get existing titles
      *
      * @since 4.6.14
      */
-    function get_existing_titles( $feed_ID ) {
+    function get_existing_titles( $feed_ID = NULL ) {
         global $wpdb;
+
+        $condition = ($feed_ID !== NULL) ? "AND q.`meta_value` = '{$feed_ID}'" : '';
 
         $cols = $wpdb->get_col(
             "SELECT p.`post_title`
             FROM `{$wpdb->posts}` AS p
             JOIN `{$wpdb->postmeta}` AS q ON p.`ID` = q.`post_id`
-            WHERE q.`meta_key` = 'wprss_feed_id' AND q.`meta_value` = '{$feed_ID}'"
+            WHERE q.`meta_key` = 'wprss_feed_id' $condition"
         );
 
         return array_unique( $cols );
