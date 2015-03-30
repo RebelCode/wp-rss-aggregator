@@ -221,6 +221,12 @@
     
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
+	
+	/* SimplePie */
+	require_once ( ABSPATH . WPINC . '/class-feed.php' );
+	
+	/* Access to feed */
+	require_once ( WPRSS_INC . 'feed-access.php' );
 
     
     register_activation_hook( __FILE__ , 'wprss_activate' );
