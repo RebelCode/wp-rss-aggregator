@@ -106,6 +106,10 @@
     if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
         define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15, TRUE );
     }
+    // Whether the MBString extension is installed.
+    if ( !defined( 'WPRSS_MBSTRING_INSTALLED' ) ) {
+        define( 'WPRSS_MBSTRING_INSTALLED', function_exists( 'mb_stripos' ) );
+    }
 
     /**
      * Load required files.

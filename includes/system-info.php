@@ -66,8 +66,13 @@ WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 
 PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
 MySQL Version:            <?php
-								$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD );
-								echo $mysqli->server_info . "\n";
+								if ( function_exists( 'mysqli_get_server_info' ) ){
+									$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD );
+									echo $mysqli->server_info . "\n";
+								} else {
+									$mysql = mysql_connect( DB_HOST, DB_USER, DB_PASSWORD );
+									echo mysql_get_server_info( $mysql ) . "\n";
+								}
 						  ?>
 Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
 
