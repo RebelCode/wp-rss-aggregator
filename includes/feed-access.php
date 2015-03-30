@@ -122,7 +122,7 @@ class WPRSS_Feed_Access {
 	 * @return array The new array of default settings
 	 */
 	public function add_default_settings( $settings ) {
-		$settings[ self::SETTING_KEY_CERTIFICATE_PATH ] = implode( DIRECTORY_SEPARATOR, array( WPINC, 'certificates', 'ca-bundle.crt' ) );
+		$settings[ self::SETTING_KEY_CERTIFICATE_PATH ] = implode( '/', array( WPINC, 'certificates', 'ca-bundle.crt' ) );
 
 		return $settings;
 	}
