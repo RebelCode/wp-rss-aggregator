@@ -6,7 +6,7 @@
  * 
  * @since 4.6.10
  */
-define( 'WPRSS_LICENSE_KEY_MASK_CHAR', WPRSS_MBSTRING_INSTALLED ? '•' : '*' );
+define( 'WPRSS_LICENSE_KEY_MASK_CHAR', '•' );
 /**
  * How many characters of the license code to print as is.
  * Use negative value to indicate that characters at the end of the key are excluded.
@@ -531,13 +531,7 @@ function wprss_license_key_field( $args ) {
 	// How many chars to mask. Always at least one char will be masked.
 	$mask_length = $license_key_length - abs( $mask_exclude_amount );
 	$mask = $mask_length > 0 ? str_repeat( $mask_char, $mask_length ) : '';
-
-	if ( WPRSS_MBSTRING_INSTALLED ) {
-		$excluded_chars = mb_substr( $license_key, $mask_exclude_amount < 0 ? $mask_length : 0, abs( $mask_exclude_amount ) );
-	} else {
-		$excluded_chars = substr( $license_key, $mask_exclude_amount < 0 ? $mask_length : 0, abs( $mask_exclude_amount ) );
-	}
-
+	$excluded_chars = WPRSS_MBString::mb_substr( $license_key, $mask_exclude_amount < 0 ? $mask_length : 0, abs( $mask_exclude_amount ) );
 	$displayed_key = sprintf( $mask_exclude_amount > 0 ? '%1$s%2$s' : '%2$s%1$s', $excluded_chars, $mask); ?>
 	<input id="wprss-<?php echo $addon_id ?>-license-key" name="wprss_settings_license_keys[<?php echo $addon_id ?>_license_key]"
 		   type="text" value="<?php echo esc_attr( $displayed_key ) ?>" style="width: 300px;"
@@ -774,11 +768,5 @@ function wprss_license_validate_key_for_save( $is_valid, $key ) {
 function wprss_license_key_is_obfuscated( $key ) {
 	$char = WPRSS_LICENSE_KEY_MASK_CHAR;
 
-	if ( WPRSS_MBSTRING_INSTALLED ) {
-		$is_obfuscated = mb_stripos( $key, $char ) !== false;
-	} else {
-		$is_obfuscated = stripos( $key, $char ) !== false;
-	}
-
-	return $is_obfuscated;
+	return WPRSS_MBString::mb_strpos( $key, $char ) !== false;
 }

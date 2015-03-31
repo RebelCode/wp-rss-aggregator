@@ -106,10 +106,6 @@
     if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
         define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15, TRUE );
     }
-    // Whether the MBString extension is installed.
-    if ( !defined( 'WPRSS_MBSTRING_INSTALLED' ) ) {
-        define( 'WPRSS_MBSTRING_INSTALLED', function_exists( 'mb_stripos' ) );
-    }
 
     /**
      * Load required files.
@@ -225,6 +221,9 @@
     
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
+
+    /* Load the fallbacks for mbstring */
+    require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
     
     register_activation_hook( __FILE__ , 'wprss_activate' );
