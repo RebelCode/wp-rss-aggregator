@@ -345,36 +345,36 @@
 
             jQuery(document).ready( function($) {
 
-                for( i in wprssPointers.pointers ) {
-                    pointer = wprssPointers.pointers[i];
-
-                    options = $.extend( pointer.options, {
-                        content: pointer.options.content,
-                        position: pointer.options.position,
-                        close: function() {
-                            $.post( ajaxurl, {
-                                pointer: pointer.pointer_id,
-                                action: 'dismiss-wp-pointer'
-                            });
-                        },
-                        buttons: function( event, t ){
-                            btns = jQuery('<div></div>');
-                            for( i in pointer.options.btns ) {
-                                btn = jQuery('<a>').attr('id', i).css('margin-left','5px').text( pointer.options.btns[i] );
-                                btn.bind('click.pointer', function () {
-                                    t.element.pointer('close');
+                for( var i in wprssPointers.pointers ) {
+                    var pointer = wprssPointers.pointers[i],
+                        options = $.extend( pointer.options, {
+                            content: pointer.options.content,
+                            position: pointer.options.position,
+                            close: function() {
+                                $.post( ajaxurl, {
+                                    pointer: pointer.pointer_id,
+                                    action: 'dismiss-wp-pointer'
                                 });
-                                btns.append( btn );
+                            },
+                            buttons: function( event, t ){
+                                var btns = jQuery('<div></div>');
+                                for( var i in pointer.options.btns ) {
+                                    var btn = jQuery('<a>').attr('id', i).css('margin-left','5px').text( pointer.options.btns[i] );
+                                    btn.bind('click.pointer', function () {
+                                        t.element.pointer('close');
+                                    });
+                                    btns.append( btn );
+                                }
+                                return btns;
                             }
-                            return btns;
                         }
-                    });
+                    );
 
                     $(pointer.target).pointer( options ).pointer('open');
                 }
 
                 $('#wprss-tracking-opt-in').addClass('button-primary').click( function(){ wprssTrackingOptAJAX(1); } );
-                $('#wprss-tracking-opt-out').addClass('button-secondary').click( function(){ wprssTrackingOptAJAX(0); } );;
+                $('#wprss-tracking-opt-out').addClass('button-secondary').click( function(){ wprssTrackingOptAJAX(0); } );
 
             });
 
