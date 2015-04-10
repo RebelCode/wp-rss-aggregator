@@ -34,9 +34,11 @@ if( class_exists('WPRSS_Help') ) {
 
                                             It is recommended to not have more than 20 feed sources that use this global update interval. Having too many feed sources updating precisely at the same time can cause the WP Cron System to crash.', WPRSS_TEXT_DOMAIN),
             // Unique titles only
-            'unique-titles'             => __('Whether to allow multiple feed items to have the same title. When checked, if a feed item has the same title as a previously-imported feed item, it will not be imported.
+            'unique-titles'             => __('Whether to allow multiple feed items to have the same title. When checked, if a feed item has the same title as a previously-imported feed item from any feed source, it will not be imported.
 
-                                            This can be useful in cases where permalinks change, or where multiple permalinks refer to the same item.', WPRSS_TEXT_DOMAIN),
+                                            This can be useful in cases where permalinks change, or where multiple permalinks refer to the same item.
+
+                                            Since this feature requires checking every post title, WordPress installs with a significant amount of posts may notice a slight slowdown of the post import process.', WPRSS_TEXT_DOMAIN),
             // Custom Feed URL
             'custom-feed-url'           => __('The URL of the custom feed, located at <code>http://yoursite.com/[custom feed url]</code>.
                                             <hr/>

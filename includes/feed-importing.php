@@ -95,11 +95,11 @@
 			if ( wprss_get_general_setting( 'unique_titles' ) ) {
 				$unique_titles = TRUE;
 				$existing_titles = get_existing_titles( );
-				wprss_log_obj( 'Retrieved existing titles from global', $existing_titles, null, WPRSS_LOG_LEVEL_SYSTEM );
+				wprss_log_obj( 'Retrieved existing titles from global', count( $existing_titles ), null, WPRSS_LOG_LEVEL_SYSTEM );
 			} else if ( get_post_meta( $feed_ID, 'wprss_unique_titles', true ) === 'true' ) {
 				$unique_titles = TRUE;
 				$existing_titles = get_existing_titles( $feed_ID );
-				wprss_log_obj( 'Retrieved existing titles from feed source', $existing_titles, null, WPRSS_LOG_LEVEL_SYSTEM );
+				wprss_log_obj( 'Retrieved existing titles from feed source', count( $existing_titles ), null, WPRSS_LOG_LEVEL_SYSTEM );
 			}
 
 			// Generate a list of items fetched, that are not already in the DB
