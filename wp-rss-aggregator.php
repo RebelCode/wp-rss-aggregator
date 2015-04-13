@@ -222,6 +222,9 @@
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
+    /* Load the fallbacks for mbstring */
+    require_once ( WPRSS_INC . 'fallback-mbstring.php' );
+
     
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
