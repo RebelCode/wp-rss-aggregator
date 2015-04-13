@@ -86,31 +86,53 @@
 			}
 
 			// Gather the permalinks of existing feed item's related to this feed source
-			$existing_permalinks = get_existing_permalinks( $feed_ID );
+			$existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
 			wprss_log_obj( 'Retrieved existing permalinks', count( $existing_permalinks ), null, WPRSS_LOG_LEVEL_SYSTEM );
+
+			// Check if we should only import uniquely-titled feed items.
+			$existing_titles = array();
+			$unique_titles = FALSE;
+			if ( wprss_get_general_setting( 'unique_titles' ) ) {
+				$unique_titles = TRUE;
+				$existing_titles = wprss_get_existing_titles( );
+				wprss_log_obj( 'Retrieved existing titles from global', count( $existing_titles ), null, WPRSS_LOG_LEVEL_SYSTEM );
+			} else if ( get_post_meta( $feed_ID, 'wprss_unique_titles', true ) === 'true' ) {
+				$unique_titles = TRUE;
+				$existing_titles = wprss_get_existing_titles( $feed_ID );
+				wprss_log_obj( 'Retrieved existing titles from feed source', count( $existing_titles ), null, WPRSS_LOG_LEVEL_SYSTEM );
+			}
 
 			// Generate a list of items fetched, that are not already in the DB
 			$new_items = array();
 			foreach ( $items_to_insert as $item ) {
 				$permalink = wprss_normalize_permalink( $item->get_permalink() );
 				wprss_log_obj( 'Normalizing permalink', sprintf('%1$s -> %2$s', $item->get_permalink(), $permalink), null, WPRSS_LOG_LEVEL_SYSTEM );
+
 				// Check if not blacklisted and not already imported
 				$is_blacklisted = wprss_is_blacklisted( $permalink );
-				$already_exists = in_array( $permalink, $existing_permalinks );
-				if ( $is_blacklisted === FALSE && $already_exists === FALSE ) {
+				$permalink_exists = array_key_exists( $permalink, $existing_permalinks );
+				$title_exists = array_key_exists( $item->get_title(), $existing_titles );
+
+				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
 					$new_items[] = $item;
 					wprss_log_obj( 'Permalink OK', $permalink, null, WPRSS_LOG_LEVEL_SYSTEM );
-				}
-				else {
+
+					if ( $unique_titles ) {
+						$existing_titles[$item->get_title()] = 1;
+					}
+				} else {
 					if ( $is_blacklisted ) {
 						wprss_log( 'Permalink blacklisted', null, WPRSS_LOG_LEVEL_SYSTEM );
 					}
-					if ( $already_exists ) {
+					if ( $permalink_exists ) {
 						wprss_log( 'Permalink already exists', null, WPRSS_LOG_LEVEL_SYSTEM );
+					}
+					if ( $title_exists ) {
+						wprss_log( 'Title already exists', null, WPRSS_LOG_LEVEL_SYSTEM );
 					}
 				}
 			}
-			
+
 			$original_count = count( $items_to_insert );
 			$new_count = count( $new_items );
 			if ( $new_count !== $original_count ) {
@@ -420,7 +442,7 @@
 		wprss_log_obj( 'Starting import of items for feed ' . $feed_ID, $update_started_at, null, WPRSS_LOG_LEVEL_INFO );
 		
 		// Gather the permalinks of existing feed item's related to this feed source
-		$existing_permalinks = get_existing_permalinks( $feed_ID );
+		$existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
 
 		// Count of items inserted
 		$items_inserted = 0;
@@ -450,7 +472,7 @@
 
 			// Check if newly fetched item already present in existing feed items,
 			// if not insert it into wp_posts and insert post meta.
-			if ( ! ( in_array( $permalink, $existing_permalinks ) ) ) {
+			if ( ! ( array_key_exists( $permalink, $existing_permalinks ) ) ) {
 				wprss_log( "Importing (unique) feed item (Source: $feed_ID)", null, WPRSS_LOG_LEVEL_INFO );
 
 				// Extend the importing time and refresh the feed's updating flag to reflect that it is active
@@ -519,7 +541,7 @@
 						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );
 
 						// Remember newly added permalink
-						$existing_permalinks[] = $permalink;
+						$existing_permalinks[$permalink] = 1;
 						wprss_log_obj( 'Item imported', $inserted_ID, null, WPRSS_LOG_LEVEL_INFO );
 					}
 					else {

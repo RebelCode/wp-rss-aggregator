@@ -120,16 +120,40 @@
      *
      * @since 3.0
      */
-    function get_existing_permalinks( $feed_ID ) {
+    function wprss_get_existing_permalinks( $feed_ID ) {
         global $wpdb;
 
-        return $wpdb->get_col(
+        $cols = $wpdb->get_col(
             "SELECT q.`meta_value`
             FROM {$wpdb->postmeta} AS p
             JOIN {$wpdb->postmeta} AS q ON (q.`meta_key` = 'wprss_item_permalink' AND p.`post_id` = q.`post_id`)
             WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = '{$feed_ID}'"
         );
+
+        return array_flip( $cols );
     }
+
+
+    /**
+     * Database query to get existing titles
+     *
+     * @since 4.6.14
+     */
+    function wprss_get_existing_titles( $feed_ID = NULL ) {
+        global $wpdb;
+
+        $condition = ($feed_ID !== NULL) ? "AND q.`meta_value` = '{$feed_ID}'" : '';
+
+        $cols = $wpdb->get_col(
+            "SELECT p.`post_title`
+            FROM `{$wpdb->posts}` AS p
+            JOIN `{$wpdb->postmeta}` AS q ON p.`ID` = q.`post_id`
+            WHERE q.`meta_key` = 'wprss_feed_id' $condition"
+        );
+
+        return array_flip( $cols );
+    }
+
 
     /**
      * Checks if a permalink exists.
