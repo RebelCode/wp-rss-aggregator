@@ -148,4 +148,36 @@ class WPRSS_MBString {
 			return false;
 		}
 	}
+
+	/**
+	 * Lowercase a UTF-8 string.
+	 * This supports accented letters, but nothing more.
+	 * Taken from {@link https://github.com/drupal/drupal/blob/9.x/core/includes/unicode.inc#L432 here}.
+	 *
+	 * @param $text The string to run the operation on.
+	 * @return string The string in lowercase.
+	 */
+	public function mb_strtolower( $text ) {
+		if ( function_exists( 'mb_strtolower' ) )
+			return mb_strtolower( $text );
+		
+		// Use C-locale for ASCII-only lowercase
+		$text = strtolower( $text );
+		// Case flip Latin-1 accented letters
+		$text = preg_replace_callback( '/\xC3[\x80-\x96\x98-\x9E]/', array( __CLASS__, '_unicode_caseflip' ), $text );
+		return $text;
+	}
+	
+
+	/**
+	 * Flips U+C0-U+DE to U+E0-U+FD and back.
+	 *
+	 * @param $matches An array of matches.
+	 * @return array The Latin-1 version of the array of matches.
+	 * @see mb_strtolower()
+	 */
+	public function _unicode_caseflip( $matches ) {
+		return $matches[0][0] . chr( ord( $matches[0][1] ) ^ 32 );
+	}
+
 }
