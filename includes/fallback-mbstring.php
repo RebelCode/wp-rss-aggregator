@@ -1,5 +1,13 @@
 <?php
+
+/**
+ * A utility class that provides compatibility padding for multibyte string
+ * functionality.
+ * 
+ * Taken mostly from {@link https://doc.wikimedia.org/mediawiki-core/master/php/Fallback_8php_source.html here}
+ */
 class WPRSS_MBString {
+
 
 	public static function mb_substr( $str, $start, $count = 'end' ) {
 		if ( function_exists( 'mb_substr' ) ) {
@@ -18,6 +26,7 @@ class WPRSS_MBString {
 
 		return $str;
 	}
+
 
 	public static function mb_substr_split_unicode( $str, $splitPos ) {
 		if ( $splitPos == 0 ) {
@@ -64,6 +73,7 @@ class WPRSS_MBString {
 		return $bytePos;
 	}
 
+
 	public static function mb_strlen( $str, $enc = '' ) {
 		if ( function_exists( 'mb_strlen' ) ) {
 			return mb_strlen( $str );
@@ -84,6 +94,7 @@ class WPRSS_MBString {
 		return $total;
 	}
 
+
 	public static function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		if ( function_exists( 'mb_strpos' ) ) {
 			return mb_strpos( $haystack, $needle, $offset );
@@ -100,6 +111,26 @@ class WPRSS_MBString {
 			return false;
 		}
 	}
+
+
+	public static function mb_stripos( $haystack, $needle, $offset = 0, $encoding = '' ) {
+		if ( function_exists( 'mb_stripos' ) ) {
+			return mb_stripos( $haystack, $needle, $offset );
+		}
+
+
+		$needle = preg_quote( $needle, '/' );
+
+		$ar = array();
+		preg_match( '/' . $needle . '/ui', $haystack, $ar, PREG_OFFSET_CAPTURE, $offset );
+
+		if ( isset( $ar[0][1] ) ) {
+			return $ar[0][1];
+		} else {
+			return false;
+		}
+	}
+
 
 	public static function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		if ( function_exists( 'mb_strrpos' ) ) {
