@@ -116,7 +116,22 @@ if( class_exists('WPRSS_Help') ) {
          */ // Styles Disable
             'styles-disable'            => __('Check this box to disable all plugin styles used for displaying feed items.
 
-                                            This will allow you to provide your own custom CSS styles for displaying the feed items.', WPRSS_TEXT_DOMAIN)
+                                            This will allow you to provide your own custom CSS styles for displaying the feed items.', WPRSS_TEXT_DOMAIN),
+		
+		/*
+		 * -------
+		 *  Other
+		 * -------
+		 */ // Certificate Path
+			'certificate-path'			=> __( 'Path to the file containing one or more certificates.
+
+											These will be used to verify certificates over secure connection, such as when fetching a remote resource over HTTPS.
+											
+											Relative path will be relative to the WordPress root.
+											
+											<strong>Default:</strong> path to certificate file bundled with WordPress.'
+				, WPRSS_TEXT_DOMAIN )
+		
     );
     $help->add_tooltips( $tooltips, $prefix );
 }

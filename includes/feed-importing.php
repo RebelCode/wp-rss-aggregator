@@ -238,8 +238,6 @@
 	 * @since 3.5
 	 */
 	function wprss_fetch_feed( $url, $source = NULL, $param_force_feed = FALSE ) {
-		// Import SimplePie
-		require_once ( ABSPATH . WPINC . '/class-feed.php' );
 
 		// Trim the URL
 		$url = trim( $url );
