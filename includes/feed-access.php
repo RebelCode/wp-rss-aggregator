@@ -3,6 +3,8 @@
 
 /**
  * Centralizes control over resource fetching.
+ * 
+ * @since 4.7
  */
 class WPRSS_Feed_Access {
 	
@@ -13,6 +15,7 @@ class WPRSS_Feed_Access {
 	const SETTING_KEY_CERTIFICATE_PATH = 'certificate-path';
 	
 	/**
+	 * @since 4.7
 	 * @return WPRSS_Feed_Access The singleton instance of this class.
 	 */
 	public static function instance() {
@@ -32,6 +35,8 @@ class WPRSS_Feed_Access {
 	
 	/**
 	 * The parameter-less constructor.
+	 * 
+	 * @since 4.7
 	 */
 	protected function _construct() {
 		add_action( 'wp_feed_options', array( $this, 'set_feed_options' ), 10, 2 );
@@ -43,6 +48,7 @@ class WPRSS_Feed_Access {
 	/**
 	 * Sets the path to the certificate, which will be used by WPRSS to fetch remote content.
 	 * 
+	 * @since 4.7
 	 * @param string $path Absolute path to the certificate file.
 	 * @return \WPRSS_Feed_Access This instance.
 	 */
@@ -55,6 +61,7 @@ class WPRSS_Feed_Access {
 	/**
 	 * Gets the path to the certificate, which will be used by WPRSS to fetch remote content.
 	 * 
+	 * @since 4.7
 	 * @see get_certificate_path_setting()
 	 * @return string Absolute path to the certificate file. By default will use the option.
 	 */
@@ -70,6 +77,7 @@ class WPRSS_Feed_Access {
 	 * Gets the value of the option that stores the path to the certificate file.
 	 * Relative paths will be converted to absolute, as if relative to WP root.
 	 * 
+	 * @since 4.7
 	 * @return string Absolute path to the certificate file.
 	 */
 	public function get_certificate_path_setting() {
@@ -90,6 +98,7 @@ class WPRSS_Feed_Access {
 	 * Handles the `wp_feed_options` action.
 	 * To modify these tags, use the `wprss_feed_tags_to_strip` filter.
 	 * 
+	 * @since 4.7
 	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
 	 * @param string $url The URL, from which the feed is going to be fetched.
 	 */
@@ -103,6 +112,7 @@ class WPRSS_Feed_Access {
 	/**
 	 * Implements a `wprss_settings_array` filter.
 	 * 
+	 * @since 4.7
 	 * @param array $settings The current settings array, where 1st dimension is secion code, 2nd is setting code, 3rd is setting option(s).
 	 * @return array The new settings array.
 	 */
@@ -117,7 +127,7 @@ class WPRSS_Feed_Access {
 	
 	
 	/**
-	 * 
+	 * @since 4.7
 	 * @param array $settings The array of settings, where key is
 	 * @return array The new array of default settings
 	 */
@@ -131,6 +141,7 @@ class WPRSS_Feed_Access {
 	/**
 	 * Renders the setting field for the certificate path.
 	 * 
+	 * @since 4.7
 	 * @see wprss_admin_init
 	 * @param array $field Data of this field.
 	 */
@@ -148,6 +159,7 @@ WPRSS_Feed_Access::instance();
 
 /**
  * A padding layer used to give WPRSS more control over fetching of feed resources.
+ * @since 4.7
  */
 class WPRSS_SimplePie_File extends SimplePie_File {
 
@@ -158,6 +170,8 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 	/**
 	 * Copied from {@see SimplePie_File#__construct()}.
 	 * Adds call to {@see _before_curl_exec()}.
+	 * 
+	 * @since 4.7
 	 */
 	public function __construct( $url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false ) {
 		if ( class_exists( 'idna_convert' ) ) {
@@ -341,6 +355,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 	 * cURL option to a value determined by {@see get_default_certificate_file_path}.
 	 * If the value is empty, leaves it as is.
 	 * 
+	 * @since 4.7
 	 * @param resource $fp Pointer to a resource created by {@see curl_init()}.
 	 * @param string $url The URL, to which the cURL request is being made.
 	 * @return \WPRSS_SimplePie_File This instance.
@@ -358,6 +373,8 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 	/**
 	 * Gets the path to the certificate, which will be used by this instance
 	 * to fetch remote content.
+	 * 
+	 * @since 4.7
 	 * @return string Path to the certificate file.
 	 */
 	public function get_certificate_file_path() {
@@ -369,6 +386,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 	 * Gets the path to the certificate file, which will be used by future
 	 * instances of this class.
 	 * 
+	 * @since 4.7
 	 * @return string Path to the certificate file.
 	 */
 	public static function get_default_certificate_file_path() {
@@ -380,6 +398,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 	 * Sets the path to the certificate file.
 	 * This path will be used by future instances of this class.
 	 * 
+	 * @since 4.7
 	 * @param string $path The path to the certificate file.
 	 */
 	public static function set_default_certificate_file_path( $path ) {

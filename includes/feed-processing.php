@@ -137,7 +137,7 @@
     /**
      * Database query to get existing titles
      *
-     * @since 4.6.14
+     * @since 4.7
      */
     function wprss_get_existing_titles( $feed_ID = NULL ) {
         global $wpdb;

@@ -784,7 +784,7 @@
 
     /**
      * Unique titles only checkbox callback
-     * @since 4.6.14
+     * @since 4.7
      */
     function wprss_setting_unique_titles( $field ) {
         $unique_titles = wprss_get_general_setting( 'unique_titles' );
