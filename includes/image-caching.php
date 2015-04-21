@@ -223,8 +223,11 @@ class WPRSS_Image_Cache_Image {
 	}
 	
 	public function delete() {
-		if ( $path = $this->get_local_path() )
-			unlink( $path );
+		if ( $path = $this->get_local_path() ) {
+			if ( file_exists( $path ) ) {
+				unlink( $path );
+			}
+		}
 		
 		return $this;
 	}
@@ -252,11 +255,15 @@ class WPRSS_Image_Cache_Image {
 					$url_filename = wprss_ftp_generate_random_string( 16 );
 				}
 			}
-			// determine file type (ext and mime/type)
-			$url_type = wp_check_filetype($url_filename);
+			$this->_set_unique_name( $url_filename );
 		}
 		
 		return $this->_unique_name;
+	}
+
+	protected function _set_unique_name( $name ) {
+		$this->_unique_name = $name;
+		return $this;
 	}
 	
 	public function get_size() {
