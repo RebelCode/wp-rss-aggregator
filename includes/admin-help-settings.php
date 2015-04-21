@@ -33,6 +33,12 @@ if( class_exists('WPRSS_Help') ) {
             'cron-interval'             => __('How frequently should the feed sources (that do not have their own update interval) check for updates and fetch items accordingly.
 
                                             It is recommended to not have more than 20 feed sources that use this global update interval. Having too many feed sources updating precisely at the same time can cause the WP Cron System to crash.', WPRSS_TEXT_DOMAIN),
+            // Unique titles only
+            'unique-titles'             => __('Whether to allow multiple feed items to have the same title. When checked, if a feed item has the same title as a previously-imported feed item from any feed source, it will not be imported.
+
+                                            This can be useful in cases where permalinks change, or where multiple permalinks refer to the same item.
+
+                                            Since this feature requires checking every post title, WordPress installs with a significant amount of posts may notice a slight slowdown of the post import process.', WPRSS_TEXT_DOMAIN),
             // Custom Feed URL
             'custom-feed-url'           => __('The URL of the custom feed, located at <code>http://yoursite.com/[custom feed url]</code>.
                                             <hr/>
@@ -110,7 +116,22 @@ if( class_exists('WPRSS_Help') ) {
          */ // Styles Disable
             'styles-disable'            => __('Check this box to disable all plugin styles used for displaying feed items.
 
-                                            This will allow you to provide your own custom CSS styles for displaying the feed items.', WPRSS_TEXT_DOMAIN)
+                                            This will allow you to provide your own custom CSS styles for displaying the feed items.', WPRSS_TEXT_DOMAIN),
+		
+		/*
+		 * -------
+		 *  Other
+		 * -------
+		 */ // Certificate Path
+			'certificate-path'			=> __( 'Path to the file containing one or more certificates.
+
+											These will be used to verify certificates over secure connection, such as when fetching a remote resource over HTTPS.
+											
+											Relative path will be relative to the WordPress root.
+											
+											<strong>Default:</strong> path to certificate file bundled with WordPress.'
+				, WPRSS_TEXT_DOMAIN )
+		
     );
     $help->add_tooltips( $tooltips, $prefix );
 }

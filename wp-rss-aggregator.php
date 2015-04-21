@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.6.13
+    Version: 4.7
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.6.13
+     * @version   4.7
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2015, Jean Galea
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin. 
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.6.13', true );
+        define( 'WPRSS_VERSION', '4.7', true );
 
     // Set the database version number of the plugin. 
     if( !defined( 'WPRSS_DB_VERSION' ) )
@@ -221,6 +221,15 @@
     
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
+	
+	/* SimplePie */
+	require_once ( ABSPATH . WPINC . '/class-feed.php' );
+	
+	/* Access to feed */
+	require_once ( WPRSS_INC . 'feed-access.php' );
+
+    /* Load the fallbacks for mbstring */
+    require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
     
     register_activation_hook( __FILE__ , 'wprss_activate' );
@@ -345,36 +354,36 @@
 
             jQuery(document).ready( function($) {
 
-                for( i in wprssPointers.pointers ) {
-                    pointer = wprssPointers.pointers[i];
-
-                    options = $.extend( pointer.options, {
-                        content: pointer.options.content,
-                        position: pointer.options.position,
-                        close: function() {
-                            $.post( ajaxurl, {
-                                pointer: pointer.pointer_id,
-                                action: 'dismiss-wp-pointer'
-                            });
-                        },
-                        buttons: function( event, t ){
-                            btns = jQuery('<div></div>');
-                            for( i in pointer.options.btns ) {
-                                btn = jQuery('<a>').attr('id', i).css('margin-left','5px').text( pointer.options.btns[i] );
-                                btn.bind('click.pointer', function () {
-                                    t.element.pointer('close');
+                for( var i in wprssPointers.pointers ) {
+                    var pointer = wprssPointers.pointers[i],
+                        options = $.extend( pointer.options, {
+                            content: pointer.options.content,
+                            position: pointer.options.position,
+                            close: function() {
+                                $.post( ajaxurl, {
+                                    pointer: pointer.pointer_id,
+                                    action: 'dismiss-wp-pointer'
                                 });
-                                btns.append( btn );
+                            },
+                            buttons: function( event, t ){
+                                var btns = jQuery('<div></div>');
+                                for( var i in pointer.options.btns ) {
+                                    var btn = jQuery('<a>').attr('id', i).css('margin-left','5px').text( pointer.options.btns[i] );
+                                    btn.bind('click.pointer', function () {
+                                        t.element.pointer('close');
+                                    });
+                                    btns.append( btn );
+                                }
+                                return btns;
                             }
-                            return btns;
                         }
-                    });
+                    );
 
                     $(pointer.target).pointer( options ).pointer('open');
                 }
 
                 $('#wprss-tracking-opt-in').addClass('button-primary').click( function(){ wprssTrackingOptAJAX(1); } );
-                $('#wprss-tracking-opt-out').addClass('button-secondary').click( function(){ wprssTrackingOptAJAX(0); } );;
+                $('#wprss-tracking-opt-out').addClass('button-secondary').click( function(){ wprssTrackingOptAJAX(0); } );
 
             });
 

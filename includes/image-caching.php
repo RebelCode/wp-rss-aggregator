@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @since 4.6.10
+ */
 class WPRSS_Image_Cache {
 	
 	protected $_download_request_timeout = 300;
@@ -7,28 +10,55 @@ class WPRSS_Image_Cache {
 	protected $_image_class_name = 'WPRSS_Image_Cache_Image';
 	protected $_images = array();
 	
+	/**
+	 * @since 4.6.10
+	 */
 	public function __construct() {
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string $class_name
+	 * @return \WPRSS_Image_Cache This instance.
+	 */
 	public function set_image_class_name( $class_name ) {
 		$this->_image_class_name = $class_name;
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return string
+	 */
 	public function get_image_class_name() {
 		return trim($this->_image_class_name);
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param int $timeout
+	 * @return \WPRSS_Image_Cache This instance.
+	 */
 	public function set_download_request_timeout( $timeout ) {
 		$this->_download_request_timeout = intval( $timeout );
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return int
+	 */
 	public function get_download_request_timeout() {
 		return $this->_download_request_timeout;
 	}
 	
+	
 	/**
+	 * @since 4.6.10
 	 * @param string $url
 	 * @return \WPRSS_Image_Cache_Image
 	 * @throws Exception If class invalid, or not found
@@ -47,14 +77,21 @@ class WPRSS_Image_Cache {
 		return $image;
 	}
 	
+	
 	/**
-	 * 
+	 * @since 4.6.10
 	 * @param WPRSS_Image_Cache_Image $image
 	 */
 	protected function _prepare_image( $image ) {
 		$image->set_download_request_timeout( $this->get_download_request_timeout() );
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string|null $url
+	 * @return array|WPRSS_Image_Cache_Image|\WP_Error
+	 */
 	public function get_images( $url = null ) {
 		if ( is_null( $url ) ) return $this->_images;
 		
@@ -72,6 +109,11 @@ class WPRSS_Image_Cache {
 		return $this->_images[ $url ];
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return \WPRSS_Image_Cache This instance
+	 */
 	public function purge() {
 		$image_class_name = $this->get_image_class_name();
 		foreach( $this->get_images() as $_url => $_image ) {
@@ -84,7 +126,9 @@ class WPRSS_Image_Cache {
 		return $this;
 	}
 	
+	
 	/**
+	 * @since 4.6.10
 	 * @param string $url
 	 * @return WPRSS_Image_Cache_Image
 	 */
@@ -96,6 +140,10 @@ class WPRSS_Image_Cache {
 	}
 }
 
+
+/**
+ * @since 4.6.10
+ */
 class WPRSS_Image_Cache_Image {
 	
 	protected $_url;
@@ -106,6 +154,11 @@ class WPRSS_Image_Cache_Image {
 	protected $_is_attempted;
 	protected $_is_fall_back_to_unsecure;
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string|null $data
+	 */
 	public function __construct( $data = null ) {
 		$this->reset();
 		
@@ -113,6 +166,11 @@ class WPRSS_Image_Cache_Image {
 			$this->_set_url( $data );
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
 	public function reset() {
 		$this->_url = null;
 		$this->_local_path = null;
@@ -125,11 +183,23 @@ class WPRSS_Image_Cache_Image {
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string $url
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
 	protected function _set_url( $url ) {
 		$this->_url = $url;
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string $url
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
 	public function set_url( $url ) {
 		$this->reset();
 		$this->_set_url($url);
@@ -137,36 +207,79 @@ class WPRSS_Image_Cache_Image {
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return string
+	 */
 	public function get_url() {
 		return $this->_url;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return boolean
+	 */
 	public function has_url() {
 		return isset( $this->_url );
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string $path
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
 	protected function _set_local_path( $path ) {
 		$this->_local_path = $path;
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return string
+	 */
 	public function get_local_path() {
 		return $this->_local_path;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return boolean
+	 */
 	public function has_local_path() {
 		return isset( $this->_local_path );
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param int $timeout
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
 	public function set_download_request_timeout( $timeout ) {
 		$this->_download_request_timeout = intval( $timeout );
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return int
+	 */
 	public function get_download_request_timeout() {
 		return $this->_download_request_timeout;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param boolean|null $is_attempted
+	 * @return \WPRSS_Image_Cache_Image|boolean Whether was attempted, or this instance.
+	 */
 	protected function _is_attempted( $is_attempted = null ) {
 		if ( is_null( $is_attempted ) )
 			return (bool)$this->_is_attempted;
@@ -175,10 +288,21 @@ class WPRSS_Image_Cache_Image {
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return boolean
+	 */
 	public function is_attempted() {
 		return $this->_is_attempted();
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param boolean|null $is_fall_back
+	 * @return \WPRSS_Image_Cache_Image|boolean Whether will fall back to unsecure, or this instance.
+	 */
 	public function is_fall_back_to_unsecure( $is_fall_back = null ) {
 		if ( is_null( $is_fall_back ) )
 			return (bool) $this->_is_fall_back_to_unsecure;
@@ -187,6 +311,12 @@ class WPRSS_Image_Cache_Image {
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return string {@see get_local_path()}
+	 * @throws Exception If no URL is set, or the resource is unreadable, or something went wrong.
+	 */
 	public function download() {
 		$error_caption = 'Could not download image';
 		if ( !$this->has_url() ) throw new Exception ( sprintf( '%1$s: a URL must be supplied' ) );
@@ -207,6 +337,13 @@ class WPRSS_Image_Cache_Image {
 		return $this->get_local_path();
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @param string $url
+	 * @param int $timeout
+	 * @return string|WP_Error The local path to the downloaded image, if successful; an error instance if download failed.
+	 */
 	protected function _download( $url, $timeout ) {
 //		wprss_log( sprintf( 'Downloading from "%1$s"', $url ), null, WPRSS_LOG_LEVEL_SYSTEM );
 		$tmp_path = download_url( $url, $timeout );
@@ -222,13 +359,26 @@ class WPRSS_Image_Cache_Image {
 		return $tmp_path;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
 	public function delete() {
-		if ( $path = $this->get_local_path() )
-			unlink( $path );
+		if ( $path = $this->get_local_path() ) {
+			if ( file_exists( $path ) ) {
+				unlink( $path );
+			}
+		}
 		
 		return $this;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return string
+	 */
 	public function get_unique_name() {
 		if( !isset($this->_unique_name) ) {
 			$url = $this->get_url();
@@ -252,13 +402,29 @@ class WPRSS_Image_Cache_Image {
 					$url_filename = wprss_ftp_generate_random_string( 16 );
 				}
 			}
-			// determine file type (ext and mime/type)
-			$url_type = wp_check_filetype($url_filename);
+			$this->_set_unique_name( $url_filename );
 		}
 		
 		return $this->_unique_name;
 	}
+
 	
+	/**
+	 * @since 4.6.10
+	 * @param string $name
+	 * @return \WPRSS_Image_Cache_Image This instance.
+	 */
+	protected function _set_unique_name( $name ) {
+		$this->_unique_name = $name;
+		return $this;
+	}
+	
+	
+	/**
+	 * @since 4.6.10
+	 * @return array A numeric array, where index 0 holds image width, and index 1 holds image height.
+	 * @throws Exception If image file is unreadable.
+	 */
 	public function get_size() {
 		if ( !isset( $this->_size ) ) {
 			$error_caption = 'Could not get image size';
@@ -284,6 +450,11 @@ class WPRSS_Image_Cache_Image {
 		return $this->_size;
 	}
 	
+	
+	/**
+	 * @since 4.6.10
+	 * @return boolean
+	 */
 	public function is_readable() {
 		return is_readable( $this->get_local_path() );
 	}

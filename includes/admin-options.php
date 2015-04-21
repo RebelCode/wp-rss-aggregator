@@ -82,6 +82,10 @@
                         'label'     =>  __( 'Feed processing interval', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_cron_interval_callback'
                     ),
+                    'unique-titles' => array(
+                        'label'     =>  __( 'Unique titles only', WPRSS_TEXT_DOMAIN),
+                        'callback'  =>  'wprss_setting_unique_titles'
+                    ),
                     'custom-feed-url' => array(
                         'label'     =>  __( 'Custom feed URL', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_settings_custom_feed_url_callback'
@@ -777,6 +781,19 @@
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?><?php
     }
 
+
+    /**
+     * Unique titles only checkbox callback
+     * @since 4.7
+     */
+    function wprss_setting_unique_titles( $field ) {
+        $unique_titles = wprss_get_general_setting( 'unique_titles' );
+        ?>
+        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[unique_titles]" type="checkbox" value="1" <?php echo checked( 1, $unique_titles, false ) ?> />
+        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
+
+
     /**
      * Sets the custom feed URL
      * @since 3.3
@@ -1022,6 +1039,12 @@
             wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );    
             wp_schedule_event( time(), $input['cron_interval'], 'wprss_fetch_all_feeds_hook' );
         }
+
+        if ( ! isset( $input['unique_titles'] ) || $input['unique_titles'] !== '1' )
+            $output['unique_titles'] = 0;
+        else
+            $output['unique_titles'] = 1;
+
 
         // Return the array processing any additional functions filtered by this action
         return apply_filters( 'wprss_settings_general_validate', $output, $input );

@@ -66,13 +66,19 @@
                 // Change text on post screen from 'Enter title here' to 'Enter feed name here'
                 add_filter( 'enter_title_here', 'wprss_change_title_text' );
             }
-			if ( 'wprss_feed' === $screen->post_type ) {
-				wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
+      			if ( 'wprss_feed' === $screen->post_type ) {
+        				wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
                 wp_localize_script( 'wprss-custom-bulk-actions', 'wprss_admin_bulk', array(
                     'activate'   =>  __( 'Activate', WPRSS_TEXT_DOMAIN ),
                     'pause'   =>  __( 'Pause', WPRSS_TEXT_DOMAIN )
                 ) );
-			}
+      			}
+            if ( 'wprss_feed_item' === $screen->post_type) {
+                wp_enqueue_script( 'wprss-custom-bulk-actions-feed-item', WPRSS_JS . 'admin-custom-bulk-actions-feed-item.js', array( 'jquery' ) );
+                wp_localize_script( 'wprss-custom-bulk-actions-feed-item', 'wprss_admin_bulk_feed_item', array(
+                    'trash' => __( 'Move to Trash', WPRSS_TEXT_DOMAIN )
+                ) );
+            }
         }
         // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
         if ( 'edit' === $screen->base && $screen->post_type === 'wprss_feed' && apply_filters('wprss_ajax_polling', TRUE) === TRUE ) {
@@ -108,7 +114,7 @@
             wp_localize_script( 'wprss-admin-help', 'wprss_admin_help', array(
                 'sending'       => __('Sending...', WPRSS_TEXT_DOMAIN),
                 'sent-error'    => sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/')),
-                'sent-ok'       => __("Your message has been sent. We'll look at it soon.")
+                'sent-ok'       => __("Your message has been sent and we'll send you a confirmation e-mail when we receive it.")
             ) );
         }
 

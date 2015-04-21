@@ -27,6 +27,11 @@ if( class_exists('WPRSS_Help') ) {
 
                                         If you are not sure leave this setting blank.', WPRSS_TEXT_DOMAIN),
 
+            'wprss_unique_titles'   => __('Whether to allow multiple feed items to have the same title. When checked, if a feed item has the same title as a previously-imported feed item, it will not be imported.
+
+                                       This can be useful in cases where permalinks change, or where multiple permalinks refer to the same item.', WPRSS_TEXT_DOMAIN),
+
+
         /* -------------------------
          *  Feed Processing Metabox
          * -------------------------
