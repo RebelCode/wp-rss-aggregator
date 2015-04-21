@@ -60,7 +60,7 @@ We also provide a [Feed Creator](http://createfeed.wprssaggregator.com) service,
 The core plugin can be seen in use on the [demo page](http://www.wprssaggregator.com/demo/).
 
 = Video Walkthrough =
-[youtube http://www.youtube.com/watch?v=5J-S2vXtQ5w]
+[youtube http://www.youtube.com/watch?v=fcENPsmJbvc]
 
 = Documentation =
 Instructions for plugin usage are available on the plugin's [documentation page](http://www.wprssaggregator.com/documentation/).
