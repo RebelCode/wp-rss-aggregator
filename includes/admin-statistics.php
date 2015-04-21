@@ -7,7 +7,7 @@ if ( !defined( 'WPRSS_TRACKING_INTEVAL' ) )
 	define( 'WPRSS_TRACKING_INTEVAL', 'daily', TRUE );
 
 
-add_action( 'admin_init', 'wprss_send_tracking_data' );
+// add_action( 'admin_init', 'wprss_send_tracking_data' );
 function wprss_send_tracking_data() {
 
 	// Check the tracking option - if turned off, exit out of function
