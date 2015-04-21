@@ -1,5 +1,13 @@
 <?php
+
+/**
+ * A utility class that provides compatibility padding for multibyte string
+ * functionality.
+ * 
+ * Taken mostly from {@link https://doc.wikimedia.org/mediawiki-core/master/php/Fallback_8php_source.html here}
+ */
 class WPRSS_MBString {
+
 
 	public static function mb_substr( $str, $start, $count = 'end' ) {
 		if ( function_exists( 'mb_substr' ) ) {
@@ -18,6 +26,7 @@ class WPRSS_MBString {
 
 		return $str;
 	}
+
 
 	public static function mb_substr_split_unicode( $str, $splitPos ) {
 		if ( $splitPos == 0 ) {
@@ -64,6 +73,7 @@ class WPRSS_MBString {
 		return $bytePos;
 	}
 
+
 	public static function mb_strlen( $str, $enc = '' ) {
 		if ( function_exists( 'mb_strlen' ) ) {
 			return mb_strlen( $str );
@@ -84,6 +94,7 @@ class WPRSS_MBString {
 		return $total;
 	}
 
+
 	public static function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		if ( function_exists( 'mb_strpos' ) ) {
 			return mb_strpos( $haystack, $needle, $offset );
@@ -101,6 +112,26 @@ class WPRSS_MBString {
 		}
 	}
 
+
+	public static function mb_stripos( $haystack, $needle, $offset = 0, $encoding = '' ) {
+		if ( function_exists( 'mb_stripos' ) ) {
+			return mb_stripos( $haystack, $needle, $offset );
+		}
+
+
+		$needle = preg_quote( $needle, '/' );
+
+		$ar = array();
+		preg_match( '/' . $needle . '/ui', $haystack, $ar, PREG_OFFSET_CAPTURE, $offset );
+
+		if ( isset( $ar[0][1] ) ) {
+			return $ar[0][1];
+		} else {
+			return false;
+		}
+	}
+
+
 	public static function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		if ( function_exists( 'mb_strrpos' ) ) {
 			return mb_strrpos( $haystack, $needle, $offset );
@@ -117,4 +148,36 @@ class WPRSS_MBString {
 			return false;
 		}
 	}
+
+	/**
+	 * Lowercase a UTF-8 string.
+	 * This supports accented letters, but nothing more.
+	 * Taken from {@link https://github.com/drupal/drupal/blob/9.x/core/includes/unicode.inc#L432 here}.
+	 *
+	 * @param $text The string to run the operation on.
+	 * @return string The string in lowercase.
+	 */
+	public function mb_strtolower( $text ) {
+		if ( function_exists( 'mb_strtolower' ) )
+			return mb_strtolower( $text );
+		
+		// Use C-locale for ASCII-only lowercase
+		$text = strtolower( $text );
+		// Case flip Latin-1 accented letters
+		$text = preg_replace_callback( '/\xC3[\x80-\x96\x98-\x9E]/', array( __CLASS__, '_unicode_caseflip' ), $text );
+		return $text;
+	}
+	
+
+	/**
+	 * Flips U+C0-U+DE to U+E0-U+FD and back.
+	 *
+	 * @param $matches An array of matches.
+	 * @return array The Latin-1 version of the array of matches.
+	 * @see mb_strtolower()
+	 */
+	public function _unicode_caseflip( $matches ) {
+		return $matches[0][0] . chr( ord( $matches[0][1] ) ^ 32 );
+	}
+
 }
