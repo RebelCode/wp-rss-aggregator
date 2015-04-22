@@ -39,7 +39,7 @@ class WPRSS_Feed_Access {
 	 * @since 4.7
 	 */
 	protected function _construct() {
-		add_action( 'wp_feed_options', array( $this, 'set_feed_options' ), 10, 2 );
+		add_action( 'wprss_fetch_feed_before', array( $this, 'set_feed_options' ), 10 );
 		add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
 		add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
 	}
@@ -94,15 +94,14 @@ class WPRSS_Feed_Access {
 	
 	
 	/**
-	 * This happens before feed initialization, but before the tags to be stripped are set.
-	 * Handles the `wp_feed_options` action.
-	 * To modify these tags, use the `wprss_feed_tags_to_strip` filter.
+	 * This happens immediately before feed initialization.
+	 * Handles the `wprss_fetch_feed_before` action.
 	 * 
 	 * @since 4.7
 	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
 	 * @param string $url The URL, from which the feed is going to be fetched.
 	 */
-	public function set_feed_options( $feed, $url ) {
+	public function set_feed_options( $feed ) {
 		$feed->set_file_class( 'WPRSS_SimplePie_File' );
 		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
 	}
