@@ -103,7 +103,6 @@ class WPRSS_Feed_Access {
 	 * @param string $url The URL, from which the feed is going to be fetched.
 	 */
 	public function set_feed_options( $feed, $url ) {
-		$file = new WPRSS_SimplePie_File;
 		$feed->set_file_class( 'WPRSS_SimplePie_File' );
 		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
 	}
