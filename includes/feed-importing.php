@@ -275,9 +275,13 @@
 		// Strip them
 		$feed->strip_htmltags( $tags_to_strip );
 
+		do_action( 'wprss_fetch_feed_before', $feed );
+		
 		// Fetch the feed
 		$feed->init();
 		$feed->handle_content_type();
+		
+		do_action( 'wprss_fetch_feed_after', $feed );
 
 		// Convert the feed error into a WP_Error, if applicable
 		if ( $feed->error() ) {
