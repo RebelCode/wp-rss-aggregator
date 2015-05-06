@@ -98,6 +98,39 @@ function wprss_media_sideload_image( $file, $post_id, $desc = null ) {
 
 
 /**
+ * A list of void tags, e.g. tags that don't require a closing tag,
+ * also known as self-closing tags.
+ * 
+ * @link http://stackoverflow.com/questions/13915201/what-tags-in-html5-are-acknowledged-of-being-self-closing
+ * @return array An array where values are tag names.
+ */
+function wprss_html5_get_void_tags() {
+	return apply_filters( 'wprss_html5_void_tags', array(
+		'area',
+		'base',
+		'br',
+		'col',
+		'command',
+		'embed',
+		'hr',
+		'img',
+		'input',
+		'keygen',
+		'link',
+		'meta',
+		'param',
+		'source',
+		'track',
+		'wbr',
+		'basefont',
+		'bgsound',
+		'frame',
+		'isindex'
+	));
+}
+
+
+/**
  * Trims the given text by a fixed number of words, and preserving HTML.
  *
  * Collapses all white space, trims the text up to a certain number of words, and
