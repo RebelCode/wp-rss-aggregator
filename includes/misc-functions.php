@@ -180,11 +180,11 @@ EOS;
 		// Check the tag and assign the proper tag type
 		$tag = $tag_piece[0];
 		$pieces[ $_idx ][1][2] =
-			( substr( $tag, 0, 2 ) === '</' )?
+			( substr( $tag, 0, 2 ) === '</' ) ?
 				$tag_type['closing'] :
-			( substr( $tag, strlen( $tag ) - 3, 2 ) == '/>' )?
+			( substr( $tag, strlen( $tag ) - 2, 2 ) === '/>' ?
 				$tag_type['self-closing'] :
-				$tag_type['opening'];
+				$tag_type['opening'] );
 	}
 
 	// Stock trimming of words
