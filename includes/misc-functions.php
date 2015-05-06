@@ -144,7 +144,7 @@ function wprss_html5_get_void_tags() {
  * @param array $allowed_tags The allows tags. Regular array of tag names.
  * @return string The trimmed text.
  */
-function wprss_trim_words( $text, $max_words, $allowed_tags = array() ) {	
+function wprss_trim_words( $text, $max_words, $allowed_tags = array(), $self_closing_tags = null ) {	
 	// See http://haacked.com/archive/2004/10/25/usingregularexpressionstomatchhtml.aspx/
 	$html_regex = <<<EOS
 (</?(\w+)(?:(?:\s+\w+(?:\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)/?>)
@@ -153,6 +153,13 @@ EOS;
 	// Collapsing single-line white space
 	$text = preg_replace( '!\s+!', ' ', $text );
 
+	// Tags that are always self-closing
+	if ( is_null( $self_closing_tags ) ) {
+		$self_closing_tags = function_exists('wprss_html5_get_void_tags')
+				? array_flip( wprss_html5_get_void_tags() )
+				: array();
+	}
+	
 	// Enum of tag types
 	$tag_type = array(
 		'opening'		=> 1,
@@ -208,6 +215,7 @@ EOS;
 		// Get the data
 		$tag_piece = $_piece[0];
 		$text_piece = $_piece[2];
+		$tag_name = $_piece[1][0];
 		// Compile all plain text together
 		$plain_text .= $text_piece[0];
 		// Check the tag and assign the proper tag type
@@ -215,7 +223,8 @@ EOS;
 		$pieces[ $_idx ][1][2] =
 			( substr( $tag, 0, 2 ) === '</' ) ?
 				$tag_type['closing'] :
-			( substr( $tag, strlen( $tag ) - 2, 2 ) === '/>' ?
+			( (substr( $tag, strlen( $tag ) - 2, 2 ) === '/>'
+			|| array_key_exists( $tag_name, $self_closing_tags)) ?
 				$tag_type['self-closing'] :
 				$tag_type['opening'] );
 	}
