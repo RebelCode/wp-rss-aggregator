@@ -176,6 +176,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 			$idn = new idna_convert();
 			$parsed = SimplePie_Misc::parse_url( $url );
 			$url = SimplePie_Misc::compress_parse_url( $parsed['scheme'], $idn->encode( $parsed['authority'] ), $parsed['path'], $parsed['query'], $parsed['fragment'] );
+			wprss_log_obj('Converted IDNA URL', $url, null, WPRSS_LOG_LEVEL_SYSTEM);
 		}
 		$this->url = $url;
 		$this->useragent = $useragent;
@@ -363,6 +364,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 			$this->_certificate_file_path = $ca_path;
 			curl_setopt( $fp, CURLOPT_CAINFO, $this->_certificate_file_path );
 		}
+		do_action( 'wprss_before_curl_exec', $fp );
 
 		return $this;
 	}
