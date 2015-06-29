@@ -192,3 +192,58 @@ if ( get_bloginfo( 'version' ) < '3.4' ) {
 		exit;
 	}
 	add_action( 'wprss_download_sysinfo', 'wprss_generate_sysinfo_download' );
+
+
+	/**
+	 * Retrieves information about the DB server.
+	 * 
+	 * Will use WordPress configuration by default;
+	 * Currently, the following members are present in the result:
+	 *  - 'extension': The extension that is used to connect. Possible values: 'mysqli', 'mysql'.
+	 *  - 'server_info': The version number of the database engine, i.e. '5.6.22'.
+	 * 
+	 * @since [*next-version*]
+	 * @param null|string $host The address of the database host, to which to connect.
+	 *	May contain the port number in standard URI format.
+	 *  Default: value of the DB_HOST constant, if defined, otherwise null.
+	 * @param null|string $username The username to be used for connecting to the databse.
+	 *  Default: value of the DB_USER constant, if defined, otherwise null.
+	 * @param null|string $password The password to be used for connecting to the database.
+	 *	Default: value of the DB_PASSWORD constant, if defined, otherwise null.
+	 * @param null|int $port An integer, representing the port, at which to connect to the DB server.
+	 *	Default: auto-determined from host.
+	 * @return array|null An array, containing the following indexes, if successful: 'extension', 'server_info'.
+	 *	Otherwise, null.
+	 */
+	function wprss_sysinfo_get_db_server( $host = null, $username = null, $password = null, $port = null ) {
+		$result = array();
+		
+		if ( is_null( $host ) && defined( 'DB_HOST') ) $host = DB_HOST;
+		if ( is_null( $username ) && defined( 'DB_USER') ) $username = DB_USER;
+		if ( is_null( $password ) && defined( 'DB_PASSWORD') ) $password = DB_PASSWORD;
+		
+		$server_address = explode( ':', $host, 2 );
+		$host = $server_address[0];
+		$port = is_null( $port )
+			? ( isset( $server_address[1] ) ? $server_address[1] : null )
+			: $port;
+		$port = $port ? intval( (string)$port ) : null;
+		
+		if ( function_exists( 'mysqli_get_server_info' ) ){
+			$mysqli = new mysqli( $host, $username, $password, '', $port );
+			$result['extension'] = 'mysqli';
+			$result['server_info'] = $mysqli->server_info;
+			return $result;
+		}
+		
+		if ( function_exists( 'mysql_connect' ) ) {
+			if ( $port ) $host = implode ( ':', array( $host, $port ) );
+			
+			$mysql = mysql_connect( $host, $username, $password );
+			$result['extension'] = 'mysql';
+			$result['server_info'] = mysql_get_server_info( $mysql );
+			return $result;
+		}
+		
+		return null;
+	}
