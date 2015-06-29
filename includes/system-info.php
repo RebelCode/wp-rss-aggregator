@@ -65,15 +65,12 @@ WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 <?php echo $browser ; ?>
 
 PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
-MySQL Version:            <?php
-								if ( function_exists( 'mysqli_get_server_info' ) ){
-									$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD );
-									echo $mysqli->server_info . " (mysqli)\n";
-								} else {
-									$mysql = mysql_connect( DB_HOST, DB_USER, DB_PASSWORD );
-									echo mysql_get_server_info( $mysql ) . " (mysql)\n";
-								}
+MySQL Version:            <?php if ( $server_info = wprss_sysinfo_get_db_server() )
+									echo sprintf( '%1$s (%2$s)', $server_info['server_info'], $server_info['extension'] );
+								else
+									_e( 'Could not determine database driver version', WPRSS_TEXT_DOMAIN );
 						  ?>
+
 Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
 
 PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? "Yes" : "No\n"; ?>
