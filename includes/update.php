@@ -240,7 +240,7 @@
 				// From 4.2.4
 				'authors_enable'			=>	0,
 				
-				// From [*next-version*]
+				// From 4.7.2
 				'unique_titles'				=> 0,
 			)
 		);

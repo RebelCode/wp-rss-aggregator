@@ -199,7 +199,7 @@ if ( get_bloginfo( 'version' ) < '3.4' ) {
 	 *  - 'extension': The extension that is used to connect. Possible values: 'mysqli', 'mysql'.
 	 *  - 'server_info': The version number of the database engine, i.e. '5.6.22'.
 	 * 
-	 * @since [*next-version*]
+	 * @since 4.7.2
 	 * @param null|string $host The address of the database host, to which to connect.
 	 *	May contain the port number in standard URI format.
 	 *  Default: value of the DB_HOST constant, if defined, otherwise null.
