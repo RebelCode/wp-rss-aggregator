@@ -101,6 +101,7 @@ function wprss_media_sideload_image( $file, $post_id, $desc = null ) {
  * A list of void tags, e.g. tags that don't require a closing tag,
  * also known as self-closing tags.
  * 
+ * @since 4.2.7
  * @link http://stackoverflow.com/questions/13915201/what-tags-in-html5-are-acknowledged-of-being-self-closing
  * @return array An array where values are tag names.
  */
