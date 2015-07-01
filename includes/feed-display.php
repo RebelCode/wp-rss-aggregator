@@ -56,6 +56,10 @@
         $excerpts_settings = get_option( 'wprss_settings_excerpts' );
         $thumbnails_settings = get_option( 'wprss_settings_thumbnails' );
 
+		$args = wp_parse_args($args, array(
+			'link_before'			=> '',
+			'link_after'			=> ''
+		));
         $extra_options = apply_filters( 'wprss_template_extra_options', array(), $args);
 
         // Normalize the source_link option

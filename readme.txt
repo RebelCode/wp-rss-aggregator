@@ -4,7 +4,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger, rss feeder, rss post importer, autoblog aggregator, autoblog, autopost, content curation, feedwordpress, wp rss multi import, hungryfeed, wp-o-matic, rss feed, rss feed to post, rss retriever, syndication
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 4.7.1
+Stable tag: 4.7.2
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -168,6 +168,16 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.7.2 (2015-06-30) =
+* Enhanced: Copyright updated.
+* Fixed bug: Word trimming no longer adds extra closing tags at the end.
+* Fixed bug: Presence of `idna_convert` class no longer causes infinite redirects on some servers.
+* Fixed bug: Warning of unterminated comment no longer thrown in PHP 5.5.
+* Fixed bug: Added default value for "Unique Titles" option.
+* Fixed bug: Having a the port number specified with the database host no longer causes issues with the `mysqli` adapter in System Info on some servers.
+* Fixed bug: Nested options of inline help controller no longer cause a fatal error.
+* Fixed bug: Notices will no longer be displayed during rendering of feed items due to absence of required default values.
 
 = 4.7.1 (2015-04-23) =
 * Fixed bug: No warning will be thrown when fetching feeds.

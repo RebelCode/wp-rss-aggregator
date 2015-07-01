@@ -98,6 +98,40 @@ function wprss_media_sideload_image( $file, $post_id, $desc = null ) {
 
 
 /**
+ * A list of void tags, e.g. tags that don't require a closing tag,
+ * also known as self-closing tags.
+ * 
+ * @since 4.2.7
+ * @link http://stackoverflow.com/questions/13915201/what-tags-in-html5-are-acknowledged-of-being-self-closing
+ * @return array An array where values are tag names.
+ */
+function wprss_html5_get_void_tags() {
+	return apply_filters( 'wprss_html5_void_tags', array(
+		'area',
+		'base',
+		'br',
+		'col',
+		'command',
+		'embed',
+		'hr',
+		'img',
+		'input',
+		'keygen',
+		'link',
+		'meta',
+		'param',
+		'source',
+		'track',
+		'wbr',
+		'basefont',
+		'bgsound',
+		'frame',
+		'isindex'
+	));
+}
+
+
+/**
  * Trims the given text by a fixed number of words, and preserving HTML.
  *
  * Collapses all white space, trims the text up to a certain number of words, and
@@ -111,7 +145,7 @@ function wprss_media_sideload_image( $file, $post_id, $desc = null ) {
  * @param array $allowed_tags The allows tags. Regular array of tag names.
  * @return string The trimmed text.
  */
-function wprss_trim_words( $text, $max_words, $allowed_tags = array() ) {	
+function wprss_trim_words( $text, $max_words, $allowed_tags = array(), $self_closing_tags = null ) {	
 	// See http://haacked.com/archive/2004/10/25/usingregularexpressionstomatchhtml.aspx/
 	$html_regex = <<<EOS
 (</?(\w+)(?:(?:\s+\w+(?:\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)/?>)
@@ -120,6 +154,13 @@ EOS;
 	// Collapsing single-line white space
 	$text = preg_replace( '!\s+!', ' ', $text );
 
+	// Tags that are always self-closing
+	if ( is_null( $self_closing_tags ) ) {
+		$self_closing_tags = function_exists('wprss_html5_get_void_tags')
+				? array_flip( wprss_html5_get_void_tags() )
+				: array();
+	}
+	
 	// Enum of tag types
 	$tag_type = array(
 		'opening'		=> 1,
@@ -175,16 +216,18 @@ EOS;
 		// Get the data
 		$tag_piece = $_piece[0];
 		$text_piece = $_piece[2];
+		$tag_name = $_piece[1][0];
 		// Compile all plain text together
 		$plain_text .= $text_piece[0];
 		// Check the tag and assign the proper tag type
 		$tag = $tag_piece[0];
 		$pieces[ $_idx ][1][2] =
-			( substr( $tag, 0, 2 ) === '</' )?
+			( substr( $tag, 0, 2 ) === '</' ) ?
 				$tag_type['closing'] :
-			( substr( $tag, strlen( $tag ) - 3, 2 ) == '/>' )?
+			( (substr( $tag, strlen( $tag ) - 2, 2 ) === '/>'
+			|| array_key_exists( $tag_name, $self_closing_tags)) ?
 				$tag_type['self-closing'] :
-				$tag_type['opening'];
+				$tag_type['opening'] );
 	}
 
 	// Stock trimming of words

@@ -80,4 +80,4 @@
 // For testing query speed
 // $time_start = microtime( true );    
 // wp_die(number_format( microtime( true ) - $time_start, 10 ));
-
+*/
