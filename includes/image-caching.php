@@ -1277,6 +1277,8 @@ class WPRSS_Image_Cache_Image {
 	 * @return boolean
 	 */
 	public function is_readable() {
-		return is_readable( $this->get_path() );
+		$path = $this->get_local_path();
+		if ( !$path ) return false;
+		return is_readable( $path );
 	}
 }
