@@ -291,8 +291,7 @@ class WPRSS_Image_Cache {
 				$is_delete = $expired_only
 						? $_image->check_expired()
 						: true;
-						
-				var_dump( $is_delete );
+
 				if ( $is_delete )
 					$deleted_count += (int) $_image->delete();
 			}
@@ -362,7 +361,6 @@ class WPRSS_Image_Cache {
 	 */
 	public function get_expiration_time( $image ) {
 		$mod_time = $this->get_image_modification_time( $image );
-		var_dump( $mod_time );
 		
 		$ttl = $image instanceof WPRSS_Image_Cache_Image
 			? $image->get_ttl()
@@ -1249,8 +1247,8 @@ class WPRSS_Image_Cache_Image {
 	public function get_size() {
 		if ( !isset( $this->_size ) ) {
 			$error_caption = 'Could not get image size';
-			if ( !$this->is_readable() ) throw new Exception( sprintf( '%1$s: image file is not readable' ) );
-			$path = $this->get_path();
+			$path = $this->get_local_path();
+			if ( !$this->is_readable() ) throw new Exception( sprintf( '%1$s: image file is not readable', $path ) );
 			
 			// Trying simplest way
 			if ( $size = getimagesize( $path ) )
