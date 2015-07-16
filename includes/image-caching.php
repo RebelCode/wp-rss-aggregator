@@ -588,7 +588,7 @@ class WPRSS_Image_Cache {
 		
 		// Get the path to the image, without the domain. ex. /news/132456/image
 		$path_matches = array();
-		if ( !preg_match_all( '/[^:]+:\/\/([^\/]+)\/(.+)/', $url, $path_matches ) )
+		if ( !preg_match_all( '![^:]+://([^/]+)/([^\?]+)!', $url, $path_matches ) )
 			return null;
 		
 		$path = isset( $path_matches[2][0] ) ? $path_matches[2][0] : null;
