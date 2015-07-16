@@ -261,19 +261,14 @@ class WPRSS_Image_Cache {
 	 * 
 	 * @since 4.6.10
 	 * @param string|null $url
-	 * @return array|WPRSS_Image_Cache_Image|\WP_Error
+	 * @return array|WPRSS_Image_Cache_Image
 	 */
 	public function get_images( $url = null ) {
 		if ( is_null( $url ) ) return $this->_images;
 		
 		// Gotta cache one
 		if ( !isset( $this->_images[ $url ] ) ) {
-			try {
-				$image = $this->_get_file( $url );
-			} catch ( Exception $e ) {
-				return new WP_Error( 'image_cache_cannot_download', $e->getMessage() );
-			}
-			
+			$image = $this->_get_file( $url );
 			$this->_images[ $url ] = $image;
 		}
 		
