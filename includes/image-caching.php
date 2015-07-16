@@ -580,7 +580,7 @@ class WPRSS_Image_Cache {
 		
 		// Extract filename from url for title (ignoring query string)
 		// One of more character that is not a '?', followed by an image extension
-		preg_match( '/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $url, $ext_matches );
+		preg_match( '/[^\?]+\.(jpg|JPG|jpeg|JPEG|jpe|JPE|gif|GIF|png|PNG)/', $url, $ext_matches );
 		$extension = isset( $ext_matches[1] ) ? $ext_matches[1] : null;
 		$url_filename = basename( urldecode( $ext_matches[0] ) );
 		
