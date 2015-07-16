@@ -474,7 +474,7 @@ class WPRSS_Image_Cache {
 		}
 		
 		if ( !$url )
-			throw new Exception( sprintf( __( 'Invalid URL Provided: "%1$s"' ), $url ), 'image_cache_download_no_url' );
+			throw new Exception( sprintf( __( 'Invalid URL provided: "%1$s"' ), $url ) );
 		
 		if ( !is_null( $target_path ) )
 			$path = $target_path;
@@ -489,13 +489,13 @@ class WPRSS_Image_Cache {
 		//WARNING: The file is not automatically deleted, The script must unlink() the file.
 		$dirname = dirname( $tmpfname );
 		if ( !wp_mkdir_p( $dirname ) )
-			throw new Exception(  sprintf( __( 'Could not create directory: "%1$s"' ), $dirname ), 'image_cache_download_target_not_writable' );
+			throw new Exception(  sprintf( __( 'Could not create directory: "%1$s". Filename: "%2$s"' ), $dirname, $tmpfname ) );
 
 		
 		// Getting file download lib
 		$file_lib_path = ABSPATH . 'wp-admin/includes/file.php';
 		if ( !is_readable( $file_lib_path ) )
-			throw new Exception( sprintf( __( 'The file library cannot be read from %2$s' ), $error_caption, $file_lib_path ), 'image_cache_download_file_library_not_readable' );
+			throw new Exception( sprintf( __( 'The file library cannot be read from %2$s' ), $error_caption, $file_lib_path ) );
 		require_once( $file_lib_path );
 		
 		$response = wp_safe_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname ) );
@@ -507,7 +507,7 @@ class WPRSS_Image_Cache {
 
 		if ( 200 != wp_remote_retrieve_response_code( $response ) ){
 			@unlink( $tmpfname );
-			throw new Exception( trim( wp_remote_retrieve_response_message( $response ) ), 'http_404' );
+			throw new Exception( trim( wp_remote_retrieve_response_message( $response ) ) );
 		}
 
 		$content_md5 = wp_remote_retrieve_header( $response, 'content-md5' );
