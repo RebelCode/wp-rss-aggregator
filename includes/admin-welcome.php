@@ -100,7 +100,7 @@
 								<h3><?php _e( 'Check out our add-ons:', WPRSS_TEXT_DOMAIN ) ?></h3>
 
 									<ul>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/feed-post/" target="wprss_ftp"><?php _e( 'Feed to Post', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="http://www.wprssaggregator.com/extension/feed-to-post/" target="wprss_ftp"><?php _e( 'Feed to Post', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et"><?php _e( 'Excerpts &amp; Thumbnails', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat"><?php _e( 'Categories', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf"><?php _e( 'Keyword Filtering', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
