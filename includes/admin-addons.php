@@ -108,7 +108,7 @@
     /**
      * Check if plugin file exists but plugin is inactive
      * @param $path Path to plugin file
-     * @since [*next-version*]
+     * @since 4.7.3
      * @return bool TRUE if plugin file found but plugin inactive. False otherwise
      */
     function wprss_is_plugin_inactive( $path ){

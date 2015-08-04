@@ -26,7 +26,7 @@ class WPRSS_Image_Cache {
 	/**
 	 * Retrieve the singleton instance of this class.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return WPRSS_Image_Cache
 	 */
 	public static function instance() {
@@ -85,7 +85,7 @@ class WPRSS_Image_Cache {
 	 * The cache expiration calculations will use this time to determine
 	 * whether or not the cache for each resource is expired.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return int The unix timestamp, representing the current moment in time.
 	 */
 	public function get_current_time() {
@@ -104,7 +104,7 @@ class WPRSS_Image_Cache {
 	 *
 	 * Use this to determine cache expiration for a moment in time other than now.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see normalize_time()
 	 * @param int|null $time The unix timestamp, representing the current moment in time. If null, the current timestamp will be used.
 	 * @return WPRSS_Image_Cache This instance.
@@ -128,7 +128,7 @@ class WPRSS_Image_Cache {
 	 * This value will be used by default by all instances of cache files.
 	 * If a file is older than this, it will be considered to be expired.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see set_ttl()
 	 * @return int The number of seconds that represents the cache lifetime.
 	 */
@@ -143,7 +143,7 @@ class WPRSS_Image_Cache {
 	 * This value will be used by default by all instances of cache files.
 	 * If a file is older than this, it will be considered to be expired.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see get_ttl()
 	 * @see normalize_time()
 	 * @param int|str $time A representation of the amount of seconds, for which the cache is considered valid.
@@ -163,7 +163,7 @@ class WPRSS_Image_Cache {
 	 * Supports: An integer Unix timestamp, a string Unix timestamp, a value
 	 * that ca be cast to integer, or a value that can be read by {@see strtotime}.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param int|string $time A representation of time.
 	 * @return int The Unix timestamp that represents a moment in time.
 	 */
@@ -180,7 +180,7 @@ class WPRSS_Image_Cache {
 	/**
 	 * If given a cache file, a URL or a path, converts it into a path.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see WPRSS_Image_Cache_Image::get_current_path()
 	 * @see is_valid_url()
 	 * @see get_unique_filename()
@@ -318,7 +318,7 @@ class WPRSS_Image_Cache {
 	/**
 	 * Checks whether or not the specified image exists.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param WPRSS_Image_Cache_Image|string $file An image instance, URL or file path.
 	 * @return bool Whether or not the file of the specified image exists locally, and is readable.
 	 */
@@ -335,7 +335,7 @@ class WPRSS_Image_Cache {
 	 *
 	 * If the file for the resource does not exist, it is considered to be expired.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see get_current_time()
 	 * @see check_image_exists()
 	 * @see get_expiration_time()
@@ -352,7 +352,7 @@ class WPRSS_Image_Cache {
 	/**
 	 * Retrieve the time when the cache file for the specified resource will expire.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see get_ttl()
 	 * @see get_file_modification_time()
 	 * @param WPRSS_Image_Cache_Image|string $image Resource URL, cache file instance or path.
@@ -375,7 +375,7 @@ class WPRSS_Image_Cache {
 	 *
 	 * Valid URLs must start with a protocol, even a relative one.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see wprss_validate_url()
 	 * @param string $url A URL to validate.
 	 * @return bool True if the specified string is a valud URL; false otherwize.
@@ -390,7 +390,7 @@ class WPRSS_Image_Cache {
 	/**
 	 * Gets the modification time of the cache file for the specified resource.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @todo Maybe fix in accordance with {@link http://php.net/manual/en/function.filemtime.php#100692 this bug}.
 	 * @see normalize_path()
 	 * @see get_tmp_dir()
@@ -414,7 +414,7 @@ class WPRSS_Image_Cache {
 	 *
 	 * Optionally, another path can be appended.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see trailingslashit()
 	 * @see get_temp_dir()
 	 * @param string|null $path If specified, will be appended to the resulting path.
@@ -442,7 +442,7 @@ class WPRSS_Image_Cache {
 	 * If the 'content-md5' header is present in the responce, MD5 checksum
 	 * verification will take place.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see get_download_request_timeout()
 	 * @see WPRSS_Image_Cache_Image::get_download_request_timeout()
 	 * @see get_unique_filename()
@@ -534,7 +534,7 @@ class WPRSS_Image_Cache {
 	 * in that order. More can be added using the `wprss_image_cache_hash_functions`
 	 * filter.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param mixed $value The value to hash.
 	 * @param null|mixed $default The value to return if none of the registered caching functions exist.
 	 * @return string The hash string.
@@ -552,7 +552,7 @@ class WPRSS_Image_Cache {
 	/**
 	 * Get a local relative path to for a remote resource, based on it's URL.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see generate_unique_file_name()
 	 * @param WPRSS_Image_Cache_Image|string $url An instance of a cache file, or a URL of a resource.
 	 * @return string|null A relative path to a cache file. If URL is empty, null is returned.
@@ -571,7 +571,7 @@ class WPRSS_Image_Cache {
 	 * If the resource is identified by a URL with a relative protocol,
 	 * the protocol will be completely ignored.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param string $url A remote resource URL.
 	 * @return string A local relative path to the file for the remote resource.
 	 *  The path may contain several folders, and will be of format:
@@ -784,7 +784,7 @@ class WPRSS_Image_Cache_Image {
 	 * @see get_current_path()
 	 * @see get_tmp_dir()
 	 * @see has_local_path()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return string Absolute path to the cache file.
 	 */
 	public function get_local_path() {
@@ -796,7 +796,7 @@ class WPRSS_Image_Cache_Image {
 
 
 	/**
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param string $path The absolute path to the cache file.
 	 * @return \WPRSS_Image_Cache_Image This instance.
 	 */
@@ -812,7 +812,7 @@ class WPRSS_Image_Cache_Image {
 	 * This usually happens after the successful download of an expired file.
 	 *
 	 * @see get_local_path()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return bool True if the local absolute path has been set; false otherwise.
 	 */
 	public function has_local_path() {
@@ -826,7 +826,7 @@ class WPRSS_Image_Cache_Image {
 	 *
 	 * @see is_attempted()
 	 * @see check_expired()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return bool True if file was retrieved or retrievable from cache; false otherwise.
 	 */
 	public function is_cached() {
@@ -838,7 +838,7 @@ class WPRSS_Image_Cache_Image {
 
 	/**
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param null|bool $is_cached If not null, will set whether or not the resource is cached.
 	 *  Otherwise, will retrieve that value
 	 * @return \WPRSS_Image_Cache_Image|bool This instance, if setting, or the value if retrieving.
@@ -856,7 +856,7 @@ class WPRSS_Image_Cache_Image {
 	 * Get an instance of this image's cache controller, if set.
 	 * Otherwise, get the singleton instance of {@see WPRSS_Image_Cache}.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return WPRSS_Image_Cache The instance of this image's cache controller.
 	 */
 	public function get_cache() {
@@ -870,7 +870,7 @@ class WPRSS_Image_Cache_Image {
 	/**
 	 * Set the temporary path to this image's file.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param string $path
 	 * @return \WPRSS_Image_Cache_Image This instance.
 	 */
@@ -888,7 +888,7 @@ class WPRSS_Image_Cache_Image {
 	 * working with it. This may not be the final path.
 	 *
 	 * @see get_unique_name()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return string The path.
 	 */
 	public function get_tmp_path() {
@@ -906,7 +906,7 @@ class WPRSS_Image_Cache_Image {
 	 *
 	 * @see get_path()
 	 * @see get_tmp_path()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return string The path.
 	 */
 	public function get_current_path() {
@@ -998,7 +998,7 @@ class WPRSS_Image_Cache_Image {
 	 *
 	 * @see WPRSS_Image_Cache::get_ttl()
 	 * @see get_ttl()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return int The amount of seconds, for which the cache file may be considered valid.
 	 */
 	public function get_ttl() {
@@ -1012,7 +1012,7 @@ class WPRSS_Image_Cache_Image {
 	 * Sets the TTL (Time To Live) for the corresponding resource's cache.
 	 *
 	 * @see get_ttl()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param int $time The amount of seconds, for which the cache file should be considered valid.
 	 */
 	public function set_ttl( $time ) {
@@ -1027,7 +1027,7 @@ class WPRSS_Image_Cache_Image {
 	 * into a Unix timestamp.
 	 *
 	 * @see WPRSS_Image_Cache::normalize_time()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param string|int $time A representation of a moment in time.
 	 * @return int A timestamp.
 	 */
@@ -1043,7 +1043,7 @@ class WPRSS_Image_Cache_Image {
 	 * Optionally, can be appended with another path.
 	 *
 	 * @see WPRSS_Image_Cache::get_tmp_dir()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @param null|string $path A path to append to the cache directory path.
 	 * @return string The path to the cache directory, optionally appended with the specified path.
 	 *  It will not contain the trailing directory separator, but if appended with another path, the separator will be put in between them.
@@ -1065,7 +1065,7 @@ class WPRSS_Image_Cache_Image {
 	 * will be retrieved from cache.
 	 *
 	 * @see download()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return string The path to the resource's cache file.
 	 */
 	public function retrieve() {
@@ -1094,7 +1094,7 @@ class WPRSS_Image_Cache_Image {
 	/**
 	 * An internal method that does just the actual retrieval of the resource.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return string The absolute local path to the retrieved file.
 	 * @throws Exception If the file cannot be retrieved, due to read or write errors of some kind.
 	 */
@@ -1156,7 +1156,7 @@ class WPRSS_Image_Cache_Image {
 	/**
 	 * Retrieves the time, at which the cache file was last modified.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return int|null The timestamp that represents the time when the cache file was last modified on success;
 	 *  null if timestamp could not be retrieved.
 	 */
@@ -1168,7 +1168,7 @@ class WPRSS_Image_Cache_Image {
 	/**
 	 * Checks whether or not the cache file exists.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return bool True if the cache file exists; false otherwise.
 	 */
 	public function check_exists() {
@@ -1181,7 +1181,7 @@ class WPRSS_Image_Cache_Image {
 	 *
 	 * @see get_ttl()
 	 * @see WPRSS_Image_Cache::check_image_expired()
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @return bool True if the cache file has expired; false otherwise.
 	 */
 	public function check_expired() {
@@ -1192,7 +1192,7 @@ class WPRSS_Image_Cache_Image {
 	/**
 	 * Get the time, at which the cache file of this instance will expire.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.3
 	 * @see WPRSS_Image_Cache::get_expiration_time()
 	 * @return int Unix timestamp representing the time when the cache file of this instance will expire.
 	 *  If file doesn't exist, or it's modification date cannot be retrieved, will return 0.

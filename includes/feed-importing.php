@@ -329,7 +329,7 @@
 	 * Extracts the actual URL from a Google Alerts permalink
 	 * 
 	 * @param string $permalink The permalink to normalize.
-         * @since [*next-version*]
+         * @since 4.7.3
 	 */
 	function wprss_google_alerts_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('google.com/url', '!') . '.*!');
