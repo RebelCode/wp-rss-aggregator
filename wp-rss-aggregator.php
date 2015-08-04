@@ -21,7 +21,7 @@
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
@@ -41,55 +41,55 @@
      * Define constants used by the plugin.
      */
 
-    // Set the version number of the plugin. 
+    // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
         define( 'WPRSS_VERSION', '4.7.3', true );
 
-    // Set the database version number of the plugin. 
+    // Set the database version number of the plugin.
     if( !defined( 'WPRSS_DB_VERSION' ) )
         define( 'WPRSS_DB_VERSION', 13 );
 
-    // Set the plugin prefix 
+    // Set the plugin prefix
     if( !defined( 'WPRSS_PREFIX' ) )
-        define( 'WPRSS_PREFIX', 'wprss', true );            
+        define( 'WPRSS_PREFIX', 'wprss', true );
 
-    // Set the plugin prefix 
+    // Set the plugin prefix
     if( !defined( 'WPRSS_FILE_CONSTANT' ) )
         define( 'WPRSS_FILE_CONSTANT', __FILE__, true );
 
-    // Set constant path to the plugin directory. 
+    // Set constant path to the plugin directory.
     if( !defined( 'WPRSS_DIR' ) )
-        define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );        
+        define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );
 
-    // Set constant URI to the plugin URL. 
+    // Set constant URI to the plugin URL.
     if( !defined( 'WPRSS_URI' ) )
-        define( 'WPRSS_URI', plugin_dir_url( __FILE__ ) );        
+        define( 'WPRSS_URI', plugin_dir_url( __FILE__ ) );
 
-    // Set the constant path to the plugin's javascript directory. 
+    // Set the constant path to the plugin's javascript directory.
     if( !defined( 'WPRSS_JS' ) )
         define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ), true );
 
-    // Set the constant path to the plugin's CSS directory. 
+    // Set the constant path to the plugin's CSS directory.
     if( !defined( 'WPRSS_CSS' ) )
         define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ), true );
 
-    // Set the constant path to the plugin's images directory. 
+    // Set the constant path to the plugin's images directory.
     if( !defined( 'WPRSS_IMG' ) )
         define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'images' ), true );
 
-    // Set the constant path to the plugin's includes directory. 
+    // Set the constant path to the plugin's includes directory.
     if( !defined( 'WPRSS_INC' ) )
         define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ), true );
 
     if( !defined( 'WPRSS_LANG' ) )
         define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ), true );
-    
+
     // Set the constant path to the plugin's log file.
     if( !defined( 'WPRSS_LOG_FILE' ) )
         define( 'WPRSS_LOG_FILE', WPRSS_DIR . 'log', true );
     if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
         define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
-    
+
 	if ( !defined('WPRSS_SL_STORE_URL') ) {
 		define( 'WPRSS_SL_STORE_URL', 'http://www.wprssaggregator.com', TRUE );
 	}
@@ -112,20 +112,20 @@
      */
 
     /* Load install, upgrade and migration code. */
-    require_once ( WPRSS_INC . 'update.php' );           
-    
+    require_once ( WPRSS_INC . 'update.php' );
+
     /* Load the shortcodes functions file. */
     require_once ( WPRSS_INC . 'shortcodes.php' );
 
     /* Load the custom post types and taxonomies. */
-    require_once ( WPRSS_INC . 'custom-post-types.php' );  
+    require_once ( WPRSS_INC . 'custom-post-types.php' );
 
     /* Load the file for setting capabilities of our post types */
-    require_once ( WPRSS_INC . 'roles-capabilities.php' ); 
+    require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
     /* Load the feed processing functions file */
     require_once ( WPRSS_INC . 'feed-processing.php' );
-	
+
 	/* Load the blacklist functions file */
     require_once ( WPRSS_INC . 'feed-blacklist.php' );
 
@@ -133,34 +133,34 @@
     require_once ( WPRSS_INC . 'feed-importing.php' );
 
     /* Load the feed states functions file */
-    require_once ( WPRSS_INC . 'feed-states.php' );   
+    require_once ( WPRSS_INC . 'feed-states.php' );
 
     /* Load the feed display functions file */
-    require_once ( WPRSS_INC . 'feed-display.php' );            
+    require_once ( WPRSS_INC . 'feed-display.php' );
 
     /* Load the custom feed file */
-    require_once ( WPRSS_INC . 'custom-feed.php' );            
+    require_once ( WPRSS_INC . 'custom-feed.php' );
 
     /* Load the custom post type feeds file */
     require_once ( WPRSS_INC . 'cpt-feeds.php' );
 
     /* Load the cron job scheduling functions. */
-    require_once ( WPRSS_INC . 'cron-jobs.php' ); 
+    require_once ( WPRSS_INC . 'cron-jobs.php' );
 
     /* Load the admin functions file. */
-    require_once ( WPRSS_INC . 'admin.php' );         
+    require_once ( WPRSS_INC . 'admin.php' );
 
     /* Load the admin options functions file. */
-    require_once ( WPRSS_INC . 'admin-options.php' );             
+    require_once ( WPRSS_INC . 'admin-options.php' );
 
     /* Load the settings import/export file */
-    require_once ( WPRSS_INC . 'admin-import-export.php' ); 
+    require_once ( WPRSS_INC . 'admin-import-export.php' );
 
     /* Load the debugging file */
-    require_once ( WPRSS_INC . 'system-info.php' ); 
+    require_once ( WPRSS_INC . 'system-info.php' );
 
     /* Load the miscellaneous functions file */
-    require_once ( WPRSS_INC . 'misc-functions.php' ); 
+    require_once ( WPRSS_INC . 'misc-functions.php' );
 
     /* Load the OPML Class file */
     require_once ( WPRSS_INC . 'OPML.php' );
@@ -170,34 +170,34 @@
 
     /* Load the admin debugging page file */
     require_once ( WPRSS_INC . 'admin-debugging.php' );
-    
+
     /* Load the addons page file */
-    require_once ( WPRSS_INC . 'admin-addons.php' );   
+    require_once ( WPRSS_INC . 'admin-addons.php' );
 
     /* Load the admin display-related functions */
-    require_once ( WPRSS_INC . 'admin-display.php' );     
+    require_once ( WPRSS_INC . 'admin-display.php' );
 
     /* Load the admin metaboxes functions */
-    require_once ( WPRSS_INC . 'admin-metaboxes.php' );     
+    require_once ( WPRSS_INC . 'admin-metaboxes.php' );
 
     /* Load the scripts loading functions file */
-    require_once ( WPRSS_INC . 'scripts.php' );   
+    require_once ( WPRSS_INC . 'scripts.php' );
 
     /* Load the Ajax notification file */
-    require_once ( WPRSS_INC . 'admin-ajax-notice.php' ); 
-    
+    require_once ( WPRSS_INC . 'admin-ajax-notice.php' );
+
     /* Load the dashboard welcome screen file */
-    require_once ( WPRSS_INC . 'admin-dashboard.php' );  
+    require_once ( WPRSS_INC . 'admin-dashboard.php' );
 
     /* Load the logging class */
-    require_once ( WPRSS_INC . 'roles-capabilities.php' );      
+    require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
     /* Load the security reset file */
     require_once ( WPRSS_INC . 'secure-reset.php' );
 
 	/* Load the licensing file */
 	require_once ( WPRSS_INC . 'licensing.php' );
-   
+
     /* Load the admin editor file */
     require_once ( WPRSS_INC . 'admin-editor.php' );
 
@@ -209,7 +209,7 @@
 
     // Load the logging functions file
     require_once ( WPRSS_INC . 'admin-log.php' );
-	
+
 	if ( !defined( 'WPRSS_LOG_LEVEL' ) )
 		define( 'WPRSS_LOG_LEVEL', WPRSS_LOG_LEVEL_ERROR );
 
@@ -218,20 +218,20 @@
 
     /* Load the admin metaboxes help file */
     require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
-    
+
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
-	
+
 	/* SimplePie */
 	require_once ( ABSPATH . WPINC . '/class-feed.php' );
-	
+
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
 
     /* Load the fallbacks for mbstring */
     require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
-    
+
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
@@ -242,7 +242,7 @@
      *
      * @since  1.0
      * @return void
-     */     
+     */
     function wprss_init() {
         //If user requested to download system info, generate the download.
         if ( isset( $_POST['wprss-sysinfo'] ) ) {
@@ -256,7 +256,7 @@
     add_filter( 'wprss_admin_pointers', 'wprss_check_tracking_notice' );
     /**
      * Сhecks the tracking option and if not set, shows a pointer with opt in and out options.
-     * 
+     *
      * @since 3.6
      */
     function wprss_check_tracking_notice( $pointers ){
@@ -292,7 +292,7 @@
     add_action( 'admin_enqueue_scripts', 'wprss_prepare_pointers', 1000 );
     /**
      * Prepare the admin pointers
-     * 
+     *
      * @since 3.6
      */
     function wprss_prepare_pointers() {
@@ -332,10 +332,10 @@
 
         // Add pointers style to queue.
         wp_enqueue_style( 'wp-pointer' );
-     
+
         // Add pointers script to queue. Add custom script.
         wp_enqueue_script( 'wprss-pointers', WPRSS_JS . 'pointers.js', array( 'wp-pointer' ) );
-     
+
         // Add pointer options to script.
         wp_localize_script( 'wprss-pointers', 'wprssPointers', $valid_pointers );
 
@@ -345,7 +345,7 @@
 
     /**
      * Print the scripts for the admin pointers
-     * 
+     *
      * @since 3.6
      */
     function wprss_footer_pointer_scripts() {
@@ -398,13 +398,13 @@
      *
      * @since  1.0
      * @return void
-     */  
+     */
     function wprss_activate() {
         /* Prevents activation of plugin if compatible version of WordPress not found */
         if ( version_compare( get_bloginfo( 'version' ), '3.3', '<' ) ) {
             deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
             wp_die( __( 'This plugin requires WordPress version 3.3 or higher.' ), 'WP RSS Aggregator', array( 'back_link' => true ) );
-        }  
+        }
         wprss_settings_initialize();
         flush_rewrite_rules();
         wprss_schedule_fetch_all_feeds_cron();
@@ -416,7 +416,7 @@
             // Sets a transient to trigger a redirect upon completion of activation procedure
             set_transient( '_wprss_activation_redirect', true, 30 );
         }
-		
+
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		// Check if WordPress SEO is activate, if yes set its options for hiding the metaboxes on the wprss_feed and wprss_feed_item screens
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
@@ -426,17 +426,17 @@
 				$wpseo_titles['hideeditbox-wprss_feed_item'] = TRUE;
 			}
 			update_option( 'wpseo_titles', $wpseo_titles );
-		} 
-    }    
+		}
+    }
 
 
     /**
      * Plugin deactivation procedure
      *
      * @since 1.0
-     */           
+     */
     function wprss_deactivate() {
-        // On deactivation remove the cron job  
+        // On deactivation remove the cron job
         wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
         wp_clear_scheduled_hook( 'wprss_truncate_posts_hook' );
         // Uschedule cron jobs for all feed sources
@@ -458,11 +458,11 @@
     add_action( 'plugins_loaded', 'wprss_load_textdomain' );
     /**
      * Loads the plugin's translated strings.
-     * 
+     *
      * @since  2.1
-     * @return void     
-     */  
-    function wprss_load_textdomain() { 
+     * @return void
+     */
+    function wprss_load_textdomain() {
         load_plugin_textdomain( WPRSS_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
@@ -485,28 +485,28 @@
     function wprss_disable() {
         return FALSE;
     }
-    
+
     /**
      * Gets the timezone string that corresponds to the timezone set for
      * this site. If the timezone is a UTC offset, or if it is not set, still
      * returns a valid timezone string.
      * However, if no actual zone exists in the configured offset, the result
      * may be rounded up, or failure.
-     * 
+     *
      * @see http://pl1.php.net/manual/en/function.timezone-name-from-abbr.php
      * @return string A valid timezone string, or false on failure.
      */
     function wprss_get_timezone_string() {
 		$tzstring = get_option( 'timezone_string' );
 
-		if ( empty($tzstring) ) { 
+		if ( empty($tzstring) ) {
             $offset = ( int )get_option( 'gmt_offset' );
             $tzstring = timezone_name_from_abbr( '', $offset * 60 * 60, 1 );
 		}
 
 		return $tzstring;
 	}
-    
+
 
     /**
      * @see http://wordpress.stackexchange.com/questions/94755/converting-timestamps-to-local-time-with-date-l18n#135049
@@ -517,7 +517,7 @@
     function wprss_local_date_i18n( $timestamp = null, $format = null ) {
         $format = is_null( $format ) ? get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) : $format;
         $timestamp = $timestamp ? $timestamp : time();
-        
+
         $timezone_str = wprss_get_timezone_string() ? wprss_get_timezone_string() : 'UTC';
         $timezone = new DateTimeZone( $timezone_str );
 
@@ -531,7 +531,7 @@
 			$date->setTime( $datetime['hours'] , $datetime['minutes'] , $datetime['seconds'] );
 		}
         $date_str = $date->format( 'Y-m-d H:i:s' );
-        
+
         // Pretend the local date is UTC to get the timestamp
         // to pass to date_i18n().
         $utc_timezone = new DateTimeZone( 'UTC' );
@@ -540,12 +540,12 @@
 
         return date_i18n( $format, $timestamp, true );
     }
-    
+
 
     /**
      * Gets an internationalized and localized datetime string, defaulting
      * to WP RSS format.
-     * 
+     *
      * @see wprss_local_date_i18n;
      * @param string|null $format Format to use. Default: Wordpress date and time format.
      * @param int|null $timestamp The timestamp to localize. Default: time().
@@ -553,6 +553,6 @@
      */
     function wprss_date_i18n( $timestamp = null, $format = null ) {
         $format = is_null( $format ) ? wprss_get_general_setting( 'date_format' ) : $format;
-        
+
         return wprss_local_date_i18n( $timestamp, $format );
     }
