@@ -172,7 +172,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 = 4.7.3 (2015-08-03) =
 * Enhanced: Core now implements an image cache logic.
 * Enhanced: Add-ons on the "Add-ons" page now have an installed-but-inactive status.
-* Enhanced: Google Alerts permalinks will now me normalized.
+* Enhanced: Google Alerts permalinks will now be normalized.
 * Enhanced: Russian translation added.
 * Fixed bug: Inline help (tooltips) translations now work.
 * Fixed bug: Link to the Feed to Post add-on on the welcome page is no longer broken.
