@@ -9,6 +9,7 @@
 	// Warning: Order may be important
 	add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix', 8);
 	add_filter('wprss_normalize_permalink', 'wprss_bing_news_url_fix', 9);
+	add_filter('wprss_normalize_permalink', 'wprss_google_alerts_url_fix', 10);
 	add_filter('wprss_normalize_permalink', 'wprss_convert_video_permalink', 100);
 	
 
@@ -321,6 +322,17 @@
 	 */
 	function wprss_google_news_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?' . preg_quote('news.google.com', '!') . '.*!');
+	}
+        
+        
+        /**
+	 * Extracts the actual URL from a Google Alerts permalink
+	 * 
+	 * @param string $permalink The permalink to normalize.
+         * @since 4.7.3
+	 */
+	function wprss_google_alerts_url_fix($permalink) {
+	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('google.com/url', '!') . '.*!');
 	}
 	
 
