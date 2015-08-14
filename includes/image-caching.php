@@ -383,7 +383,7 @@ class WPRSS_Image_Cache {
 	public function is_valid_url( $url ) {
 		$url = trim( $url );
 		$protocol_regex = '^([a-z][\w-]+:)?//';
-		return !is_object() && preg_match( $protocol_regex, $url ) && wprss_validate_url( $url );
+		return !is_object( $url ) && preg_match( sprintf( '!%1$s!', $protocol_regex ), $url ) && wprss_validate_url( $url );
 	}
 
 
