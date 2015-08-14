@@ -543,7 +543,7 @@ class WPRSS_Image_Cache {
 		$hash_funcs = apply_filters( 'wprss_image_cache_hash_functions', array( 'sha1', 'md5' ) );
 		foreach ( $hash_funcs as $_idx => $_func )
 			if ( is_callable( $_func ) )
-				return call_user_func_array ( $_func, array( $url_filename ) );
+				return call_user_func_array ( $_func, array( $value ) );
 
 		return $default;
 	}
