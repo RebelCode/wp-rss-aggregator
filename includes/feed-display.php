@@ -92,9 +92,9 @@
 
         $text_preceding_date = wprss_get_general_setting('text_preceding_date');
         $text_preceding_date = ltrim( __( $text_preceding_date, WPRSS_TEXT_DOMAIN ) . ' ' );
-        
+
         do_action( 'wprss_get_post_data' );
-        
+
         $meta = $extra_options;
         $extra_meta = apply_filters( 'wprss_template_extra_meta', $meta, $args, $ID );
 
@@ -114,7 +114,7 @@
         echo $item_title;
 
         do_action( 'wprss_after_feed_item_title', $extra_meta, $display_settings, $ID );
-        
+
         // FEED ITEM META
         echo '<div class="wprss-feed-meta">';
 
@@ -146,7 +146,7 @@
             echo ' ' . $author_text;
             echo '</span>';
         }
-        
+
         echo '</div>';
 
         // TIME AGO
@@ -255,7 +255,7 @@
         } else {
             $paged = 1;
         }
-        
+
 		$feed_items_args = array(
 			'post_type'        => 'wprss_feed_item',
             'posts_per_page'   => $posts_per_page,
@@ -275,7 +275,7 @@
         if ( isset( $settings['no-paged'] ) && $settings['no-paged'] === TRUE ) {
             unset( $feed_items_args['no-paged'] );
         }
-		
+
 		// If either the source or exclude arguments are set (but not both), prepare a meta query
 		if ( isset( $settings['source'] ) xor isset( $settings['exclude'] ) ) {
 			// Set the appropriate setting and operator
@@ -390,7 +390,7 @@
     function wprss_pagination_links( $output ) {
 		// Get the general setting
 		$pagination = wprss_get_general_setting( 'pagination' );;
-		
+
 		// Check the pagination setting, if using page numbers
 		if ( $pagination === 'numbered' ) {
 			global $wp_query;
@@ -408,7 +408,7 @@
 			$output .= '<div class="nav-links">';
 			$output .= '    <div class="nav-previous alignleft">' . get_next_posts_link( __( 'Older posts', WPRSS_TEXT_DOMAIN ) ) . '</div>';
 			$output .= '    <div class="nav-next alignright">' . get_previous_posts_link( __( 'Newer posts', WPRSS_TEXT_DOMAIN ) ) . '</div>';
-			$output .= '</div>';  
+			$output .= '</div>';
 			return $output;
 		}
     }
@@ -417,7 +417,7 @@
     add_filter( 'the_title', 'wprss_shorten_title', 10, 2 );
     /**
      * Checks the title limit option and shortens the title when necassary.
-     * 
+     *
      * @since 1.0
      */
     function wprss_shorten_title( $title, $id = null ) {
