@@ -524,16 +524,16 @@
         $open_dd = wprss_get_general_setting('open_dd');
 
         $items = array( 
-            __( 'Lightbox', WPRSS_TEXT_DOMAIN ), 
-            __( 'New window', WPRSS_TEXT_DOMAIN ), 
-            __( 'Self', WPRSS_TEXT_DOMAIN )
+            'Lightbox'   => __( 'Lightbox', WPRSS_TEXT_DOMAIN ), 
+            'New window' => __( 'New window', WPRSS_TEXT_DOMAIN ), 
+            'Self'       => __( 'Self', WPRSS_TEXT_DOMAIN )
         );
         ?>
 		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[open_dd]">
 		<?php
-        foreach( $items as $item ) {
-            $selected = ( $open_dd == $item ) ? 'selected="selected"' : '';
-            ?><option value="<?php echo $item ?>" <?php echo $selected ?>><?php echo $item ?></option><?php
+        foreach( $items as $key => $item ) {
+            $selected = ( $open_dd == $key ) ? 'selected="selected"' : '';
+            ?><option value="<?php echo $key ?>" <?php echo $selected ?>><?php echo $item ?></option><?php
         }
         ?>
 		</select>
