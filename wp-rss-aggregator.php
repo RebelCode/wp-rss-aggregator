@@ -404,9 +404,9 @@
      */
     function wprss_activate() {
         /* Prevents activation of plugin if compatible version of WordPress not found */
-        if ( version_compare( get_bloginfo( 'version' ), '3.3', '<' ) ) {
+        if ( version_compare( get_bloginfo( 'version' ), WPRSS_WP_MIN_VERSION, '<' ) ) {
             deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
-            wp_die( __( 'This plugin requires WordPress version 3.3 or higher.' ), 'WP RSS Aggregator', array( 'back_link' => true ) );
+            wp_die( sprintf ( __( 'This plugin requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION ), 'WP RSS Aggregator', array( 'back_link' => true ) );
         }
         wprss_settings_initialize();
         flush_rewrite_rules();
