@@ -45,6 +45,9 @@
     if( !defined( 'WPRSS_VERSION' ) )
         define( 'WPRSS_VERSION', '4.7.3', true );
 
+    if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
+        define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
+
     // Set the database version number of the plugin.
     if( !defined( 'WPRSS_DB_VERSION' ) )
         define( 'WPRSS_DB_VERSION', 13 );
