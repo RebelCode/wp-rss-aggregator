@@ -5,6 +5,12 @@
      * @package WPRSSAggregator
      */
 
+	 add_action( 'init', 'wprss_register_scripts', 9 );
+	 function wprss_register_scripts() {
+		// Add the Class library
+        wp_register_script( 'wprss-xdn-class', WPRSS_JS . sprintf( 'class%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('jquery') );
+	 }
+
 
     add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );
     /**
@@ -25,6 +31,9 @@
         }
 
         $screen = get_current_screen();
+
+		// Enqueue scripts for all admin pages
+        wp_enqueue_script( 'wprss-xdn-class' );
 
         wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
         wp_localize_script( 'wprss-admin-addon-ajax', 'wprss_admin_addon_ajax', array(
