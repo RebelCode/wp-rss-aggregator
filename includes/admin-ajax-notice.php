@@ -1103,3 +1103,67 @@ class WPRSS_Admin_Notices {
 	}
 }
 
+
+// This should initialize the notice collection before anything can use it
+add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
+
+
+/**
+ * Returns the singleton, plugin-wide instane of the admin notices controller.
+ * Initializes it if necessary.
+ *
+ * @since [*next-version*]
+ * @uses-filter wprss_admin_notice_collection_before_init To modify collection before initialization.
+ * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
+ * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
+ * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
+ * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
+ * @uses-action wprss_admin_notice_collection_before_localize_vars To access list of vars exposed to the frontend.
+ * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
+ * @return \WPRSS_Admin_Notices The singleton instance.
+ */
+function wprss_admin_notice_get_collection() {
+	static $collection = null;
+
+	if ( is_null( $collection ) ) {
+		// Initialize collection
+		$collection = new WPRSS_Admin_Notices(array(
+			'setting_code'			=> 'wprss_admin_notices',
+			'id_prefix'				=> 'wprss_',
+			'text_domain'			=> WPRSS_TEXT_DOMAIN
+		));
+		$collection = apply_filters( 'wprss_admin_notice_collection_before_init', $collection );
+		$collection->init();
+		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
+
+		$script_handles = apply_filters( 'wprss_admin_notice_collection_before_enqueue_scripts', array( 'wprss-admin-notifications' ), $collection );
+        foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
+		do_action( 'wprss_admin_notice_collection_after_enqueue_scripts', $script_handles, $collection );
+
+		// Frontend settings
+		$settings = apply_filters( 'wprss_admin_notice_collection_before_localize_vars', array(
+			'notice_class'				=> $collection->get_notice_base_class(),
+			'nonce_class'				=> $collection->get_nonce_base_class(),
+			'btn_close_class'			=> $collection->get_btn_close_base_class(),
+			'action_code'				=> wprss_admin_notice_get_action_code()
+		), $collection );
+		wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
+		do_action( 'wprss_admin_notice_collection_before_localize_vars', $settings, $collection );
+	}
+
+	return $collection;
+}
+
+
+/**
+ * Centralizes access to the name of the AJAX action handler for dismissing admin notices.
+ *
+ * This is necessary for configuration of the frontend.
+ *
+ * @since [*next-version*]
+ * @uses-filter wprss_admin_notice_action_code To modify return value.
+ * @return string The action code
+ */
+function wprss_admin_notice_get_action_code() {
+	return apply_filters( 'wprss_admin_notice_action_code', 'wprss_admin_notice_hide' );
+}
