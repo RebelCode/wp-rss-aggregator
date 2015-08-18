@@ -11,6 +11,9 @@
         wp_register_script( 'wprss-xdn-class', WPRSS_JS . sprintf( 'class%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('jquery') );
         wp_register_script( 'wprss-xdn-lib', WPRSS_JS . sprintf( 'xdn%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('wprss-xdn-class') );
         wp_register_script( 'aventura', WPRSS_JS . sprintf( 'aventura%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('wprss-xdn-lib') );
+
+		// This handles the client side for WPRSS_Admin_Notices
+        wp_register_script( 'wprss-admin-notifications', WPRSS_JS . sprintf( 'admin-notifications%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('aventura'), false, true );
 	 }
 
 
