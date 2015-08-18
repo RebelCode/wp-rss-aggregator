@@ -463,7 +463,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Normalize data of a notice, adding defaults.
 	 *
-	 * Auto-generating 'id', 'nonce', 'btn_close_id'.
+	 * Auto-generating 'id', 'nonce', 'btn_close_id', 'nonce_element_id', 'btn_close_id'.
 	 *
 	 * @since [*next-version*]
 	 * @uses-filter admin_notice_defaults Default values, before addin auto-generated values.
