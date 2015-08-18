@@ -230,6 +230,16 @@ class WPRSS_Admin_Notices {
 	}
 
 
+	/**
+	 * Initializes the instance for use with WP.
+	 *
+	 * Essentially, this is what prepares it and hooks the handlers in.
+	 *
+	 * @since [*next-version*]
+	 * @uses-action admin_notice_before_init To expose the object before initialization
+	 * @uses-action admin_notice_before_init To expose the object after initialization
+	 * @return \WPRSS_Admin_Notices This instance.
+	 */
 	public function init() {
 		do_action( $this->prefix( 'admin_notice_before_init' ), $this );
 		add_action( 'admin_notices', array( $this, 'output_allowed_notices' ) );
