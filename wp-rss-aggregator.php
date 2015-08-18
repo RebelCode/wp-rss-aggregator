@@ -396,6 +396,11 @@
     }
 
 
+	function wprss_wp_min_version_satisfied() {
+		return version_compare( get_bloginfo( 'version' ), WPRSS_WP_MIN_VERSION, '>=' );
+	}
+
+
     /**
      * Plugin activation procedure
      *
@@ -404,7 +409,7 @@
      */
     function wprss_activate() {
         /* Prevents activation of plugin if compatible version of WordPress not found */
-        if ( version_compare( get_bloginfo( 'version' ), WPRSS_WP_MIN_VERSION, '<' ) ) {
+        if ( !wprss_wp_min_version_satisfied() ) {
             deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
             wp_die( sprintf ( __( 'This plugin requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION ), 'WP RSS Aggregator', array( 'back_link' => true ) );
         }
