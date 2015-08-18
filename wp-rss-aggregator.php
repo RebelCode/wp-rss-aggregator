@@ -299,10 +299,6 @@
      * @since 3.6
      */
     function wprss_prepare_pointers() {
-        // Don't run on WP < 3.3
-        if ( get_bloginfo( 'version' ) < '3.3' )
-            return;
-
         // If the user is not an admin, do not show the pointer
         if ( !current_user_can( 'manage_options' ) )
             return;
