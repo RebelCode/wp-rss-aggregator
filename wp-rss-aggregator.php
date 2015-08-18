@@ -401,6 +401,22 @@
 	}
 
 
+	add_action( 'init', 'wprss_add_wp_version_warning' );
+	function wprss_add_wp_version_warning() {
+		if ( wprss_wp_min_version_satisfied() )
+			return;
+
+		wprss_admin_notice_add(array(
+			'id'			=> 'wp_version_warning',
+			'content'		=> sprintf( __(
+					'<p>WP RSS Aggregator requires WordPress to be of version %1$s or higher.</br>'
+					. 'Lower versions of WordPress are no longer supported. Please upgrade your WordPress core to continue benefitting from support services<p>',
+				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION ),
+			'notice_type'	=> 'error'
+		));
+	}
+
+
     /**
      * Plugin activation procedure
      *
