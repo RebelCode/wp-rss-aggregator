@@ -7,9 +7,10 @@
 
 	 add_action( 'init', 'wprss_register_scripts', 9 );
 	 function wprss_register_scripts() {
-		// Add the Class library, and the Xdn library
+		// Add the Class library, the Xdn library, and the Aventura namespace and classes
         wp_register_script( 'wprss-xdn-class', WPRSS_JS . sprintf( 'class%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('jquery') );
         wp_register_script( 'wprss-xdn-lib', WPRSS_JS . sprintf( 'xdn%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('wprss-xdn-class') );
+        wp_register_script( 'aventura', WPRSS_JS . sprintf( 'aventura%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('wprss-xdn-lib') );
 	 }
 
 
@@ -36,6 +37,7 @@
 		// Enqueue scripts for all admin pages
         wp_enqueue_script( 'wprss-xdn-class' );
         wp_enqueue_script( 'wprss-xdn-lib' );
+        wp_enqueue_script( 'aventura' );
 
         wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
         wp_localize_script( 'wprss-admin-addon-ajax', 'wprss_admin_addon_ajax', array(
