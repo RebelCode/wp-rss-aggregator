@@ -1167,3 +1167,21 @@ function wprss_admin_notice_get_collection() {
 function wprss_admin_notice_get_action_code() {
 	return apply_filters( 'wprss_admin_notice_action_code', 'wprss_admin_notice_hide' );
 }
+
+
+/**
+ * Adds a notice to be displayed on top of an admin page.
+ *
+ * @since [*next-version*]
+ * @param array $notice Data of the notice
+ * @return bool|WP_Error True if notice added, or WP_Error if something went wrong.
+ */
+function wprss_admin_notice_add( $notice ) {
+	try {
+		wprss_admin_notice_get_collection()->add_notice( $notice );
+	} catch ( Exception $e ) {
+		return new WP_Error( 'could_not_add_admin_notice', $e->getMessage() );
+	}
+
+	return true;
+}
