@@ -1210,3 +1210,39 @@ function wprss_admin_notice_hide() {
 	exit( '1' );
 }
 
+
+/**
+ * Check whether the current page is related to WP RSS Aggregator.
+ *
+ * @since [*next-version*]
+ * @uses-filter wprss_is_wprss_page To modify return value.
+ * @global string $typenow Post type of the current page.
+ * @return boolean True if the current page is a WPRSS-related page; false otherwise.
+ */
+function wprss_is_wprss_page() {
+	global $typenow;
+
+	if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
+	  $post = get_post( $_GET['post'] );
+	  if ( $post !== NULL && !is_wp_error( $post ) )
+		$typenow = $post->post_type;
+	}
+
+	$is_wprss_page = ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' );
+	return apply_filters( 'wprss_is_wprss_page',  $is_wprss_page );
+}
+
+
+/**
+ * Check whether the currently logged in user can manage WP options.
+ *
+ * This normally describes the administrator.
+ *
+ * @since [*next-version*]
+ * @uses-filter wprss_user_can_manage_options To modify return value.
+ * @return bool True if the currently logged in user has the 'manage_options' privilege; false otherwise.
+ */
+function wprss_user_can_manage_options() {
+	return apply_filters( 'wprss_user_can_manage_options', current_user_can( 'manage_options' ) );
+}
+
