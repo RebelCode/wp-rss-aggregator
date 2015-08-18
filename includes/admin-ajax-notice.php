@@ -1185,3 +1185,28 @@ function wprss_admin_notice_add( $notice ) {
 
 	return true;
 }
+
+
+add_action( sprintf( 'wp_ajax_%1$s', wprss_admin_notice_get_action_code() ), 'wprss_admin_notice_hide' );
+/**
+ * This is what handles the AJAX action of dismissing admin notices.
+ *
+ * @see WPRSS_Admin_Notices::hide_notice()
+ * @since [*next-version*]
+ */
+function wprss_admin_notice_hide() {
+	$notice_id = isset( $_REQUEST['notice_id'] ) ? $_REQUEST['notice_id'] : null;
+	$nonce = isset( $_REQUEST['nonce'] ) ? $_REQUEST['nonce'] : null;
+
+	try {
+		wprss_admin_notice_get_collection()->hide_notice( $notice_id, $nonce );
+	} catch (Exception $e) {
+		// Failure
+		echo $e->getMessage();
+		exit();
+	}
+
+	// Success
+	exit( '1' );
+}
+
