@@ -5,6 +5,17 @@
      * @package WPRSSAggregator
      */
 
+	 add_action( 'init', 'wprss_register_scripts', 9 );
+	 function wprss_register_scripts() {
+		// Add the Class library, the Xdn library, and the Aventura namespace and classes
+        wp_register_script( 'wprss-xdn-class', wprss_get_script_url( 'class' ), array('jquery') );
+        wp_register_script( 'wprss-xdn-lib', wprss_get_script_url( 'xdn' ), array('wprss-xdn-class') );
+        wp_register_script( 'aventura', wprss_get_script_url( 'aventura' ), array('wprss-xdn-lib') );
+
+		// This handles the client side for WPRSS_Admin_Notices
+    wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), false, true );
+	 }
+
 
     add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );
     /**
@@ -25,6 +36,11 @@
         }
 
         $screen = get_current_screen();
+
+		// Enqueue scripts for all admin pages
+        wp_enqueue_script( 'wprss-xdn-class' );
+        wp_enqueue_script( 'wprss-xdn-lib' );
+        wp_enqueue_script( 'aventura' );
 
         wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
         wp_localize_script( 'wprss-admin-addon-ajax', 'wprss_admin_addon_ajax', array(
