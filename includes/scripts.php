@@ -8,12 +8,12 @@
 	 add_action( 'init', 'wprss_register_scripts', 9 );
 	 function wprss_register_scripts() {
 		// Add the Class library, the Xdn library, and the Aventura namespace and classes
-        wp_register_script( 'wprss-xdn-class', WPRSS_JS . sprintf( 'class%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('jquery') );
-        wp_register_script( 'wprss-xdn-lib', WPRSS_JS . sprintf( 'xdn%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('wprss-xdn-class') );
-        wp_register_script( 'aventura', WPRSS_JS . sprintf( 'aventura%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('wprss-xdn-lib') );
+        wp_register_script( 'wprss-xdn-class', wprss_get_script_url( 'class' ), array('jquery') );
+        wp_register_script( 'wprss-xdn-lib', wprss_get_script_url( 'xdn' ), array('wprss-xdn-class') );
+        wp_register_script( 'aventura', wprss_get_script_url( 'aventura' ), array('wprss-xdn-lib') );
 
 		// This handles the client side for WPRSS_Admin_Notices
-        wp_register_script( 'wprss-admin-notifications', WPRSS_JS . sprintf( 'admin-notifications%1$s.js', SCRIPT_DEBUG ? '' : '.min' ), array('aventura'), false, true );
+    wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), false, true );
 	 }
 
 
