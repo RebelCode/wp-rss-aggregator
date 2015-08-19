@@ -576,3 +576,22 @@
 
         return wprss_local_date_i18n( $timestamp, $format );
     }
+    
+    
+    function wprss_is_script_debug() {
+        return defined( 'SCRIPT_DEBUG' ) ? SCRIPT_DEBUG : false;
+    }
+    
+    
+    function wprss_get_minified_extension_prefix() {
+        return apply_filters( 'wprss_minified_extension_prefix', '.min' );
+    }
+    
+    
+    function wprss_get_script_url( $url, $extension = null ) {
+        if ( is_null( $extension ) )
+            $extension = '.js';
+        
+        $script_url = WPRSS_JS . $url . (wprss_is_script_debug() ? wprss_get_minified_extension_prefix() : '') . $extension;
+        return apply_filters( 'wprss_script_url',  $script_url, $url, $extension );
+    }
