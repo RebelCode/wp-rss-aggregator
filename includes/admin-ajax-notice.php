@@ -804,7 +804,7 @@ class WPRSS_Admin_Notices {
 			$func = is_array( $_condition ) && isset( $_condition['func'] )
 					? $_condition['func']
 					: $_condition;
-			$args = array_merge( // Appending our args to the passed ars
+			$args = array_merge( // Appending our args to the passed args
 						array_values( isset( $_condition['args'] ) ? (array)$_condition['args'] : array() ),
 						array_values( $args ));
 
@@ -1064,12 +1064,12 @@ class WPRSS_Admin_Notices {
 		?>
 
 		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?>">
-				<div class="notice-content">
-					<?php echo $notice['content'] ?>
-				</div>
-                <a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
-                <span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $notice['nonce'] ?></span>
-            </div>
+			<div class="notice-content">
+				<?php echo $notice['content'] ?>
+			</div>
+			<a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
+			<span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $notice['nonce'] ?></span>
+		</div>
 		<?php
 		do_action( $this->prefix( 'admin_notice_render_after' ), $notice, $this );
 		$output = ob_get_clean();
@@ -1147,7 +1147,7 @@ function wprss_admin_notice_get_collection() {
 		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
 
 		$script_handles = apply_filters( 'wprss_admin_notice_collection_before_enqueue_scripts', array( 'wprss-admin-notifications' ), $collection );
-        foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
+		foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
 		do_action( 'wprss_admin_notice_collection_after_enqueue_scripts', $script_handles, $collection );
 
 		// Frontend settings
