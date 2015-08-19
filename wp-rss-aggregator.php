@@ -587,7 +587,7 @@
      * to be initially declared. In this case it is assumed to be false,
      * as per {@link https://codex.wordpress.org/Debugging_in_WordPress#SCRIPT_DEBUG WordPress Codex} documentation.
      *
-     * @since [*next-version*]
+     * @since 4.7.4
      * @uses-filter wprss_is_script_debug To modify return value.
      * @return boolean True if script debugging is on; false otherwise.
      */
@@ -599,7 +599,7 @@
     /**
      * Get the prefix for minified resources' extensions.
      *
-     * @since [*next-version*]
+     * @since 4.7.4
      * @see wprss_is_script_debug()
      * @uses-filter wprss_minified_extension_prefix To modify return value.
      * @return string The prefix that is to be applied to minified resources' file names, before the extension.
@@ -614,7 +614,7 @@
      *
      * If Script Debugging is on, the extension will be prefixed appropriately.
      *
-     * @since [*next-version*]
+     * @since 4.7.4
      * @see wprss_get_minified_extension_prefix()
      * @param string $url The relative URL to the script resource, without the extension.
      * @param string $extension The extension of the script file name, including the period (.). Default: '.js'.

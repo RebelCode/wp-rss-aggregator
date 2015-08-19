@@ -144,7 +144,7 @@
 /**
  * Responsible for tracking and outputting admin notices
  *
- * @since [*next-version*]
+ * @since 4.7.4
  */
 class WPRSS_Admin_Notices {
 
@@ -173,7 +173,7 @@ class WPRSS_Admin_Notices {
 
 	/**
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param null|array The settings of this instance.
 	 *  Possible values are:
 	 *		- 'setting_code': The code of the database setting used for storing and managing notices of this instance.
@@ -223,7 +223,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Internal, parameter-less constructor.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 */
 	protected function _construct() {
 
@@ -235,7 +235,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * Essentially, this is what prepares it and hooks the handlers in.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-action admin_notice_before_init To expose the object before initialization
 	 * @uses-action admin_notice_before_init To expose the object after initialization
 	 * @return \WPRSS_Admin_Notices This instance.
@@ -269,7 +269,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Sets a prefix that will be added to IDs specific to this collection.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param string $prefix The prefix to set.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -282,7 +282,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Set the name of the setting to store the notices in.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see get_setting_name()
 	 * @param string $name The name of the notices setting to use.
 	 * @return \WPRSS_Admin_Notices This instance.
@@ -296,7 +296,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Get the name of the notices setting.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see set_setting_name()
 	 * @return string The name of the setting which stores notices and their states.
 	 */
@@ -308,7 +308,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Retrieve the text domain that is used for translation by this instance.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @return string The text domain.
 	 */
 	public function get_text_domain() {
@@ -319,7 +319,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Set the text domain that is used for translation by this instance.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param string $text_domain The text domain.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -332,7 +332,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Get the class that is the base, common class for all notices' top HTML elements.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_base_class To modify return value.
 	 * @return string The class common to all notices
 	 */
@@ -344,7 +344,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Set the class that will be the base, common class for all notices' top HTML elements.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param string $class The class name that will be common to all notices.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -357,7 +357,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Get the class that is the base, common class for all notices' nonces' HTML elements.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_nonce_base_class To modify return value.
 	 * @return string The class common to all nonces
 	 */
@@ -369,7 +369,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Set the class that will be the base, common class for all notices' nonces' HTML elements.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param string $class The class name that will be common to all nonces.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -382,7 +382,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Get the class that is the base, common class for all notices' close buttons' HTML elements.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_btn_close_base_class To modify return value.
 	 * @return string The class common to all close buttons
 	 */
@@ -394,7 +394,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Set the class that will be the base, common class for all notices' close buttons' HTML elements.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param string $class The class name that will be common to close buttons.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -417,7 +417,7 @@ class WPRSS_Admin_Notices {
 	 * - The 'btn_close_class' index determines the class that the close button will have, in addition to the default 'btn-close'.
 	 * - The 'btn_close_content' index determines the literal content of the element of the close button. HTML allowed.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_add_before_normalize To allow pre-normalization modification of notice.
 	 * @uses-filter admin_notice_add_before To allow post-normalization modification of notice.
 	 * @uses-action admin_notice_add_after To expose data of added notice. This will not be fired if notice was not added.
@@ -440,7 +440,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * No normalization or checks are made, except for the presence of an ID.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_set_before To alter the data of the notice before setting.
 	 * @uses-action admin_notice_set_after To expose the data of the notice after setting.
 	 * @param array $notice Data of the notice.
@@ -465,7 +465,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * Auto-generating 'id', 'nonce', 'btn_close_id', 'nonce_element_id', 'btn_close_id'.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_defaults Default values, before addin auto-generated values.
 	 * @uses-filter admin_notice_defaults_autogenerated Default values, after adding auto-generated values.
 	 * @param array $data The notice data to normalize
@@ -517,7 +517,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Removes a notice from this collection.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_remove_before To modify the notice ID that will be removed. Returning falsy value prevents removal.
 	 * @uses-action admin_notice_remove_before To expose notice ID after removal.
 	 * @param array|int $notice A notice, or notice ID.
@@ -546,7 +546,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Removes a notice by ID from the supplied array.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_internal_remove_before To modify notice before removal. Returning falsy value prevents removal.
 	 * @uses-action admin_notice_internal_remove_after To expose data of notice after removal.
 	 * @param array|string $notice A notice, or notice ID
@@ -580,7 +580,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Checks whether a notice already exists.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param array|int $notice A notice, or notice ID to check for.
 	 * @return boolean True if notice already exists; false otherwise.
 	 */
@@ -595,7 +595,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Get all notices, or a notice with the specified ID.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_get_all To modify all notices returned.
 	 * @uses-filter admin_notice_get To modify single returned notice.
 	 * @param null|string $id The ID of a notice to retrieve.
@@ -617,7 +617,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Get all notices that are active.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see is_notice_active()
 	 * @return array Notices that are currently active;
 	 */
@@ -641,7 +641,7 @@ class WPRSS_Admin_Notices {
 	 * If data array is passed, it's 'is_active' key will be used as default.
 	 * Otherwise, data will be retrieved by ID and compared to database.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_is_active To modify return value. Used in several places.
 	 * @param array|string $notice Notice or notice ID.
 	 * @param boolean $default What to return if no notice state data exists.
@@ -677,7 +677,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Set notice active state.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param array|string $notice Notice data or ID.
 	 * @param null|boolean $is_active If true, notice state will be set to active; if false - to inactive. Default: true.
 	 */
@@ -695,7 +695,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * Allowed notices are also only active ones. Inactive notices are not evaluated.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see is_notice_allowed()
 	 * @uses-filter admin_notice_all_allowed To modify return value.
 	 * @return array Allowed notices.
@@ -717,7 +717,7 @@ class WPRSS_Admin_Notices {
 	 * To determine that, the notice's conditions are evaluated according
 	 * to the condition type.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_is_allowed To modify return value.
 	 * @param array|string $notice Notice or notice ID.
 	 * @return bool Whether or not the specified notice passed it's conditions to be allowed.
@@ -737,7 +737,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Generates a nonce for a notice ID.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see wp_create_nonce()
 	 * @see generate_nonce_code()
 	 * @uses-filter admin_notice_nonce_for_notice
@@ -762,7 +762,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Generates a code that is used to generate a nonce for a notice.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see wp_create_nonce()
 	 * @see generate_nonce_for_notice()
 	 * @uses-filter admin_notice_nonce_code To modify return value.
@@ -786,7 +786,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * A condition is a callable that returns true or false (no type checking is done here).
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_conditions_evaluated To modify the return value.
 	 * @uses-filter admin_notice_condition_result To alter the result of each condition's evaluated.
 	 * @param array|callable $conditions A callable or an array of callables.
@@ -851,7 +851,7 @@ class WPRSS_Admin_Notices {
 	 * defaults are assumed. See {@link is_notice_active()} for information.
 	 * The settings contain states, not notice information.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_get_notices_settings_all To modify settings of all notices.
 	 * @uses-filter admin_notice_get_notices_settings To modify settings of just one notice. May have been modified by admin_notice_get_notices_settings_all.
 	 * @param null|string $id Notice ID
@@ -884,7 +884,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 *
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_set_settings_before To modify what gets saved. Also see {@link prepare_notice_data_for_db()}.
 	 * @uses-action admin_notice_set_settings_after To expose data that has been saved.
 	 * @param string|array $notice The notice data, or notice ID, to save.
@@ -938,7 +938,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * The passed data will replace all data currently stored in the option.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see get_setting_name()
 	 * @uses-filter admin_notice_set_settings_all_before To modify what gets saved.
 	 * @uses-action admin_notice_set_settings_all_after To expose saved data.
@@ -998,7 +998,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * This ID will be unique to this collection.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @see uniqid()
 	 * @uses-filter admin_notice_generate_unique_id To allow modification of ID.
 	 * @param string $prefix The prefix to give to the generated ID.
@@ -1016,7 +1016,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Generate the HTML for all allowed notices, sequentially.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @return string The rendered HTML.
 	 */
 	public function render_allowed_notices() {
@@ -1032,7 +1032,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Directly output the rendered HTML of all allowed notices.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
 	public function output_allowed_notices() {
@@ -1044,7 +1044,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Generate the HTML of a notice.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @uses-filter admin_notice_render_before To allow modification of notice data before rendering.
 	 * @uses-action admin_notice_render_after To allow injection inside the notice HTML.
 	 * @uses-filter admin_notice_rendered To allow modification of rendered HTML.
@@ -1081,7 +1081,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Used to hide a notice, typically responding to a frontend event.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.7.4
 	 * @param array|string $notice Notice or notice ID.
 	 * @param string $nonce The nonce from the frontend.
 	 * @return \WPRSS_Admin_Notices This instance.
@@ -1122,7 +1122,7 @@ add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
  * Returns the singleton, plugin-wide instane of the admin notices controller.
  * Initializes it if necessary.
  *
- * @since [*next-version*]
+ * @since 4.7.4
  * @uses-filter wprss_admin_notice_collection_before_init To modify collection before initialization.
  * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
  * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
@@ -1170,7 +1170,7 @@ function wprss_admin_notice_get_collection() {
  *
  * This is necessary for configuration of the frontend.
  *
- * @since [*next-version*]
+ * @since 4.7.4
  * @uses-filter wprss_admin_notice_action_code To modify return value.
  * @return string The action code
  */
@@ -1182,7 +1182,7 @@ function wprss_admin_notice_get_action_code() {
 /**
  * Adds a notice to be displayed on top of an admin page.
  *
- * @since [*next-version*]
+ * @since 4.7.4
  * @param array $notice Data of the notice
  * @return bool|WP_Error True if notice added, or WP_Error if something went wrong.
  */
@@ -1202,7 +1202,7 @@ add_action( sprintf( 'wp_ajax_%1$s', wprss_admin_notice_get_action_code() ), 'wp
  * This is what handles the AJAX action of dismissing admin notices.
  *
  * @see WPRSS_Admin_Notices::hide_notice()
- * @since [*next-version*]
+ * @since 4.7.4
  */
 function wprss_admin_notice_hide() {
 	$notice_id = isset( $_REQUEST['notice_id'] ) ? $_REQUEST['notice_id'] : null;
@@ -1224,7 +1224,7 @@ function wprss_admin_notice_hide() {
 /**
  * Check whether the current page is related to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.7.4
  * @uses-filter wprss_is_wprss_page To modify return value.
  * @global string $typenow Post type of the current page.
  * @return boolean True if the current page is a WPRSS-related page; false otherwise.
@@ -1248,7 +1248,7 @@ function wprss_is_wprss_page() {
  *
  * This normally describes the administrator.
  *
- * @since [*next-version*]
+ * @since 4.7.4
  * @uses-filter wprss_user_can_manage_options To modify return value.
  * @return bool True if the currently logged in user has the 'manage_options' privilege; false otherwise.
  */
