@@ -169,6 +169,11 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.7.4 (2015-08-19)
+* Requirement: WordPress 4.0 or greater now required.
+* Fixed bug in image caching
+* Fixed bug in admin interface due to incorrectly translated IDs
+
 = 4.7.3 (2015-08-04) =
 * Enhanced: Core now implements an image cache logic.
 * Enhanced: Add-ons on the "Add-ons" page now have an installed-but-inactive status.
