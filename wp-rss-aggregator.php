@@ -405,8 +405,8 @@
 		wprss_admin_notice_add(array(
 			'id'			=> 'wp_version_warning',
 			'content'		=> sprintf( __(
-					'<p>WP RSS Aggregator requires WordPress to be of version %1$s or higher.</br>'
-					. 'Lower versions of WordPress are no longer supported. Please upgrade your WordPress core to continue benefitting from support services<p>',
+					'<p><strong>WP RSS Aggregator requires WordPress to be of version %1$s or higher.</strong></br>'
+					. 'Older versions of WordPress are no longer supported. Please upgrade your WordPress core to continue benefitting from WP RSS Aggregator support services.</p>',
 				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION ),
 			'notice_type'	=> 'error'
 		));
