@@ -383,7 +383,7 @@ class WPRSS_Image_Cache {
 	public function is_valid_url( $url ) {
 		$url = trim( $url );
 		$protocol_regex = '^([a-z][\w-]+:)?//';
-		return !is_object() && preg_match( $protocol_regex, $url ) && wprss_validate_url( $url );
+		return !is_object( $url ) && preg_match( sprintf( '!%1$s!', $protocol_regex ), $url ) && wprss_validate_url( $url );
 	}
 
 
@@ -543,7 +543,7 @@ class WPRSS_Image_Cache {
 		$hash_funcs = apply_filters( 'wprss_image_cache_hash_functions', array( 'sha1', 'md5' ) );
 		foreach ( $hash_funcs as $_idx => $_func )
 			if ( is_callable( $_func ) )
-				return call_user_func_array ( $_func, array( $url_filename ) );
+				return call_user_func_array ( $_func, array( $value ) );
 
 		return $default;
 	}

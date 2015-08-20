@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.7.3
+    Version: 4.7.4
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.7.3
+     * @version   4.7.4
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2015, Jean Galea
@@ -43,7 +43,10 @@
 
     // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.7.3', true );
+        define( 'WPRSS_VERSION', '4.7.4', true );
+
+    if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
+        define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
 
     // Set the database version number of the plugin.
     if( !defined( 'WPRSS_DB_VERSION' ) )
@@ -296,10 +299,6 @@
      * @since 3.6
      */
     function wprss_prepare_pointers() {
-        // Don't run on WP < 3.3
-        if ( get_bloginfo( 'version' ) < '3.3' )
-            return;
-
         // If the user is not an admin, do not show the pointer
         if ( !current_user_can( 'manage_options' ) )
             return;
@@ -393,6 +392,27 @@
     }
 
 
+	function wprss_wp_min_version_satisfied() {
+		return version_compare( get_bloginfo( 'version' ), WPRSS_WP_MIN_VERSION, '>=' );
+	}
+
+
+	add_action( 'init', 'wprss_add_wp_version_warning' );
+	function wprss_add_wp_version_warning() {
+		if ( wprss_wp_min_version_satisfied() )
+			return;
+
+		wprss_admin_notice_add(array(
+			'id'			=> 'wp_version_warning',
+			'content'		=> sprintf( __(
+					'<p><strong>WP RSS Aggregator requires WordPress to be of version %1$s or higher.</strong></br>'
+					. 'Older versions of WordPress are no longer supported by WP RSS Aggregator. Please upgrade your WordPress core to continue benefiting from WP RSS Aggregator support services.</p>',
+				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION ),
+			'notice_type'	=> 'error'
+		));
+	}
+
+
     /**
      * Plugin activation procedure
      *
@@ -401,9 +421,9 @@
      */
     function wprss_activate() {
         /* Prevents activation of plugin if compatible version of WordPress not found */
-        if ( version_compare( get_bloginfo( 'version' ), '3.3', '<' ) ) {
+        if ( !wprss_wp_min_version_satisfied() ) {
             deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
-            wp_die( __( 'This plugin requires WordPress version 3.3 or higher.' ), 'WP RSS Aggregator', array( 'back_link' => true ) );
+            wp_die( sprintf ( __( 'This plugin requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION ), 'WP RSS Aggregator', array( 'back_link' => true ) );
         }
         wprss_settings_initialize();
         flush_rewrite_rules();
@@ -555,4 +575,55 @@
         $format = is_null( $format ) ? wprss_get_general_setting( 'date_format' ) : $format;
 
         return wprss_local_date_i18n( $timestamp, $format );
+    }
+
+
+    /**
+     * Checks whether or not the Script Debug mode is on.
+     *
+     * By default, this is the value of the SCRIPT_DEBUG WordPress constant.
+     * However, this can be changed via the filter.
+     * Also, in earlier versions of WordPress, this constant does not seem
+     * to be initially declared. In this case it is assumed to be false,
+     * as per {@link https://codex.wordpress.org/Debugging_in_WordPress#SCRIPT_DEBUG WordPress Codex} documentation.
+     *
+     * @since 4.7.4
+     * @uses-filter wprss_is_script_debug To modify return value.
+     * @return boolean True if script debugging is on; false otherwise.
+     */
+    function wprss_is_script_debug() {
+        return apply_filters( 'wprss_is_script_debug', defined( 'SCRIPT_DEBUG' ) ? SCRIPT_DEBUG : false );
+    }
+
+
+    /**
+     * Get the prefix for minified resources' extensions.
+     *
+     * @since 4.7.4
+     * @see wprss_is_script_debug()
+     * @uses-filter wprss_minified_extension_prefix To modify return value.
+     * @return string The prefix that is to be applied to minified resources' file names, before the extension.
+     */
+    function wprss_get_minified_extension_prefix() {
+        return apply_filters( 'wprss_minified_extension_prefix', '.min' );
+    }
+
+
+    /**
+     * Get the absolute URL to a WP RSS Aggregator script.
+     *
+     * If Script Debugging is on, the extension will be prefixed appropriately.
+     *
+     * @since 4.7.4
+     * @see wprss_get_minified_extension_prefix()
+     * @param string $url The relative URL to the script resource, without the extension.
+     * @param string $extension The extension of the script file name, including the period (.). Default: '.js'.
+     * @return string The URL to the script local to WP RSS Aggregator, possibly minified.
+     */
+    function wprss_get_script_url( $url, $extension = null ) {
+        if ( is_null( $extension ) )
+            $extension = '.js';
+
+        $script_url = WPRSS_JS . $url . (wprss_is_script_debug() ? wprss_get_minified_extension_prefix() : '') . $extension;
+        return apply_filters( 'wprss_script_url',  $script_url, $url, $extension );
     }

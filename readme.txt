@@ -2,9 +2,9 @@
 Contributors: jeangalea, Mekku, xedin.unknown, markzahra, doytch, chiragswadia
 Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger, rss feeder, rss post importer, autoblog aggregator, autoblog, autopost, content curation, feedwordpress, wp rss multi import, hungryfeed, wp-o-matic, rss feed, rss feed to post, rss retriever, syndication
-Requires at least: 3.3
+Requires at least: 4.0
 Tested up to: 4.2.3
-Stable tag: 4.7.3
+Stable tag: 4.7.4
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -168,6 +168,11 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.7.4 (2015-08-19)
+* Requirement: WordPress 4.0 or greater now required.
+* Fixed bug in image caching
+* Fixed bug in admin interface due to incorrectly translated IDs
 
 = 4.7.3 (2015-08-04) =
 * Enhanced: Core now implements an image cache logic.
