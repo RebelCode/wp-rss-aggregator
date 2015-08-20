@@ -169,7 +169,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
-= 4.7.4 (2015-08-19)
+= 4.7.4 (2015-08-20) =
 * Requirement: WordPress 4.0 or greater now required.
 * Fixed bug in image caching
 * Fixed bug in admin interface due to incorrectly translated IDs
