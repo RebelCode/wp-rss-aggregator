@@ -5,9 +5,9 @@
      * @package    WPRSSAggregator
      * @subpackage Includes
      * @since      3.1
-     * @author     Jean Galea <info@jeangalea.com>
-     * @copyright  Copyright(c) 2012-2013, Jean Galea. Adapted from Easy Digital Downloads by Pippin Williamson
-     * @link       http://www.wpmayor.com
+     * @author     Jean Galea <info@wprssaggregator.com>
+     * @copyright  Copyright (c) 2012-2015, Jean Galea. Adapted from Easy Digital Downloads by Pippin Williamson
+     * @link       http://www.wprssaggregator.com/
      * @license    http://www.gnu.org/licenses/gpl.html
      */
 
@@ -19,25 +19,21 @@
 	function wprss_system_info() {
 		global $wpdb;
 
-		if ( ! class_exists( 'Browser' ) )
-			require_once WPRSS_DIR . 'includes/libraries/browser.php';
-
-		$browser =  new Browser();
 	?>
-			<h3><?php _e( 'System Information', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php
-				$form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' );
-				$nonce_url = wp_nonce_url( $form_url, 'wprss-sysinfo' );
-			?>
-			<form action="<?php echo esc_url( $nonce_url ); ?>" method="post">
-				<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>">
-				<?php wprss_print_system_info(); ?>
-				</textarea>
-				<p class="submit">
-					<input type="hidden" name="wprss-action" value="download_sysinfo" />
-					<?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
-				</p>
-			</form>
+            <h3><?php _e( 'System Information', WPRSS_TEXT_DOMAIN ) ?></h3>
+            <?php
+                    $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' );
+                    $nonce_url = wp_nonce_url( $form_url, 'wprss-sysinfo' );
+            ?>
+            <form action="<?php echo esc_url( $nonce_url ); ?>" method="post">
+                    <textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>">
+                    <?php wprss_print_system_info(); ?>
+                    </textarea>
+                    <p class="submit">
+                            <input type="hidden" name="wprss-action" value="download_sysinfo" />
+                            <?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
+                    </p>
+            </form>
 
 	<?php
 	}
@@ -49,6 +45,13 @@
 	 * @since 4.6.8
 	 */
 	function wprss_print_system_info() {
+            global $wpdb;
+            
+            if ( ! class_exists( 'Browser' ) )
+                require_once WPRSS_DIR . 'includes/libraries/browser.php';
+
+            $browser = new Browser();
+            
 ?>
 ### Begin System Info ###
 
