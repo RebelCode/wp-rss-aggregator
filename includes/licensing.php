@@ -81,7 +81,7 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 	if ( strtoupper( $return ) === 'ALL' ) {
 		return $license_data;
 	} else {
-		return $license_data->$return;
+		return isset( $license_data->{$return} ) ? $license_data->{$return} : null;
 	}
 }
 
