@@ -411,8 +411,9 @@ class WPRSS_Admin_Notices {
 	 * - If 'nonce' is not passed, a nonce will be auto-generated based on the ID.
 	 * - A 'condition' is one or more callbacks. If none are passed, the notice will be displayed on all admin pages.
 	 * - A 'condition_type' is one of the CONDITION_TYPE_* class constants. By default, all conditions have to be true.
-	 * - The 'class' index determinces what type of notice it is. Currently, the valid values are 'updated', 'error'  and 'update-nag'. See https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
-	 * - The 'content index is the literal content of the notice.
+	 * - The 'class' index determinces what type of notice it is. Currently, the valid values are 'updated', 'error'  and 'update-nag'.
+	 *		See https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
+	 * - The 'content' index is the literal content of the notice.
 	 * - If 'btn_close_id' is not passed, it will be auto-generated based on the ID.
 	 * - The 'btn_close_class' index determines the class that the close button will have, in addition to the default 'btn-close'.
 	 * - The 'btn_close_content' index determines the literal content of the element of the close button. HTML allowed.
