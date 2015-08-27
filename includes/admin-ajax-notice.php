@@ -520,7 +520,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * @since 4.7.4
 	 * @uses-filter admin_notice_remove_before To modify the notice ID that will be removed. Returning falsy value prevents removal.
-	 * @uses-action admin_notice_remove_before To expose notice ID after removal.
+	 * @uses-action admin_notice_remove_after To expose notice ID after removal.
 	 * @param array|int $notice A notice, or notice ID.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -538,7 +538,7 @@ class WPRSS_Admin_Notices {
 		if( !$notice ) return $this;
 
 		$this->_remove_notice ( $notice, $this->_notices);
-		do_action( $this->prefix( 'admin_notice_remove_before' ), $notice, $this );
+		do_action( $this->prefix( 'admin_notice_remove_after' ), $notice, $this );
 
 		return $this;
 	}
