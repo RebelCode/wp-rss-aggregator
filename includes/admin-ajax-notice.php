@@ -1132,12 +1132,12 @@ add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
  * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
  * @uses-action wprss_admin_notice_collection_after_localize_vars To access list of vars exposed to the frontend.
  * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
- * @return \WPRSS_Admin_Notices The singleton instance.
+ * @return \WPRSS_Admin_Notices|null The singleton instance of notice collection, or null if it is unavailable.
  */
 function wprss_admin_notice_get_collection() {
 	static $collection = null;
 
-	if ( is_null( $collection ) ) {
+	if ( is_null( $collection ) && is_admin() ) {
 		// Initialize collection
 		$collection = new WPRSS_Admin_Notices(array(
 			'setting_code'			=> 'wprss_admin_notices',
