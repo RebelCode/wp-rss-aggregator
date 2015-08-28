@@ -1186,11 +1186,14 @@ function wprss_admin_notice_get_action_code() {
  *
  * @since 4.7.4
  * @param array $notice Data of the notice
- * @return bool|WP_Error True if notice added, or WP_Error if something went wrong.
+ * @return bool|WP_Error True if notice added, false if collection unavailable, or WP_Error if something went wrong.
  */
 function wprss_admin_notice_add( $notice ) {
 	try {
-		wprss_admin_notice_get_collection()->add_notice( $notice );
+		if ( !($collection = wprss_admin_notice_get_collection()) )
+			return false;
+		
+		$collection->add_notice( $notice );
 	} catch ( Exception $e ) {
 		return new WP_Error( 'could_not_add_admin_notice', $e->getMessage() );
 	}
