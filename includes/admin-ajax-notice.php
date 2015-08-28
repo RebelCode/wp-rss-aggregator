@@ -1129,7 +1129,7 @@ add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
  * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
  * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
  * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
- * @uses-action wprss_admin_notice_collection_before_localize_vars To access list of vars exposed to the frontend.
+ * @uses-action wprss_admin_notice_collection_after_localize_vars To access list of vars exposed to the frontend.
  * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
  * @return \WPRSS_Admin_Notices The singleton instance.
  */
@@ -1159,7 +1159,7 @@ function wprss_admin_notice_get_collection() {
 			'action_code'				=> wprss_admin_notice_get_action_code()
 		), $collection );
 		wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
-		do_action( 'wprss_admin_notice_collection_before_localize_vars', $settings, $collection );
+		do_action( 'wprss_admin_notice_collection_after_localize_vars', $settings, $collection );
 	}
 
 	return $collection;
