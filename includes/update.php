@@ -100,6 +100,11 @@
 		update_option( 'wprss_db_version', WPRSS_DB_VERSION );
 		// Initialize settings
 		wprss_settings_initialize();
+		
+		// At version [*next-version*] tracking was disabled
+		$settings = get_option( 'wprss_settings_general' );
+		$settings['tracking'] = '0';
+		update_option( 'wprss_settings_general', $settings );
 	}
 
 
