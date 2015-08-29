@@ -116,7 +116,7 @@ jQuery(window).load( function(){
     }
     );	        
 
-	jQuery(document).on( 'click', '.wprss_ajax_action', fetch_items_row_action_callback );
+	jQuery('.wp-list-table').on( 'click', '.wprss_ajax_action', fetch_items_row_action_callback );
 	
 	// Make the number rollers change their value to empty string when value is 0, making
 	// them use the placeholder.
