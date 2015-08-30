@@ -100,6 +100,13 @@
 		update_option( 'wprss_db_version', WPRSS_DB_VERSION );
 		// Initialize settings
 		wprss_settings_initialize();
+                
+                // Open Link Behavior Name Fix
+                $settings = get_option( 'wprss_settings_general' );
+                if( $settings['open_dd'] === __( 'New window', WPRSS_TEXT_DOMAIN ) ){
+                    $settings['open_dd'] = 'blank';
+                    update_option( 'wprss_settings_general', $settings );
+                }
 	}
 
 
@@ -192,7 +199,7 @@
 			'wprss_default_settings_general',
 			array(
 				// from version 1.1
-				'open_dd' 					=> __( 'New window' ),
+				'open_dd' 					=> 'blank',
 				'follow_dd' 				=> 'no_follow',
 				
 				// from version 2.0

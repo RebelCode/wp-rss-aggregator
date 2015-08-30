@@ -181,7 +181,7 @@
         $args = wp_parse_args(
             $settings,
             array(
-                'open_dd'   =>  'New Window',
+                'open_dd'   =>  'blank',
                 'follow_dd' =>  '',
             )
         );
@@ -189,10 +189,10 @@
         // Prepare the 'open' setting - how to open links for feed items
         $open = '';
         switch ( $args['open_dd'] ) {
-            case 'Lightbox' :
+            case 'lightbox' :
                 $open = 'class="colorbox"';
                 break;
-            case 'New window' :
+            case 'blank' :
                 $open = 'target="_blank"';
                 break;
         }
