@@ -411,8 +411,9 @@ class WPRSS_Admin_Notices {
 	 * - If 'nonce' is not passed, a nonce will be auto-generated based on the ID.
 	 * - A 'condition' is one or more callbacks. If none are passed, the notice will be displayed on all admin pages.
 	 * - A 'condition_type' is one of the CONDITION_TYPE_* class constants. By default, all conditions have to be true.
-	 * - The 'class' index determinces what type of notice it is. Currently, the valid values are 'updated', 'error'  and 'update-nag'. See https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
-	 * - The 'content index is the literal content of the notice.
+	 * - The 'class' index determinces what type of notice it is. Currently, the valid values are 'updated', 'error'  and 'update-nag'.
+	 *		See https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
+	 * - The 'content' index is the literal content of the notice.
 	 * - If 'btn_close_id' is not passed, it will be auto-generated based on the ID.
 	 * - The 'btn_close_class' index determines the class that the close button will have, in addition to the default 'btn-close'.
 	 * - The 'btn_close_content' index determines the literal content of the element of the close button. HTML allowed.
@@ -519,7 +520,7 @@ class WPRSS_Admin_Notices {
 	 *
 	 * @since 4.7.4
 	 * @uses-filter admin_notice_remove_before To modify the notice ID that will be removed. Returning falsy value prevents removal.
-	 * @uses-action admin_notice_remove_before To expose notice ID after removal.
+	 * @uses-action admin_notice_remove_after To expose notice ID after removal.
 	 * @param array|int $notice A notice, or notice ID.
 	 * @return \WPRSS_Admin_Notices This instance.
 	 */
@@ -537,7 +538,7 @@ class WPRSS_Admin_Notices {
 		if( !$notice ) return $this;
 
 		$this->_remove_notice ( $notice, $this->_notices);
-		do_action( $this->prefix( 'admin_notice_remove_before' ), $notice, $this );
+		do_action( $this->prefix( 'admin_notice_remove_after' ), $notice, $this );
 
 		return $this;
 	}
@@ -797,7 +798,8 @@ class WPRSS_Admin_Notices {
 	 */
 	public function evaluate_conditions( $conditions, $condition_type = self::CONDITION_TYPE_ALL, $args = array() ) {
 		$event_name = $this->prefix( 'admin_notice_conditions_evaluated' );
-		if ( empty( $conditions ) ) return apply_filters ( $event_name, true, $condition_type, $this ); // Unconditional ;)
+		$result = true; // By default, evaluation passes
+		if ( empty( $conditions ) ) return apply_filters ( $event_name, $result, $condition_type, $this ); // Unconditional ;)
 		if ( !is_array( $conditions ) ) $conditions = (array)$conditions; // Normalizing
 
 		foreach ( $conditions as $_idx => $_condition ) {
@@ -1128,14 +1130,14 @@ add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
  * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
  * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
  * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
- * @uses-action wprss_admin_notice_collection_before_localize_vars To access list of vars exposed to the frontend.
+ * @uses-action wprss_admin_notice_collection_after_localize_vars To access list of vars exposed to the frontend.
  * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
- * @return \WPRSS_Admin_Notices The singleton instance.
+ * @return \WPRSS_Admin_Notices|null The singleton instance of notice collection, or null if it is unavailable.
  */
 function wprss_admin_notice_get_collection() {
 	static $collection = null;
 
-	if ( is_null( $collection ) ) {
+	if ( is_null( $collection ) && is_admin() ) {
 		// Initialize collection
 		$collection = new WPRSS_Admin_Notices(array(
 			'setting_code'			=> 'wprss_admin_notices',
@@ -1158,7 +1160,7 @@ function wprss_admin_notice_get_collection() {
 			'action_code'				=> wprss_admin_notice_get_action_code()
 		), $collection );
 		wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
-		do_action( 'wprss_admin_notice_collection_before_localize_vars', $settings, $collection );
+		do_action( 'wprss_admin_notice_collection_after_localize_vars', $settings, $collection );
 	}
 
 	return $collection;
@@ -1184,11 +1186,14 @@ function wprss_admin_notice_get_action_code() {
  *
  * @since 4.7.4
  * @param array $notice Data of the notice
- * @return bool|WP_Error True if notice added, or WP_Error if something went wrong.
+ * @return bool|WP_Error True if notice added, false if collection unavailable, or WP_Error if something went wrong.
  */
 function wprss_admin_notice_add( $notice ) {
 	try {
-		wprss_admin_notice_get_collection()->add_notice( $notice );
+		if ( !($collection = wprss_admin_notice_get_collection()) )
+			return false;
+		
+		$collection->add_notice( $notice );
 	} catch ( Exception $e ) {
 		return new WP_Error( 'could_not_add_admin_notice', $e->getMessage() );
 	}
