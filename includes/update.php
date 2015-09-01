@@ -103,10 +103,14 @@
                 
                 // Open Link Behavior Name Fix
                 $settings = get_option( 'wprss_settings_general' );
-                if( $settings['open_dd'] === __( 'New window', WPRSS_TEXT_DOMAIN ) ){
+                if( $settings['open_dd'] === 'New window' || $settings['open_dd'] === __( 'New window', WPRSS_TEXT_DOMAIN ) ){
                     $settings['open_dd'] = 'blank';
-                    update_option( 'wprss_settings_general', $settings );
+                }else if( $settings['open_dd'] === 'Lightbox' || $settings['open_dd'] === __( 'Lightbox', WPRSS_TEXT_DOMAIN ) ){
+                    $settings['open_dd'] = 'lightbox';
+                }else if( $settings['open_dd'] === 'Self' || $settings['open_dd'] === __( 'Self', WPRSS_TEXT_DOMAIN ) ){
+                    $settings['open_dd'] = 'self';
                 }
+                update_option( 'wprss_settings_general', $settings );
 	}
 
 
