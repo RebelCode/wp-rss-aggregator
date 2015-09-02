@@ -169,6 +169,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.7.5 (2015-09-02) =
+* Usage tracking now disabled.
+* Fixed bug: error related to undefined `ajaxurl` JS variable gone from frontend.
+* Enhanced: Licensing errors will be output to debug log.
+* Enhanced: Improved compatibility with plugins that allow AJAX searching in the backend.
+
 = 4.7.4 (2015-08-20) =
 * Requirement: WordPress 4.0 or greater now required.
 * Fixed bug in image caching
