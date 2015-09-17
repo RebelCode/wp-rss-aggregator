@@ -13,7 +13,7 @@
         wp_register_script( 'aventura', wprss_get_script_url( 'aventura' ), array('wprss-xdn-lib') );
 
 		// This handles the client side for WPRSS_Admin_Notices
-    wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), false, true );
+		wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), false, true );
 	 }
 
 

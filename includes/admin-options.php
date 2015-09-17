@@ -98,10 +98,10 @@
                         'label'     =>  __( 'Custom feed limit', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setings_custom_feed_limit_callback'
                     ),
-                    'tracking'  =>  array(
-                        'label'     =>  __( 'Anonymous tracking', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_tracking_callback',
-                    )
+//                    'tracking'  =>  array(
+//                        'label'     =>  __( 'Anonymous tracking', WPRSS_TEXT_DOMAIN ),
+//                        'callback'  =>  'wprss_tracking_callback',
+//                    )
                 ),
 
                 'display'   =>  array(

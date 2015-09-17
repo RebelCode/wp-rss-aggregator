@@ -58,11 +58,18 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 
 	// If the response is an error, return the value in the DB
 	if ( is_wp_error( $response ) ) {
+		wprss_log( sprintf( 'Licensing API request failed: %1$s', $response->get_error_message() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 		return $license_status;
 	}
 
 	// decode the license data
 	$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+	
+	// Could not decode response JSON
+	if ( is_null( $license_data ) ) {
+		wprss_log( sprintf( 'Licensing API: Failed to decode response JSON' ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
+		return $license_status;
+	}
 
 	// Update the DB option
 	$license_statuses = get_option( 'wprss_settings_license_statuses' );
@@ -74,7 +81,7 @@ function wprss_edd_licensing_api( $addon, $license_key = NULL, $action = 'check_
 	if ( strtoupper( $return ) === 'ALL' ) {
 		return $license_data;
 	} else {
-		return $license_data->$return;
+		return isset( $license_data->{$return} ) ? $license_data->{$return} : null;
 	}
 }
 
