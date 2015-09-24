@@ -100,9 +100,19 @@
 		update_option( 'wprss_db_version', WPRSS_DB_VERSION );
 		// Initialize settings
 		wprss_settings_initialize();
-		
+                
+                // Open Link Behavior Name Fix
+                $settings = get_option( 'wprss_settings_general' );
+
+                if( $settings['open_dd'] === 'New window' || $settings['open_dd'] === __( 'New window', WPRSS_TEXT_DOMAIN ) ){
+                    $settings['open_dd'] = 'blank';
+                }else if( $settings['open_dd'] === 'Lightbox' || $settings['open_dd'] === __( 'Lightbox', WPRSS_TEXT_DOMAIN ) ){
+                    $settings['open_dd'] = 'lightbox';
+                }else if( $settings['open_dd'] === 'Self' || $settings['open_dd'] === __( 'Self', WPRSS_TEXT_DOMAIN ) ){
+                    $settings['open_dd'] = 'self';
+                }
+                
 		// At version 4.7.5 tracking was disabled
-		$settings = get_option( 'wprss_settings_general' );
 		$settings['tracking'] = '0';
 		update_option( 'wprss_settings_general', $settings );
 	}
@@ -197,7 +207,7 @@
 			'wprss_default_settings_general',
 			array(
 				// from version 1.1
-				'open_dd' 					=> __( 'New window' ),
+				'open_dd' 					=> 'blank',
 				'follow_dd' 				=> 'no_follow',
 				
 				// from version 2.0

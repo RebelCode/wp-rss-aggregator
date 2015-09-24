@@ -524,9 +524,9 @@
         $open_dd = wprss_get_general_setting('open_dd');
 
         $items = array( 
-            'Lightbox'   => __( 'Lightbox', WPRSS_TEXT_DOMAIN ), 
-            'New window' => __( 'New window', WPRSS_TEXT_DOMAIN ), 
-            'Self'       => __( 'Self', WPRSS_TEXT_DOMAIN )
+            'lightbox'   => __( 'Lightbox', WPRSS_TEXT_DOMAIN ),
+            'blank' => __( 'New window', WPRSS_TEXT_DOMAIN ),
+            'self'       => __( 'Self', WPRSS_TEXT_DOMAIN )
         );
         ?>
 		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[open_dd]">
