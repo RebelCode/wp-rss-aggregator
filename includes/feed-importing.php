@@ -1,5 +1,4 @@
 <?php
-    
         /**
         * Functions relating to feed importing
         *
