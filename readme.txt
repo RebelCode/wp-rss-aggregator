@@ -131,21 +131,45 @@ OR
 
 
 == Frequently Asked Questions ==
-= How can I output the feeds in my theme? =
+= How do I display the imported feed items? =
 
-You can either call the function directly within the theme:
+You can either use the shortcode in your posts and pages:
+`[wp-rss-aggregator]`
+
+or you can call the function directly within your theme:
 `<?php wprss_display_feed_items(); ?>`
 
-Or use the shortcode in your posts and pages:
-[wp-rss-aggregator]
+= Is there a limit on the number of feed sources I can use? =
+
+There is no limit in place for the number of feed sources. Having many (50+) feed sources should not present any problems in itself.
+
+However, pulling in posts from many sites is bound to put your server under some stress, so you might want to consider using a hosting solution that goes beyond your typical shared host. 
+
+Check out our dedicated page for hosting recommendations.
+
+= Does WP RSS Aggregator work using JSON as the source? =
+
+No, our plugin does not currently import from JSON, it only imports from RSS and Atom structured XML.
+
+= Why do I get “No feed items found” when I insert the shortcode on a page or post? =
+
+Try adding a few more feed sources and make sure they are valid by using the RSS Feed validator.
+
+Secondly make sure your WordPress cron system is working well. If not, the feeds cannot be imported. If in doubt you can go to RSS Aggregator > Debugging and hit the red button to re-import all feed items. If the problem persists contact support.
 
 = Can I store imported feed items as posts? = 
 
-You can do that with the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on. You will not only be able to store items as posts, but also as other custom post types, as well as set the author, auto set tags and categories, and much more. 
+Yes! You can do that with the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on. You will not only be able to store items as posts, but also as other custom post types, as well as set the author, auto set tags and categories, import images into the gallery or set featured images, and much more.
 
-= Some RSS feeds only give a short excerpt, any way around that? =
+= Some RSS feeds only give a short excerpt. Any way around that? =
 
-Yes, within the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on we have an advanced feature that can get the full content of those feeds that only supply a short excerpt.
+Yes, along with the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) add-on we have another add-on called [Full Text RSS Feeds](http://www.wprssaggregator.com/extension/full-text-rss-feeds/) that can get the full content of those feeds that only supply a short excerpt.
+
+= I’m not sure which premium add-ons are right for me. Can you help me out? =
+
+Sure! We wrote a post just for you. Read about which add-ons you should buy, we explain the different types of usage so you’ll know what to expect when purchasing.
+
+If you need any further help you can contact our support team here.
 
 = Where can I find the documentation for the plugin? =
 
