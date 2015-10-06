@@ -1,10 +1,10 @@
 <?php
-	/**
-	 * Functions relating to feed importing
-	 *
-	 * @package WPRSSAggregator
-	 */
-
+       /**
+        * Functions relating to feed importing
+        *
+        * @package WPRSSAggregator
+        */
+    
 
 	// Warning: Order may be important
 	add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix', 8);
