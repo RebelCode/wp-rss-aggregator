@@ -193,6 +193,11 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.7.6 (2015-10-06) =
+* Enhanced: Feeds that fail to validate due to whitespace at the beginning are now supported by the plugin.
+* Fixed bug: Undefined variables in the System Info section in the Debugging page.
+* Fixed bug: Add-on license expiration notices could not be dismissed.
+
 = 4.7.5 (2015-09-02) =
 * Usage tracking now disabled.
 * Fixed bug: error related to undefined `ajaxurl` JS variable gone from frontend.
