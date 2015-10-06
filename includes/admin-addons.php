@@ -63,6 +63,15 @@
             'path' => 'wp-rss-wordai/wp-rss-wordai.php',
             'url' => 'http://www.wprssaggregator.com/extension/wordai/'
         );
+         $premium[] = array(
+            'title' => __( "Widget", WPRSS_TEXT_DOMAIN ),
+            'description' => __( "An add-on for WP RSS Aggregator that displays your imported feed items in a widget on your site. Intergrates well with Excerpts &amp; Thumbnails", WPRSS_TEXT_DOMAIN ),
+            'thumbnail' => WPRSS_IMG . 'add-ons/wprss.jpg',
+            'active' => is_plugin_active( 'wp-rss-widget/wp-rss-widget.php' ),
+            'installed_inactive' => wprss_is_plugin_inactive( 'wp-rss-widget/wp-rss-widget.php' ),
+            'path' => 'wp-rss-widget/wp-rss-widget.php',
+            'url' => 'http://www.wprssaggregator.com/extension/widget/'
+        );
         
         ?>
         <div class="wrap">
