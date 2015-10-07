@@ -178,9 +178,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Screenshots ==
 
-1. The output of this plugin on the frontend.
+1. Feed items imported by WP RSS Aggregator displayed on the front-end using the shortcode.
 
-2. The output from the aggregator with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) add-on installed.
+2. Feed Items imported by WP RSS Aggregator and displayed with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) add-on installed.
 
 3. Adding/Editing a feed source.
 
@@ -188,7 +188,7 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 5. The imported feeds items.
 
-6. Plugin settings page.
+6. WP RSS Aggregator's Settings page.
 
 
 == Changelog ==
