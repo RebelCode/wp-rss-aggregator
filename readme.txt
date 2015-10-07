@@ -169,7 +169,7 @@ Yes, along with the [Feed to Post](http://www.wprssaggregator.com/extensions/fee
 
 Sure! We wrote a post just for you. Read about which add-ons you should buy, we explain the different types of usage so you’ll know what to expect when purchasing.
 
-If you need any further help you can contact our support team here.
+If you need any further help you can contact our support team [here](http://www.wprssaggregator.com/contact/).
 
 = Where can I find the documentation for the plugin? =
 
@@ -178,9 +178,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Screenshots ==
 
-1. The output of this plugin on the frontend.
+1. Feed items imported by WP RSS Aggregator displayed on the front-end using the shortcode.
 
-2. The output from the aggregator with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) add-on installed.
+2. Feed Items imported by WP RSS Aggregator and displayed with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extensions/excerpts-thumbnails) add-on installed.
 
 3. Adding/Editing a feed source.
 
@@ -188,12 +188,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 5. The imported feeds items.
 
-6. Plugin settings page.
+6. WP RSS Aggregator's Settings page.
 
 
 == Changelog ==
 
-= 4.7.6 (2015-10-06) =
+= 4.7.6 (2015-10-07) =
 * Enhanced: Feeds that fail to validate due to whitespace at the beginning are now supported by the plugin.
 * Fixed bug: Undefined variables in the System Info section in the Debugging page.
 * Fixed bug: Add-on license expiration notices could not be dismissed.
