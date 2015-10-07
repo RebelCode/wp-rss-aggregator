@@ -641,6 +641,7 @@
         _e( 'Check out the Premium Extensions:', WPRSS_TEXT_DOMAIN );
         echo '</strong>'; ?>
         <ul>
+            <li><a href="http://www.wprssaggregator.com/extension/widget/"><?php echo 'Widget'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"><?php echo 'Excerpts & Thumbnails'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/categories/"><?php echo 'Categories'; ?></a></li>

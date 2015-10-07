@@ -320,8 +320,10 @@ function wprss_show_license_notice() {
 
 			$expires = strtotime( substr( $value, 0, strpos( $value, " " ) ) );
 			$id = substr( $key, 0, strpos( $key, "_" ) );
-			$uid = strtoupper($id);
-
+			$uid = strtoupper($id);                        
+                        
+                        $addon_notices = get_option('wprss_addon_notices');
+                        
 			// Check if the plugin is currently activated.
 			if ( !defined("WPRSS_{$uid}_SL_ITEM_NAME") ) {
 				continue;
@@ -329,7 +331,7 @@ function wprss_show_license_notice() {
 				$plugin = constant("WPRSS_{$uid}_SL_ITEM_NAME");
 			}
 
-			if ( $expires < strtotime("+2 weeks") ) {
+                        if ( $expires < strtotime("+2 weeks") && empty ( $addon_notices[$id]['expiry'] ) ) {
 				// The license is expired or expiring soon.
 				$license_key = wprss_get_license_key($id);
 				$msg = sprintf(
@@ -339,7 +341,7 @@ function wprss_show_license_notice() {
 				);
 
 				// User can hide expiring/expired license messages.
-				$hide = '<a href="#" class="ajax-close-addon-notice" style="float:right;" data-addon="categories" data-notice="license">' .
+				$hide = '<a href="#" class="ajax-close-addon-notice" style="float:right;" data-addon="'. $id .'" data-notice="expiry">' .
 					__('Dismiss this notification', WPRSS_TEXT_DOMAIN) . '</a>';
 
 				// Only show this notice if there isn't already a notice to show for this add-on.
