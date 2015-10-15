@@ -97,3 +97,33 @@
 		</style>
 		<?php
 	}
+
+	add_filter( 'admin_footer_text', 'wprss_admin_footer' );
+	/**
+	 * Adds footer text on the plugin pages.
+	 *
+	 * @param  string $footer The footer text to filter
+	 * @return string         The filtered footer text with added plugin text, or the param
+	 *                        value if the page is not specific to the plugin.
+	 */
+	function wprss_admin_footer( $footer ) {
+		// Current post type
+		global $typenow;
+		// Check if type is a plugin type. If not, stop
+		// Plugin type is in the form 'wprss_*'' where * is 'feed', 'blacklist', etc)
+		if ( stripos( $typenow, 'wprss_' ) !== 0 )
+			return $footer;
+		// Prepare fragments of the message
+		$thank_you = sprintf(
+			__( 'Thank you for using %s!', WPRSS_TEXT_DOMAIN ),
+			'<a href="wprssaggregator.com">WP RSS Aggregator</a>'
+		);
+		$rate_us = sprintf(
+			__( 'Please %1$s rate us %3$s on %2$s WordPress.org %3$s', WPRSS_TEXT_DOMAIN ),
+			'<a href="https://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator?filter=5#postform" target="_blank">',
+			'<a href="http://mekku.net" target="_blank">',
+			'</a>'
+		);
+		// Return the final text
+		return sprintf( '%s | <span class="wp-rss-footer-text">%s %s</span>', $footer, $thank_you, $rate_us );
+	}
