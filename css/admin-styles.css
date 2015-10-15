@@ -8,6 +8,10 @@ body.post-type-wprss_feed q:after {
     content: '"';
 }
 
+span.wp-rss-footer-text {
+    font-style: italic;
+}
+
 .wprss-input {
     background: none repeat scroll 0 0 #EAF2FA;
     margin-bottom: 20px;
