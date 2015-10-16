@@ -714,6 +714,8 @@ add_action( 'init', 'wprss_setup_edd_updater' );
  * @since 4.6.3
  */
 function wprss_setup_edd_updater() {
+	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) return;
+
 	// Get all registered addons
 	$addons = wprss_get_addons();
 
