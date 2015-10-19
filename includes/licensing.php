@@ -707,13 +707,15 @@ function wprss_process_addon_license() {
 }
 
 
-add_action( 'init', 'wprss_setup_edd_updater' );
+add_action( 'admin_init', 'wprss_setup_edd_updater' );
 /**
  * Sets up the EDD updater for all registered add-ons.
  *
  * @since 4.6.3
  */
 function wprss_setup_edd_updater() {
+	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) return;
+
 	// Get all registered addons
 	$addons = wprss_get_addons();
 
