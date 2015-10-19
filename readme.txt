@@ -193,6 +193,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 == Changelog ==
 
+= 4.7.7 (2015-10-19) =
+* Fixed bug: Optimized checking for plugin updates.
+
 = 4.7.6 (2015-10-07) =
 * Enhanced: Feeds that fail to validate due to whitespace at the beginning are now supported by the plugin.
 * Fixed bug: Undefined variables in the System Info section in the Debugging page.
