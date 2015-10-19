@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.7.6
+    Version: 4.7.7
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.7.6
+     * @version   4.7.7
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2015, Jean Galea
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.7.6', true );
+        define( 'WPRSS_VERSION', '4.7.7', true );
 
     if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
         define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
@@ -409,6 +409,24 @@
 					. 'Older versions of WordPress are no longer supported by WP RSS Aggregator. Please upgrade your WordPress core to continue benefiting from WP RSS Aggregator support services.</p>',
 				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION ),
 			'notice_type'	=> 'error'
+		));
+	}
+
+
+	add_action( 'init', 'wprss_add_php_version_change_warning' );
+	function wprss_add_php_version_change_warning() {
+		$minVersion = '5.3';
+		if ( version_compare(PHP_VERSION, $minVersion, '>=') )
+			return;
+
+		wprss_admin_notice_add(array(
+			'id'			=> 'php_version_change_warning',
+			'content'		=> sprintf( __(
+					'<p><strong>WP RSS Aggregator is moving to PHP %1$s</strong></br>'
+					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
+				WPRSS_TEXT_DOMAIN ), $minVersion ),
+			'notice_type'	=> 'error',
+			'condition'		=> 'wprss_is_wprss_page'
 		));
 	}
 
