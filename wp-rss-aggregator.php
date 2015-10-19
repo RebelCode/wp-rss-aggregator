@@ -422,10 +422,11 @@
 		wprss_admin_notice_add(array(
 			'id'			=> 'php_version_change_warning',
 			'content'		=> sprintf( __(
-					'<strong>WP RSS Aggregator is moving to PHP %1$s</strong></br>'
-					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a>',
+					'<p><strong>WP RSS Aggregator is moving to PHP %1$s</strong></br>'
+					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
 				WPRSS_TEXT_DOMAIN ), $minVersion ),
-			'notice_type'	=> 'update-nag'
+			'notice_type'	=> 'error',
+			'condition'		=> 'wprss_is_wprss_page'
 		));
 	}
 
