@@ -423,7 +423,7 @@
 			'id'			=> 'php_version_change_warning',
 			'content'		=> sprintf( __(
 					'<strong>WP RSS Aggregator is moving to PHP %1$s</strong></br>'
-					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="#info-about-moving-to-php53">Read why here</a>',
+					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/">Read why here</a>',
 				WPRSS_TEXT_DOMAIN ), $minVersion ),
 			'notice_type'	=> 'update-nag'
 		));
