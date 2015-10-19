@@ -413,6 +413,23 @@
 	}
 
 
+	add_action( 'init', 'wprss_add_php_version_change_warning' );
+	function wprss_add_php_version_change_warning() {
+		$minVersion = '5.3';
+		if ( version_compare(PHP_VERSION, $minVersion, '>=') )
+			return;
+
+		wprss_admin_notice_add(array(
+			'id'			=> 'php_version_change_warning',
+			'content'		=> sprintf( __(
+					'<strong>WP RSS Aggregator is moving to PHP %1$s</strong></br>'
+					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="#info-about-moving-to-php53">Read why here</a>',
+				WPRSS_TEXT_DOMAIN ), $minVersion ),
+			'notice_type'	=> 'update-nag'
+		));
+	}
+
+
     /**
      * Plugin activation procedure
      *
