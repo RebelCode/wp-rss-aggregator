@@ -73,6 +73,16 @@ class Manager {
 	protected function _construct() {}
 
 	/**
+	 * Sets up the WordPress hooks.
+	 */
+	protected function _setupHooks() {
+		add_action( 'admin_init', $this->method( 'licenseNotices' ) );
+		add_action( 'admin_init', $this->method( 'initUpdaterInstances' ) );
+		add_action( 'wp_ajax_wprss_ajax_manage_license', $this->method( 'handleAjaxManageLicense' ) );
+		add_action( 'wp_ajax_wprss_ajax_fetch_license', $this->method( 'handleAjaxFetchLicense' ) );
+	}
+
+	/**
 	 * Gets the name of the class used to update the addons.
 	 * 
 	 * @return string
@@ -473,16 +483,6 @@ class Manager {
 		if ( $status === 'site_inactive' ) $status = 'inactive';
 		if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 		return $status;
-	}
-
-	/**
-	 * Sets up the WordPress hooks.
-	 */
-	protected function _setupHooks() {
-		add_action( 'admin_init', $this->method( 'licenseNotices' ) );
-		add_action( 'admin_init', $this->method( 'initUpdaterInstances' ) );
-		add_action( 'wp_ajax_wprss_ajax_manage_license', $this->method( 'handleAjaxManageLicense' ) );
-		add_action( 'wp_ajax_wprss_ajax_fetch_license', $this->method( 'handleAjaxFetchLicense' ) );
 	}
 
 	/**
