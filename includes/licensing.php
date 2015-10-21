@@ -1,14 +1,16 @@
 <?php
 
-require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Manager.php' );
-require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Settings.php' );
-require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\AjaxController.php' );
-require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License.php' );
-require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License\Status.php' );
+add_action( 'plugins_loaded', function() {
+	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Manager.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Settings.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\AjaxController.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License\Status.php' );
 
-\Aventura\Wprss\Licensing\get_settings();
-\Aventura\Wprss\Licensing\get_manager();
-\Aventura\Wprss\Licensing\get_ajaxController();
+	\Aventura\Wprss\Licensing\get_settings();
+	\Aventura\Wprss\Licensing\get_manager();
+	\Aventura\Wprss\Licensing\get_ajax_controller();
+} );
 
 return;
 
