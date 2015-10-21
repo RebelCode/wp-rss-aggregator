@@ -1,16 +1,11 @@
 <?php
 
 namespace Aventura\Wprss\Licensing;
-use Aventura\Wprss\Licensing\License;
 use Aventura\Wprss\Licensing\License\Status;
 
 /**
  * Gets the singleton instance of the Manager class, creating it if it doesn't exist.
- *
- * IMPORTANT!
- * 	This version is still untested
  * 	
- * @version 0.0-alpha
  * @return Manager
  */
 function get_manager() {
@@ -40,9 +35,6 @@ class Manager {
 
 	// The time before expiration during which a notice will be displayed to the user, informing them that a license will expire soon
 	const EXPIRATION_NOTICE_PERIOD = '2 weeks';
-
-	// Pattern for ajax handler methods
-	const AJAX_MANAGE_LICENSE_METHOD_PATTERN = 'handleAjaxLicense%s';
 
 	/**
 	 * License instance.
@@ -76,10 +68,7 @@ class Manager {
 	 * Sets up the WordPress hooks.
 	 */
 	protected function _setupHooks() {
-		add_action( 'admin_init', $this->method( 'licenseNotices' ) );
 		add_action( 'admin_init', $this->method( 'initUpdaterInstances' ) );
-		add_action( 'wp_ajax_wprss_ajax_manage_license', $this->method( 'handleAjaxManageLicense' ) );
-		add_action( 'wp_ajax_wprss_ajax_fetch_license', $this->method( 'handleAjaxFetchLicense' ) );
 	}
 
 	/**
@@ -147,15 +136,15 @@ class Manager {
 	 * Gets all licenses with the given status.
 	 * 
 	 * @param  string  $status   The status to search for.
-	 * @param  boolean $polarity If true, the method will search for licenses with the given status.
-	 *                           If false, the method will instead search for licenses that do NOT have the given status.
-	 *                           Default: true
+	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
+	 *                           If false, the method will search for licenses with the given status.
+	 *                           Default: false
 	 * @return array             An array of matching licenses. Array keys contain the addon IDs and array values contain the license objects.
 	 */
-	public function getLicensesWithStatus( $status, $polarity ) {
+	public function getLicensesWithStatus( $status, $negation = false ) {
 		$licenses = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
-			if ( $license->getStatus() === $status && $polarity == true ) {
+			if ( $license->getStatus() === $status xor $negation === true ) {
 				$licenes[ $_addonId ] = $_license;
 			}
 		}
@@ -166,13 +155,13 @@ class Manager {
 	 * Checks if a license with the given status exists, stopping at the first match.
 	 * 
 	 * @param  string  $status   The status to search for.
-	 * @param  boolean $polarity If true, the method will search for a license that has the given status.
-	 *                           If false, the method will instead search for a license that does not have the given status.
-	 *                           Default: true
-	 * @return boolean           True if a license with or without (depending on $polarity) the given status exists, false otherwise.
+	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
+	 *                           If false, the method will search for licenses with the given status.
+	 *                           Default: false
+	 * @return boolean           True if a license with or without (depending on $negation) the given status exists, false otherwise.
 	 */
-	public function licenseWithStatusExists( $status, $polarity = true ) {
-		return count( $this->getLicensesWithStatus( $status, $polarity ) ) > 0;
+	public function licenseWithStatusExists( $status, $negation = true ) {
+		return count( $this->getLicensesWithStatus( $status, $negation ) ) > 0;
 	}
 
 	/**
@@ -348,138 +337,12 @@ class Manager {
 	}
 
 	/**
-	 * Checks and prepares the admin notices where necessary.
-	 */
-	public function licenseNotices() {
-		if ( $this->licenseWithStatusExists( Status::VALID, false ) ) {
-			// notices
-		}
-	}
-
-	/**
-	 * Handles AJAX requests for managing licenses (activation, deactivation, etc..)
-	 */
-	public function handleAjaxManageLicense() {
-		// Get data from request
-		$nonce = empty( $_GET['nonce'] )? null : sanitize_text_field( $_GET['nonce'] );
-		$addon = empty( $_GET['addon'] )? null : sanitize_text_field( $_GET['addon'] );
-		$event = empty( $_GET['event'] )? null : sanitize_text_field( $_GET['event'] );
-		$license = empty( $_GET['license'] )? null : sanitize_text_field( $_GET['license'] );
-
-		// If no nonce, stop
-		if ( $nonce === null ) $this->_ajaxErrorResponse( __( 'No nonce', WPRSS_TEXT_DOMAIN ), $addon );
-		// Generate the nonce id
-		$nonce_id = sprintf( 'wprss_%s_license_nonce', $addon );
-		// Verify the nonce. If verification fails, stop
-		if ( ! wp_verify_nonce( $nonce, $nonce_id ) ) {
-			$this->_ajaxErrorResponse( __( 'Bad nonce', WPRSS_TEXT_DOMAIN ), $addon );
-		}
-
-		// Check addon, event and license
-		if ( $addon === null ) $this->_ajaxErrorResponse( __( 'No addon ID', WPRSS_TEXT_DOMAIN ) );
-		if ( $event === null ) $this->_ajaxErrorResponse( __( 'No event specified', WPRSS_TEXT_DOMAIN ), $addon );
-		if ( $license === null ) $this->_ajaxErrorResponse( __( 'No license', WPRSS_TEXT_DOMAIN ), $addon );
-
-		// Check if the license key was obfuscated on the client's end.
-		if ( wprss_license_key_is_obfuscated( $license ) ) {
-			// If so, use the stored license key since obfuscation signifies that the key was not modified
-			// and is equal to the one saved in db
-			$license = $this->getLicense( $addon );
-		} else {
-			// Otherwise, update the value in db
-			$this->getLicense( $addon )->setKey( $license );
-			$this->_saveLicenseKeys();
-		}
-
-		// uppercase first letter of event
-		$event = ucfirst( $event );
-		// Generate method name
-		$eventMethod = sprintf( self::AJAX_MANAGE_LICENSE_METHOD_PATTERN, $event );
-		// check if the event is handle-able
-		if ( ! method_exists( $this, $eventMethod ) ) {
-			$this->_ajaxErrorResponse( __( 'Invalid event specified', WPRSS_TEXT_DOMAIN ), $addon);
-		}
-
-		// Call the appropriate handler method
-		$returnValue = call_user_func_array( $this->method( $eventMethod ), array( $addon ) );
-
-		// Prepare the response
-		$partialResponse = array(
-			'addon'				=>	$addon,
-			'html'				=>	get_settings()->getActivateLicenseButtonHtml( $addon ),
-			'licensedAddons'	=>	array_keys( $this->getLicensesWithStatus( Status::VALID ) )
-		);
-		// Merge the returned value(s) from the handler method to generate the final resposne
-		$response = array_merge( $partialResponse, $returnValue );
-
-		// Return the JSON data.
-		echo json_encode( $response );
-		die();
-	}
-
-	/**
-	 * Handles the AJAX request to fetch license information.
-	 */
-	public function handleAjaxFetchLicense() {
-		// If not addon ID in the request, stop
-		if ( empty( $_GET['addon']) )
-			$this->_ajaxErrorResponse( __( 'No addon ID', WPRSS_TEXT_DOMAIN ) );
-		// Get and sanitize the addon ID
-		$addon = sanitize_text_field( $_GET['addon'] );
-		// Get the license information from EDD
-		$response = $this->checkLicense( $addon, 'ALL' );
-		// Send response as JSON
-		echo json_encode( $response );
-		die();
-	}
-
-	/**
-	 * Handles the activation AJAX request to activate the license for the given addon.
-	 * 
-	 * @param  string $addonId The addon ID.
-	 * @return array           The data to add to the AJAX response, containing the license status after activation.
-	 */
-	public function handleAjaxLicenseActivate( $addonId ) {
-		return array(
-			'validity'	=>	$this->_normalizeLicenseApiStatus( $this->activateLicense( $addonId ) )
-		);
-	}
-
-	/**
-	 * Handles the deactivation AJAX request to deactivate the license for the given addon.
-	 * 
-	 * @param  string $addonId The addon ID.
-	 * @return array           The data to add to the AJAX response, containing the license status after activation.
-	 */
-	public function handleAjaxLicenseDeactivate( $addonId ) {
-		return array(
-			'validity'	=>	$this->_normalizeLicenseApiStatus( $this->deactivateLicense( $addonId ) )
-		);
-	}
-
-	/**
-	 * Echoes an AJAX error response along with activate/deactivate license button HTML markup and then dies.
-	 * 
-	 * @param  string $message The error message to send.
-	 * @param  string $addonId Optional addon ID related to the error, used for sending the activate/deactivate license button.
-	 */
-	protected function _ajaxErrorResponse( $message, $addonId = '' ) {
-		$response = array(
-			'error'		=>	$msg,
-			'html'		=>	wprss_get_activate_license_button($addonId)
-		);
-
-		echo json_encode( $response );
-		die();
-	}
-
-	/**
 	 * Normalizes the license status received by the API into the license statuses that we use locally in our code.
 	 * 
 	 * @param  string $status The status to normalize.
 	 * @return string         The normalized status.
 	 */
-	protected function _normalizeLicenseApiStatus( $status ) {
+	public function normalizeLicenseApiStatus( $status ) {
 		if ( $status === 'site_inactive' ) $status = 'inactive';
 		if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 		return $status;
