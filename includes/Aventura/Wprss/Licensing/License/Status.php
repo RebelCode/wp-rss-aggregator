@@ -8,5 +8,6 @@ namespace Aventura\Wprss\Licensing\License;
 abstract class Status {
 	const VALID		=	'valid';
 	const INVALID	=	'invalid';
+	const INACTIVE	=	'inactive';
 	const EXPIRED	=	'expired';
 }
