@@ -56,7 +56,7 @@ class License {
 			$data = array_merge( self::_defaultSettingsArray(), $key );
 			$key = $data['key'];
 			$status = $data['status'];
-			$expiry = $data['expiry'];
+			$expiry = $data['expires'];
 		}
 		$this
 		// Set fields
