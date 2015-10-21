@@ -374,7 +374,7 @@ class Manager {
 	/**
 	 * Saves the licenses and their statuses to the db.
 	 */
-	public function _saveLicenses() {
+	public function saveLicenses() {
 		$this->saveLicenseKeys();
 		$this->saveLicenseStatuses();
 	}
