@@ -2,6 +2,11 @@
 
 namespace Aventura\Wprss\Licensing;
 
+/**
+ * Gets the singleton instance of the Settings class, creating it if it doesn't exist.
+ * 	
+ * @return Settings
+ */
 function get_settings() {
 	static $instance = null;
 	return is_null( $instance )? $instance = new Settings() : $instance;
@@ -43,7 +48,43 @@ class Settings {
 	 */
 	public function __construct() {
 		$this->_manager = get_manager();
+		$this->_notices();
 		$this->_setupHooks();
+	}
+
+	protected function _notices() {
+		$noticesCollection = wprss_admin_notice_get_collection();
+		foreach ( wprss_get_addons() as $addonId => $addonName ) {
+			$notice = array(
+				'id'				=>	'invalid_licenses_exist',
+				'notice_type'		=>	'error'
+				'notice_content'	=>	$this->getInvalidLicenseNoticeContent(),
+				'conditions'		=>	$this->method( 'invalidLicensesNoticeCondition' ),
+				'addon'				->	$addonId
+			);
+			$noticesCollection->add_notice( $notice );
+		}
+	}
+
+	/**
+	 * Condition callback for the "invalid license notice".
+	 * 
+	 * @return boolean True if the notice is to be shown, false if not.
+	 */
+	public function invalidLicensesNoticeCondition() {
+		return $this->_manager->licenseWithStatusExists( Status::VALID, false );
+	}
+
+	public function getInvalidLicenseNoticeContent() {
+		return 'testink';
+	}
+
+	/**
+	 * Registers the WordPress hooks.
+	 */
+	protected function _setupHooks() {
+		add_action( 'wprss_admin_init', $this->_method( 'registerSettings' ), 100 );
+		add_action( 'admin_init', $this->method( 'handleLicenseStatusChange', 10 );
 	}
 
 	/**
@@ -91,26 +132,8 @@ class Settings {
 		$addonId = $args[0];
 		// Get the addon's license
 		$license = $this->_manager->getLicense( $addonId );
-		$licenseKey = $license->getKey();
-		$licenseKeyLen = strlen( $licenseKey );
-		// Masking character
-		$maskChar = self::LICENSE_KEY_MASK_CHAR;
-		// How many chars to show
-		$maskExcludeAmount = self::LICENSE_KEY_MASK_EXCLUDE_AMOUNT;
-		// In case the mask exclude amount is greater than the license key length
-		$maskExcludeAmount = abs( $maskExcludeAmount ) > ( $licenseKeyLength - 1 )
-				? ( $licenseKeyLength - 1 ) * ( $maskExcludeAmount < 0 ? -1 : 1 ) // Making sure to preserve position of mask
-				: $maskExcludeAmount;
-		// How many chars to mask. Always at least one char will be masked.
-		$maskLength = $licenseKeyLength - abs( $maskExcludeAmount );
-		// Create the mask
-		$mask = $maskLength > 0 ? str_repeat( $maskChar, $maskLength ) : '';
-		// The starting index: if negative mask exclude amount, start from the back. otherwise start from 0
-		$startIndex = $maskExcludeAmount < 0 ? $maskLength : 0;
-		// Extract the excluded characters
-		$excludedChars = WPRSS_MBString::mb_substr( $licenseKey, $startIndex, abs( $maskExcludeAmount ) );
-		// Generate the displayed key
-		$displayedKey = sprintf( $maskExcludeAmount > 0 ? '%1$s%2$s' : '%2$s%1$s', $excludedChars, $mask );
+		// Mask it
+		$displayedKey = self::_maskLicenseKey( $license->getKey() );
 		// Render the markup ?>
 		<input id="wprss-<?php echo $addonId ?>-license-key" name="wprss_settings_license_keys[<?php echo $addonId ?>_license_key]"
 			   type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
@@ -118,6 +141,34 @@ class Settings {
 		<label class="description" for="wprss-<?php echo $addonId ?>-license-key">
 			<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ) ?>
 		</label><?php
+	}
+
+        
+	/**
+	 * Masks a license key.
+	 * 
+	 * @param  string  $licenseKey        The license key to mask
+	 * @param  string  $maskChar          The masking character(s)
+	 * @param  integer $maskExcludeAmount The amount of characyers to exclude from the mask. If negative, the exluded characters will begin from the end of the string
+	 * @return string                     The masked license key
+	 */
+	protected static function _maskLicenseKey( $licenseKey, $maskChar = self::LICENSE_KEY_MASK_CHAR, $maskExcludeAmount = self::LICENSE_KEY_MASK_EXCLUDE_AMOUNT ) {
+		// Pre-calculate license key length
+		$licenseKeyLength = strlen( $licenseKey );
+		// In case the mask exclude amount is greater than the license key length
+		$actualMaskExcludeAmount = abs( $maskExcludeAmount ) > ( $licenseKeyLength - 1 )
+				? ( $licenseKeyLength - 1 ) * ( $maskExcludeAmount < 0 ? -1 : 1 ) // Making sure to preserve position of mask
+				: $maskExcludeAmount;
+		// How many chars to mask. Always at least one char will be masked.
+		$maskLength = $licenseKeyLength - abs( $actualMaskExcludeAmount );
+		// Create the mask
+		$mask = $maskLength > 0 ? str_repeat( $maskChar, $maskLength ) : '';
+		// The starting index: if negative mask exclude amount, start from the back. otherwise start from 0
+		$startIndex = $actualMaskExcludeAmount < 0 ? $maskLength : 0;
+		// Extract the excluded characters
+		$excludedChars = WPRSS_MBString::mb_substr( $licenseKey, $startIndex, abs( $actualMaskExcludeAmount ) );
+		// Generate the displayed key and return it
+		return sprintf( $actualMaskExcludeAmount > 0 ? '%1$s%2$s' : '%2$s%1$s', $excludedChars, $mask );
 	}
 
 	/**
@@ -265,11 +316,6 @@ class Settings {
 
 	protected function _method( $method ) {
 		return array( $this, $method );
-	}
-
-	protected function _setupHooks() {
-		add_action( 'wprss_admin_init', $this->_method( 'registerSettings' ), 100 );
-		add_action( 'admin_init', $this->method( 'handleLicenseStatusChange', 10 );
 	}
 	
 }
