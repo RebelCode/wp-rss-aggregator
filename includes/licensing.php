@@ -1,5 +1,17 @@
 <?php
 
+require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Manager.php' );
+require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Settings.php' );
+require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\AjaxController.php' );
+require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License.php' );
+require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License\Status.php' );
+
+\Aventura\Wprss\Licensing\get_settings();
+\Aventura\Wprss\Licensing\get_manager();
+\Aventura\Wprss\Licensing\get_ajaxController();
+
+return;
+
 /**
  * What to print in place of license code chars.
  * This must not be a symbol that is considered to be a valid license key char.
