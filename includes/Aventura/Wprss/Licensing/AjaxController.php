@@ -1,8 +1,21 @@
 <?php
 
 namespace Aventura\Wprss\Licensing;
-use Aventura\Wprss\Licensing\License\Status;
+use \Aventura\Wprss\Licensing\License\Status;
 
+/**
+ * Gets the singleton instance of the AjaxController class, creating it if it doesn't exist.
+ * 	
+ * @return AjaxController
+ */
+function get_ajax_controller() {
+	static $instance = null;
+	return is_null( $instance )? $instance = new AjaxController() : $instance;
+}
+
+/**
+ * AJAX controller class for licensing AJAX operations.
+ */
 class AjaxController {
 
 	// Pattern for ajax handler methods
@@ -18,8 +31,8 @@ class AjaxController {
 	}
 
 	protected function _setupHooks() {
-		add_action( 'wp_ajax_wprss_ajax_manage_license', $this->method( 'handleAjaxManageLicense' ) );
-		add_action( 'wp_ajax_wprss_ajax_fetch_license', $this->method( 'handleAjaxFetchLicense' ) );
+		add_action( 'wp_ajax_wprss_ajax_manage_license', $this->_method( 'handleAjaxManageLicense' ) );
+		add_action( 'wp_ajax_wprss_ajax_fetch_license', $this->_method( 'handleAjaxFetchLicense' ) );
 	}
 
 	/**
@@ -63,14 +76,14 @@ class AjaxController {
 		if ( $license === null ) $this->_sendErrorResponse( __( 'No license', WPRSS_TEXT_DOMAIN ), $addon );
 
 		// Check if the license key was obfuscated on the client's end.
-		if ( wprss_license_key_is_obfuscated( $license ) ) {
+		if ( $this->_settings->isLicenseKeyObfuscated( $license ) ) {
 			// If so, use the stored license key since obfuscation signifies that the key was not modified
 			// and is equal to the one saved in db
-			$license = $this->getLicense( $addon );
+			$license = $this->_manager->getLicense( $addon );
 		} else {
 			// Otherwise, update the value in db
 			$this->_manager->getLicense( $addon )->setKey( $license );
-			$this->_manager->_saveLicenseKeys();
+			$this->_manager->saveLicenseKeys();
 		}
 
 		// uppercase first letter of event
@@ -83,7 +96,7 @@ class AjaxController {
 		}
 
 		// Call the appropriate handler method
-		$returnValue = call_user_func_array( $this->method( $eventMethod ), array( $addon ) );
+		$returnValue = call_user_func_array( $this->_method( $eventMethod ), array( $addon ) );
 
 		// Prepare the response
 		$partialResponse = array(
@@ -123,7 +136,7 @@ class AjaxController {
 	 */
 	public function handleAjaxLicenseActivate( $addonId ) {
 		return array(
-			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->activateLicense( $addonId ) )
+			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->_manager->activateLicense( $addonId ) )
 		);
 	}
 
@@ -135,8 +148,12 @@ class AjaxController {
 	 */
 	public function handleAjaxLicenseDeactivate( $addonId ) {
 		return array(
-			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->deactivateLicense( $addonId ) )
+			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->_manager->deactivateLicense( $addonId ) )
 		);
+	}
+
+	protected function _method( $method ) {
+		return array( $this, $method );
 	}
 
 }

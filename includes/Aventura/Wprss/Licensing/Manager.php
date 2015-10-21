@@ -1,7 +1,7 @@
 <?php
 
 namespace Aventura\Wprss\Licensing;
-use Aventura\Wprss\Licensing\License\Status;
+use \Aventura\Wprss\Licensing\License\Status;
 
 /**
  * Gets the singleton instance of the Manager class, creating it if it doesn't exist.
@@ -22,7 +22,7 @@ function get_manager() {
 class Manager {
 
 	// The default updater class
-	const DEFAULT_UPDATER_CLASS = 'EDD_SL_Plugin_Updater';
+	const DEFAULT_UPDATER_CLASS = '\EDD_SL_Plugin_Updater';
 
 	// Name of license keys option in DB
 	const DB_LICENSE_KEYS_OPTION_NAME = 'wprss_settings_license_keys';
@@ -144,7 +144,7 @@ class Manager {
 	public function getLicensesWithStatus( $status, $negation = false ) {
 		$licenses = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
-			if ( $license->getStatus() === $status xor $negation === true ) {
+			if ( $_license->getStatus() === $status xor $negation === true ) {
 				$licenes[ $_addonId ] = $_license;
 			}
 		}
@@ -290,7 +290,7 @@ class Manager {
 		// Update the DB option
 		$license->setStatus( $licenseData->license );
 		$license->setExpiry( $licenseData->expires );
-		$this->_saveLicenseStatuses();
+		$this->saveLicenseStatuses();
 
 		// Return the data
 		if ( strtoupper( $return ) === 'ALL' ) {
@@ -312,6 +312,9 @@ class Manager {
 		// Get all registered addons
 		$addons = wprss_get_addons();
 
+		// Get the updater class
+		$updaterClass = self::getUpdaterClass();
+
 		// setup the updater
 		if ( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 			// load our custom updater
@@ -327,7 +330,7 @@ class Manager {
 			$version = constant("WPRSS_{$uid}_VERSION");
 			$path = constant("WPRSS_{$uid}_PATH");
 			// Set up an updater
-			$eddUpdater = new EDD_SL_Plugin_Updater( WPRSS_SL_STORE_URL, $path, array(
+			$eddUpdater = new $updaterClass( WPRSS_SL_STORE_URL, $path, array(
 				'version'   =>	$version,				// current version number
 				'license'   =>	$license->getKey(),		// license key (used get_option above to retrieve from DB)
 				'item_name' =>	$name,					// name of this plugin
@@ -352,24 +355,24 @@ class Manager {
 	 * Loads the licenses from db and prepares the internal licenses array
 	 */
 	protected function _loadLicenses() {
-		$options = self::_normalizeLicenseOptions( self::_getLicenseDbOption(), self::_getLicenseStatusesDbOption() );
-		foreach ( $options as $addonId => $data ) {
-			$this->_licenses[ $addonId ] = new License( $data );
+		$options = self::_normalizeLicenseOptions( self::_getLicenseKeysDbOption(), self::_getLicenseStatusesDbOption() );
+		foreach ( $options as $addonId => $_data ) {
+			$this->_licenses[ $addonId ] = new License( $_data );
 		}
 	}
 
 	/**
 	 * Saves the licenses and their statuses to the db.
 	 */
-	protected function _saveLicenses() {
-		$this->_saveLicenseKeys();
-		$this->_saveLicenseStatuses();
+	public function _saveLicenses() {
+		$this->saveLicenseKeys();
+		$this->saveLicenseStatuses();
 	}
 
 	/**
 	 * Saves the license keys to the db.
 	 */
-	protected function _saveLicenseKeys() {
+	public function saveLicenseKeys() {
 		$keys = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
 			$_key = sprintf( self::DB_LICENSE_KEYS_OPTION_PATTERN, $_addonId );
@@ -381,15 +384,15 @@ class Manager {
 	/**
 	 * Saves the license statuses (and expirations) to the db.
 	 */
-	protected function _saveLicenseStatuses() {
+	public function saveLicenseStatuses() {
 		$statuses = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
-			$_status = sprintf( self::DB_LICENSE_STATUSES_OPTION_NAME, $_addonId, 'status' );
-			$_expires = sprintf( self::DB_LICENSE_STATUSES_OPTION_NAME, $_addonId, 'expires' );
+			$_status = sprintf( self::DB_LICENSE_STATUSES_OPTION_PATTERN, $_addonId, 'status' );
+			$_expires = sprintf( self::DB_LICENSE_STATUSES_OPTION_PATTERN, $_addonId, 'expires' );
 			$statuses[ $_status ] = $_license->getStatus();
 			$statuses[ $_expires ] = $_license->getExpiry();
 		}
-		update_option( self::DB_LICENSE_KEYS_OPTION_NAME, $statuses );
+		update_option( self::DB_LICENSE_STATUSES_OPTION_NAME, $statuses );
 	}
 
 	/**
@@ -421,14 +424,14 @@ class Manager {
 		// Prepare regex pattern outside of iterations
 		$licenseKeysOptionPattern = self::_formatStringToDbOptionPattern( self::DB_LICENSE_KEYS_OPTION_PATTERN );
 		$licenseStatusesOptionPattern = self::_formatStringToDbOptionPattern( self::DB_LICENSE_STATUSES_OPTION_PATTERN );
-
+		
 		// Prepare the license keys into the normalized array
 		foreach ( $keys as $_key => $_value ) {
 			// Regex match for pattern of array keys
-			preg_match( $licenseKeysOptionPattern), $_key, $_matches );
-			if ( count( $matches ) < 2 ) return;
-			// Addon id is the first match (excluding whole string match at $matches[0])
-			$addonId = $matches[1];
+			preg_match( $licenseKeysOptionPattern, $_key, $_matches );
+			if ( count( $_matches ) < 2 ) continue;
+			// Addon id is the first match (excluding whole string match at $_matches[0])
+			$_addonId = $_matches[1];
 			// check if entry for add-on exists in normalized array, otherwise create it
 			if ( ! isset( $normalized[ $_addonId ] ) )
 				$normalized[ $_addonId ] = array();
@@ -450,6 +453,7 @@ class Manager {
 			// Add the property to the normalized array for the addon's entry
 			$normalized[ $_addonId ][ $_property ] = $_value;
 		}
+		
 		return $normalized;
 	}
 

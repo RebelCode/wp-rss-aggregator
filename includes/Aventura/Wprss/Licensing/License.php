@@ -1,7 +1,7 @@
 <?php
 
 namespace Aventura\Wprss\Licensing;
-use Aventura\Wprss\Licensing\License\Status;
+use \Aventura\Wprss\Licensing\License\Status;
 
 /**
  * This class represents a single license object.
@@ -53,7 +53,10 @@ class License {
 		// If first arg is an array,
 		if ( is_array( $key ) ) {
 			// Get values from the appropriate keys
-			list( $key, $status, $expiry ) = wp_parse_args( $key, self::_defaultSettingsArray() );
+			$data = array_merge( self::_defaultSettingsArray(), $key );
+			$key = $data['key'];
+			$status = $data['status'];
+			$expiry = $data['expiry'];
 		}
 		$this
 		// Set fields
@@ -141,7 +144,7 @@ class License {
 			'key'		=>	'',
 			'status'	=>	Status::INVALID,
 			'expiry'	=>	null
-		)
+		);
 	}
 
 }

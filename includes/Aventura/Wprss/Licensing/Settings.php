@@ -1,6 +1,8 @@
 <?php
 
 namespace Aventura\Wprss\Licensing;
+use \Aventura\Wprss\Licensing\License\Status;
+use \WPRSS_MBString;
 
 /**
  * Gets the singleton instance of the Settings class, creating it if it doesn't exist.
@@ -57,10 +59,10 @@ class Settings {
 		foreach ( wprss_get_addons() as $addonId => $addonName ) {
 			$notice = array(
 				'id'				=>	'invalid_licenses_exist',
-				'notice_type'		=>	'error'
-				'notice_content'	=>	$this->getInvalidLicenseNoticeContent(),
-				'conditions'		=>	$this->method( 'invalidLicensesNoticeCondition' ),
-				'addon'				->	$addonId
+				'notice_type'		=>	'error',
+				'content'			=>	$this->getInvalidLicenseNoticeContent(),
+				'condition'			=>	array( $this->_method( 'invalidLicensesNoticeCondition' ) ),
+				'addon'				=>	$addonId
 			);
 			$noticesCollection->add_notice( $notice );
 		}
@@ -72,11 +74,13 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function invalidLicensesNoticeCondition() {
-		return $this->_manager->licenseWithStatusExists( Status::VALID, false );
+		$args = func_get_args();
+		if ( isset( $args['addon'] ) ) return false;
+		return $this->_manager->getLicense( $args['addon'] )->getStatus() !== Status::VALID;
 	}
 
 	public function getInvalidLicenseNoticeContent() {
-		return 'testink';
+		return '<p>testink</p>';
 	}
 
 	/**
@@ -84,7 +88,7 @@ class Settings {
 	 */
 	protected function _setupHooks() {
 		add_action( 'wprss_admin_init', $this->_method( 'registerSettings' ), 100 );
-		add_action( 'admin_init', $this->method( 'handleLicenseStatusChange', 10 );
+		add_action( 'admin_init', $this->_method( 'handleLicenseStatusChange' ), 10 );
 	}
 
 	/**
@@ -104,7 +108,7 @@ class Settings {
 			add_settings_field(
 				sprintf( 'wprss_settings_%s_license', $addonId ),
 				__( 'License Key', WPRSS_TEXT_DOMAIN ),
-				$this->method( 'renderLicenseKeyField' ),
+				$this->_method( 'renderLicenseKeyField' ),
 				'wprss_settings_license_keys',
 				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
 				array( $addonId )
@@ -113,7 +117,7 @@ class Settings {
 			add_settings_field(
 				sprintf( 'wprss_settings_%s_activate_license', $addonId ),
 				__( 'Activate License', WPRSS_TEXT_DOMAIN ),
-				$this->method( 'renderActivateLicenseButton' ),
+				$this->_method( 'renderActivateLicenseButton' ),
 				'wprss_settings_license_keys',
 				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
 				array( $addonId )
@@ -172,6 +176,21 @@ class Settings {
 	}
 
 	/**
+	 * Determines whether or not the license key in question is obfuscated.
+	 * 
+	 * This is achieved by searching for the mask character in the key. Because the
+	 * mask character cannot be a valid license character, the presence of at least
+	 * one such character indicates that the key is obfuscated.
+	 * 
+	 * @param string $key The license key in question.
+	 * @param string $maskChar The masking character(s).
+	 * @return bool Whether or not this key is obfuscated.
+	 */
+	public function isLicenseKeyObfuscated( $key, $maskChar = self::LICENSE_KEY_MASK_CHAR ) {
+		return WPRSS_MBString::mb_strpos( $key, $maskChar ) !== false;
+	}
+
+	/**
 	 * Renders the activate/deactivate license button for a particular add-on.
 	 *
 	 * @since 4.4.5
@@ -207,7 +226,7 @@ class Settings {
 
 		<p>
 			<?php
-				$licenseKey = $this->_manager->getLicense( $addonId );
+				$licenseKey = $this->_manager->getLicense( $addonId )->getKey();
 				if ( ! empty( $licenseKey ) ) :
 					if ( is_object( $data ) ) :
 						$currentActivations = $data->site_count;
@@ -294,7 +313,7 @@ class Settings {
 
 			// Prepare the action to take
 			if ( isset( $_POST["wprss_{$id}_license_activate"] ) ) {
-				$this->_manager->activateLicense( $id )
+				$this->_manager->activateLicense( $id );
 			}
 			elseif ( isset( $_POST["wprss_{$id}_license_deactivate"] ) ) {
 				$this->_manager->deactivateLicense( $id );
