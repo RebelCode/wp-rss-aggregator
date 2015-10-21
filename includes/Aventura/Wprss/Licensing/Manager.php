@@ -364,6 +364,7 @@ class Manager {
 	 * Loads the licenses from db and prepares the internal licenses array
 	 */
 	protected function _loadLicenses() {
+		$this->_licenses = array();
 		$options = self::_normalizeLicenseOptions( self::_getLicenseKeysDbOption(), self::_getLicenseStatusesDbOption() );
 		foreach ( $options as $addonId => $_data ) {
 			$this->_licenses[ $addonId ] = new License( $_data );
