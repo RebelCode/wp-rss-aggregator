@@ -59,7 +59,7 @@ class AjaxController {
 		$nonce = empty( $_GET['nonce'] )? null : sanitize_text_field( $_GET['nonce'] );
 		$addon = empty( $_GET['addon'] )? null : sanitize_text_field( $_GET['addon'] );
 		$event = empty( $_GET['event'] )? null : sanitize_text_field( $_GET['event'] );
-		$license = empty( $_GET['license'] )? null : sanitize_text_field( $_GET['license'] );
+		$licenseKey = empty( $_GET['license'] )? null : sanitize_text_field( $_GET['license'] );
 
 		// If no nonce, stop
 		if ( $nonce === null ) $this->_sendErrorResponse( __( 'No nonce', WPRSS_TEXT_DOMAIN ), $addon );
@@ -73,16 +73,20 @@ class AjaxController {
 		// Check addon, event and license
 		if ( $addon === null ) $this->_sendErrorResponse( __( 'No addon ID', WPRSS_TEXT_DOMAIN ) );
 		if ( $event === null ) $this->_sendErrorResponse( __( 'No event specified', WPRSS_TEXT_DOMAIN ), $addon );
-		if ( $license === null ) $this->_sendErrorResponse( __( 'No license', WPRSS_TEXT_DOMAIN ), $addon );
+		if ( $licenseKey === null ) $this->_sendErrorResponse( __( 'No license', WPRSS_TEXT_DOMAIN ), $addon );
 
 		// Check if the license key was obfuscated on the client's end.
-		if ( $this->_settings->isLicenseKeyObfuscated( $license ) ) {
+		if ( $this->_settings->isLicenseKeyObfuscated( $licenseKey ) ) {
 			// If so, use the stored license key since obfuscation signifies that the key was not modified
 			// and is equal to the one saved in db
-			$license = $this->_manager->getLicense( $addon );
+			$licenseKey = $this->_manager->getLicense( $addon );
 		} else {
 			// Otherwise, update the value in db
-			$this->_manager->getLicense( $addon )->setKey( $license );
+			$license = $this->_manager->getLicense( $addon );
+			if ( $license === null ) {
+				$license = $this->_manager->createLicense( $addon );
+			}
+			$license->setKey( $licenseKey );
 			$this->_manager->saveLicenseKeys();
 		}
 

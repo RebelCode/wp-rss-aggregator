@@ -56,15 +56,15 @@ class Settings {
 
 	protected function _notices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
-		foreach ( wprss_get_addons() as $addonId => $addonName ) {
-			$notice = array(
-				'id'				=>	'invalid_licenses_exist',
+		foreach ( wprss_get_addons() as $_addonId => $_addonName ) {
+			$_notice = array(
+				'id'				=>	sprintf( 'invalid_licenses_exist_%s', $_addonId ),
 				'notice_type'		=>	'error',
-				'content'			=>	$this->getInvalidLicenseNoticeContent(),
+				'content'			=>	$this->getInvalidLicenseNoticeContent( $_addonId ),
 				'condition'			=>	array( $this->_method( 'invalidLicensesNoticeCondition' ) ),
-				'addon'				=>	$addonId
+				'addon'				=>	$_addonId
 			);
-			$noticesCollection->add_notice( $notice );
+			$noticesCollection->add_notice( $_notice );
 		}
 	}
 
@@ -73,14 +73,19 @@ class Settings {
 	 * 
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
-	public function invalidLicensesNoticeCondition() {
-		$args = func_get_args();
+	public function invalidLicensesNoticeCondition( $args ) {
 		if ( isset( $args['addon'] ) ) return false;
-		return $this->_manager->getLicense( $args['addon'] )->getStatus() !== Status::VALID;
+		$license = $this->_manager->getLicense( $args['addon'] );
+		return $license !== null && $license->getStatus() !== Status::VALID;
 	}
 
-	public function getInvalidLicenseNoticeContent() {
-		return '<p>testink</p>';
+	public function getInvalidLicenseNoticeContent( $addonId ) {
+		$addonName = wprss_get_addons()[ $addonId ];
+		return sprintf(
+			__( '<p>Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
+			esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+			$addonName
+		);
 	}
 
 	/**
@@ -136,8 +141,8 @@ class Settings {
 		$addonId = $args[0];
 		// Get the addon's license
 		$license = $this->_manager->getLicense( $addonId );
-		// Mask it
-		$displayedKey = self::_maskLicenseKey( $license->getKey() );
+		// Mask it - if the license exists
+		$displayedKey = is_null( $license )? '' : self::_maskLicenseKey( $license->getKey() );
 		// Render the markup ?>
 		<input id="wprss-<?php echo $addonId ?>-license-key" name="wprss_settings_license_keys[<?php echo $addonId ?>_license_key]"
 			   type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
@@ -147,7 +152,7 @@ class Settings {
 		</label><?php
 	}
 
-        
+		
 	/**
 	 * Masks a license key.
 	 * 
@@ -226,8 +231,9 @@ class Settings {
 
 		<p>
 			<?php
-				$licenseKey = $this->_manager->getLicense( $addonId )->getKey();
-				if ( ! empty( $licenseKey ) ) :
+				$license = $this->_manager->getLicense( $addonId );
+				if ( $license !== null && ! empty( $license->getKey() ) ) :
+					$licenseKey = $license->getKey();
 					if ( is_object( $data ) ) :
 						$currentActivations = $data->site_count;
 						$activationsLeft = $data->activations_left;
