@@ -92,6 +92,18 @@ class Manager {
 	}
 
 	/**
+	 * Creates a new license.
+	 *
+	 * This does not save the license to the database. You will need to call Manager::saveLicenses() to save to db.
+	 * 
+	 * @param  string  $addonId The addon ID
+	 * @return License          The created license
+	 */
+	public function createLicense( $addonId ) {
+		return $this->_licenses[ $addonId ] = new License();
+	}
+
+	/**
 	 * Gets all license key settings.
 	 * 
 	 * @return array
@@ -107,7 +119,9 @@ class Manager {
 	 * @return array
 	 */
 	public function getLicense( $addonId ) {
-		$this->_ensureLicenseExist( $addonId );
+		if ( ! $this->licenseExists( $addonId ) ) {
+			return null;
+		}
 		return $this->_licenses[ $addonId ];
 	}
 
@@ -119,17 +133,6 @@ class Manager {
 	 */
 	public function licenseExists( $addonId ) {
 		return isset( $this->_licenses[ $addonId ] );
-	}
-
-	/**
-	 * Checks if a license entry for an addon exists, and if not creates it.
-	 * 
-	 * @param  string $addonId The addon id.
-	 */
-	protected function _ensureLicenseExist( $addonId ) {
-		if ( ! $this->licenseExists( $addonId ) ) {
-			$this->_licenses[ $addonId ] = new License();
-		}
 	}
 
 	/**
@@ -253,6 +256,10 @@ class Manager {
 	public function sendApiRequest( $addonId, $action = 'check_license', $return = 'license' ) {
 		// Get the license for the addon
 		$license = $this->getLicense( $addonId );
+		// Use blank license if addon license does not exist
+		if ( $license === null ) {
+			$license = new License();
+		}
 
 		// Addon Uppercase ID
 		$addonUid = strtoupper( $addonId );
@@ -325,6 +332,8 @@ class Manager {
 		foreach( $addons as $id => $name ) {
 			// Prepare the data
 			$license = $this->getLicense( $id );
+			// If the addon doesn't have a license or the license is not valid, skip this addon
+			if ( $license === null || $license->getStatus() !== Status::VALID ) continue;
 			$uid = strtoupper( $id );
 			$name = constant("WPRSS_{$uid}_SL_ITEM_NAME");
 			$version = constant("WPRSS_{$uid}_VERSION");
