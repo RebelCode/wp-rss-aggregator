@@ -50,11 +50,14 @@ class Settings {
 	 */
 	public function __construct() {
 		$this->_manager = get_manager();
-		$this->_notices();
 		$this->_setupHooks();
+		// Only load notices if on admin side
+		if ( is_admin() ) {
+			$this->_initNotices();
+		}
 	}
 
-	protected function _notices() {
+	protected function _initNotices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
 		foreach ( wprss_get_addons() as $_addonId => $_addonName ) {
 			$_notice = array(

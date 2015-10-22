@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'plugins_loaded', function() {
+add_action( 'init', function() {
 	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Manager.php' );
 	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Settings.php' );
 	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\AjaxController.php' );
