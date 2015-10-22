@@ -1,15 +1,15 @@
 <?php
 
 add_action( 'init', function() {
-	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Manager.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\Settings.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\AjaxController.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Licensing\\License\Status.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\Manager.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\Settings.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\AjaxController.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\License.php' );
+	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\License\Status.php' );
 
-	\Aventura\Wprss\Licensing\get_settings();
-	\Aventura\Wprss\Licensing\get_manager();
-	\Aventura\Wprss\Licensing\get_ajax_controller();
+	wprss_get_licensing_settings();
+	wprss_get_licensing_manager();
+	wprss_get_licensing_ajax_controller();
 } );
 
 /**
