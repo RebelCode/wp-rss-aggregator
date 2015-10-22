@@ -6,8 +6,8 @@
      * @subpackage Includes
      * @since      3.0
      * @author     Jean Galea <info@jeangalea.com>
-     * @copyright  Copyright(c) 2012-2013, Jean Galea
-     * @link       http://www.wpmayor.com
+     * @copyright  Copyright(c) 2012-2015, Jean Galea
+     * @link       http://www.wprssaggregator.com
      * @license    http://www.gnu.org/licenses/gpl.html
      */
 
@@ -56,11 +56,11 @@
         );
 
         $operations['download-error-log'] = apply_filters(
-            'wprss_debug_error_log_operation',
+            'wprss_debug_download_error_log_operation',
             array(
                 'nonce'     =>  'wprss-download-error-log',
                 'run'       =>  'wprss_download_log',
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=5',
+                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
                 'render'    =>  'wprss_debug_download_log_button'
             )
         );        
@@ -178,6 +178,11 @@
         <h3><?php _e( 'Error Log', WPRSS_TEXT_DOMAIN ); ?></h3>
 
         <textarea readonly="readonly" id="wprss-error-log-textarea"><?php echo wprss_get_log(); ?></textarea>
+
+        <?php
+        $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' );
+        $nonce_url = wp_nonce_url( $form_url, 'wprss-error-log' );
+        ?>
 
         <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="POST"> 
             <?php wp_nonce_field( 'wprss-clear-error-log' );

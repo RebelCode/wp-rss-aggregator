@@ -29,8 +29,8 @@
                     <textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>"><?php wprss_print_system_info(); ?>
                     </textarea>
                     <p class="submit">
-                            <input type="hidden" name="wprss-action" value="download_sysinfo" />
-                            <?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
+                        <input type="hidden" name="wprss-action" value="download_sysinfo" />
+                        <?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
                     </p>
             </form>
 
