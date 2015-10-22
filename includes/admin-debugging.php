@@ -55,6 +55,16 @@
             )
         );
 
+        $operations['download-error-log'] = apply_filters(
+            'wprss_debug_error_log_operation',
+            array(
+                'nonce'     =>  'wprss-download-error-log',
+                'run'       =>  'wprss_download_log',
+                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=5',
+                'render'    =>  'wprss_debug_download_log_button'
+            )
+        );        
+
 		$operations ['restore-settings'] = apply_filters(
 			'wprss_debug_restore_settings_operation',
 			array(
@@ -173,7 +183,7 @@
             <?php wp_nonce_field( 'wprss-clear-error-log' );
             submit_button( __( 'Clear log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log', true  ); ?>
             <?php wp_nonce_field( 'wprss-download-error-log' );
-            submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log', true  ); ?>            
+            submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'download-error-log', true  ); ?>            
         </form>
 
         <?php

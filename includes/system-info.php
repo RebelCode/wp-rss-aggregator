@@ -26,8 +26,7 @@
                     $nonce_url = wp_nonce_url( $form_url, 'wprss-sysinfo' );
             ?>
             <form action="<?php echo esc_url( $nonce_url ); ?>" method="post">
-                    <textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>">
-                    <?php wprss_print_system_info(); ?>
+                    <textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="wprss-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', WPRSS_TEXT_DOMAIN ); ?>"><?php wprss_print_system_info(); ?>
                     </textarea>
                     <p class="submit">
                             <input type="hidden" name="wprss-action" value="download_sysinfo" />
