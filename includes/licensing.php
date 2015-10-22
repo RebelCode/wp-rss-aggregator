@@ -1,17 +1,5 @@
 <?php
 
-add_action( 'init', function() {
-	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\Manager.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\Settings.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\AjaxController.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\License.php' );
-	require( WPRSS_INC . 'Aventura\\Wprss\\Core\\Licensing\\License\Status.php' );
-
-	wprss_get_licensing_settings();
-	wprss_get_licensing_manager();
-	wprss_get_licensing_ajax_controller();
-} );
-
 /**
  * Gets the singleton instance of the Settings class, creating it if it doesn't exist.
  * 	
