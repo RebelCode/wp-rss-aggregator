@@ -159,7 +159,7 @@
 
 
     /**
-     * Renders the Clear Log button
+     * Renders Error Log area
      * 
      * @since 3.9.6
      */
@@ -172,6 +172,8 @@
         <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="POST"> 
             <?php wp_nonce_field( 'wprss-clear-error-log' );
             submit_button( __( 'Clear log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log', true  ); ?>
+            <?php wp_nonce_field( 'wprss-download-error-log' );
+            submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log', true  ); ?>            
         </form>
 
         <?php
