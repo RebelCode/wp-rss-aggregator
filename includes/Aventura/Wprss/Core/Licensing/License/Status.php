@@ -1,6 +1,6 @@
 <?php
 
-namespace Aventura\Wprss\Licensing\License;
+namespace Aventura\Wprss\Core\Licensing\License;
 
 /**
  * Enum-style abstract class for license statuses.

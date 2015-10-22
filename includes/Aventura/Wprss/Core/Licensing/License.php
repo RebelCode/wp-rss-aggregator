@@ -1,7 +1,7 @@
 <?php
 
-namespace Aventura\Wprss\Licensing;
-use \Aventura\Wprss\Licensing\License\Status;
+namespace Aventura\Wprss\Core\Licensing;
+use \Aventura\Wprss\Core\Licensing\License\Status;
 
 /**
  * This class represents a single license object.

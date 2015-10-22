@@ -1,17 +1,7 @@
 <?php
 
-namespace Aventura\Wprss\Licensing;
-use \Aventura\Wprss\Licensing\License\Status;
-
-/**
- * Gets the singleton instance of the Manager class, creating it if it doesn't exist.
- * 	
- * @return Manager
- */
-function get_manager() {
-	static $instance = null;
-	return ( $instance === null )? $instance = new Manager() : $instance;
-}
+namespace Aventura\Wprss\Core\Licensing;
+use \Aventura\Wprss\Core\Licensing\License\Status;
 
 /**
  * Manager class for license handling.
@@ -148,7 +138,7 @@ class Manager {
 		$licenses = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
 			if ( $_license->getStatus() === $status xor $negation === true ) {
-				$licenes[ $_addonId ] = $_license;
+				$licenses[ $_addonId ] = $_license;
 			}
 		}
 		return $licenses;
@@ -163,7 +153,7 @@ class Manager {
 	 *                           Default: false
 	 * @return boolean           True if a license with or without (depending on $negation) the given status exists, false otherwise.
 	 */
-	public function licenseWithStatusExists( $status, $negation = true ) {
+	public function licenseWithStatusExists( $status, $negation = false ) {
 		return count( $this->getLicensesWithStatus( $status, $negation ) ) > 0;
 	}
 

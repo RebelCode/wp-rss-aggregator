@@ -1,17 +1,7 @@
 <?php
 
-namespace Aventura\Wprss\Licensing;
-use \Aventura\Wprss\Licensing\License\Status;
-
-/**
- * Gets the singleton instance of the AjaxController class, creating it if it doesn't exist.
- * 	
- * @return AjaxController
- */
-function get_ajax_controller() {
-	static $instance = null;
-	return is_null( $instance )? $instance = new AjaxController() : $instance;
-}
+namespace Aventura\Wprss\Core\Licensing;
+use \Aventura\Wprss\Core\Licensing\License\Status;
 
 /**
  * AJAX controller class for licensing AJAX operations.
@@ -25,8 +15,8 @@ class AjaxController {
 	protected $_settings;
 
 	public function __construct() {
-		$this->_settings = get_settings();
-		$this->_manager = get_manager();
+		$this->_settings = \wprss_get_licensing_settings();
+		$this->_manager = \wprss_get_licensing_manager();
 		$this->_setupHooks();
 	}
 
