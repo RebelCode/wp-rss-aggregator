@@ -12,6 +12,16 @@ add_action( 'init', function() {
 	\Aventura\Wprss\Licensing\get_ajax_controller();
 } );
 
+/**
+ * Returns all registered addons.
+ *
+ * @since 4.4.5
+ */
+function wprss_get_addons() {
+	static $addons = null;
+	return is_null( $addons )? $addons = apply_filters( 'wprss_register_addon', array() ) : $addons;
+}
+
 return;
 
 /**
@@ -28,15 +38,6 @@ define( 'WPRSS_LICENSE_KEY_MASK_CHAR', '•' );
  * @since 4.6.10
  */
 define( 'WPRSS_LICENSE_KEY_MASK_EXCLUDE_AMOUNT', -4 );
-
-/**
- * Returns all registered addons.
- *
- * @since 4.4.5
- */
-function wprss_get_addons() {
-	return apply_filters( 'wprss_register_addon', array() );
-}
 
 
 /**
