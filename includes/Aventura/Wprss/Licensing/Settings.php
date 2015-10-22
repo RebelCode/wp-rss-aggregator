@@ -57,6 +57,9 @@ class Settings {
 		}
 	}
 
+	/**
+	 * Initializes the admin notices.
+	 */
 	protected function _initNotices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
 		foreach ( wprss_get_addons() as $_addonId => $_addonName ) {
@@ -342,6 +345,12 @@ class Settings {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Creates a callable array.
+	 * 
+	 * @param  string $method The method name.
+	 * @return array
+	 */
 	protected function _method( $method ) {
 		return array( $this, $method );
 	}
