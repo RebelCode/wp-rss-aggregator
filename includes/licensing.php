@@ -48,4 +48,7 @@ function wprss_get_licensing_ajax_controller() {
  *
  * @since 4.4.5
  */
+function wprss_get_addons() {
+	static $addons = null;
+	return is_null( $addons )? $addons = apply_filters( 'wprss_register_addon', array() ) : $addons;
 }
