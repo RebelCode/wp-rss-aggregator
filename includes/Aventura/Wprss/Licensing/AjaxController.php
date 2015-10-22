@@ -31,8 +31,8 @@ class AjaxController {
 	}
 
 	protected function _setupHooks() {
-		add_action( 'wp_ajax_wprss_ajax_manage_license', $this->_method( 'handleAjaxManageLicense' ) );
-		add_action( 'wp_ajax_wprss_ajax_fetch_license', $this->_method( 'handleAjaxFetchLicense' ) );
+		add_action( 'wp_ajax_wprss_ajax_manage_license', array( $this, 'handleAjaxManageLicense' ) );
+		add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $this, 'handleAjaxFetchLicense' ) );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class AjaxController {
 		}
 
 		// Call the appropriate handler method
-		$returnValue = call_user_func_array( $this->_method( $eventMethod ), array( $addon ) );
+		$returnValue = call_user_func_array( array( $this, $eventMethod ), array( $addon ) );
 
 		// Prepare the response
 		$partialResponse = array(
@@ -154,10 +154,6 @@ class AjaxController {
 		return array(
 			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->_manager->deactivateLicense( $addonId ) )
 		);
-	}
-
-	protected function _method( $method ) {
-		return array( $this, $method );
 	}
 
 }

@@ -67,7 +67,7 @@ class Settings {
 				'id'				=>	sprintf( 'invalid_licenses_exist_%s', $_addonId ),
 				'notice_type'		=>	'error',
 				'content'			=>	$this->getInvalidLicenseNoticeContent( $_addonId ),
-				'condition'			=>	array( $this->_method( 'invalidLicensesNoticeCondition' ) ),
+				'condition'			=>	array( array( $this, 'invalidLicensesNoticeCondition' ) ),
 				'addon'				=>	$_addonId
 			);
 			$noticesCollection->add_notice( $_notice );
@@ -98,8 +98,8 @@ class Settings {
 	 * Registers the WordPress hooks.
 	 */
 	protected function _setupHooks() {
-		add_action( 'wprss_admin_init', $this->_method( 'registerSettings' ), 100 );
-		add_action( 'admin_init', $this->_method( 'handleLicenseStatusChange' ), 10 );
+		add_action( 'wprss_admin_init', array( $this, 'registerSettings' ), 100 );
+		add_action( 'admin_init', array( $this, 'handleLicenseStatusChange' ), 10 );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Settings {
 			add_settings_field(
 				sprintf( 'wprss_settings_%s_license', $addonId ),
 				__( 'License Key', WPRSS_TEXT_DOMAIN ),
-				$this->_method( 'renderLicenseKeyField' ),
+				array( $this, 'renderLicenseKeyField' ),
 				'wprss_settings_license_keys',
 				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
 				array( $addonId )
@@ -128,7 +128,7 @@ class Settings {
 			add_settings_field(
 				sprintf( 'wprss_settings_%s_activate_license', $addonId ),
 				__( 'Activate License', WPRSS_TEXT_DOMAIN ),
-				$this->_method( 'renderActivateLicenseButton' ),
+				array( $this, 'renderActivateLicenseButton' ),
 				'wprss_settings_license_keys',
 				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
 				array( $addonId )
@@ -343,16 +343,6 @@ class Settings {
 		ob_start();
 		$this->renderActivateLicenseButton( array( $addonId ) );
 		return ob_get_clean();
-	}
-
-	/**
-	 * Creates a callable array.
-	 * 
-	 * @param  string $method The method name.
-	 * @return array
-	 */
-	protected function _method( $method ) {
-		return array( $this, $method );
 	}
 	
 }

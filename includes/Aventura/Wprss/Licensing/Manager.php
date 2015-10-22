@@ -68,7 +68,7 @@ class Manager {
 	 * Sets up the WordPress hooks.
 	 */
 	protected function _setupHooks() {
-		add_action( 'admin_init', $this->method( 'initUpdaterInstances' ) );
+		add_action( 'admin_init', array( $this, 'initUpdaterInstances' ) );
 	}
 
 	/**
@@ -486,16 +486,6 @@ class Manager {
 	 */
 	protected static function _calculateSteTimestamp() {
 		return strtotime( sprintf( '+%s', self::EXPIRATION_NOTICE_PERIOD ) );
-	}
-
-	/**
-	 * Creates a callable array for this instance and the method with the given name.
-	 * 
-	 * @param  string $name The method name
-	 * @return array
-	 */
-	public function method( $name ) {
-		return array( $this, $name );
 	}
 
 }
