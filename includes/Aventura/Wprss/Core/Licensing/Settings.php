@@ -39,7 +39,7 @@ class Settings {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->_setManager( wprss_get_licensing_manager() );
+		$this->_setManager( wprss_licensing_get_manager() );
 		$this->_setupHooks();
 		// Only load notices if on admin side
 		if ( is_admin() ) {

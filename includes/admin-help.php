@@ -22,7 +22,7 @@
 			<?php echo wpautop( __('If after going through the documentation you still have questions, please take a look at the <a href="http://www.wprssaggregator.com/faq/">FAQ page</a> on the site, we set this up purposely to answer the most commonly asked questions by our users.', WPRSS_TEXT_DOMAIN) ) ?>
 			
 			<?php
-			if ( wprss_get_licensing_manager()->licenseWithStatusExists( License_Status::VALID ) ) {
+			if ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) ) {
 				wprss_premium_help_display();
 			} else {
 				wprss_free_help_display();
@@ -60,7 +60,7 @@
 		}
 
 		// Get the full license info so we can prefill the name and email
-		$license = wprss_get_licensing_manager()->checkLicense( $addon, 'ALL' );
+		$license = wprss_licensing_get_manager()->checkLicense( $addon, 'ALL' );
 		$customer_name = is_object($license) ? $license->customer_name : '';
 		$customer_email = is_object($license) ? $license->customer_email : '';
 

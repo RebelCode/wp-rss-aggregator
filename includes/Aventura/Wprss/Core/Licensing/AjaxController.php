@@ -16,8 +16,8 @@ class AjaxController {
 
 
 	public function __construct() {
-		$this->_setSettingsController( wprss_get_licensing_settings() )
-                ->_setManager( wprss_get_licensing_manager() )
+		$this->_setSettingsController( wprss_licensing_get_settings() )
+                ->_setManager( wprss_licensing_get_manager() )
                 ->_setupHooks();
 	}
 
