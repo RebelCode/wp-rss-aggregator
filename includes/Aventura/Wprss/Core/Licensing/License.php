@@ -21,7 +21,7 @@ class License {
 
 	/**
 	 * License key.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_key;
@@ -36,10 +36,13 @@ class License {
 
 	/**
 	 * License expiry date.
-	 * 
+	 *
 	 * @var integer
 	 */
 	protected $_expiry;
+
+    /** @var string Code of the add-on this license belongs to. */
+    protected $_addonCode;
 
 	/**
 	 * Constructs a new instance, using the given params or an array of properties if only the first param is given.
@@ -49,22 +52,25 @@ class License {
 	 * @param integer $expiry  The expiry date of this license. Default: null
 	 * @see Aventura\Wprss\Licensing\License\Status
 	 */
-	public function __construct( $key = array(), $status = null, $expiry = null ) {
+	public function __construct( $key = array(), $status = null, $expiry = null, $addonCode = null ) {
 		// If first arg is an array,
 		if ( is_array( $key ) ) {
 			// Get values from the appropriate keys
-			$data = array_merge( self::_defaultSettingsArray(), $key );
+			$data = array_merge( self::getDefaultSettings(), $key );
 			$key = $data['key'];
 			$status = $data['status'];
 			$expiry = $data['expires'];
+            $addonCode = $data['addon_code'];
 		}
+
 		$this
-		// Set fields
-		->setKey( $key )
-		->setStatus( $status )
-		->setExpiry( $expiry )
-		// Call secondary constructor
-		->_construct();
+                // Set fields
+                ->setKey( $key )
+                ->setStatus( $status )
+                ->setExpiry( $expiry )
+                ->setAddonCode( $addonCode )
+                // Call secondary constructor
+                ->_construct();
 	}
 
 	/**
@@ -74,7 +80,7 @@ class License {
 
 	/**
 	 * Gets the license key.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getKey() {
@@ -83,7 +89,7 @@ class License {
 
 	/**
 	 * Sets the license key.
-	 * 
+	 *
 	 * @param  string $key The license key.
 	 * @return self
 	 */
@@ -104,9 +110,9 @@ class License {
 
 	/**
 	 * Sets the license status.
-	 * 
+	 *
 	 * @see Aventura\Wprss\Licensing\License\Status
-	 * 
+	 *
 	 * @param  string $status The license status.
 	 * @return self
 	 */
@@ -117,7 +123,7 @@ class License {
 
 	/**
 	 * Gets the license expiry date.
-	 * 
+	 *
 	 * @return integer
 	 */
 	public function getExpiry() {
@@ -126,7 +132,7 @@ class License {
 
 	/**
 	 * Sets the license expiry date.
-	 * 
+	 *
 	 * @param integer $expiry The license expiry date
 	 */
 	public function setExpiry( $expiry ) {
@@ -134,16 +140,37 @@ class License {
 		return $this;
 	}
 
+    /**
+     * Set the code of the add-on that this license belongs to.
+     *
+     * @param string $code Code of the addon that this license belongs to.
+     * @return \Aventura\Wprss\Core\Licensing\License This instance.
+     */
+    public function setAddonCode($code) {
+        $this->_addonCode = $code;
+        return $this;
+    }
+
+    /**
+     * Get the code of the add-on that this license belongs to.
+     *
+     * @return string Code of the addon that this license belongs to.
+     */
+    public function getAddonCode() {
+        return $this->_addonCode;
+    }
+
 	/**
 	 * Gets the default values for all properties of the license.
-	 * 
+	 *
 	 * @return array
 	 */
-	protected static function _defaultSettingsArray() {
+	public static function getDefaultSettings() {
 		return array(
 			'key'		=>	'',
 			'status'	=>	Status::INVALID,
-			'expiry'	=>	null
+			'expiry'	=>	null,
+            'addon_code'=>  null,
 		);
 	}
 

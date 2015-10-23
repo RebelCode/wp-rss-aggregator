@@ -3,6 +3,7 @@
 /**
  * Gets the singleton instance of the Settings class, creating it if it doesn't exist.
  *
+ * @since [*next-version*]
  * @return Aventura\Wprss\Core\Licensing\Settings
  */
 function wprss_licensing_get_settings() {
@@ -16,6 +17,7 @@ function wprss_licensing_get_settings() {
 /**
  * Gets the singleton instance of the Manager class, creating it if it doesn't exist.
  *
+ * @since [*next-version*]
  * @return Aventura\Wprss\Core\Licensing\Manager
  */
 function wprss_licensing_get_manager() {
@@ -28,6 +30,7 @@ function wprss_licensing_get_manager() {
 /**
  * Gets the singleton instance of the AjaxController class, creating it if it doesn't exist.
  *
+ * @since [*next-version*]
  * @return Aventura\Wprss\Core\Licensing\AjaxController
  */
 function wprss_licensing_get_ajax_controller() {
@@ -41,6 +44,8 @@ function wprss_licensing_get_ajax_controller() {
  * Returns all registered addons.
  *
  * @since 4.4.5
+ * @param bool $noCache If true, the add-ons filter will be ran again; if false, it will only be ran if not ran before.
+ * @return array Array of add-on codes.
  */
 function wprss_get_addons($noCache = false) {
 	static $addons = null;

@@ -100,7 +100,7 @@ class Manager {
 	 * @return License          The created license
 	 */
 	public function createLicense( $addonId ) {
-		return $this->_licenses[ $addonId ] = new License();
+		return $this->_licenses[ $addonId ] = new License( array('addon_code' => $addonId) );
 	}
 
 	/**
@@ -454,7 +454,8 @@ class Manager {
 			if ( ! isset( $normalized[ $_addonId ] ) )
 				$normalized[ $_addonId ] = array();
 			// Insert the license key inot the normalized array
-			$normalized[ $_addonId ][ 'key' ] = $_value;
+			$normalized[ $_addonId ]['key'] = $_value;
+            $normalized[ $_addonId ]['addon_code'] = $_addonId;
 		}
 		// Now iterate and insert the statuses
 		foreach ( $statuses as $_key => $_value ) {
