@@ -39,7 +39,7 @@ class Settings {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->_manager = \wprss_get_licensing_manager();
+		$this->_setManager( wprss_get_licensing_manager() );
 		$this->_setupHooks();
 		// Only load notices if on admin side
 		if ( is_admin() ) {
@@ -47,12 +47,34 @@ class Settings {
 		}
 	}
 
+    /**
+     * Sets the license manager for this settings controller to use.
+     *
+     * @param \Aventura\Wprss\Core\Licensing\Manager $manager An instance of the license manager.
+     * @return \Aventura\Wprss\Core\Licensing\Settings This instance.
+     */
+    protected function _setManager(Manager $manager) {
+        $this->_manager = $manager;
+        return $this;
+    }
+
+    /**
+     * Gets the license manager for this settings controller.
+     *
+     * @return \Aventura\Wprss\Core\Licensing\Manager The license manager used by this settings controller.
+     */
+    public function getManager() {
+        return $this->_manager;
+    }
+
 	/**
 	 * Initializes the admin notices.
+     *
+     * @return \Aventura\Wprss\Core\Licensing\Settings
 	 */
 	protected function _initNotices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
-		foreach ( $this->_manager->getAddons() as $_addonId => $_addonName ) {
+		foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
 			$_notice = array(
 				'id'				=>	sprintf( 'invalid_licenses_exist_%s', $_addonId ),
 				'notice_type'		=>	'error',
@@ -73,7 +95,7 @@ class Settings {
 	 */
 	public function invalidLicensesNoticeCondition( $args ) {
 		if ( isset( $args['addon'] ) ) return false;
-		$license = $this->_manager->getLicense( $args['addon'] );
+		$license = $this->getManager()->getLicense( $args['addon'] );
 		return $license !== null && $license->getStatus() !== Status::VALID;
 	}
 
@@ -84,7 +106,7 @@ class Settings {
 	 * @return string
 	 */
 	public function getInvalidLicenseNoticeContent( $addonId ) {
-		$addons = $this->_manager->getAddons();
+		$addons = $this->getManager()->getAddons();
 		$addonName = $addons[ $addonId ];
 		return sprintf(
 			__( '<p>Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
@@ -108,7 +130,7 @@ class Settings {
 	 * Registers the WordPress settings.
 	 */
 	public function registerSettings() {
-		$addons = \$this->_manager->getAddons();
+		$addons = $this->getManager()->getAddons();
 		foreach( $addons as $addonId => $addonName ) {
 			// Settings Section
 			add_settings_section(
@@ -150,7 +172,7 @@ class Settings {
 		// Addon ID is the first arg
 		$addonId = $args[0];
 		// Get the addon's license
-		$license = $this->_manager->getLicense( $addonId );
+		$license = $this->getManager()->getLicense( $addonId );
 		// Mask it - if the license exists
 		$displayedKey = is_null( $license )? '' : self::_maskLicenseKey( $license->getKey() );
 		// Render the markup ?>
@@ -229,7 +251,8 @@ class Settings {
 	 */
 	public function renderActivateLicenseButton( $args ) {
 		$addonId = $args[0];
-		$data = $this->_manager->checkLicense( $addonId, 'ALL' );
+        $manager = $this->getManager();
+		$data = $manager->checkLicense( $addonId, 'ALL' );
 		$status = is_string( $data ) ? $data : $data->license;
 		if ( $status === 'site_inactive' ) $status = 'inactive';
 		if ( $status === 'item_name_mismatch' ) $status = 'invalid';
@@ -258,7 +281,7 @@ class Settings {
 
 		<p>
 			<?php
-				$license = $this->_manager->getLicense( $addonId );
+				$license = $manager->getLicense( $addonId );
 				if ( $license !== null && ! empty( $license->getKey() ) ) :
 					$licenseKey = $license->getKey();
 					if ( is_object( $data ) ) :
@@ -324,7 +347,8 @@ class Settings {
 	 * @since 1.0
 	 */
 	public function handleLicenseStatusChange() {
-		$addons = $this->_manager->getAddons();
+        $manager = $this->getManager();
+		$addons = $manager->getAddons();
 
 		// Get for each registered addon
 		foreach( $addons as $id => $name ) {
@@ -336,7 +360,7 @@ class Settings {
 			}
 
 			// retrieve the license
-			$license = $this->_manager->getLicense( $id );
+			$license = $manager->getLicense( $id );
 
 			// If the license is not saved in DB, but is included in POST
 			if ( $license == '' && ! empty( $_POST['wprss_settings_license_keys'][$id.'_license_key'] ) ) {
@@ -346,10 +370,10 @@ class Settings {
 
 			// Prepare the action to take
 			if ( isset( $_POST["wprss_{$id}_license_activate"] ) ) {
-				$this->_manager->activateLicense( $id );
+				$manager->activateLicense( $id );
 			}
 			elseif ( isset( $_POST["wprss_{$id}_license_deactivate"] ) ) {
-				$this->_manager->deactivateLicense( $id );
+				$manager->deactivateLicense( $id );
 			}
 		}
 

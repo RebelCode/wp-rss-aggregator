@@ -14,12 +14,59 @@ class AjaxController {
 	protected $_manager;
 	protected $_settings;
 
+
 	public function __construct() {
-		$this->_settings = \wprss_get_licensing_settings();
-		$this->_manager = \wprss_get_licensing_manager();
-		$this->_setupHooks();
+		$this->_setSettingsController( wprss_get_licensing_settings() )
+                ->_setManager( wprss_get_licensing_manager() )
+                ->_setupHooks();
 	}
 
+    /**
+     * Sets the settings controller to be used by this instance.
+     *
+     * @param \Aventura\Wprss\Core\Licensing\Settings $settings The settings controller.
+     * @return \Aventura\Wprss\Core\Licensing\AjaxController This instance.
+     */
+    protected function _setSettingsController( Settings $settings ) {
+        $this->_settings = $settings;
+        return $this;
+    }
+
+
+    /**
+     * Gets the settings controller used by this instance.
+     *
+     * @return \Aventura\Wprss\Core\Licensing\Settings The settings controller used by this instance.
+     */
+    public function getSettingsController() {
+        return $this->_settings;
+    }
+
+
+    /**
+     * Sets the license manager to be used by this instance.
+     *
+     * @param \Aventura\Wprss\Core\Licensing\Manager $manager The license manager to use.
+     * @return \Aventura\Wprss\Core\Licensing\AjaxController This instance.
+     */
+    protected function _setManager(Manager $manager) {
+        $this->_manager = $manager;
+        return $this;
+    }
+
+
+    /**
+     * Gets the license manager used by this instance.
+     *
+     * @return \Aventura\Wprss\Core\Licensing\Manager The lisence manager.
+     */
+    public function getManager() {
+        return $this->_manager;
+    }
+
+    /**
+     * @return \Aventura\Wprss\Core\Licensing\AjaxController This instance.
+     */
 	protected function _setupHooks() {
 		add_action( 'wp_ajax_wprss_ajax_manage_license', array( $this, 'handleAjaxManageLicense' ) );
 		add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $this, 'handleAjaxFetchLicense' ) );
@@ -35,8 +82,8 @@ class AjaxController {
 	 */
 	protected function _sendErrorResponse( $message, $addonId = '' ) {
 		$response = array(
-			'error'		=>	$msg,
-			'html'		=>	$this->_settings->getActivateLicenseButtonHtml($addonId)
+			'error'		=>	$message,
+			'html'		=>	$this->getSettingsController()->getActivateLicenseButtonHtml($addonId)
 		);
 
 		echo json_encode( $response );
@@ -67,19 +114,22 @@ class AjaxController {
 		if ( $event === null ) $this->_sendErrorResponse( __( 'No event specified', WPRSS_TEXT_DOMAIN ), $addon );
 		if ( $licenseKey === null ) $this->_sendErrorResponse( __( 'No license', WPRSS_TEXT_DOMAIN ), $addon );
 
+        $settings = $this->getSettingsController();
+        $manager = $this->getManager();
+
 		// Check if the license key was obfuscated on the client's end.
-		if ( $this->_settings->isLicenseKeyObfuscated( $licenseKey ) ) {
+		if ( $settings->isLicenseKeyObfuscated( $licenseKey ) ) {
 			// If so, use the stored license key since obfuscation signifies that the key was not modified
 			// and is equal to the one saved in db
-			$licenseKey = $this->_manager->getLicense( $addon );
+			$licenseKey = $manager->getLicense( $addon );
 		} else {
 			// Otherwise, update the value in db
-			$license = $this->_manager->getLicense( $addon );
+			$license = $manager->getLicense( $addon );
 			if ( $license === null ) {
-				$license = $this->_manager->createLicense( $addon );
+				$license = $manager->createLicense( $addon );
 			}
 			$license->setKey( $licenseKey );
-			$this->_manager->saveLicenseKeys();
+			$manager->saveLicenseKeys();
 		}
 
 		// uppercase first letter of event
@@ -97,8 +147,8 @@ class AjaxController {
 		// Prepare the response
 		$partialResponse = array(
 			'addon'				=>	$addon,
-			'html'				=>	$this->_settings->getActivateLicenseButtonHtml( $addon ),
-			'licensedAddons'	=>	array_keys( $this->_manager->getLicensesWithStatus( Status::VALID ) )
+			'html'				=>	$settings->getActivateLicenseButtonHtml( $addon ),
+			'licensedAddons'	=>	array_keys( $manager->getLicensesWithStatus( Status::VALID ) )
 		);
 		// Merge the returned value(s) from the handler method to generate the final resposne
 		$response = array_merge( $partialResponse, $returnValue );
@@ -118,7 +168,7 @@ class AjaxController {
 		// Get and sanitize the addon ID
 		$addon = sanitize_text_field( $_GET['addon'] );
 		// Get the license information from EDD
-		$response = $this->_manager->checkLicense( $addon, 'ALL' );
+		$response = $this->getManager()->checkLicense( $addon, 'ALL' );
 		// Send response as JSON
 		echo json_encode( $response );
 		die();
@@ -131,8 +181,9 @@ class AjaxController {
 	 * @return array           The data to add to the AJAX response, containing the license status after activation.
 	 */
 	public function handleAjaxLicenseActivate( $addonId ) {
+        $manager = $this->getManager();
 		return array(
-			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->_manager->activateLicense( $addonId ) )
+			'validity'	=>	$manager->normalizeLicenseApiStatus( $manager->activateLicense( $addonId ) )
 		);
 	}
 
@@ -143,8 +194,9 @@ class AjaxController {
 	 * @return array           The data to add to the AJAX response, containing the license status after activation.
 	 */
 	public function handleAjaxLicenseDeactivate( $addonId ) {
+        $manager = $this->getManager();
 		return array(
-			'validity'	=>	$this->_manager->normalizeLicenseApiStatus( $this->_manager->deactivateLicense( $addonId ) )
+			'validity'	=>	$manager->normalizeLicenseApiStatus( $manager->deactivateLicense( $addonId ) )
 		);
 	}
 
