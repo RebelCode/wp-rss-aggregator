@@ -474,7 +474,7 @@ class Manager {
 	 * @return string
 	 */
 	protected static function _formatStringToDbOptionPattern( $formatString ) {
-		return sprintf( '/\\A%s\\Z/', str_replace( '%s', '([^_]+)', $formatString ) );
+		return sprintf( '/\\A%s\\Z/', str_replace( '%s', '([^_\s]+)', $formatString ) );
 	}
 
 	/**
