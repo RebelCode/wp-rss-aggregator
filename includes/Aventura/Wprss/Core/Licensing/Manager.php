@@ -458,7 +458,7 @@ class Manager {
 	}
 
 	/**
-	 * Converts the given format string into a regex patter, replacing all instances of '%s' with
+	 * Converts the given format string into a regex pattern, replacing all instances of '%s' with
 	 * '([^_]+)'. The pattern can be used by PHP regex functions to match db license options.
 	 * 
 	 * @param  string $formatString
