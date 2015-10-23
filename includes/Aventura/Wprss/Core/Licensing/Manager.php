@@ -38,7 +38,7 @@ class Manager {
 	 *
 	 * @var string
 	 */
-	protected static $_updaterClass = self::DEFAULT_UPDATER_CLASS;
+	protected $_updaterClass;
 
 	/**
 	 * Constructor.
@@ -67,8 +67,12 @@ class Manager {
 	 *
 	 * @return string
 	 */
-	public static function getUpdaterClass() {
-		return self::$_updaterClass;
+	public function getUpdaterClass() {
+        if ( is_null($this->_updaterClass) ) {
+            return self::DEFAULT_UPDATER_CLASS;
+        }
+
+		return $this->_updaterClass;
 	}
 
 	/**
@@ -77,8 +81,8 @@ class Manager {
 	 * @param  string $updaterClass The name of the updater class.
 	 * @return self
 	 */
-	public static function setUpdaterClass( $updaterClass ) {
-		self::$_updaterClass = $updaterClass;
+	public function setUpdaterClass( $updaterClass ) {
+		$this->_updaterClass = $updaterClass;
 		return self;
 	}
 
@@ -320,7 +324,7 @@ class Manager {
 		$addons = $this->getAddons();
 
 		// Get the updater class
-		$updaterClass = self::getUpdaterClass();
+		$updaterClass = $this->getUpdaterClass();
 
 		// setup the updater
 		if ( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
