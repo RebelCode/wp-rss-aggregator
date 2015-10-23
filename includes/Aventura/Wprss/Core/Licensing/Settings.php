@@ -75,6 +75,12 @@ class Settings {
 		return $license !== null && $license->getStatus() !== Status::VALID;
 	}
 
+	/**
+	 * Gets the content of the notice that informs the user of invalid licenses.
+	 * 
+	 * @param  string $addonId The ID of addon that has the invalid license.
+	 * @return string
+	 */
 	public function getInvalidLicenseNoticeContent( $addonId ) {
 		$addons = $this->_manager->getAddons();
 		$addonName = $addons[ $addonId ];
