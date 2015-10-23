@@ -28,14 +28,14 @@ class Manager {
 
 	/**
 	 * License instance.
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_licenses;
 
 	/**
 	 * The class to use for updating addons.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected static $_updaterClass = self::DEFAULT_UPDATER_CLASS;
@@ -59,11 +59,12 @@ class Manager {
 	 */
 	protected function _setupHooks() {
 		add_action( 'admin_init', array( $this, 'initUpdaterInstances' ) );
+        return $this;
 	}
 
 	/**
 	 * Gets the name of the class used to update the addons.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getUpdaterClass() {
@@ -72,7 +73,7 @@ class Manager {
 
 	/**
 	 * Sets the class used to update the addons.
-	 * 
+	 *
 	 * @param  string $updaterClass The name of the updater class.
 	 * @return self
 	 */
@@ -83,7 +84,7 @@ class Manager {
 
 	/**
 	 * Gets a list of registered addons.
-	 * 
+	 *
 	 * @return array An assoc array containing addon IDs as array keys and the addon names as array values.
 	 */
 	public function getAddons() {
@@ -94,7 +95,7 @@ class Manager {
 	 * Creates a new license.
 	 *
 	 * This does not save the license to the database. You will need to call Manager::saveLicenses() to save to db.
-	 * 
+	 *
 	 * @param  string  $addonId The addon ID
 	 * @return License          The created license
 	 */
@@ -104,7 +105,7 @@ class Manager {
 
 	/**
 	 * Gets all license key settings.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getLicenses() {
@@ -113,7 +114,7 @@ class Manager {
 
 	/**
 	 * Gets the license key for a specific addon.
-	 * 
+	 *
 	 * @param  string $addonId The addon id.
 	 * @return array
 	 */
@@ -126,7 +127,7 @@ class Manager {
 
 	/**
 	 * Checks if an addon license key
-	 * 
+	 *
 	 * @param  string  $addonId The addon id
 	 * @return boolean          True if the license key for the given addon id exists, false if not.
 	 */
@@ -136,7 +137,7 @@ class Manager {
 
 	/**
 	 * Gets all licenses with the given status.
-	 * 
+	 *
 	 * @param  string  $status   The status to search for.
 	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
 	 *                           If false, the method will search for licenses with the given status.
@@ -155,7 +156,7 @@ class Manager {
 
 	/**
 	 * Checks if a license with the given status exists, stopping at the first match.
-	 * 
+	 *
 	 * @param  string  $status   The status to search for.
 	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
 	 *                           If false, the method will search for licenses with the given status.
@@ -170,7 +171,7 @@ class Manager {
 	 * Gets the licenses that are soon to be expired.
 	 *
 	 * @uses self::_calculateSteTimestamp To calculate the minimum date for classifying licenses as "soon-to-expire".
-	 * 
+	 *
 	 * @return array An assoc array with addon IDs as array keys and License instances as array values.
 	 */
 	public function getExpiringLicenses() {
@@ -197,7 +198,7 @@ class Manager {
 	 * Checks if there are licenses that will soon expire.
 	 *
 	 * @uses self::_calculateSteTimestamp To calculate the minimum date for classifying licenses as "soon-to-expire".
-	 * 
+	 *
 	 * @return bool True if there are licenses that will soon expire, false otherwise.
 	 */
 	public function expiringLicensesExist() {
@@ -208,7 +209,7 @@ class Manager {
 	 * Activates an add-on's license.
 	 *
 	 * @uses self::sendApiRequest() Sends the request with $action set as 'activate_license'.
-	 * 
+	 *
 	 * @param  string $addonId The ID of the addon.
 	 * @param  string $return  What to return from the response.
 	 * @return mixed
@@ -221,7 +222,7 @@ class Manager {
 	 * Deactivates an add-on's license.
 	 *
 	 * @uses self::sendApiRequest() Sends the request with $action set as 'deactivate_license'.
-	 * 
+	 *
 	 * @param  string $addonId The ID of the addon.
 	 * @param  string $return  What to return from the response.
 	 * @return mixed
@@ -234,7 +235,7 @@ class Manager {
 	 * Checks an add-on's license's status with the server.
 	 *
 	 * @uses self::sendApiRequest() Sends the request with $action set as 'check_license'.
-	 * 
+	 *
 	 * @param  string $addonId The ID of the addon.
 	 * @param  string $return  What to return from the response.
 	 * @return mixed
@@ -286,7 +287,7 @@ class Manager {
 
 		// decode the license data
 		$licenseData = json_decode( wp_remote_retrieve_body( $response ) );
-		
+
 		// Could not decode response JSON
 		if ( is_null( $licenseData ) ) {
 			wprss_log( sprintf( 'Licensing API: Failed to decode response JSON' ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
@@ -349,7 +350,7 @@ class Manager {
 
 	/**
 	 * Normalizes the license status received by the API into the license statuses that we use locally in our code.
-	 * 
+	 *
 	 * @param  string $status The status to normalize.
 	 * @return string         The normalized status.
 	 */
@@ -368,6 +369,8 @@ class Manager {
 		foreach ( $options as $addonId => $_data ) {
 			$this->_licenses[ $addonId ] = new License( $_data );
 		}
+
+        return $this;
 	}
 
 	/**
@@ -376,6 +379,8 @@ class Manager {
 	public function saveLicenses() {
 		$this->saveLicenseKeys();
 		$this->saveLicenseStatuses();
+
+        return $this;
 	}
 
 	/**
@@ -388,6 +393,8 @@ class Manager {
 			$keys[ $_key ] = $_license->getKey();
 		}
 		update_option( self::DB_LICENSE_KEYS_OPTION_NAME, $keys );
+
+        return $this;
 	}
 
 	/**
@@ -402,11 +409,13 @@ class Manager {
 			$statuses[ $_expires ] = $_license->getExpiry();
 		}
 		update_option( self::DB_LICENSE_STATUSES_OPTION_NAME, $statuses );
+
+        return $this;
 	}
 
 	/**
 	 * Retrieves the licenses keys db option.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected static function _getLicenseKeysDbOption() {
@@ -415,7 +424,7 @@ class Manager {
 
 	/**
 	 * Retrieves the licenses statuses db option.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected static function _getLicenseStatusesDbOption() {
@@ -424,7 +433,7 @@ class Manager {
 
 	/**
 	 * Normalizes the given db options into a format that the Manager can use to compile a list of License instances.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected static function _normalizeLicenseOptions( $keys, $statuses ) {
@@ -433,7 +442,7 @@ class Manager {
 		// Prepare regex pattern outside of iterations
 		$licenseKeysOptionPattern = self::_formatStringToDbOptionPattern( self::DB_LICENSE_KEYS_OPTION_PATTERN );
 		$licenseStatusesOptionPattern = self::_formatStringToDbOptionPattern( self::DB_LICENSE_STATUSES_OPTION_PATTERN );
-		
+
 		// Prepare the license keys into the normalized array
 		foreach ( $keys as $_key => $_value ) {
 			// Regex match for pattern of array keys
@@ -462,14 +471,14 @@ class Manager {
 			// Add the property to the normalized array for the addon's entry
 			$normalized[ $_addonId ][ $_property ] = $_value;
 		}
-		
+
 		return $normalized;
 	}
 
 	/**
 	 * Converts the given format string into a regex pattern, replacing all instances of '%s' with
 	 * '([^_]+)'. The pattern can be used by PHP regex functions to match db license options.
-	 * 
+	 *
 	 * @param  string $formatString
 	 * @return string
 	 */

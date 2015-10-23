@@ -15,7 +15,7 @@ class Settings {
 	/**
 	 * What to print in place of license code chars.
 	 * This must not be a symbol that is considered to be a valid license key char.
-	 * 
+	 *
 	 * @since 4.6.10
 	 */
 	const LICENSE_KEY_MASK_CHAR = '•';
@@ -23,14 +23,14 @@ class Settings {
 	/**
 	 * How many characters of the license code to print as is.
 	 * Use negative value to indicate that characters at the end of the key are excluded.
-	 * 
+	 *
 	 * @since 4.6.10
 	 */
 	const LICENSE_KEY_MASK_EXCLUDE_AMOUNT = -4;
 
 	/**
 	 * The Licensing Manager instance.
-	 * 
+	 *
 	 * @var Manager
 	 */
 	protected $_manager;
@@ -62,11 +62,13 @@ class Settings {
 			);
 			$noticesCollection->add_notice( $_notice );
 		}
+
+        return $this;
 	}
 
 	/**
 	 * Condition callback for the "invalid license notice".
-	 * 
+	 *
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function invalidLicensesNoticeCondition( $args ) {
@@ -77,7 +79,7 @@ class Settings {
 
 	/**
 	 * Gets the content of the notice that informs the user of invalid licenses.
-	 * 
+	 *
 	 * @param  string $addonId The ID of addon that has the invalid license.
 	 * @return string
 	 */
@@ -98,6 +100,8 @@ class Settings {
 		add_action( 'wprss_admin_init', array( $this, 'registerSettings' ), 100 );
 		add_action( 'admin_init', array( $this, 'handleLicenseStatusChange' ), 10 );
 		add_action( 'wprss_settings_license_key_is_valid', array( $this, 'validateLicenseKeyForSave' ) );
+
+        return $this;
 	}
 
 	/**
@@ -132,6 +136,8 @@ class Settings {
 				array( $addonId )
 			);
 		}
+
+        return $this;
 	}
 
 	/**
@@ -156,10 +162,10 @@ class Settings {
 		</label><?php
 	}
 
-		
+
 	/**
 	 * Masks a license key.
-	 * 
+	 *
 	 * @param  string  $licenseKey        The license key to mask
 	 * @param  string  $maskChar          The masking character(s)
 	 * @param  integer $maskExcludeAmount The amount of characyers to exclude from the mask. If negative, the exluded characters will begin from the end of the string
@@ -186,11 +192,11 @@ class Settings {
 
 	/**
 	 * Determines whether or not the license key in question is obfuscated.
-	 * 
+	 *
 	 * This is achieved by searching for the mask character in the key. Because the
 	 * mask character cannot be a valid license character, the presence of at least
 	 * one such character indicates that the key is obfuscated.
-	 * 
+	 *
 	 * @param string $key The license key in question.
 	 * @param string $maskChar The masking character(s).
 	 * @return bool Whether or not this key is obfuscated.
@@ -199,11 +205,11 @@ class Settings {
 		return WPRSS_MBString::mb_strpos( $key, $maskChar ) !== false;
 	}
 
-	
+
 	/**
 	 * Invalidates the key if it is obfuscated, causing the saved version to be used.
 	 * This meanst that the new key will not be saved, as it is considered then to be unchanged.
-	 * 
+	 *
 	 * @since 4.6.10
 	 * @param bool $is_valid Indicates whether the key is currently considered to be valid.
 	 * @param string $key The license key in question
@@ -212,7 +218,7 @@ class Settings {
 	public function validateLicenseKeyForSave( $is_valid, $key ) {
 		if ( $this->isLicenseKeyObfuscated( $key ) )
 			return false;
-		
+
 		return $is_valid;
 	}
 
@@ -346,11 +352,13 @@ class Settings {
 				$this->_manager->deactivateLicense( $id );
 			}
 		}
+
+        return $this;
 	}
 
 	/**
 	 * Gets the HTML markup for the activate license button.
-	 * 
+	 *
 	 * @param  string $addonId The ID of the addon for which the button will be related to.
 	 * @return string          The HTML markup of the button.
 	 */
@@ -359,5 +367,5 @@ class Settings {
 		$this->renderActivateLicenseButton( array( $addonId ) );
 		return ob_get_clean();
 	}
-	
+
 }

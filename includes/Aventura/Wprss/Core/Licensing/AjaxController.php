@@ -23,11 +23,13 @@ class AjaxController {
 	protected function _setupHooks() {
 		add_action( 'wp_ajax_wprss_ajax_manage_license', array( $this, 'handleAjaxManageLicense' ) );
 		add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $this, 'handleAjaxFetchLicense' ) );
+
+        return $this;
 	}
 
 	/**
 	 * Echoes an AJAX error response along with activate/deactivate license button HTML markup and then dies.
-	 * 
+	 *
 	 * @param  string $message The error message to send.
 	 * @param  string $addonId Optional addon ID related to the error, used for sending the activate/deactivate license button.
 	 */
@@ -124,7 +126,7 @@ class AjaxController {
 
 	/**
 	 * Handles the activation AJAX request to activate the license for the given addon.
-	 * 
+	 *
 	 * @param  string $addonId The addon ID.
 	 * @return array           The data to add to the AJAX response, containing the license status after activation.
 	 */
@@ -136,7 +138,7 @@ class AjaxController {
 
 	/**
 	 * Handles the deactivation AJAX request to deactivate the license for the given addon.
-	 * 
+	 *
 	 * @param  string $addonId The addon ID.
 	 * @return array           The data to add to the AJAX response, containing the license status after activation.
 	 */
