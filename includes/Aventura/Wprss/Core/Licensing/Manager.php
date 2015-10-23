@@ -7,7 +7,7 @@ use \Aventura\Wprss\Core\Licensing\License\Status;
  * Manager class for license handling.
  *
  * @version 1.0
- * @since [<next-version>]
+ * @since [*next-version*]
  */
 class Manager {
 
