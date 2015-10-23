@@ -52,7 +52,7 @@ class Settings {
 	 */
 	protected function _initNotices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
-		foreach ( wprss_get_addons() as $_addonId => $_addonName ) {
+		foreach ( $this->_manager->getAddons() as $_addonId => $_addonName ) {
 			$_notice = array(
 				'id'				=>	sprintf( 'invalid_licenses_exist_%s', $_addonId ),
 				'notice_type'		=>	'error',
@@ -76,7 +76,8 @@ class Settings {
 	}
 
 	public function getInvalidLicenseNoticeContent( $addonId ) {
-		$addonName = wprss_get_addons()[ $addonId ];
+		$addons = $this->_manager->getAddons();
+		$addonName = $addons[ $addonId ];
 		return sprintf(
 			__( '<p>Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
 			esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
@@ -97,7 +98,7 @@ class Settings {
 	 * Registers the WordPress settings.
 	 */
 	public function registerSettings() {
-		$addons = \wprss_get_addons();
+		$addons = \$this->_manager->getAddons();
 		foreach( $addons as $addonId => $addonName ) {
 			// Settings Section
 			add_settings_section(
@@ -311,7 +312,7 @@ class Settings {
 	 * @since 1.0
 	 */
 	public function handleLicenseStatusChange() {
-		$addons = wprss_get_addons();
+		$addons = $this->_manager->getAddons();
 
 		// Get for each registered addon
 		foreach( $addons as $id => $name ) {

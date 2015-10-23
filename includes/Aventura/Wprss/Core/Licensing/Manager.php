@@ -82,6 +82,15 @@ class Manager {
 	}
 
 	/**
+	 * Gets a list of registered addons.
+	 * 
+	 * @return array An assoc array containing addon IDs as array keys and the addon names as array values.
+	 */
+	public function getAddons() {
+		return wprss_get_addons();
+	}
+
+	/**
 	 * Creates a new license.
 	 *
 	 * This does not save the license to the database. You will need to call Manager::saveLicenses() to save to db.
@@ -307,7 +316,7 @@ class Manager {
 		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) return;
 
 		// Get all registered addons
-		$addons = wprss_get_addons();
+		$addons = $this->getAddons();
 
 		// Get the updater class
 		$updaterClass = self::getUpdaterClass();
