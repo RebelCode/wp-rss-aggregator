@@ -40,6 +40,9 @@ class Manager {
 	 */
 	protected $_updaterClass;
 
+    protected $_licenseKeysOptionName;
+    protected $_licenseStatusesOptionName;
+
 	/**
 	 * Constructor.
 	 */
@@ -369,7 +372,7 @@ class Manager {
 	 */
 	protected function _loadLicenses() {
 		$this->_licenses = array();
-		$options = self::_normalizeLicenseOptions( self::_getLicenseKeysDbOption(), self::_getLicenseStatusesDbOption() );
+		$options = self::_normalizeLicenseOptions( $this->getLicenseKeysDbOption(), $this->getLicenseStatusesDbOption() );
 		foreach ( $options as $addonId => $_data ) {
 			$this->_licenses[ $addonId ] = new License( $_data );
 		}
@@ -422,8 +425,8 @@ class Manager {
 	 *
 	 * @return array
 	 */
-	protected static function _getLicenseKeysDbOption() {
-		return get_option( self::DB_LICENSE_KEYS_OPTION_NAME, array() );
+	public function getLicenseKeysDbOption() {
+		return get_option( $this->getLicenseKeysOptionName(), array() );
 	}
 
 	/**
@@ -431,9 +434,54 @@ class Manager {
 	 *
 	 * @return array
 	 */
-	protected static function _getLicenseStatusesDbOption() {
-		return get_option( self::DB_LICENSE_STATUSES_OPTION_NAME, array() );
+	public function getLicenseStatusesDbOption() {
+		return get_option( $this->getLicenseStatusesOptionName(), array() );
 	}
+
+
+    /**
+     * @param string $optionName The name of the option where license keys should be stored.
+     * @return \Aventura\Wprss\Core\Licensing\Manager This instance.
+     */
+    public function setLicenseKeysOptionName($optionName) {
+        $this->_licenseKeysOptionName = $optionName;
+        return $this;
+    }
+
+
+    /**
+     * @return string The name of the option where license keys are stored.
+     */
+    public function getLicenseKeysOptionName() {
+        if ( is_null( $this->_licenseKeysOptionName ) ) {
+            return self::DB_LICENSE_KEYS_OPTION_NAME;
+        }
+
+        return $this->_licenseKeysOptionName;
+    }
+
+
+    /**
+     * @param string $optionName The name of the option where license statuses should be stored.
+     * @return \Aventura\Wprss\Core\Licensing\Manager This instance.
+     */
+    public function setLicenseStatusesOptionName($optionName) {
+        $this->_licenseStatusesOptionName = $optionName;
+        return $this;
+    }
+
+
+    /**
+     * @return string The name of the option where license statuses are stored.
+     */
+    public function getLicenseStatusesOptionName() {
+        if ( is_null( $this->_licenseStatusesOptionName ) ) {
+            return self::DB_LICENSE_STATUSES_OPTION_NAME;
+        }
+
+        return $this->_licenseStatusesOptionName;
+    }
+
 
 	/**
 	 * Normalizes the given db options into a format that the Manager can use to compile a list of License instances.
