@@ -23,9 +23,6 @@ class Manager {
 	// Regex pattern for statuses in license option
 	const DB_LICENSE_STATUSES_OPTION_PATTERN = '%s_license_%s';
 
-	// The time before expiration during which a notice will be displayed to the user, informing them that a license will expire soon
-	const EXPIRATION_NOTICE_PERIOD = '2 weeks';
-
 	/**
 	 * License instance.
 	 *
@@ -42,6 +39,7 @@ class Manager {
 
     protected $_licenseKeysOptionName;
     protected $_licenseStatusesOptionName;
+    protected $_expirationNoticePeriod;
 
 	/**
 	 * Constructor.
@@ -89,6 +87,35 @@ class Manager {
 		return self;
 	}
 
+
+    /**
+     * Get the period before license expiration, for which a notice should be displayed.
+     *
+     * @return int|string An integer, representing the number of secods before license expiry.
+     *  or a string, representing a time offset that can be used with strtotime().
+     */
+    public function getExpirationNoticePeriod() {
+        $period = $this->_expirationNoticePeriod;
+        if ( is_numeric( $period ) ) {
+            $period = intval( $period );
+        }
+
+        return $period;
+    }
+
+
+    /**
+     * Set the period before license expiration, for which a notice should be displayed.
+     *
+     * @param int|string $period An integer, representing the number of secods before license expiry.
+     * @return \Aventura\Wprss\Core\Licensing\Manager This instance.
+     */
+    public function setExpirationNoticePeriod( $period ) {
+        $this->_expirationNoticePeriod = trim($period);
+        return $this;
+    }
+
+
 	/**
 	 * Gets a list of registered addons.
 	 *
@@ -97,6 +124,7 @@ class Manager {
 	public function getAddons() {
 		return wprss_get_addons();
 	}
+
 
 	/**
 	 * Creates a new license.
@@ -110,6 +138,7 @@ class Manager {
 		return $this->_licenses[ $addonId ] = new License( array('addon_code' => $addonId) );
 	}
 
+
 	/**
 	 * Gets all license key settings.
 	 *
@@ -118,6 +147,7 @@ class Manager {
 	public function getLicenses() {
 		return $this->_licenses;
 	}
+
 
 	/**
 	 * Gets the license key for a specific addon.
@@ -132,6 +162,7 @@ class Manager {
 		return $this->_licenses[ $addonId ];
 	}
 
+
 	/**
 	 * Checks if an addon license key
 	 *
@@ -141,6 +172,7 @@ class Manager {
 	public function licenseExists( $addonId ) {
 		return isset( $this->_licenses[ $addonId ] );
 	}
+
 
 	/**
 	 * Gets all licenses with the given status.
@@ -161,6 +193,7 @@ class Manager {
 		return $licenses;
 	}
 
+
 	/**
 	 * Checks if a license with the given status exists, stopping at the first match.
 	 *
@@ -174,6 +207,7 @@ class Manager {
 		return count( $this->getLicensesWithStatus( $status, $negation ) ) > 0;
 	}
 
+
 	/**
 	 * Gets the licenses that are soon to be expired.
 	 *
@@ -183,7 +217,7 @@ class Manager {
 	 */
 	public function getExpiringLicenses() {
 		// Calculate soon-to-expiry (ste) date
-		$ste = self::_calculateSteTimestamp();
+		$ste = $this->getSteTimestamp();
 		// Prepare the list
 		$expiringLicences = array();
 		// Iterate all licenses
@@ -201,6 +235,7 @@ class Manager {
 		return $expiringLicences;
 	}
 
+
 	/**
 	 * Checks if there are licenses that will soon expire.
 	 *
@@ -211,6 +246,7 @@ class Manager {
 	public function expiringLicensesExist() {
 		return count( $this->getExpiringLicenses() ) > 0;
 	}
+
 
 	/**
 	 * Activates an add-on's license.
@@ -225,6 +261,7 @@ class Manager {
 		return $this->sendApiRequest( $addonId, 'activate_license', $return );
 	}
 
+
 	/**
 	 * Deactivates an add-on's license.
 	 *
@@ -238,6 +275,7 @@ class Manager {
 		return $this->sendApiRequest( $addonId, 'deactivate_license', $return );
 	}
 
+
 	/**
 	 * Checks an add-on's license's status with the server.
 	 *
@@ -250,6 +288,7 @@ class Manager {
 	public function checkLicense( $addonId, $return = 'license') {
 		return $this->sendApiRequest( $addonId, 'check_license', $return );
 	}
+
 
 	/**
 	 * Calls the EDD Software Licensing API to perform licensing tasks on the addon's store server.
@@ -314,6 +353,7 @@ class Manager {
 		}
 	}
 
+
 	/**
 	 * Sets up the EDD updater for all registered add-ons.
 	 *
@@ -355,6 +395,7 @@ class Manager {
 		}
 	}
 
+
 	/**
 	 * Normalizes the license status received by the API into the license statuses that we use locally in our code.
 	 *
@@ -366,6 +407,7 @@ class Manager {
 		if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 		return $status;
 	}
+
 
 	/**
 	 * Loads the licenses from db and prepares the internal licenses array
@@ -380,6 +422,7 @@ class Manager {
         return $this;
 	}
 
+
 	/**
 	 * Saves the licenses and their statuses to the db.
 	 */
@@ -389,6 +432,7 @@ class Manager {
 
         return $this;
 	}
+
 
 	/**
 	 * Saves the license keys to the db.
@@ -403,6 +447,7 @@ class Manager {
 
         return $this;
 	}
+
 
 	/**
 	 * Saves the license statuses (and expirations) to the db.
@@ -420,6 +465,7 @@ class Manager {
         return $this;
 	}
 
+
 	/**
 	 * Retrieves the licenses keys db option.
 	 *
@@ -428,6 +474,7 @@ class Manager {
 	public function getLicenseKeysDbOption() {
 		return get_option( $this->getLicenseKeysOptionName(), array() );
 	}
+
 
 	/**
 	 * Retrieves the licenses statuses db option.
@@ -528,6 +575,7 @@ class Manager {
 		return $normalized;
 	}
 
+
 	/**
 	 * Converts the given format string into a regex pattern, replacing all instances of '%s' with
 	 * '([^_]+)'. The pattern can be used by PHP regex functions to match db license options.
@@ -539,14 +587,21 @@ class Manager {
 		return sprintf( '/\\A%s\\Z/', str_replace( '%s', '([^_\s]+)', $formatString ) );
 	}
 
+
 	/**
 	 * Calculates the "soon-to-expire" timestamp.
 	 *
-	 * @uses self::EXPIRATION_NOTICE_PERIOD
 	 * @return integer The timestamp for a future date, for which addons whose license's expiry lies between this date and the present are considered "soon-to-expire".
 	 */
-	protected static function _calculateSteTimestamp() {
-		return strtotime( sprintf( '+%s', self::EXPIRATION_NOTICE_PERIOD ) );
+	public function getSteTimestamp() {
+        $period = $this->getExpirationNoticePeriod();
+        if ( is_null( $period ) ) {
+            return null;
+        }
+
+		return is_numeric( $period )
+                ? time() + $period
+                : strtotime( sprintf( '+%s', $period ) );
 	}
 
 }

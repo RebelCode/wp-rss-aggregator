@@ -21,10 +21,14 @@ function wprss_licensing_get_settings() {
  * @return Aventura\Wprss\Core\Licensing\Manager
  */
 function wprss_licensing_get_manager() {
-	static $instance = null;
-	return is_null( $instance )
-            ? $instance = new Aventura\Wprss\Core\Licensing\Manager()
-            : $instance;
+	static $manager = null;
+
+	if ( is_null( $manager ) ) {
+        $manager = new Aventura\Wprss\Core\Licensing\Manager();
+        $manager->setExpirationNoticePeriod( wprss_get_general_setting('expiration_notice_period') );
+    }
+
+    return $manager;
 }
 
 /**

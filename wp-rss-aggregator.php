@@ -410,6 +410,7 @@
 				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION ),
 			'notice_type'	=> 'error'
 		));
+
 	}
 
 
