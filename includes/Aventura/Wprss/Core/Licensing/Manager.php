@@ -313,32 +313,16 @@ class Manager {
 		$itemName = constant( "WPRSS_{$addonUid}_SL_ITEM_NAME" );
 		$storeUrl = constant( "WPRSS_{$addonUid}_SL_STORE_URL" );
 
-		// data to send in our API request
-		$apiParams = array(
-			'edd_action'	=> $action,
-			'license'		=> sanitize_text_field( $license->getKey() ),
-			'item_name'		=> urlencode( $itemName ),
-			'url'			=> urlencode( network_site_url() ),
-			'time'			=> time(),
-		);
-
-		// Send the request to the API
-		$response = wp_remote_get( add_query_arg( $apiParams, $storeUrl ) );
-
-		// If the response is an error, return the value in the DB
-		if ( is_wp_error( $response ) ) {
-			wprss_log( sprintf( 'Licensing API request failed: %1$s', $response->get_error_message() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
+        try {
+            $licenseData = $this->api($storeUrl, array(
+                'edd_action'            => $action,
+                'license'               => $license,
+                'item_name'             => $itemName,
+            ));
+        } catch ( Exception $e ) {
+			wprss_log( sprintf( 'Could not retrieve licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 			return $license->getStatus();
-		}
-
-		// decode the license data
-		$licenseData = json_decode( wp_remote_retrieve_body( $response ) );
-
-		// Could not decode response JSON
-		if ( is_null( $licenseData ) ) {
-			wprss_log( sprintf( 'Licensing API: Failed to decode response JSON' ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
-			return $license->getStatus();
-		}
+        }
 
 		// Update the DB option
 		$license->setStatus( $licenseData->license );
@@ -352,6 +336,54 @@ class Manager {
 			return isset( $licenseData->{$return} ) ? $licenseData->{$return} : null;
 		}
 	}
+
+
+    /**
+     * Low-level method for sending API requests to an EDD license server.
+     *
+     * Will normalize parameters for the request as needed, and return the decoded response.
+     *
+     * @param string $storeUrl The URL, to which to send the request. The EDD API endpoint.
+     * @param array $params Params of the request. 'license', 'edd_action' and
+     *  'item_name' are required for a successful call. 'license' can also be
+     *  an instance of {@link Aventura\Wprss\Core\Licensing\License}.
+     * @return object License data as properties of an stdClass instance.
+     * @throws Exception If request fails, or returns empty response, or response cannot be decoded.
+     */
+    public function api($storeUrl, $params) {
+        $defaultParams = array(
+            'edd_action'            => null,
+            'license'               => null,
+            'item_name'             => null,
+            'url'                   => network_site_url(),
+            'time'                  => time(),
+        );
+
+        // Prepare params
+        $params = array_merge($defaultParams, $params);
+        if ( $params['license'] instanceof License ) $params['license'] = $params['license']->getKey();
+        if ( $params['license'] ) $params['license'] = sanitize_text_field ( $params['license']);
+        if ( $params['item_name'] ) $params['item_name'] = sanitize_text_field ( $params['item_name']);
+        if ( $params['url'] ) $params['url'] = urlencode ( $params['url']);
+
+		// Send the request to the API
+		$response = wp_remote_get( add_query_arg( $params, $storeUrl ) );
+
+        // Request failed
+		if ( is_wp_error( $response ) ) {
+			throw new Exception( sprintf( 'Licensing API request failed: %1$s', $response->get_error_message() ) );
+		}
+
+        if ( empty( $body = wp_remote_retrieve_body( $response ) ) ) {
+			throw new Exception( sprintf( 'Licensing API response returned empty' ) );
+        }
+
+        if ( ($licenseData = json_decode( $body )) === null ) {
+            throw new Exception( sprintf( 'Licensing API response could not be decoded' ) );
+        }
+
+        return $licenseData;
+    }
 
 
 	/**
