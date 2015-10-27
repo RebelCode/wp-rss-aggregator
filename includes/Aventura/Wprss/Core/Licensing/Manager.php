@@ -151,11 +151,15 @@ class Manager {
 
 	/**
 	 * Gets all of the updater instances.
+	 *
+	 * Alias for self#getUpdaterInstance()
 	 * 
+	 * @see self::getUpdaterInstance
+	 * @uses self::getUpdaterInstance
 	 * @return array
 	 */
 	public function getUpdaterInstances() {
-		return $this->_updaterInstances;
+		return $this->getUpdaterInstance();
 	}
 
 
@@ -167,10 +171,8 @@ class Manager {
 	 */
 	public function getUpdaterInstance( $addonId = null ) {
 		return is_null($addonId)
-				? $this->getUpdaterInstance()
-				: $this->hasUpdaterInsantance($addonId)
-						? $this->_getUpdaterInstance($addonId)
-						: null;
+				? $this->_updaterInstances
+				: $this->_getUpdaterInstance($addonId);
 	}
 
 
@@ -181,7 +183,9 @@ class Manager {
 	 * @return \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface
 	 */
 	protected function _getUpdaterInstance( $addonId ) {
-		return $this->_updaterInstances[ $addonId ];
+		return $this->hasUpdaterInsantance($addonId)
+				? $this->_updaterInstances[$addonId]
+				: null;
 	}
 
 
@@ -202,7 +206,7 @@ class Manager {
 	 * @param string $addonId  The addon ID.
 	 * @param \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface The updater instance.
 	 */
-	public function setUpdaterInstance($addonId, $instance) {
+	protected function _setUpdaterInstance($addonId, $instance) {
 		$this->_updaterInstances[ $addonId ] = $instance;
 		return $this;
 	}
@@ -495,7 +499,7 @@ class Manager {
                     : WPRSS_SL_STORE_URL;
 
 			// Set up an updater and register the instance
-			$this->setUpdaterInstance(
+			$this->_setUpdaterInstance(
 				$id,
 				$this->newUpdater($storeUrl, $path, array(
 					'version'   =>	$version,				// current version number
