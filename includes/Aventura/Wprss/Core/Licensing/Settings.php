@@ -131,31 +131,31 @@ class Settings {
 	 */
 	public function registerSettings() {
 		// Iterate all addon IDs and register a settings section with 2 fields for each.
-		foreach( array_keys( $this->getManager()->getAddons() ) as $_addonId ) {
+		foreach( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
 			// Settings Section
 			add_settings_section(
-				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
-				sprintf( '%s %s', $addon_name, __( 'License', WPRSS_TEXT_DOMAIN ) ),
+				sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
+				sprintf( '%s %s', $_addonName, __( 'License', WPRSS_TEXT_DOMAIN ) ),
 				'__return_empty_string',
 				'wprss_settings_license_keys'
 			);
 			// License key field
 			add_settings_field(
-				sprintf( 'wprss_settings_%s_license', $addonId ),
+				sprintf( 'wprss_settings_%s_license', $_addonId ),
 				__( 'License Key', WPRSS_TEXT_DOMAIN ),
 				array( $this, 'renderLicenseKeyField' ),
 				'wprss_settings_license_keys',
-				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
-				array( $addonId )
+				sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
+				array( $_addonId )
 			);
 			// Activate license button
 			add_settings_field(
-				sprintf( 'wprss_settings_%s_activate_license', $addonId ),
+				sprintf( 'wprss_settings_%s_activate_license', $_addonId ),
 				__( 'Activate License', WPRSS_TEXT_DOMAIN ),
 				array( $this, 'renderActivateLicenseButton' ),
 				'wprss_settings_license_keys',
-				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
-				array( $addonId )
+				sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
+				array( $_addonId )
 			);
 		}
 
