@@ -37,6 +37,13 @@ class Manager {
 	 */
 	protected $_updaterClass;
 
+	/**
+	 * The updater instances for the addons.
+	 * 
+	 * @var array
+	 */
+	protected $_updaterInstances;
+
     protected $_licenseKeysOptionName;
     protected $_licenseStatusesOptionName;
     protected $_expirationNoticePeriod;
@@ -46,6 +53,8 @@ class Manager {
 	 * Constructor.
 	 */
 	public function __construct() {
+		// Reset the updater instances
+		$this->_updaterInstances = array();
 		$this->_loadLicenses();
 		$this->_construct();
 	}
@@ -137,6 +146,65 @@ class Manager {
 	 */
 	public function getAddons() {
 		return wprss_get_addons();
+	}
+
+
+	/**
+	 * Gets all of the updater instances.
+	 * 
+	 * @return array
+	 */
+	public function getUpdaterInstances() {
+		return $this->_updaterInstances;
+	}
+
+
+	/**
+	 * Gets the updater instance for a single addon, or all the updater instances if no param or null is passed.#
+	 * 
+	 * @param  mixed $addonId The addon ID for which to return the updater instance, or null to return all instances. Default: null
+	 * @return mixed          An instance of \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface if an addon ID is given, or an array of instances is null is given.
+	 */
+	public function getUpdaterInstance( $addonId = null ) {
+		return is_null($addonId)
+				? $this->getUpdaterInstance()
+				: $this->hasUpdaterInsantance($addonId)
+						? $this->_getUpdaterInstance($addonId)
+						: null;
+	}
+
+
+	/**
+	 * Internally used to get a single updater instance for a particular addon.
+	 * 
+	 * @param  string $addonId The addon ID.
+	 * @return \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface
+	 */
+	protected function _getUpdaterInstance( $addonId ) {
+		return $this->_updaterInstances[ $addonId ];
+	}
+
+
+	/**
+	 * Checks if an updater instance exists for a specific addon.
+	 * 
+	 * @param  string  $addonId The addon ID.
+	 * @return boolean          True if the updater instance exists, false if not.
+	 */
+	public function hasUpdaterInsantance($addonId) {
+		return isset($this->_updaterInstances[$addonId]);
+	}
+
+	
+	/**
+	 * Sets the updater instance for an addon.
+	 * 
+	 * @param string $addonId  The addon ID.
+	 * @param \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface The updater instance.
+	 */
+	public function setUpdaterInstance($addonId, $instance) {
+		$this->_updaterInstances[ $addonId ] = $instance;
+		return $this;
 	}
 
 
@@ -426,12 +494,15 @@ class Manager {
                     ? constant( "WPRSS_{$uid}_SL_STORE_URL" )
                     : WPRSS_SL_STORE_URL;
 
-			// Set up an updater
-			$eddUpdater = $this->newUpdater($storeUrl, $path, array(
-				'version'   =>	$version,				// current version number
-				'license'   =>	$license,               // license key (used get_option above to retrieve from DB)
-				'item_name' =>	$name,					// name of this plugin
-			));
+			// Set up an updater and register the instance
+			$this->setUpdaterInstance(
+				$id,
+				$this->newUpdater($storeUrl, $path, array(
+					'version'   =>	$version,				// current version number
+					'license'   =>	$license,               // license key (used get_option above to retrieve from DB)
+					'item_name' =>	$name,					// name of this plugin
+				))
+			);
 		}
 	}
 
