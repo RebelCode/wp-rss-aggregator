@@ -130,8 +130,8 @@ class Settings {
 	 * Registers the WordPress settings.
 	 */
 	public function registerSettings() {
-		$addons = $this->getManager()->getAddons();
-		foreach( $addons as $addonId => $addonName ) {
+		// Iterate all addon IDs and register a settings section with 2 fields for each.
+		foreach( array_keys( $this->getManager()->getAddons() ) as $_addonId ) {
 			// Settings Section
 			add_settings_section(
 				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
@@ -174,7 +174,7 @@ class Settings {
 		// Get the addon's license
 		$license = $this->getManager()->getLicense( $addonId );
 		// Mask it - if the license exists
-		$displayedKey = is_null( $license )? '' : self::_maskLicenseKey( $license->getKey() );
+		$displayedKey = is_null( $license )? '' : self::obfuscateLicenseKey( $license->getKey() );
 		// Render the markup ?>
 		<input id="wprss-<?php echo $addonId ?>-license-key" name="wprss_settings_license_keys[<?php echo $addonId ?>_license_key]"
 			   type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
@@ -193,7 +193,7 @@ class Settings {
 	 * @param  integer $maskExcludeAmount The amount of characyers to exclude from the mask. If negative, the exluded characters will begin from the end of the string
 	 * @return string                     The masked license key
 	 */
-	protected static function _maskLicenseKey( $licenseKey, $maskChar = self::LICENSE_KEY_MASK_CHAR, $maskExcludeAmount = self::LICENSE_KEY_MASK_EXCLUDE_AMOUNT ) {
+	public static function obfuscateLicenseKey( $licenseKey, $maskChar = self::LICENSE_KEY_MASK_CHAR, $maskExcludeAmount = self::LICENSE_KEY_MASK_EXCLUDE_AMOUNT ) {
 		// Pre-calculate license key length
 		$licenseKeyLength = strlen( $licenseKey );
 		// In case the mask exclude amount is greater than the license key length
