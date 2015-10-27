@@ -26,7 +26,7 @@ class AjaxController {
      * @param \Aventura\Wprss\Core\Licensing\Settings $settings The settings controller.
      * @return \Aventura\Wprss\Core\Licensing\AjaxController This instance.
      */
-    protected function _setSettingsController( Settings $settings ) {
+    public function setSettingsController( Settings $settings ) {
         $this->_settings = $settings;
         return $this;
     }
@@ -48,7 +48,7 @@ class AjaxController {
      * @param \Aventura\Wprss\Core\Licensing\Manager $manager The license manager to use.
      * @return \Aventura\Wprss\Core\Licensing\AjaxController This instance.
      */
-    protected function _setManager(Manager $manager) {
+    public function setManager(Manager $manager) {
         $this->_manager = $manager;
         return $this;
     }
