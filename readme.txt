@@ -4,7 +4,7 @@ Plugin URI: http://www.wprssaggregator.com
 Tags: rss, feeds, aggregation, rss to post, autoblog aggregator, rss import, feed aggregator, rss aggregator, multiple rss feeds, multi rss feeds, rss multi importer, feed import, feed import, multiple feed import, feed aggregation, rss feader, feed reader, feed to post, multiple feeds, multi feed importer, multi feed import, multi import, autoblogging, autoblogger, rss feeder, rss post importer, autoblog aggregator, autoblog, autopost, content curation, feedwordpress, wp rss multi import, hungryfeed, wp-o-matic, rss feed, rss feed to post, rss retriever, syndication
 Requires at least: 4.0
 Tested up to: 4.3.1
-Stable tag: 4.7.6
+Stable tag: 4.7.7
 License: GPLv2 or later
 The no.1 RSS feed importer for WordPress. Premium add-ons available for more functionality.
 
@@ -192,6 +192,9 @@ The full documentation section can be found on the [WP RSS Aggregator website](w
 
 
 == Changelog ==
+
+= 4.7.7 (2015-10-19) =
+* Enhanced: Optimized checking for plugin updates.
 
 = 4.7.6 (2015-10-07) =
 * Enhanced: Feeds that fail to validate due to whitespace at the beginning are now supported by the plugin.
