@@ -447,6 +447,7 @@ class Manager {
 
         // Prepare params
         $params = array_merge($defaultParams, $params);
+        array_walk($params, array($this, 'sanitizeApiParams'));
         if ( $params['license'] instanceof License ) $params['license'] = $params['license']->getKey();
         if ( $params['license'] ) $params['license'] = sanitize_text_field ( $params['license']);
         if ( $params['item_name'] ) $params['item_name'] = sanitize_text_field ( $params['item_name']);
@@ -469,6 +470,17 @@ class Manager {
         }
 
         return $licenseData;
+    }
+
+    /**
+     * Sanitizes the API params, prior to sending them.
+     * 
+     * @param   mixed $value The param value
+     * @param  string $key   The param ID
+     * @return  mixed        The sanitized param value.
+     */
+    public function sanitizeApiParams( &$value, $key ) {
+    	$value = is_string($value)? urlencode($value) : $value;
     }
 
 
