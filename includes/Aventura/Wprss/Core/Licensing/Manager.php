@@ -47,7 +47,6 @@ class Manager {
 	 */
 	public function __construct() {
 		$this->_loadLicenses();
-		$this->_setupHooks();
 		$this->_construct();
 	}
 
@@ -55,14 +54,6 @@ class Manager {
 	 * Internal secondary constructor, used by classes that extend this class.
 	 */
 	protected function _construct() {}
-
-	/**
-	 * Sets up the WordPress hooks.
-	 */
-	protected function _setupHooks() {
-		add_action( 'admin_init', array( $this, 'initUpdaterInstances' ) );
-        return $this;
-	}
 
 	/**
 	 * Gets the name of the class used to update the addons.

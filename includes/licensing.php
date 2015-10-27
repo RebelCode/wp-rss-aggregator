@@ -6,7 +6,7 @@
  * @since [*next-version*]
  * @return Aventura\Wprss\Core\Licensing\Settings
  */
-function wprss_licensing_get_settings() {
+function wprss_licensing_get_settings_controller() {
 	static $instance = null;
 	return is_null( $instance )
             ? $instance = new Aventura\Wprss\Core\Licensing\Settings()
@@ -57,4 +57,30 @@ function wprss_get_addons($noCache = false) {
 	return is_null( $addons ) || $noCache
             ? $addons = apply_filters( 'wprss_register_addon', array() )
             : $addons;
+}
+
+/**
+ * Hooks the licensing system into WordPress.
+ */
+function wprss_init_licensing() {
+    // Get licensing class instances
+    $manager = wprss_licensing_get_manager();
+    $settingsController = wprss_licensing_get_settings_controller();
+    $ajaxController = wprss_licensing_get_ajax_controller();
+
+    // Set up Ajax Controller pointers
+    $ajaxController()->setManager( $manager );
+    $ajaxController()->setSettingsController( $settingsController );
+
+    // Licensing Manager hooks
+    add_action( 'admin_init', array( $manager, 'initUpdaterInstances' ) );
+
+    // Licensing Ajax Controller hooks
+    add_action( 'wp_ajax_wprss_ajax_manage_license', array( $ajaxController, 'handleAjaxManageLicense' ) );
+    add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $ajaxController, 'handleAjaxFetchLicense' ) );
+
+    // Licensing Settings Controller hooks
+    add_action( 'wprss_admin_init', array( $settingsController, 'registerSettings' ), 100 );
+    add_action( 'admin_init', array( $settingsController, 'handleLicenseStatusChange' ), 10 );
+    add_action( 'wprss_settings_license_key_is_valid', array( $settingsController, 'validateLicenseKeyForSave' ) );
 }

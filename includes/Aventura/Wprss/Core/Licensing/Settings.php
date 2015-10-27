@@ -40,7 +40,6 @@ class Settings {
 	 */
 	public function __construct() {
 		$this->_setManager( wprss_licensing_get_manager() );
-		$this->_setupHooks();
 		// Only load notices if on admin side
 		if ( is_admin() ) {
 			$this->_initNotices();
@@ -113,17 +112,6 @@ class Settings {
 			esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
 			$addonName
 		);
-	}
-
-	/**
-	 * Registers the WordPress hooks.
-	 */
-	protected function _setupHooks() {
-		add_action( 'wprss_admin_init', array( $this, 'registerSettings' ), 100 );
-		add_action( 'admin_init', array( $this, 'handleLicenseStatusChange' ), 10 );
-		add_action( 'wprss_settings_license_key_is_valid', array( $this, 'validateLicenseKeyForSave' ) );
-
-        return $this;
 	}
 
 	/**

@@ -14,11 +14,10 @@ class AjaxController {
 	protected $_manager;
 	protected $_settings;
 
-
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
-		$this->_setSettingsController( wprss_licensing_get_settings() )
-                ->_setManager( wprss_licensing_get_manager() )
-                ->_setupHooks();
 	}
 
     /**
@@ -63,16 +62,6 @@ class AjaxController {
     public function getManager() {
         return $this->_manager;
     }
-
-    /**
-     * @return \Aventura\Wprss\Core\Licensing\AjaxController This instance.
-     */
-	protected function _setupHooks() {
-		add_action( 'wp_ajax_wprss_ajax_manage_license', array( $this, 'handleAjaxManageLicense' ) );
-		add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $this, 'handleAjaxFetchLicense' ) );
-
-        return $this;
-	}
 
 	/**
 	 * Echoes an AJAX error response along with activate/deactivate license button HTML markup and then dies.
