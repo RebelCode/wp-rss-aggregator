@@ -453,7 +453,7 @@ class Manager {
         if ( $params['url'] ) $params['url'] = urlencode ( $params['url']);
 
 		// Send the request to the API
-		$response = wp_remote_get( add_query_arg( $params, $storeUrl ) );
+		$response = wp_remote_post( add_query_arg( $params, $storeUrl ) );
 
         // Request failed
 		if ( is_wp_error( $response ) ) {
