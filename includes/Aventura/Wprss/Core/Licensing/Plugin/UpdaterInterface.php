@@ -2,6 +2,9 @@
 
 namespace Aventura\Wprss\Core\Licensing\Plugin;
 
+/**
+ * Interface for a plugin updater class.
+ */
 interface UpdaterInterface {
 
     /**
