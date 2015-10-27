@@ -472,6 +472,7 @@ class Manager {
         return $licenseData;
     }
 
+
     /**
      * Sanitizes the API params, prior to sending them.
      * 
