@@ -25,7 +25,8 @@ function wprss_licensing_get_manager() {
 
 	if ( is_null( $manager ) ) {
         $manager = new Aventura\Wprss\Core\Licensing\Manager();
-        $manager->setExpirationNoticePeriod( wprss_get_general_setting('expiration_notice_period') );
+        $manager->setExpirationNoticePeriod( wprss_get_general_setting( 'expiration_notice_period' ) );
+        $manager->setDefaultAuthorName( 'Jean Galea' );
     }
 
     return $manager;

@@ -12,7 +12,7 @@ use \Aventura\Wprss\Core\Licensing\License\Status;
 class Manager {
 
 	// The default updater class
-	const DEFAULT_UPDATER_CLASS = '\EDD_SL_Plugin_Updater';
+	const DEFAULT_UPDATER_CLASS = '\\Aventura\\Wprss\\Core\\Licensing\\Plugin\\Updater';
 
 	// Name of license keys option in DB
 	const DB_LICENSE_KEYS_OPTION_NAME = 'wprss_settings_license_keys';
@@ -40,6 +40,7 @@ class Manager {
     protected $_licenseKeysOptionName;
     protected $_licenseStatusesOptionName;
     protected $_expirationNoticePeriod;
+    protected $_defaultAuthorName;
 
 	/**
 	 * Constructor.
@@ -112,6 +113,28 @@ class Manager {
      */
     public function setExpirationNoticePeriod( $period ) {
         $this->_expirationNoticePeriod = trim($period);
+        return $this;
+    }
+
+
+    /**
+     * Gets the name of the plugin author that is used by default.
+     *
+     * @return string Nae of the plugin author that is sent to EDD API by default.
+     */
+    public function getDefaultAuthorName() {
+        return $this->_defaultAuthorName;
+    }
+
+
+    /**
+     * Sets the name of the plugin author that will be used by default.
+     *
+     * @param string $name Name of the plugin author that will be sent to EDD API by default.
+     * @return \Aventura\Wprss\Core\Licensing\Manager This instance.
+     */
+    public function setDefaultAuthorName($name) {
+        $this->_defaultAuthorName = $name;
         return $this;
     }
 
@@ -398,15 +421,6 @@ class Manager {
 		// Get all registered addons
 		$addons = $this->getAddons();
 
-		// Get the updater class
-		$updaterClass = $this->getUpdaterClass();
-
-		// setup the updater
-		if ( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-			// load our custom updater
-			include ( WPRSS_INC . 'libraries/EDD_licensing/EDD_SL_Plugin_Updater.php' );
-		}
-
 		// Iterate the addons
 		foreach( $addons as $id => $name ) {
 			// Prepare the data
@@ -417,15 +431,50 @@ class Manager {
 			$name = constant("WPRSS_{$uid}_SL_ITEM_NAME");
 			$version = constant("WPRSS_{$uid}_VERSION");
 			$path = constant("WPRSS_{$uid}_PATH");
+            $storeUrl = defined( "WPRSS_{$uid}_SL_STORE_URL")
+                    ? constant( "WPRSS_{$uid}_SL_STORE_URL" )
+                    : WPRSS_SL_STORE_URL;
+
 			// Set up an updater
-			$eddUpdater = new $updaterClass( WPRSS_SL_STORE_URL, $path, array(
+			$eddUpdater = $this->newUpdater($storeUrl, $path, array(
 				'version'   =>	$version,				// current version number
-				'license'   =>	$license->getKey(),		// license key (used get_option above to retrieve from DB)
+				'license'   =>	$license,               // license key (used get_option above to retrieve from DB)
 				'item_name' =>	$name,					// name of this plugin
-				'author'    =>	'Jean Galea'			// author of this plugin
 			));
 		}
 	}
+
+
+    /**
+     * Creates a new instance of the updater class, as configured.
+     *
+     * Guaranteed to return an updater.
+     *
+     * @see getUpdaterClass()
+     * @see Plugin\UpdaterInterface::__construct();
+     * @param string $url Endpoint URL.
+     * @param string $path Plugin file.
+     * @param array $params Params to requests.
+     * @return \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface
+     */
+    public function newUpdater($url, $path, $params = array()) {
+		// Get the updater class
+		$updaterClass = $this->getUpdaterClass();
+
+        $defaultParams = array(
+            'author'            => $this->getDefaultAuthorName(),
+            'license'           => null,
+        );
+        $params = array_merge($defaultParams, $params);
+        if ( $params['license'] instanceof License ) $params['license'] = $params['license']->getKey();
+
+        $updater = new $updaterClass($url, $path, $params);
+        if ( !($updater instanceof Plugin\UpdaterInterface) ) {
+            throw new Exception( sprintf( 'Could not create new updater: class "%1$s" is not an updater', get_class( $updater ) ) );
+        }
+
+        return $updater;
+    }
 
 
 	/**
