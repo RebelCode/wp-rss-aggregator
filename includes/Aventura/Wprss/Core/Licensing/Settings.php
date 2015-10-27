@@ -130,8 +130,8 @@ class Settings {
 	 * Registers the WordPress settings.
 	 */
 	public function registerSettings() {
-		$addons = $this->getManager()->getAddons();
-		foreach( $addons as $addonId => $addonName ) {
+		// Iterate all addon IDs and register a settings section with 2 fields for each.
+		foreach( array_keys( $this->getManager()->getAddons() ) as $_addonId ) {
 			// Settings Section
 			add_settings_section(
 				sprintf( 'wprss_settings_%s_licenses_section', $addonId ),
