@@ -69,8 +69,8 @@ function wprss_init_licensing() {
     $ajaxController = wprss_licensing_get_ajax_controller();
 
     // Set up Ajax Controller pointers
-    $ajaxController()->setManager( $manager );
-    $ajaxController()->setSettingsController( $settingsController );
+    $ajaxController->setManager( $manager );
+    $ajaxController->setSettingsController( $settingsController );
 
     // Licensing Manager hooks
     add_action( 'admin_init', array( $manager, 'initUpdaterInstances' ) );
