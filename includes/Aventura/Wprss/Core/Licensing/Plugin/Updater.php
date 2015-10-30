@@ -3,7 +3,9 @@
 namespace Aventura\Wprss\Core\Licensing\Plugin;
 
 // Load Easy Digital Downloads - Software Licensing updater class file
-require_once( WPRSS_INC . 'libraries/EDD_licensing/EDD_SL_Plugin_Updater.php' );
+if ( ! class_exists('EDD_SL_Plugin_Updater') ) {
+	require_once( WPRSS_INC . 'libraries/EDD_licensing/EDD_SL_Plugin_Updater.php' );
+}
 
 /**
  * Updater class, extending the Software Licensing updater and implementing the updater interface.
