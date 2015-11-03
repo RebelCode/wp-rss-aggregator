@@ -461,7 +461,8 @@ class Manager {
 			throw new Exception( sprintf( 'Licensing API request failed: %1$s', $response->get_error_message() ) );
 		}
 
-        if ( empty( $body = wp_remote_retrieve_body( $response ) ) ) {
+        $body = wp_remote_retrieve_body( $response );
+        if ( empty( $body ) ) {
 			throw new Exception( sprintf( 'Licensing API response returned empty' ) );
         }
 

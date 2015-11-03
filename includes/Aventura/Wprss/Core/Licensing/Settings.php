@@ -270,8 +270,7 @@ class Settings {
 		<p>
 			<?php
 				$license = $manager->getLicense( $addonId );
-				if ( $license !== null && ! empty( $license->getKey() ) ) :
-					$licenseKey = $license->getKey();
+				if ( $license !== null && ($licenseKey = $license->getKey()) && !empty( $licenseKey ) ) :
 					if ( is_object( $data ) ) :
 						$currentActivations = $data->site_count;
 						$activationsLeft = $data->activations_left;
