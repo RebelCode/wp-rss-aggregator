@@ -114,6 +114,11 @@
      * Load required files.
      */
 
+    /* Autoloader for this plugin */
+    require_once ( WPRSS_INC . 'autoload.php' );
+    // Adding autoload paths
+    wprss_autoloader()->add('Aventura\\Wprss\\Core', WPRSS_INC);
+
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
 
@@ -240,6 +245,8 @@
 
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
+
+
 
 
     add_action( 'init', 'wprss_init' );
