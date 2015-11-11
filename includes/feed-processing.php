@@ -547,7 +547,7 @@
                 if ( $feed_items-> have_posts() ) {
                     // Extend the timeout time limit for the deletion of the feed items
                     $time_limit = wprss_get_item_import_time_limit();
-                    wprss_log( "Extended execution time limit by {$time_limit}s for imported items truncation.", null, WPRSS_LOG_LEVEL_INFO );
+                    wprss_log( "Extended execution time limit by {$time_limit}s for imported items truncation.", null, WPRSS_LOG_LEVEL_SYSTEM );
                     set_time_limit( $time_limit );
                     // For each feed item
                     while ( $feed_items->have_posts() ) {
