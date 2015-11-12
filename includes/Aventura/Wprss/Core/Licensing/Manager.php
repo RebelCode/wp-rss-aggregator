@@ -298,6 +298,17 @@ class Manager {
 
 
 	/**
+	 * Gets inactive licenses.
+	 *
+	 * @uses self::getLicensesWithStatus
+	 * @return array
+	 */
+	public function getInactiveLicenses() {
+		return $this->getLicensesWithStatus( array(Status::INACTIVE, Status::SITE_INACTIVE) );
+	}
+
+
+	/**
 	 * Gets the licenses that are soon to be expired.
 	 *
 	 * @uses self::_calculateSteTimestamp To calculate the minimum date for classifying licenses as "soon-to-expire".
