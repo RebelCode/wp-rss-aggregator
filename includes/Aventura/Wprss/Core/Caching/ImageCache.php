@@ -2,6 +2,10 @@
 
 namespace Aventura\Wprss\Core\Caching;
 
+if (!class_exists('\\WPRSS_Image_Cache')) {
+	require_once WPRSS_INC . 'image-caching.php';
+}
+
 /**
  * Image caching class.
  */
