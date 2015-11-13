@@ -15,11 +15,27 @@
 
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
 			<h3><?php _e( 'Documentation', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __('In the <a href="http://www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
+			<?php echo wpautop(
+				sprintf(
+					__( 'In the <a href="%s">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
 				
-				There are also some videos to help you make a quick start to setting up and enjoying this plugin.', WPRSS_TEXT_DOMAIN) ) ?>
+						There are also some videos to help you make a quick start to setting up and enjoying this plugin.',
+						WPRSS_TEXT_DOMAIN
+					),
+					'http://docs.wprssaggregator.com/'
+				)
+			); ?>
 			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __('If after going through the documentation you still have questions, please take a look at the <a href="http://www.wprssaggregator.com/faq/">FAQ page</a> on the site, we set this up purposely to answer the most commonly asked questions by our users.', WPRSS_TEXT_DOMAIN) ) ?>
+			<?php
+				echo sprintf(
+					wpautop(
+						__( 'If after going through the documentation you still have questions, please take a look at the <a href="%s">FAQ page</a> on the site. We set this up purposely to answer the most commonly asked questions by our users.',
+							WPRSS_TEXT_DOMAIN
+						)
+					),
+					'http://www.wprssaggregator.com/faq/'
+				)
+			?>
 			
 			<?php
 			if ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) ) {
