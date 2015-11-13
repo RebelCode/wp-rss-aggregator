@@ -129,7 +129,12 @@
 	 */ 
 	function wprss_free_help_display() {
 		echo '<h3>' . __( 'Support Forums', WPRSS_TEXT_DOMAIN ) . '</h3>';
-		echo wpautop( __( "Users of the free version of WP RSS Aggregator can ask questions on the " . '<a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.', WPRSS_TEXT_DOMAIN ) );
+		printf(
+			wpautop(
+				__( 'Users of the free version of WP RSS Aggregator can ask questions on the <a href="%s">support forum</a>.', WPRSS_TEXT_DOMAIN )
+			),
+			'http://wordpress.org/support/plugin/wp-rss-aggregator'
+		);
 	}
 
 
