@@ -169,7 +169,7 @@
 
 
     /**
-     * Renders Error Log area
+     * Renders the Error Log and "Clear log" button
      * 
      * @since 3.9.6
      */
@@ -179,18 +179,31 @@
 
         <textarea readonly="readonly" id="wprss-error-log-textarea"><?php echo wprss_get_log(); ?></textarea>
 
-        <?php
-        $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' );
-        $nonce_url = wp_nonce_url( $form_url, 'wprss-error-log' );
-        ?>
+        <?php $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
 
-        <form action="edit.php?post_type=wprss_feed&page=wprss-debugging" method="POST"> 
-            <?php wp_nonce_field( 'wprss-clear-error-log' );
-            submit_button( __( 'Clear log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log', true  ); ?>
-            <?php wp_nonce_field( 'wprss-download-error-log' );
-            submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'download-error-log', true  ); ?>            
+        <form action="<?php echo $form_url; ?>" method="POST">
+            <?php
+                wp_nonce_field( 'wprss-clear-error-log' );
+                submit_button( __( 'Clear log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log'  );
+            ?>
         </form>
 
+        <?php
+    }
+
+    /**
+     * Renders the "Download Error Log" button
+     *
+     * @since [*next-version*]
+     */
+    function wprss_debug_download_log_button() {
+        $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
+        <form action="<?php echo $form_url; ?>" method="POST">
+            <?php
+                wp_nonce_field( 'wprss-download-error-log' );
+                submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'download-error-log'  );
+            ?>
+        </form>
         <?php
     }
 
