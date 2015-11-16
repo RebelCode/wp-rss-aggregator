@@ -45,13 +45,13 @@
             )
         );
 
-        $operations['error-log'] = apply_filters(
-            'wprss_debug_error_log_operation',
+        $operations['render-error-log'] = apply_filters(
+            'wprss_render_error_log_operation',
             array(
-                'nonce'     =>  'wprss-clear-error-log',
-                'run'       =>  'wprss_clear_log',
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=3',
-                'render'    =>  'wprss_debug_clear_log_button'
+                'nonce'     =>  null,
+                'run'       =>  null,
+                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
+                'render'    =>  'wprss_debug_render_error_log'
             )
         );
 
@@ -63,7 +63,17 @@
                 'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
                 'render'    =>  'wprss_debug_download_log_button'
             )
-        );        
+        );
+
+        $operations['clear-error-log'] = apply_filters(
+            'wprss_debug_error_log_operation',
+            array(
+                'nonce'     =>  'wprss-clear-error-log',
+                'run'       =>  'wprss_clear_log',
+                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=3',
+                'render'    =>  'wprss_debug_clear_log_button'
+            )
+        );
 
 		$operations ['restore-settings'] = apply_filters(
 			'wprss_debug_restore_settings_operation',
@@ -167,27 +177,31 @@
         <?php
     }
 
-
     /**
-     * Renders the Error Log and "Clear log" button
-     * 
-     * @since 3.9.6
+     * Renders the Error Log.
      */
-    function wprss_debug_clear_log_button() {
+    function wprss_debug_render_error_log() {
         ?>
         <h3><?php _e( 'Error Log', WPRSS_TEXT_DOMAIN ); ?></h3>
 
         <textarea readonly="readonly" id="wprss-error-log-textarea"><?php echo wprss_get_log(); ?></textarea>
+        <?php
+    }
 
-        <?php $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
-
-        <form action="<?php echo $form_url; ?>" method="POST" class="wprss-error-log-action">
-            <?php
-                wp_nonce_field( 'wprss-clear-error-log' );
-                submit_button( __( 'Clear log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log'  );
-            ?>
+    /**
+     * Renders the "Clear log" button
+     * 
+     * @since 3.9.6
+     */
+    function wprss_debug_clear_log_button() {
+        $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
+        <form id="wprss-clear-error-log-form" action="<?php echo $form_url; ?>" method="POST" class="wprss-error-log-action">
+            <?php wp_nonce_field( 'wprss-clear-error-log' ); ?>
+            <button type="submit" for="wprss-clear-error-log-form" name="clear-error-log" class="button button-red">
+                <i class="fa fa-trash-o"></i>
+                <?php _e( 'Clear log', WPRSS_TEXT_DOMAIN ); ?>
+            </button>
         </form>
-
         <?php
     }
 
@@ -198,11 +212,12 @@
      */
     function wprss_debug_download_log_button() {
         $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
-        <form action="<?php echo $form_url; ?>" method="POST" class="wprss-error-log-action">
-            <?php
-                wp_nonce_field( 'wprss-download-error-log' );
-                submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'download-error-log'  );
-            ?>
+        <form id="wprss-download-error-log-form" action="<?php echo $form_url; ?>" method="POST" class="wprss-error-log-action">
+            <?php wp_nonce_field( 'wprss-download-error-log' ); ?>
+            <button type="submit" for="wprss-download-error-log-form" name="download-error-log" class="button button-primary">
+                <i class="fa fa-download"></i>
+                <?php _e( 'Download log', WPRSS_TEXT_DOMAIN ); ?>
+            </button>
         </form>
         <?php
     }
