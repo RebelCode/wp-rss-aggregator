@@ -92,11 +92,11 @@
 					<td colspan="3"><input type='checkbox' name='support-include-log' value='checked' checked><?php _e('WP RSS Aggregator log file', WPRSS_TEXT_DOMAIN); ?></td>
 				</tr>
 				<tr>
-					<td colspan="3"><input type='checkbox' name='support-include-sys' value='checked' checked><?php _e('WordPress information', WPRSS_TEXT_DOMAIN); ?></td>
+					<td colspan="3"><input type='checkbox' name='support-include-sys' value='checked' checked><?php _e('WordPress debugging information', WPRSS_TEXT_DOMAIN); ?></td>
 				</tr>
 			</table>
 		</form>
-		<div style='line-height:2.3em;'>
+		<div style='line-height:2.3em; margin-top:10px;'>
 			<button id='send-message-btn' class='button button-primary'><?php _e('Send Message', WPRSS_TEXT_DOMAIN); ?></button>
 			<span id='support-error'></span>
 		</div>
