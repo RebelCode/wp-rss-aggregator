@@ -181,7 +181,7 @@
 
         <?php $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
 
-        <form action="<?php echo $form_url; ?>" method="POST">
+        <form action="<?php echo $form_url; ?>" method="POST" class="wprss-error-log-action">
             <?php
                 wp_nonce_field( 'wprss-clear-error-log' );
                 submit_button( __( 'Clear log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'error-log'  );
@@ -198,7 +198,7 @@
      */
     function wprss_debug_download_log_button() {
         $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>
-        <form action="<?php echo $form_url; ?>" method="POST">
+        <form action="<?php echo $form_url; ?>" method="POST" class="wprss-error-log-action">
             <?php
                 wp_nonce_field( 'wprss-download-error-log' );
                 submit_button( __( 'Download Error log', WPRSS_TEXT_DOMAIN ), 'button-primary', 'download-error-log'  );

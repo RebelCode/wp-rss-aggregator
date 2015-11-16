@@ -259,6 +259,10 @@ input#thumbnails-width {
     display: block;
 }
 
+form.wprss-error-log-action {
+    display: inline-block;
+    margin-right: 8px;
+}
 
 @media screen and (min-width: 782px) {
     #custom_feed_title {
