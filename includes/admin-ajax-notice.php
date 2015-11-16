@@ -1127,8 +1127,7 @@ add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
  * @since 4.7.4
  * @uses-filter wprss_admin_notice_collection_before_init To modify collection before initialization.
  * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
- * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
- * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
+ * @uses-action admin_enqueue_scripts To enqueue the scripts for the collection.
  * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
  * @uses-action wprss_admin_notice_collection_after_localize_vars To access list of vars exposed to the frontend.
  * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
@@ -1148,19 +1147,7 @@ function wprss_admin_notice_get_collection() {
 		$collection->init();
 		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
 
-		$script_handles = apply_filters( 'wprss_admin_notice_collection_before_enqueue_scripts', array( 'wprss-admin-notifications' ), $collection );
-		foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
-		do_action( 'wprss_admin_notice_collection_after_enqueue_scripts', $script_handles, $collection );
-
-		// Frontend settings
-		$settings = apply_filters( 'wprss_admin_notice_collection_before_localize_vars', array(
-			'notice_class'				=> $collection->get_notice_base_class(),
-			'nonce_class'				=> $collection->get_nonce_base_class(),
-			'btn_close_class'			=> $collection->get_btn_close_base_class(),
-			'action_code'				=> wprss_admin_notice_get_action_code()
-		), $collection );
-		wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
-		do_action( 'wprss_admin_notice_collection_after_localize_vars', $settings, $collection );
+		add_action( 'admin_enqueue_scripts', 'wprss_admin_notices_collection_enqueue_scripts' );
 	}
 
 	return $collection;
