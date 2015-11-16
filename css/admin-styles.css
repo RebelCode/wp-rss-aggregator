@@ -261,7 +261,10 @@ input#thumbnails-width {
 
 form.wprss-error-log-action {
     display: inline-block;
-    margin-right: 8px;
+    margin: 15px 5px 15px 0;
+}
+form.wprss-error-log-action input[type="submit"]:active {
+    vertical-align: baseline;
 }
 
 @media screen and (min-width: 782px) {
