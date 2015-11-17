@@ -169,7 +169,7 @@ class License {
 		return array(
 			'key'		=>	'',
 			'status'	=>	Status::INVALID,
-			'expiry'	=>	null,
+			'expires'	=>	null,
             'addon_code'=>  null,
 		);
 	}
