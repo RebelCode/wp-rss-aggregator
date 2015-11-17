@@ -15,11 +15,29 @@
 
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
 			<h3><?php _e( 'Documentation', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __('In the <a href="http://www.wprssaggregator.com/documentation/">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
+			<?php
+				printf(
+					wpautop(
+						__( 'In the <a href="%s">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
 				
-				There are also some videos to help you make a quick start to setting up and enjoying this plugin.', WPRSS_TEXT_DOMAIN) ) ?>
+							There are also some videos to help you make a quick start to setting up and enjoying this plugin.',
+							WPRSS_TEXT_DOMAIN
+						)
+					),
+					'http://docs.wprssaggregator.com/'
+				);
+			?>
 			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
-			<?php echo wpautop( __('If after going through the documentation you still have questions, please take a look at the <a href="http://www.wprssaggregator.com/faq/">FAQ page</a> on the site, we set this up purposely to answer the most commonly asked questions by our users.', WPRSS_TEXT_DOMAIN) ) ?>
+			<?php
+				printf(
+					wpautop(
+						__( 'If after going through the documentation you still have questions, please take a look at the <a href="%s">FAQ page</a> on the site. We set this up purposely to answer the most commonly asked questions by our users.',
+							WPRSS_TEXT_DOMAIN
+						)
+					),
+					'http://www.wprssaggregator.com/faq/'
+				)
+			?>
 			
 			<?php
 			if ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) ) {
@@ -111,7 +129,12 @@
 	 */ 
 	function wprss_free_help_display() {
 		echo '<h3>' . __( 'Support Forums', WPRSS_TEXT_DOMAIN ) . '</h3>';
-		echo wpautop( __( "Users of the free version of WP RSS Aggregator can ask questions on the " . '<a href="http://wordpress.org/support/plugin/wp-rss-aggregator">support forum</a>.', WPRSS_TEXT_DOMAIN ) );
+		printf(
+			wpautop(
+				__( 'Users of the free version of WP RSS Aggregator can ask questions on the <a href="%s">support forum</a>.', WPRSS_TEXT_DOMAIN )
+			),
+			'http://wordpress.org/support/plugin/wp-rss-aggregator'
+		);
 	}
 
 
