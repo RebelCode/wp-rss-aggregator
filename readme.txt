@@ -13,7 +13,7 @@ The no.1 RSS feed importer for WordPress. Premium add-ons available for more fun
 
 WP RSS Aggregator is the most comprehensive and elegant RSS feed solution for WordPress.
 
-The original and premier plugin for importing, merging and displaying RSS and Atom feeds on your WordPress site.
+The original and best plugin for importing, merging and displaying RSS and Atom feeds on your WordPress site.
 
 With WP RSS Aggregator, you can:
 
