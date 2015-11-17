@@ -173,7 +173,7 @@ If you need any further help you can contact our support team [here](http://www.
 
 = Where can I find the documentation for the plugin? =
 
-The full documentation section can be found on the [WP RSS Aggregator website](www.wprssaggregator.com/documentation/), the documentation also includes an extensive FAQ list.
+The full documentation section can be found on the [WP RSS Aggregator website](http://docs.wprssaggregator.com/), the documentation also includes an extensive FAQ list.
 
 
 == Screenshots ==
