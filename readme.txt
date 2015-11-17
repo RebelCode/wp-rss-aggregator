@@ -145,7 +145,7 @@ There is no limit in place for the number of feed sources. Having many (50+) fee
 
 However, pulling in posts from many sites is bound to put your server under some stress, so you might want to consider using a hosting solution that goes beyond your typical shared host. 
 
-Check out our dedicated page for hosting recommendations.
+Check out our dedicated page on [WordPress hosting](http://www.wprssaggregator.com/recommended-web-hosts/) recommendations.
 
 = Does WP RSS Aggregator work using JSON as the source? =
 
