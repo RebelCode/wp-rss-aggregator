@@ -167,7 +167,7 @@ Yes, along with the [Feed to Post](http://www.wprssaggregator.com/extensions/fee
 
 = I’m not sure which premium add-ons are right for me. Can you help me out? =
 
-Sure! We wrote a post just for you. Read about which add-ons you should buy, we explain the different types of usage so you’ll know what to expect when purchasing.
+Sure! We wrote a [post](http://www.wprssaggregator.com/add-ons-purchase/) just for you. Read about which add-ons you should buy, we explain the different types of usage so you’ll know what to expect when purchasing.
 
 If you need any further help you can contact our support team [here](http://www.wprssaggregator.com/contact/).
 
