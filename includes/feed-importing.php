@@ -4,14 +4,14 @@
         *
         * @package WPRSSAggregator
         */
-    
+
 
 	// Warning: Order may be important
 	add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix', 8);
 	add_filter('wprss_normalize_permalink', 'wprss_bing_news_url_fix', 9);
 	add_filter('wprss_normalize_permalink', 'wprss_google_alerts_url_fix', 10);
 	add_filter('wprss_normalize_permalink', 'wprss_convert_video_permalink', 100);
-	
+
 
 	add_action( 'wprss_fetch_single_feed_hook', 'wprss_fetch_insert_single_feed_items' );
 	/**
@@ -40,7 +40,7 @@
 			delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
 			wprss_log( 'Force feed flag removed', null, WPRSS_LOG_LEVEL_SYSTEM );
 		}
-		
+
 		$start_of_update = wprss_flag_feed_as_updating( $feed_ID );
 		wprss_log_obj( 'Start of import time updated', date( 'Y-m-d H:i:s', $start_of_update), null, WPRSS_LOG_LEVEL_SYSTEM );
 
@@ -53,7 +53,7 @@
 		// Get the feed limit from post meta
 		$feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
 		wprss_log_obj( 'Feed limit value is', $feed_limit, null, WPRSS_LOG_LEVEL_SYSTEM );
-		
+
 		// If the feed has no individual limit
 		if ( $feed_limit === '' || intval( $feed_limit ) <= 0 ) {
 			wprss_log_obj( 'Using global limit', $feed_limit, null, WPRSS_LOG_LEVEL_NOTICE );
@@ -141,17 +141,17 @@
 			} else {
 				wprss_log( 'Items to import remained untouched. Not items already exist or are blacklisted.', null, WPRSS_LOG_LEVEL_SYSTEM );
 			}
-			
+
 			$items_to_insert = $new_items;
 
 			// If using a limit - delete any excess items to make room for the new items
 			if ( $feed_limit !== NULL ) {
 				wprss_log_obj( 'Some items may be deleted due to limit', $feed_limit, null, WPRSS_LOG_LEVEL_SYSTEM );
-				
+
 				// Get the number of feed items in DB, and their count
 				$db_feed_items = wprss_get_feed_items_for_source( $feed_ID );
 				$num_db_feed_items = $db_feed_items->post_count;
-				
+
 				// Get the number of feed items we can store until we reach the limit
 				$num_can_insert = $feed_limit - $num_db_feed_items;
 				// Calculate how many feed items we must delete before importing, to keep to the limit
@@ -170,11 +170,11 @@
 				foreach ( $feed_items_to_delete as $key => $post ) {
 					wp_delete_post( $post->ID, TRUE );
 				}
-				
+
 				if ( $deleted_items_count = count( $feed_items_to_delete ) )
 					wprss_log_obj( 'Items deleted due to limit', $deleted_items_count, null, WPRSS_LOG_LEVEL_NOTICE );
 			}
-			
+
 			update_post_meta( $feed_ID, 'wprss_last_update', $last_update_time = time() );
 			update_post_meta( $feed_ID, 'wprss_last_update_items', 0 );
 			wprss_log_obj( 'Last import time updated', $last_update_time, null, WPRSS_LOG_LEVEL_SYSTEM );
@@ -187,9 +187,9 @@
 		} else {
 			wprss_log_obj('The feed URL is not valid! Please recheck', $feed_url);
 		}
-		
+
 		$next_scheduled = get_post_meta( $feed_ID, 'wprss_reschedule_event', TRUE );
-		
+
 		if ( $next_scheduled !== '' ) {
 			wprss_feed_source_update_start_schedule( $feed_ID );
 			delete_post_meta( $feed_ID, 'wprss_reschedule_event' );
@@ -219,7 +219,7 @@
 		// Remove previously added filters and actions
 		remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 		remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
-		
+
 		if ( !is_wp_error( $feed ) ) {
 			// Return the items in the feed.
 			return $feed->get_items();
@@ -260,7 +260,7 @@
 				$feed->force_feed( TRUE );
 			}
 		}
-		
+
 		// Set timeout limit
 		$fetch_time_limit = wprss_get_feed_fetch_time_limit();
 		$feed->set_timeout( $fetch_time_limit );
@@ -277,11 +277,11 @@
 		$feed->strip_htmltags( $tags_to_strip );
 
 		do_action( 'wprss_fetch_feed_before', $feed );
-		
+
 		// Fetch the feed
 		$feed->init();
 		$feed->handle_content_type();
-		
+
 		do_action( 'wprss_fetch_feed_after', $feed );
 
 		// Convert the feed error into a WP_Error, if applicable
@@ -312,33 +312,33 @@
 		// Return the normalized permalink
 		return $permalink;
 	}
-	
-	
+
+
 	/**
 	 * Extracts the actual URL from a Google News permalink
-	 * 
+	 *
 	 * @param string $permalink The permalink to normalize.
 	 * @since 4.2.3
 	 */
 	function wprss_google_news_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?' . preg_quote('news.google.com', '!') . '.*!');
 	}
-        
-        
+
+
         /**
 	 * Extracts the actual URL from a Google Alerts permalink
-	 * 
+	 *
 	 * @param string $permalink The permalink to normalize.
          * @since 4.7.3
 	 */
 	function wprss_google_alerts_url_fix($permalink) {
 	    return wprss_tracking_url_fix($permalink, '!^(https?:\/\/)?(www\.)?' . preg_quote('google.com/url', '!') . '.*!');
 	}
-	
+
 
 	/**
 	 * Extracts the actual URL from a Bing permalink
-	 * 
+	 *
 	 * @param string $permalink The permalink to normalize.
 	 * @since 4.2.3
 	 */
@@ -355,7 +355,7 @@
 	 * Fixes the issue with equivalent Google News etc. items having
 	 * different URLs, that contain randomly generated GET parameters.
 	 * Example:
-	 * 
+	 *
 	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=V3e9U6izMMnm1QaB1YHoDA&url=http://abcd...
 	 * http://news.google.com/news/url?sa=t&fd=R&ct2=us&ei=One9U-HQLsTp1Aal-oDQBQ&url=http://abcd...
 	 *
@@ -370,7 +370,7 @@
 		// Parse the url
 		$parsed = parse_url( urldecode( html_entity_decode( $permalink ) ) );
 		$patterns = is_array($patterns) ? $patterns :array($patterns);
-		
+
 		// If parsing failed, return the permalink
 		if ( $parsed === FALSE || $parsed === NULL ) return $permalink;
 
@@ -382,19 +382,19 @@
 			break;
 		    }
 		}
-		
+
 		if( !$isMatch ) return $permalink;
-		
+
 		// Check if the url GET query string is present
 		if ( !isset( $parsed['query'] ) ) return $permalink;
-		
+
 		// Parse the query string
 		$query = array();
 		parse_str( $parsed['query'], $query );
-		
+
 		// Check if the url GET parameter is present in the query string
 		if ( !is_array($query) || !isset( $query[$argName] ) ) return $permalink;
-		
+
 		return urldecode( $query[$argName] );
 	}
 
@@ -415,12 +415,12 @@
 
 		// If video host was found
 		if ( $found_video_host !== 0 && $found_video_host !== FALSE ) {
-		
+
 			// Get general options
 			$options = get_option( 'wprss_settings_general' );
 			// Get the video link option entry, or false if it does not exist
 			$video_link = ( isset($options['video_link']) )? $options['video_link'] : 'false';
-		
+
 			// If the video link option is true, change the video URL to its repective host's embedded
 			// video player URL. Otherwise, leave the permalink as is.
 			if ( strtolower( $video_link ) === 'true' ) {
@@ -454,7 +454,7 @@
 	function wprss_items_insert_post( $items, $feed_ID ) {
 		update_post_meta( $feed_ID, 'wprss_feed_is_updating', $update_started_at = time() );
 		wprss_log_obj( 'Starting import of items for feed ' . $feed_ID, $update_started_at, null, WPRSS_LOG_LEVEL_INFO );
-		
+
 		// Gather the permalinks of existing feed item's related to this feed source
 		$existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
 
@@ -505,7 +505,7 @@
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL && !is_bool($item) ) {
 					wprss_log( 'Using core logic', null, WPRSS_LOG_LEVEL_SYSTEM );
-					
+
 					// Get the date and GTM date and normalize if not valid dor not present
 					$format    = 'Y-m-d H:i:s';
 					$has_date  = $item->get_date( 'U' ) ? TRUE : FALSE;
@@ -520,20 +520,20 @@
 							'post_content'   => '',
 							'post_status'    => 'publish',
 							'post_type'      => 'wprss_feed_item',
-							'post_date'      => $date, 
+							'post_date'      => $date,
 							'post_date_gmt'  => $date_gmt
 						),
 						$item
 					);
 					wprss_log( 'Post data filters applied', null, WPRSS_LOG_LEVEL_SYSTEM );
-				
+
 					if ( defined('ICL_SITEPRESS_VERSION') )
 						@include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
 					if ( defined('ICL_LANGUAGE_CODE') ) {
 						$_POST['icl_post_language'] = $language_code = ICL_LANGUAGE_CODE;
 						wprss_log_obj( 'WPML detected. Language code determined', $language_code, null, WPRSS_LOG_LEVEL_SYSTEM );
 					}
-					
+
 					// Create and insert post object into the DB
 					$inserted_ID = wp_insert_post( $feed_item );
 
@@ -572,7 +572,7 @@
 			else {
 				wprss_log( 'Item already exists and will be skipped', null, WPRSS_LOG_LEVEL_NOTICE );
 			}
-			
+
 			wprss_log_obj( 'Finished importing item', $permalink, null, WPRSS_LOG_LEVEL_INFO );
 		}
 
@@ -591,12 +591,12 @@
 	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
-		
+
 		$author = $item->get_author();
 		if ( $author ) {
 			update_post_meta( $inserted_ID, 'wprss_item_author', $author->get_name() );
 		}
-		
+
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
 		do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
 	}
@@ -662,7 +662,7 @@
 
 	/**
 	 * Runs the above function with parameter FALSE
-	 * 
+	 *
 	 * @since 3.9
 	 */
 	function wprss_fetch_insert_all_feed_items_from_cron() {
