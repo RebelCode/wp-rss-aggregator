@@ -28,7 +28,7 @@
 			'wprss-welcome',
 			'wprss_show_welcome_screen'
 		);
-		
+
 	}
 
 
@@ -115,15 +115,13 @@
 			return $footer;
 		// Prepare fragments of the message
 		$thank_you = sprintf(
-			__( 'Thank you for using %s!', WPRSS_TEXT_DOMAIN ),
-			'<a href="wprssaggregator.com">WP RSS Aggregator</a>'
+			__( 'Thank you for using <a href="%1$s" target="_blank">WP RSS Aggregator</a>!', WPRSS_TEXT_DOMAIN ),
+			'http://www.wprssaggregator.com/'
 		);
 		$rate_us = sprintf(
-			__( 'Please %1$s rate us %3$s on %2$s WordPress.org %3$s', WPRSS_TEXT_DOMAIN ),
-			'<a href="https://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator?filter=5#postform" target="_blank">',
-			'<a href="http://mekku.net" target="_blank">',
-			'</a>'
+			__( 'Please <a href="%1$s" target="_blank">rate us</a>!', WPRSS_TEXT_DOMAIN ),
+			'https://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator?filter=5#postform'
 		);
 		// Return the final text
-		return sprintf( '%s | <span class="wp-rss-footer-text">%s %s</span>', $footer, $thank_you, $rate_us );
+		return sprintf( '%1$s | <span class="wp-rss-footer-text">%2$s %3$s</span>', $footer, $thank_you, $rate_us );
 	}
