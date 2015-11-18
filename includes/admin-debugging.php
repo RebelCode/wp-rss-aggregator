@@ -208,7 +208,7 @@
     /**
      * Renders the "Download Error Log" button
      *
-     * @since [*next-version*]
+     * @since 4.7.8
      */
     function wprss_debug_download_log_button() {
         $form_url = admin_url( 'edit.php?post_type=wprss_feed&page=wprss-debugging' ); ?>

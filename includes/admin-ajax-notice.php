@@ -1156,7 +1156,7 @@ function wprss_admin_notice_get_collection() {
 /**
  * Enqueues the scripts for a notice collection.
  *
- * @since [*next-version*]
+ * @since 4.7.8
  * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
  * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
  */

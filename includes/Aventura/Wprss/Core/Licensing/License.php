@@ -10,7 +10,7 @@ use \Aventura\Wprss\Core\Licensing\License\Status;
  * 	This version is still untested
  *
  * @version 1.0-alpha
- * @since [*next-version*]
+ * @since 4.7.8
  */
 class License {
 

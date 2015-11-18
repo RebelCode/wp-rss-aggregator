@@ -258,7 +258,7 @@
 				// From 4.7.2
 				'unique_titles'				=> 0,
 
-                // From [*next-version*]
+                // From 4.7.8
                 'expiration_notice_period'  => '2 weeks',
 			)
 		);
