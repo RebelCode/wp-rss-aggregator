@@ -193,6 +193,12 @@ The full documentation section can be found on the [WP RSS Aggregator website](h
 
 == Changelog ==
 
+= 4.7.8 (2015-11-18) =
+* Fixed bug: Sticky posts no longer get deleted when truncating, unless imported from a feed source.
+* Enhanced: Added autoloading and refactored licensing.
+* Enhanced: Added button to download error log.
+* Enhanced: Cosmetic changes and fixes.
+
 = 4.7.7 (2015-10-19) =
 * Enhanced: Optimized checking for plugin updates.
 
