@@ -30,7 +30,10 @@
                     </textarea>
                     <p class="submit">
                         <input type="hidden" name="wprss-action" value="download_sysinfo" />
-                        <?php submit_button( __( 'Download System Info File', WPRSS_TEXT_DOMAIN ), 'primary', 'wprss-download-sysinfo', false ); ?>
+                        <button type="submit" class="button button-primary" id="wprss-download-sysinfo">
+                        	<i class="fa fa-download"></i>
+                        	<?php _e( 'Download System Info File', WPRSS_TEXT_DOMAIN ) ?>
+                        </button>
                     </p>
             </form>
 
