@@ -507,11 +507,10 @@ class Manager {
 
 		// Create an updater
 		$updater = $this->newUpdater($storeUrl, $path, array(
-				'version'   =>	$version,				// current version number
-				'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
-				'item_name' =>	$itemName,				// name of this plugin
-			))
-		);
+			'version'   =>	$version,				// current version number
+			'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
+			'item_name' =>	$itemName,				// name of this plugin
+		));
 
 		// Register the updater
 		$this->_setUpdaterInstance($id, $updater);
