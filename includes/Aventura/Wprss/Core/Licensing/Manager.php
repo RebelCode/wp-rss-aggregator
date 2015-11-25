@@ -491,7 +491,7 @@ class Manager {
 	 *
 	 * @since 4.6.3
 	 */
-	public function initUpdaterInstances() {
+	public function initUpdaterInstances($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
 		// Stop if doing autosave or ajax
 		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) return;
 
