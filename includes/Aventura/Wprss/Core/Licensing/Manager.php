@@ -487,9 +487,14 @@ class Manager {
 
 
 	/**
-	 * Sets up the EDD updater for all registered add-ons.
-	 *
-	 * @since 4.6.3
+	 * Creates an updater instance for an addon.
+	 * 
+	 * @param  string $id       The ID of the addon.
+	 * @param  string $itemName The name of the addon as registered in EDD on our servers.
+	 * @param  string $version  The current version of the addon.
+	 * @param  string $path     The path to the addon's main file.
+	 * @param  string $storeUrl The URL of the server that handles the licensing and serves the updates.
+	 * @return boolean True if the updater was initialized, false on failure due to an invalid license.
 	 */
 	public function initUpdaterInstance($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
 		// Prepare the data
