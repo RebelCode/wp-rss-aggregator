@@ -492,36 +492,27 @@ class Manager {
 	 * @since 4.6.3
 	 */
 	public function initUpdaterInstances($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
-		// Stop if doing autosave or ajax
-		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) return;
-
-		// Get all registered addons
-		$addons = $this->getAddons();
-
-		// Iterate the addons
-		foreach( $addons as $id => $name ) {
-			// Prepare the data
-			$license = $this->getLicense( $id );
-			// If the addon doesn't have a license or the license is not valid, skip this addon
-			if ( $license === null || $license->getStatus() !== Status::VALID ) continue;
-			$uid = strtoupper( $id );
-			$name = constant("WPRSS_{$uid}_SL_ITEM_NAME");
-			$version = constant("WPRSS_{$uid}_VERSION");
-			$path = constant("WPRSS_{$uid}_PATH");
-            $storeUrl = defined( "WPRSS_{$uid}_SL_STORE_URL")
-                    ? constant( "WPRSS_{$uid}_SL_STORE_URL" )
-                    : WPRSS_SL_STORE_URL;
-
-			// Set up an updater and register the instance
-			$this->_setUpdaterInstance(
-				$id,
-				$this->newUpdater($storeUrl, $path, array(
-					'version'   =>	$version,				// current version number
-					'license'   =>	$license,               // license key (used get_option above to retrieve from DB)
-					'item_name' =>	$name,					// name of this plugin
-				))
-			);
+		// Prepare the data
+		$license = $this->getLicense( $id );
+		// If the addon doesn't have a license or the license is not valid, do not set the updater.
+		// Returns false to indicate this failure.
+		if ( $license === null || $license->getStatus() !== Status::VALID ) {
+			return false;
 		}
+
+		// Create an updater
+		$updater = $this->newUpdater($storeUrl, $path, array(
+				'version'   =>	$version,				// current version number
+				'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
+				'item_name' =>	$itemName,				// name of this plugin
+			))
+		);
+
+		// Register the updater
+		$this->_setUpdaterInstance($id, $updater);
+
+		// Return true to indicate success
+		return true;
 	}
 
 
