@@ -491,7 +491,7 @@ class Manager {
 	 *
 	 * @since 4.6.3
 	 */
-	public function initUpdaterInstances($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
+	public function initUpdaterInstance($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
 		// Prepare the data
 		$license = $this->getLicense( $id );
 		// If the addon doesn't have a license or the license is not valid, do not set the updater.
