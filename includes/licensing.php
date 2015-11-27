@@ -62,7 +62,7 @@ function wprss_get_addons($noCache = false) {
 /**
  * Hooks the licensing system into WordPress.
  */
-function wprss_init_licensing() {
+function wprss_licensing() {
     // Get licensing class instances
     $manager = wprss_licensing_get_manager();
     $settingsController = wprss_licensing_get_settings_controller();
