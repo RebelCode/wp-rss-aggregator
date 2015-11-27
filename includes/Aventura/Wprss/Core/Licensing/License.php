@@ -160,6 +160,15 @@ class License {
         return $this->_addonCode;
     }
 
+    /**
+     * Checks if the license status is valid.
+     * 
+     * @return boolean True if the status is valid, false otherwise.
+     */
+    public function isValid() {
+    	return $this->getStatus() === Status::VALID;
+    }
+
 	/**
 	 * Gets the default values for all properties of the license.
 	 *
