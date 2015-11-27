@@ -83,4 +83,6 @@ function wprss_licensing() {
     add_action( 'wprss_admin_init', array( $settingsController, 'registerSettings' ), 100 );
     add_action( 'admin_init', array( $settingsController, 'handleLicenseStatusChange' ), 10 );
     add_action( 'wprss_settings_license_key_is_valid', array( $settingsController, 'validateLicenseKeyForSave' ) );
+
+    do_action( 'wprss_init_licensing' );
 }
