@@ -240,8 +240,7 @@
     require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
     // Initializes licensing
-    // Needs autoloading
-    // add_action( 'plugins_loaded', 'wprss_init_licensing' );
+    add_action( 'plugins_loaded', 'wprss_init_licensing' );
 
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
