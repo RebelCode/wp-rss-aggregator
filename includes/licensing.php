@@ -72,9 +72,6 @@ function wprss_licensing() {
     $ajaxController->setManager( $manager );
     $ajaxController->setSettingsController( $settingsController );
 
-    // Licensing Manager hooks
-    add_action( 'admin_init', array( $manager, 'initUpdaterInstances' ) );
-
     // Licensing Ajax Controller hooks
     add_action( 'wp_ajax_wprss_ajax_manage_license', array( $ajaxController, 'handleAjaxManageLicense' ) );
     add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $ajaxController, 'handleAjaxFetchLicense' ) );
