@@ -95,7 +95,7 @@ class Settings {
 	public function invalidLicensesNoticeCondition( $args ) {
 		if ( isset( $args['addon'] ) ) return false;
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && $license->getStatus() !== Status::VALID;
+		return $license !== null && ! $license->isValid();
 	}
 
 	/**

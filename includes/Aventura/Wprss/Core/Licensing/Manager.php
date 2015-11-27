@@ -503,7 +503,7 @@ class Manager {
 			// Prepare the data
 			$license = $this->getLicense( $id );
 			// If the addon doesn't have a license or the license is not valid, skip this addon
-			if ( $license === null || $license->getStatus() !== Status::VALID ) continue;
+			if ( $license === null || ! $license->isValid() ) continue;
 			$uid = strtoupper( $id );
 			$name = constant("WPRSS_{$uid}_SL_ITEM_NAME");
 			$version = constant("WPRSS_{$uid}_VERSION");
