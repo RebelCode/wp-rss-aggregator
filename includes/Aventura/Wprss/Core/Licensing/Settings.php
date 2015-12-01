@@ -77,10 +77,14 @@ class Settings {
 			$noticesCollection->add_notice(
 				array(
 					'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
+					'addon'				=>	$_addonId,
 					'notice_type'		=>	'error',
-					'content'			=>	$this->getEmptyLicenseNoticeContent( $_addonId ),
 					'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
-					'addon'				=>	$_addonId
+					'content'			=>	sprintf(
+						__( '<p>Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
+						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+						$_addonName
+					)
 				)
 			);
 		}
@@ -97,22 +101,6 @@ class Settings {
 		if ( isset( $args['addon'] ) ) return false;
 		$license = $this->getManager()->getLicense( $args['addon'] );
 		return $license !== null && strlen( $license->getKey() ) === 0;
-	}
-
-	/**
-	 * Gets the content of the notice that informs the user of invalid licenses.
-	 *
-	 * @param  string $addonId The ID of addon that has the invalid license.
-	 * @return string
-	 */
-	public function getEmptyLicenseNoticeContent( $addonId ) {
-		$addons = $this->getManager()->getAddons();
-		$addonName = $addons[ $addonId ];
-		return sprintf(
-			__( '<p>Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
-			esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-			$addonName
-		);
 	}
 
 	/**
