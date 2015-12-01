@@ -87,7 +87,7 @@ function wprss_licensing() {
         $licensing = (object) compact( 'manager', 'settingsController', 'ajaxController' );
 
         // Action for hooking after licensing has been initialized
-        do_action( 'wprss_init_licensing' );
+        do_action( 'wprss_licensing_init' );
     }
 
     return $licensing;
