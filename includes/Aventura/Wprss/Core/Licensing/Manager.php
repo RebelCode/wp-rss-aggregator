@@ -304,7 +304,13 @@ class Manager {
 	 * @return array
 	 */
 	public function getInactiveLicenses() {
-		return $this->getLicensesWithStatus( array(Status::INACTIVE, Status::SITE_INACTIVE) );
+		$licenses = array();
+		foreach ( $this->_licenses as $_addonId => $_license ) {
+			if ($_license->isInactive()) {
+				$licenses[ $_addonId ] = $_license;
+			}
+		}
+		return $licenses;
 	}
 
 
