@@ -74,14 +74,15 @@ class Settings {
 	protected function _initNotices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
 		foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
-			$_notice = array(
-				'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
-				'notice_type'		=>	'error',
-				'content'			=>	$this->getEmptyLicenseNoticeContent( $_addonId ),
-				'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
-				'addon'				=>	$_addonId
+			$noticesCollection->add_notice(
+				array(
+					'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
+					'notice_type'		=>	'error',
+					'content'			=>	$this->getEmptyLicenseNoticeContent( $_addonId ),
+					'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
+					'addon'				=>	$_addonId
+				)
 			);
-			$noticesCollection->add_notice( $_notice );
 		}
 
         return $this;
