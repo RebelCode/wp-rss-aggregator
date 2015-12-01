@@ -81,7 +81,7 @@ class Settings {
 					'notice_type'		=>	'error',
 					'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
 					'content'			=>	sprintf(
-						__( '<p>Remember to <a href="%s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
+						__( '<p>Remember to <a href="%1$s">enter your plugin license code</a> for the WP RSS Aggregator <strong>%2$s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
 						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
 						$_addonName
 					)
