@@ -160,6 +160,15 @@ class License {
         return $this->_addonCode;
     }
 
+    /**
+     * Checks if the license is inactive.
+     * 
+     * @return boolean True if the license is inactive, false if otherwise.
+     */
+    public function isInactive() {
+    	return $this->getStatus() === Status::INACTIVE || $this->getStatus() === Status::SITE_INACTIVE;
+    }
+
 	/**
 	 * Gets the default values for all properties of the license.
 	 *
