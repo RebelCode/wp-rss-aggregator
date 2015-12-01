@@ -75,10 +75,10 @@ class Settings {
 		$noticesCollection = wprss_admin_notice_get_collection();
 		foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
 			$_notice = array(
-				'id'				=>	sprintf( 'invalid_licenses_exist_%s', $_addonId ),
+				'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
 				'notice_type'		=>	'error',
-				'content'			=>	$this->getInvalidLicenseNoticeContent( $_addonId ),
-				'condition'			=>	array( array( $this, 'invalidLicensesNoticeCondition' ) ),
+				'content'			=>	$this->getEmptyLicenseNoticeContent( $_addonId ),
+				'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
 				'addon'				=>	$_addonId
 			);
 			$noticesCollection->add_notice( $_notice );
@@ -92,10 +92,10 @@ class Settings {
 	 *
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
-	public function invalidLicensesNoticeCondition( $args ) {
+	public function emptyLicenseKeyNoticeCondition( $args ) {
 		if ( isset( $args['addon'] ) ) return false;
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && $license->getStatus() !== Status::VALID;
+		return $license !== null && strlen( $license->getKey() ) === 0;
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Settings {
 	 * @param  string $addonId The ID of addon that has the invalid license.
 	 * @return string
 	 */
-	public function getInvalidLicenseNoticeContent( $addonId ) {
+	public function getEmptyLicenseNoticeContent( $addonId ) {
 		$addons = $this->getManager()->getAddons();
 		$addonName = $addons[ $addonId ];
 		return sprintf(
