@@ -86,6 +86,18 @@ class Settings {
 						$_addonName
 					)
 				)
+			)->add_notice(
+				array(
+					'id'				=>	sprintf( 'saved_inactive_license_notice_%s', $_addonId ),
+					'addon'				=>	$_addonId,
+					'notice_type'		=>	'error',
+					'condition'			=>	array( array( $this, 'savedInactiveLicenseNoticeCondition' ) ),
+					'content'			=>	sprintf(
+						__( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
+						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+						$_addonName
+					)
+				)
 			);
 		}
 
@@ -102,6 +114,19 @@ class Settings {
 		$license = $this->getManager()->getLicense( $args['addon'] );
 		return $license !== null && strlen( $license->getKey() ) === 0;
 	}
+
+
+	/**
+	 * Condition callback for the "inactive saved license" notice.
+	 *
+	 * @return boolean True if the notice is to be shown, false if not.
+	 */
+	public function savedInactiveLicenseNoticeCondition( $args ) {
+		if ( ! isset( $args['addon'] ) ) return false;
+		$license = $this->getManager()->getLicense( $args['addon'] );
+		return $license !== null && strlen( $license->getKey() ) > 0 && $license->isInactive();
+	}
+
 
 	/**
 	 * Registers the WordPress settings.
