@@ -188,6 +188,16 @@ class License {
     }
 
     /**
+     * Alias method for License::isValid(). Checks if the license is active.
+     *
+     * @uses Aventura\Wprss\Core\Licensing\License::isValid()
+     * @return boolean True if the license is active, false if otherwise.
+     */
+    public function isActive() {
+    	return $this->isValid();
+    }
+
+    /**
      * Checks if the license is inactive.
      * 
      * @return boolean True if the license is inactive, false if otherwise.
