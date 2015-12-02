@@ -179,6 +179,15 @@ class License {
     }
 
     /**
+     * Checks if the license is expired.
+     * 
+     * @return boolean True if the license is expired, false if otherwise.
+     */
+    public function isExpired() {
+    	return $this->getStatus() === Status::EXPIRED;
+    }
+
+    /**
      * Checks if the license is inactive.
      * 
      * @return boolean True if the license is inactive, false if otherwise.
