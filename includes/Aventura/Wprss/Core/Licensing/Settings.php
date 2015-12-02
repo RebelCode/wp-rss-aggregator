@@ -74,6 +74,7 @@ class Settings {
 	protected function _initNotices() {
 		$noticesCollection = wprss_admin_notice_get_collection();
 		foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
+			$_year = date('Y');
 			$noticesCollection->add_notice(
 				array(
 					'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
@@ -94,6 +95,18 @@ class Settings {
 					'condition'			=>	array( array( $this, 'savedInactiveLicenseNoticeCondition' ) ),
 					'content'			=>	sprintf(
 						__( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
+						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+						$_addonName
+					)
+				)
+			)->add_notice(
+				array(
+					'id'				=>	sprintf( 'soon_to_expire_license_notice_%s_%s', $_addonId, $_year ),
+					'addon'				=>	$_addonId,
+					'notice_type'		=>	'error',
+					'condition'			=>	array( array( $this, 'soonToExpireLicenseNoticeCondition' ) ),
+					'content'			=>	sprintf(
+						__( '<p>The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.</p>', WPRSS_TEXT_DOMAIN ),
 						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
 						$_addonName
 					)
@@ -125,6 +138,17 @@ class Settings {
 		if ( ! isset( $args['addon'] ) ) return false;
 		$license = $this->getManager()->getLicense( $args['addon'] );
 		return $license !== null && strlen( $license->getKey() ) > 0 && $license->isInactive();
+	}
+
+
+	/**
+	 * Condition callback for the "soon to expire license" notice.
+	 *
+	 * @return boolean True if the notice is to be shown, false if not.
+	 */
+	public function soonToExpireLicenseNoticeCondition( $args ) {
+		if ( ! isset( $args['addon'] ) ) return false;
+		return $this->getManager()->isLicenseExpiring($args['addon']);
 	}
 
 
