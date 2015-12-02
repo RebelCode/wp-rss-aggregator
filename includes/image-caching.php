@@ -20,8 +20,12 @@ class WPRSS_Image_Cache {
 	 * @since 4.6.10
 	 */
 	public function __construct() {
+		$this->_construct();
 	}
 
+	protected function _construct() {
+
+	}
 
 	/**
 	 * Retrieve the singleton instance of this class.

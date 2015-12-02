@@ -11,7 +11,7 @@
     /**
      * Returns whether or not the feed source will forcefully fetch the next fetch,
      * ignoring whether or not it is paused or not.
-     * 
+     *
      * @param $source_id    The ID of the feed soruce
      * @return boolean
      * @since 3.7
@@ -74,13 +74,14 @@
         $args = apply_filters(
             'wprss_get_feed_items_for_source_args',
             array(
-                'post_type'     => 'wprss_feed_item',
-                'cache_results' => false,   // Disable caching, used for one-off queries
-                'no_found_rows' => true,    // We don't need pagination, so disable it
-                'posts_per_page'=> -1,
-                'orderby'       => 'date',
-                'order'         => 'DESC',
-                'meta_query'    => array(
+                'post_type'             => 'wprss_feed_item',
+                'cache_results'         => false,   // Disable caching, used for one-off queries
+                'no_found_rows'         => true,    // We don't need pagination, so disable it
+                'posts_per_page'        => -1,
+                'ignore_sticky_posts'   => 'true',
+                'orderby'               => 'date',
+                'order'                 => 'DESC',
+                'meta_query'            => array(
                     array(
                         'key'       => 'wprss_feed_id',
                         'value'     => $source_id,
@@ -195,11 +196,11 @@
      * Returns the image of the feed.
      * The reason this function exists is for add-ons to be able to detect if the plugin core
      * supports feed image functionality through a simple function_exists() call.
-     * 
+     *
      * @param $source_id The ID of the feed source
      * @return string The link to the feed image
      * @since 1.0
-     */ 
+     */
     function wprss_get_feed_image( $source_id ) {
         return get_post_meta( $source_id, 'wprss_feed_image', true );
     }
@@ -215,7 +216,7 @@
      */
     function wprss_updated_feed_source( $post_ID, $post_after, $post_before ) {
         // Check if the post is a feed source and is published
-        
+
         if ( ( $post_after->post_type == 'wprss_feed' ) && ( $post_after->post_status == 'publish' ) ) {
 
             if ( isset( $_POST['wprss_url'] ) && !empty( $_POST['wprss_url'] ) ) {
@@ -305,7 +306,7 @@
                 if ( isset( $json['id'] ) ) {
                     # Generate the final URL for this feed and update the post meta
                     $final_url = "http://www.facebook.com/feeds/page.php?format=rss20&id=" . $json['id'];
-                    update_post_meta( $post_id, 'wprss_url', $final_url, $url );   
+                    update_post_meta( $post_id, 'wprss_url', $final_url, $url );
                 }
             }
         }
@@ -389,7 +390,7 @@
     function wprss_flag_feed_as_idle( $feed_ID ) {
         delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
     }
-    
+
 
 	/**
      * Returns whether or not the feed source is updating.
@@ -401,7 +402,7 @@
     function wprss_is_feed_source_updating( $id ) {
         // Get the 'updating' meta field
         $is_updating_meta = get_post_meta( $id, 'wprss_feed_is_updating', TRUE );
-        
+
         // Check if the feed has the 'updating' meta field set
         if ( $is_updating_meta === '' ) {
             // If not, then the feed is not updating
@@ -449,7 +450,7 @@
         if ( $is_deleting_meta === '' ) {
             return FALSE;
         }
-		
+
 		$diff = time() - $is_deleting_meta;
 
         $items = wprss_get_feed_items_for_source( $id );
@@ -476,7 +477,7 @@
     /**
      * Returns true if the feed item is older than the given timestamp,
      * false otherwise;
-     * 
+     *
      * @since 3.8
      */
     function wprss_is_feed_item_older_than( $id, $timestamp ) {
@@ -492,7 +493,7 @@
 
     /**
      * Returns the maximum age setting for a feed source.
-     * 
+     *
      * @since 3.8
      */
     function wprss_get_max_age_for_feed_source( $source_id ) {
@@ -546,7 +547,7 @@
                 if ( $feed_items-> have_posts() ) {
                     // Extend the timeout time limit for the deletion of the feed items
                     $time_limit = wprss_get_item_import_time_limit();
-                    wprss_log( "Extended execution time limit by {$time_limit}s for imported items truncation.", null, WPRSS_LOG_LEVEL_INFO );
+                    wprss_log( "Extended execution time limit by {$time_limit}s for imported items truncation.", null, WPRSS_LOG_LEVEL_SYSTEM );
                     set_time_limit( $time_limit );
                     // For each feed item
                     while ( $feed_items->have_posts() ) {
@@ -555,7 +556,7 @@
                         if ( wprss_is_feed_item_older_than( get_the_ID(), $max_age ) === TRUE ){
                             // Delete the post
                             wp_delete_post( get_the_ID(), true );
-                        }   
+                        }
                     }
                     // Reset feed items query data
                     wp_reset_postdata();
@@ -590,7 +591,7 @@
         $threshold = $general_settings['limit_feed_items_db'];
         $post_types = apply_filters( 'wprss_truncation_post_types', array( 'wprss_feed_item' ) );
         $post_types_str = array_map( 'wprss_return_as_string', $post_types );
-        
+
         $post_type_list = implode( ',' , $post_types_str );
 
         // Query post type
@@ -601,7 +602,7 @@
             AND post_status = 'publish'
             ORDER BY post_modified DESC
         ";
-        
+
         $results = $wpdb->get_results( $query );
 
         // Check if there are any results
@@ -624,8 +625,8 @@
     add_filter( 'wprss_insert_post_item_conditionals', 'wprss_check_feed_item_date_on_import', 2, 3 );
     /**
      * When a feed item is imported, it's date is compared against the max age of it's feed source.
-     * 
-     * 
+     *
+     *
      * @since 3.8
      */
     function wprss_check_feed_item_date_on_import( $item, $source, $permalink ){
@@ -642,7 +643,7 @@
 
         // Calculate the age difference
         $difference = $age - $max_age;
-        
+
         if ( $difference <= 0 ) {
             return NULL;
         } else {
@@ -660,13 +661,13 @@
         wp_schedule_single_event( time(), 'wprss_delete_all_feed_items_hook' );
 		set_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING, true );
     }
-	
-	
-	
+
+
+
 	function wprss_schedule_reimport_all($deleted_ids) {
 		if( !get_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING ) )
 			return;
-		
+
 		wprss_log( 'Re-import scheduled...', __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM);
 		delete_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING );
 		wprss_fetch_insert_all_feed_items( TRUE );
