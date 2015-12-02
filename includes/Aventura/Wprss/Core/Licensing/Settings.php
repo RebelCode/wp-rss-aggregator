@@ -41,7 +41,7 @@ class Settings {
 	public function __construct() {
 		$this->_setManager( wprss_licensing_get_manager() );
 		// Only load notices if on admin side
-		if ( is_admin() ) {
+		if ( is_main_site() && is_admin() ) {
 			$this->_initNotices();
 		}
 	}
