@@ -170,6 +170,15 @@ class License {
     }
 
     /**
+     * Checks if the license is invalid.
+     * 
+     * @return boolean True if the license is invalid, false if otherwise.
+     */
+    public function isInvalid() {
+    	return $this->getStatus() === Status::INVALID;
+    }
+
+    /**
      * Checks if the license is inactive.
      * 
      * @return boolean True if the license is inactive, false if otherwise.
