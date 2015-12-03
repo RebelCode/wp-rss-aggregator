@@ -3,7 +3,7 @@
 /**
  * Gets the singleton instance of the Settings class, creating it if it doesn't exist.
  *
- * @since [*next-version*]
+ * @since 4.7.8
  * @return Aventura\Wprss\Core\Licensing\Settings
  */
 function wprss_licensing_get_settings_controller() {
@@ -17,7 +17,7 @@ function wprss_licensing_get_settings_controller() {
 /**
  * Gets the singleton instance of the Manager class, creating it if it doesn't exist.
  *
- * @since [*next-version*]
+ * @since 4.7.8
  * @return Aventura\Wprss\Core\Licensing\Manager
  */
 function wprss_licensing_get_manager() {
@@ -35,7 +35,7 @@ function wprss_licensing_get_manager() {
 /**
  * Gets the singleton instance of the AjaxController class, creating it if it doesn't exist.
  *
- * @since [*next-version*]
+ * @since 4.7.8
  * @return Aventura\Wprss\Core\Licensing\AjaxController
  */
 function wprss_licensing_get_ajax_controller() {

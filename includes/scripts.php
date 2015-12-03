@@ -29,6 +29,7 @@
         if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'wprss-aggregator' || $_GET['page'] == 'wprss-aggregator-settings'
             || $_GET['page'] == 'wprss-import-export-settings' || $_GET['page'] == 'wprss-debugging' || $_GET['page'] == 'wprss-addons' ) ) {
             wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
+            wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
         }
 
         if ( is_admin() ) {

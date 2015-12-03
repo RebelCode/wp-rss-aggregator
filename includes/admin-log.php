@@ -204,6 +204,30 @@
 
 
 	/**
+	 * Downloads the log file.
+	 *
+	 * @since 4.7.8
+	 */
+	function wprss_download_log() {
+		if ( !file_exists( wprss_log_file() ) ) {
+			wprss_clear_log();
+		}
+		else {
+			$file = wprss_log_file();
+		    header( 'Content-Description: File Transfer' );
+			header( 'Content-type: text/plain' );
+			header( 'Content-Disposition: attachment; filename="error-log.txt"' );
+		    header( 'Expires: 0' );
+		    header( 'Cache-Control: must-revalidate' );
+		    header( 'Pragma: public' );
+		    header( 'Content-Length: ' . filesize( $file ) );
+		    readfile( $file );
+		    exit;
+		}		
+	}	
+
+
+	/**
 	 * Adds an empty line at the end of the log file.
 	 *
 	 * This function is called on wordpress shutdown, if at least one new line

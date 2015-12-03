@@ -7,7 +7,7 @@ use \Aventura\Wprss\Core\Licensing\License\Status;
  * Manager class for license handling.
  *
  * @version 1.0
- * @since [*next-version*]
+ * @since 4.7.8
  */
 class Manager {
 
@@ -263,7 +263,7 @@ class Manager {
 	/**
 	 * Gets all licenses with the given status.
 	 *
-	 * @param  string  $status   The status to search for.
+	 * @param  mixed  $status    The status to search for, or an array of statuses.
 	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
 	 *                           If false, the method will search for licenses with the given status.
 	 *                           Default: false
@@ -272,7 +272,10 @@ class Manager {
 	public function getLicensesWithStatus( $status, $negation = false ) {
 		$licenses = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
-			if ( $_license->getStatus() === $status xor $negation === true ) {
+			$_isStatus = is_array($status)
+					? in_array($_license->getStatus())
+					: $_license->getStatus() === $status;
+			if ( $_isStatus xor $negation === true ) {
 				$licenses[ $_addonId ] = $_license;
 			}
 		}
@@ -283,7 +286,7 @@ class Manager {
 	/**
 	 * Checks if a license with the given status exists, stopping at the first match.
 	 *
-	 * @param  string  $status   The status to search for.
+	 * @param  mixed  $status    The status to search for, or an array of statuses.
 	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
 	 *                           If false, the method will search for licenses with the given status.
 	 *                           Default: false
@@ -291,6 +294,23 @@ class Manager {
 	 */
 	public function licenseWithStatusExists( $status, $negation = false ) {
 		return count( $this->getLicensesWithStatus( $status, $negation ) ) > 0;
+	}
+
+
+	/**
+	 * Gets inactive licenses.
+	 *
+	 * @uses self::getLicensesWithStatus
+	 * @return array
+	 */
+	public function getInactiveLicenses() {
+		$licenses = array();
+		foreach ( $this->_licenses as $_addonId => $_license ) {
+			if ($_license->isInactive()) {
+				$licenses[ $_addonId ] = $_license;
+			}
+		}
+		return $licenses;
 	}
 
 
