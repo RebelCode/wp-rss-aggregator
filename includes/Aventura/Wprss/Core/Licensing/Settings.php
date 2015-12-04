@@ -148,7 +148,8 @@ class Settings {
 	 */
 	public function soonToExpireLicenseNoticeCondition( $args ) {
 		if ( ! isset( $args['addon'] ) ) return false;
-		return $this->getManager()->isLicenseExpiring($args['addon']);
+		$license = $this->getManager()->getLicense( $args['addon'] );
+		return $license->isValid() && $this->getManager()->isLicenseExpiring($args['addon']);
 	}
 
 
