@@ -88,6 +88,12 @@ function wprss_licensing() {
 
         // Action for hooking after licensing has been initialized
         do_action( 'wprss_licensing_init' );
+
+        // Backwards compatibility with old licensing lib
+        // This ensures that, if an addon is loading an older version of the licensing library, the old method for initializing the updaters is called.
+        if ( method_exists($manager, 'initUpdaterInstances') ) {
+            add_action( 'admin_init', array($manager, 'initUpdaterInstances') );
+        }
     }
 
     return $licensing;
