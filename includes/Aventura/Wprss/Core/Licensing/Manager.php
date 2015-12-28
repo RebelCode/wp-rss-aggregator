@@ -327,18 +327,33 @@ class Manager {
 		// Prepare the list
 		$expiringLicences = array();
 		// Iterate all licenses
-		foreach ( $this->_licenses as $addonId => $license ) {
-			// Get expiry
-			$expires = $license->getExpiry();
-			// Split using space and get first part only (date only)
-			$parts = explode( ' ', $expires );
-			$dateOnly = strtotime( $parts[0] );
-			// Check if the expiry date is zero, or is within the expiration notice period
-			if ( $dateOnly == 0 || $dateOnly < $ste ) {
-				$expiringLicences[ $addonId ] = $license;
+		foreach ( $this->_licenses as $_addonId => $_license ) {
+			if ($this->isLicenseExpiring($_addonId)) {
+				$expiringLicences[ $addonId ] = $_license;
 			}
 		}
 		return $expiringLicences;
+	}
+
+
+	/**
+	 * Checks if a license is about to expire, according to the expiration period.
+	 * 
+	 * @param  string  $addonId The ID of the addon whose license is to be checked for expiry.
+	 * @return boolean          True if the addon's license is about to expire, false if the addon license does not exist or is not about to expire.
+	 */
+	public function isLicenseExpiring( $addonId ) {
+		if (!$this->licenseExists($addonId)) {
+			return false;
+		}
+		$license = $this->getLicense($addonId);
+		// Get expiry
+		$expires = $license->getExpiry();
+		// Split using space and get first part only (date only)
+		$parts = explode( ' ', $expires );
+		$dateOnly = strtotime( $parts[0] );
+		// Check if the expiry date is zero, or is within the expiration notice period
+		return $dateOnly == 0 || $dateOnly < $this->getSteTimestamp();
 	}
 
 
