@@ -87,7 +87,7 @@ function wprss_licensing() {
         $licensing = (object) compact( 'manager', 'settingsController', 'ajaxController' );
 
         // Action for hooking after licensing has been initialized
-        do_action( 'wprss_licensing_init' );
+        do_action( 'wprss_init_licensing' );
 
         // Backwards compatibility with old licensing lib
         // This ensures that, if an addon is loading an older version of the licensing library, the old method for initializing the updaters is called.
