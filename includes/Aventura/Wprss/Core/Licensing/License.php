@@ -161,9 +161,9 @@ class License {
     }
 
     /**
-     * Checks if the license is valid.
+     * Checks if the license status is valid.
      * 
-     * @return boolean True if the license is valid, false if otherwise.
+     * @return boolean True if the status is valid, false otherwise.
      */
     public function isValid() {
     	return $this->getStatus() === Status::VALID;
