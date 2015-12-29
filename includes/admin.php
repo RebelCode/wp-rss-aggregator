@@ -115,30 +115,3 @@
         }
         return $action_links;
     }
-
-
-
-    if ( is_main_site() ) {
-        add_action( 'admin_notices', 'wprss_notify_inactive_licenses' );
-    }
-    /**
-     * Shows a notification that tells the user that there are saved licenses that have not been activated.
-     *
-     * @since 3.8.1
-     */
-    function wprss_notify_inactive_licenses() {
-        // Check if a transient to show the notice is set
-        $transient = get_transient( 'wprss_notify_inactive_licenses' );
-        // If it is not set, then do nothing and return
-        if ( $transient === FALSE ) return;
-        // If it is set, delete it
-        delete_transient( 'wprss_notify_inactive_licenses' );
-
-        // Show the notice ?>
-        <div class="wprss-license-notice updated">
-		<?php echo wpautop( sprintf( __('<b>WP RSS Aggregator</b>:'
-			. ' There are saved licenses that have not yet been activated. Go to the'
-			. ' <a href="%1$s">License page</a> to activate them.', WPRSS_TEXT_DOMAIN ), admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ) ?>
-        </div>
-        <?php
-    }

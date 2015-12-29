@@ -62,25 +62,39 @@ function wprss_get_addons($noCache = false) {
 /**
  * Hooks the licensing system into WordPress.
  */
-function wprss_init_licensing() {
-    // Get licensing class instances
-    $manager = wprss_licensing_get_manager();
-    $settingsController = wprss_licensing_get_settings_controller();
-    $ajaxController = wprss_licensing_get_ajax_controller();
+function wprss_licensing() {
+    static $licensing = null;
 
-    // Set up Ajax Controller pointers
-    $ajaxController->setManager( $manager );
-    $ajaxController->setSettingsController( $settingsController );
+    if ( is_null( $licensing ) ) {
+        // Get licensing class instances
+        $manager = wprss_licensing_get_manager();
+        $settingsController = wprss_licensing_get_settings_controller();
+        $ajaxController = wprss_licensing_get_ajax_controller();
 
-    // Licensing Manager hooks
-    add_action( 'admin_init', array( $manager, 'initUpdaterInstances' ) );
+        // Set up Ajax Controller pointers
+        $ajaxController->setManager( $manager );
+        $ajaxController->setSettingsController( $settingsController );
 
-    // Licensing Ajax Controller hooks
-    add_action( 'wp_ajax_wprss_ajax_manage_license', array( $ajaxController, 'handleAjaxManageLicense' ) );
-    add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $ajaxController, 'handleAjaxFetchLicense' ) );
+        // Licensing Ajax Controller hooks
+        add_action( 'wp_ajax_wprss_ajax_manage_license', array( $ajaxController, 'handleAjaxManageLicense' ) );
+        add_action( 'wp_ajax_wprss_ajax_fetch_license', array( $ajaxController, 'handleAjaxFetchLicense' ) );
 
-    // Licensing Settings Controller hooks
-    add_action( 'wprss_admin_init', array( $settingsController, 'registerSettings' ), 100 );
-    add_action( 'admin_init', array( $settingsController, 'handleLicenseStatusChange' ), 10 );
-    add_action( 'wprss_settings_license_key_is_valid', array( $settingsController, 'validateLicenseKeyForSave' ) );
+        // Licensing Settings Controller hooks
+        add_action( 'wprss_admin_init', array( $settingsController, 'registerSettings' ), 100 );
+        add_action( 'admin_init', array( $settingsController, 'handleLicenseStatusChange' ), 10 );
+        add_action( 'wprss_settings_license_key_is_valid', array( $settingsController, 'validateLicenseKeyForSave' ) );
+
+        $licensing = (object) compact( 'manager', 'settingsController', 'ajaxController' );
+
+        // Action for hooking after licensing has been initialized
+        do_action( 'wprss_licensing_init' );
+
+        // Backwards compatibility with old licensing lib
+        // This ensures that, if an addon is loading an older version of the licensing library, the old method for initializing the updaters is called.
+        if ( method_exists($manager, 'initUpdaterInstances') ) {
+            add_action( 'admin_init', array($manager, 'initUpdaterInstances') );
+        }
+    }
+
+    return $licensing;
 }

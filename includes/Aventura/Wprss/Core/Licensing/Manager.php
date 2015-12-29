@@ -263,7 +263,7 @@ class Manager {
 	/**
 	 * Gets all licenses with the given status.
 	 *
-	 * @param  string  $status   The status to search for.
+	 * @param  mixed  $status    The status to search for, or an array of statuses.
 	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
 	 *                           If false, the method will search for licenses with the given status.
 	 *                           Default: false
@@ -272,7 +272,10 @@ class Manager {
 	public function getLicensesWithStatus( $status, $negation = false ) {
 		$licenses = array();
 		foreach ( $this->_licenses as $_addonId => $_license ) {
-			if ( $_license->getStatus() === $status xor $negation === true ) {
+			$_isStatus = is_array($status)
+					? in_array($_license->getStatus())
+					: $_license->getStatus() === $status;
+			if ( $_isStatus xor $negation === true ) {
 				$licenses[ $_addonId ] = $_license;
 			}
 		}
@@ -283,7 +286,7 @@ class Manager {
 	/**
 	 * Checks if a license with the given status exists, stopping at the first match.
 	 *
-	 * @param  string  $status   The status to search for.
+	 * @param  mixed  $status    The status to search for, or an array of statuses.
 	 * @param  boolean $negation If true, the method will search for licenses that do NOT have the given status.
 	 *                           If false, the method will search for licenses with the given status.
 	 *                           Default: false
@@ -291,6 +294,23 @@ class Manager {
 	 */
 	public function licenseWithStatusExists( $status, $negation = false ) {
 		return count( $this->getLicensesWithStatus( $status, $negation ) ) > 0;
+	}
+
+
+	/**
+	 * Gets inactive licenses.
+	 *
+	 * @uses self::getLicensesWithStatus
+	 * @return array
+	 */
+	public function getInactiveLicenses() {
+		$licenses = array();
+		foreach ( $this->_licenses as $_addonId => $_license ) {
+			if ($_license->isInactive()) {
+				$licenses[ $_addonId ] = $_license;
+			}
+		}
+		return $licenses;
 	}
 
 
@@ -307,18 +327,33 @@ class Manager {
 		// Prepare the list
 		$expiringLicences = array();
 		// Iterate all licenses
-		foreach ( $this->_licenses as $addonId => $license ) {
-			// Get expiry
-			$expires = $license->getExpiry();
-			// Split using space and get first part only (date only)
-			$parts = explode( ' ', $expires );
-			$dateOnly = strtotime( $parts[0] );
-			// Check if the expiry date is zero, or is within the expiration notice period
-			if ( $dateOnly == 0 || $dateOnly < $ste ) {
-				$expiringLicences[ $addonId ] = $license;
+		foreach ( $this->_licenses as $_addonId => $_license ) {
+			if ($this->isLicenseExpiring($_addonId)) {
+				$expiringLicences[ $addonId ] = $_license;
 			}
 		}
 		return $expiringLicences;
+	}
+
+
+	/**
+	 * Checks if a license is about to expire, according to the expiration period.
+	 * 
+	 * @param  string  $addonId The ID of the addon whose license is to be checked for expiry.
+	 * @return boolean          True if the addon's license is about to expire, false if the addon license does not exist or is not about to expire.
+	 */
+	public function isLicenseExpiring( $addonId ) {
+		if (!$this->licenseExists($addonId)) {
+			return false;
+		}
+		$license = $this->getLicense($addonId);
+		// Get expiry
+		$expires = $license->getExpiry();
+		// Split using space and get first part only (date only)
+		$parts = explode( ' ', $expires );
+		$dateOnly = strtotime( $parts[0] );
+		// Check if the expiry date is zero, or is within the expiration notice period
+		return $dateOnly == 0 || $dateOnly < $this->getSteTimestamp();
 	}
 
 
@@ -487,41 +522,36 @@ class Manager {
 
 
 	/**
-	 * Sets up the EDD updater for all registered add-ons.
-	 *
-	 * @since 4.6.3
+	 * Creates an updater instance for an addon.
+	 * 
+	 * @param  string $id       The ID of the addon.
+	 * @param  string $itemName The name of the addon as registered in EDD on our servers.
+	 * @param  string $version  The current version of the addon.
+	 * @param  string $path     The path to the addon's main file.
+	 * @param  string $storeUrl The URL of the server that handles the licensing and serves the updates.
+	 * @return boolean True if the updater was initialized, false on failure due to an invalid license.
 	 */
-	public function initUpdaterInstances() {
-		// Stop if doing autosave or ajax
-		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) return;
-
-		// Get all registered addons
-		$addons = $this->getAddons();
-
-		// Iterate the addons
-		foreach( $addons as $id => $name ) {
-			// Prepare the data
-			$license = $this->getLicense( $id );
-			// If the addon doesn't have a license or the license is not valid, skip this addon
-			if ( $license === null || ! $license->isValid() ) continue;
-			$uid = strtoupper( $id );
-			$name = constant("WPRSS_{$uid}_SL_ITEM_NAME");
-			$version = constant("WPRSS_{$uid}_VERSION");
-			$path = constant("WPRSS_{$uid}_PATH");
-            $storeUrl = defined( "WPRSS_{$uid}_SL_STORE_URL")
-                    ? constant( "WPRSS_{$uid}_SL_STORE_URL" )
-                    : WPRSS_SL_STORE_URL;
-
-			// Set up an updater and register the instance
-			$this->_setUpdaterInstance(
-				$id,
-				$this->newUpdater($storeUrl, $path, array(
-					'version'   =>	$version,				// current version number
-					'license'   =>	$license,               // license key (used get_option above to retrieve from DB)
-					'item_name' =>	$name,					// name of this plugin
-				))
-			);
+	public function initUpdaterInstance($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
+		// Prepare the data
+		$license = $this->getLicense( $id );
+		// If the addon doesn't have a license or the license is not valid, do not set the updater.
+		// Returns false to indicate this failure.
+		if ( $license === null || $license->getStatus() !== Status::VALID ) {
+			return false;
 		}
+
+		// Create an updater
+		$updater = $this->newUpdater($storeUrl, $path, array(
+			'version'   =>	$version,				// current version number
+			'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
+			'item_name' =>	$itemName,				// name of this plugin
+		));
+
+		// Register the updater
+		$this->_setUpdaterInstance($id, $updater);
+
+		// Return true to indicate success
+		return true;
 	}
 
 
