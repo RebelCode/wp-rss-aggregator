@@ -193,6 +193,10 @@ The full documentation section can be found on the [WP RSS Aggregator website](h
 
 == Changelog ==
 
+= 4.8 (2015-12-30) =
+* Fixed bug: Licensing notices will now be displayed again.
+* Enhanced: Major licensing system improvements.
+
 = 4.7.8 (2015-11-18) =
 * Fixed bug: Sticky posts no longer get deleted when truncating, unless imported from a feed source.
 * Enhanced: Added autoloading and refactored licensing.
