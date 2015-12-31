@@ -160,6 +160,52 @@ class License {
         return $this->_addonCode;
     }
 
+    /**
+     * Checks if the license status is valid.
+     * 
+     * @return boolean True if the status is valid, false otherwise.
+     */
+    public function isValid() {
+    	return $this->getStatus() === Status::VALID;
+    }
+
+    /**
+     * Checks if the license is invalid.
+     * 
+     * @return boolean True if the license is invalid, false if otherwise.
+     */
+    public function isInvalid() {
+    	return $this->getStatus() === Status::INVALID;
+    }
+
+    /**
+     * Checks if the license is expired.
+     * 
+     * @return boolean True if the license is expired, false if otherwise.
+     */
+    public function isExpired() {
+    	return $this->getStatus() === Status::EXPIRED;
+    }
+
+    /**
+     * Alias method for License::isValid(). Checks if the license is active.
+     *
+     * @uses Aventura\Wprss\Core\Licensing\License::isValid()
+     * @return boolean True if the license is active, false if otherwise.
+     */
+    public function isActive() {
+    	return $this->isValid();
+    }
+
+    /**
+     * Checks if the license is inactive.
+     * 
+     * @return boolean True if the license is inactive, false if otherwise.
+     */
+    public function isInactive() {
+    	return $this->getStatus() === Status::INACTIVE || $this->getStatus() === Status::SITE_INACTIVE;
+    }
+
 	/**
 	 * Gets the default values for all properties of the license.
 	 *
