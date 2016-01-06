@@ -584,7 +584,7 @@ class Manager {
 
         $updater = new $updaterClass($url, $path, $params);
         if ( !($updater instanceof Plugin\UpdaterInterface) ) {
-            throw new Exception( sprintf( 'Could not create new updater: class "%1$s" is not an updater', get_class( $updater ) ) );
+            throw new UpdaterInstanceException( get_class( $updater ) );
         }
 
         return $updater;
