@@ -497,16 +497,16 @@ class Manager {
 
         // Request failed
 		if ( is_wp_error( $response ) ) {
-			throw new Exception( sprintf( 'Licensing API request failed: %1$s', $response->get_error_message() ) );
+			throw new HttpException( $response->get_error_message() );
 		}
 
         $body = wp_remote_retrieve_body( $response );
         if ( empty( $body ) ) {
-			throw new Exception( sprintf( 'Licensing API response returned empty' ) );
+			throw new InvalidResponseException( 'Response body is empty' );
         }
 
         if ( ($licenseData = json_decode( $body )) === null ) {
-            throw new Exception( sprintf( 'Licensing API response could not be decoded' ) );
+            throw new InvalidResponseException( sprintf( 'Response body could not be decoded: %1$s', $body ) );
         }
 
         return $licenseData;
