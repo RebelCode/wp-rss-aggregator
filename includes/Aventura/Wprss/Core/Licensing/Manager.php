@@ -1,7 +1,11 @@
 <?php
 
 namespace Aventura\Wprss\Core\Licensing;
-use \Aventura\Wprss\Core\Licensing\License\Status;
+
+use \Aventura\Wprss\Core\Licensing\License\Status,
+	\Aventura\Wprss\Core\Licensing\Api\HttpException,
+	\Aventura\Wprss\Core\Licensing\Api\InvalidResponseException,
+	\Aventura\Wprss\Core\Licensing\Plugin\Updater\InstanceException as UpdaterInstanceException;
 
 /**
  * Manager class for license handling.
