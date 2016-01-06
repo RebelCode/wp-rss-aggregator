@@ -476,7 +476,8 @@ class Manager {
      *  'item_name' are required for a successful call. 'license' can also be
      *  an instance of {@link Aventura\Wprss\Core\Licensing\License}.
      * @return object License data as properties of an stdClass instance.
-     * @throws Exception If request fails, or returns empty response, or response cannot be decoded.
+     * @throws HttpException If request fails or a response is not received.
+     * @throws InvalidResponseException If the response is empty or cannot be decoded.
      */
     public function api($storeUrl, $params) {
         $defaultParams = array(
@@ -578,6 +579,7 @@ class Manager {
      * @param string $path Plugin file.
      * @param array $params Params to requests.
      * @return \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface
+     * @throws \Aventura\Wprss\Core\Licensing\Plugin\Updater\InstanceException If the updater instance class is not a valid updater class.
      */
     public function newUpdater($url, $path, $params = array()) {
 		// Get the updater class
