@@ -444,8 +444,11 @@ class Manager {
                 'license'               => $license,
                 'item_name'             => $itemName,
             ));
-        } catch ( Exception $e ) {
+        } catch ( HttpException $e ) {
 			wprss_log( sprintf( 'Could not retrieve licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
+			return $license->getStatus();
+        } catch ( InvalidResponseException $e ) {
+			wprss_log( sprintf( 'Received invalid licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 			return $license->getStatus();
         }
 
@@ -544,18 +547,23 @@ class Manager {
 			return false;
 		}
 
-		// Create an updater
-		$updater = $this->newUpdater($storeUrl, $path, array(
-			'version'   =>	$version,				// current version number
-			'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
-			'item_name' =>	$itemName,				// name of this plugin
-		));
+		try {
+			// Create an updater
+			$updater = $this->newUpdater($storeUrl, $path, array(
+				'version'   =>	$version,				// current version number
+				'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
+				'item_name' =>	$itemName,				// name of this plugin
+			));
 
-		// Register the updater
-		$this->_setUpdaterInstance($id, $updater);
+			// Register the updater
+			$this->_setUpdaterInstance($id, $updater);
 
-		// Return true to indicate success
-		return true;
+			// Return true to indicate success
+			return true;
+		} catch ( UpdaterInstanceException $e ) {
+			wprss_log( sprintf( 'Could not create new updater:: %1$s', $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
+			return false;
+		}
 	}
 
 
