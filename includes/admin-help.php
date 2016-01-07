@@ -82,7 +82,7 @@
 			if ($_license !== null) {
 				// Save its details
 				$addon = $_addonId;
-				$_license = $license;
+				$license = $_license;
 				// And stop iterating
 				break;
 			}
