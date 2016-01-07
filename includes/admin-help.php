@@ -57,28 +57,44 @@
 	 * @since 4.7
 	 */
 	function wprss_premium_help_display() {
-		// Get the first valid license.
-		$addon = '';
+		// Addon and license object, both detected in the below algorithm that searches for a
+		// premium addon that is activated with a valid license
+		$addon = null;
+		$license = null;
+		// Get license statuses option
 		$statuses = get_option( 'wprss_settings_license_statuses', array() );
-		foreach ( $statuses as $key => $value ) {
-			// If we're looking at a license status key...
-			if ( strpos($key, '_license_status') !== FALSE ) {
-				// ...and the license is valid...
-				if ($value === 'valid') {
-					$addon = substr( $key, 0, strpos( $key, '_license_status' ) );
-					break;
-				}
+		// Iterate all statuses
+		foreach ( $statuses as $_key => $_value ) {
+			// If not a license status key, continue to next
+			$_keyPos = strpos($_key, '_license_status');
+			if ( $_keyPos === FALSE ) {
+				continue;
+			}
+			// If the status is not valid, contine to next
+			if ($_value !== 'valid') {
+				continue;
+			}
+			// Get the addon ID
+			$_addonId = substr( $_key, 0, $_keyPos );
+			// Get the license
+			$_license = wprss_licensing_get_manager()->checkLicense( $_addonId, 'ALL' );
+			// If the license is not null
+			if ($_license !== null) {
+				// Save its details
+				$addon = $_addonId;
+				$_license = $license;
+				// And stop iterating
+				break;
 			}
 		}
 
 		// If we didn't find an add-on with a valid license, show the free help text.
-		if ( $addon === '' ) {
+		if ( $addon === null || $license === null ) {
 			wprss_free_help_display();
 			return;
 		}
 
 		// Get the full license info so we can prefill the name and email
-		$license = wprss_licensing_get_manager()->checkLicense( $addon, 'ALL' );
 		$customer_name = is_object($license) ? $license->customer_name : '';
 		$customer_email = is_object($license) ? $license->customer_email : '';
 
