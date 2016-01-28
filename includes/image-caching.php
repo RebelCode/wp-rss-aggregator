@@ -481,7 +481,7 @@ class WPRSS_Image_Cache {
 		if ( !is_null( $target_path ) )
 			$path = $target_path;
 
-		if ( is_null( $request_timeout ) )
+		if ( !is_null( $request_timeout ) )
 			$timeout = $request_timeout;
 
 		// Absolute path to the cache file
