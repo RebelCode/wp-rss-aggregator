@@ -104,6 +104,13 @@
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-widget/wp-rss-widget.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/widget/'
+            ),
+            'widget'                => array(
+                'title'                 => 'SpinnerChief',
+                'description'           => __("An extension for Feed to Post that allows you to integrate the SpinnerChief article spinner so that the imported content is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/spinnerchief/'
             )
         ));
     }
