@@ -430,9 +430,16 @@ class Manager {
 
 		// Addon Uppercase ID
 		$addonUid = strtoupper( $addonId );
-		// Prepare constants
-		$itemName = constant( "WPRSS_{$addonUid}_SL_ITEM_NAME" );
-		$storeUrl = constant( "WPRSS_{$addonUid}_SL_STORE_URL" );
+		// Prepare constants names
+		$itemNameConstant = sprintf( 'WPRSS_%s_SL_ITEM_NAME', $addonUid );
+		$storeUrlConstant = sprintf( 'WPRSS_%s_SL_STORE_URL', $addonUid );
+		// Check for existence of constants
+		if ( !defined($itemNameConstant) || !defined($storeUrlConstant) ) {
+			return null;
+		}
+		// Get constant values
+		$itemName = constant( $itemNameConstant );
+		$storeUrl = constant( $storeUrlConstant );
 
         try {
             $licenseData = $this->api($storeUrl, array(
