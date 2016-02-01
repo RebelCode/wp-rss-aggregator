@@ -1,7 +1,11 @@
 <?php
 
 namespace Aventura\Wprss\Core\Licensing;
+
 use \Aventura\Wprss\Core\Licensing\License\Status;
+use \Aventura\Wprss\Core\Licensing\Api\RequestException;
+use \Aventura\Wprss\Core\Licensing\Api\ResponseException;
+use \Aventura\Wprss\Core\Licensing\Plugin\UpdaterException;
 
 /**
  * Manager class for license handling.
@@ -447,8 +451,13 @@ class Manager {
                 'license'               => $license,
                 'item_name'             => $itemName,
             ));
-        } catch ( Exception $e ) {
+        }
+        catch ( RequestException $e ) {
 			wprss_log( sprintf( 'Could not retrieve licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
+			return $license->getStatus();
+        }
+        catch ( ResponseException $e ) {
+			wprss_log( sprintf( 'Received invalid licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 			return $license->getStatus();
         }
 
@@ -476,7 +485,8 @@ class Manager {
      *  'item_name' are required for a successful call. 'license' can also be
      *  an instance of {@link Aventura\Wprss\Core\Licensing\License}.
      * @return object License data as properties of an stdClass instance.
-     * @throws Exception If request fails, or returns empty response, or response cannot be decoded.
+     * @throws RequestException If request fails or a response is not received.
+     * @throws ResponseException If the response is empty or cannot be decoded.
      */
     public function api($storeUrl, $params) {
         $defaultParams = array(
@@ -500,16 +510,16 @@ class Manager {
 
         // Request failed
 		if ( is_wp_error( $response ) ) {
-			throw new Exception( sprintf( 'Licensing API request failed: %1$s', $response->get_error_message() ) );
+			throw new RequestException( $response->get_error_message() );
 		}
 
         $body = wp_remote_retrieve_body( $response );
         if ( empty( $body ) ) {
-			throw new Exception( sprintf( 'Licensing API response returned empty' ) );
+			throw new ResponseException( 'Response body is empty' );
         }
 
         if ( ($licenseData = json_decode( $body )) === null ) {
-            throw new Exception( sprintf( 'Licensing API response could not be decoded' ) );
+            throw new ResponseException( sprintf( 'Response body could not be decoded: %1$s', $body ) );
         }
 
         return $licenseData;
@@ -547,18 +557,23 @@ class Manager {
 			return false;
 		}
 
-		// Create an updater
-		$updater = $this->newUpdater($storeUrl, $path, array(
-			'version'   =>	$version,				// current version number
-			'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
-			'item_name' =>	$itemName,				// name of this plugin
-		));
+		try {
+			// Create an updater
+			$updater = $this->newUpdater($storeUrl, $path, array(
+				'version'   =>	$version,				// current version number
+				'license'   =>	$license,				// license key (used get_option above to retrieve from DB)
+				'item_name' =>	$itemName,				// name of this plugin
+			));
 
-		// Register the updater
-		$this->_setUpdaterInstance($id, $updater);
+			// Register the updater
+			$this->_setUpdaterInstance($id, $updater);
 
-		// Return true to indicate success
-		return true;
+			// Return true to indicate success
+			return true;
+		} catch ( UpdaterException $e ) {
+			wprss_log( sprintf( 'Could not create new updater:: %1$s', $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
+			return false;
+		}
 	}
 
 
@@ -573,6 +588,7 @@ class Manager {
      * @param string $path Plugin file.
      * @param array $params Params to requests.
      * @return \Aventura\Wprss\Core\Licensing\Plugin\UpdaterInterface
+     * @throws \Aventura\Wprss\Core\Licensing\Plugin\Updater\InstanceException If the updater instance class is not a valid updater class.
      */
     public function newUpdater($url, $path, $params = array()) {
 		// Get the updater class
@@ -587,7 +603,7 @@ class Manager {
 
         $updater = new $updaterClass($url, $path, $params);
         if ( !($updater instanceof Plugin\UpdaterInterface) ) {
-            throw new Exception( sprintf( 'Could not create new updater: class "%1$s" is not an updater', get_class( $updater ) ) );
+            throw new UpdaterException(sprintf('Could not create updater instance: class "%1$s" is not a valid updater', get_class($updater)));
         }
 
         return $updater;
