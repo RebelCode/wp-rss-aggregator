@@ -2,10 +2,10 @@
 
 namespace Aventura\Wprss\Core\Licensing;
 
-use \Aventura\Wprss\Core\Licensing\License\Status,
-	\Aventura\Wprss\Core\Licensing\Api\HttpException,
-	\Aventura\Wprss\Core\Licensing\Api\InvalidResponseException,
-	\Aventura\Wprss\Core\Licensing\Plugin\Updater\InstanceException as UpdaterInstanceException;
+use \Aventura\Wprss\Core\Licensing\License\Status;
+use \Aventura\Wprss\Core\Licensing\Api\RequestException;
+use \Aventura\Wprss\Core\Licensing\Api\ResponseException;
+use \Aventura\Wprss\Core\Licensing\Plugin\UpdaterException;
 
 /**
  * Manager class for license handling.
@@ -444,10 +444,12 @@ class Manager {
                 'license'               => $license,
                 'item_name'             => $itemName,
             ));
-        } catch ( HttpException $e ) {
+        }
+        catch ( RequestException $e ) {
 			wprss_log( sprintf( 'Could not retrieve licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 			return $license->getStatus();
-        } catch ( InvalidResponseException $e ) {
+        }
+        catch ( ResponseException $e ) {
 			wprss_log( sprintf( 'Received invalid licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 			return $license->getStatus();
         }
@@ -476,8 +478,8 @@ class Manager {
      *  'item_name' are required for a successful call. 'license' can also be
      *  an instance of {@link Aventura\Wprss\Core\Licensing\License}.
      * @return object License data as properties of an stdClass instance.
-     * @throws HttpException If request fails or a response is not received.
-     * @throws InvalidResponseException If the response is empty or cannot be decoded.
+     * @throws RequestException If request fails or a response is not received.
+     * @throws ResponseException If the response is empty or cannot be decoded.
      */
     public function api($storeUrl, $params) {
         $defaultParams = array(
@@ -501,16 +503,16 @@ class Manager {
 
         // Request failed
 		if ( is_wp_error( $response ) ) {
-			throw new HttpException( $response->get_error_message() );
+			throw new RequestException( $response->get_error_message() );
 		}
 
         $body = wp_remote_retrieve_body( $response );
         if ( empty( $body ) ) {
-			throw new InvalidResponseException( 'Response body is empty' );
+			throw new ResponseException( 'Response body is empty' );
         }
 
         if ( ($licenseData = json_decode( $body )) === null ) {
-            throw new InvalidResponseException( sprintf( 'Response body could not be decoded: %1$s', $body ) );
+            throw new ResponseException( sprintf( 'Response body could not be decoded: %1$s', $body ) );
         }
 
         return $licenseData;
@@ -561,7 +563,7 @@ class Manager {
 
 			// Return true to indicate success
 			return true;
-		} catch ( UpdaterInstanceException $e ) {
+		} catch ( UpdaterException $e ) {
 			wprss_log( sprintf( 'Could not create new updater:: %1$s', $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
 			return false;
 		}
@@ -594,7 +596,7 @@ class Manager {
 
         $updater = new $updaterClass($url, $path, $params);
         if ( !($updater instanceof Plugin\UpdaterInterface) ) {
-            throw new UpdaterInstanceException( get_class( $updater ) );
+            throw new UpdaterException(sprintf('Could not create updater instance: class "%1$s" is not a valid updater', get_class($updater)));
         }
 
         return $updater;
