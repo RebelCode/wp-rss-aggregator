@@ -185,6 +185,13 @@ Our complete documentation with FAQs included can be found on [our dedicated doc
 
 == Changelog ==
 
+= 4.8.1 (2016-02-02) =
+* Fixed bug: Some exceptions used to cause fatal errors.
+* Fixed bug: Requests made by image caching used to always have an infinite timeout.
+* Fixed bug: Licensing algorithm used to use constants of inactive plugins, causing fatal error.
+* Enhanced: Visual improvements.
+* Enhanced: Included new Object Oriented code.
+
 = 4.8 (2015-12-30) =
 * Fixed bug: Licensing notices will now be displayed again.
 * Enhanced: Major licensing system improvements.
