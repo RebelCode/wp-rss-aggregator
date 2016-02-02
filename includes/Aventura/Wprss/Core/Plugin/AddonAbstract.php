@@ -5,17 +5,17 @@ namespace Aventura\Wprss\Core\Plugin;
 /**
  * A base class for SpinnerChief add-ons.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class AddonAbstract extends PluginAbstract implements AddonInterface, ComponentInterface
 {
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected $_parent;
 
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function __construct($data, PluginInterface $parent, ComponentFactoryInterface $factory = null)
     {
@@ -26,7 +26,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function getPlugin()
     {
@@ -36,7 +36,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function getParent() {
         return $this->_parent;
@@ -45,7 +45,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected function _setParent(PluginInterface $parent) {
         $this->_parent = $parent;
@@ -55,7 +55,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function getLogger()
     {
@@ -69,7 +69,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function getEventManager()
     {
@@ -83,7 +83,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function getEventPrefix($name = null)
     {
@@ -103,7 +103,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function on($name, $listener, $data = null, $priority = null, $acceptedArgs = null)
     {
@@ -117,7 +117,7 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function event($name, $data = array())
     {

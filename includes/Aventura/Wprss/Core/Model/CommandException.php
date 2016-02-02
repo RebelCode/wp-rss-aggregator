@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * An exception that occurs when doing something related to a command.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class CommandException extends Core\Exception
 {

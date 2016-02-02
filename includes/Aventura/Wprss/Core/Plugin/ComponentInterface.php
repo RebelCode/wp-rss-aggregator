@@ -10,7 +10,7 @@ use Aventura\Wprss\Core;
  * A plugin component is something that is a part of a plugin, and therefore
  * interacts with the plugin's main class, i.e. depends on it.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 interface ComponentInterface
 {
@@ -18,7 +18,7 @@ interface ComponentInterface
     /**
      * Get this component's plugin;
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return \Aventura\Wprss\Core\Plugin\PluginInterface The instance of the add-on,
      *  of which this is a component.
      */
@@ -29,12 +29,12 @@ interface ComponentInterface
      *
      * Called by the environment at a time that is determined to be suitable for the environment.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function hook();
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see Core\Model\LoggerInterface
      */
     public function log($level, $message, array $context = array());
@@ -42,7 +42,7 @@ interface ComponentInterface
     /**
      * Listen to an event.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name The name of the event to listen for.
      * @param callable|string $listener The listener for the event. If string given, the method of this instane
      *  with that name will be used.
@@ -56,7 +56,7 @@ interface ComponentInterface
     /**
      * Raise an event.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name Name of the event.
      * @param array|object $data The event data.
      * @return EventInterface|null An event object that is the result of this event.

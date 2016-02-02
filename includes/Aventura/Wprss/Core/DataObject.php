@@ -5,21 +5,21 @@ namespace Aventura\Wprss\Core;
 /**
  * An object with dynamic getter and setter functionality, as well as array access.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class DataObject implements \ArrayAccess, DataObjectInterface {
 
 	/**
 	 * Object attributes
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @var array
 	 */
 	protected $_data = array();
 
 	/**
 	 * Data changes flag (true after setData|unsetData call)
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @var $_hasDataChange bool
 	 */
 	protected $_hasDataChanges = false;
@@ -27,7 +27,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Original data that was loaded
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @var array
 	 */
 	protected $_origData;
@@ -35,7 +35,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Name of object id field
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @var string
 	 */
 	protected $_idFieldName = null;
@@ -43,7 +43,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Setter/Getter underscore transformation cache
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @var array
 	 */
 	protected static $_underscoreCache = array();
@@ -51,7 +51,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Object delete flag
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @var boolean
 	 */
 	protected $_isDeleted = false;
@@ -62,7 +62,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 * By default is looking for first argument as array and assignes it as object attributes
 	 * This behaviour may change in child classes
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 */
 	public function __construct() {
 		$args = func_get_args();
@@ -80,14 +80,14 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
      * If you want to add some procedures that happen on instantiation,
      * you probably want to override this.
      * 
-     * @since [*next-version*]
+     * @since 4.8.1
 	 */
 	protected function _construct() {}
 
 	/**
 	 * Set _isDeleted flag value (if $isDeleted param is defined) and return current flag value
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param boolean $isDeleted
 	 * @return boolean
 	 */
@@ -103,7 +103,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Get data change status
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @return bool
 	 */
 	public function hasDataChanges()
@@ -114,7 +114,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * set name of object id field
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   string $name
 	 * @return  Wp_Rss_SpinnerChief_Data_Object
 	 */
@@ -127,7 +127,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Retrieve name of object id field
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   string $name
 	 * @return  Wp_Rss_SpinnerChief_Data_Object
 	 */
@@ -139,7 +139,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Retrieve object id
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @return mixed
 	 */
 	public function getId()
@@ -153,7 +153,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Set object id field value
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   mixed $value
 	 * @return  Wp_Rss_SpinnerChief_Data_Object
 	 */
@@ -172,7 +172,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 *
 	 * Retains previous data in the object.
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param array $arr
 	 * @return Wp_Rss_SpinnerChief_Data_Object
 	 */
@@ -192,7 +192,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 *
 	 * If $key is an array, it will overwrite all the data in the object.
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string|array $key
 	 * @param mixed $value
 	 * @return Wp_Rss_SpinnerChief_Data_Object
@@ -214,7 +214,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 *
 	 * $key can be a string only. Array will be ignored.
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @return Wp_Rss_SpinnerChief_Data_Object
 	 */
@@ -238,7 +238,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 * If $index is specified it will assume that attribute data is an array
 	 * and retrieve corresponding member.
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @param string|int $index
 	 * @return mixed
@@ -307,7 +307,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Get value from _data array without parse key
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   string $key
 	 * @return  mixed
 	 */
@@ -319,7 +319,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Set object data with calling setter method
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @param mixed $args
 	 * @return Wp_Rss_SpinnerChief_Data_Object
@@ -334,7 +334,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Get object data by key with calling getter method
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @param mixed $args
 	 * @return mixed
@@ -348,7 +348,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Fast get data or set default if value is not available
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
@@ -365,7 +365,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 * If $key is empty, checks whether there's any data in the object
 	 * Otherwise checks if the specified attribute is set.
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @return boolean
 	 */
@@ -380,7 +380,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Convert object attributes to array
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param  array $arrAttributes array of required attributes
 	 * @return array
 	 */
@@ -405,7 +405,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Public wrapper for __toArray
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param array $arrAttributes
 	 * @return array
 	 */
@@ -417,7 +417,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Set required array elements
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   array $arr
 	 * @param   array $elements
 	 * @return  array
@@ -435,7 +435,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Convert object attributes to XML
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param  array $arrAttributes array of required attributes
 	 * @param string $rootName name of the root element
 	 * @return string
@@ -468,7 +468,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Public wrapper for __toXml
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param array $arrAttributes
 	 * @param string $rootName
 	 * @return string
@@ -481,7 +481,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Convert object attributes to JSON
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param  array $arrAttributes array of required attributes
 	 * @return string
 	 */
@@ -495,7 +495,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Public wrapper for __toJson
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param array $arrAttributes
 	 * @return string
 	 */
@@ -507,7 +507,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Convert object attributes to string
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param  array  $arrAttributes array of required attributes
 	 * @param  string $valueSeparator
 	 * @return string
@@ -523,7 +523,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 *
 	 * Will use $format as an template and substitute {{key}} for attributes
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $format
 	 * @return string
 	 */
@@ -544,7 +544,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Set/Get attribute wrapper
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   string $method
 	 * @param   array $args
 	 * @return  mixed
@@ -576,7 +576,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Attribute getter (deprecated)
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $var
 	 * @return mixed
 	 */
@@ -590,7 +590,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Attribute setter (deprecated)
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $var
 	 * @param mixed $value
 	 */
@@ -603,7 +603,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * checks whether the object is empty
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @return boolean
 	 */
 	public function isEmpty()
@@ -620,7 +620,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	 * $this->setMyField($value) === $this->setData('my_field', $value)
 	 * Uses cache to eliminate unneccessary preg_replace
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $name
 	 * @return string
 	 */
@@ -644,7 +644,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * serialize object attributes
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param   array $attributes
 	 * @param   string $valueSeparator
 	 * @param   string $fieldSeparator
@@ -671,7 +671,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Get object loaded data (original data)
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -686,7 +686,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Initialize object original data
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $key
 	 * @param mixed $data
 	 * @return Wp_Rss_SpinnerChief_Data_Object
@@ -704,7 +704,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Compare object data with original data
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $field
 	 * @return boolean
 	 */
@@ -718,7 +718,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Clears data changes status
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param boolean $value
 	 * @return Wp_Rss_SpinnerChief_Data_Object
 	 */
@@ -731,7 +731,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Present object data as string in debug mode
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param mixed $data
 	 * @param array $objects
 	 * @return string
@@ -762,7 +762,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Implementation of ArrayAccess::offsetSet()
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
 	 * @param string $offset
 	 * @param mixed $value
@@ -775,7 +775,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Implementation of ArrayAccess::offsetExists()
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @link http://www.php.net/manual/en/arrayaccess.offsetexists.php
 	 * @param string $offset
 	 * @return boolean
@@ -788,7 +788,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Implementation of ArrayAccess::offsetUnset()
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
 	 * @param string $offset
 	 */
@@ -800,7 +800,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Implementation of ArrayAccess::offsetGet()
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @link http://www.php.net/manual/en/arrayaccess.offsetget.php
 	 * @param string $offset
 	 * @return mixed
@@ -814,7 +814,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Enter description here...
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $field
 	 * @return boolean
 	 */
@@ -832,7 +832,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Enter description here...
 	 *
-     * @since [*next-version*]
+     * @since 4.8.1
 	 * @param string $field
 	 * @param boolean $flag
 	 * @return Wp_Rss_SpinnerChief_Data_Object
@@ -860,7 +860,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
  *
  * Will capitalize first letters and convert separators if needed
  *
- * @since [*next-version*]
+ * @since 4.8.1
  * @param string $str
  * @param string $destSep
  * @param string $srcSep

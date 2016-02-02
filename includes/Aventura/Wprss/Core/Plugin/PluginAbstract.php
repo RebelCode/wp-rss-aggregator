@@ -7,18 +7,18 @@ use Aventura\Wprss\Core;
 /**
  * The base class for all WP plugins.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
 {
     const CODE = '';
     const VERSION = '';
 
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected $_factory;
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected $_logger;
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected $_eventManager;
 
     /**
@@ -92,7 +92,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return ComponentFactoryInterface
      */
     public function getFactory()
@@ -120,7 +120,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Checks if a plugin is active.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param PluginInterface|string $plugin A plugin instance or basename.
      * @return bool True if the plugin is active; false otherwise.
      */
@@ -159,7 +159,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      *
      * If class name given instead, it will be instantiated.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param ComponentFactoryInterface|string $factory The component factory instance or class name.
      * @return PluginInterface This instance.
      * @throws Exception If factory class specified as classname string does not exist, or is not a factory.
@@ -206,7 +206,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Gets a plugin basename from its absolute path.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $path Absolute path to a plugin's main file.
      * @return string The path to the plugin's main file, relative to the plugins directory.
      */
@@ -217,7 +217,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Gets the logger instance used by this plugin.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return Core\Model\LoggerInterface|null
      */
     public function getLogger()
@@ -228,7 +228,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Sets the logger instance to be used by this plugin.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param Core\Model\LoggerInterface $logger
      * @return Core\Plugin\PluginAbstract
      */
@@ -275,14 +275,14 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * A default no-op implementation. Does nothing. Override in descendants.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function hook() {}
 
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected function _getEventPrefix($name = null)
     {
@@ -298,7 +298,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Sets the event manager for this instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param Core\Model\Event\EventManagerInterface $manager An event manager.
      * @return PluginAbstract This instance.
      */
@@ -311,7 +311,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Retrieves this instance's event manager.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return Core\Model\Event\EventManagerInterface|null The event manager of this instance, or null if not set.
      */
     public function getEventManager()
@@ -322,7 +322,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function on($name, $listener, $data = null, $priority = null, $acceptedArgs = null)
     {
@@ -341,7 +341,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function event($name, $data = array())
     {

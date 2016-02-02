@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core;
 /**
  * A dummy plugin for the Core plugin.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  * @todo Create real Core plugin in the Core plugin.
  */
 class Plugin extends Plugin\PluginAbstract

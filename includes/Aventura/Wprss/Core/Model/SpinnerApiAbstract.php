@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class SpinnerApiAbstract extends Core\Plugin\ComponentAbstract implements SpinnerApiInterface
 {
     /**
      * Spins content using a remote API.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param mixed $content
      * @param array $options Options for spinning.
      * @return mixed
@@ -28,7 +28,7 @@ abstract class SpinnerApiAbstract extends Core\Plugin\ComponentAbstract implemen
     /**
      * Happens immediately before the spin request is sent to the remote API.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param mixed $request The request that is about to be sent.
      * @param string $uri The URI, to which the request is about to be sent.
      * @return mixed The new request, possibly modified
@@ -41,7 +41,7 @@ abstract class SpinnerApiAbstract extends Core\Plugin\ComponentAbstract implemen
     /**
      * Happens immediately after the spin request is sent to the remote API.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param mixed $response The response that was received.
      * @param string $uri The URI, to which the request was sent.
      * @return mixed The new response, possibly modified
@@ -54,7 +54,7 @@ abstract class SpinnerApiAbstract extends Core\Plugin\ComponentAbstract implemen
     /**
      * Sends the spinning query to the remote API.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $uri The URI to send the query to.
      * @param mixed $request The request to send.
      * @return mixed The query response.
@@ -71,7 +71,7 @@ abstract class SpinnerApiAbstract extends Core\Plugin\ComponentAbstract implemen
     /**
      * Does the actual sending of the request.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return mixed The low-level API response.
      */
     abstract protected function _sendRequest($uri, $request);
@@ -79,7 +79,7 @@ abstract class SpinnerApiAbstract extends Core\Plugin\ComponentAbstract implemen
     /**
      * Get the actual URI, to which the spin request will be sent.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string The complete URI, to which a spin request should be sent.
      */
     abstract public function getQueryUri($options = array());

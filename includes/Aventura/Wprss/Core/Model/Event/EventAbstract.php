@@ -5,15 +5,15 @@ namespace Aventura\Wprss\Core\Model\Event;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class EventAbstract extends Core\DataObject implements EventInterface
 {
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected $_name;
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|string $data The event's data. Must have a 'name' index.
      *  If string, will be used as 'name'.
      */
@@ -27,7 +27,7 @@ abstract class EventAbstract extends Core\DataObject implements EventInterface
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      * @throws Core\Exception If 'name' index is not present.
      */
     protected function _construct()
@@ -44,7 +44,7 @@ abstract class EventAbstract extends Core\DataObject implements EventInterface
     /**
      * Get the name of this event
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string
      */
     public function getName()
@@ -57,7 +57,7 @@ abstract class EventAbstract extends Core\DataObject implements EventInterface
      * 
      * If used, a notice will be emitted.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @access protected
      * @param string $name
      * @return EventAbstract This instance.
@@ -71,7 +71,7 @@ abstract class EventAbstract extends Core\DataObject implements EventInterface
     /**
      * Set this event's name.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name
      * @return EventAbstract This instance.
      */

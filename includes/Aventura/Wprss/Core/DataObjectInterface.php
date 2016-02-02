@@ -5,32 +5,32 @@ namespace Aventura\Wprss\Core;
 /**
  * An interface for something that can hold and manipulate arbitrary internal data.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 interface DataObjectInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function getData($key = null);
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function hasData($key = null);
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function unsetData($key = null);
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function setData($key, $value = null);
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function setDataUsingMethod($key);
 }

@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Plugin;
 /**
  * Common functionality for add-on factories.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class AddonFactoryAbstract extends FactoryAbstract implements AddonFactoryInterface
 {

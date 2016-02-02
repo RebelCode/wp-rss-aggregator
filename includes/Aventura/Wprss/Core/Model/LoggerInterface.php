@@ -9,7 +9,7 @@ namespace Aventura\Wprss\Core\Model;
  * This is done for forward-compatibility with monolog/monolog, or any other PSR-compatible logger.
  *
  * @todo When possible, declare Psr\Log as a dependency. Consider using monolog/monolog.
- * @since [*next-version*]
+ * @since 4.8.1
  */
 interface LoggerInterface
 {

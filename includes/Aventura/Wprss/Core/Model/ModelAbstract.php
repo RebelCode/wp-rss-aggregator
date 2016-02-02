@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class ModelAbstract extends Core\DataObject implements ModelInterface
 {
     const PREFIX_OVERRIDE = '!';
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      * of the text array will be translated.
      * If the text is a scalar value other than string, it will be returned unmodified.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|array $text The text to translate, or an array of arguments to a format function.
      * @param string|mixed $translator A translator instance or some kind of identifier.
      * @return string Translated string.
@@ -85,7 +85,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * Translates a string.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $text The text to translate.
      * @param string|mixed $translator A translator instance or some kind of identifier.
      * @return string Translated string.
@@ -97,7 +97,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * Get the namespace of this or other class
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see wprss_get_namespace()
      * @param int|null $depth The depth of the namespace to retrieve.
      *  If omitted, the whole namespace will be retrieved.
@@ -119,7 +119,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * Check if a namespace is a root namespace.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see wprss_is_root_namespace()
      * @param string $namespace The namespace to check.
      * @param bool $isCheckClass If true, and a class or interface with the name of the specified namespace exists,
@@ -138,7 +138,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      * The default namespace is the namespace of this class, of an optional depth which is determined by
      * {@see getBaseNamespaceDepth()}.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string The base namespace of this plugin.
      */
     public function getBaseNamespace()
@@ -154,7 +154,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * Creates an exception instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|array $text The text to translate.
      *  If array, then the result will be formatted with `sprintf()`, using
      *   the first argument as the format string, and any that follow as arguments.
@@ -188,7 +188,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      * This will be based on its absolute or relative class name, or potentially
      * any other identifier that could be mapped to a class name.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see getExceptionClassRoot()
      * @param string|array $className A name of the exception class, or array with namespace parts.
      *  If array, assumed to be root namespace.
@@ -223,7 +223,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      * Unless altered, {@see getExceptionClassName} will process class names
      * relative to the value returned by this method.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string The root namespace of exception class names.
      */
     public function getExceptionClassRoot()
@@ -238,7 +238,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
 
     /**
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $string The string to check.
      * @return bool True if the string had a prefix override, and it was removed;
      *  false otherwise;
@@ -263,7 +263,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      *
      * Useful for accessing data, the default value of which was defined as a class constants.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $key The data key to get.
      * @param mixed|null $default What to return if neither the data key or the constant are defined.
      * @return mixed|null The value of the data key or constant.
@@ -283,7 +283,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * Gets the value of a constant with the specified name from this object's class.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $key The key of the constant, which corresponds to it's name.
      * @param mixed|null $default What to return if the constant with the specified key is not defined.
      * @param bool $toUpper Whether or not to convert the key to uppercase.
@@ -317,7 +317,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      *
      * Override with setEventPrefix().
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|null $name An event name to prefix.
      * @return string This instance's event prefix, or a prefixed name.
      */
@@ -332,7 +332,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * Get the actual event prefix, only.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string
      */
     protected function _getEventPrefix()
@@ -343,7 +343,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function on($name, $listener, $data = null, $priority = null, $acceptedArgs = null)
     {
@@ -353,7 +353,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function event($name, $data = array())
     {

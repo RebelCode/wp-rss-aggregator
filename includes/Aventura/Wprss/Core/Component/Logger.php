@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * A WPRSS-specific implementation, ready to use.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class Logger extends Core\Model\LoggerAbstract
 {
@@ -18,7 +18,7 @@ class Logger extends Core\Model\LoggerAbstract
      *
      * Adds an aditional 'SYSTEM' > 'DEBUG' level conversion.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $level
      * @return int
      */
@@ -34,7 +34,7 @@ class Logger extends Core\Model\LoggerAbstract
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function shouldAddRecord($level, $message, array $context = array())
     {
@@ -44,7 +44,7 @@ class Logger extends Core\Model\LoggerAbstract
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see getLevelThreshold()
      * @param int|string $level A Monolog level to check.
      * @return boolean True if the level should be logged; false otherwise.
@@ -73,7 +73,7 @@ class Logger extends Core\Model\LoggerAbstract
     /**
      * Converts a WPRA level to a Monolog one.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param int"string $level A numeric or string representation of a WPRA level.
      *  If is WPRA-prefixed, i.e. a full constant name, the prefix will be removed.
      * @return int The numeric representation of the corresponding Monolog level.
@@ -102,7 +102,7 @@ class Logger extends Core\Model\LoggerAbstract
     /**
      * Converts a Monolog level to a WPRA one.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|int $level A Monolog level's string or numeric representation.
      * @return int The WPRA level's numeric representation that corresponds to the specified Monolog one.
      * @throws \InvalidArgumentException If no such WPRA level defined.

@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model\Event;
 /**
  * An interface for something that can manage events.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 interface EventManagerInterface
 {
     /**
      * Add an event listener.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name The name of the event.
      * @param callable $listener The listener of the event.
      * @param null|int $priority Priority of the listener. If null, implementation-default will be used.
@@ -23,7 +23,7 @@ interface EventManagerInterface
     /**
      * Raises an event.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name Name of the event.
      * @param array|object $data The event data.
      * @return EventInterface An event object that is the result of this event.

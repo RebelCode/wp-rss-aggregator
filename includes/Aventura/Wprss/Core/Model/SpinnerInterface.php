@@ -5,13 +5,13 @@ namespace Aventura\Wprss\Core\Model;
 /**
  * An interface of something that can spin post data.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 interface SpinnerInterface
 {
     /**
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $content
      */
     public function spin($content);

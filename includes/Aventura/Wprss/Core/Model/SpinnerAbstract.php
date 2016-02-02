@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * Common functionality for spinners.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class SpinnerAbstract extends Core\Plugin\ComponentAbstract implements SpinnerInterface
 {
@@ -17,7 +17,7 @@ abstract class SpinnerAbstract extends Core\Plugin\ComponentAbstract implements 
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return SpinnerApiInterface
      */
     abstract public function getApi();

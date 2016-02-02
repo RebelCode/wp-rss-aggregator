@@ -249,7 +249,7 @@
     /**
      * Returns the Spinnerchief Addon class singleton instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return Aventura\Wprss\Core\Plugin
      */
     function wprss() {
