@@ -246,6 +246,59 @@
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
 
+    /**
+     * Returns the Spinnerchief Addon class singleton instance.
+     *
+     * @since [*next-version*]
+     * @return Aventura\Wprss\Core\Plugin
+     */
+    function wprss() {
+        static $plugin = null;
+
+
+        // One time initialization
+        if (is_null($plugin)) {
+            static $timesCalled = 0;
+            if ($timesCalled) {
+                throw new Exception('WP RSS Aggregator has been initialized recursively');
+            }
+            $timesCalled++;
+
+            /**
+             * Basically, we could just do this here:
+             * Factory::create();
+             *
+             * However, the actual setup allows for even further customization.
+             * In fact, the factory can be substituted by some entirely different factory,
+             * that creates and initializes a different plugin in a different way.
+             */
+
+            $factoryClassName = apply_filters('wprss_core_plugin_factory_class_name',
+                'Aventura\\Wprss\\Core\\Factory');
+
+            if (!class_exists($factoryClassName)) {
+                throw new Aventura\Wprss\Exception(
+                    sprintf('Could not initialize add-on: Factory class "%1$s" does not exist', $factoryClassName));
+            }
+
+            $plugin = call_user_func_array(array($factoryClassName, 'create'), array(array(
+                'basename'      => __FILE__,
+                'name'          => 'WP RSS Aggregator'
+            )));
+        }
+
+        return $plugin;
+    }
+
+    require_once(WPRSS_INC . 'functions.php');
+    try {
+        $instance = wprss();
+    } catch (Exception $e) {
+        if (WP_DEBUG && WP_DEBUG_DISPLAY) {
+            throw $e;
+        }
+        wp_die( $e->getMessage() );
+    }
 
 
     add_action( 'init', 'wprss_init' );
