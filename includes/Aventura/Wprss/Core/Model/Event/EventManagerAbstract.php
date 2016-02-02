@@ -53,7 +53,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
         if (is_null($acceptedArgs)) {
             $acceptedArgs = static::DEFAULT_ACCEPTED_ARGS;
         }
-        if (!is_null($data)) {
+        if (is_null($data)) {
             $data = array();
         }
 
