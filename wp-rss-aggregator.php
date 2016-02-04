@@ -3,7 +3,7 @@
     Plugin Name: WP RSS Aggregator
     Plugin URI: http://www.wprssaggregator.com
     Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.8
+    Version: 4.8.1
     Author: Jean Galea
     Author URI: http://www.wprssaggregator.com
     License: GPLv2
@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.8
+     * @version   4.8.1
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2015, Jean Galea
@@ -43,7 +43,7 @@
 
     // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.8', true );
+        define( 'WPRSS_VERSION', '4.8.1', true );
 
     if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
         define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
@@ -246,6 +246,59 @@
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
 
+    /**
+     * Returns the Spinnerchief Addon class singleton instance.
+     *
+     * @since 4.8.1
+     * @return Aventura\Wprss\Core\Plugin
+     */
+    function wprss() {
+        static $plugin = null;
+
+
+        // One time initialization
+        if (is_null($plugin)) {
+            static $timesCalled = 0;
+            if ($timesCalled) {
+                throw new Exception('WP RSS Aggregator has been initialized recursively');
+            }
+            $timesCalled++;
+
+            /**
+             * Basically, we could just do this here:
+             * Factory::create();
+             *
+             * However, the actual setup allows for even further customization.
+             * In fact, the factory can be substituted by some entirely different factory,
+             * that creates and initializes a different plugin in a different way.
+             */
+
+            $factoryClassName = apply_filters('wprss_core_plugin_factory_class_name',
+                'Aventura\\Wprss\\Core\\Factory');
+
+            if (!class_exists($factoryClassName)) {
+                throw new Aventura\Wprss\Exception(
+                    sprintf('Could not initialize add-on: Factory class "%1$s" does not exist', $factoryClassName));
+            }
+
+            $plugin = call_user_func_array(array($factoryClassName, 'create'), array(array(
+                'basename'      => __FILE__,
+                'name'          => 'WP RSS Aggregator'
+            )));
+        }
+
+        return $plugin;
+    }
+
+    require_once(WPRSS_INC . 'functions.php');
+    try {
+        $instance = wprss();
+    } catch (Exception $e) {
+        if (WP_DEBUG && WP_DEBUG_DISPLAY) {
+            throw $e;
+        }
+        wp_die( $e->getMessage() );
+    }
 
 
     add_action( 'init', 'wprss_init' );
