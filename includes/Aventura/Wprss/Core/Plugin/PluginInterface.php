@@ -130,9 +130,13 @@ interface PluginInterface
      * The event prefix is by default the plugin code followed by an underscore "_", unless the code is
      * not set, in which case the prefix is empty.
      *
+     * Note: this method had to be commented out due to a conflict with `Aventura\Wprss\Core\Model\ModelInterface#getEventPrefix()`.
+     * This conflicting behaviour can be observed when using PHP version less than 5.3.9.
+     * 
+     * @todo Uncomment when minimum PHP version requirement is raised above 5.3.9
      * @since [*next-version*]
      * @param string|null $name An event name to prefix.
      * @return string This instance's event prefix, or a prefixed name.
      */
-    public function getEventPrefix($name = null);
+    // public function getEventPrefix($name = null);
 }
