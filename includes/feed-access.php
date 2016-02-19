@@ -236,6 +236,8 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 							$location = SimplePie_Misc::absolutize_url( $this->headers['location'], $url );
 							return $this->__construct( $location, $timeout, $redirects, $headers, $useragent, $force_fsockopen );
 						}
+
+                        $this->_afterCurlHeadersParsed($info);
 					}
 				}
 			} else {
@@ -405,4 +407,31 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 		self::$_default_certificate_file_path = $path;
 	}
 
+    /**
+     * Called right after a cURL request returns, and headers are parsed.
+     *
+     * This method will not be called if a cURL error is encountered.
+     *
+     * @param $curlInfo Result of a call to {@see curl_getinfo()} on the cURL resource.
+     * @since [*next-version*]
+     */
+    protected function _afterCurlHeadersParsed($curlInfo)
+    {
+        $error = implode("\n", array(
+            'The resource could not be retrieved because of a %1$s error with code %2$d',
+            'Server returned %3$d characters:',
+            '%4$s'
+        ));
+
+        $code = $this->status_code;
+        $body = $this->body;
+        if ($code >= 400 && $code < 500 ) { // Client error
+            $this->error = sprintf($error, 'client', $code, strlen($body), $body);
+            $this->success = false;
+        }
+        if ($code >= 500 && $code < 600 ) { // Server error
+            $this->error = sprintf($error, 'server', $code, strlen($body), $body);
+            $this->success = false;
+        }
+    }
 }
