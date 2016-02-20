@@ -635,10 +635,7 @@
         <ul>
             <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>
         </ul>
-        <?php
-        echo '<p><strong>';
-        _e( 'Check out the Premium Extensions:', WPRSS_TEXT_DOMAIN );
-        echo '</strong>'; ?>
+        <p><strong><?php _e( 'Add functionality with our premium extensions:', WPRSS_TEXT_DOMAIN ) ?></strong></p>
         <ul>
             <li><a href="http://www.wprssaggregator.com/extension/widget/"><?php echo 'Widget'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>
@@ -646,7 +643,6 @@
             <li><a href="http://www.wprssaggregator.com/extension/categories/"><?php echo 'Categories'; ?></a></li>
             <li><a href="http://www.wprssaggregator.com/extension/keyword-filtering/"><?php echo 'Keyword Filtering'; ?></a></li>
         </ul>
-         </p>
     <?php }
 
 
