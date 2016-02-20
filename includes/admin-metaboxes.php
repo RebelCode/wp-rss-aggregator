@@ -634,7 +634,6 @@
 
         <ul>
             <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>
-            <li class="donate_link"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9GP6BL4BLXBJ"><?php _e( 'Donate a token of your appreciation', WPRSS_TEXT_DOMAIN ); ?></a></li>
         </ul>
         <?php
         echo '<p><strong>';
