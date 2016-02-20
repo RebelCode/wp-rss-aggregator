@@ -630,20 +630,23 @@
      * @since 2.0
      *
      */
-    function wprss_like_meta_box_callback() { ?>
-
+    function wprss_like_meta_box_callback()
+    {
+        ?>
         <ul>
             <li><a href="http://wordpress.org/extend/plugins/wp-rss-aggregator/"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>
         </ul>
         <p><strong><?php _e( 'Add functionality with our premium extensions:', WPRSS_TEXT_DOMAIN ) ?></strong></p>
-        <ul>
-            <li><a href="http://www.wprssaggregator.com/extension/widget/"><?php echo 'Widget'; ?></a></li>
-            <li><a href="http://www.wprssaggregator.com/extension/feed-to-post/"><?php echo 'Feed to Post'; ?></a></li>
-            <li><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"><?php echo 'Excerpts & Thumbnails'; ?></a></li>
-            <li><a href="http://www.wprssaggregator.com/extension/categories/"><?php echo 'Categories'; ?></a></li>
-            <li><a href="http://www.wprssaggregator.com/extension/keyword-filtering/"><?php echo 'Keyword Filtering'; ?></a></li>
+        <?php $addons = wprss_addons_get_extra() ?>
+        <?php if (count($addons)): ?>
+        <ul class="add-on-list">
+            <?php foreach ($addons as $_code => $_addon): ?>
+            <li class="add-on <?php echo sprintf('add-on-code-%1$s', $_code) ?>"><a href="<?php echo $_addon['url'] ?>"><?php echo $_addon['title'] ?></a></li>
+            <?php endforeach ?>
         </ul>
-    <?php }
+        <?php endif ?>
+        <?php
+    }
 
 
     /**
