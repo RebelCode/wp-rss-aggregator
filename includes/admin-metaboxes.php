@@ -45,7 +45,7 @@
         if ( !defined('WPRSS_FTP_VERSION') && !defined('WPRSS_ET_VERSION') && !defined('WPRSS_C_VERSION') ) {
             add_meta_box(
                 'wprss-like-meta',
-                __( 'Like This Plugin?', WPRSS_TEXT_DOMAIN ),
+                __( 'Share The Love', WPRSS_TEXT_DOMAIN ),
                 'wprss_like_meta_box_callback',
                 'wprss_feed',
                 'side',
