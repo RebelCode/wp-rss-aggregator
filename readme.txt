@@ -15,6 +15,9 @@ WP RSS Aggregator is the original and best plugin for importing, merging and dis
 
 With this free core version of WP RSS Aggregator you’ll be able to aggregate as many RSS feeds from as many sources as you'd like. Using the [shortcodes](http://docs.wprssaggregator.com/shortcodes/) you can then display the imported feed items from one or more sources directly on your website.
 
+Have a look at the core version of WP RSS Aggregator below, or [go here to view our introductory videos for the premium add-ons](http://docs.wprssaggregator.com/introductory-videos/).
+[youtube http://www.youtube.com/watch?v=fcENPsmJbvc]
+
 = Highlighted Features = 
 
 * Set a name for each feed source.
@@ -55,10 +58,6 @@ We also provide a [Feed Creator](http://createfeed.wprssaggregator.com/) service
 
 = Demo =
 The core plugin can be seen in use [on our website's demo page](http://www.wprssaggregator.com/demo/). There are also a number of [other demos](http://www.wprssaggregator.com/) available for our premium add-ons.
-
-= Video Walkthrough =
-Have a look at the core version of WP RSS Aggregator below, or [go here to view our introductory videos for the premium add-ons](http://docs.wprssaggregator.com/introductory-videos/).
-[youtube http://www.youtube.com/watch?v=fcENPsmJbvc]
 
 = Documentation =
 Our [comprehensive documentation](http://docs.wprssaggregator.com/) provides you with everything you need to install, set up and customize the plugin to your needs. You can also browse through [a large number of FAQs](http://docs.wprssaggregator.com/category/faqs/) that cover almost everything there is to ask.
