@@ -77,6 +77,7 @@ Our [comprehensive documentation](http://docs.wprssaggregator.com/) provides you
 * [IndexWP](http://www.indexwp.com/wp-rss-aggregator-plugin-review/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
 * [Kevin Muldoon](http://www.kevinmuldoon.com/wp-rss-aggregator-wordpress-plugin/)
+* [Magazine3](http://magazine3.com/blog/news-aggregator-website/)
 
 = Translations =
 * Italian - Davide De Maestri
