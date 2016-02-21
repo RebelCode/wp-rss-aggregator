@@ -1,7 +1,7 @@
 === WP RSS Aggregator ===
 Contributors: jeangalea, Mekku, xedin.unknown, markzahra, doytch, chiragswadia
 Plugin URI: http://www.wprssaggregator.com
-Tags: rss, aggregation, autoblog, autoblog aggregator, autoblogger, autoblogging, autopost, content curation, feed aggregation, feed aggregator, feed import, feed reader, feed to post, feeds, multi feed import, multi feed importer, multi rss feeds, multiple feed import, multiple rss feeds,rss aggregator, rss feader, RSS Feed, rss feed to post, rss feeder, RSS import, rss multi importer, rss post importer, rss retriever, rss to post, syndication
+Tags: RSS feeds, aggregation, autoblog, content curation, feed reader, feed to post, RSS aggregator, RSS feeder, RSS import, RSS to post, syndication, multiple feed import
 Requires at least: 4.0
 Tested up to: 4.4.1
 Stable tag: 4.8.1
