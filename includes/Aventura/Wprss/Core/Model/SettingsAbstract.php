@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * Common functionality for objects that handle settings.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements SettingsInterface
 {
@@ -29,7 +29,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * The settings are stored as a serialized array.
      * The name defaults to '_settings', prefixed with the plugin code.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string The name of the main option in the database.
      */
     public function getMainOptionName()
@@ -41,7 +41,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Get the slug of the settings subpage or tab.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string The slug
      */
     public function getTabSlug()
@@ -54,7 +54,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * 
      * No cache used here.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array The array of settings as retrieved from the database.
      */
     public function getValuesDb()
@@ -74,7 +74,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * The load will only be performed once, fildered with a prefixed `settings_defaults` hook,
      * and then cached.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array An array of default values, where keys correspond to the setting IDs.
      */
     public function getDefaultValues()
@@ -90,7 +90,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Gets the default values for settings.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array A raw array of default values. Keys should correspond to setting IDs.
      */
     abstract protected function _getDefaultValues();
@@ -98,7 +98,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Loads the values from the database.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array The loaded values.
      */
     protected function _loadValues()
@@ -119,7 +119,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Whether or not the setting values have been loaded.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return bool True if values have been loaded; false otherwise.
      */
     public function isValuesLoaded()
@@ -132,7 +132,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * 
      * This is needed to avoid recursion while loading values.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return bool True if the values are currently loading; false otherwise.
      */
     protected function _isValuesLoading()
@@ -143,7 +143,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param type $key
      * @param type $index
      * @return type
@@ -160,7 +160,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Gets the data for a settings tab.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array Data for the settings tab.
      */
     public function getTabData()
@@ -177,7 +177,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * Adds the data about this settings page's tab to the list of tabs.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  array $tabs An array of registered tabs.
      * @return array       The array of registered tabs, now also containing an entry for this addon's tab.
      */
@@ -190,7 +190,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Does the registration of the main setting.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return SettingsAbstract
      */
     protected function _registerSetting()
@@ -208,7 +208,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Registeres a section and its settings.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $section Section data.
      *  Should contain information about the section, as well as the array of fields in the 'fields' index.
      */
@@ -248,7 +248,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Registers a single field.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $field Data of a field.
      */
     protected function _registerField($field)
@@ -285,7 +285,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Registers the settings page for these settings.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     abstract protected function _registerSettingsPage();
 
@@ -294,7 +294,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * 
      * This is intended to be a callback for {@see add_settings_section()}.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array $data Has 3 elmenets: 'id', 'title', 'callback'.
      */
     public function _renderSectionHeader($data)
@@ -307,7 +307,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Renders and outputs a field.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $field Data of a field.
      */
     public function renderField($field)
@@ -320,7 +320,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * The output will depend on the data of the field, and also on its 'type'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see getFieldRenderers()
      * @param array|Core\DataObjectInterface $field Data of a field.
      * @return string The output of the rendered field.
@@ -361,7 +361,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * The renderers will be loaded once, then filtered with a prefixed `settings_field_renderers` hook,
      * and cached.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $type A type, for which to get the renderer.
      * @return array|callable All field renderers available, or one renderer.
      */
@@ -386,7 +386,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * 
      * Override this method to add more renderers to an instance from within itself.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array An array of callables, each of which is a field renderer.
      */
     protected function _getFieldRenderers()
@@ -404,7 +404,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * 
      * Normally, the output would be an <input> element of type 'text'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $field Data of a field.
      * @return string The text field HTML.
      */
@@ -429,7 +429,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * Normally, the output would be an <input> element of type 'number'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $field Data of a field.
      * @return string The number field HTML.
      */
@@ -454,7 +454,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * Normally, the output would be an <input> element of type 'checkbox'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $field Data of a field.
      * @return string The checkbox field HTML.
      */
@@ -485,7 +485,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * Normally, the output would be an <select> element.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array|Core\DataObjectInterface $field Data of a field.
      * @return string The select field HTML.
      */
@@ -509,7 +509,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Add settings fields and sections
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $activeTab The slug of the active wprss settings tab.
      */
     public function _renderSettingsPage($activeTab)
@@ -530,7 +530,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * This can be set via the ID_PREFIX class constant, overridden with the 'id_prefix' data member,
      * and defaults to the plugin code, followed by an underscore '_'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|null $id An ID to prefix.
      * @return string The prefix, or prefixed ID.
      */
@@ -551,7 +551,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * This can be set via the SLUG_PREFIX class constant, overridden with the 'slug_prefix' data member,
      * and defaults to the plugin code, followed by a dash underscore '-'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|null $id A slug to prefix.
      * @return string The prefix, or prefixed slug.
      */
@@ -570,7 +570,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      * A section ID, on the other hand, may contain other characters, and is typically
      * used on the frontend.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $code The section code.
      * @return string The section ID.
      */
@@ -583,7 +583,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Gets the code of the plugin.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see Core\Plugin\PluginInterface::getCode()
      * @return string The plugin code.
      */
@@ -597,7 +597,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * This should be hooked to something in WP.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function register()
     {
@@ -615,7 +615,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Retrieves all raw data for all sections.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array All sections, together with their fields.
      */
     abstract protected function _getSectionsFields();
@@ -625,7 +625,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * This is done once, filtered with prefixed 'settings_fields', and cashed.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array All sections, together with their fields.
      */
     public function getSectionsFields()
@@ -641,7 +641,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * A shortcut for creating callables to use as data sources.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param callable $callable The callback that the command represents.
      * @param array $args The arguments for the callback.
      * @return \Aventura\Wprss\Core\Model\CommandInterface A new command.
@@ -657,7 +657,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Resolves a command by executing it, and returning the result.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param CommandInterface $command The command to resolve.
      * @return mixed Result of the command.
      * @throws \Aventura\Wprss\SpinnerChief\Exception
@@ -674,7 +674,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Retrieves the value of a datasource, or if not a datasource just returns it.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param callable $source The datasource.
      * @param array $args Additional arguments for the datasource.
      * @return mixed The resolved datasource value.
@@ -691,7 +691,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Cretes a datasource for retrieving data from this instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $key The key of the data member to retrieve.
      * @return CommandInterface A command that retrieves data from this instance.
      */
@@ -703,7 +703,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Generates HTML of a checkbox based on the passed parameters.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see PRSS_FTP_Utils::boolean_to_checkbox()
      * @param bool|mixed $isChecked Whether or not this checkbox should be ticked.
      * @param array $args Additional checkbox params.
@@ -721,7 +721,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Get the HTML output of a <select> element.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array $values The select element's options.
      * @param array $args Data for the select element.
      * @return string The select element HTML.
@@ -734,7 +734,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Get the HTML output of an <input> element of type 'text' or 'password'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|int $value The input element's value.
      * @param array $args Data for the input element.
      * @return string The input element HTML.
@@ -761,7 +761,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Get the HTML output of an <input> element of type 'number'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|int $value The input element's value.
      * @param array $args Data for the input element.
      * @return string The input element HTML.
@@ -799,7 +799,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
      *
      * Given all the levels, it will return the correct value for the attribute.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|array $name A name with levels separated by '/', or an array of levels.
      * @return string A value used in HTML elements' "name" attribute.
      */
@@ -816,7 +816,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Checks whether a value is considered to be 'true' by this class.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param mixed $value The value to check.
      * @return bool True if the value is considered by this class to represent 'true'; false otherwise.
      */
@@ -828,7 +828,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Get a value that is considered by this class to be 'true'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string Returns a string representation of a value that is considered to be 'true' by this class.
      */
     static public function getTrueValue()
@@ -839,7 +839,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Get a value that is considered by this class to be 'false'.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string Returns a string representation of a value that is considered to be 'false' by this class.
      */
     static public function getFalseValue()
@@ -850,7 +850,7 @@ abstract class SettingsAbstract extends Core\Plugin\ComponentAbstract implements
     /**
      * Retrieve a raw option by name from the database.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name The name of the option.
      * @param bool|mixed $default What to return if the option is not found.
      * @return mixed The option value.

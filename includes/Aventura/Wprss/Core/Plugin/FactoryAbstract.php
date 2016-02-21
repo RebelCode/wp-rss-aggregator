@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Plugin;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class FactoryAbstract extends Core\Model\ModelAbstract implements FactoryInterface
 {
     /**
      * Creates an instance of this class.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array $data Data for the new instance.
      * @return FactoryAbstract
      */
@@ -24,7 +24,7 @@ abstract class FactoryAbstract extends Core\Model\ModelAbstract implements Facto
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param type $parent
      * @param array|string $data Data for the new plugin. If string given, it will be assumed the value of the
      *  'basename' index.
@@ -43,7 +43,7 @@ abstract class FactoryAbstract extends Core\Model\ModelAbstract implements Facto
     /**
      * Does the actual creation.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return PluginInterface
      */
     abstract protected function _create($data);

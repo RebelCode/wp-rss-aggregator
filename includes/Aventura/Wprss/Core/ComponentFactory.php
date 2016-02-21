@@ -9,12 +9,12 @@ namespace Aventura\Wprss\Core;
  * This is to be used with the Core plugin.
  * 
  * @todo Create a real Core factory of Core components in the Core plugin.
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class ComponentFactory extends Plugin\ComponentFactoryAbstract
 {
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected function _construct()
     {
@@ -37,7 +37,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array $data
      * @return Model\Event\EventManagerInterface
      */

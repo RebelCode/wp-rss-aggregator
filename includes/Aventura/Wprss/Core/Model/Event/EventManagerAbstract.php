@@ -5,20 +5,20 @@ namespace Aventura\Wprss\Core\Model\Event;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements EventManagerInterface
 {
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     const DEFAULT_PRIORITY      = 10;
 
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     const DEFAULT_ACCEPTED_ARGS = 1;
 
     /**
      * The array of actions registered with WordPress.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @var   array    $actions    The actions registered with WordPress to fire when the plugin loads.
      */
     protected $_events = array();
@@ -33,7 +33,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     /**
      * Registers an event listener.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name The name of the event that a listener is being registered for.
      * @param callable $listener The listener.
      * @param int|null $priority The priority at which the listener should be invoked.
@@ -76,7 +76,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     /**
      * Registers an event with the environment.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array $eventInfo Data of the event.
      * @return EventManagerAbstract This instance.
      */
@@ -106,7 +106,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     /**
      * Normalizes a callback.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param callable $callback The callback to normalize
      * @return If array is given, makes sure that the result is a numeric array with correct order of valuesl
      *  Otherwise, returns the callback unmodified.
@@ -126,7 +126,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function event($name, $data = array())
     {
@@ -140,7 +140,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     /**
      * Dispatches the actual event.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param EventInterface $event The event to dispatch.
      * @return mixed The event object, possibly modified.
      */
@@ -152,7 +152,7 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     /**
      * Creates a new event.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $name The name of the event.
      * @param array $args An array of arguments.
      * @return EventInterface

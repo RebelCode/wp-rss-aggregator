@@ -7,7 +7,7 @@ use Aventura\Wprss\Core\Licensing;
 /**
  * Description of Exception
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class Exception extends Licensing\Exception
 {

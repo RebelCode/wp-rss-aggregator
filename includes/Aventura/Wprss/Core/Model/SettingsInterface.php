@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Model;
 /**
  * Something that can represent settings.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 interface SettingsInterface
 {

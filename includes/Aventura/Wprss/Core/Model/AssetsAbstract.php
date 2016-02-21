@@ -7,29 +7,29 @@ use Aventura\Wprss\Core;
 /**
  * Something that can be used as an assets controller.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements AssetsInterface
 {
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     const HANDLE_PREFIX = '';
 
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     const ASSET_TYPE_STYLE = 'style';
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     const ASSET_TYPE_SCRIPT = 'script';
 
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected static $_assetTypes = array(
         self::ASSET_TYPE_STYLE      => self::ASSET_TYPE_STYLE,
         self::ASSET_TYPE_SCRIPT     => self::ASSET_TYPE_SCRIPT
     );
 
-    /** @since [*next-version*] */
+    /** @since 4.8.1 */
     protected $_assets = array();
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function hook()
     {
@@ -38,7 +38,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected function _hook() {
         $this->on('!wp_enqueue_scripts', array($this, 'enqueuePublicStyles'));
@@ -51,7 +51,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Regisger a stylesheet.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see wp_enqueue_style()
      * @param string $handle The resource handle of the style.
      * @param string $url The stylesheet URL. If not absolute will be relative to the base CSS URI;
@@ -77,7 +77,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Register a script.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see wp_enqueue_script()
      * @param string $handle The resource handle of the script.
      * @param string $url The script URL. If not absolute will be relative to the base JS URI;
@@ -103,7 +103,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Registers an asset.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $type The type of the asset.
      * @param array $data Data of the asset. Following keys supported:
      *  'handle'*, 'uri'*, 'version', 'in_footer' (SCRIPT), 'media'(STYLE)
@@ -162,7 +162,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Registers an asset.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $type The type of the asset.
      * @param array $data Data of the asset. Following keys supported:
      *  'handle'*, 'uri'*, 'version', 'in_footer' (SCRIPT), 'media'(STYLE)
@@ -221,7 +221,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Generate a unique asset handle.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string A unique, prefixed asset handle.
      */
     protected function _getUniqueHandle($uri = null)
@@ -236,7 +236,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Retrieve asset data by handle.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $handle The handle of the asset to get.
      * @return array The asset data if exists, null otherwise.
      */
@@ -248,7 +248,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Get all registered assets.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array All assets, by handle.
      */
     public function getAssets() {
@@ -258,7 +258,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Whether or not an asset is registered.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $handle An asset handle.
      * @return bool True if asset with specified handle exists; false otherwise.
      */
@@ -270,7 +270,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Register an asset.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param array $asset An array with asset data.
      * @return bool True if registered, false otherwise.
      */
@@ -308,7 +308,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Enqueue an asset by handle.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $asset The asset handle.
      * @return bool True if enqueued, false otherwise.
      * @throws Core\Exception If no handle provided, or no asset registered for handle.
@@ -354,7 +354,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Register a stylesheet.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $handle The unique asset handle.
      * @param string $uri The URI of the asset. If relative, it will be appended to the value of {@see getCssUri()}.
      * @param array|null $dependencies List of dependencies for the assed. If null, empty array will be used.
@@ -372,7 +372,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Enqueue a registered style by handle.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $handle The handle of the style to enqueue.
      * @return AssetsAbstract This instance.
      * @throws Core\Exception If the handle isn't registered, the handle type is not registered or is not of a style.
@@ -400,7 +400,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Register a script.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $handle The unique asset handle.
      * @param string $uri The URI of the asset. If relative, it will be appended to the value of {@see getJSUri()}.
      * @param array|null $dependencies List of dependencies for the assed. If null, empty array will be used.
@@ -417,7 +417,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Enqueue a registered script by handle.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $handle The handle of the script to enqueue.
      * @return AssetsAbstract This instance.
      * @throws Core\Exception If the handle isn't registered, the handle type is not registered or is not of a script.
@@ -445,7 +445,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Get all asset types of this class.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array The asset type, where keys are the type code.
      */
     public static function getAssetTypes()
@@ -456,7 +456,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Whether or not an asset type exists.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $type The asset type.
      * @return bool True if exists; false otherwise.
      */
@@ -472,7 +472,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
      * A resource handle is a unique ID that identifies resources enqueued with functions such as `wp_enqueue_script()`
      * and `wp_enqueue_style()`.
      * 
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|null $handle If speficied, the prefix will be suffixed with this.
      * @return string|null The prefix for resource handles that is configured for this instance, optionally suffixed
      *  with $handle.
@@ -493,7 +493,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
      * 
      * If the 'handle_prefix' data member is not set, falls back to the `HANDLE_PREFIX` class constant, then to `null`.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string|null The prefix for resource handles that is configured for this instance.
      */
     public function _getHandlePrefix()
@@ -505,7 +505,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Gets and optionally suffixes the base CSS URI for this instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|null $path If specified and not null, the base CSS UR will be suffixed with this.
      * @return string The base CSS URI configured for this instance, optionally suffixed with the $path.
      */
@@ -520,7 +520,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Gets and optionally suffixes the base JS URI for this instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|null $path If specified and not null, the base JS UR will be suffixed with this.
      * @return string The base JS URI configured for this instance, optionally suffixed with the $path.
      */
@@ -537,7 +537,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
      * 
      * If the 'css_uri' data member is not set, falls back to the `CSS_URL` class constant, then to `null`.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string|null The base CSS URI configured for this instance.
      */
     protected function _getCssUri()
@@ -560,7 +560,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * Checks if a URI is absolute.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see uri_is_absolute()
      */
     public static function isUriAbsolute($uri)
@@ -571,7 +571,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function enqueuePublicStyles()
     {
@@ -581,7 +581,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function enqueuePublicScripts()
     {
@@ -591,7 +591,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function enqueueAdminStyles()
     {
@@ -601,7 +601,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function enqueueAdminScripts()
     {

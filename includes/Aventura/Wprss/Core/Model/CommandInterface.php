@@ -13,7 +13,7 @@ interface CommandInterface
      * Makes it possible to invoke an instance of the implementing class
      * as if it was a function.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return mixed The result of the call
      */
     public function __invoke();

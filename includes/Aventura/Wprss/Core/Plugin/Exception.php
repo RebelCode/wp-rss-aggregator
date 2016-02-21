@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * The base class for all WP plugins.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class Exception extends Core\Exception
 {

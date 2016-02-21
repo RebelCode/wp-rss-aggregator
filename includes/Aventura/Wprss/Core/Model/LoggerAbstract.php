@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements LoggerInterface
 {
     /**
      * Detailed debug information
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const DEBUG = 100;
 
@@ -21,14 +21,14 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * Examples: User logs in, SQL logs.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const INFO = 200;
 
     /**
      * Uncommon events
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const NOTICE = 250;
 
@@ -38,14 +38,14 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      * Examples: Use of deprecated APIs, poor use of an API,
      * undesirable things that are not necessarily wrong.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const WARNING = 300;
 
     /**
      * Runtime errors
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const ERROR = 400;
 
@@ -54,7 +54,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * Example: Application component unavailable, unexpected exception.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const CRITICAL = 500;
 
@@ -64,21 +64,21 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      * Example: Entire website down, database unavailable, etc.
      * This should trigger the SMS alerts and wake you up.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const ALERT = 550;
 
     /**
      * Urgent alert.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     const EMERGENCY = 600;
 
     /**
      * Logging levels from syslog protocol defined in RFC 5424
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @var array $levels Logging levels
      */
     protected static $_levels = array(
@@ -93,7 +93,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     );
 
     /**
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected function _construct()
     {
@@ -107,7 +107,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * Add a log entry.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param int $level The level of the log entry. See {@link LoggerAbstract::getLevels()}.
      * @param string $message The message of the entry. Something that can be converted to string.
      * @param array $context The context of the entry. Additional data about the environment.
@@ -122,7 +122,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * Add a log entry.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param int $level The level of the log entry. See {@link LoggerAbstract::getLevels()}.
      * @param string $message The message of the entry. Something that can be converted to string.
      * @param array $context The context of the entry. Additional data about the environment.
@@ -154,7 +154,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * Gets the name of the logging level.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  int    $level
      * @return string
      */
@@ -170,7 +170,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * Get the value of the log level.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $logLevel The string representation of the log level, case-insensitive.
      * @return int The numeric representation of the log level.
      */
@@ -183,7 +183,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * All levels available.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return array An array of all levels of this logger, where keys are numeric
      *  level values, and values are their string representations.
      */
@@ -195,7 +195,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * Converts PSR-3 levels to Monolog ones if necessary
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string|int Level number (monolog) or name (PSR-3)
      * @return int
      */
@@ -217,7 +217,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  mixed   $level   The log level
      * @param  string  $message The log message
      * @param  array   $context The log context
@@ -234,7 +234,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -249,7 +249,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -264,7 +264,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -279,7 +279,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -294,7 +294,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -309,7 +309,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -324,7 +324,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -339,7 +339,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  string  $message The log message
      * @param  array   $context The log context
      * @return bool Whether the record has been processed
@@ -352,7 +352,7 @@ abstract class LoggerAbstract extends Core\Plugin\ComponentAbstract implements L
     /**
      * Whether or not to add the record described by specified arguments.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param  mixed   $level   The log level
      * @param  string  $message The log message
      * @param  array   $context The log context

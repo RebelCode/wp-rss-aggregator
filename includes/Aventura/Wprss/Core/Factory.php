@@ -3,7 +3,7 @@
 namespace Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class Factory extends Plugin\FactoryAbstract
 {

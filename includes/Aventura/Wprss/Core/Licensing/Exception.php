@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * When something goes wrong with WPRA licensing.
  * 
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class Exception extends Core\Exception
 {

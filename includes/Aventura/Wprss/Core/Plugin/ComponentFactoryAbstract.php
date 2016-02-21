@@ -6,14 +6,14 @@ namespace Aventura\Wprss\Core\Plugin;
  * Common functionality of component factories.
  * A component factory is also a component ;P
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class ComponentFactoryAbstract extends ComponentAbstract implements ComponentFactoryInterface
 {
     /**
      * Creates a new component instance.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $class The classname of the component to create.
      *  Can be relative to the base namespace of this factory.
      * @param PluginInterface $parent The parent plugin for the new component.
@@ -42,7 +42,7 @@ abstract class ComponentFactoryAbstract extends ComponentAbstract implements Com
     /**
      * Get the name of a component class, based on it's relative or absolute name, or mapped ID.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $className A relative or absolute class name, or some other class identifier that is mapped
      *  to a class name. If relative, then relative to the {@see getBaseNamespace()}.
      * @return string Name of the component class.

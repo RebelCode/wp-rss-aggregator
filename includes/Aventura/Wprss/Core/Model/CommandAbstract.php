@@ -14,7 +14,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
 
 
 	/**
-	 * @since [*next-version*]
+	 * @since 4.8.1
 	 * @param callable $data The {@link set_function() function} to give to the command.
 	 */
 	public function __construct( $data = array() )
@@ -40,7 +40,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
 	/**
 	 * Sets the function to be called with this command.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.8.1
 	 * @param callable $function The function or method to be called.
 	 * @return CommandAbstract This instance.
 	 * @throws CommandException If passed function is not a valid callable.
@@ -62,7 +62,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
 	 * the only element.
 	 * In any case, the indexes of $args do not matter, but the order does.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.8.1
 	 * @param array $args The argument or arguments to set for this command.
 	 * @param int $index The index, at which to set the argument.
 	 * @return CommandAbstract This instance.
@@ -81,7 +81,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
 
 
 	/**
-	 * @since [*next-version*]
+	 * @since 4.8.1
 	 * @return callable The function of the command.
 	 */
 	public function getFunction() {
@@ -92,7 +92,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
 	/**
 	 * Gets the argument or arguments for this command.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.8.1
 	 * @param int|null $index The index of the argument to return.
 	 * @return array|mixed|null The argument, or arguments, or null if not found.
 	 */
@@ -108,7 +108,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
 	/**
 	 * Calls the function of this command with the given arguments.
 	 *
-	 * @since [*next-version*]
+	 * @since 4.8.1
 	 * @param array $args_override A different set of arguments that will override the original.
 	 * @return mixed The return value of the function of the command.
 	 * @throws CommandException If the function of the command is not callable.
@@ -127,7 +127,7 @@ abstract class CommandAbstract extends ModelAbstract implements CommandInterface
     /**
      * Allows instances of this class and its descendants to be called like a function.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return type
      */
     public function __invoke()

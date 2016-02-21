@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Component;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.8.1
  */
 class EventManager extends Core\Model\Event\EventManagerAbstract implements Core\Plugin\ComponentInterface
 {

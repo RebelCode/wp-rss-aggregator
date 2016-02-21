@@ -7,19 +7,19 @@ use Aventura\Wprss\Core;
 /**
  * A base class for all SpinnerChief add-on components.
  *
- * @since [*next-version*]
+ * @since 4.8.1
  */
 abstract class ComponentAbstract extends Core\Model\ModelAbstract implements ComponentInterface
 {
     /**
      * @var PluginInterface The plugin, to which this component belongs
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     protected $_plugin;
 
     /**
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param PluginInterface|array $data The instance of the
      *  add-on, of which this is to be a component. Alternatively, an array with data, which must have the 'plugin'
      *  index set to that instance.
@@ -44,7 +44,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return PluginInterface
      */
     public function getPlugin()
@@ -55,7 +55,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * Sets the parent plugin for this component.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param PluginInterface $plugin The plugin to set.
      * @return ComponentAbstract This instance.
      */
@@ -67,7 +67,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * Get the text domain of this component.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return string The text domain.
      */
     public function getTextDomain() {
@@ -77,7 +77,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * Creates an exception, the root of which is the parent plugin.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @return Core\Exception
      */
     public function exception($text, $className = null, $translate = null)
@@ -91,7 +91,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
      * Typically, this is done by a factory upon creation, but not necessarily.
      * Override this to hook in your component.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function hook() {}
 
@@ -103,7 +103,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
      * If can be additionally defined as the HOOK_PREFIX class constant, and overridden
      * with the 'hook_prefix' data member.
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @param string $code A hook name to prefix.
      * @return string The hook prefix, or prefixed string.
      */
@@ -125,7 +125,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      * @see Core\Model\LoggerInterface
      * @param string|int $level
      * @param string $message
@@ -141,7 +141,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function on($name, $listener, $data = null, $priority = null, $acceptedArgs = null)
     {
@@ -155,7 +155,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.8.1
      */
     public function event($name, $data = array())
     {
