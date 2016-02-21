@@ -131,7 +131,16 @@ function wprss_settings_add_tooltips() {
 
 '.											'Relative path will be relative to the WordPress root.
 
-'.											'<strong>Default:</strong> path to certificate file bundled with WordPress.', WPRSS_TEXT_DOMAIN )
+'.											'<strong>Default:</strong> path to certificate file bundled with WordPress.', WPRSS_TEXT_DOMAIN ),
+
+                /** @since [*next-version*] */
+                'feed_request_useragent'    => __( 'The string to be used as the useragent for feed requests.
+
+'.                                          'If non-empty, this exact string will be sent with every request made by WP RSS Aggregator for a feed source XML document.
+
+'.                                          'Some servers react in unexpected ways to the default value. In such cases, try changing this to something else.
+
+'.                                          'The default value is determined by the SimplePie library, and reflects its name, version and build numbers, and some other information.'),
 		
 		);
 		$help->add_tooltips( $tooltips, $prefix );
