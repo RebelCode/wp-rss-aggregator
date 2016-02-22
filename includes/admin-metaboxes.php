@@ -634,7 +634,7 @@
     {
         ?>
         <ul>
-            <li><a href="https://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator?rate=5#postform"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>
+            <li><a href="https://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator?rate=5#postform" target="_blank"><?php _e( 'Give it a 5 star rating on WordPress.org', WPRSS_TEXT_DOMAIN ) ?></a></li>
         </ul>
         <p><strong><?php _e( 'Add functionality with our premium extensions:', WPRSS_TEXT_DOMAIN ) ?></strong></p>
         <?php $addons = wprss_addons_get_extra() ?>
