@@ -186,6 +186,14 @@ Our complete documentation with FAQs included can be found on [our dedicated doc
 
 == Changelog ==
 
+= 4.8.2 (2016-02-22) =
+* Fixed bug: Interface methods used to conflict, causing fatal error on activation.
+* Fixed bug: Empty feed response used to cause misleading error message in log.
+* Enhanced: Users can now override useragent sent with feed requests.
+* Enhanced: Improvements to plugin updating system.
+* Enhanced: Readme updated.
+* Enhanced: "Open link behaviour" option's internal handling has been improved.
+
 = 4.8.1 (2016-02-02) =
 * Fixed bug: Some exceptions used to cause fatal errors.
 * Fixed bug: Requests made by image caching used to always have an infinite timeout.
