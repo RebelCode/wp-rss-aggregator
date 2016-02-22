@@ -29,7 +29,7 @@
 
     /**
      * @package   WPRSSAggregator
-     * @version   4.8.1
+     * @version   4.8.2
      * @since     1.0
      * @author    Jean Galea <info@wprssaggregator.com>
      * @copyright Copyright (c) 2012-2015, Jean Galea
