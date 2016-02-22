@@ -188,7 +188,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Translates some text.
      *
-     * @since [*next-version*]s
+     * @since 4.8.1
      * @param string $text The text to translate.
      * @param string|null The text domain to use for translation.
      *  Defaults to this plugin's text domain.

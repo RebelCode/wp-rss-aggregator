@@ -13,6 +13,7 @@ class WPRSS_Feed_Access {
 	protected $_certificate_file_path;
 	
 	const SETTING_KEY_CERTIFICATE_PATH = 'certificate-path';
+    const SETTING_KEY_FEED_REQUEST_USERAGENT = 'feed_request_useragent';
 	
 	/**
 	 * @since 4.7
@@ -91,6 +92,34 @@ class WPRSS_Feed_Access {
 		
 		return $path;
 	}
+
+    /**
+     * Return the value of the useragent setting.
+     *
+     * The setting key is determined by the SETTING_KEY_FEED_REQUEST_USERAGENT class constant.
+     *
+     * @since 4.8.2
+     * @return string The value of the useragent setting.
+     */
+    public function get_useragent_setting()
+    {
+		return wprss_get_general_setting( self::SETTING_KEY_FEED_REQUEST_USERAGENT );
+    }
+
+    /**
+     * Get the useragent string that will be sent with feed requests.
+     *
+     * @since 4.8.2
+     * @return string The useragent string that will be sent together with feed requests.
+     *  If empty, the value of SIMPLEPIE_USERAGENT will be used.
+     */
+    public function get_useragent()
+    {
+        $useragent = $this->get_useragent_setting();
+        return !strlen(trim($useragent))
+            ? SIMPLEPIE_USERAGENT
+            : $useragent;
+    }
 	
 	
 	/**
@@ -103,6 +132,7 @@ class WPRSS_Feed_Access {
 	 */
 	public function set_feed_options( $feed ) {
 		$feed->set_file_class( 'WPRSS_SimplePie_File' );
+        $feed->set_useragent($this->get_useragent());
 		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
 	}
 	
@@ -119,6 +149,11 @@ class WPRSS_Feed_Access {
 			'label'			=> __( 'Certificate Path', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_certificate_path_setting' )
 		);
+        /** @since 4.8.2 */
+		$settings['general'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
+			'label'			=> __( 'Feed Request Useragent', WPRSS_TEXT_DOMAIN ),
+			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
+		);
 		
 		return $settings;
 	}
@@ -131,6 +166,8 @@ class WPRSS_Feed_Access {
 	 */
 	public function add_default_settings( $settings ) {
 		$settings[ self::SETTING_KEY_CERTIFICATE_PATH ] = implode( '/', array( WPINC, 'certificates', 'ca-bundle.crt' ) );
+        /** @since 4.8.2 */
+        $settings[ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = '';
 
 		return $settings;
 	}
@@ -149,6 +186,21 @@ class WPRSS_Feed_Access {
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $feed_limit ?>" />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
 	}
+
+    /**
+     * Renders the setting field for the feed request useragent.
+     *
+     * @since 4.8.2
+	 * @see wprss_admin_init
+	 * @param array $field Data of this field.
+     */
+    public function render_feed_request_useragent_setting( $field )
+    {
+        $value = wprss_get_general_setting( $field['field_id'] );
+        ?>
+		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $value ?>" placeholder="<?php echo __('Default', WPRSS_TEXT_DOMAIN) ?>" />
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
 }
 
 // Initialize
@@ -236,6 +288,8 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 							$location = SimplePie_Misc::absolutize_url( $this->headers['location'], $url );
 							return $this->__construct( $location, $timeout, $redirects, $headers, $useragent, $force_fsockopen );
 						}
+
+                        $this->_afterCurlHeadersParsed($info);
 					}
 				}
 			} else {
@@ -405,4 +459,31 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 		self::$_default_certificate_file_path = $path;
 	}
 
+    /**
+     * Called right after a cURL request returns, and headers are parsed.
+     *
+     * This method will not be called if a cURL error is encountered.
+     *
+     * @param $curlInfo Result of a call to {@see curl_getinfo()} on the cURL resource.
+     * @since 4.8.2
+     */
+    protected function _afterCurlHeadersParsed($curlInfo)
+    {
+        $error = implode("\n", array(
+            'The resource could not be retrieved because of a %1$s error with code %2$d',
+            'Server returned %3$d characters:',
+            '%4$s'
+        ));
+
+        $code = $this->status_code;
+        $body = $this->body;
+        if ($code >= 400 && $code < 500 ) { // Client error
+            $this->error = sprintf($error, 'client', $code, strlen($body), $body);
+            $this->success = false;
+        }
+        if ($code >= 500 && $code < 600 ) { // Server error
+            $this->error = sprintf($error, 'server', $code, strlen($body), $body);
+            $this->success = false;
+        }
+    }
 }
