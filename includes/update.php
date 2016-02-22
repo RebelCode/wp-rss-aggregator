@@ -261,7 +261,7 @@
                 // From 4.7.8
                 'expiration_notice_period'  => '2 weeks',
 
-                // From [*next-version*]
+                // From 4.8.2
                 'feed_request_useragent'    => null,
 			)
 		);

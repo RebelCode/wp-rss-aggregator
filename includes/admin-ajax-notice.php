@@ -959,7 +959,7 @@ class WPRSS_Admin_Notices {
 	/**
 	 * Normalize a single notice's data that was returned from the database.
 	 *
-	 * @since[*next-version*]
+	 * @since4.8.2
 	 * @uses-filter admin_notice_normalize_notice_data_from_db To modify the return value.
 	 * @param null|mixed|array $data The individual notice's data to normalize.
 	 * @return array The notice data returned from the database.
@@ -981,7 +981,7 @@ class WPRSS_Admin_Notices {
 	 * Is responsible for preserving only allowed fields, and adding some
 	 * required ones, if necessary and possible.
 	 *
-	 * @since[*next-version*]
+	 * @since4.8.2
 	 * @uses-filter admin_notice_prepare_notice_data_for_db To modify the resulting prepared data.
 	 * @param array $data The data to prepare.
 	 * @return array The data that should be saved to the database.

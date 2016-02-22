@@ -98,7 +98,7 @@ class WPRSS_Feed_Access {
      *
      * The setting key is determined by the SETTING_KEY_FEED_REQUEST_USERAGENT class constant.
      *
-     * @since [*next-version*]
+     * @since 4.8.2
      * @return string The value of the useragent setting.
      */
     public function get_useragent_setting()
@@ -109,7 +109,7 @@ class WPRSS_Feed_Access {
     /**
      * Get the useragent string that will be sent with feed requests.
      *
-     * @since [*next-version*]
+     * @since 4.8.2
      * @return string The useragent string that will be sent together with feed requests.
      *  If empty, the value of SIMPLEPIE_USERAGENT will be used.
      */
@@ -149,7 +149,7 @@ class WPRSS_Feed_Access {
 			'label'			=> __( 'Certificate Path', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_certificate_path_setting' )
 		);
-        /** @since [*next-version*] */
+        /** @since 4.8.2 */
 		$settings['general'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
 			'label'			=> __( 'Feed Request Useragent', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
@@ -166,7 +166,7 @@ class WPRSS_Feed_Access {
 	 */
 	public function add_default_settings( $settings ) {
 		$settings[ self::SETTING_KEY_CERTIFICATE_PATH ] = implode( '/', array( WPINC, 'certificates', 'ca-bundle.crt' ) );
-        /** @since [*next-version*] */
+        /** @since 4.8.2 */
         $settings[ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = '';
 
 		return $settings;
@@ -190,7 +190,7 @@ class WPRSS_Feed_Access {
     /**
      * Renders the setting field for the feed request useragent.
      *
-     * @since [*next-version*]
+     * @since 4.8.2
 	 * @see wprss_admin_init
 	 * @param array $field Data of this field.
      */
@@ -465,7 +465,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
      * This method will not be called if a cURL error is encountered.
      *
      * @param $curlInfo Result of a call to {@see curl_getinfo()} on the cURL resource.
-     * @since [*next-version*]
+     * @since 4.8.2
      */
     protected function _afterCurlHeadersParsed($curlInfo)
     {

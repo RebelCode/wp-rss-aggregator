@@ -133,7 +133,7 @@ function wprss_settings_add_tooltips() {
 
 '.											'<strong>Default:</strong> path to certificate file bundled with WordPress.', WPRSS_TEXT_DOMAIN ),
 
-                /** @since [*next-version*] */
+                /** @since 4.8.2 */
                 'feed_request_useragent'    => __( 'The string to be used as the useragent for feed requests.
 
 '.                                          'If non-empty, this exact string will be sent with every request made by WP RSS Aggregator for a feed source XML document.
