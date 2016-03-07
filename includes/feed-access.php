@@ -469,20 +469,26 @@ class WPRSS_SimplePie_File extends SimplePie_File {
      */
     protected function _afterCurlHeadersParsed($curlInfo)
     {
+        $bodyMaxLength = 150;
+        $code = $this->status_code;
+        $body = $this->body;
+        $bodyLength = strlen($body);
+        $bodyOutput = strlen($body) < $bodyMaxLength
+            ? $body
+            : substr($body, 0, $bodyMaxLength);
+        $outputLength = strlen($bodyOutput);
         $error = implode("\n", array(
             'The resource could not be retrieved because of a %1$s error with code %2$d',
-            'Server returned %3$d characters:',
+            'Server returned %3$d characters' . ($outputLength < $bodyMaxLength ? '' : ', of which ' . $outputLength . ' are below') . ':',
             '%4$s'
         ));
 
-        $code = $this->status_code;
-        $body = $this->body;
         if ($code >= 400 && $code < 500 ) { // Client error
-            $this->error = sprintf($error, 'client', $code, strlen($body), $body);
+            $this->error = sprintf($error, 'client', $code, $bodyLength, $bodyOutput);
             $this->success = false;
         }
         if ($code >= 500 && $code < 600 ) { // Server error
-            $this->error = sprintf($error, 'server', $code, strlen($body), $body);
+            $this->error = sprintf($error, 'server', $code, $bodyLength, $bodyOutput);
             $this->success = false;
         }
     }
