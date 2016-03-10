@@ -1094,12 +1094,13 @@ class WPRSS_Admin_Notices {
 		if ( is_array( $notice ) )
 			$notice = isset( $notice['id'] ) ? $notice['id'] : null;
 
+        $notice_id = $notice;
 		if ( is_null( $notice ) )
 			throw new Exception( sprintf( 'Could not hide notice: Notice ID must be specified' ) );
 		if ( is_null( $nonce ) )
 			throw new Exception( sprintf( 'Could not hide notice: nonce must be specified' ) );
 		if ( !($notice = $this->get_notices( $notice ) ) )
-			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice ) );
+			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice_id ) );
 
 		// Is it the right nonce?
 		if ( $notice['nonce'] !== $nonce )
@@ -1207,7 +1208,7 @@ function wprss_admin_notice_add( $notice ) {
 	try {
 		if ( !($collection = wprss_admin_notice_get_collection()) )
 			return false;
-		
+
 		$collection->add_notice( $notice );
 	} catch ( Exception $e ) {
 		return new WP_Error( 'could_not_add_admin_notice', $e->getMessage() );
