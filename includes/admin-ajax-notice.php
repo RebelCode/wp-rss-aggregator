@@ -1006,13 +1006,17 @@ class WPRSS_Admin_Notices {
 	 * @param string $prefix The prefix to give to the generated ID.
 	 * @return string A notice ID unique to this instance in the scope of this collection.
 	 */
-	public function generate_unique_id( $prefix = '' ) {
+	public function generate_unique_id( $prefix = '', $data = null ) {
 		do {
-			$id = uniqid( $prefix );
+			$id = is_null($data) ? uniqid( $prefix ) : $prefix . $this->hash($data);
 		} while ( $this->has_notice( $id ) );
 
 		return apply_filters( $this->prefix( 'admin_notice_generate_unique_id' ), $id, $prefix, $this );
 	}
+
+    public function hash($data) {
+        return md5(serialize($data));
+    }
 
 
 	/**
