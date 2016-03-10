@@ -493,7 +493,7 @@ class WPRSS_Admin_Notices {
 
 		// Auto-generate ID
 		if ( is_null( $data['id'] ) )
-			$data['id'] = $this->generate_unique_id( 'admin-notice-' );
+			$data['id'] = $this->generate_unique_id( 'admin-notice-', $data );
 
 		// Prefix ID
 		$data['id'] = $this->prefix( $data['id'] );
