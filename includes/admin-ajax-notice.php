@@ -144,6 +144,12 @@
 /**
  * Responsible for tracking and outputting admin notices
  *
+ * Usage:
+ * Initialize by calling {@see init()} early, before `admin_init`. On `plugins_loaded`
+ * is a good place.
+ * Do not add notices conditionally. Instead, add them always, but specify
+ * the `condition` index to {@see add_notice()}.
+ *
  * @since 4.7.4
  */
 class WPRSS_Admin_Notices {
