@@ -131,9 +131,12 @@
 	 */
 	function wprss_update_populate_source_link_to_feeds() {
 		$args = array(
-			'post_type'   => 'wprss_feed',
-			'fields'      => 'ids',
-			'post_status' => 'any',
+			'post_type'      => 'wprss_feed',
+			'fields'         => 'ids',
+			'post_status'    => 'any',
+			'cache_results'  => false,
+			'no_found_rows'  => true,
+			'posts_per_page' => -1
 		);
 		$query = new WP_Query( $args );
 		array_map( function( $post_id ) {
