@@ -117,7 +117,7 @@
 		if ( isset( $settings['source_link'] ) && ! empty( $settings['source_link'] ) ) {
 			wprss_update_populate_source_link_to_feeds();
 		}
-		unset( $settings['source-link'] );
+		unset( $settings['source_link'] );
 
 		// At version 4.7.5 tracking was disabled
 		$settings['tracking'] = '0';
