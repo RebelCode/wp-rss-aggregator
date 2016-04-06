@@ -16,7 +16,7 @@
 
             <h2><?php _e( 'Add-Ons', WPRSS_TEXT_DOMAIN ); ?></h2>
             <p><?php _e( "The following Add-ons are available to increase the functionality of the WP RSS Aggregator plugin.", WPRSS_TEXT_DOMAIN ); ?><br />
-               <?php _e( "Each Add-on can be installed as a separate plugin. Note that activating the Feed to Post plugin will deactivate the Categories and Excerpts & Thumbnails add-ons.", WPRSS_TEXT_DOMAIN ); ?></p>        
+               <?php _e( "Each Add-on can be installed as a separate plugin.", WPRSS_TEXT_DOMAIN ); ?></p>
         
             <div id="add-ons" class="clearfix">
                 
