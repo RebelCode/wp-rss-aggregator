@@ -154,10 +154,6 @@
                         'label'     =>  __( 'Text preceding source', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_text_preceding_source_callback'
                     ),
-                    'source-link' => array(
-                        'label'     =>  __( 'Link source', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_setting_source_link_callback'
-                    ),
                 ),
 
                 // Date options

@@ -112,9 +112,34 @@
                     $settings['open_dd'] = 'self';
                 }
 
+		// Removal of general 'source-link' option in favor of feed-specific option
+		// If the option was set to true, save the value to all feeds
+		if ( isset( $settings['source_link'] ) && ! empty( $settings['source_link'] ) ) {
+			wprss_update_populate_source_link_to_feeds();
+		}
+		unset( $settings['source-link'] );
+
 		// At version 4.7.5 tracking was disabled
 		$settings['tracking'] = '0';
 		update_option( 'wprss_settings_general', $settings );
+	}
+
+	/**
+	 * Copy the value of source-link from general settings to each individual feed
+	 *
+	 * @since 4.8.2
+	 */
+	function wprss_update_populate_source_link_to_feeds() {
+		$args = array(
+			'post_type'   => 'wprss_feed',
+			'fields'      => 'ids',
+			'post_status' => 'any',
+		);
+		$query = new WP_Query( $args );
+		array_map( function( $post_id ) {
+			// Add the meta only if it does not exist
+			add_post_meta( $post_id, 'wprss_source_link', 'true' );
+		}, $query->posts );
 	}
 
 
