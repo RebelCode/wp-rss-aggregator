@@ -62,9 +62,6 @@
 		));
         $extra_options = apply_filters( 'wprss_template_extra_options', array(), $args);
 
-        // Normalize the source_link option
-        $source_link = isset( $general_settings['source_link'] )? $general_settings['source_link'] : 0;
-
         // Declare each item in $args as its own variable
         extract( $args, EXTR_SKIP );
 
@@ -75,6 +72,7 @@
         $link_enclosure  = get_post_meta( $feed_source_id, 'wprss_enclosure', true );
         $source_name     = get_the_title( $feed_source_id );
         $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
+        $source_link     = ( 'true' == get_post_meta( $feed_source_id, 'wprss_source_link', true ) );
         $timestamp       = get_the_time( 'U', $ID );
 
         // Fallback for feeds created with older versions of the plugin

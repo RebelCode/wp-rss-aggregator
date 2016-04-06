@@ -113,6 +113,12 @@
             'type'  => 'checkbox'
         );
 
+        $wprss_meta_fields[ 'source_link' ] = array(
+            'label' => __( 'Link Source', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'source_link',
+            'type'  => 'checkbox'
+        );
+
         // for extensibility, allows more meta fields to be added
         return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }
