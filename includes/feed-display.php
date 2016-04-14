@@ -72,8 +72,14 @@
         $link_enclosure  = get_post_meta( $feed_source_id, 'wprss_enclosure', true );
         $source_name     = get_the_title( $feed_source_id );
         $source_url      = get_post_meta( $feed_source_id, 'wprss_site_url', true );
-        $source_link     = ( 'true' == get_post_meta( $feed_source_id, 'wprss_source_link', true ) );
         $timestamp       = get_the_time( 'U', $ID );
+
+        $general_source_link = isset( $general_settings['source_link'] ) ? $general_settings['source_link'] : 0;
+        $feed_source_link = get_post_meta( $feed_source_id, 'wprss_source_link', true );
+        $source_link = ( $feed_source_link === '' || intval($feed_source_link) < 0 ) // If not explicit value
+            ? $general_source_link // Fall back to general setting
+            : $feed_source_link; // Otherwise, use value
+        $source_link = intval(trim($source_link));
 
         // Fallback for feeds created with older versions of the plugin
         if ( $source_url === '' ) $source_url = get_post_meta( $feed_source_id, 'wprss_url', true );
