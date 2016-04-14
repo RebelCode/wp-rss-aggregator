@@ -459,7 +459,12 @@
     function wprss_fetch_feeds_action_hook() {
         if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
             if ( ! current_user_can( 'edit_feed_sources' ) ) die();
+
             $id = $_POST['id'];
+
+            // Verify admin referer
+            check_admin_referer( sprintf( 'wprss-fetch-items-for-%s', $id ), 'wprss_admin_ajax_nonce' );
+
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
 
             // Prepare the schedule args
