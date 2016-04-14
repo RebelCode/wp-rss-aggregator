@@ -657,6 +657,22 @@
         return $html;
     }
 
+    /**
+     * Gets options that should go in a dropdown which represents a
+     * feed-source-specific boolean setting.
+     *
+     * @since [*next-version*]
+     * @return array An array with options.
+     */
+    function wprss_settings_get_feed_source_boolean_options()
+    {
+        return array(
+            1           => __('On', WPRSS_TEXT_DOMAIN),
+            0           => __('Off', WPRSS_TEXT_DOMAIN),
+            -1          => sprintf('[%1$s]', __('General', WPRSS_TEXT_DOMAIN)),
+        );
+    }
+
 
     /** 
      * Set text preceding source
