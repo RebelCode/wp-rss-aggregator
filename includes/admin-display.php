@@ -354,6 +354,7 @@
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
                 $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . $fetch_items_row_action_text . '</a>';
+                $actions[ 'fetch' ] .= wp_nonce_field( sprintf( 'wprss-fetch-items-for-%s', $post->ID ) );
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', WPRSS_TEXT_DOMAIN ) );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', WPRSS_TEXT_DOMAIN ) );
