@@ -34,6 +34,8 @@
 
 '.											'This can be useful in cases where permalinks change, or where multiple permalinks refer to the same item.', WPRSS_TEXT_DOMAIN),
 
+				'wprss_source_link'     => __('Enable this option to link the feed source name to the RSS feed\'s source site.', WPRSS_TEXT_DOMAIN),
+
 
 				/* -------------------------
 				 *  Feed Processing Metabox
