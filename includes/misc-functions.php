@@ -229,9 +229,10 @@ EOS;
 				$tag_type['self-closing'] :
 				$tag_type['opening'] );
 	}
+        var_dump($pieces);
 
 	// Stock trimming of words
-	$plain_text = wp_trim_words_wprss( $plain_text, $max_words );
+	$plain_text = wp_trim_words_wprss( $plain_text, $max_words, '' );
 
 	/*
 	 * Put the tags back, using the offsets recorded
