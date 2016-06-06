@@ -132,7 +132,7 @@
 		</form>
 		<div style='line-height:2.3em; margin-top:10px;'>
 			<button id='send-message-btn' class='button button-primary'><?php _e('Send Message', WPRSS_TEXT_DOMAIN); ?></button>
-			<span id='support-error'></span>
+			<div id='support-error'></div>
 		</div>
 
 		<?php
