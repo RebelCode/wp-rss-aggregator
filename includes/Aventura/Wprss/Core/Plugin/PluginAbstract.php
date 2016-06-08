@@ -356,4 +356,41 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
 
         return null;
     }
+
+    /**
+     * Converts all directory separators into Unix-style ones.
+     *
+     * @since [*next-version*]
+     * @param string $path A filesystem path.
+     * @return The path with standardized directory separators, and trimmed
+     *  whitespace.
+     */
+    public static function standardizeDirectorySeparators($path)
+    {
+        return trim(str_replace(array('\\', '/'), '/', $path));
+    }
+
+    /**
+     * Will standardize a plugin basename.
+     *
+     * A standard plugin basename is a path to the main plugin file relative
+     * to the plugins directory, and with Unix directory separators if
+     * applicable.
+     *
+     * @since [*next-version*]
+     * @see standardizeDirectorySeparators()
+     * @param string $path An absolute or relative path to a plugin main file.
+     * @return string A standardized plugin basename.
+     */
+    public static function standardizeBasename($path)
+    {
+        $path = static::standardizeDirectorySeparators($path);
+
+        // Account for full path to main file.
+        if (substr($path, 0, 1) === '/' || substr_count($path, '/') >= 2) {
+            $path = static::getPluginBasename($path);
+        }
+
+        return $path;
+    }
 }
