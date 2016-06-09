@@ -14,6 +14,47 @@ class Plugin extends Plugin\PluginAbstract
     const VERSION = WPRSS_VERSION;
 
     /**
+     * Hooks the rest of the functionality of this class.
+     *
+     * @since [*next-version*]
+     */
+    public function hook()
+    {
+        $this->on('!plugins_loaded', array($this, 'delayedHook'));
+    }
+
+    /**
+     * Hooks in functionality after all plugins are loaded.
+     *
+     * @since [*next-version*]
+     */
+    public function delayedHook()
+    {
+        $this->on('!plugin_row_meta', array($this, '_addPluginRowMeta'), null, 10, 2);
+    }
+
+    /**
+     * Returns all meta members that appear below a plugin row in the backend.
+     *
+     * Handles `plugin_row_meta` WP native filter.
+     *
+     * @since [*next-version*]
+     * @param type $meta
+     * @param type $pluginBasename
+     * @return array Numeric array, where each element is a meta information
+     *  piece (usually link).
+     */
+    public function _addPluginRowMeta($meta, $pluginBasename)
+    {
+        if ($pluginBasename !== $this->getBasename()) {
+            return $meta;
+        }
+
+        $meta = array_merge($meta, array_values($this->getPluginRowMeta()));
+        return $meta;
+    }
+
+    /**
      * Returns a list of meta members for this plugin.
      *
      * Raises plugin-specific event `plugin_row_meta`.
