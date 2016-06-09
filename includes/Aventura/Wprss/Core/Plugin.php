@@ -14,6 +14,28 @@ class Plugin extends Plugin\PluginAbstract
     const VERSION = WPRSS_VERSION;
 
     /**
+     * Returns a list of meta members for this plugin.
+     *
+     * Raises plugin-specific event `plugin_row_meta`.
+     *
+     * @since [*next-version*]
+     * @return array An array of meta members for this plugin, by key.
+     */
+    public function getPluginRowMeta()
+    {
+        return $this->event('plugin_row_meta', array('links' => array(
+            'getting_started'           => $this->getAnchor(array(
+                'target'                    => '_blank',
+                'href'                      => 'https://docs.wprssaggregator.com/category/getting-started/'
+            ), $this->__('Getting Started')),
+            'extensions'                => $this->getAnchor(array(
+                'target'                    => '_blank',
+                'href'                      => 'https://www.wprssaggregator.com/extensions/'
+            ), $this->__('Extensions'))
+        )))->getData('links');
+    }
+
+    /**
      * Get a new anchor block instance.
      *
      * @since [*next-version*]
