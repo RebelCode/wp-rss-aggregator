@@ -45,13 +45,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         if (!isset($data['basename'])) {
             throw $this->exception('Could not create plugin instance: "basename" must be specified', array(__NAMESPACE__, 'Exception'));
         }
-        $basename = trim($data['basename']);
-
-        // Account for full path to main file.
-        if (substr($basename, 0, 1) === '/' || substr_count($basename, '/') >= 2) {
-            $basename = static::getPluginBasename($basename);
-        }
-        $data['basename'] = $basename;
+        $data['basename'] = static::standardizeBasename($data['basename']);
 
         // Normalizing and setting component factory
         if (is_null($factory) && isset($data['component_factory'])) {
@@ -61,7 +55,6 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         if ($factory) {
             $this->setFactory($factory);
         }
-        $this->setBasename($basename);
 
         parent::__construct($data);
     }
