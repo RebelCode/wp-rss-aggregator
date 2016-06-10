@@ -374,3 +374,24 @@ function wprss_validate_url( $url ) {
 	
 	return preg_match('!' . $expression . '!', $url) ? $url : null;
 }
+
+if (!function_exists('wprss_verify_nonce'))
+{
+    /**
+     * Check if a WP nonce sent in a reques is valid.
+     *
+     * @since [*next-version*]
+     * @see wp_verify_nonce()
+     * @param string $action ID of the action, for which checking the nonce.
+     * @param string $queryArg Name of the key in the $_REQUEST global
+     *  which contains the nonce value.
+     * @return bool|int False if nonce invalid, 1 if it's the first 12 hours of
+     *  validity, 2 if the second 12 hours.
+     */
+    function wprss_verify_nonce($action, $queryArg)
+    {
+        return isset($_REQUEST[$queryArg])
+                ? wp_verify_nonce($_REQUEST[$queryArg], $action)
+                : false;
+    }
+}
