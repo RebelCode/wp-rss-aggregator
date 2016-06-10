@@ -12,4 +12,100 @@ class Plugin extends Plugin\PluginAbstract
 {
     const CODE = 'wprss';
     const VERSION = WPRSS_VERSION;
+
+    /**
+     * Hooks the rest of the functionality of this class.
+     *
+     * @since [*next-version*]
+     */
+    public function hook()
+    {
+        $this->on('!plugins_loaded', array($this, 'delayedHook'));
+    }
+
+    /**
+     * Hooks in functionality after all plugins are loaded.
+     *
+     * @since [*next-version*]
+     */
+    public function delayedHook()
+    {
+        $this->on('!plugin_row_meta', array($this, '_addPluginRowMeta'), null, 10, 2);
+    }
+
+    /**
+     * Returns all meta members that appear below a plugin row in the backend.
+     *
+     * Handles `plugin_row_meta` WP native filter.
+     *
+     * @since [*next-version*]
+     * @param type $meta
+     * @param type $pluginBasename
+     * @return array Numeric array, where each element is a meta information
+     *  piece (usually link).
+     */
+    public function _addPluginRowMeta($meta, $pluginBasename)
+    {
+        if ($pluginBasename !== $this->getBasename()) {
+            return $meta;
+        }
+
+        $meta = array_merge($meta, array_values($this->getPluginRowMeta()));
+        return $meta;
+    }
+
+    /**
+     * Returns a list of meta members for this plugin.
+     *
+     * Raises plugin-specific event `plugin_row_meta`.
+     *
+     * @since [*next-version*]
+     * @return array An array of meta members for this plugin, by key.
+     */
+    public function getPluginRowMeta()
+    {
+        return $this->event('plugin_row_meta', array('links' => array(
+            'getting_started'           => $this->getAnchor(array(
+                'target'                    => '_blank',
+                'href'                      => 'https://docs.wprssaggregator.com/category/getting-started/'
+            ), $this->__('Getting Started')),
+            'extensions'                => $this->getAnchor(array(
+                'target'                    => '_blank',
+                'href'                      => 'https://www.wprssaggregator.com/extensions/'
+            ), $this->__('Extensions'))
+        )))->getData('links');
+    }
+
+    /**
+     * Get a new anchor block instance.
+     *
+     * @since [*next-version*]
+     * @param array|string $attributes Keys are attribute names; values are attribute
+     *  values. These will become the attributes of the anchor tag.
+     *  If string, this will be treated as the value of the 'href' attribute.
+     * @param string $content Content for the anchor tag. Usually text.
+     * @return Block\Html\TagInterface An anchor block instance.
+     */
+    public function getAnchor($attributes = array(), $content = '')
+    {
+        if (is_string($attributes)) {
+            $attributes = array('href' => $attributes);
+        }
+        $block = $this->createAnchorBlock()
+            ->setAttributes($attributes)
+            ->setContent($content);
+
+        return $block;
+    }
+
+    /**
+     * Anchor block factory.
+     *
+     * @since [*next-version*]
+     * @return Aventura\Wprss\Core\Block\Html\TagInterface
+     */
+    public function createAnchorBlock()
+    {
+        return new \Aventura\Wprss\Core\Block\Html\Anchor();
+    }
 }

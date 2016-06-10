@@ -45,13 +45,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         if (!isset($data['basename'])) {
             throw $this->exception('Could not create plugin instance: "basename" must be specified', array(__NAMESPACE__, 'Exception'));
         }
-        $basename = trim($data['basename']);
-
-        // Account for full path to main file.
-        if (substr($basename, 0, 1) === '/' || substr_count($basename, '/') >= 2) {
-            $basename = static::getPluginBasename($basename);
-        }
-        $data['basename'] = $basename;
+        $data['basename'] = static::standardizeBasename($data['basename']);
 
         // Normalizing and setting component factory
         if (is_null($factory) && isset($data['component_factory'])) {
@@ -61,7 +55,6 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         if ($factory) {
             $this->setFactory($factory);
         }
-        $this->setBasename($basename);
 
         parent::__construct($data);
     }
@@ -355,5 +348,42 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         }
 
         return null;
+    }
+
+    /**
+     * Converts all directory separators into Unix-style ones.
+     *
+     * @since [*next-version*]
+     * @param string $path A filesystem path.
+     * @return The path with standardized directory separators, and trimmed
+     *  whitespace.
+     */
+    public static function standardizeDirectorySeparators($path)
+    {
+        return trim(str_replace(array('\\', '/'), '/', $path));
+    }
+
+    /**
+     * Will standardize a plugin basename.
+     *
+     * A standard plugin basename is a path to the main plugin file relative
+     * to the plugins directory, and with Unix directory separators if
+     * applicable.
+     *
+     * @since [*next-version*]
+     * @see standardizeDirectorySeparators()
+     * @param string $path An absolute or relative path to a plugin main file.
+     * @return string A standardized plugin basename.
+     */
+    public static function standardizeBasename($path)
+    {
+        $path = static::standardizeDirectorySeparators($path);
+
+        // Account for full path to main file.
+        if (substr($path, 0, 1) === '/' || substr_count($path, '/') >= 2) {
+            $path = static::getPluginBasename($path);
+        }
+
+        return $path;
     }
 }
