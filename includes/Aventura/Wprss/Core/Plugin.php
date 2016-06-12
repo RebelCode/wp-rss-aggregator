@@ -3,10 +3,9 @@
 namespace Aventura\Wprss\Core;
 
 /**
- * A dummy plugin for the Core plugin.
+ * The Core instance of WP RSS Aggregator.
  *
  * @since 4.8.1
- * @todo Create real Core plugin in the Core plugin.
  */
 class Plugin extends Plugin\PluginAbstract
 {
@@ -107,5 +106,34 @@ class Plugin extends Plugin\PluginAbstract
     public function createAnchorBlock()
     {
         return new \Aventura\Wprss\Core\Block\Html\Anchor();
+    }
+
+    /**
+     * Create an AJAX response instance that contains error data.
+     *
+     * @since [*next-version*]
+     * @param \Exception|string $error An exception, or error message.
+     * @return Http\Message\Ajax\Response
+     */
+    public function createAjaxErrorResponse($error)
+    {
+            return $error instanceof \Exception
+                    ? Model\AjaxResponse::createFromException($error)
+                    : Model\AjaxResponse::createFromError($error);
+    }
+
+    /**
+     * Creates an instance of an AJAX response.
+     *
+     * @since [*next-version*]
+     * @param type $data
+     * @return Http\Message\Ajax\Response
+     */
+    public function createAjaxResponse($data = array())
+    {
+        $response = new Model\AjaxResponse();
+        $response->setAjaxData($data);
+
+        return $response;
     }
 }
