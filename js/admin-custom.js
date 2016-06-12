@@ -5,9 +5,28 @@ function fetch_items_row_action_callback(){
     var id = link.attr('pid');
     var url = link.attr('purl');
 
+    var errorImportingHandler = function(jqXHR, status, exceptionText) {
+        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');;
+    };
+
+    var displayResultMessage = function(message, className) {
+        link.text(message);
+        if (className)
+            link.addClass(className);
+
+        setTimeout(function(){
+            link
+                .text(original_text)
+                .click(fetch_items_row_action_callback);
+            if (className)
+                link.removeClass(className);
+        }, 3500);
+    };
+
     jQuery.ajax({
         url: ajaxurl,
         type: 'POST',
+        dataType: 'json',
         data: {
             'action': 'wprss_fetch_feeds_row_action',
             'id':   id,
@@ -15,19 +34,15 @@ function fetch_items_row_action_callback(){
             'wprss_admin_ajax_referer': link.next().next().val() // referer
         },
         success: function( response, status, jqXHR ){
-            console.log( jqXHR );
-            link.text( wprss_admin_custom.items_are_importing + '!' );
+            if (response.is_error) {
+                errorImportingHandler(jqXHR, status, response.error_message);
+                return;
+            }
+
+            displayResultMessage(wprss_admin_custom.items_are_importing + '!');
             jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
-            setTimeout( function(){
-                link.text( original_text ).click( fetch_items_row_action_callback );
-            }, 3500 );
         },
-        error: function( response, status, error ){
-            link.text( wprss_admin_custom.failed_to_import + ': ' + error );
-            setTimeout( function(){
-                link.text( original_text ).click( fetch_items_row_action_callback );
-            }, 3500 );
-        },
+        error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute
     });
     /*
