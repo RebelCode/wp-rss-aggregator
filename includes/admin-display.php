@@ -457,13 +457,25 @@
      * @since 3.3
      */
     function wprss_fetch_feeds_action_hook() {
-        if ( isset( $_POST['id'] ) && !empty( $_POST['id'] ) ) {
-            if ( ! current_user_can( 'edit_feed_sources' ) ) die();
-
+        $response = wprss()->createAjaxResponse();
+        $wprss = wprss();
+        $kFeedSourceId = 'feed_source_id';
+        try {
+            $kId = 'id';
+            if (!isset( $_POST[$kId] ) || empty( $_POST[$kId] )) {
+                throw new Exception($wprss->__('Could not schedule fetch: source ID must be specified'));
+            }
             $id = $_POST['id'];
+            $response->setAjaxData($kFeedSourceId, $id);
+
+            if (!current_user_can('edit_feed_sources')) {
+                throw new Exception($wprss->__(array('Could not schedule fetch for source #%1$s: user must have sufficient priviledges', $id)));
+            }
 
             // Verify admin referer
-            check_admin_referer( sprintf( 'wprss-fetch-items-for-%s', $id ), 'wprss_admin_ajax_nonce' );
+            if (!wprss_verify_nonce( sprintf( 'wprss-fetch-items-for-%s', $id ), 'wprss_admin_ajax_nonce' )) {
+                throw new Exception($wprss->__(array('Could not schedule fetch for source #%1$s: nonce is expired', $id)));
+            }
 
             update_post_meta( $id, 'wprss_force_next_fetch', '1' );
 
@@ -473,23 +485,33 @@
             // Get the current schedule - do nothing if not scheduled
             $next_scheduled = wp_next_scheduled( 'wprss_fetch_single_feed_hook', $schedule_args );
             if ( $next_scheduled !== FALSE ) {
-              // If scheduled, unschedule it
-              wp_unschedule_event( $next_scheduled, 'wprss_fetch_single_feed_hook', $schedule_args );
+                // If scheduled, unschedule it
+                wp_unschedule_event( $next_scheduled, 'wprss_fetch_single_feed_hook', $schedule_args );
 
-              // Get the interval option for the feed source
-              $interval = get_post_meta( $id, 'wprss_update_interval', TRUE );
-              // if the feed source uses its own interval
-              if ( $interval !== '' && $interval !== wprss_get_default_feed_source_update_interval() ) {
-                // Add meta in feed source. This is used to notify the source that it needs to reschedule it
-                update_post_meta( $id, 'wprss_reschedule_event', $next_scheduled );
-              }
+                // Get the interval option for the feed source
+                $interval = get_post_meta( $id, 'wprss_update_interval', TRUE );
+                // if the feed source uses its own interval
+                if ( $interval !== '' && $interval !== wprss_get_default_feed_source_update_interval() ) {
+                    // Add meta in feed source. This is used to notify the source that it needs to reschedule it
+                    update_post_meta( $id, 'wprss_reschedule_event', $next_scheduled );
+                }
             }
 
             // Schedule the event for 5 seconds from now
             wp_schedule_single_event( time() + 1, 'wprss_fetch_single_feed_hook', $schedule_args );
             wprss_flag_feed_as_updating( $id );
-            die();
+        } catch (Exception $e) {
+            $response = wprss()->createAjaxErrorResponse($e);
+            if (isset($id)) {
+                $response->setAjaxData($kFeedSourceId, $id);
+            }
+            echo $response->getBody();
+            exit();
         }
+
+        $response->setAjaxData('message', $wprss->__(array('Fetch for feed source #%1$s successfully scheduled', $id)));
+        echo $response->getBody();
+        exit();
     }
 
 
