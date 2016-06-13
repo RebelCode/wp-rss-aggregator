@@ -144,6 +144,12 @@
 /**
  * Responsible for tracking and outputting admin notices
  *
+ * Usage:
+ * Initialize by calling {@see init()} early, before `admin_init`. On `plugins_loaded`
+ * is a good place.
+ * Do not add notices conditionally. Instead, add them always, but specify
+ * the `condition` index to {@see add_notice()}.
+ *
  * @since 4.7.4
  */
 class WPRSS_Admin_Notices {
@@ -493,7 +499,7 @@ class WPRSS_Admin_Notices {
 
 		// Auto-generate ID
 		if ( is_null( $data['id'] ) )
-			$data['id'] = $this->generate_unique_id( 'admin-notice-' );
+			$data['id'] = $this->generate_unique_id( 'admin-notice-', $data );
 
 		// Prefix ID
 		$data['id'] = $this->prefix( $data['id'] );
@@ -1006,13 +1012,17 @@ class WPRSS_Admin_Notices {
 	 * @param string $prefix The prefix to give to the generated ID.
 	 * @return string A notice ID unique to this instance in the scope of this collection.
 	 */
-	public function generate_unique_id( $prefix = '' ) {
+	public function generate_unique_id( $prefix = '', $data = null ) {
 		do {
-			$id = uniqid( $prefix );
+			$id = is_null($data) ? uniqid( $prefix ) : $prefix . $this->hash($data);
 		} while ( $this->has_notice( $id ) );
 
 		return apply_filters( $this->prefix( 'admin_notice_generate_unique_id' ), $id, $prefix, $this );
 	}
+
+    public function hash($data) {
+        return md5(serialize($data));
+    }
 
 
 	/**
@@ -1094,12 +1104,13 @@ class WPRSS_Admin_Notices {
 		if ( is_array( $notice ) )
 			$notice = isset( $notice['id'] ) ? $notice['id'] : null;
 
+        $notice_id = $notice;
 		if ( is_null( $notice ) )
 			throw new Exception( sprintf( 'Could not hide notice: Notice ID must be specified' ) );
 		if ( is_null( $nonce ) )
 			throw new Exception( sprintf( 'Could not hide notice: nonce must be specified' ) );
 		if ( !($notice = $this->get_notices( $notice ) ) )
-			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice ) );
+			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice_id ) );
 
 		// Is it the right nonce?
 		if ( $notice['nonce'] !== $nonce )
@@ -1207,7 +1218,7 @@ function wprss_admin_notice_add( $notice ) {
 	try {
 		if ( !($collection = wprss_admin_notice_get_collection()) )
 			return false;
-		
+
 		$collection->add_notice( $notice );
 	} catch ( Exception $e ) {
 		return new WP_Error( 'could_not_add_admin_notice', $e->getMessage() );
