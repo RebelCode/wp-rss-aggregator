@@ -711,3 +711,11 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
         padding-top: 10px;
     }
 }
+
+.ajax-error,
+.ajax-error:hover,
+.ajax-error:visited,
+.ajax-error:link,
+.ajax-error:active {
+    color: #a00;
+}
