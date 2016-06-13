@@ -1,5 +1,5 @@
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
-function fetch_items_row_action_callback(){
+function fetch_items_row_action_callback(e){
     var link = jQuery(this);
     var original_text = link.text();
     var id = link.attr('pid');
@@ -15,13 +15,17 @@ function fetch_items_row_action_callback(){
             link.addClass(className);
 
         setTimeout(function(){
-            link
-                .text(original_text)
-                .click(fetch_items_row_action_callback);
+            link.text(original_text);
+            link.removeAttr('disabled');
             if (className)
                 link.removeClass(className);
         }, 3500);
     };
+
+    e.preventDefault();
+    if (link.attr('disabled')) {
+        return;
+    }
 
     jQuery.ajax({
         url: ajaxurl,
@@ -60,7 +64,7 @@ function fetch_items_row_action_callback(){
         }
     );*/
     link.text( wprss_admin_custom.please_wait );
-    link.unbind('click');
+    link.attr('disabled', 'disabled');
 };
 
 
