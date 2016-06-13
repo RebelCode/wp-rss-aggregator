@@ -54,7 +54,8 @@
                 'capability_type'       => 'feed',
 				'map_meta_cap'			=> true,
                 'supports'              => array( 'title' ),
-                'labels'                => $labels   
+                'labels'                => $labels,
+                'menu_icon'             => 'dashicons-rss'
             )
         );
         
