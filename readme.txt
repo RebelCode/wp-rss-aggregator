@@ -186,6 +186,13 @@ Our complete documentation with FAQs included can be found on [our dedicated doc
 
 == Changelog ==
 
+= 4.9 (2016-06-14) =
+* Fixed bug: Potential security vulnerability related to triggering feed update.
+* Fixed bug: Error output on Feed Sources list is trimmed and cannot break the page layout.
+* Fixed bug: Certain notices could not be dismissed.
+* Fixed bug: Word trimming didn't always trim correctly with HTML.
+* Enhanced: Visual improvements.
+
 = 4.8.2 (2016-02-22) =
 * Fixed bug: Interface methods used to conflict, causing fatal error on activation.
 * Fixed bug: Empty feed response used to cause misleading error message in log.
