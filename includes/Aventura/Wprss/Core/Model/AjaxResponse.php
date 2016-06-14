@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model;
 use Aventura\Wprss\Core;
 
 /**
- * @since [*next-version*]
+ * @since 4.9
  */
 class AjaxResponse extends Core\Http\Message\Ajax\AbstractResponse
 {
     /**
      * A convenient way to create an instance of this class which indicates that an exception has occurred.
      * 
-     * @since [*next-version*]
+     * @since 4.9
      * @param \Exception $e An exception, from which to take the response data.
      * @return AjaxResponse A new instance with relevant data from the exception.
      */
@@ -36,7 +36,7 @@ class AjaxResponse extends Core\Http\Message\Ajax\AbstractResponse
     /**
      * A convenient way to create an instance of this class whic indicates that an error has occurred.
      * 
-     * @since [*next-version*]
+     * @since 4.9
      * @param string $error Text of the error message.
      * @return AjaxResponse A new instance with relevant error data.
      */
@@ -58,7 +58,7 @@ class AjaxResponse extends Core\Http\Message\Ajax\AbstractResponse
      * instances generated from exceptions. This data may not be safe for
      * displaying in production environments.
      * 
-     * @since [*next-version*]
+     * @since 4.9
      * @return bool True if debug mode is on for this class; false otherwise.
      */
     public static function isDebug()

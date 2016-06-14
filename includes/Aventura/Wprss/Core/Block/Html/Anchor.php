@@ -4,7 +4,7 @@ namespace Aventura\Wprss\Core\Block\Html;
 /**
  * Represents an HTML anchor (link).
  *
- * @since [*next-version*]
+ * @since 4.9
  */
 class Anchor extends AbstractTag
 {
@@ -13,7 +13,7 @@ class Anchor extends AbstractTag
     /**
      * Renders the anchor HTML.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getOutput()
     {

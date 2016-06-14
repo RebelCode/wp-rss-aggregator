@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Block\Html;
 /**
  * Something that can be an HTML tag.
  *
- * @since [*next-version*]
+ * @since 4.9
  */
 interface TagInterface
 {
@@ -17,7 +17,7 @@ interface TagInterface
      *
      * @param array|bool If is a non-empty array, will return attribute values
      *  for attributes in that array; Otherwise, return all attributes.
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getAttributes($attributes);
 
@@ -27,28 +27,28 @@ interface TagInterface
      * Will set attributes to those specified in this array. Existing values
      * remain.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function setAttributes($attributes);
 
     /**
      * Get content of the tag.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getContent();
 
     /**
      * Set content of the tag.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function setContent($content);
 
     /**
      * Get name of the tag.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getTagName();
 }

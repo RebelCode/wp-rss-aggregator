@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Block\Html;
 /**
  * Base functionlity for HTML tags.
  *
- * @since [*next-version*]
+ * @since 4.9
  */
 abstract class AbstractTag extends AbstractHtml implements TagInterface
 {
@@ -17,7 +17,7 @@ abstract class AbstractTag extends AbstractHtml implements TagInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getAttributes($attributes = false)
     {
@@ -29,7 +29,7 @@ abstract class AbstractTag extends AbstractHtml implements TagInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function setAttributes($attributes)
     {
@@ -40,7 +40,7 @@ abstract class AbstractTag extends AbstractHtml implements TagInterface
     /**
      * Gets names of data keys which do not count as attribute names.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @return array A numeric array of key names.
      */
     protected function _getNonAttributeKeys()
@@ -51,7 +51,7 @@ abstract class AbstractTag extends AbstractHtml implements TagInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @return string This tag's content.
      */
     public function getContent()
@@ -62,7 +62,7 @@ abstract class AbstractTag extends AbstractHtml implements TagInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function setContent($content)
     {
@@ -73,7 +73,7 @@ abstract class AbstractTag extends AbstractHtml implements TagInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getTagName()
     {

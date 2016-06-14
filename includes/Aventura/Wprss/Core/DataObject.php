@@ -858,7 +858,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
          *
          * The second parameter inverts the check.
          *
-         * @since [*next-version*]
+         * @since 4.9
          * @param string|array $keys A key or an array of keys to match.
          * @param bool $exclude If true, returns elements which are not
          *  specified.

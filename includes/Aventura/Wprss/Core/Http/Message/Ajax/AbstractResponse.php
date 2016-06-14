@@ -6,19 +6,19 @@ use Aventura\Wprss\Core;
 use Aventura\Wprss\Core\Http\Message;
 
 /**
- * @since [*next-version*]
+ * @since 4.9
  */
 abstract class AbstractResponse extends Message\AbstractResponse implements Core\Http\Message\Ajax\AjaxInterface
 {
-    /** @since [*next-version*] */
+    /** @since 4.9 */
     protected $ajaxData;
 
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see Core\DataObject::getData()
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getAjaxData($key = null) {
         $this->_getAjaxData()->getData($key);
@@ -27,7 +27,7 @@ abstract class AbstractResponse extends Message\AbstractResponse implements Core
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see Core\DataObject::addData()
      * @param type $key
      * @param type $value
@@ -42,7 +42,7 @@ abstract class AbstractResponse extends Message\AbstractResponse implements Core
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.9
      * @return Core\DataObject
      */
     protected function _getAjaxData()
@@ -57,7 +57,7 @@ abstract class AbstractResponse extends Message\AbstractResponse implements Core
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @return string
      */
     public function getBody()
@@ -74,7 +74,7 @@ abstract class AbstractResponse extends Message\AbstractResponse implements Core
      * If any other type, will convert the properties.
      * If array, the array keys and values will represent the data.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param array|Core|Core\DataObjectInterface|object $object An object with data to convert.
      * @return string The JSON-encoded data.
      */
