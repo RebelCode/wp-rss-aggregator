@@ -3,7 +3,7 @@ Contributors: jeangalea, Mekku, xedin.unknown, markzahra, doytch, chiragswadia
 Plugin URI: http://www.wprssaggregator.com
 Tags: RSS, RSS feeds, aggregation, autoblog, content curation, feed reader, feed to post, RSS aggregator, RSS feeder, RSS import, RSS to post, syndication, multiple feed import
 Requires at least: 4.0
-Tested up to: 4.4.1
+Tested up to: 4.5.2
 Stable tag: 4.9
 License: GPLv2 or later
 WP RSS Aggregator is the most comprehensive RSS feed importer and autoblogging plugin for WordPress with premium add-ons for additional functionality.
