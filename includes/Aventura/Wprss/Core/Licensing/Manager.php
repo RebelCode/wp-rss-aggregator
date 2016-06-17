@@ -503,7 +503,6 @@ class Manager {
         if ( $params['license'] instanceof License ) $params['license'] = $params['license']->getKey();
         if ( $params['license'] ) $params['license'] = sanitize_text_field ( $params['license']);
         if ( $params['item_name'] ) $params['item_name'] = sanitize_text_field ( $params['item_name']);
-        if ( $params['url'] ) $params['url'] = urlencode ( $params['url']);
 
 		// Send the request to the API
 		$response = wp_remote_post( add_query_arg( $params, $storeUrl ) );
