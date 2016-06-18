@@ -832,7 +832,7 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 	/**
 	 * Enter description here...
 	 *
-     * @since 4.8.1
+         * @since 4.8.1
 	 * @param string $field
 	 * @param boolean $flag
 	 * @return Wp_Rss_SpinnerChief_Data_Object
@@ -852,6 +852,26 @@ class DataObject implements \ArrayAccess, DataObjectInterface {
 		}
 		return $this;
 	}
+
+        /**
+         * Gets data for keys that are specified.
+         *
+         * The second parameter inverts the check.
+         *
+         * @since 4.9
+         * @param string|array $keys A key or an array of keys to match.
+         * @param bool $exclude If true, returns elements which are not
+         *  specified.
+         * @return array An array with elements that match the
+         *  specified keys.
+         */
+        public function getDataForKeys($keys, $exclude = false)
+        {
+            $keys = array_flip((array) $keys);
+            return $exclude
+                    ? array_diff_key($this->_data, $keys)
+                    : array_intersect_key($this->_data, $keys);
+        }
 }
 
 
