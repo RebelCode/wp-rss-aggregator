@@ -4,7 +4,7 @@ namespace Aventura\Wprss\Core\Block\Html;
 /**
  * Represents an HTML anchor (link).
  *
- * @since [*next-version*]
+ * @since 4.9
  */
 class Anchor extends AbstractRegularTag
 {

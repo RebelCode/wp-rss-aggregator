@@ -7,23 +7,23 @@ use Aventura\Wprss\Core;
 /**
  * Base functionality for responses
  * 
- * @since [*next-version*]
+ * @since 4.9
  */
 abstract class AbstractResponse extends Core\DataObject implements ResponseInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.9
      */
     const K_BODY = 'body';
     
     /**
-     * @since [*next-version*]
+     * @since 4.9
      */
     protected $body;
     
     /**
      * {@inheritdoc}
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function getBody()
     {

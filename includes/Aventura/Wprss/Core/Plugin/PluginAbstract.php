@@ -353,7 +353,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Converts all directory separators into Unix-style ones.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param string $path A filesystem path.
      * @return The path with standardized directory separators, and trimmed
      *  whitespace.
@@ -370,7 +370,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      * to the plugins directory, and with Unix directory separators if
      * applicable.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see standardizeDirectorySeparators()
      * @param string $path An absolute or relative path to a plugin main file.
      * @return string A standardized plugin basename.

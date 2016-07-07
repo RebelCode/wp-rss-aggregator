@@ -380,7 +380,7 @@ if (!function_exists('wprss_verify_nonce'))
     /**
      * Check if a WP nonce sent in a reques is valid.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see wp_verify_nonce()
      * @param string $action ID of the action, for which checking the nonce.
      * @param string $queryArg Name of the key in the $_REQUEST global

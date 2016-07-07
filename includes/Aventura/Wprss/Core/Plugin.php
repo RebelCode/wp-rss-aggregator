@@ -15,7 +15,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Hooks the rest of the functionality of this class.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function hook()
     {
@@ -25,7 +25,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Hooks in functionality after all plugins are loaded.
      *
-     * @since [*next-version*]
+     * @since 4.9
      */
     public function delayedHook()
     {
@@ -37,7 +37,7 @@ class Plugin extends Plugin\PluginAbstract
      *
      * Handles `plugin_row_meta` WP native filter.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param type $meta
      * @param type $pluginBasename
      * @return array Numeric array, where each element is a meta information
@@ -58,7 +58,7 @@ class Plugin extends Plugin\PluginAbstract
      *
      * Raises plugin-specific event `plugin_row_meta`.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @return array An array of meta members for this plugin, by key.
      */
     public function getPluginRowMeta()
@@ -78,7 +78,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Get a new anchor block instance.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param array|string $attributes Keys are attribute names; values are attribute
      *  values. These will become the attributes of the anchor tag.
      *  If string, this will be treated as the value of the 'href' attribute.
@@ -100,7 +100,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Anchor block factory.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @return Aventura\Wprss\Core\Block\Html\TagInterface
      */
     public function createAnchorBlock()
@@ -111,7 +111,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Create an AJAX response instance that contains error data.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param \Exception|string $error An exception, or error message.
      * @return Http\Message\Ajax\Response
      */
@@ -125,7 +125,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Creates an instance of an AJAX response.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param type $data
      * @return Http\Message\Ajax\Response
      */

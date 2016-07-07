@@ -367,7 +367,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
      * otherwise, returns the parameter unchanged.
      * The comparison is made in strict mode.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param mixed $param The actual value.
      * @param mixed $default The default value.
      * @param mixed $criteria The condition.

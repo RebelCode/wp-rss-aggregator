@@ -6,7 +6,7 @@ use Aventura\Wprss\Core\Block;
 /**
  * Something that generates HTML output.
  *
- * @since [*next-version*]
+ * @since 4.9
  */
 abstract class AbstractHtml extends Block\AbstractBlock
 {
@@ -16,7 +16,7 @@ abstract class AbstractHtml extends Block\AbstractBlock
     /**
      * Get the quote that this class will use to surround attribute values.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @return string The string that will surround an HTML attribute value.
      */
     public static function getAttributeQuote()
@@ -29,7 +29,7 @@ abstract class AbstractHtml extends Block\AbstractBlock
      *
      * This string is intended to be part of an HTML tag.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param string $name The attribute name.
      * @param string $value The attribute value.
      * @param null|string $surround The quote symbol to use to surround the
@@ -48,7 +48,7 @@ abstract class AbstractHtml extends Block\AbstractBlock
      *
      * Intended to be used in an HTML tag.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see getAttributeQuote()
      * @see getAttributeStringsArray()
      * @param array $attributes An array of attributes, where key is attribute
@@ -72,7 +72,7 @@ abstract class AbstractHtml extends Block\AbstractBlock
     /**
      * Generates an array of attribute-value pair strings, by attribute name.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see getAttributeQuote()
      * @see getAttributePairString()
      * @see sanitizeAttributeName()
@@ -123,7 +123,7 @@ abstract class AbstractHtml extends Block\AbstractBlock
      *
      * Result will not contain white space before or after the name.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @param string $attribute The attribute name to sanitize.
      * @return string A valid attribute name.
      */
@@ -139,7 +139,7 @@ abstract class AbstractHtml extends Block\AbstractBlock
      * value will be escaped.
      * Othwewise, all quotes in the value will be escaped.
      *
-     * @since [*next-version*]
+     * @since 4.9
      * @see htmlspecialchars()
      * @param type $attribute
      * @param string $quote The quote that is used for surrounding the attribute
