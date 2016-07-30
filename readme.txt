@@ -210,6 +210,9 @@ Our complete documentation with FAQs included can be found on [our dedicated doc
 
 == Changelog ==
 
+= 4.9.1 (2016-08-01) =
+* Changed copyright and other info in plugin header.
+
 = 4.9 (2016-06-14) =
 * Fixed bug: Potential security vulnerability related to triggering feed update.
 * Fixed bug: Error output on Feed Sources list is trimmed and cannot break the page layout.
