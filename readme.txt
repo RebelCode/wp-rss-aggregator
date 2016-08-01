@@ -1,11 +1,11 @@
 === WP RSS Aggregator ===
-Contributors: jeangalea, Mekku, xedin.unknown, markzahra, doytch, chiragswadia
-Plugin URI: http://www.wprssaggregator.com
+Contributors: RebelCode, jeangalea, Mekku, xedin.unknown, markzahra
+Plugin URI: https://www.wprssaggregator.com
 Tags: RSS, RSS feeds, aggregation, autoblog, content curation, feed reader, feed to post, RSS aggregator, RSS feeder, RSS import, RSS to post, syndication, multiple feed import
 Requires at least: 4.0
 Tested up to: 4.5.2
-Stable tag: 4.9
-License: GPLv2 or later
+Stable tag: 4.9.1
+License: GPLv3
 WP RSS Aggregator is the most comprehensive RSS feed importer and autoblogging plugin for WordPress with premium add-ons for additional functionality.
 
 
@@ -209,6 +209,9 @@ Our complete documentation with FAQs included can be found on [our dedicated doc
 
 
 == Changelog ==
+
+= 4.9.1 (2016-08-01) =
+* Changed copyright and other info in plugin header.
 
 = 4.9 (2016-06-14) =
 * Fixed bug: Potential security vulnerability related to triggering feed update.

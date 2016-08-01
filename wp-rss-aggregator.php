@@ -1,40 +1,41 @@
 <?php
-    /*
-    Plugin Name: WP RSS Aggregator
-    Plugin URI: http://www.wprssaggregator.com
-    Description: Imports and aggregates multiple RSS Feeds using SimplePie
-    Version: 4.9
-    Author: Jean Galea
-    Author URI: http://www.wprssaggregator.com
-    License: GPLv2
-    License URI: http://www.gnu.org/licenses/gpl-2.0.html
-    */
-
-    /*
-    Copyright 2012-2015 Jean Galea (email : info@wprssaggregator.com)
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-    */
+    /**
+     * Plugin Name: WP RSS Aggregator
+     * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
+     * Description: Imports and aggregates multiple RSS Feeds.
+     * Version: 4.9.1
+     * Author: RebelCode
+     * Author URI: https://www.wprssaggregator.com
+     * Text Domain: wprss
+     * Domain Path: /languages/
+     * License: GPLv3
+     */
 
     /**
-     * @package   WPRSSAggregator
-     * @version   4.9
-     * @since     1.0
-     * @author    Jean Galea <info@wprssaggregator.com>
-     * @copyright Copyright (c) 2012-2015, Jean Galea
-     * @link      http://www.wprssaggregator.com/
-     * @license   http://www.gnu.org/licenses/gpl.html
+     * Copyright (C) 2012-2016 RebelCode Ltd.
+     *
+     * This program is free software: you can redistribute it and/or modify
+     * it under the terms of the GNU General Public License as published by
+     * the Free Software Foundation, either version 3 of the License, or
+     * (at your option) any later version.
+     *
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     * GNU General Public License for more details.
+     *
+     * You should have received a copy of the GNU General Public License
+     * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+     */
+
+    /**
+     * @package     WPRSSAggregator
+     * @version     4.9.1
+     * @since       1.0
+     * @author      RebelCode
+     * @copyright   Copyright (c) 2012-2016, RebelCode Ltd.
+     * @link        https://www.wprssaggregator.com/
+     * @license     http://www.gnu.org/licenses/gpl.html
      */
 
     /**
@@ -43,7 +44,7 @@
 
     // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.9', true );
+        define( 'WPRSS_VERSION', '4.9.1', true );
 
     if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
         define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
