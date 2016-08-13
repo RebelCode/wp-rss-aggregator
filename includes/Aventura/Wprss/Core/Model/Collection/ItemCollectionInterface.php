@@ -13,7 +13,7 @@ namespace Aventura\Wprss\Core\Model\Collection;
  * @link https://github.com/php-fig/cache/blob/master/src/CacheItemPoolInterface.php CachePoolInterface
  * @since [*next-version*]
  */
-interface CollectionBaseInterface
+interface ItemCollectionInterface
 {
     /**
      * Get a single item.
