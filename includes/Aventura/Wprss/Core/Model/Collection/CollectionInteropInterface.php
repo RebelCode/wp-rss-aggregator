@@ -25,7 +25,7 @@ interface CollectionInteropInterface
      * An implementation-agnostic way to get the raw items of this collection in a key-value map.
      *
      * @since [*next-version*]
-     * @return array A key-value map of this collection's items.
+     * @return array|\Traversable A key-value map of this collection's items.
      */
     public function items();
 
