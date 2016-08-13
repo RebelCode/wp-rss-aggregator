@@ -59,8 +59,9 @@ interface ItemCollectionInterface
      * Delete an item with the specified key from this collection.
      *
      * @since [*next-version*]
-     * @throws \InvalidArgumentException If the $key string is not a legal value.
      * @param string $key The key of the item to delete
+     * @throws \InvalidArgumentException If the $key string is not a legal value.
+     * @return bool True if item deleted successfully; false otherwise.
      */
     public function deleteItem($key);
 
