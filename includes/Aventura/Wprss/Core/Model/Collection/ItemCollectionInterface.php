@@ -51,6 +51,7 @@ interface ItemCollectionInterface
      * Delete all items from this collection.
      *
      * @since [*next-version*]
+     * @return bool True if the pool was successfully cleared; false if there was an error.
      */
     public function clear();
 
