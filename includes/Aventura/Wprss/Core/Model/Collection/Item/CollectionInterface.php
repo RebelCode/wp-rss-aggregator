@@ -1,6 +1,6 @@
 <?php
 
-namespace Aventura\Wprss\Core\Model\Collection;
+namespace Aventura\Wprss\Core\Model\Collection\Item;
 
 /**
  * A base for collection interfaces.
@@ -13,7 +13,7 @@ namespace Aventura\Wprss\Core\Model\Collection;
  * @link https://github.com/php-fig/cache/blob/master/src/CacheItemPoolInterface.php CachePoolInterface
  * @since [*next-version*]
  */
-interface ItemCollectionInterface
+interface CollectionInterface
 {
     /**
      * Get a single item.

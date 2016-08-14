@@ -1,13 +1,13 @@
 <?php
 
-namespace Aventura\Wprss\Core\Model\Collection;
+namespace Aventura\Wprss\Core\Model\Collection\Item;
 
 /**
  * Common functionality for item collection items.
  *
  * @since [*next-version*]
  */
-abstract class AbstractItemCollectionItem implements ItemCollectionItemInterface
+abstract class AbstractCollectionItem implements CollectionItemInterface
 {
     protected $key;
     protected $value;

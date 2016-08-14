@@ -1,6 +1,6 @@
 <?php
 
-namespace Aventura\Wprss\Core\Model\Collection;
+namespace Aventura\Wprss\Core\Model\Collection\Item;
 
 /**
  * Represents an item of an item-object-based collection.
@@ -11,7 +11,7 @@ namespace Aventura\Wprss\Core\Model\Collection;
  *
  * @since [*next-version*]
  */
-interface ItemCollectionItemInterface
+interface CollectionItemInterface
 {
     /**
      * Get this item's key.
