@@ -250,7 +250,7 @@
 
 
     /**
-     * Returns the Spinnerchief Addon class singleton instance.
+     * Returns the Core plugin singleton instance.
      *
      * @since 4.8.1
      * @return Aventura\Wprss\Core\Plugin
