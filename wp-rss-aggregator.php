@@ -110,6 +110,10 @@
     if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
         define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15, TRUE );
     }
+    // Where to take the diagnostic tests from
+    if ( !defined( 'WPRACORE_DIAG_TESTS_DIR' ) ) {
+        define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . '/test/diag' );
+    }
 
     define( 'WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator' );
 
@@ -121,7 +125,20 @@
     require_once ( WPRSS_INC . 'autoload.php' );
     // Adding autoload paths
     wprss_autoloader()->add('Aventura\\Wprss\\Core', WPRSS_INC);
+    wprss_autoloader()->add('Aventura\\Wprss\\Core\\DiagTest', WPRACORE_DIAG_TESTS_DIR);
+    // Add tests
+    add_filter('wprss_diag_tester_sources', function ($event) {
+        $sources = $event->getData('sources');
 
+        $locator = new \Dhii\SimpleTest\Locator\DefaultFilePathLocator();
+        $locator->addPath(new \RecursiveDirectoryIterator(WPRACORE_DIAG_TESTS_DIR, 1));
+        $testSource = new \RebelCode\Wprss\Debug\Diagtest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
+
+        $sources[$testSource->getCode()] = $testSource;
+        $event->setData('sources', $sources);
+
+        return $event;
+    });
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
 
