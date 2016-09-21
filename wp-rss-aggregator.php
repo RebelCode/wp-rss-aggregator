@@ -130,7 +130,7 @@
     add_filter('wprss_diag_tester_sources', function ($event) {
         $sources = $event->getData('sources');
 
-        $locator = new \Dhii\SimpleTest\Locator\DefaultFilePathLocator();
+        $locator = new \Dhii\SimpleTest\Locator\FilePathLocator();
         $locator->addPath(new \RecursiveDirectoryIterator(WPRACORE_DIAG_TESTS_DIR, 1));
         $testSource = new \RebelCode\Wprss\Debug\Diagtest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
 
