@@ -111,6 +111,8 @@
         define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15, TRUE );
     }
 
+    define( 'WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator' );
+
     /**
      * Load required files.
      */
@@ -261,7 +263,7 @@
         if (is_null($plugin)) {
             static $timesCalled = 0;
             if ($timesCalled) {
-                throw new Exception('WP RSS Aggregator has been initialized recursively');
+                throw new Exception( sprintf('%1$s has been initialized recursively', WPRSS_CORE_PLUGIN_NAME) );
             }
             $timesCalled++;
 
@@ -284,7 +286,7 @@
 
             $plugin = call_user_func_array(array($factoryClassName, 'create'), array(array(
                 'basename'      => __FILE__,
-                'name'          => 'WP RSS Aggregator'
+                'name'          => WPRSS_CORE_PLUGIN_NAME
             )));
         }
 
@@ -330,7 +332,7 @@
 
                     'target'            =>  '#wpadminbar',
                     'options'           =>  array(
-                        'content'           =>  '<h3>' . __( 'Help improve WP RSS Aggregator', WPRSS_TEXT_DOMAIN ) . '</h3>' . '<p>' . __( 'You\'ve just installed WP RSS Aggregator. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', WPRSS_TEXT_DOMAIN ) . '</p>',
+                        'content'           =>  '<h3>' . sprintf( __( 'Help improve %1$s', WPRSS_TEXT_DOMAIN ), WPRSS_CORE_PLUGIN_NAME ) . '</h3>' . '<p>' . sprintf( __( 'You\'ve just installed %1$s. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', WPRSS_TEXT_DOMAIN ), WPRSS_CORE_PLUGIN_NAME ) . '</p>',
                         'position'          =>  array(
                             'edge'              =>  'top',
                             'align'             =>  'center',
@@ -463,9 +465,9 @@
 		wprss_admin_notice_add(array(
 			'id'			=> 'wp_version_warning',
 			'content'		=> sprintf( __(
-					'<p><strong>WP RSS Aggregator requires WordPress to be of version %1$s or higher.</strong></br>'
-					. 'Older versions of WordPress are no longer supported by WP RSS Aggregator. Please upgrade your WordPress core to continue benefiting from WP RSS Aggregator support services.</p>',
-				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION ),
+					'<p><strong>%2$s requires WordPress to be of version %1$s or higher.</strong></br>'
+					. 'Older versions of WordPress are no longer supported by %2$s. Please upgrade your WordPress core to continue benefiting from %2$s support services.</p>',
+				WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION, WPRSS_CORE_PLUGIN_NAME ),
 			'notice_type'	=> 'error'
 		));
 
@@ -481,9 +483,9 @@
 		wprss_admin_notice_add(array(
 			'id'			=> 'php_version_change_warning',
 			'content'		=> sprintf( __(
-					'<p><strong>WP RSS Aggregator is moving to PHP %1$s</strong></br>'
+					'<p><strong>%2$s is moving to PHP %1$s</strong></br>'
 					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
-				WPRSS_TEXT_DOMAIN ), $minVersion ),
+				WPRSS_TEXT_DOMAIN ), $minVersion, WPRSS_CORE_PLUGIN_NAME ),
 			'notice_type'	=> 'error',
 			'condition'		=> 'wprss_is_wprss_page'
 		));
@@ -500,7 +502,7 @@
         /* Prevents activation of plugin if compatible version of WordPress not found */
         if ( !wprss_wp_min_version_satisfied() ) {
             deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
-            wp_die( sprintf ( __( 'This plugin requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION ), 'WP RSS Aggregator', array( 'back_link' => true ) );
+            wp_die( sprintf ( __( '%2$s requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION, WPRSS_CORE_PLUGIN_NAME ), WPRSS_CORE_PLUGIN_NAME, array( 'back_link' => true ) );
         }
         wprss_settings_initialize();
         flush_rewrite_rules();
