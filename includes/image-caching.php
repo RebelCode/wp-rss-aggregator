@@ -175,7 +175,7 @@ class WPRSS_Image_Cache {
          *
          * @return int The length of the original filename to preserve.
          */
-        protected function get_cache_orig_filename_length() {
+        public function get_cache_orig_filename_length() {
             return $this->_cache_orig_filename_length;
         }
 
@@ -189,7 +189,7 @@ class WPRSS_Image_Cache {
          *
          * @return \WPRSS_Image_Cache
          */
-        protected function set_cache_orig_filename_length($length) {
+        public function set_cache_orig_filename_length($length) {
             $this->_cache_orig_filename_length = intval($length);
 
             return $this;
