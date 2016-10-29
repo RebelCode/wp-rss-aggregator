@@ -265,6 +265,21 @@ class WPRSS_Feed_Access
 
         return new $resourceClass($url, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
     }
+
+    /**
+     * Creates a new object that is responsible for retrieving a remote resource, using values from a feed.
+     *
+     * @since [*next-version*]
+     *
+     * @see wprss_feed_create_resource()
+     *
+     * @param \SimplePie $feed The feed, based on which to create the resource.
+     * @return \SimplePie_File
+     */
+    public function create_resource_from_feed(SimplePie $feed)
+    {
+        return $this->create_resource($feed->feed_url, $feed->timeout, null, $feed->useragent, $feed->force_fsockopen);
+    }
 }
 
 // Initialize
