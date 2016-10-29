@@ -137,6 +137,18 @@ class WPRSS_Feed_Access
         $feed->set_file_class( static::RESOURCE_CLASS );
         $feed->set_useragent($this->get_useragent());
         WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
+
+        /*
+         * Setting the file resource object for the feed to use.
+         * Note: this object will only be used if cache is disabled for
+         * the feed. This is why running {@see SimplePie::set_file_class()}
+         * is still necessary. Like this, the correct file class will
+         * still be used, although the file object set below will
+         * have absolutely no effect on the feed retrieval process.
+         */
+        if (!$feed->file) {
+            $feed->file = $this->create_resource_from_feed($feed);
+        }
     }
 
 
