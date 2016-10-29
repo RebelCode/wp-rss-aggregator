@@ -286,7 +286,7 @@
                     $msg = sprintf(__('Failed to fetch the RSS feed. Error: %s', WPRSS_TEXT_DOMAIN), $feed->error());
                     update_post_meta($source, 'wprss_error_last_import', $msg);
                 }
-                return new WP_Error('simplepie-error', $feed->error());
+                return new WP_Error('simplepie-error', $feed->error(), array('feed' => $feed));
             }
             // If no error, return the feed and remove any error meta
             delete_post_meta($source, 'wprss_error_last_import');
