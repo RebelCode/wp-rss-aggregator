@@ -6,7 +6,10 @@
  *
  * @since 4.7
  */
-class WPRSS_Feed_Access {
+class WPRSS_Feed_Access
+{
+
+    const RESOURCE_CLASS = 'WPRSS_SimplePie_File';
 
 	protected static $_instance;
 
@@ -233,6 +236,34 @@ class WPRSS_Feed_Access {
         $headers = apply_filters('wprss_feed_default_headers', $headers);
 
         return $headers;
+    }
+
+    /**
+     * Creates a new object that is responsible for retrieving a remote resource.
+     *
+     * @since [*next-version*]
+     *
+     * @see SimplePie_File::__construct()
+     *
+     * @param string $url
+     * @param int $timeout
+     * @param int $redirects
+     * @param array $headers If null, {@link default_headers() default headers} will be used.
+     * @param string $useragent
+     * @param bool $force_fsockopen
+     * @return \SimplePie_File
+     */
+    public function create_resource($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false)
+    {
+        if (is_null($headers)) {
+            $headers = $this->default_headers();
+        }
+
+        if (!class_exists($resourceClass = static::RESOURCE_CLASS)) {
+            throw new Exception(sprintf('Could not create resource: resource class "$1$s" does not exist', $resourceClass));
+        }
+
+        return new $resourceClass($url, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
     }
 }
 
