@@ -125,19 +125,19 @@ class WPRSS_Feed_Access
     }
 
 
-	/**
-	 * This happens immediately before feed initialization.
-	 * Handles the `wprss_fetch_feed_before` action.
-	 *
-	 * @since 4.7
-	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
-	 * @param string $url The URL, from which the feed is going to be fetched.
-	 */
-	public function set_feed_options( $feed ) {
-		$feed->set_file_class( 'WPRSS_SimplePie_File' );
+    /**
+     * This happens immediately before feed initialization.
+     * Handles the `wprss_fetch_feed_before` action.
+     *
+     * @since 4.7
+     * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
+     * @param string $url The URL, from which the feed is going to be fetched.
+     */
+    public function set_feed_options( $feed ) {
+        $feed->set_file_class( static::RESOURCE_CLASS );
         $feed->set_useragent($this->get_useragent());
-		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
-	}
+        WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
+    }
 
 
 	/**
