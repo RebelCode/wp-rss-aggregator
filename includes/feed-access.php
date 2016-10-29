@@ -201,6 +201,39 @@ class WPRSS_Feed_Access {
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $value ?>" placeholder="<?php echo __('Default', WPRSS_TEXT_DOMAIN) ?>" />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
+
+    /**
+     * Retrieve default headers that should be used for feed requests.
+     *
+     * Use the `wprss_feed_default_headers` filter to amend the whole return value.
+     * Use the `wprss_feed_default_headers_accept` to amend the types in the "Accept" header.
+     *
+     * @since [*next-version*]
+     * @see array_merge_recursive_distinct()
+     * @param array $additionalHeaders Optional headers to merge with the default ones.
+     *  Merging is done recursively.
+     * @return array An array of headers, where keys are header names, and values are header values.
+     */
+    public function default_headers(array $additionalHeaders = array())
+    {
+        $defaultHeaders = array(
+            'Accept' => implode(', ', apply_filters('wprss_feed_default_headers_accept', array(
+                'application/atom+xml',
+                'application/rss+xmlm',
+                'application/rdf+xml;q=0.9',
+                'application/xml;q=0.8',
+                'text/xml;q=0.8',
+                'text/html;q=0.7',
+                'unknown/unknown;q=0.1',
+                'application/unknown;q=0.1',
+                '*/*;q=0.1')))
+        );
+
+        $headers = array_merge_recursive_distinct($defaultHeaders, $additionalHeaders);
+        $headers = apply_filters('wprss_feed_default_headers', $headers);
+
+        return $headers;
+    }
 }
 
 // Initialize
