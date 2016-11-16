@@ -112,7 +112,7 @@
     }
     // Where to take the diagnostic tests from
     if ( !defined( 'WPRACORE_DIAG_TESTS_DIR' ) ) {
-        define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . '/test/diag' );
+        define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . 'test/diag' );
     }
 
     define( 'WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator' );
