@@ -10,5 +10,8 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "dhii/collections-abstract": "^0.1.0",
+        "dhii/collections-interface": "^0.1.2"
+    }
 }
