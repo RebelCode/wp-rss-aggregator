@@ -175,7 +175,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
         $text      = $this->__($text, $translate);
         $className = $this->getExceptionClassName($className);
         if (!class_exists($className)) {
-            throw new Exception(sprintf('Could not create exception: Class "%1$s" does not exist'));
+            throw new Core\Exception(sprintf('Could not create exception: Class "%1$s" does not exist', $className));
         }
 
         $exception = new $className($text);
