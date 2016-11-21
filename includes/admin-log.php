@@ -9,11 +9,11 @@
 	define( 'WPRSS_LOG_LEVEL_WARNING', 8 );
 	define( 'WPRSS_LOG_LEVEL_ERROR', 16 );
 	define( 'WPRSS_LOG_LEVEL_DEFAULT', 'default' );
-	
+
 
 	/**
 	 * Returns the log file path.
-	 * 
+	 *
 	 * @since 4.0.4
 	 */
 	function wprss_log_file() {
@@ -39,7 +39,7 @@
 	function wprss_reset_log() {
 		wprss_clear_log();
 	}
-	
+
 	/**
 	 * Gets log level from the database.
 	 * @return string The string representing the log level threshold or type.
@@ -47,7 +47,7 @@
 	function wprss_log_get_level_db() {
 		return wprss_get_general_setting( WPRSS_OPTION_CODE_LOG_LEVEL );
 	}
-	
+
 	/**
 	 * Gets log level used.
 	 * @return string The string representing the log level threshold.
@@ -56,48 +56,48 @@
 		$log_level = wprss_log_get_level_db();
 		if ( $log_level === WPRSS_LOG_LEVEL_DEFAULT )
 			$log_level = WPRSS_LOG_LEVEL;
-		
+
 		return apply_filters( 'wprss_log_level', $log_level );
 	}
-	
-	
+
+
 	/**
 	 * Check whether or not the specified logging level is the same as, or one of (only for positive),
 	 * the currently used logging level.
-	 * 
+	 *
 	 * @param int $log_level The log level to check. Must be an unsiged whole number.
 	 */
 	function wprss_log_is_level( $log_level, $used_log_level = null ) {
 		$used_log_level = is_null( $used_log_level ) ? wprss_log_get_level() : $used_log_level;
-		
+
 		if( is_numeric( $log_level ) ) {
 			$log_level = intval( $log_level );
 			$used_log_level = intval( $used_log_level );
-			
+
 			return ($log_level > 0 && $used_log_level > 0)
 					// Mostly for the case of 0
 					? intval( $log_level ) & intval( $used_log_level )
 					: $log_level === $used_log_level;
 		}
-		
+
 		return trim( $log_level ) === trim( $used_log_level );
 	}
-	
-	
+
+
 	/**
 	 * Check whether or not messages with the specified logging level should be logged.
-	 * 
+	 *
 	 * @param int $log_level The log level to check. Must be an unsigned whole number
 	 * @return bool True if messages with the specified logging level should be logged; false otherwise.
 	 */
 	function wprss_log_is_logging_level( $log_level ) {
 		$original_used_level = $used_log_level = wprss_log_get_level();
-		
+
 		// Whether to use the indicated level and below
 		$is_below = ( substr( $used_log_level, 0, 1 ) === '-' );
 		if ( $is_below )
 			$used_log_level = substr( $used_log_level, 1 );
-		
+
 		if( (int)$used_log_level === WPRSS_LOG_LEVEL_NONE ) {
 			$is_log_level = WPRSS_LOG_LEVEL_NONE;
 		}
@@ -106,14 +106,14 @@
 					? ((int)$log_level <= (int)$used_log_level && (int)$log_level !== WPRSS_LOG_LEVEL_NONE)
 					: wprss_log_is_level( (int)$log_level, $used_log_level );
 		}
-		
+
 		return apply_filters( 'wprss_is_logging_level', $is_log_level, $log_level, $used_log_level, $is_below );
 	}
-	
-	
+
+
 	/**
 	 * Get the available log levels.
-	 * 
+	 *
 	 * @param bool $levels_only Whether or not only numeric actual levels are to be returned.
 	 * If false, returns other types as well.
 	 * @return array An array, where key is level, and value is level's human-readable name
@@ -127,16 +127,16 @@
 			WPRSS_LOG_LEVEL_WARNING			=> 'Warning',
 			WPRSS_LOG_LEVEL_ERROR			=> 'Error'
 		);
-		
+
 		if( !$levels_only )
 			$log_levels[ WPRSS_LOG_LEVEL_DEFAULT ]		= 'Default';
-		
+
 		return apply_filters( 'wprss_log_levels', $log_levels, $levels_only );
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param string|int $level Any valid level value.
 	 * @return string The untranslated label of the specified level, or $default if no such level exists.
 	 */
@@ -153,7 +153,7 @@
 	 */
 	function wprss_log( $message, $src = NULL, $log_level = WPRSS_LOG_LEVEL_ERROR ) {
 		if( !wprss_log_is_logging_level( $log_level ) ) return;
-		
+
 		if ( $src === NULL ) {
 			$callers = debug_backtrace();
 			$src = $callers[1]['function'];
@@ -223,8 +223,8 @@
 		    header( 'Content-Length: ' . filesize( $file ) );
 		    readfile( $file );
 		    exit;
-		}		
-	}	
+		}
+	}
 
 
 	/**
@@ -236,10 +236,10 @@
 	 * @since 3.9.6
 	 */
 	function wprss_log_separator() {
-		file_put_contents( wprss_log_file(), "\n", FILE_APPEND );	
+		file_put_contents( wprss_log_file(), "\n", FILE_APPEND );
 	}
-	
-	
+
+
 	/**
 	 * Adding the default setting value.
 	 */
@@ -249,8 +249,8 @@
 		$settings[ WPRSS_OPTION_CODE_LOG_LEVEL ]	= WPRSS_LOG_LEVEL_DEFAULT;
 		return $settings;
 	}
-	
-	
+
+
 	/**
 	 * Adding the setting field
 	 */
@@ -262,21 +262,21 @@
 		);
 		return $sections;
 	}
-	
-	
+
+
 	/**
 	 * Renders the 'log_level' setting field.
-	 * 
+	 *
 	 * @param array $field Info about the field
 	 */
 	function wprss_setting_log_level_callback( $field ) {
         $log_level = wprss_get_general_setting( $field['field_id'] );
-		
+
 		foreach( wprss_log_get_levels( false ) as $_level => $_label ) {
 			$options[ $_level ] = $_label;
 			if( is_numeric( $_level ) && ($_level/2 >= 1) ) $options[ (int)$_level * -1 ] = $_label . ' and below';
 		}
-		
+
 		krsort( $options, defined( 'SORT_NATURAL' ) ? SORT_NATURAL : SORT_STRING );
         ?>
 		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]">
@@ -289,4 +289,3 @@
 		</select>
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
 	}
-	
