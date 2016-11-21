@@ -1,5 +1,4 @@
 <?php
-        define( 'WPRSS_LOG_DISPLAY_LIMIT', 100000 ); // Number of chars to display in log
         define( 'WPRSS_OPTION_CODE_LOG_LEVEL', 'log_level' );
         define( 'WPRSS_LOG_LEVEL_NONE', 0 );
         define( 'WPRSS_LOG_LEVEL_SYSTEM', 1 );
@@ -8,6 +7,10 @@
         define( 'WPRSS_LOG_LEVEL_WARNING', 8 );
         define( 'WPRSS_LOG_LEVEL_ERROR', 16 );
         define( 'WPRSS_LOG_LEVEL_DEFAULT', 'default' );
+
+        // Number of chars to display in log
+        if (!defined('WPRSS_LOG_DISPLAY_LIMIT'))
+            define( 'WPRSS_LOG_DISPLAY_LIMIT', 100000 ); // 100Kb
 
 
         /**
