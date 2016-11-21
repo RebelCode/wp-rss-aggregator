@@ -24,13 +24,37 @@
         }
 
         /**
+         * Writes a message to the log file.
+         *
+         * If directories on the log filepath don't exist, creates them.
+         *
+         * @since [*next-version*]
+         *
+         * @param string $message The message to write to the log.
+         * @param int $flags Flags to be used with {@see file_put_contents()} for writing.
+         * @return bool True if message written successfully; false otherwise.
+         */
+        function wprss_log_write($message, $flags = 0)
+        {
+            $file = wprss_log_file();
+            $dir = dirname($file);
+            if (!file_exists($dir)) {
+                if (!wp_mkdir_p($dir)) {
+                    return false;
+                }
+            }
+
+            return file_put_contents($file, $message, $flags);
+        }
+
+        /**
         * Clears the log file.
         *
         * @since 3.9.6
         */
         function wprss_clear_log()
         {
-            file_put_contents( wprss_log_file(), '' );
+            wprss_log_write( '' );
         }
 
         /**
@@ -175,7 +199,7 @@
             $source = 'WPRSS' . ( ( strlen( $src ) > 0 )? " > $src" : '' ) ;
             $str = "[$date] [$log_level_label] $source:\n";
             $str .= "$message\n\n";
-            file_put_contents( wprss_log_file() , $str, FILE_APPEND );
+            wprss_log_write( $str, FILE_APPEND );
 
             add_action( 'shutdown', 'wprss_log_separator' );
         }
@@ -245,7 +269,7 @@
          */
         function wprss_log_separator()
         {
-            file_put_contents( wprss_log_file(), "\n", FILE_APPEND );
+            wprss_log_write( "\n", FILE_APPEND );
         }
 
         /**
