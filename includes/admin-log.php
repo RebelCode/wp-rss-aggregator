@@ -58,7 +58,9 @@
         }
 
         /**
-         * Alias for wprss_clear_log(). Used for code readability.
+         * Alias for wprss_clear_log().
+         *
+         * Used for code readability.
          *
          * @since 3.9.6
          */
