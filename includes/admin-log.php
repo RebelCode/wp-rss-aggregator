@@ -48,6 +48,93 @@
         }
 
         /**
+         * Reads a certain amount of data from the log file.
+         *
+         * By default, reads that data from the end of the file.
+         *
+         * @since [*next-version*]
+         *
+         * @param null|int $length How many characters at most to read from the log.
+         *  Default: {@see WPRSS_LOG_DISPLAY_LIMIT}.
+         * @param null|int $start Position, at which to start reading.
+         *  If negative, represents that number of chars from the end.
+         *  Default: The amount of characters equal to $length away from the end of the file,
+         *  or the beginning of the file if the size of the file is less than or equal to $length.
+         *
+         * @return string|bool The content of the log, or false if the read operation failed.
+         */
+        function wprss_log_read($length = null, $start = null)
+        {
+            $origStart = $start;
+
+            if (is_null($length)) {
+                $length = WPRSS_LOG_DISPLAY_LIMIT;
+            }
+
+            $file = wprss_log_file();
+
+            if (!($fh = fopen($file, 'r'))) {
+                return false;
+            }
+
+            $info = fstat($fh);
+            $size = $info['size'];
+
+            if ($size === 0 || $length === 0) {
+                return '';
+            }
+
+            // Can't read more than the length of the file
+            if ($length > $size) {
+                $length = $size;
+            }
+
+            // Default start is length before end
+            if (is_null($start)) {
+                $start = -$length;
+            }
+
+            // Allowing negative
+            if ($start < 0) {
+                $start = $size - abs($start);
+            }
+
+            // Can't start before start of file
+            if ($start < 0) {
+                $start = 0;
+            }
+
+            // If reading over EOF,
+            $end = $start + $length;
+            if ($end > $size) {
+                $over = $end - $size;
+                // If start is not fixed, shift start to allow reading as much length as possible
+                if (is_null($origStart)) {
+                    $start = $start - $over;
+                }
+                // If start is fixed, shift length to allow reading from start until end
+                else {
+                    $length = $length - $over;
+                }
+            }
+
+            // Can't start before start of file
+            if ($start < 0) {
+                $start = 0;
+            }
+
+            // Returns 0 when failed
+            if (fseek($fh, $start)) {
+                return false;
+            }
+
+            $str = fread($fh, $length);
+            fclose($fh);
+
+            return $str;
+        }
+
+        /**
         * Clears the log file.
         *
         * @since 3.9.6
@@ -226,15 +313,9 @@
                 wprss_clear_log();
             }
 
-            $contents = file_get_contents(  wprss_log_file() , '' );
-            // Trim the log file to a fixed number of chars
-            $limit = WPRSS_LOG_DISPLAY_LIMIT;
-            if ( strlen( $contents ) > $limit ) {
-                file_put_contents( wprss_log_file(), substr( $contents, 0, $limit ) );
-                return wprss_get_log();
-            } else {
-                return $contents;
-            }
+            $log = wprss_log_read();
+
+            return $log;
         }
 
         /**
