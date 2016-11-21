@@ -8,6 +8,12 @@
         define( 'WPRSS_LOG_LEVEL_ERROR', 16 );
         define( 'WPRSS_LOG_LEVEL_DEFAULT', 'default' );
 
+        if (!defined('WPRSS_LOG_FILENAME_SEPARATOR'))
+            define('WPRSS_LOG_FILENAME_SEPARATOR', '_');
+
+        if (!defined('WPRSS_LOG_FILENAME_CONCATENATOR'))
+            define('WPRSS_LOG_FILENAME_CONCATENATOR', '-');
+
         // Number of chars to display in log
         if (!defined('WPRSS_LOG_DISPLAY_LIMIT'))
             define( 'WPRSS_LOG_DISPLAY_LIMIT', 100000 ); // 100Kb
@@ -20,7 +26,7 @@
          */
         function wprss_log_file()
         {
-            return WPRSS_LOG_FILE . '-' . get_current_blog_id() . WPRSS_LOG_FILE_EXT;
+            return WPRSS_LOG_FILE . wprss_log_suffix() . WPRSS_LOG_FILE_EXT;
         }
 
         /**
@@ -132,6 +138,36 @@
             fclose($fh);
 
             return $str;
+        }
+
+        /**
+         * Determines a suffix for a log file based on context and some globally accessible variables.
+         *
+         * @since [*next-version*]
+         *
+         * @param array $context Options for the suffix.
+         *  Default: ['blog_id' => {{current blog id}}]
+         *
+         * @return string The log file suffix. Prefixed with separator.
+         */
+        function wprss_log_suffix(array $context = null)
+        {
+            if (is_null($context)) {
+                $context = array('blog_id' => get_current_blog_id());
+            }
+
+            $s = WPRSS_LOG_FILENAME_SEPARATOR;
+            $c = WPRSS_LOG_FILENAME_CONCATENATOR;
+            $parts = array();
+
+            if (isset($context['blog_id'])) {
+                $parts[] = 'blg' . $c . $context['blog_id'];
+            }
+
+            $suffix = $s . implode($s, $parts);
+            $suffix = apply_filters('wprss_log_suffix', $suffix, $context);
+
+            return $suffix;
         }
 
         /**
