@@ -67,7 +67,7 @@
          * Check whether or not the specified logging level is the same as, or one of (only for positive),
          * the currently used logging level.
          *
-         * @param int $log_level The log level to check. Must be an unsiged whole number.
+         * @param int $log_level The log level to check. Must be an unsigned whole number.
          */
         function wprss_log_is_level( $log_level, $used_log_level = null )
         {
@@ -119,7 +119,7 @@
          *
          * @param bool $levels_only Whether or not only numeric actual levels are to be returned.
          * If false, returns other types as well.
-         * @return array An array, where key is level, and value is level's human-readable name
+         * @return array An array, where key is level, and value is level's human-readable name.
          */
         function wprss_log_get_levels( $levels_only = true )
         {
@@ -235,7 +235,7 @@
         /**
          * Adds an empty line at the end of the log file.
          *
-         * This function is called on wordpress shutdown, if at least one new line
+         * This function is called on WordPress shutdown, if at least one new line
          * is logged in the log file, to separate logs from different page loads.
          *
          * @since 3.9.6
