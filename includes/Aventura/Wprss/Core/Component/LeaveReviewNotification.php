@@ -20,6 +20,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     const FIRST_ACTIVATION_TIME_OPTION_SUFFIX = '_first_activation_time';
     const NOTICE_ID_SUFFIX = '_leave_review';
     const REVIEW_PAGE_URL = 'https://wordpress.org/support/plugin/wp-rss-aggregator/reviews/';
+    const NOTICE_DELAY_PERIOD = WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY;
 
     protected $firstActivationTime;
     protected $firstActivationTimeOptionName;
@@ -151,7 +152,38 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function isShowLeaveReviewNotification()
     {
-        return $this->isWprssPage();
+        return $this->isWprssPage()
+            && $this->isNoticeDelayPeriodExpired();
+    }
+
+    /**
+     * Determines whether a certain amount of time has passed since first activation of the plugin.
+     *
+     * @since [*next-version*]
+     *
+     * @see WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY
+     *
+     * @return bool True if the pre-configured amount of time since first activation has passed; false otherwise.
+     */
+    public function isNoticeDelayPeriodExpired()
+    {
+        $now = $this->_getCurrentTimestampGmt();
+        $delay = $this->getNoticeDelayPeriod();
+        $firstActivation = $this->getFirstActivationTime();
+
+        return $now - $firstActivation >= $delay;
+    }
+
+    /**
+     * Get the delay before notice gets displayed.
+     *
+     * @since [*next-version*]
+     *
+     * @return int The amount of seconds, by which to delay displaying the notice.
+     */
+    public function getNoticeDelayPeriod()
+    {
+        return intval(static::NOTICE_DELAY_PERIOD);
     }
 
     /**
@@ -230,8 +262,34 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
         $firstFeedSource = $feedSources[0];
         /* @var $firstFeedSource \WP_Post */
         $firstFeedSourceCreated = $firstFeedSource->post_date_gmt;
+        $firstFeedSourceCreated = $this->_dateToTimestamp($firstFeedSourceCreated);
 
         return $firstFeedSourceCreated;
+    }
+
+    /**
+     * Converts a date string into a Unix timestamp.
+     *
+     * @since [*next-version*]
+     *
+     * @see \DateTime::createFromFormat()
+     *
+     * @param string $date The string representation of the date.
+     * @param string $format The format in which the date is specified.
+     * @param string $timezone The string representation of the timezone, in which the date is specified.
+     *
+     * @return type
+     */
+    protected function _dateToTimestamp($date, $format = 'Y-m-d H:i:s', $timezone = 'UTC')
+    {
+        $date = \DateTime::createFromFormat(
+            $format,
+            $date,
+            new \DateTimeZone($timezone)
+        );
+        $timestamp = $date->getTimestamp();
+
+        return $timestamp;
     }
 
     /**
