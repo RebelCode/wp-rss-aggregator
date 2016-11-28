@@ -193,7 +193,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     {
         $time = $this->_getFirstActivationTimeDb();
         $wasCalculated = false;
-        if (is_null($time)) {
+        if (empty($time)) {
             $time = $this->_calculateFirstActivationTime();
             $this->_setFirstActivationTimeDb($time);
             $wasCalculated = true;
