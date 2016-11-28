@@ -46,4 +46,19 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
         $events = $this->createComponent('EventManager', $this->getPlugin(), $data);
         return $events;
     }
+
+    /**
+     * Creates a component that is responsible for the "Leave a Review" notification.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $data Additional data to use for component configuration.
+     * @return Component\LeaveReviewNotification
+     */
+    public function createLeaveReviewNotification($data = array())
+    {
+        $component = $this->createComponent('LeaveReviewNotification', $this->getPlugin(), $data);
+
+        return $component;
+    }
 }
