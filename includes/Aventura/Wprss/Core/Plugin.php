@@ -17,6 +17,7 @@ class Plugin extends Plugin\PluginAbstract
     const POST_TYPE_FEED_SOURCE = 'feed_source';
 
     protected $adminAjaxNotices;
+    protected $leaveReviewNotification;
 
     /**
      * Hooks the rest of the functionality of this class.
@@ -169,5 +170,21 @@ class Plugin extends Plugin\PluginAbstract
         }
 
         return $this->adminAjaxNotices;
+    }
+
+    /**
+     * Retrieve the "Leave Review" notification component singleton.
+     *
+     * @since [*next-version*]
+     *
+     * @return Component\LeaveReviewNotification
+     */
+    public function getLeaveReviewNotification()
+    {
+        if (is_null($this->leaveReviewNotification)) {
+            $this->leaveReviewNotification = $this->getFactory()->createLeaveReviewNotification();
+        }
+
+        return $this->leaveReviewNotification;
     }
 }
