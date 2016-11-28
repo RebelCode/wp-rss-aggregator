@@ -13,7 +13,7 @@
 
 // How much time must pass from activation to display notice
 if (!defined('WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY')) {
-    define('WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY', 60 * 60 * 24 * 7 * 4 * 2); // 2 months
+    define('WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY', 60 * 60 * 24 * 7 * 4 * 1); // 1 month
 }
 
 // How many active feed sources to display notice
