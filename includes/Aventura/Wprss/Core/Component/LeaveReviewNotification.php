@@ -47,7 +47,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function onPluginActivated()
     {
-        $this->recordCurrentTime();
+        $this->_recordCurrentTime();
     }
 
     /**
