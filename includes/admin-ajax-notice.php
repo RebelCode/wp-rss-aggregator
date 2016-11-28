@@ -806,7 +806,7 @@ class WPRSS_Admin_Notices {
 		$event_name = $this->prefix( 'admin_notice_conditions_evaluated' );
 		$result = true; // By default, evaluation passes
 		if ( empty( $conditions ) ) return apply_filters ( $event_name, $result, $condition_type, $this ); // Unconditional ;)
-		if ( !is_array( $conditions ) ) $conditions = (array)$conditions; // Normalizing
+		if ( !is_array( $conditions ) ) $conditions = array($conditions); // Normalizing
 
 		foreach ( $conditions as $_idx => $_condition ) {
 			$func = is_array( $_condition ) && isset( $_condition['func'] )
