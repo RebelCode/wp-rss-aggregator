@@ -194,7 +194,7 @@ class Plugin extends Plugin\PluginAbstract
      *
      * @since [*next-version*]
      *
-     * @return Component\LeaveReviewNotification
+     * @return Component\AdminHelper
      */
     public function getAdminHelper()
     {
