@@ -153,9 +153,21 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function isShowLeaveReviewNotification()
     {
-        return $this->isWprssPage()
-            && $this->isNoticeDelayPeriodExpired()
-            && $this->isMinFeedSourceCountReached();
+        $isWprssPage = $this->isWprssPage();
+        $isDelayExpired = $this->isNoticeDelayPeriodExpired();
+        $isMinCountReached = $this->isMinFeedSourceCountReached();
+        $isShow = $isWprssPage
+            && $isDelayExpired
+            && $isMinCountReached;
+
+        $this->event('leave_review_notification_is_show', array(
+            'is_show'               => &$isShow,
+            'is_wprss_page'         => $isWprssPage,
+            'is_delay_expired'      => $isDelayExpired,
+            'is_min_count_reached'  => $isMinCountReached
+        ));
+
+        return $isShow;
     }
 
     /**
@@ -172,8 +184,16 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
         $now = $this->_getCurrentTimestampGmt();
         $delay = $this->getNoticeDelayPeriod();
         $firstActivation = $this->getFirstActivationTime();
+        $isExpired = $now - $firstActivation >= $delay;
 
-        return $now - $firstActivation >= $delay;
+        $this->event('leave_review_notification_delay_period_is_expired', array(
+            'is_expired'            => &$isExpired,
+            'now'                   => $now,
+            'delay'                 => $delay,
+            'first_activation'      => $firstActivation
+        ));
+
+        return $isExpired;
     }
 
     /**
@@ -187,8 +207,15 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     {
         $minCount = $this->getMinFeedSourceCount();
         $activeSourceIds = $this->_getActiveFeedSourceIds();
+        $isReached = count($activeSourceIds) >= $minCount;
 
-        return count($activeSourceIds) >= $minCount;
+        $this->event('leave_review_notification_min_feed_source_count_reached', array(
+            'is_reached'            => &$isReached,
+            'min_count'             => $minCount,
+            'active_source_ids'     => $activeSourceIds
+        ));
+
+        return $isReached;
     }
 
     /**
