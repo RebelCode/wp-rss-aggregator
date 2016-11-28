@@ -21,6 +21,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     const NOTICE_ID_SUFFIX = '_leave_review';
     const REVIEW_PAGE_URL = 'https://wordpress.org/support/plugin/wp-rss-aggregator/reviews/';
     const NOTICE_DELAY_PERIOD = WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY;
+    const MIN_ACTIVE_FEED_SOURCE_COUNT = WPRSS_LEAVE_REVIEW_NOTIFICATION_MIN_ACTIVE_FEED_SOURCES;
 
     protected $firstActivationTime;
     protected $firstActivationTimeOptionName;
@@ -153,7 +154,8 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     public function isShowLeaveReviewNotification()
     {
         return $this->isWprssPage()
-            && $this->isNoticeDelayPeriodExpired();
+            && $this->isNoticeDelayPeriodExpired()
+            && $this->isMinFeedSourceCountReached();
     }
 
     /**
@@ -172,6 +174,72 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
         $firstActivation = $this->getFirstActivationTime();
 
         return $now - $firstActivation >= $delay;
+    }
+
+    /**
+     * Determines if the minimal amount of sources required to display the notification exists.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True if the minimal amount of feed sources exists; false otherwise.
+     */
+    public function isMinFeedSourceCountReached()
+    {
+        $minCount = $this->getMinFeedSourceCount();
+        $activeSourceIds = $this->_getActiveFeedSourceIds();
+
+        return count($activeSourceIds) >= $minCount;
+    }
+
+    /**
+     * Retrieve the minimal amount of active feed source required for the notification to be displayed.
+     *
+     * @since [*next-version*]
+     *
+     * @return int The amount of feed sources required.
+     */
+    public function getMinFeedSourceCount()
+    {
+        $minCount = intval(static::MIN_ACTIVE_FEED_SOURCE_COUNT);
+        $this->event('leave_review_notice_min_active_feed_source_count', array('min_count' => &$minCount));
+
+        return $minCount;
+    }
+
+    /**
+     * Retrieve IDs of feed sources that are active.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|int $args If array, will be merged with default query params.
+     *  Otherwise, treated as the maximal number of IDs to return.
+     *
+     * @return array A numeric array containing IDs of feed sources that are active
+     */
+    protected function _getActiveFeedSourceIds($args = array())
+    {
+        if (!is_array($args)) {
+            $args = is_null($args)
+                    ? -1
+                    : intval($args);
+            $args = array('posts_per_page' => $args);
+        }
+
+        $defaults = array(
+            'per_page'          => -1,
+            'fields'            => 'ids',
+            'meta_query'        => array(
+                array(
+                    'key'               => 'wprss_state',
+                    'value'             => 'active'
+                )
+            )
+        );
+        $args = array_merge_recursive_distinct($defaults, $args);
+
+        $ids = $this->_getFeedSources($args);
+
+        return $ids;
     }
 
     /**
