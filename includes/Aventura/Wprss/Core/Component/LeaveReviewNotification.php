@@ -19,7 +19,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
 {
     const FIRST_ACTIVATION_TIME_OPTION_SUFFIX = '_first_activation_time';
     const NOTICE_ID_SUFFIX = '_leave_review';
-    const REVIEW_PAGE_URL = 'https://wordpress.org/support/plugin/wp-rss-aggregator/reviews/';
+    const REVIEW_PAGE_URL = 'https://wordpress.org/support/plugin/wp-rss-aggregator/reviews/#new-topic-0';
     const NOTICE_DELAY_PERIOD = WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY;
     const MIN_ACTIVE_FEED_SOURCE_COUNT = WPRSS_LEAVE_REVIEW_NOTIFICATION_MIN_ACTIVE_FEED_SOURCES;
 
