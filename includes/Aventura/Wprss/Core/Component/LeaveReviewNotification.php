@@ -70,8 +70,9 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
         $notices = $this->_getNoticesComponent();
 
         $noticeParams = array(
-            'id'        => $this->getNoticeId(),
-            'content'   => $this->getNoticeContent()
+            'id'                => $this->getNoticeId(),
+            'content'           => $this->getNoticeContent(),
+            'condition'         => $this->getNoticeCondition()
         );
         $this->event('leave_review_notice_before_add', array('notice_params' => &$noticeParams));
 
@@ -121,6 +122,48 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
         ));
 
         return $content;
+    }
+
+    /**
+     * Retrieve the condition for the notice to show.
+     *
+     * @since [*next-version*]
+     *
+     * @return callable The callable that determines whether or not to display the notice.
+     */
+    public function getNoticeCondition()
+    {
+        $condition = $this->_createCommand(array(
+            'function'          => array($this, 'isShowLeaveReviewNotification')
+        ));
+
+        $this->event('leave_review_notice_condition', array('condition' => &$condition));
+
+        return $condition;
+    }
+
+    /**
+     * Determines if the notice is allowed to be displayed on the current page.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True if the notice is allowed to be displayed on the current page; false otherwise.
+     */
+    public function isShowLeaveReviewNotification()
+    {
+        return $this->isWprssPage();
+    }
+
+    /**
+     * Determines if the curren page is related to WPRSS.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True if the current page is related to WPRSS; false otherwise.
+     */
+    public function isWprssPage()
+    {
+        return $this->getAdminHelper()->isWprssPage();
     }
 
     /**
@@ -324,5 +367,30 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     protected function _getNoticesComponent()
     {
         return $this->getPlugin()->getAdminAjaxNotices();
+    }
+
+    /**
+     * Retrieve the admin helper singleton.
+     *
+     * @since [*next-version*]
+     *
+     * @return AdminHelper The helper singleton instance.
+     */
+    public function getAdminHelper()
+    {
+        return $this->getPlugin()->getAdminHelper();
+    }
+
+    /**
+     * Creates a callable command instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|callable $data See {@see Core\Model\Command}.
+     * @return Core\Model\Command|callable See {@see Core\Model\Command}.
+     */
+    protected function _createCommand($data)
+    {
+        return $this->getAdminHelper()->createCommand($data);
     }
 }
