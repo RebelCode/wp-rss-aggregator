@@ -7,7 +7,7 @@ namespace Aventura\Wprss\Core;
  * A dummy factory of Core components.
  *
  * This is to be used with the Core plugin.
- * 
+ *
  * @todo Create a real Core factory of Core components in the Core plugin.
  * @since 4.8.1
  */
@@ -58,6 +58,20 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     public function createLeaveReviewNotification($data = array())
     {
         $component = $this->createComponent('LeaveReviewNotification', $this->getPlugin(), $data);
+
+        return $component;
+    }
+
+    /**
+     * Creates a component that is responsible for the admin notices.
+     *
+     * @since [*next-version*]
+     *
+     * @return Component\AdminAjaxNotices
+     */
+    public function createAdminAjaxNotices($data = array())
+    {
+        $component = $this->createComponent('AdminAjaxNotices', $this->getPlugin(), $data);
 
         return $component;
     }

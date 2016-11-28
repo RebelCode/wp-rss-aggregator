@@ -2,6 +2,8 @@
 
 namespace Aventura\Wprss\Core;
 
+use Aventura\Wprss\Core\Component;
+
 /**
  * The Core instance of WP RSS Aggregator.
  *
@@ -13,6 +15,8 @@ class Plugin extends Plugin\PluginAbstract
     const VERSION = WPRSS_VERSION;
 
     const POST_TYPE_FEED_SOURCE = 'feed_source';
+
+    protected $adminAjaxNotices;
 
     /**
      * Hooks the rest of the functionality of this class.
@@ -149,5 +153,21 @@ class Plugin extends Plugin\PluginAbstract
     public function getFeedSourcePostType()
     {
         return static::POST_TYPE_FEED_SOURCE;
+    }
+
+    /**
+     * Retrieve the admin AJAX notices component singleton.
+     *
+     * @since [*next-version*]
+     *
+     * @return Component\AdminAjaxNotices
+     */
+    public function getAdminAjaxNotices()
+    {
+        if (is_null($this->adminAjaxNotices)) {
+            $this->adminAjaxNotices = $this->getFactory()->createAdminAjaxNotices();
+        }
+
+        return $this->adminAjaxNotices;
     }
 }
