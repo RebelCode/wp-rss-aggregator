@@ -206,7 +206,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     public function isMinFeedSourceCountReached()
     {
         $minCount = $this->getMinFeedSourceCount();
-        $activeSourceIds = $this->_getActiveFeedSourceIds();
+        $activeSourceIds = $this->_getActiveFeedSourceIds($minCount);
         $isReached = count($activeSourceIds) >= $minCount;
 
         $this->event('leave_review_notification_min_feed_source_count_reached', array(
@@ -243,7 +243,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      *
      * @return array A numeric array containing IDs of feed sources that are active
      */
-    protected function _getActiveFeedSourceIds($args = array())
+    protected function _getActiveFeedSourceIds($args = null)
     {
         if (!is_array($args)) {
             $args = is_null($args)
