@@ -18,7 +18,7 @@ if (!defined('WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY')) {
 
 // How many active feed sources to display notice
 if (!defined('WPRSS_LEAVE_REVIEW_NOTIFICATION_MIN_ACTIVE_FEED_SOURCES')) {
-    define('WPRSS_LEAVE_REVIEW_NOTIFICATION_MIN_ACTIVE_FEED_SOURCES', 5);
+    define('WPRSS_LEAVE_REVIEW_NOTIFICATION_MIN_ACTIVE_FEED_SOURCES', 1);
 }
 
 add_action('wprss_init', function() {
