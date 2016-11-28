@@ -4,6 +4,8 @@
      *         
      * @package WPRSSAggregator
      */
+
+define('WPRSS_POST_TYPE_FEED_SOURCE', 'wprss_feed');
     
 
     add_action( 'init', 'wprss_register_post_types' );
