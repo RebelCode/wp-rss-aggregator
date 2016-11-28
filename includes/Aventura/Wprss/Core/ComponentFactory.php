@@ -75,4 +75,18 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
 
         return $component;
     }
+
+    /**
+     * Creates a helper component related to the backend.
+     *
+     * @since [*next-version*]
+     *
+     * @return Component\AdminHelper
+     */
+    public function createAdminHelper($data = array())
+    {
+        $component = $this->createComponent('AdminHelper', $this->getPlugin(), $data);
+
+        return $component;
+    }
 }

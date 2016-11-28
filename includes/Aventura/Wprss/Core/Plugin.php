@@ -18,6 +18,7 @@ class Plugin extends Plugin\PluginAbstract
 
     protected $adminAjaxNotices;
     protected $leaveReviewNotification;
+    protected $adminHelper;
 
     /**
      * Hooks the rest of the functionality of this class.
@@ -186,5 +187,21 @@ class Plugin extends Plugin\PluginAbstract
         }
 
         return $this->leaveReviewNotification;
+    }
+
+    /**
+     * Retrieve the "Leave Review" notification component singleton.
+     *
+     * @since [*next-version*]
+     *
+     * @return Component\LeaveReviewNotification
+     */
+    public function getAdminHelper()
+    {
+        if (is_null($this->adminHelper)) {
+            $this->adminHelper = $this->getFactory()->createAdminHelper();
+        }
+
+        return $this->adminHelper;
     }
 }
