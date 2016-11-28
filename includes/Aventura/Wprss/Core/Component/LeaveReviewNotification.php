@@ -18,9 +18,12 @@ use Aventura\Wprss\Core;
 class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
 {
     const FIRST_ACTIVATION_TIME_OPTION_SUFFIX = '_first_activation_time';
+    const NOTICE_ID_SUFFIX = '_leave_review';
+    const REVIEW_PAGE_URL = 'https://wordpress.org/support/plugin/wp-rss-aggregator/reviews/';
 
     protected $firstActivationTime;
     protected $firstActivationTimeOptionName;
+    protected $noticeId;
 
     /**
      * Runs when this component is initialized.
@@ -29,6 +32,8 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function hook()
     {
+        $this->init();
+
         $hookName = sprintf('!activate_%1$s', $this->getPlugin()->getBasename());
         $this->on($hookName, 'onPluginActivated');
     }
@@ -41,6 +46,96 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     public function onPluginActivated()
     {
         $this->recordCurrentTime();
+    }
+
+    /**
+     * Runs when all plugins have finished loading.
+     *
+     * @since [*next-version*]
+     */
+    public function init()
+    {
+        $this->addLeaveReviewNotice();
+    }
+
+    /**
+     * Adds the notification.
+     *
+     * @since [*next-version*]
+     *
+     * @return LeaveReviewNotification This instance.
+     */
+    public function addLeaveReviewNotice()
+    {
+        $notices = $this->_getNoticesComponent();
+
+        $noticeParams = array(
+            'id'        => $this->getNoticeId(),
+            'content'   => $this->getNoticeContent()
+        );
+        $this->event('leave_review_notice_before_add', array('notice_params' => &$noticeParams));
+
+        $notices->addNotice($noticeParams);
+    }
+
+    /**
+     * Retrieve the ID of the "Leave a Review" admin notice.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The ID of the notice.
+     */
+    public function getNoticeId()
+    {
+        $idSuffix = static::NOTICE_ID_SUFFIX;
+        if (is_null($this->noticeId)) {
+            $this->noticeId = $this->getPlugin()->getCode() . $idSuffix;
+        }
+
+        $noticeId = $this->noticeId;
+        $this->event('leave_review_notice_id', array(
+            'notice_id'         => &$noticeId,
+            'id_suffix'         => $idSuffix
+        ));
+
+        return $noticeId;
+    }
+
+    /**
+     * Retrieve the content for the "Leave a Review" notice.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The content for the notice.
+     */
+    public function getNoticeContent()
+    {
+        $content = wpautop(sprintf(
+            'Looks like you have been using %1$s for a while! Please consider <a href="%2$s" target="_blank">leaving a review</a>.',
+            $this->getPlugin()->getName(),
+            $this->getReviewPageUrl()
+        ));
+
+        $this->event('leave_review_notification_content', array(
+            'content'   => &$content
+        ));
+
+        return $content;
+    }
+
+    /**
+     * Retrieves the URL of the page where to send visitors to leave a review.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The page URL.
+     */
+    public function getReviewPageUrl()
+    {
+        $url = static::REVIEW_PAGE_URL;
+        $this->event('leave_review_page_url', array('url' => &$url));
+
+        return $url;
     }
 
     /**
@@ -217,5 +312,17 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     protected function _getFeedSourcePostType()
     {
         return $this->getPlugin()->getFeedSourcePostType();
+    }
+
+    /**
+     * Retrieve the component responsible for admin AJAX notices.
+     *
+     * @since [*next-version*]
+     *
+     * @return AdminAjaxNotices The component instance.
+     */
+    protected function _getNoticesComponent()
+    {
+        return $this->getPlugin()->getAdminAjaxNotices();
     }
 }
