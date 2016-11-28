@@ -12,6 +12,8 @@ class Plugin extends Plugin\PluginAbstract
     const CODE = 'wprss';
     const VERSION = WPRSS_VERSION;
 
+    const POST_TYPE_FEED_SOURCE = 'feed_source';
+
     /**
      * Hooks the rest of the functionality of this class.
      *
@@ -135,5 +137,17 @@ class Plugin extends Plugin\PluginAbstract
         $response->setAjaxData($data);
 
         return $response;
+    }
+
+    /**
+     * Retrieve the post type of feed sources.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The post type string of the feed source post type.
+     */
+    public function getFeedSourcePostType()
+    {
+        return static::POST_TYPE_FEED_SOURCE;
     }
 }
