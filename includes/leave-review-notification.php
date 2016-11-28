@@ -2,6 +2,13 @@
 
 /**
  * This is a module responsible for facilitating the "Leave a Review" notification.
+ *
+ * Use the `WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY` constant to change the amount of time (in seconds)
+ * that the notice will be delayed by after first installation date. This date is determined by an option created
+ * during plugin activation, if not already present. When retrieving this value, if it does not exist
+ * (perhaps because this update was installed after activation happened), it will be deduced from the creation time
+ * of the oldest feed source. If no feed sources exist, the time at that moment will be determined as the
+ * first activation time from that point onward.
  */
 
 if (!defined('WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY')) {
