@@ -29,7 +29,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function hook()
     {
-        $hookName = sprintf('activate_%1$s', $this->getPlugin()->getBasename());
+        $hookName = sprintf('!activate_%1$s', $this->getPlugin()->getBasename());
         $this->on($hookName, 'onPluginActivated');
     }
 
