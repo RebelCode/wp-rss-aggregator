@@ -252,12 +252,13 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
             $args = array('posts_per_page' => $args);
         }
 
-        $args = array_merge_recursive_distinct(array(
+        $defaults = array(
             'post_type'         => $this->_getFeedSourcePostType(),
             'posts_per_page'    => -1,
             'orderby'           => 'date',
             'order'             => 'ASC',
-        ), $args);
+        );
+        $args = array_merge_recursive_distinct($defaults, $args);
 
         $query = new \WP_Query($args);
 
