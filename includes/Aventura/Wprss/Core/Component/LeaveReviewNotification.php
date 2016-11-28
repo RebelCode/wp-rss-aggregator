@@ -54,14 +54,25 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     public function getFirstActivationTime($format = null)
     {
         $time = $this->_getFirstActivationTimeDb();
+        $wasCalculated = false;
         if (is_null($time)) {
             $time = $this->_calculateFirstActivationTime();
             $this->_setFirstActivationTimeDb($time);
+            $wasCalculated = true;
         }
 
-        return is_null($format)
+        $formatted = is_null($format)
                 ? $time
                 : date($format, $time);
+
+        $this->event('leave_review_first_activation_time', array(
+            'time'              => $time,
+            'format'            => $format,
+            'time_formatted'    => &$formatted,
+            'was_calculated'    => $wasCalculated
+        ));
+
+        return $formatted;
     }
 
     /**
