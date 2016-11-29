@@ -139,6 +139,10 @@
 
         return $event;
     });
+
+    /* Only function definitions, no effect! */
+    require_once(WPRSS_INC . 'functions.php');
+
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
 
@@ -313,7 +317,6 @@
         return $plugin;
     }
 
-    require_once(WPRSS_INC . 'functions.php');
     try {
         $instance = wprss();
     } catch (Exception $e) {
