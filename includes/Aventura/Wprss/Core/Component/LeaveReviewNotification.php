@@ -113,8 +113,11 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function getNoticeContent()
     {
+        $message = <<<'MSG'
+It looks like you've been using WP RSS Aggregator for a while. Would you please consider <a href="%2$s" target="_blank">leaving a review</a>? Thank you!
+MSG;
         $content = wpautop(sprintf(
-            'Looks like you have been using %1$s for a while! Please consider <a href="%2$s" target="_blank">leaving a review</a>.',
+            $message,
             $this->getPlugin()->getName(),
             $this->getReviewPageUrl()
         ));
