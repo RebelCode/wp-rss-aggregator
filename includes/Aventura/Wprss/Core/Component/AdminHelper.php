@@ -45,4 +45,24 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
 
         return $cmd;
     }
+
+    /**
+     * Resolves a value to something concrete.
+     *
+     * If the value is a callable, calls it. Otherwise, returns value.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed $value Anything.
+     *
+     * @return mixed A non-callable value.
+     */
+    public function resolveValue($value)
+    {
+        if (is_callable($value)) {
+            $value = call_user_func_array($value, array());
+        }
+
+        return $value;
+    }
 }
