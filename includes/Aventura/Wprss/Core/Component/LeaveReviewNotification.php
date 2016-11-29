@@ -47,7 +47,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function onPluginActivated()
     {
-        $this->_recordCurrentTime();
+        $this->_recordEarliestTimeIfNotPresent();
     }
 
     /**
@@ -318,13 +318,8 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      */
     public function getFirstActivationTime($format = null)
     {
+        $this->_recordEarliestTimeIfNotPresent();
         $time = $this->_getFirstActivationTimeDb();
-        $wasCalculated = false;
-        if (empty($time)) {
-            $time = $this->_calculateFirstActivationTime();
-            $this->_setFirstActivationTimeDb($time);
-            $wasCalculated = true;
-        }
 
         $formatted = is_null($format)
                 ? $time
@@ -333,8 +328,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
         $this->event('leave_review_first_activation_time', array(
             'time'              => $time,
             'format'            => $format,
-            'time_formatted'    => &$formatted,
-            'was_calculated'    => $wasCalculated
+            'time_formatted'    => &$formatted
         ));
 
         return $formatted;
@@ -476,11 +470,12 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
      *
      * @return LeaveReviewNotification This instance.
      */
-    protected function _recordCurrentTime()
+    protected function _recordEarliestTimeIfNotPresent()
     {
         $time = $this->_getFirstActivationTimeDb();
+
         if (empty($time)) {
-            $time = $this->_getCurrentTimestampGmt();
+            $time = $this->_calculateFirstActivationTime();
             $this->_setFirstActivationTimeDb($time);
         }
 
