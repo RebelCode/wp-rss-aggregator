@@ -3,18 +3,18 @@
 
 /**
  * Centralizes control over resource fetching.
- * 
+ *
  * @since 4.7
  */
 class WPRSS_Feed_Access {
-	
+
 	protected static $_instance;
-	
+
 	protected $_certificate_file_path;
-	
+
 	const SETTING_KEY_CERTIFICATE_PATH = 'certificate-path';
     const SETTING_KEY_FEED_REQUEST_USERAGENT = 'feed_request_useragent';
-	
+
 	/**
 	 * @since 4.7
 	 * @return WPRSS_Feed_Access The singleton instance of this class.
@@ -24,19 +24,19 @@ class WPRSS_Feed_Access {
 			$class_name = __CLASS__;
 			self::$_instance = new $class_name;
 		}
-		
+
 		return self::$_instance;
 	}
-	
-	
+
+
 	public function __construct() {
 		$this->_construct();
 	}
-	
-	
+
+
 	/**
 	 * The parameter-less constructor.
-	 * 
+	 *
 	 * @since 4.7
 	 */
 	protected function _construct() {
@@ -44,11 +44,11 @@ class WPRSS_Feed_Access {
 		add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
 		add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
 	}
-	
-	
+
+
 	/**
 	 * Sets the path to the certificate, which will be used by WPRSS to fetch remote content.
-	 * 
+	 *
 	 * @since 4.7
 	 * @param string $path Absolute path to the certificate file.
 	 * @return \WPRSS_Feed_Access This instance.
@@ -57,11 +57,11 @@ class WPRSS_Feed_Access {
 		$this->_certificate_file_path = $path;
 		return $this;
 	}
-	
-	
+
+
 	/**
 	 * Gets the path to the certificate, which will be used by WPRSS to fetch remote content.
-	 * 
+	 *
 	 * @since 4.7
 	 * @see get_certificate_path_setting()
 	 * @return string Absolute path to the certificate file. By default will use the option.
@@ -72,24 +72,24 @@ class WPRSS_Feed_Access {
 
 		return $this->_certificate_file_path;
 	}
-	
-	
+
+
 	/**
 	 * Gets the value of the option that stores the path to the certificate file.
 	 * Relative paths will be converted to absolute, as if relative to WP root.
-	 * 
+	 *
 	 * @since 4.7
 	 * @return string Absolute path to the certificate file.
 	 */
 	public function get_certificate_path_setting() {
 		$path = wprss_get_general_setting( self::SETTING_KEY_CERTIFICATE_PATH );
-		
+
 		if ( empty( $path ) )
 			return $path;
-		
+
 		if ( !path_is_absolute( $path ) )
 			$path = ABSPATH . $path;
-		
+
 		return $path;
 	}
 
@@ -120,12 +120,12 @@ class WPRSS_Feed_Access {
             ? SIMPLEPIE_USERAGENT
             : $useragent;
     }
-	
-	
+
+
 	/**
 	 * This happens immediately before feed initialization.
 	 * Handles the `wprss_fetch_feed_before` action.
-	 * 
+	 *
 	 * @since 4.7
 	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
 	 * @param string $url The URL, from which the feed is going to be fetched.
@@ -135,11 +135,11 @@ class WPRSS_Feed_Access {
         $feed->set_useragent($this->get_useragent());
 		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
 	}
-	
-	
+
+
 	/**
 	 * Implements a `wprss_settings_array` filter.
-	 * 
+	 *
 	 * @since 4.7
 	 * @param array $settings The current settings array, where 1st dimension is secion code, 2nd is setting code, 3rd is setting option(s).
 	 * @return array The new settings array.
@@ -154,11 +154,11 @@ class WPRSS_Feed_Access {
 			'label'			=> __( 'Feed Request Useragent', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
 		);
-		
+
 		return $settings;
 	}
-	
-	
+
+
 	/**
 	 * @since 4.7
 	 * @param array $settings The array of settings, where key is
@@ -171,11 +171,11 @@ class WPRSS_Feed_Access {
 
 		return $settings;
 	}
-	
-	
+
+
 	/**
 	 * Renders the setting field for the certificate path.
-	 * 
+	 *
 	 * @since 4.7
 	 * @see wprss_admin_init
 	 * @param array $field Data of this field.
@@ -215,12 +215,12 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 
 	protected static $_default_certificate_file_path;
 	protected $_certificate_file_path;
-	
-	
+
+
 	/**
 	 * Copied from {@see SimplePie_File#__construct()}.
 	 * Adds call to {@see _before_curl_exec()}.
-	 * 
+	 *
 	 * @since 4.7
 	 */
 	public function __construct( $url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false ) {
@@ -400,14 +400,14 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Additional preparation of the curl request.
 	 * Sets the {@link CURLOPT_CAINFO http://php.net/manual/en/function.curl-setopt.php}
 	 * cURL option to a value determined by {@see get_default_certificate_file_path}.
 	 * If the value is empty, leaves it as is.
-	 * 
+	 *
 	 * @since 4.7
 	 * @param resource $fp Pointer to a resource created by {@see curl_init()}.
 	 * @param string $url The URL, to which the cURL request is being made.
@@ -422,36 +422,36 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 
 		return $this;
 	}
-	
-	
+
+
 	/**
 	 * Gets the path to the certificate, which will be used by this instance
 	 * to fetch remote content.
-	 * 
+	 *
 	 * @since 4.7
 	 * @return string Path to the certificate file.
 	 */
 	public function get_certificate_file_path() {
 		return $this->_certificate_file_path;
 	}
-	
-	
+
+
 	/**
 	 * Gets the path to the certificate file, which will be used by future
 	 * instances of this class.
-	 * 
+	 *
 	 * @since 4.7
 	 * @return string Path to the certificate file.
 	 */
 	public static function get_default_certificate_file_path() {
 		return self::$_default_certificate_file_path;
 	}
-	
-	
+
+
 	/**
 	 * Sets the path to the certificate file.
 	 * This path will be used by future instances of this class.
-	 * 
+	 *
 	 * @since 4.7
 	 * @param string $path The path to the certificate file.
 	 */
@@ -469,20 +469,26 @@ class WPRSS_SimplePie_File extends SimplePie_File {
      */
     protected function _afterCurlHeadersParsed($curlInfo)
     {
+        $bodyMaxLength = 150;
+        $code = $this->status_code;
+        $body = $this->body;
+        $bodyLength = strlen($body);
+        $bodyOutput = strlen($body) < $bodyMaxLength
+            ? $body
+            : substr($body, 0, $bodyMaxLength);
+        $outputLength = strlen($bodyOutput);
         $error = implode("\n", array(
             'The resource could not be retrieved because of a %1$s error with code %2$d',
-            'Server returned %3$d characters:',
+            'Server returned %3$d characters' . ($outputLength < $bodyMaxLength ? '' : ', of which ' . $outputLength . ' are below') . ':',
             '%4$s'
         ));
 
-        $code = $this->status_code;
-        $body = $this->body;
         if ($code >= 400 && $code < 500 ) { // Client error
-            $this->error = sprintf($error, 'client', $code, strlen($body), $body);
+            $this->error = sprintf($error, 'client', $code, $bodyLength, $bodyOutput);
             $this->success = false;
         }
         if ($code >= 500 && $code < 600 ) { // Server error
-            $this->error = sprintf($error, 'server', $code, strlen($body), $body);
+            $this->error = sprintf($error, 'server', $code, $bodyLength, $bodyOutput);
             $this->success = false;
         }
     }

@@ -45,7 +45,9 @@ jQuery( document ).ready( function($) {
 				showError(response.error);
 			} else {
 				$('#support-error').html(wprss_admin_help['sent-ok']);
-				$('#support-error').css('color', 'black');
+				$('#support-error').css('color', 'green');
+
+				formElements.parents('form').get(0).reset();
 			}
 
 			return response;

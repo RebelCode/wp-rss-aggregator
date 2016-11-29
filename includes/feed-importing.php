@@ -106,8 +106,9 @@
 			// Generate a list of items fetched, that are not already in the DB
 			$new_items = array();
 			foreach ( $items_to_insert as $item ) {
-				$permalink = wprss_normalize_permalink( $item->get_permalink() );
-				wprss_log_obj( 'Normalizing permalink', sprintf('%1$s -> %2$s', $item->get_permalink(), $permalink), null, WPRSS_LOG_LEVEL_SYSTEM );
+
+				$permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
+				wprss_log_obj( 'Normalized permalink', sprintf('%1$s -> %2$s', $item->get_permalink(), $permalink), null, WPRSS_LOG_LEVEL_SYSTEM );
 
 				// Check if not blacklisted and not already imported
 				$is_blacklisted = wprss_is_blacklisted( $permalink );
@@ -305,10 +306,10 @@
 	 * @return string The normalized permalink
 	 * @since 4.2.3
 	 */
-	function wprss_normalize_permalink( $permalink ) {
+	function wprss_normalize_permalink( $permalink, $item, $feed_ID) {
 		// Apply normalization functions on the permalink
 		$permalink = trim( $permalink );
-		$permalink = apply_filters( 'wprss_normalize_permalink', $permalink );
+		$permalink = apply_filters( 'wprss_normalize_permalink', $permalink, $item, $feed_ID);
 		// Return the normalized permalink
 		return $permalink;
 	}
@@ -464,7 +465,7 @@
 		foreach ( $items as $item ) {
 
 			// Normalize the URL
-			$permalink = wprss_normalize_permalink( $item->get_permalink() );
+			$permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
 			wprss_log_obj( 'Importing item', $permalink, null, WPRSS_LOG_LEVEL_INFO );
 			wprss_log_obj( 'Original permalink', $item->get_permalink(), null, WPRSS_LOG_LEVEL_SYSTEM );
 

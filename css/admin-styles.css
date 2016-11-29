@@ -621,6 +621,20 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     margin: 0;
 }
 
+.wprss-section-tooltip-handle,
+.wprss-section-tooltip-handle:hover,
+.wprss-section-tooltip-handle:active,
+.wprss-section-tooltip-handle:visited,
+.wprss-section-tooltip-handle:link,
+.wprss-section-tooltip-handle:focus {
+    color: #006799;
+    margin-left: 5px;
+    text-decoration: none;
+    outline: none;
+    cursor: help;
+    font-size: 15px;
+}
+
 
 
 /* Admin Notifications ====================================================== */
@@ -710,4 +724,12 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     .wprss-tr-hr th {
         padding-top: 10px;
     }
+}
+
+.ajax-error,
+.ajax-error:hover,
+.ajax-error:visited,
+.ajax-error:link,
+.ajax-error:active {
+    color: #a00;
 }

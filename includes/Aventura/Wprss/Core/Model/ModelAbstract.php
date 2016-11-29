@@ -175,7 +175,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
         $text      = $this->__($text, $translate);
         $className = $this->getExceptionClassName($className);
         if (!class_exists($className)) {
-            throw new Exception(sprintf('Could not create exception: Class "%1$s" does not exist'));
+            throw new Core\Exception(sprintf('Could not create exception: Class "%1$s" does not exist', $className));
         }
 
         $exception = new $className($text);
@@ -358,5 +358,27 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     public function event($name, $data = array())
     {
         return null;
+    }
+
+    /**
+     * Convenient wrapper for providing a default value to a parameter.
+     *
+     * Will return the default value if the parameter matches the criteria;
+     * otherwise, returns the parameter unchanged.
+     * The comparison is made in strict mode.
+     *
+     * @since 4.9
+     * @param mixed $param The actual value.
+     * @param mixed $default The default value.
+     * @param mixed $criteria The condition.
+     * @return mixed The parameter, or the default value.
+     */
+    public static function defaultParam($param, $default, $criteria = null)
+    {
+        if ($param === $criteria) {
+            return $default;
+        }
+
+        return $param;
     }
 }
