@@ -24,7 +24,8 @@ class Set extends Sets\AbstractGenericSetSet implements SynonymSetSetInterface
      */
     public function getSetForTerm($term)
     {
-        $synonymSets = $this->_arrayConvert($this->_getSetsForTerm($term));
+        $synonymSets = $this->_getSetsForTerm($term);
+        $synonymSets = $this->_arrayConvert($synonymSets);
         if (!($set = array_shift($synonymSets))) {
             $set = new Sets\Synonym\Simple(array($term));
             $this->add($set);

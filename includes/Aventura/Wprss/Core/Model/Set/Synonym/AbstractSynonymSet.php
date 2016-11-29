@@ -26,7 +26,8 @@ class AbstractSynonymSet extends AbstractGenericSet
             return array();
         }
 
-        $items = $this->_arrayConvert($this->_getItems());
+        $items = $this->_getItems();
+        $items = $this->_arrayConvert($items);
         return array_values(array_diff($items, array($term)));
     }
 
