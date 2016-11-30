@@ -132,7 +132,7 @@
 
         $locator = new \Dhii\SimpleTest\Locator\FilePathLocator();
         $locator->addPath(new \RecursiveDirectoryIterator(WPRACORE_DIAG_TESTS_DIR, 1));
-        $testSource = new \RebelCode\Wprss\Debug\Diagtest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
+        $testSource = new \RebelCode\Wprss\Debug\DiagTest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
 
         $sources[$testSource->getCode()] = $testSource;
         $event->setData('sources', $sources);
