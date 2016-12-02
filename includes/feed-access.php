@@ -110,15 +110,45 @@ class WPRSS_Feed_Access {
      * Get the useragent string that will be sent with feed requests.
      *
      * @since 4.8.2
+     *
+     * @param int|null $feedSourceId The ID of the feed source, which to get the useragent for.
+     *  Leave `null` to get a useragent independently from any feed source.
+     *
      * @return string The useragent string that will be sent together with feed requests.
      *  If empty, the value of SIMPLEPIE_USERAGENT will be used.
      */
-    public function get_useragent()
+    public function get_useragent($feedSourceId = null)
     {
-        $useragent = $this->get_useragent_setting();
-        return !strlen(trim($useragent))
-            ? SIMPLEPIE_USERAGENT
+        $useragent = !is_null($feedSourceId)
+                ? get_post_meta($feedSourceId, self::SETTING_KEY_FEED_REQUEST_USERAGENT, true)
+                : $this->get_useragent_setting();
+
+        if (!strlen(trim($useragent))) {
+            $useragent = $this->get_useragent_setting();
+        }
+
+        $useragent = !strlen(trim($useragent))
+            ? $this->getDefaultUseragent()
             : $useragent;
+
+        wprss()->event('feed_access_useragent', array(
+            'useragent'         => &$useragent,
+            'feed_source_id'    => $feedSourceId
+        ));
+
+        return $useragent;
+    }
+
+    /**
+     * Retrieve the useragent string that will be used by default.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The useragent string.
+     */
+    public function getDefaultUseragent()
+    {
+        return SIMPLEPIE_USERAGENT;
     }
 
 
