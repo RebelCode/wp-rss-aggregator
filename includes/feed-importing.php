@@ -277,7 +277,7 @@
 		// Strip them
 		$feed->strip_htmltags( $tags_to_strip );
 
-		do_action( 'wprss_fetch_feed_before', $feed );
+		do_action( 'wprss_fetch_feed_before', $feed, $source );
 
 		// Fetch the feed
 		$feed->init();
