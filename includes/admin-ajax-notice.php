@@ -506,7 +506,11 @@ class WPRSS_Admin_Notices {
 
 		// Auto-generate nonce
 		if ( is_null( $data['nonce'] ) && !is_null( $data['id'] ) ) {
-			$data['nonce'] = $this->generate_nonce_for_notice( $data['id'] );
+            $me = $this;
+			$data['nonce'] = wprss()->getAdminHelper()->createCommand(function() use ($me, $data) {
+                $nonce = $me->generate_nonce_for_notice( $data['id'] );
+                return $nonce;
+            });
 		}
 
 		// Auto-generate nonce element ID
@@ -806,7 +810,7 @@ class WPRSS_Admin_Notices {
 		$event_name = $this->prefix( 'admin_notice_conditions_evaluated' );
 		$result = true; // By default, evaluation passes
 		if ( empty( $conditions ) ) return apply_filters ( $event_name, $result, $condition_type, $this ); // Unconditional ;)
-		if ( !is_array( $conditions ) ) $conditions = (array)$conditions; // Normalizing
+		if ( !is_array( $conditions ) ) $conditions = array($conditions); // Normalizing
 
 		foreach ( $conditions as $_idx => $_condition ) {
 			$func = is_array( $_condition ) && isset( $_condition['func'] )
@@ -1071,6 +1075,9 @@ class WPRSS_Admin_Notices {
 
 		if ( !$notice )
 			throw new Exception( sprintf( 'Could not render notice: no notice found for ID "%1$s"' ), $id );
+
+        $helper = wprss()->getAdminHelper();
+
 		ob_start();
 		$notice = apply_filters( $this->prefix( 'admin_notice_render_before' ), $notice, $this );
 		?>
@@ -1080,7 +1087,7 @@ class WPRSS_Admin_Notices {
 				<?php echo $notice['content'] ?>
 			</div>
 			<a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
-			<span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $notice['nonce'] ?></span>
+            <span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $helper->resolveValue($notice['nonce']) ?></span>
 		</div>
 		<?php
 		do_action( $this->prefix( 'admin_notice_render_after' ), $notice, $this );
@@ -1113,7 +1120,8 @@ class WPRSS_Admin_Notices {
 			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice_id ) );
 
 		// Is it the right nonce?
-		if ( $notice['nonce'] !== $nonce )
+        $noticeNonce = wprss()->getAdminHelper()->resolveValue($notice['nonce']);
+		if ( $noticeNonce !== $nonce )
 			throw new Exception( sprintf( 'Could not hide notice: Nonce "%1$s" does not belong to notice "%2$s"', $nonce, $notice_id ) );
 
 		// Verify nonce
