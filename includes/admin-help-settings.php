@@ -3,6 +3,7 @@
 add_action( 'plugins_loaded', 'wprss_settings_add_tooltips', 11 );
 function wprss_settings_add_tooltips() {
 	if( class_exists('WPRSS_Help') ) {
+                $wprss = wprss();
 		$help = WPRSS_Help::get_instance();
 
 		// Feed source setting fields
@@ -144,5 +145,20 @@ function wprss_settings_add_tooltips() {
 		
 		);
 		$help->add_tooltips( $tooltips, $prefix );
+
+                // Feed source specific
+                $prefix = 'field_';
+                $help->add_tooltips(array(
+                    WPRSS_Feed_Access::SETTING_KEY_FEED_REQUEST_USERAGENT           => $wprss->__( array('The string to be used as the useragent for feed requests.
+
+'.                                                                                  'If non-empty, this exact string will be sent with every request made by %1$s for a feed source XML document.
+
+'.                                                                                  'Leave this empty to inherit the general setting.
+
+'.                                                                                  'Some servers react in unexpected ways to the default value. In such cases, try changing this to something else.
+
+'.                                                                                  'The default value is determined by the SimplePie library, and reflects its name, version and build numbers, and some other information.',
+                                                                                    $wprss->getName()))
+                ), $prefix);
 	}
 }
