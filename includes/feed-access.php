@@ -39,10 +39,13 @@ class WPRSS_Feed_Access {
 	 *
 	 * @since 4.7
 	 */
-	protected function _construct() {
-		add_action( 'wprss_fetch_feed_before', array( $this, 'set_feed_options' ), 10 );
-		add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
-		add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
+	protected function _construct()
+        {
+            $wprss = wprss();
+            add_action( 'wprss_fetch_feed_before', array( $this, 'set_feed_options' ), 10, 2 );
+            add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
+            add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
+            $wprss->on('fields', array($this, 'add_feed_source_fields'));
 	}
 
 
@@ -190,6 +193,26 @@ class WPRSS_Feed_Access {
 
 		return $settings;
 	}
+
+        /**
+         * Adding feed source specific settings.
+         *
+	 * @since [*next-version*]
+         *
+         * @param array $fields An array containing all existing fields by ID.
+         */
+        public function add_feed_source_fields($fields)
+        {
+            $wprss = wprss();
+
+            $fields[self::SETTING_KEY_FEED_REQUEST_USERAGENT] = array(
+                'id'            => self::SETTING_KEY_FEED_REQUEST_USERAGENT,
+                'label'         => $wprss->__('Feed Request Useragent'),
+                'placeholder'   => $wprss->__('Leave blank to inherit general setting')
+            );
+
+            return $fields;
+        }
 
 
 	/**
