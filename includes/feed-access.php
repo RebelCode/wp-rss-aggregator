@@ -158,12 +158,15 @@ class WPRSS_Feed_Access {
 	 *
 	 * @since 4.7
 	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
+	 * @param int $feedSourceId ID of the feed source, which is accessing the feed.
+         *  Leave `null` to skip setting feed source specific options.
 	 * @param string $url The URL, from which the feed is going to be fetched.
 	 */
-	public function set_feed_options( $feed ) {
-		$feed->set_file_class( 'WPRSS_SimplePie_File' );
-        $feed->set_useragent($this->get_useragent());
-		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
+	public function set_feed_options($feed, $feedSourceId = null)
+        {
+            $feed->set_file_class('WPRSS_SimplePie_File');
+            $feed->set_useragent($this->get_useragent($feedSourceId));
+            WPRSS_SimplePie_File::set_default_certificate_file_path($this->get_certificate_file_path());
 	}
 
 
