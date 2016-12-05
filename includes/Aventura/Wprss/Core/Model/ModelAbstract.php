@@ -271,7 +271,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     protected function _getDataOrConst($key, $default = null)
     {
         if ($this->hasData($key)) {
-            return $this->getData();
+            return $this->getData($key);
         }
 
         $const = $this->constant($key);
