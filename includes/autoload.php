@@ -25,4 +25,12 @@ if (!function_exists('wprss_autoloader')) {
     }
 }
 
-require_once(WPRSS_DIR . 'vendor/autoload.php');
+foreach(array(
+    untrailingslashit(WPRSS_DIR) . '/vendor/autoload.php', // Standalone
+    realpath(WPRSS_DIR . '/../../..') . '/vendor/autoload.php', // Vanilla WP, or another root package
+) as $wprssAutoloadPath) {
+    if (file_exists($wprssAutoloadPath)) {
+        require_once($wprssAutoloadPath);
+        break;
+    }
+}
