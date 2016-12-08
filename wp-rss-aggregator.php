@@ -139,6 +139,10 @@
 
         return $event;
     });
+
+    /* Only function definitions, no effect! */
+    require_once(WPRSS_INC . 'functions.php');
+
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
 
@@ -259,6 +263,9 @@
     /* Load the fallbacks for mbstring */
     require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
+    /* The "Leave a Review" notification module */
+    require_once ( WPRSS_INC . 'leave-review-notification.php' );
+
     // Initializes licensing
     add_action( 'plugins_loaded', 'wprss_licensing' );
 
@@ -310,7 +317,6 @@
         return $plugin;
     }
 
-    require_once(WPRSS_INC . 'functions.php');
     try {
         $instance = wprss();
     } catch (Exception $e) {
