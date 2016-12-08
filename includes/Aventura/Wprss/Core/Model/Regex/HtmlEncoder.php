@@ -403,6 +403,7 @@ class HtmlEncoder extends AbstractRegex
             unset($matches[$key]);
         }
 
+        $matches = array_values($matches);
         return $matches;
     }
 
