@@ -255,7 +255,7 @@
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
 	/* SimplePie */
-	require_once ( ABSPATH . WPINC . '/class-feed.php' );
+	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
