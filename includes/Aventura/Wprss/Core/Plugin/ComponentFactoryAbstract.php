@@ -65,6 +65,11 @@ abstract class ComponentFactoryAbstract extends ComponentAbstract implements Com
             $className = sprintf('%1$s\\%2$s', $rootNamespace, $name);
         }
 
+        $this->event('component_class_name', array(
+            'name'          => $name,
+            'class_name'    => &$className
+        ));
+
         return $className;
     }
 
