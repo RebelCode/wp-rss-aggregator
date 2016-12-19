@@ -1,4 +1,4 @@
-=== RSS Aggregator ===
+=== WP RSS Aggregator ===
 Contributors: RebelCode, jeangalea, Mekku, xedin.unknown, markzahra
 Plugin URI: https://www.wprssaggregator.com
 Tags: RSS, RSS feeds, aggregation, autoblog, content curation, feed reader, feed to post, RSS aggregator, RSS feeder, RSS import, RSS to post, syndication, multiple feed import
