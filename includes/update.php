@@ -117,7 +117,6 @@
 		update_option( 'wprss_settings_general', $settings );
 	}
 
-
 	/**
 	 * Initialize settings to default ones if they are not yet set
 	 *
