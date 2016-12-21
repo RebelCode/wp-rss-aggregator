@@ -6,3 +6,5 @@ log-*.txt
 *.!sync
 /nbproject/private/
 /vendor/
+/releases/
+/build/
