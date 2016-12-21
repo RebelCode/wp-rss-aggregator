@@ -36,7 +36,9 @@
 
 				'wprss_source_link'     => __('Enable this option to link the feed source name to the RSS feed\'s source site.
 
-' .                                           'Selecting "Default" will cause the value chosen in the general Source Display Settings to be used.', WPRSS_TEXT_DOMAIN),
+' .                                           'Selecting "Default" will cause the value chosen in the general Source Display Settings to be used.
+
+' .                                           'This option only applies when using the shortcode to output feed items.', WPRSS_TEXT_DOMAIN),
 
 				/* -------------------------
 				 *  Feed Processing Metabox
