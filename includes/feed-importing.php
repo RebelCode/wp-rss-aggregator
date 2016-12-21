@@ -465,7 +465,10 @@
 		foreach ( $items as $item ) {
 
 			// Normalize the URL
-			$permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
+                    $permalink = $item->get_permalink(); // Link or enclosure URL
+                    $permalink = htmlspecialchars_decode( $permalink ); // SimplePie encodes HTML special chars
+
+			$permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 			wprss_log_obj( 'Importing item', $permalink, null, WPRSS_LOG_LEVEL_INFO );
 			wprss_log_obj( 'Original permalink', $item->get_permalink(), null, WPRSS_LOG_LEVEL_SYSTEM );
 
