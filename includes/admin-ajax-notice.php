@@ -1271,14 +1271,31 @@ function wprss_admin_notice_hide() {
 function wprss_is_wprss_page() {
 	global $typenow;
 
-	if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
+	if ( empty( $typenow ) && isset( $_GET['post'] ) && !empty( $_GET['post'] ) ) {
 	  $post = get_post( $_GET['post'] );
 	  if ( $post !== NULL && !is_wp_error( $post ) )
 		$typenow = $post->post_type;
 	}
 
-	$is_wprss_page = ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' );
-	return apply_filters( 'wprss_is_wprss_page',  $is_wprss_page );
+        $pagenow = isset($_GET['page']) ? $_GET['page'] : null;
+        $wprss_post_types = apply_filters('wprss_post_types', array(
+            'wprss_feed',
+            'wprss_feed_item',
+            'wprss_blacklist',
+        ));
+        $wprss_pages = apply_filters('wprss_page_slugs', array(
+            'wprss-aggregator',
+            'wprss-aggregator-settings',
+            'wprss-import-export-settings',
+            'wprss-debugging',
+            'wprss-addons',
+            'wprss-welcome',
+            'wprss-help'
+        ));
+
+	$is_wprss_post = in_array($typenow, $wprss_post_types, true);
+        $is_wprss_page = in_array($pagenow, $wprss_pages, true);
+	return apply_filters( 'wprss_is_wprss_page',  $is_wprss_post || $is_wprss_page );
 }
 
 

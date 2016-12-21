@@ -1,17 +1,17 @@
-<?php 
+<?php
     /**
-     * Functions for the admin section, columns and row actions 
-     * 
+     * Functions for the admin section, columns and row actions
+     *
      * @package WP RSS Aggregator
-     */ 
+     */
 
 
-    add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns', 20, 1 ); 
-    /**     
+    add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns', 20, 1 );
+    /**
      * Set up the custom columns for the wprss_feed list
-     * 
+     *
      * @since 2.0
-     */      
+     */
     function wprss_set_feed_custom_columns( $columns ) {
 
         $columns = array(
@@ -30,24 +30,24 @@
         }
 
         return $columns;
-    }    
+    }
 
 
     add_action( "manage_wprss_feed_posts_custom_column", "wprss_show_custom_columns", 10, 2 );
     /**
      * Show up the custom columns for the wprss_feed list
-     * 
+     *
      * @since 2.0
-     */  
+     */
     function wprss_show_custom_columns( $column, $post_id ) {
-     
-      switch ( $column ) {    
+
+      switch ( $column ) {
         case 'errors':
           $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
           $showClass = ( $errors !== '' )? 'wprss-show' : '';
           $default_msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
           $msg = strlen( $errors ) > 0 ? $errors : $default_msg;
-          echo "<i title=\"$msg\" class=\"fa fa-warning fa-fw wprss-feed-error-symbol $showClass\"></i>";
+          echo sprintf('<i title="%1$s" class="fa fa-warning fa-fw wprss-feed-error-symbol %2$s"></i>', esc_attr($msg), $showClass);
           break;
         case 'state':
             $active = wprss_is_feed_source_active( $post_id );
@@ -83,7 +83,7 @@
             if ( $update_interval === wprss_get_default_feed_source_update_interval() || $update_interval === '' ) {
               $next_update = wp_next_scheduled( 'wprss_fetch_all_feeds_hook', array() );
             }
-		  	
+
 		  	// Update the meta field
 		  	if ( wprss_is_feed_source_active( $post_id ) ) {
 				$next_update_text = $next_update === FALSE ? __( 'None', WPRSS_TEXT_DOMAIN ) : human_time_diff( $next_update, time() );
@@ -91,7 +91,7 @@
 				$next_update_text = __( 'Paused', WPRSS_TEXT_DOMAIN );
 			}
 		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
-		  
+
             ?>
 
             <p>
@@ -127,7 +127,7 @@
 
 		  	// Set meta field for items imported
 		  	update_post_meta( $post_id, 'wprss_items_imported', $items->post_count );
-		  
+
             break;
       }
     }
@@ -136,9 +136,9 @@
 	add_filter( "manage_edit-wprss_feed_sortable_columns", "wprss_feed_sortable_columns" );
     /**
      * Make the custom columns sortable for wprss_feed post type
-     * 
+     *
      * @since 2.0
-     */  
+     */
     function wprss_feed_sortable_columns() {
         $sortable_columns = array(
             // meta column id => sortby value used in query
@@ -154,9 +154,9 @@
     add_action( 'pre_get_posts', 'wprss_feed_source_order' );
     /**
      * Change order of feed sources to alphabetical ascending according to feed name
-     * 
+     *
      * @since 2.2
-     */  
+     */
     function wprss_feed_source_order( $query ) {
 		// Check if the query is being processed in WP Admin, is the main query, and is targetted
 		// for the wprss_feed CPT. If not, stop
@@ -165,14 +165,14 @@
         }
 		// Check if the orderby query variable is set
 		if ( !( $orderby = $query->get( 'orderby' ) ) ) return;
-        
+
 		// We will be sorting using the meta value (unless sorting by title)
 		$query->set('orderby', 'meta_value' );
 		// Get the current order
 		$order = strtoupper( $query->get( 'order' ) );
 		// Check if it is valid
 		$got_order = $order === 'ASC' || $order === 'DESC';
-		
+
 		// Check what we are sorting by
 		switch ( $orderby ) {
 			case 'title':
@@ -192,19 +192,19 @@
 				if ( !$got_order ) $query->set( 'order', 'DESC' );
 				break;
 		}
-		
+
 		if ( !$got_order ){
 			$query->set( 'order', 'ASC' );
 		}
     }
 
 
-    add_filter( 'manage_wprss_feed_item_posts_columns', 'wprss_set_feed_item_custom_columns', 20, 1 ); 
+    add_filter( 'manage_wprss_feed_item_posts_columns', 'wprss_set_feed_item_custom_columns', 20, 1 );
     /**
      * Set up the custom columns for the wprss_feed source list
-     * 
+     *
      * @since 2.0
-     */      
+     */
     function wprss_set_feed_item_custom_columns( $columns ) {
 
         $columns = array (
@@ -221,39 +221,39 @@
     add_action( "manage_wprss_feed_item_posts_custom_column", "wprss_show_feed_item_custom_columns", 10, 2 );
     /**
      * Show up the custom columns for the wprss_feed list
-     * 
+     *
      * @since 2.0
-     */  
+     */
     function wprss_show_feed_item_custom_columns( $column, $post_id ) {
-     
-        switch ( $column ) {             
+
+        switch ( $column ) {
             case "permalink":
                 $url = get_post_meta( $post_id, 'wprss_item_permalink', true);
                 echo '<a href="' . $url . '">' . $url. '</a>';
-                break;         
-            
+                break;
+
             case "publishdate":
                 $item_date = get_the_time( 'U', get_the_ID() );
                 $item_date = ( $item_date === '' )? date('U') : $item_date;
-                $publishdate = date( 'Y-m-d H:i:s', $item_date ) ;          
+                $publishdate = date( 'Y-m-d H:i:s', $item_date ) ;
                 echo $publishdate;
-                break;   
-            
-            case "source":        
-                $query = new WP_Query();                 
-                $source = '<a href="' . get_edit_post_link( get_post_meta( $post_id, 'wprss_feed_id', true ) ) . '">' . get_the_title( get_post_meta( $post_id, 'wprss_feed_id', true ) ) . '</a>';                
+                break;
+
+            case "source":
+                $query = new WP_Query();
+                $source = '<a href="' . get_edit_post_link( get_post_meta( $post_id, 'wprss_feed_id', true ) ) . '">' . get_the_title( get_post_meta( $post_id, 'wprss_feed_id', true ) ) . '</a>';
                 echo $source;
-                break;   
+                break;
         }
     }
 
 
     add_filter( "manage_edit-wprss_feed_item_sortable_columns", "wprss_feed_item_sortable_columns" );
-    /**     
+    /**
      * Make the custom columns sortable
-     * 
+     *
      * @since 2.0
-     */  
+     */
     function wprss_feed_item_sortable_columns() {
         $sortable_columns = array(
             // meta column id => sortby value used in query
@@ -265,19 +265,19 @@
 
 
     add_action( 'pre_get_posts', 'wprss_feed_item_orderby' );
-    /**     
+    /**
      * Change ordering of posts on wprss_feed_item screen
-     * 
+     *
      * @since 2.0
-     */      
+     */
     function wprss_feed_item_orderby( $query ) {
         if( ! is_admin() )
             return;
-        
+
         $post_type = $query->get('post_type');
-        
+
         // If we're on the feed listing admin page
-        if ( $post_type == 'wprss_feed_item') { 
+        if ( $post_type == 'wprss_feed_item') {
             // Set general orderby to date the feed item was published
             $query->set('orderby','publishdate');
             // If user clicks on the reorder link, implement reordering
@@ -287,15 +287,15 @@
                 $query->set( 'orderby', 'date' );
             }
         }
-    }    
+    }
 
 
-    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' ); 
+    add_filter( 'post_updated_messages', 'wprss_feed_updated_messages' );
     /**
      * Change default notification message when new feed is added or updated
-     * 
+     *
      * @since 2.0
-     */   
+     */
     function wprss_feed_updated_messages( $messages ) {
         global $post, $post_ID;
 
@@ -304,7 +304,7 @@
             1  => __( 'Feed source updated. ', WPRSS_TEXT_DOMAIN ),
             2  => __( 'Custom field updated.', WPRSS_TEXT_DOMAIN ),
             3  => __( 'Custom field deleted.', WPRSS_TEXT_DOMAIN ),
-            4  => __( 'Feed source updated.', WPRSS_TEXT_DOMAIN ),        
+            4  => __( 'Feed source updated.', WPRSS_TEXT_DOMAIN ),
             5  => '',
             6  => __( 'Feed source saved.', WPRSS_TEXT_DOMAIN ),
             7  => __( 'Feed source saved.', WPRSS_TEXT_DOMAIN ),
@@ -314,18 +314,18 @@
         );
 
         return apply_filters( 'wprss_feed_updated_messages', $messages );
-    }           
+    }
 
 
     add_filter( 'post_row_actions', 'wprss_remove_row_actions', 10, 2 );
     /**
      * Remove actions row for imported feed items, we don't want them to be editable or viewable
-     * 
+     *
      * @since 2.0
-     */       
+     */
     function wprss_remove_row_actions( $actions, $post )
     {
-        
+
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type($post) === 'wprss_feed_item' )  {
             unset( $actions[ 'edit' ] );
@@ -337,7 +337,7 @@
     		$actions = array_reverse( $actions );
     		$actions['id'] = '<span class="wprss-row-id">' . sprintf( __( 'ID: %1$s', WPRSS_TEXT_DOMAIN ), $post->ID ) . '</span>';
     		$actions = array_reverse( $actions );
-            
+
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
             if ( get_post_status( $post->ID ) !== 'trash' ) {
@@ -354,12 +354,11 @@
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
                 $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . $fetch_items_row_action_text . '</a>';
-                $actions[ 'fetch' ] .= wp_nonce_field( sprintf( 'wprss-fetch-items-for-%s', $post->ID ) );
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', WPRSS_TEXT_DOMAIN ) );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', WPRSS_TEXT_DOMAIN ) );
                 $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . $purge_feeds_row_action_title . "' >" . __( $purge_feeds_row_action_text, WPRSS_TEXT_DOMAIN ) . "</a>";
-                
+
                 $actions['trash'] = $trash;
             }
         }
@@ -370,7 +369,7 @@
     add_action( 'admin_init', 'check_delete_for_feed_source' );
     /**
      * Checks the GET data for the delete per feed source action request
-     * 
+     *
      * @since 3.5
      */
     function check_delete_for_feed_source( $source_id = NULL ) {
@@ -407,7 +406,7 @@
     add_action( 'wprss_delete_feed_items_from_source_hook', 'wprss_delete_feed_items_of_feed_source', 10 , 1 );
     /**
      * Deletes the feed items of the feed source identified by the given ID.
-     * 
+     *
      * @param $source_id The ID of the feed source
      * @since 3.5
      */
@@ -440,7 +439,7 @@
 
     /**
      * Shows a notification that tells the user that feed items for a particular source are being deleted
-     * 
+     *
      * @since 3.5
      */
     function wprss_notify_about_deleting_source_feed_items() {
@@ -473,7 +472,7 @@
             }
 
             // Verify admin referer
-            if (!wprss_verify_nonce( sprintf( 'wprss-fetch-items-for-%s', $id ), 'wprss_admin_ajax_nonce' )) {
+            if (!wprss_verify_nonce( 'wprss_feed_source_action', 'wprss_admin_ajax_nonce' )) {
                 throw new Exception($wprss->__(array('Could not schedule fetch for source #%1$s: nonce is expired', $id)));
             }
 
@@ -515,12 +514,30 @@
     }
 
 
+    add_action('manage_posts_extra_tablenav', function($which) {
+        $screen = get_current_screen();
+        $postType = $screen->post_type;
+        // Only add on feed source list
+        if ($postType !== 'wprss_feed') {
+            return;
+        }
+
+        $nonceEl = new \Aventura\Wprss\Core\Block\Html\Span(array(
+            'data-value'    => wp_create_nonce('wprss_feed_source_action'),
+            'id'            => 'wprss_feed_source_action_nonce',
+            'class'         => 'hidden'
+        ));
+        echo (string) $nonceEl;
+//        wp_nonce_field('wprss_feed_source_action', 'wprss_feed_source_action_nonce', false);
+    });
+
+
     add_filter( 'bulk_actions-edit-wprss_feed_item', 'wprss_custom_feed_item_bulk_actions' );
     /**
      * Allow filtering bulk actions for feed items
-     * 
+     *
      * @since 2.0
-     */       
+     */
     function wprss_custom_feed_item_bulk_actions( $actions ){
         return apply_filters( 'wprss_custom_feed_item_bulk_actions', $actions );
     }
@@ -529,14 +546,14 @@
     add_action( 'admin_footer-edit.php', 'wprss_remove_a_from_feed_title' );
     /**
      * Remove hyperlink from imported feed titles in list posts screen
-     * 
+     *
      * @since 2.0
-     */    
+     */
     function wprss_remove_a_from_feed_title() {
         if ( 'edit-wprss_feed_item' !== get_current_screen()->id )
         return;
         ?>
-        
+
         <script type="text/javascript">
             jQuery('table.wp-list-table a.row-title').contents().unwrap();
         </script>
@@ -547,16 +564,16 @@
     add_filter( 'gettext', 'wprss_change_publish_button_text', 10, 2 );
     /**
      * Modify 'Publish' button text when adding a new feed source
-     * 
+     *
      * @since 2.0
-     */     
+     */
     function wprss_change_publish_button_text( $translation, $text ) {
         if ( 'wprss_feed' == get_post_type()) {
             if ( $text == 'Publish' )
                 return __( 'Publish Feed', WPRSS_TEXT_DOMAIN );
         }
         return apply_filters( 'wprss_change_publish_button_text', $translation );
-    }        
+    }
 
 
 

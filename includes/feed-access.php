@@ -6,7 +6,10 @@
  *
  * @since 4.7
  */
-class WPRSS_Feed_Access {
+class WPRSS_Feed_Access
+{
+
+    const RESOURCE_CLASS = 'WPRSS_SimplePie_File';
 
 	protected static $_instance;
 
@@ -122,19 +125,31 @@ class WPRSS_Feed_Access {
     }
 
 
-	/**
-	 * This happens immediately before feed initialization.
-	 * Handles the `wprss_fetch_feed_before` action.
-	 *
-	 * @since 4.7
-	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
-	 * @param string $url The URL, from which the feed is going to be fetched.
-	 */
-	public function set_feed_options( $feed ) {
-		$feed->set_file_class( 'WPRSS_SimplePie_File' );
+    /**
+     * This happens immediately before feed initialization.
+     * Handles the `wprss_fetch_feed_before` action.
+     *
+     * @since 4.7
+     * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
+     * @param string $url The URL, from which the feed is going to be fetched.
+     */
+    public function set_feed_options( $feed ) {
+        $feed->set_file_class( static::RESOURCE_CLASS );
         $feed->set_useragent($this->get_useragent());
-		WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
-	}
+        WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
+
+        /*
+         * Setting the file resource object for the feed to use.
+         * Note: this object will only be used if cache is disabled for
+         * the feed. This is why running {@see SimplePie::set_file_class()}
+         * is still necessary. Like this, the correct file class will
+         * still be used, although the file object set below will
+         * have absolutely no effect on the feed retrieval process.
+         */
+        if (!$feed->file) {
+            $feed->file = $this->create_resource_from_feed($feed);
+        }
+    }
 
 
 	/**
@@ -200,6 +215,82 @@ class WPRSS_Feed_Access {
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $value ?>" placeholder="<?php echo __('Default', WPRSS_TEXT_DOMAIN) ?>" />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
+
+    /**
+     * Retrieve default headers that should be used for feed requests.
+     *
+     * Use the `wprss_feed_default_headers` filter to amend the whole return value.
+     * Use the `wprss_feed_default_headers_accept` to amend the types in the "Accept" header.
+     *
+     * @since [*next-version*]
+     * @see array_merge_recursive_distinct()
+     * @param array $additionalHeaders Optional headers to merge with the default ones.
+     *  Merging is done recursively.
+     * @return array An array of headers, where keys are header names, and values are header values.
+     */
+    public function default_headers(array $additionalHeaders = array())
+    {
+        $defaultHeaders = array(
+            'Accept' => implode(', ', apply_filters('wprss_feed_default_headers_accept', array(
+                'application/atom+xml',
+                'application/rss+xmlm',
+                'application/rdf+xml;q=0.9',
+                'application/xml;q=0.8',
+                'text/xml;q=0.8',
+                'text/html;q=0.7',
+                'unknown/unknown;q=0.1',
+                'application/unknown;q=0.1',
+                '*/*;q=0.1')))
+        );
+
+        $headers = array_merge_recursive_distinct($defaultHeaders, $additionalHeaders);
+        $headers = apply_filters('wprss_feed_default_headers', $headers);
+
+        return $headers;
+    }
+
+    /**
+     * Creates a new object that is responsible for retrieving a remote resource.
+     *
+     * @since [*next-version*]
+     *
+     * @see SimplePie_File::__construct()
+     *
+     * @param string $url
+     * @param int $timeout
+     * @param int $redirects
+     * @param array $headers If null, {@link default_headers() default headers} will be used.
+     * @param string $useragent
+     * @param bool $force_fsockopen
+     * @return \SimplePie_File
+     */
+    public function create_resource($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false)
+    {
+        if (is_null($headers)) {
+            $headers = $this->default_headers();
+        }
+
+        if (!class_exists($resourceClass = static::RESOURCE_CLASS)) {
+            throw new Exception(sprintf('Could not create resource: resource class "$1$s" does not exist', $resourceClass));
+        }
+
+        return new $resourceClass($url, $timeout, $redirects, $headers, $useragent, $force_fsockopen);
+    }
+
+    /**
+     * Creates a new object that is responsible for retrieving a remote resource, using values from a feed.
+     *
+     * @since [*next-version*]
+     *
+     * @see wprss_feed_create_resource()
+     *
+     * @param \SimplePie $feed The feed, based on which to create the resource.
+     * @return \SimplePie_File
+     */
+    public function create_resource_from_feed(SimplePie $feed)
+    {
+        return $this->create_resource($feed->feed_url, $feed->timeout, null, $feed->useragent, $feed->force_fsockopen);
     }
 }
 

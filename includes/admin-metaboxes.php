@@ -113,6 +113,12 @@
             'type'  => 'checkbox'
         );
 
+        $wprss_meta_fields[ 'source_link' ] = array(
+            'label' => __( 'Link Source', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'source_link',
+            'type'  => 'boolean_fallback'
+        );
+
         // for extensibility, allows more meta fields to be added
         return apply_filters( 'wprss_fields', $wprss_meta_fields );
     }
@@ -218,6 +224,16 @@
                                 }
                             break;
 
+                            // A select with "On" and "Off" values, and a special option to fall back to General setting
+                            case 'boolean_fallback':
+                                $options = wprss_settings_get_feed_source_boolean_options();
+                                if ($meta === '') {
+                                    $meta = -1;
+                                }
+                                echo wprss_settings_render_select($field['id'], $field['id'], $options, $meta);
+								echo $help->tooltip( $tooltip_id, $tooltip );
+                            break;
+
                             // number
                             case 'number':
                                 ?><input class="wprss-number-roller" type="number" placeholder="<?php _e( 'Default', WPRSS_TEXT_DOMAIN ) ?>" min="0" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="<?php echo esc_attr( $meta ) ?>" /><?php
@@ -321,7 +337,7 @@
         foreach ( $meta_fields as $field ) {
             $old = get_post_meta( $post_id, $field[ 'id' ], true );
             $new = trim( $_POST[ $field[ 'id' ] ] );
-            if ( $new && $new != $old ) {
+            if ( $new !== '' && $new != $old ) {
                 update_post_meta( $post_id, $field[ 'id' ], $new );
             } elseif ( '' == $new && $old ) {
                 delete_post_meta( $post_id, $field[ 'id' ], $old );
