@@ -90,7 +90,8 @@
 
     // Set the constant path to the plugin's log file.
     if( !defined( 'WPRSS_LOG_FILE' ) )
-        define( 'WPRSS_LOG_FILE', WPRSS_DIR . 'log', true );
+        define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log', true );
+
     if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
         define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
 
@@ -132,7 +133,7 @@
 
         $locator = new \Dhii\SimpleTest\Locator\FilePathLocator();
         $locator->addPath(new \RecursiveDirectoryIterator(WPRACORE_DIAG_TESTS_DIR, 1));
-        $testSource = new \RebelCode\Wprss\Debug\Diagtest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
+        $testSource = new \RebelCode\Wprss\Debug\DiagTest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
 
         $sources[$testSource->getCode()] = $testSource;
         $event->setData('sources', $sources);
@@ -255,7 +256,7 @@
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
 	/* SimplePie */
-	require_once ( ABSPATH . WPINC . '/class-feed.php' );
+	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );

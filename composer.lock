@@ -1,0 +1,226 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "44b97b847dc179cdf80a5e508ee99077",
+    "content-hash": "1a1e1d95a2f79c198e9c6aed9d5bad60",
+    "packages": [
+        {
+            "name": "dhii/collections-abstract",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/collections-abstract.git",
+                "reference": "7c9141202af4d83b31e75efcbf481fa1cb588ad8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/collections-abstract/zipball/7c9141202af4d83b31e75efcbf481fa1cb588ad8",
+                "reference": "7c9141202af4d83b31e75efcbf481fa1cb588ad8",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/collections-abstract-base": "^0.1.0",
+                "dhii/collections-interface": "^0.1.1",
+                "dhii/stats-abstract": "^0.1.0"
+            },
+            "require-dev": {
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "4.*",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "A collections library",
+            "time": "2016-11-10 19:29:24"
+        },
+        {
+            "name": "dhii/collections-abstract-base",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/collections-abstract-base.git",
+                "reference": "0ec0147451a72a13fb327ac6ff747c5e953c56f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/collections-abstract-base/zipball/0ec0147451a72a13fb327ac6ff747c5e953c56f3",
+                "reference": "0ec0147451a72a13fb327ac6ff747c5e953c56f3",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/collections-interface": "^0.1.1"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Collection base classes that do not depend on other non-collection packages, on which there is a dependency of other collection packages that depend on this package. This is done to avoid circular reference in the collection toolchain",
+            "time": "2016-11-10 15:09:37"
+        },
+        {
+            "name": "dhii/collections-interface",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/collections-interface.git",
+                "reference": "a8e9a30366a30d77bc270042a67150b3f8f6d94d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/collections-interface/zipball/a8e9a30366a30d77bc270042a67150b3f8f6d94d",
+                "reference": "a8e9a30366a30d77bc270042a67150b3f8f6d94d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Interfaces for collections",
+            "time": "2016-11-16 14:45:08"
+        },
+        {
+            "name": "dhii/stats-abstract",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/stats-abstract.git",
+                "reference": "71f6702c3257c71ab3917b6d076d3c3588cc9f49"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/stats-abstract/zipball/71f6702c3257c71ab3917b6d076d3c3588cc9f49",
+                "reference": "71f6702c3257c71ab3917b6d076d3c3588cc9f49",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/collections-abstract-base": "^0.1.0",
+                "dhii/stats-interface": "^0.1.0"
+            },
+            "require-dev": {
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Stats\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Abstract base for stats",
+            "time": "2016-11-10 18:55:43"
+        },
+        {
+            "name": "dhii/stats-interface",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/stats-interface.git",
+                "reference": "36d09a8b8a3b8058214dae6eefb8ecdd98e0f0ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/stats-interface/zipball/36d09a8b8a3b8058214dae6eefb8ecdd98e0f0ba",
+                "reference": "36d09a8b8a3b8058214dae6eefb8ecdd98e0f0ba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "dhii/php-cs-fixer-config": "dev-php-5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Stats\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Interfaces for stats",
+            "time": "2016-11-10 15:38:37"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

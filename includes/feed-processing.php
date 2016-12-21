@@ -131,7 +131,7 @@
             WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = '{$feed_ID}'"
         );
 
-        return array_flip( $cols );
+        return @array_flip($cols);
     }
 
 
@@ -152,7 +152,7 @@
             WHERE q.`meta_key` = 'wprss_feed_id' $condition"
         );
 
-        return array_flip( $cols );
+        return @array_flip($cols);
     }
 
 

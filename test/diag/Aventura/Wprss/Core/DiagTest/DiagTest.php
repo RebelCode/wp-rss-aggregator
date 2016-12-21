@@ -7,7 +7,7 @@ namespace Aventura\Wprss\Core\DiagTest;
  *
  * @since [*next-version*]
  */
-class DiagTest extends \RebelCode\Wprss\Debug\Diagtest\Model\TestCase
+class DiagTest extends \RebelCode\Wprss\Debug\DiagTest\Model\TestCase
 {
     /**
      * Tests whether the WPRADIAG exists and is able to run tests with assertions.

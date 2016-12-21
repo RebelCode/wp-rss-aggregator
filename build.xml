@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WP RSS Aggregator" default="build" basedir="." description="The WP RSS Aggregator Core plugin">
+
+    <!-- Argument defaults -->
+    <property name="version" value="0.0.0" />
+
+    <!-- Release properties -->
+    <property name="releaseProjectName" value="wp-rss-aggregator" />
+    <property name="releaseZip" value="${releaseProjectName}-${version}.zip" />
+
+    <!-- Directories -->
+    <property name="basedir" value="." override="true" />
+    <property name="binDir" value="${basedir}/bin" />
+    <property name="buildDir" value="${basedir}/build" />
+    <property name="buildFilesDir" value="${buildDir}/${releaseProjectName}" />
+    <property name="vendorDir" value="${basedir}/vendor" />
+    <property name="releasesDir" value="${basedir}/releases" />
+
+    <!-- Build files and directories -->
+    <fileset dir="." id="buildFiles">
+        <include name="**/**" />
+
+        <exclude name=".git/**" />
+        <exclude name=".gitignore" />
+        <exclude name="bin/**" />
+        <exclude name="docs/**" />
+        <exclude name="build/**" />
+        <exclude name="releases/**" />
+        <exclude name="nbproject/**" />
+        <exclude name="build.xml" />
+        <exclude name="*.neon" />
+        <exclude name="composer.json" />
+        <exclude name="composer.lock" />
+        <exclude name="*.zip" />
+    </fileset>
+
+    <!-- Clean up -->
+    <target name="cleanup" description="Performs clean up">
+        <delete dir="${buildDir}" includeemptydirs="true" />
+    </target>
+
+    <!-- Installs all dependencies, including dev ones -->
+    <target name="install-dev" description="Installs dependencies, including dev ones">
+        <exec dir="${basedir}/" command="composer install" passthru="true" />
+    </target>
+
+    <!-- Installs all non-dev dependencies -->
+    <target name="install" description="Installs dependencies, excluding dev ones">
+        <exec dir="${basedir}/" command="composer install --no-dev" passthru="true" />
+    </target>
+
+    <!-- Generates a build for the current project state -->
+    <target name="build" description="Generates a build for the current state" depends="cleanup">
+        <copy todir="${buildFilesDir}">
+            <fileset refid="buildFiles" />
+        </copy>
+    </target>
+
+    <!-- Creates the ZIP archive for release -->
+    <target name="release" description="Creates the release archive" depends="install, build">
+        <zip destfile="${buildDir}/${releaseZip}" basedir="${buildDir}" />
+        <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
+    </target>
+
+</project>
