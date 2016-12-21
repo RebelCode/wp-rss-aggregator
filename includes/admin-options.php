@@ -669,7 +669,7 @@
         return array(
             1           => __('On', WPRSS_TEXT_DOMAIN),
             0           => __('Off', WPRSS_TEXT_DOMAIN),
-            -1          => sprintf('[%1$s]', __('General', WPRSS_TEXT_DOMAIN)),
+            -1          => __('Default', WPRSS_TEXT_DOMAIN),
         );
     }
 
