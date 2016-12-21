@@ -34,8 +34,8 @@ function fetch_items_row_action_callback(e){
         data: {
             'action': 'wprss_fetch_feeds_row_action',
             'id':   id,
-            'wprss_admin_ajax_nonce': link.next().val(), // nonce
-            'wprss_admin_ajax_referer': link.next().next().val() // referer
+            'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
+            'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
         },
         success: function( response, status, jqXHR ){
             if (response.is_error) {

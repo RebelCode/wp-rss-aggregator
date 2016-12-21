@@ -354,7 +354,6 @@
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
                 $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . $fetch_items_row_action_text . '</a>';
-                $actions[ 'fetch' ] .= wp_nonce_field( sprintf( 'wprss-fetch-items-for-%s', $post->ID ) );
 
                 $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', WPRSS_TEXT_DOMAIN ) );
                 $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', WPRSS_TEXT_DOMAIN ) );
@@ -473,7 +472,7 @@
             }
 
             // Verify admin referer
-            if (!wprss_verify_nonce( sprintf( 'wprss-fetch-items-for-%s', $id ), 'wprss_admin_ajax_nonce' )) {
+            if (!wprss_verify_nonce( 'wprss_feed_source_action', 'wprss_admin_ajax_nonce' )) {
                 throw new Exception($wprss->__(array('Could not schedule fetch for source #%1$s: nonce is expired', $id)));
             }
 
@@ -513,6 +512,24 @@
         echo $response->getBody();
         exit();
     }
+
+
+    add_action('manage_posts_extra_tablenav', function($which) {
+        $screen = get_current_screen();
+        $postType = $screen->post_type;
+        // Only add on feed source list
+        if ($postType !== 'wprss_feed') {
+            return;
+        }
+
+        $nonceEl = new \Aventura\Wprss\Core\Block\Html\Span(array(
+            'data-value'    => wp_create_nonce('wprss_feed_source_action'),
+            'id'            => 'wprss_feed_source_action_nonce',
+            'class'         => 'hidden'
+        ));
+        echo (string) $nonceEl;
+//        wp_nonce_field('wprss_feed_source_action', 'wprss_feed_source_action_nonce', false);
+    });
 
 
     add_filter( 'bulk_actions-edit-wprss_feed_item', 'wprss_custom_feed_item_bulk_actions' );
