@@ -71,7 +71,7 @@
 				// Add the post_type query arg
 				$feed['query'] .= "post_type=$post_type";
 				// Unparse the URL array into a string
-				$feed = unparse_url( $feed );
+				$feed = wprss_unparse_url( $feed );
 			}
 
 			// Get the Post Type Pretty Name
@@ -85,8 +85,8 @@
 	}
 
 
-	if ( !function_exists('unparse_url') ) {
-		function unparse_url( $parsed_url ) { 
+	if ( !function_exists('wprss_unparse_url') ) {
+		function wprss_unparse_url( $parsed_url ) {
 			$scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : ''; 
 			$host     = isset($parsed_url['host']) ? $parsed_url['host'] : ''; 
 			$port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : ''; 
