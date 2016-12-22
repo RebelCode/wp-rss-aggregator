@@ -1166,7 +1166,7 @@ function wprss_admin_notice_get_collection() {
 		$collection->init();
 		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
 
-		add_action( 'admin_enqueue_scripts', 'wprss_admin_notices_collection_enqueue_scripts' );
+        add_action( 'wprss_admin_exclusive_scripts_styles', 'wprss_admin_notices_collection_enqueue_scripts' );
 	}
 
 	return $collection;
@@ -1271,30 +1271,36 @@ function wprss_admin_notice_hide() {
 function wprss_is_wprss_page() {
 	global $typenow;
 
-	if ( empty( $typenow ) && isset( $_GET['post'] ) && !empty( $_GET['post'] ) ) {
-	  $post = get_post( $_GET['post'] );
-	  if ( $post !== NULL && !is_wp_error( $post ) )
-		$typenow = $post->post_type;
+    $postType = $typenow;
+	if ( empty( $postType ) && isset( $_GET['post'] ) && !empty( $_GET['post'] ) ) {
+        $post = get_post(filter_var($_GET['post'], FILTER_SANITIZE_NUMBER_INT));
+        if ( $post !== NULL && !is_wp_error( $post ) )
+            $postType = $post->post_type;
 	}
 
-        $pagenow = isset($_GET['page']) ? $_GET['page'] : null;
-        $wprss_post_types = apply_filters('wprss_post_types', array(
-            'wprss_feed',
-            'wprss_feed_item',
-            'wprss_blacklist',
-        ));
-        $wprss_pages = apply_filters('wprss_page_slugs', array(
-            'wprss-aggregator',
-            'wprss-aggregator-settings',
-            'wprss-import-export-settings',
-            'wprss-debugging',
-            'wprss-addons',
-            'wprss-welcome',
-            'wprss-help'
-        ));
+    $filterFlags = FILTER_FLAG_STRIP_BACKTICK | FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH;
+    if (empty($postType) && isset($_GET['post_type'])) {
+        $postType = filter_var(trim($_GET['post_type']), FILTER_SANITIZE_STRING, $filterFlags);
+    }
 
-	$is_wprss_post = in_array($typenow, $wprss_post_types, true);
-        $is_wprss_page = in_array($pagenow, $wprss_pages, true);
+    $pagenow = isset($_GET['page']) ? filter_var($_GET['page'], FILTER_SANITIZE_STRING, $filterFlags) : null;
+    $wprss_post_types = apply_filters('wprss_post_types', array(
+        'wprss_feed',
+        'wprss_feed_item',
+        'wprss_blacklist',
+    ));
+    $wprss_pages = apply_filters('wprss_page_slugs', array(
+        'wprss-aggregator',
+        'wprss-aggregator-settings',
+        'wprss-import-export-settings',
+        'wprss-debugging',
+        'wprss-addons',
+        'wprss-welcome',
+        'wprss-help'
+    ));
+
+	$is_wprss_post = in_array($postType, $wprss_post_types, true);
+    $is_wprss_page = in_array($pagenow, $wprss_pages, true);
 	return apply_filters( 'wprss_is_wprss_page',  $is_wprss_post || $is_wprss_page );
 }
 
