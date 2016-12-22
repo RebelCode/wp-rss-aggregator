@@ -10,13 +10,14 @@ class WPRSS_Feed_Access
 {
 
     const RESOURCE_CLASS = 'WPRSS_SimplePie_File';
+    const D_REDIRECTS = 5;
 
-	protected static $_instance;
-
-	protected $_certificate_file_path;
-
-	const SETTING_KEY_CERTIFICATE_PATH = 'certificate-path';
+    const SETTING_KEY_CERTIFICATE_PATH = 'certificate-path';
     const SETTING_KEY_FEED_REQUEST_USERAGENT = 'feed_request_useragent';
+
+    protected static $_instance;
+
+    protected $_certificate_file_path;
 
 	/**
 	 * @since 4.7
@@ -42,10 +43,13 @@ class WPRSS_Feed_Access
 	 *
 	 * @since 4.7
 	 */
-	protected function _construct() {
-		add_action( 'wprss_fetch_feed_before', array( $this, 'set_feed_options' ), 10 );
-		add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
-		add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
+	protected function _construct()
+        {
+            $wprss = wprss();
+            add_action( 'wprss_fetch_feed_before', array( $this, 'set_feed_options' ), 10, 2 );
+            add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
+            add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
+            $wprss->on('fields', array($this, 'add_feed_source_fields'));
 	}
 
 
@@ -113,43 +117,76 @@ class WPRSS_Feed_Access
      * Get the useragent string that will be sent with feed requests.
      *
      * @since 4.8.2
+     *
+     * @param int|null $feedSourceId The ID of the feed source, which to get the useragent for.
+     *  Leave `null` to get a useragent independently from any feed source.
+     *
      * @return string The useragent string that will be sent together with feed requests.
      *  If empty, the value of SIMPLEPIE_USERAGENT will be used.
      */
-    public function get_useragent()
+    public function get_useragent($feedSourceId = null)
     {
-        $useragent = $this->get_useragent_setting();
-        return !strlen(trim($useragent))
-            ? SIMPLEPIE_USERAGENT
-            : $useragent;
-    }
+        $useragent = !is_null($feedSourceId)
+                ? get_post_meta($feedSourceId, self::SETTING_KEY_FEED_REQUEST_USERAGENT, true)
+                : $this->get_useragent_setting();
 
+        if (!strlen(trim($useragent))) {
+            $useragent = $this->get_useragent_setting();
+        }
+
+        $useragent = !strlen(trim($useragent))
+            ? $this->getDefaultUseragent()
+            : $useragent;
+
+        wprss()->event('feed_access_useragent', array(
+            'useragent'         => &$useragent,
+            'feed_source_id'    => $feedSourceId
+        ));
+
+        return $useragent;
+    }
 
     /**
-     * This happens immediately before feed initialization.
-     * Handles the `wprss_fetch_feed_before` action.
+     * Retrieve the useragent string that will be used by default.
      *
-     * @since 4.7
-     * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
-     * @param string $url The URL, from which the feed is going to be fetched.
+     * @since [*next-version*]
+     *
+     * @return string The useragent string.
      */
-    public function set_feed_options( $feed ) {
-        $feed->set_file_class( static::RESOURCE_CLASS );
-        $feed->set_useragent($this->get_useragent());
-        WPRSS_SimplePie_File::set_default_certificate_file_path( $this->get_certificate_file_path() );
-
-        /*
-         * Setting the file resource object for the feed to use.
-         * Note: this object will only be used if cache is disabled for
-         * the feed. This is why running {@see SimplePie::set_file_class()}
-         * is still necessary. Like this, the correct file class will
-         * still be used, although the file object set below will
-         * have absolutely no effect on the feed retrieval process.
-         */
-        if (!$feed->file) {
-            $feed->file = $this->create_resource_from_feed($feed);
-        }
+    public function getDefaultUseragent()
+    {
+        return SIMPLEPIE_USERAGENT;
     }
+
+
+	/**
+	 * This happens immediately before feed initialization.
+	 * Handles the `wprss_fetch_feed_before` action.
+	 *
+	 * @since 4.7
+	 * @param SimplePie $feed The instance of the object that represents the feed to be fetched.
+	 * @param int $feedSourceId ID of the feed source, which is accessing the feed.
+         *  Leave `null` to skip setting feed source specific options.
+	 * @param string $url The URL, from which the feed is going to be fetched.
+	 */
+	public function set_feed_options($feed, $feedSourceId = null)
+        {
+            $feed->set_file_class( static::RESOURCE_CLASS );
+            $feed->set_useragent($this->get_useragent($feedSourceId));
+            WPRSS_SimplePie_File::set_default_certificate_file_path($this->get_certificate_file_path());
+
+            /*
+             * Setting the file resource object for the feed to use.
+             * Note: this object will only be used if cache is disabled for
+             * the feed. This is why running {@see SimplePie::set_file_class()}
+             * is still necessary. Like this, the correct file class will
+             * still be used, although the file object set below will
+             * have absolutely no effect on the feed retrieval process.
+             */
+            if (!$feed->file) {
+                $feed->file = $this->create_resource_from_feed($feed);
+            }
+	}
 
 
 	/**
@@ -172,6 +209,26 @@ class WPRSS_Feed_Access
 
 		return $settings;
 	}
+
+        /**
+         * Adding feed source specific settings.
+         *
+	 * @since [*next-version*]
+         *
+         * @param array $fields An array containing all existing fields by ID.
+         */
+        public function add_feed_source_fields($fields)
+        {
+            $wprss = wprss();
+
+            $fields[self::SETTING_KEY_FEED_REQUEST_USERAGENT] = array(
+                'id'            => self::SETTING_KEY_FEED_REQUEST_USERAGENT,
+                'label'         => $wprss->__('Feed Request Useragent'),
+                'placeholder'   => $wprss->__('Leave blank to inherit general setting')
+            );
+
+            return $fields;
+        }
 
 
 	/**
@@ -290,7 +347,7 @@ class WPRSS_Feed_Access
      */
     public function create_resource_from_feed(SimplePie $feed)
     {
-        return $this->create_resource($feed->feed_url, $feed->timeout, null, $feed->useragent, $feed->force_fsockopen);
+        return $this->create_resource($feed->feed_url, $feed->timeout, static::D_REDIRECTS, null, $feed->useragent, $feed->force_fsockopen);
     }
 }
 
