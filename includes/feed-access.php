@@ -347,7 +347,7 @@ class WPRSS_Feed_Access
      */
     public function create_resource_from_feed(SimplePie $feed)
     {
-        return $this->create_resource($feed->feed_url, $feed->timeout, null, $feed->useragent, $feed->force_fsockopen);
+        return $this->create_resource($feed->feed_url, $feed->timeout, static::D_REDIRECTS, null, $feed->useragent, $feed->force_fsockopen);
     }
 }
 
