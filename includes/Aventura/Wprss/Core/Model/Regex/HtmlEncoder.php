@@ -22,6 +22,7 @@ class HtmlEncoder extends AbstractRegex
 {
     const K_SYM_PREFIX = 'sym_prefix';
     const SYM_PREFIX = '_sym';
+    const CHARC_TOKEN_PREFIX = '_charc';
 
     protected $synonymSets;
 //    protected $htmlCharMap = null;
@@ -301,6 +302,52 @@ class HtmlEncoder extends AbstractRegex
     }
 
     /**
+     * Replaces character classes in a regex expression with a token, and remembers the values.
+     *
+     * Caters for escaped "\[" and "\]";
+     *
+     * @since [*next-version*]
+     *
+     * @param string $string The regex expression.
+     * @param array $classes This will be populated with a token-value map, where value is the character class that was replaced by token.
+     *
+     * @return string The string with character classes replaced by tokens.
+     */
+    protected function _extractCharClass($string, &$classes = array())
+    {
+        // Matches "[.*]", and allows escaping "\]"
+        $expr = '(?<!\\\)\[.*(?<!\\\)\]';
+        $prefix = static::CHARC_TOKEN_PREFIX;
+        $index = 0;
+        $string = $this->replaceCallback('~' . $expr . '~U', function($matches) use ($prefix, &$classes, &$index)
+        {
+            $replacement = $prefix . $index;
+            $classes[$replacement] = $matches[0];
+            $index++;
+
+            return $replacement;
+        }, $string);
+
+        return $string;
+    }
+
+    /**
+     * Puts the char classes back in place of their corresponding tokens.
+     *
+     * @since [*next-version*]
+     *
+     * @see _extractCharClass()
+     * @param string $string The regular expression.
+     * @param array $classes The token-value map, where value is the char class definition.
+     *
+     * @return string The regular expression with tokens replaced by char classes from map.
+     */
+    protected function _injectCharClass($string, $classes)
+    {
+        return str_replace(array_keys($classes), array_values($classes), $string);
+    }
+
+    /**
      * HTML-encodify a regex expresion to match HTML-encoded variants of the strings.
      *
      * @since [*next-version*]
@@ -317,6 +364,9 @@ class HtmlEncoder extends AbstractRegex
     {
         $chars = iterator_to_array($synonymSets->getAllItems());
         $chars = $this->quoteAll($chars, $delimiter);
+        // Preserving character classes
+        $classes = array();
+        $expr = $this->_extractCharClass($expr, $classes);
         $charsRegex = sprintf('%2$s(%1$s)%2$s', implode('|', $chars), $delimiter);
         $me = $this;
 
@@ -357,6 +407,10 @@ class HtmlEncoder extends AbstractRegex
                 return $return;
             },
             $expr);
+
+        // Restoring character classes
+        $result = $this->_injectCharClass($result, $classes);
+
         return $result;
     }
 
