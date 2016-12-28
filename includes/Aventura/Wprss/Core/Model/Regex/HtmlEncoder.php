@@ -44,9 +44,18 @@ class HtmlEncoder extends AbstractRegex
         $this->addSymmetricalChars('"');
     }
 
+    /**
+     * Resets usage stats.
+     *
+     * @since [*next-version*]
+     *
+     * @see getOccurrenceCount()
+     * @see getReplacementCount()
+     *
+     * @return HtmlEncoder
+     */
     public function reset()
     {
-//        $this->htmlCharMap = array();
         $this->occurrences = array();
         $this->replacementCount = 0;
 
@@ -69,6 +78,15 @@ class HtmlEncoder extends AbstractRegex
         return $this->htmlEncodifyRegex($expr, $chars, $delimiter, $symmetrical, $symPrefix);
     }
 
+    /**
+     * Retrieve the prefix that is used to introduced named groups.
+     *
+     * Currently, named groups are used for matching symmetric quotes.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The group name prefix.
+     */
     public function getSymPrefix()
     {
         return $this->_getDataOrConst(self::K_SYM_PREFIX);
@@ -93,7 +111,7 @@ class HtmlEncoder extends AbstractRegex
      *
      * @param string|array $chars A char, string of chars, or array of chars, each of which to add.
      *
-     * @return \Aventura\Wprss\Core\Model\Regex\HtmlEncoder This instance.
+     * @return HtmlEncoder This instance.
      */
     public function addSymmetricalChars($chars)
     {
@@ -111,7 +129,7 @@ class HtmlEncoder extends AbstractRegex
      *
      * @param type $chars
      *
-     * @return \Aventura\Wprss\Core\Model\Regex\HtmlEncoder
+     * @return HtmlEncoder
      */
     protected function _setSymmetricalChars($chars)
     {
@@ -120,9 +138,13 @@ class HtmlEncoder extends AbstractRegex
     }
 
     /**
+     * Retrieves the set of synonym sets used by this instance.
+     *
+     * Each inner set contains characters or sequences, all of which are synonymous with each other.
+     *
      * @since [*next-version*]
      *
-     * @return Set\Synonym\Set
+     * @return Set\Synonym\Set The set of synonym sets.
      */
     public function getSynonymSets()
     {
@@ -134,6 +156,8 @@ class HtmlEncoder extends AbstractRegex
     }
 
     /**
+     * Assigns the set of synonym sets.
+     *
      * @since [*next-version*]
      *
      * @param Set\Synonym\Set $set The synonym set.
@@ -146,14 +170,6 @@ class HtmlEncoder extends AbstractRegex
 
         return $this;
     }
-
-//    public function getHtmlCharMap()
-//    {
-//        if (is_null($this->htmlCharMap)) {
-//
-//        }
-//        return $this->htmlCharMap;
-//    }
 
     /**
      * Checks whether or not a char is registered as being an HTML char.
@@ -170,6 +186,15 @@ class HtmlEncoder extends AbstractRegex
         return $this->_hasHtmlChar($char);
     }
 
+    /**
+     * Determines if this instance's char map contains the specified character.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $char The character to check.
+     *
+     * @return bool True if the char map has the specified character; false otherwise.
+     */
     protected function _hasHtmlChar($char)
     {
         return isset($this->htmlCharMap[$char]);
@@ -190,6 +215,17 @@ class HtmlEncoder extends AbstractRegex
         return $this->getSynonymSets()->getSetForTerm($char);
     }
 
+    /**
+     * Retrieve synonyms for the specified character.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $char The character, for which to get synonyms.
+     * @param array $other Additional characters to include in the result.
+     *
+     * @return An array of unique characters or sequences, all of which are synonymous with each other.
+     *  Contains the original character.
+     */
     public function getHtmlCharSynonyms($char, $other = null)
     {
         if (is_null($other)) {
@@ -198,32 +234,42 @@ class HtmlEncoder extends AbstractRegex
 
         $set = $this->getHtmlCharSynonymSet($char);
         $synonyms = $set->items();
+
         return array_keys(array_flip(array_merge($synonyms, $other)));
     }
 
-//    public function setHtmlCharSynonyms($char, $synonyms)
-//    {
-//        $chars = str_split($char);
-//        foreach ($chars as $char) {
-//            $this->_mapHtmlChar($char, $synonyms);
-//        }
-//
-//        return $this;
-//    }
-
+    /**
+     * Adds synonyms to a specified character.
+     *
+     * If the character does not exist, it will be added.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $char The character, for which to add synonyms.
+     *
+     * @param array $synonyms The synonyms to add.
+     * @return HtmlEncoder This instance.
+     */
     public function addHtmlCharSynonyms($char, $synonyms)
     {
-//        $char = $this->normalizeChar($char);
         $set = $this->getHtmlCharSynonymSet($char);
         $set->addMany($synonyms);
-//        var_dump($this->getSynonymSets());
 
         return $this;
     }
 
+    /**
+     * Removes a character from the set of chars to encodify.
+     *
+     * @since [*next-version*]
+     *
+     * @todo This method may be redundant or broken. Verify.
+     *
+     * @param string $char The character to remove.
+     * @return HtmlEncoder This instance.
+     */
     public function removeHtmlChar($char)
     {
-//        $char = $this->normalizeChar($char);
         $synonyms = array_flip($this->getHtmlCharSynonyms($char));
         if (array_key_exists($char, $synonyms)) {
             unset($synonyms[$char]);
@@ -234,14 +280,33 @@ class HtmlEncoder extends AbstractRegex
         return $this;
     }
 
+    /**
+     * Adds a character to be encodified.
+     *
+     * @since [*next-version*]
+     *
+     * @todo This method may be incomplete. Confirm and fix.
+     *
+     * @param string $char The character.
+     *
+     * @return HtmlEncoder This instance.
+     */
     public function addHtmlChar($char, $synonyms = null)
     {
         $this->getHtmlCharSynonymSet($char);
-//        var_dump($this->getSynonymSets());
 
         return $this;
     }
 
+    /**
+     * Adds multiple HTML characters to be encodified.
+     *
+     * @since [*next-version*]
+     *
+     * @param string[] $chars The characters to be added.
+     *
+     * @return HtmlEncoder
+     */
     public function addHtmlChars($chars)
     {
         foreach ($chars as $_char) {
@@ -251,6 +316,19 @@ class HtmlEncoder extends AbstractRegex
         return $this;
     }
 
+    /**
+     * Normalizes input to a single character.
+     *
+     * If array, uses the first element.
+     * If string, uses the first character.
+     *
+     * @since [*next-version*]
+     *
+     * @param type $char
+     *
+     * @return string A string of exactly 1 character in length.
+     * @throws \Aventura\Wprss\Core\Exception If input could not be normalized.
+     */
     public function normalizeChar($char)
     {
         if (is_array($char)) {
@@ -262,6 +340,15 @@ class HtmlEncoder extends AbstractRegex
         return substr($char, 0, 1);
     }
 
+    /**
+     * Normalizes input to an array of characters.
+     *
+     * @since [*next-version*]
+     *
+     * @param string|array $chars The character set to normalize.
+     *
+     * @return string[] An array of 1-char long strings.
+     */
     public function normalizeCharArray($chars)
     {
         if (is_array($chars)) {
@@ -270,6 +357,13 @@ class HtmlEncoder extends AbstractRegex
         return str_split($chars);
     }
 
+    /**
+     * @access protected
+     * @since [*next-version*]
+     *
+     * @param string $char
+     * @return HtmlEncoder
+     */
     public function _incrementOccurrence($char)
     {
         $char = $this->normalizeChar($char);
@@ -279,6 +373,14 @@ class HtmlEncoder extends AbstractRegex
         return $this;
     }
 
+    /**
+     * Retrieve the number of occurrences of the specified encodified character since last reset, or since instantiation.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $char The char to retrieve the occurrence count for.
+     * @return int The number of occurrences.
+     */
     public function getOccurrenceCount($char)
     {
         return isset($this->occurrences[$char])
@@ -286,16 +388,36 @@ class HtmlEncoder extends AbstractRegex
             : 0;
     }
 
+    /**
+     * @access protected
+     * @since [*next-version*]
+     */
     public function _incrementReplacement()
     {
         $this->replacementCount++;
     }
 
+    /**
+     * Retrieve the total number of replacements of encodifiable characters performed since last reset, or since instantiation.
+     *
+     * @since [*next-version*]
+     *
+     * @return int
+     */
     public function getReplacementCount()
     {
         return $this->replacementCount;
     }
 
+    /**
+     * Get auto-generated synonyms for the specified character.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $char The character to get synonyms for.
+     *
+     * @return string[] The array of synonyms, excluding the original character.
+     */
     public function getAutoSynonyms($char)
     {
         return array(htmlspecialchars($char, /* ENT_HTML401 | */ ENT_QUOTES));
@@ -461,6 +583,17 @@ class HtmlEncoder extends AbstractRegex
         return $matches;
     }
 
+    /**
+     * Determines is a key could represent a symmetric character synonym group.
+     *
+     * @since [*next-version*]
+     *
+     * @see getSymPrefix()
+     *
+     * @param string $key The key to check.
+     * @param string|null $symPrefix The prefix to check for. Default: default prefix.
+     * @return bool True if the specified key could be a sym key; false otherwise.
+     */
     public function isSymKey($key, $symPrefix = null)
     {
 
@@ -471,6 +604,15 @@ class HtmlEncoder extends AbstractRegex
         return $this->_isStringStartsWith($key, $symPrefix);
     }
 
+    /**
+     * Determines whether a string starts with the specified prefix.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $string The string to check.
+     * @param string $start The prefix to check for.
+     * @return bool True if the specified string starts with the specified prefix; false otherwise.
+     */
     protected function _isStringStartsWith($string, $start)
     {
         $startLength = strlen($start);
