@@ -12,12 +12,12 @@ WP RSS Aggregator is the most comprehensive RSS feed importer and autoblogging p
 
 WP RSS Aggregator is the original and best plugin for easily importing, merging and displaying RSS and Atom feeds on your WordPress site. It’s the most comprehensive and elegant RSS feed solution for WordPress.
 
-[youtube https://www.youtube.com/watch?v=J68blNLnKqs]
+[youtube https://www.youtube.com/watch?v=xXefoQHOfno]
 
 With the free core version of WP RSS Aggregator you will be able to aggregate as many RSS feeds from as many sources as you'd like, with the ability to stagger them for better performance.
 Using the [shortcodes](http://docs.wprssaggregator.com/shortcodes/) you can then display the imported feed items from one or more sources anywhere on your WordPress site.
 
-[youtube https://www.youtube.com/watch?v=ajQL4d_OUzI]
+[youtube https://www.youtube.com/watch?v=OgB3veegtz4]
 
 Go [here](http://docs.wprssaggregator.com/introductory-videos/) to watch all our other video tutorials for our premium add-ons.
 
