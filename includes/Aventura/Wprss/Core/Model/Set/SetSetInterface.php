@@ -23,6 +23,8 @@ interface SetSetInterface extends SetInterface
     /**
      * Gets internal sets that contain a specific item.
      *
+     * @since [*next-version*]
+     *
      * @param Collection\SetInterface[]|\Traversable $item A list of internal sets that contain the given item.
      */
     public function getContaining($item);
