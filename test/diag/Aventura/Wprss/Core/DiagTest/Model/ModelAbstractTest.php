@@ -7,7 +7,7 @@ use RebelCode\Wprss\Debug\Diagtest\Model\TestCase;
 /**
  * Tests {@see \Aventura\Wprss\Core\Model\ModelAbstract}.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class ModelAbstractTest extends TestCase
 {
@@ -17,7 +17,7 @@ class ModelAbstractTest extends TestCase
      * A mock class is a concrete class that extends or implements
      * a given class or interface.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $className Name of the class to create the mock for.
      * @param array $constructorArgs Arguments to be passed to the mock's constructor.
@@ -55,7 +55,7 @@ CLASS;
     /**
      * Creates a new instance of the test subject.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return \Aventura\Wprss\Core\Model\ModelAbstract The new test subject instance.
      */
@@ -67,7 +67,7 @@ CLASS;
     /**
      * Tests whether a valid instance of the test subject
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testCanBeCreated()
     {
@@ -78,7 +78,7 @@ CLASS;
     /**
      * Tests the `_getDataOrConst()` method.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testGetDataOrConst()
     {

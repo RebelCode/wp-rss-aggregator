@@ -8,14 +8,14 @@ use Aventura\Wprss\Core\Model\Set;
 /**
  * Tests {@see \Aventura\Wprss\Core\Model\Set\Set}.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class SetTest extends TestCase
 {
     /**
      * Creates a new instance of the test subject.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Set\Set The new instance of the test subject.
      */
@@ -29,7 +29,7 @@ class SetTest extends TestCase
     /**
      * Tests whether a valid instance of the test subject can be created.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testCanBeCreated()
     {
@@ -41,7 +41,7 @@ class SetTest extends TestCase
     /**
      * Tests whether synonyms can be retrieved correctly.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testManipulateAndRead()
     {
@@ -74,7 +74,7 @@ class SetTest extends TestCase
     /**
      * Tests that iteration over the subject produces correct results.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testIteration()
     {

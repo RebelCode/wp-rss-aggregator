@@ -7,14 +7,14 @@ use Dhii\Collection;
 /**
  * Common functionality for sets of sets.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 abstract class AbstractSetSet extends AbstractCompositeSet
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _getAllItems()
     {
@@ -31,7 +31,7 @@ abstract class AbstractSetSet extends AbstractCompositeSet
     /**
      * Creates a set that will hold items from all internal sets.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Collection\SetInterface A set to be populated by items from all internal sets.
      */
@@ -40,7 +40,7 @@ abstract class AbstractSetSet extends AbstractCompositeSet
     /**
      * Search evaluator to find sets that contain a certain item.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param Collection\SetInterface $set The set to check in.
      * @param mixed $item The item to check for.
@@ -57,7 +57,7 @@ abstract class AbstractSetSet extends AbstractCompositeSet
     /**
      * Gets a list of internal sets that contain the given item.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Collection\SetInterface[]|\Traversable The list of internal sets with the matching item.
      */

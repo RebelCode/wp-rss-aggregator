@@ -149,7 +149,7 @@ class WPRSS_Feed_Access
     /**
      * Retrieve the useragent string that will be used by default.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The useragent string.
      */
@@ -213,7 +213,7 @@ class WPRSS_Feed_Access
         /**
          * Adding feed source specific settings.
          *
-	 * @since [*next-version*]
+	 * @since 4.10
          *
          * @param array $fields An array containing all existing fields by ID.
          */
@@ -280,7 +280,7 @@ class WPRSS_Feed_Access
      * Use the `wprss_feed_default_headers` filter to amend the whole return value.
      * Use the `wprss_feed_default_headers_accept` to amend the types in the "Accept" header.
      *
-     * @since [*next-version*]
+     * @since 4.10
      * @see array_merge_recursive_distinct()
      * @param array $additionalHeaders Optional headers to merge with the default ones.
      *  Merging is done recursively.
@@ -310,7 +310,7 @@ class WPRSS_Feed_Access
     /**
      * Creates a new object that is responsible for retrieving a remote resource.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see SimplePie_File::__construct()
      *
@@ -338,7 +338,7 @@ class WPRSS_Feed_Access
     /**
      * Creates a new object that is responsible for retrieving a remote resource, using values from a feed.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see wprss_feed_create_resource()
      *

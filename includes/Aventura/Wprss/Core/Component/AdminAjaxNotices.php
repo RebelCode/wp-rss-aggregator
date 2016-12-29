@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * Component responsible for notices in the backend.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
 {
@@ -17,7 +17,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
      *
      * @see wprss_admin_notice_get_collection()
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return \WPRSS_Admin_Notices The notice collection object.
      */

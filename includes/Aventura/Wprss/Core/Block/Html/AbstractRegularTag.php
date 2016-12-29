@@ -12,7 +12,7 @@ class AbstractRegularTag extends AbstractTag
     /**
      * Renders the tag HTML.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function getOutput()
     {

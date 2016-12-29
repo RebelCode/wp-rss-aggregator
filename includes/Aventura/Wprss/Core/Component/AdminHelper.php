@@ -7,14 +7,14 @@ use Aventura\Wprss\Core;
 /**
  * Helper component for things related to the backend.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class AdminHelper extends Core\Plugin\ComponentAbstract
 {
     /**
      * Determine if currently showing page is related to WPRSS.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return bool True if currently showing a WPRSS-related page; false otherwise.
      */
@@ -31,7 +31,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
      *
      * A command is a callable object that can contain all data necessary to invoke a callback.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array|callable $data A callable, or an array with the follwing indices:
      *  - `function` - The callable to assign to the command;
@@ -51,7 +51,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
      *
      * If the value is a callable, calls it. Otherwise, returns value.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param mixed $value Anything.
      *

@@ -627,7 +627,7 @@
     /**
      * Renders a <select> HTML tag from its parameters.
      *
-     * @since [*next-version*]
+     * @since 4.10
      * @return string The HTML of a <select> tag.
      */
     function wprss_settings_render_select($id, $name, $items, $selected = null, $attributes = array())
@@ -661,7 +661,7 @@
      * Gets options that should go in a dropdown which represents a
      * feed-source-specific boolean setting.
      *
-     * @since [*next-version*]
+     * @since 4.10
      * @return array An array with options.
      */
     function wprss_settings_get_feed_source_boolean_options()

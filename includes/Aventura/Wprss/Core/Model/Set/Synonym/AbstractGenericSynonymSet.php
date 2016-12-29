@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Model\Set\Synonym;
 /**
  * Base functionality of a synonym set.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 abstract class AbstractGenericSynonymSet extends AbstractSynonymSet implements SynonymSetInterface
 {
@@ -17,7 +17,7 @@ abstract class AbstractGenericSynonymSet extends AbstractSynonymSet implements S
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function getSynonyms($term)
     {

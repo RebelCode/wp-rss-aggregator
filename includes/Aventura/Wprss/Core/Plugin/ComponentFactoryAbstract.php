@@ -76,7 +76,7 @@ abstract class ComponentFactoryAbstract extends ComponentAbstract implements Com
     /**
      * Determines if a class name is of a valid component.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string|object $className A class name or object to check.
      *

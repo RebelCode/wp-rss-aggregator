@@ -7,14 +7,14 @@ use Aventura\Wprss\Core\Model\Set\AbstractGenericSet;
 /**
  * Common functionality for synonym sets.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class AbstractSynonymSet extends AbstractGenericSet
 {
     /**
      * Gets a list of terms in this instance that are synonymous to the specified term.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $term The term to get synonyms for.
      *
@@ -34,7 +34,7 @@ class AbstractSynonymSet extends AbstractGenericSet
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _validateItem($item)
     {

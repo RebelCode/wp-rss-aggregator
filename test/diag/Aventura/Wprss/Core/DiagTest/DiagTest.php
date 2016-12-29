@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\DiagTest;
 /**
  * Tests basic functionality of WPRADIAG.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class DiagTest extends \RebelCode\Wprss\Debug\DiagTest\Model\TestCase
 {
     /**
      * Tests whether the WPRADIAG exists and is able to run tests with assertions.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testWpradiagExists()
     {

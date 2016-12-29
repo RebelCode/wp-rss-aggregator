@@ -355,7 +355,7 @@ class WPRSS_Help {
 	}
 
         /**
-         * @since [*next-version*]
+         * @since 4.10
          */
 	public static function init()
         {
@@ -368,7 +368,7 @@ class WPRSS_Help {
         /**
          * Determines if the admin scripts should get enqueued.
          *
-         * @since [*next-version*]
+         * @since 4.10
          *
          * @return bool True if admin scripts should be enqueued; false otherwise.
          */
@@ -380,7 +380,7 @@ class WPRSS_Help {
         /**
          * Determines if the current page is related to WPRSS.
          *
-         * @since [*next-version*]
+         * @since 4.10
          *
          * @return bool True if the current page is related to WPRSS; false otherwise.
          */

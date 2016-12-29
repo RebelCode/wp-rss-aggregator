@@ -8,14 +8,14 @@ use Aventura\Wprss\Core\Model\Set\Synonym;
 /**
  * Tests {@see \Aventura\Wprss\Core\Model\Set\Synonym\Simple}.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class SimpleTest extends TestCase
 {
     /**
      * Creates a new instance of the test subject.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Synonym\Simple The new instance of the test subject.
      */
@@ -29,7 +29,7 @@ class SimpleTest extends TestCase
     /**
      * Tests whether a valid instance of the test subject can be created.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testCanBeCreated()
     {
@@ -41,7 +41,7 @@ class SimpleTest extends TestCase
     /**
      * Tests whether synonyms can be retrieved correctly.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testGetSynonyms()
     {
@@ -54,7 +54,7 @@ class SimpleTest extends TestCase
     /**
      * Tests whether the subject accepts only strings as its items.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testStringsOnlyAllowed()
     {

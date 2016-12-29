@@ -13,7 +13,7 @@ use Aventura\Wprss\Core;
  * time at the moment of retrieval. This result is recorded as the first
  * activation time, and is used in subsequent requests.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
 {
@@ -30,7 +30,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     /**
      * Runs when this component is initialized.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function hook()
     {
@@ -43,7 +43,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     /**
      * Runs when the parent plugin is activated.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function onPluginActivated()
     {
@@ -53,7 +53,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     /**
      * Runs when all plugins have finished loading.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function init()
     {
@@ -63,7 +63,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     /**
      * Adds the notification.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return LeaveReviewNotification This instance.
      */
@@ -84,7 +84,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     /**
      * Retrieve the ID of the "Leave a Review" admin notice.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The ID of the notice.
      */
@@ -107,7 +107,7 @@ class LeaveReviewNotification extends Core\Plugin\ComponentAbstract
     /**
      * Retrieve the content for the "Leave a Review" notice.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The content for the notice.
      */
@@ -132,7 +132,7 @@ MSG;
     /**
      * Retrieve the condition for the notice to show.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return callable The callable that determines whether or not to display the notice.
      */
@@ -150,7 +150,7 @@ MSG;
     /**
      * Determines if the notice is allowed to be displayed on the current page.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return bool True if the notice is allowed to be displayed on the current page; false otherwise.
      */
@@ -176,7 +176,7 @@ MSG;
     /**
      * Determines whether a certain amount of time has passed since first activation of the plugin.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see WPRSS_LEAVE_REVIEW_NOTIFICATION_DELAY
      *
@@ -202,7 +202,7 @@ MSG;
     /**
      * Determines if the minimal amount of sources required to display the notification exists.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return bool True if the minimal amount of feed sources exists; false otherwise.
      */
@@ -224,7 +224,7 @@ MSG;
     /**
      * Retrieve the minimal amount of active feed source required for the notification to be displayed.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int The amount of feed sources required.
      */
@@ -239,7 +239,7 @@ MSG;
     /**
      * Retrieve IDs of feed sources that are active.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array|int $args If array, will be merged with default query params.
      *  Otherwise, treated as the maximal number of IDs to return.
@@ -275,7 +275,7 @@ MSG;
     /**
      * Get the delay before notice gets displayed.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int The amount of seconds, by which to delay displaying the notice.
      */
@@ -287,7 +287,7 @@ MSG;
     /**
      * Determines if the curren page is related to WPRSS.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return bool True if the current page is related to WPRSS; false otherwise.
      */
@@ -299,7 +299,7 @@ MSG;
     /**
      * Retrieves the URL of the page where to send visitors to leave a review.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The page URL.
      */
@@ -314,7 +314,7 @@ MSG;
     /**
      * Retrieve the time of the first activation of the plugin.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int|string The first activation time in GMT as Unix timestamp.
      *  If `$format` is not `null`, formats the timestamp using the specified format string.
@@ -340,7 +340,7 @@ MSG;
     /**
      * Deduces what the first activation time is, if it is not recorded.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int The first activation time, calculated, in the GMT zone.
      */
@@ -362,7 +362,7 @@ MSG;
     /**
      * Converts a date string into a Unix timestamp.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see \DateTime::createFromFormat()
      *
@@ -387,7 +387,7 @@ MSG;
     /**
      * Retrieve feed sources for specific conditions.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array|int|null $args The maximal amount of feed sources to retrieve.
      *  If array, will be treated as query args, and merged with defaults.
@@ -418,7 +418,7 @@ MSG;
     /**
      * Retrieves the first activation time value from the database.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int|null
      */
@@ -437,7 +437,7 @@ MSG;
     /**
      * Sets the value of the option, which stores the first activation time in the database.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param int $time The GMT time as a Unix timestamp.
      * @return bool True if time set successfully, false otherwise.
@@ -452,7 +452,7 @@ MSG;
     /**
      * Retrieves the name of the option, which stores the first activation time.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string Name of the option.
      */
@@ -469,7 +469,7 @@ MSG;
     /**
      * Records the current time as first activation time, if not already recorded.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return LeaveReviewNotification This instance.
      */
@@ -488,7 +488,7 @@ MSG;
     /**
      * Retrieves the current timestamp in the GMT zone.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int The number of seconds from the start of the Unix epoch, GMT.
      */
@@ -500,7 +500,7 @@ MSG;
     /**
      * Retrieves the name of the feed source post type.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The post type name of the feed source post type.
      */
@@ -512,7 +512,7 @@ MSG;
     /**
      * Retrieve the component responsible for admin AJAX notices.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return AdminAjaxNotices The component instance.
      */
@@ -524,7 +524,7 @@ MSG;
     /**
      * Retrieve the admin helper singleton.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return AdminHelper The helper singleton instance.
      */
@@ -536,7 +536,7 @@ MSG;
     /**
      * Creates a callable command instance.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array|callable $data See {@see Core\Model\Command}.
      * @return Core\Model\Command|callable See {@see Core\Model\Command}.

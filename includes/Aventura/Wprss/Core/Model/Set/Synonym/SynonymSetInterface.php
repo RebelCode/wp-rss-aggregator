@@ -7,14 +7,14 @@ use Aventura\Wprss\Core\Model\Set as BaseSets;
 /**
  * Something that behaves like a synonym set.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 interface SynonymSetInterface extends BaseSets\SetInterface
 {
     /**
      * Retrieves a list of terms from this set that are synonymous to the specified term.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $term The term, for which to get the synonyms.
      *

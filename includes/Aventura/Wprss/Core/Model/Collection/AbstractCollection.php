@@ -7,14 +7,14 @@ use Dhii\Collection\AbstractSearchableCollection;
 /**
  * Common functionality for all collections.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 abstract class AbstractCollection extends AbstractSearchableCollection
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _construct()
     {
@@ -25,7 +25,7 @@ abstract class AbstractCollection extends AbstractSearchableCollection
     /**
      * Returns the item set of this instance to its initial state.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _clearItems()
     {

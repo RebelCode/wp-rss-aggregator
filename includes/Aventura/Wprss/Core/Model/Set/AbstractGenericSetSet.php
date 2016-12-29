@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model\Set;
 /**
  * A base set for sets of sets that expose relevant interfaces.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class AbstractGenericSetSet extends AbstractSetSet implements SetSetInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _createAllItemsSet($items)
     {
@@ -25,7 +25,7 @@ class AbstractGenericSetSet extends AbstractSetSet implements SetSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function getAllItems()
     {
@@ -35,7 +35,7 @@ class AbstractGenericSetSet extends AbstractSetSet implements SetSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function getContaining($item)
     {

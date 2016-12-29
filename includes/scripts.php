@@ -46,7 +46,7 @@
     /**
      * Enqueues backend scripts on WPRA-related pages only
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     function wprss_admin_exclusive_scripts_styles()
     {

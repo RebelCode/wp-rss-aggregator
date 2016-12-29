@@ -50,7 +50,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Creates a component that is responsible for the "Leave a Review" notification.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array $data Additional data to use for component configuration.
      * @return Component\LeaveReviewNotification
@@ -65,7 +65,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Creates a component that is responsible for the admin notices.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Component\AdminAjaxNotices
      */
@@ -79,7 +79,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Creates a helper component related to the backend.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Component\AdminHelper
      */

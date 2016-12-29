@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * Common regex functionality
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class AbstractRegex extends Core\Model\ModelAbstract
 {
@@ -19,7 +19,7 @@ class AbstractRegex extends Core\Model\ModelAbstract
     /**
      * Escapes all special regex characters in all supplied strings.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array|string $string A string or array of strings to escape.
      * @param string|null $delimiter The delimiter, which, if specified, will also be quoted.
@@ -46,7 +46,7 @@ class AbstractRegex extends Core\Model\ModelAbstract
     /**
      * Gets the RegEx delimiter used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class AbstractRegex extends Core\Model\ModelAbstract
     /**
      * Get the limit used by this instance's RegEx replacement functions.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int
      */
@@ -70,7 +70,7 @@ class AbstractRegex extends Core\Model\ModelAbstract
     /**
      * Uses a regex to replace parts of the input string.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string|array $pattern See {@see preg_replace_callback()}
      * @param callable $callback See {@see preg_replace_callback()}
@@ -92,7 +92,7 @@ class AbstractRegex extends Core\Model\ModelAbstract
     /**
      * Attempts a RegEx match.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see preg_match()
      *

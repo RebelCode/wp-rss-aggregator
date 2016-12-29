@@ -7,7 +7,7 @@ use Aventura\Wprss\Core\Model\Set\SetSetInterface;
 /**
  * Something that can behave like a set of synonym sets.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 interface SynonymSetSetInterface extends SetSetInterface
 {
@@ -17,7 +17,7 @@ interface SynonymSetSetInterface extends SetSetInterface
      * If this instance has a set containing the term, that set will be returned.
      * Otherwise, a new set is created, and populated with the specified term.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $term The term, for which to get the synonym set.
      *

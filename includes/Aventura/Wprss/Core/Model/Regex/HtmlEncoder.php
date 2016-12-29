@@ -16,7 +16,7 @@ use Aventura\Wprss\Core\Model\Set;
  * While quotes are transformed in the same way, but by default they are considered do be "symmetrical",
  * i.e. an "opening" quote must be matched with an identical "closing" quote.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class HtmlEncoder extends AbstractRegex
 {
@@ -32,7 +32,7 @@ class HtmlEncoder extends AbstractRegex
     protected $replacementCount = 0;
 
     /**
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _construct()
     {
@@ -47,7 +47,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Resets usage stats.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see getOccurrenceCount()
      * @see getReplacementCount()
@@ -63,7 +63,7 @@ class HtmlEncoder extends AbstractRegex
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $expr The regex to encodify.
      *
@@ -83,7 +83,7 @@ class HtmlEncoder extends AbstractRegex
      *
      * Currently, named groups are used for matching symmetric quotes.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The group name prefix.
      */
@@ -95,7 +95,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Retrieve all symmetrical chars.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return array Array of strings, each one being a char that must be matched in pairs by the transformed regex.
      */
@@ -107,7 +107,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Adds chars that must be symmetrical, e.g. must me matched in pairs by the transformed regex
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string|array $chars A char, string of chars, or array of chars, each of which to add.
      *
@@ -125,7 +125,7 @@ class HtmlEncoder extends AbstractRegex
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param type $chars
      *
@@ -142,7 +142,7 @@ class HtmlEncoder extends AbstractRegex
      *
      * Each inner set contains characters or sequences, all of which are synonymous with each other.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Set\Synonym\Set The set of synonym sets.
      */
@@ -158,7 +158,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Assigns the set of synonym sets.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param Set\Synonym\Set $set The synonym set.
      *
@@ -174,7 +174,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Checks whether or not a char is registered as being an HTML char.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char The char to check for.
      *
@@ -189,7 +189,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Determines if this instance's char map contains the specified character.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char The character to check.
      *
@@ -218,7 +218,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Retrieve synonyms for the specified character.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char The character, for which to get synonyms.
      * @param array $other Additional characters to include in the result.
@@ -243,7 +243,7 @@ class HtmlEncoder extends AbstractRegex
      *
      * If the character does not exist, it will be added.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char The character, for which to add synonyms.
      *
@@ -261,7 +261,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Removes a character from the set of chars to encodify.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @todo This method may be redundant or broken. Verify.
      *
@@ -283,7 +283,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Adds a character to be encodified.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @todo This method may be incomplete. Confirm and fix.
      *
@@ -301,7 +301,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Adds multiple HTML characters to be encodified.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string[] $chars The characters to be added.
      *
@@ -322,7 +322,7 @@ class HtmlEncoder extends AbstractRegex
      * If array, uses the first element.
      * If string, uses the first character.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param type $char
      *
@@ -343,7 +343,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Normalizes input to an array of characters.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string|array $chars The character set to normalize.
      *
@@ -359,7 +359,7 @@ class HtmlEncoder extends AbstractRegex
 
     /**
      * @access protected
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char
      * @return HtmlEncoder
@@ -376,7 +376,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Retrieve the number of occurrences of the specified encodified character since last reset, or since instantiation.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char The char to retrieve the occurrence count for.
      * @return int The number of occurrences.
@@ -390,7 +390,7 @@ class HtmlEncoder extends AbstractRegex
 
     /**
      * @access protected
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function _incrementReplacement()
     {
@@ -400,7 +400,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Retrieve the total number of replacements of encodifiable characters performed since last reset, or since instantiation.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return int
      */
@@ -412,7 +412,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Get auto-generated synonyms for the specified character.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $char The character to get synonyms for.
      *
@@ -428,7 +428,7 @@ class HtmlEncoder extends AbstractRegex
      *
      * Caters for escaped "\[" and "\]";
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $string The regex expression.
      * @param array $classes This will be populated with a token-value map, where value is the character class that was replaced by token.
@@ -456,7 +456,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Puts the char classes back in place of their corresponding tokens.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see _extractCharClass()
      * @param string $string The regular expression.
@@ -472,7 +472,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * HTML-encodify a regex expresion to match HTML-encoded variants of the strings.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $expr The expression to HTML-encodify.
      * @param Set\Synonym\Set $synonymSets A set of synonym sets.
@@ -542,7 +542,7 @@ class HtmlEncoder extends AbstractRegex
      * Those matches are added as a result of HTML-encodifying a regular expressions,
      * and may cause desired matches to not appear at their normal indexes.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param array $matches The matches array to clean.
      * @param string $symPrefix The symmetric char match name prefix used by the matcher function.
@@ -586,7 +586,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Determines is a key could represent a symmetric character synonym group.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @see getSymPrefix()
      *
@@ -607,7 +607,7 @@ class HtmlEncoder extends AbstractRegex
     /**
      * Determines whether a string starts with the specified prefix.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $string The string to check.
      * @param string $start The prefix to check for.

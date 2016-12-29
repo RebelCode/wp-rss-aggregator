@@ -34,7 +34,7 @@
          *
          * If directories on the log filepath don't exist, creates them.
          *
-         * @since [*next-version*]
+         * @since 4.10
          *
          * @param string $message The message to write to the log.
          * @param int $flags Flags to be used with {@see file_put_contents()} for writing.
@@ -58,7 +58,7 @@
          *
          * By default, reads that data from the end of the file.
          *
-         * @since [*next-version*]
+         * @since 4.10
          *
          * @param null|int $length How many characters at most to read from the log.
          *  Default: {@see WPRSS_LOG_DISPLAY_LIMIT}.
@@ -143,7 +143,7 @@
         /**
          * Determines a suffix for a log file based on context and some globally accessible variables.
          *
-         * @since [*next-version*]
+         * @since 4.10
          *
          * @param array $context Options for the suffix.
          *  Default: ['blog_id' => {{current blog id}}]

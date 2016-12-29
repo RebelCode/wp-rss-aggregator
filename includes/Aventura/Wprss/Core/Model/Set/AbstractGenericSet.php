@@ -5,12 +5,12 @@ namespace Aventura\Wprss\Core\Model\Set;
 /**
  * Base functionality for generic sets with a set interface.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 abstract class AbstractGenericSet extends AbstractSet implements SetInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param mixed[]|\Traversable $items The items to add to the set.
      */
@@ -24,7 +24,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function add($item)
     {
@@ -38,7 +38,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function addMany($items)
     {
@@ -51,7 +51,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function remove($item)
     {
@@ -64,7 +64,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function removeMany($items)
     {
@@ -79,7 +79,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function has($item)
     {
@@ -89,7 +89,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function clear()
     {
@@ -100,7 +100,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function items()
     {
@@ -110,7 +110,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function count()
     {
@@ -120,7 +120,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _validateItem($item)
     {
@@ -130,7 +130,7 @@ abstract class AbstractGenericSet extends AbstractSet implements SetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function hasOneOf($items)
     {

@@ -171,7 +171,7 @@ class WPRSS_Image_Cache {
          * The return value determine the length of the `trimmed-orig-filename`
          * segment.
          *
-         * @since [*next-version*]
+         * @since 4.10
          *
          * @return int The length of the original filename to preserve.
          */

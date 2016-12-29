@@ -8,14 +8,14 @@ use Aventura\Wprss\Core\Model\Set\Synonym;
 /**
  * Tests {@see \Aventura\Wprss\Core\Model\Set\Synonym\Set}.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class SetTest extends TestCase
 {
     /**
      * Creates a new instance of the test subject.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Synonym\Set The new instance of the test subject.
      */
@@ -29,7 +29,7 @@ class SetTest extends TestCase
     /**
      * Creates a new synonym set.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string[] $synonyms An array of synonyms to populate the set with.
      */
@@ -43,7 +43,7 @@ class SetTest extends TestCase
     /**
      * Tests whether a valid instance of the test subject can be created.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testCanBeCreated()
     {
@@ -55,7 +55,7 @@ class SetTest extends TestCase
     /**
      * Tests whether an existing set can be retrieved for a term.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testGetSetForTerm()
     {
@@ -76,7 +76,7 @@ class SetTest extends TestCase
     /**
      * Tests whether the subject accepts only strings as its items.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testStringsOnlyAllowed()
     {

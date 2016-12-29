@@ -12,7 +12,7 @@ class AbstractSelfClosingTag extends AbstractTag
     /**
      * Renders the tag HTML.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function getOutput()
     {
@@ -31,7 +31,7 @@ class AbstractSelfClosingTag extends AbstractTag
      * A self-closing tag has no content, and therefore content is now allowed
      * to be an attribute.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _getNonAttributeKeys()
     {

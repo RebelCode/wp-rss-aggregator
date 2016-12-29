@@ -148,7 +148,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Retrieve the post type of feed sources.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return string The post type string of the feed source post type.
      */
@@ -160,7 +160,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Retrieve the admin AJAX notices component singleton.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Component\AdminAjaxNotices
      */
@@ -176,7 +176,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Retrieve the "Leave Review" notification component singleton.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Component\LeaveReviewNotification
      */
@@ -192,7 +192,7 @@ class Plugin extends Plugin\PluginAbstract
     /**
      * Retrieve the "Leave Review" notification component singleton.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return Component\AdminHelper
      */

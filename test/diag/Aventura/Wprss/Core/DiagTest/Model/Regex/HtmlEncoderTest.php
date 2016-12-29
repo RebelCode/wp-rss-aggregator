@@ -7,14 +7,14 @@ use \RebelCode\Wprss\Debug\Diagtest\Model\TestCase;
 /**
  * Tests {@see \Aventura\Wprss\Core\Model\Regex\HtmlEncoder}.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class HtmlEncoderTest extends TestCase
 {
     /**
      * Creates an instance of the test subject.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @return \Aventura\Wprss\Core\Model\Regex\HtmlEncoder
      */
@@ -28,7 +28,7 @@ class HtmlEncoderTest extends TestCase
     /**
      * Tests whether a valid instance of the test subject can be created.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testCanBeCreated()
     {
@@ -40,7 +40,7 @@ class HtmlEncoderTest extends TestCase
     /**
      * Tests whether the subject can encodify an expression in the right way.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testEncodify()
     {
@@ -58,7 +58,7 @@ EOD;
     /**
      * Tests whether expressions encodified by the subject match HTML, both regular and with entities.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testVerifyEncodify()
     {
@@ -76,7 +76,7 @@ EOD;
     /**
      * Tests that encodifying preserves character class definitions literally.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testEncodifyCharClasses()
     {
@@ -100,7 +100,7 @@ REGEX;
     /**
      * Tests that an encodified expression containing a character class with HTML special chars can correctly match HTML.
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     public function testValidateCharClasses()
     {

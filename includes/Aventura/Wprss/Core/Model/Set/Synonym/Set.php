@@ -8,14 +8,14 @@ use Dhii\Collection;
 /**
  * A set of synonym sets.
  *
- * @since [*next-version*]
+ * @since 4.10
  */
 class Set extends Sets\AbstractGenericSetSet implements SynonymSetSetInterface
 {
     /**
      * Get a set, to which the specified set belongs.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $term The term, for which to get the synonyms set.
      *
@@ -37,7 +37,7 @@ class Set extends Sets\AbstractGenericSetSet implements SynonymSetSetInterface
     /**
      * Retrieves all internal synonym sets that contain the specified term.
      *
-     * @since [*next-version*]
+     * @since 4.10
      *
      * @param string $term The term to check for.
      * @return Collection\SetInterface[]|\Traversable A list of sets that contain the specified term.
@@ -50,7 +50,7 @@ class Set extends Sets\AbstractGenericSetSet implements SynonymSetSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.10
      */
     protected function _validateItem($item)
     {
