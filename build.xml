@@ -62,4 +62,15 @@
         <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
     </target>
 
+    <target name="version" description="Replaces all occurrences of next version placeholder with actual version number">
+        <reflexive>
+            <fileset refid="buildFiles" />
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="\[\*next-version\*\]" replace="${version}"/>
+                </replaceregexp>
+            </filterchain>
+        </reflexive>
+    </target>
+
 </project>
