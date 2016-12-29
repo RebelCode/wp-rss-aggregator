@@ -282,6 +282,28 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= 4.10 (2016-12-29) =
+* Fixed bug with feed error output breaking tooltips on "Feed Sources" page.
+* Fixed bug with nonces on the "Feed Sources" page that broke some source actions.
+* Fixed problem with image cache filenames being too long.
+* Fixed problem with permalink URLs sometimes being URL-encoded.
+* Fixed problem with large logs causing OOM errors and breaking Debugging page.
+* Fixed conflict with function `unparse_url()`.
+* Fixed bug with `_getDataOrConst()` not retrieving single value.
+* Fixed future incompatibility with `class-feed.php` for WP 4.7+.
+* Fixed conflicts with many JS scripts by only adding JS on our admin pages.
+* Fixed conflicts with some classes by loading only valid root namespace components.
+* Fixed PHP warning related to retrieving unique titles.
+* Added a per-feed-source "Link Source" option.
+* Added a per-feed-source "Feed Request User Agent" option.
+* The "Add New" button no longer appears for feed items.
+* Added "Leave a Review" notification.
+* Now using Composer!
+* Now using Phing!
+* Added RegEx HTML Encodifier.
+* Added integration with Diagnostics plugin, and tests.
+* Logs are now created in `wp-content/log/wprss`, and are named more descriptively.
+
 = 4.9.1 (2016-08-01) =
 * Changed copyright and other info in plugin header.
 
