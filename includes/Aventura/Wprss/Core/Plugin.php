@@ -2,6 +2,8 @@
 
 namespace Aventura\Wprss\Core;
 
+use Aventura\Wprss\Core\Component;
+
 /**
  * The Core instance of WP RSS Aggregator.
  *
@@ -11,6 +13,12 @@ class Plugin extends Plugin\PluginAbstract
 {
     const CODE = 'wprss';
     const VERSION = WPRSS_VERSION;
+
+    const POST_TYPE_FEED_SOURCE = WPRSS_POST_TYPE_FEED_SOURCE;
+
+    protected $adminAjaxNotices;
+    protected $leaveReviewNotification;
+    protected $adminHelper;
 
     /**
      * Hooks the rest of the functionality of this class.
@@ -135,5 +143,65 @@ class Plugin extends Plugin\PluginAbstract
         $response->setAjaxData($data);
 
         return $response;
+    }
+
+    /**
+     * Retrieve the post type of feed sources.
+     *
+     * @since 4.10
+     *
+     * @return string The post type string of the feed source post type.
+     */
+    public function getFeedSourcePostType()
+    {
+        return static::POST_TYPE_FEED_SOURCE;
+    }
+
+    /**
+     * Retrieve the admin AJAX notices component singleton.
+     *
+     * @since 4.10
+     *
+     * @return Component\AdminAjaxNotices
+     */
+    public function getAdminAjaxNotices()
+    {
+        if (is_null($this->adminAjaxNotices)) {
+            $this->adminAjaxNotices = $this->getFactory()->createAdminAjaxNotices();
+        }
+
+        return $this->adminAjaxNotices;
+    }
+
+    /**
+     * Retrieve the "Leave Review" notification component singleton.
+     *
+     * @since 4.10
+     *
+     * @return Component\LeaveReviewNotification
+     */
+    public function getLeaveReviewNotification()
+    {
+        if (is_null($this->leaveReviewNotification)) {
+            $this->leaveReviewNotification = $this->getFactory()->createLeaveReviewNotification();
+        }
+
+        return $this->leaveReviewNotification;
+    }
+
+    /**
+     * Retrieve the "Leave Review" notification component singleton.
+     *
+     * @since 4.10
+     *
+     * @return Component\AdminHelper
+     */
+    public function getAdminHelper()
+    {
+        if (is_null($this->adminHelper)) {
+            $this->adminHelper = $this->getFactory()->createAdminHelper();
+        }
+
+        return $this->adminHelper;
     }
 }

@@ -175,7 +175,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
         $text      = $this->__($text, $translate);
         $className = $this->getExceptionClassName($className);
         if (!class_exists($className)) {
-            throw new Exception(sprintf('Could not create exception: Class "%1$s" does not exist'));
+            throw new Core\Exception(sprintf('Could not create exception: Class "%1$s" does not exist', $className));
         }
 
         $exception = new $className($text);
@@ -271,7 +271,7 @@ abstract class ModelAbstract extends Core\DataObject implements ModelInterface
     protected function _getDataOrConst($key, $default = null)
     {
         if ($this->hasData($key)) {
-            return $this->getData();
+            return $this->getData($key);
         }
 
         $const = $this->constant($key);

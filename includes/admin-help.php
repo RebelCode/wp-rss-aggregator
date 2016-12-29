@@ -354,12 +354,40 @@ class WPRSS_Help {
 		return self::$_instance;
 	}
 
-
-	public static function init() {
-		// Actions
+        /**
+         * @since 4.10
+         */
+	public static function init()
+        {
+            if (static::get_instance()->_isEnqueueScripts()) {
 		add_action( 'admin_enqueue_scripts', array( self::get_instance(), '_admin_enqueue_scripts' ) );
 		add_action( 'admin_footer', array( self::get_instance(), '_admin_footer' ) );
+            }
 	}
+
+        /**
+         * Determines if the admin scripts should get enqueued.
+         *
+         * @since 4.10
+         *
+         * @return bool True if admin scripts should be enqueued; false otherwise.
+         */
+        protected function _isEnqueueScripts()
+        {
+            return $this->_isWprssPage();
+        }
+
+        /**
+         * Determines if the current page is related to WPRSS.
+         *
+         * @since 4.10
+         *
+         * @return bool True if the current page is related to WPRSS; false otherwise.
+         */
+        protected function _isWprssPage()
+        {
+            return wprss_is_wprss_page();
+        }
 
 
 	/**
@@ -519,7 +547,12 @@ class WPRSS_Help {
 	 *
 	 * @return WPRSS_Help This instance.
 	 */
-	public function _admin_enqueue_scripts() {
+	public function _admin_enqueue_scripts()
+        {
+            if (!wprss_is_wprss_page()) {
+                return $this;
+            }
+
 		$scripts = $this->apply_filters( 'admin_scripts', array(
 			'jquery-ui-tooltip'				=> array()
 		));

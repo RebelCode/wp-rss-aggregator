@@ -1,0 +1,17 @@
+{
+    "name": "wprss/core",
+    "description": "The core WP RSS Aggregator plugin",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "RebelCode",
+            "email": "dev@rebelcode.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "dhii/collections-abstract": "^0.1.0",
+        "dhii/collections-interface": "^0.1.2"
+    }
+}

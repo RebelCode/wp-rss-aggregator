@@ -624,6 +624,55 @@
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
+    /**
+     * Renders a <select> HTML tag from its parameters.
+     *
+     * @since 4.10
+     * @return string The HTML of a <select> tag.
+     */
+    function wprss_settings_render_select($id, $name, $items, $selected = null, $attributes = array())
+    {
+        ob_start();
+        $attributes = array_merge($attributes, array(
+            'id'            => $id,
+            'name'          => $name,
+        ));
+
+        $attributePairs = $attributes;
+        array_walk($attributePairs, function(&$v, $k) { $v = sprintf('%1$s="%2$s"', $k, $v); });
+        $attributesString = implode(' ', $attributePairs);
+        ?>
+        <select <?php echo $attributesString ?>>
+		<?php
+        foreach( $items as $_key => $_item ) {
+            $_key = (string) $_key;
+            $_item = (string) $_item;
+            $isSelected = $selected == $_key;
+            ?><option value="<?php echo $_key ?>"<?php if ($isSelected): ?> selected="selected"<?php endif ?>><?php echo htmlspecialchars($_item) ?></option><?php
+        }
+        ?>
+        </select>
+        <?php
+        $html = ob_get_clean();
+        return $html;
+    }
+
+    /**
+     * Gets options that should go in a dropdown which represents a
+     * feed-source-specific boolean setting.
+     *
+     * @since 4.10
+     * @return array An array with options.
+     */
+    function wprss_settings_get_feed_source_boolean_options()
+    {
+        return array(
+            1           => __('On', WPRSS_TEXT_DOMAIN),
+            0           => __('Off', WPRSS_TEXT_DOMAIN),
+            -1          => __('Default', WPRSS_TEXT_DOMAIN),
+        );
+    }
+
 
     /** 
      * Set text preceding source

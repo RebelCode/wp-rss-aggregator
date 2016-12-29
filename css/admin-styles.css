@@ -733,3 +733,8 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 .ajax-error:active {
     color: #a00;
 }
+
+/* Removes the "Add New" button for Feed Items */
+.post-type-wprss_feed_item .page-title-action {
+    display: none
+}

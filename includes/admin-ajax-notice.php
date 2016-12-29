@@ -506,7 +506,11 @@ class WPRSS_Admin_Notices {
 
 		// Auto-generate nonce
 		if ( is_null( $data['nonce'] ) && !is_null( $data['id'] ) ) {
-			$data['nonce'] = $this->generate_nonce_for_notice( $data['id'] );
+            $me = $this;
+			$data['nonce'] = wprss()->getAdminHelper()->createCommand(function() use ($me, $data) {
+                $nonce = $me->generate_nonce_for_notice( $data['id'] );
+                return $nonce;
+            });
 		}
 
 		// Auto-generate nonce element ID
@@ -806,7 +810,7 @@ class WPRSS_Admin_Notices {
 		$event_name = $this->prefix( 'admin_notice_conditions_evaluated' );
 		$result = true; // By default, evaluation passes
 		if ( empty( $conditions ) ) return apply_filters ( $event_name, $result, $condition_type, $this ); // Unconditional ;)
-		if ( !is_array( $conditions ) ) $conditions = (array)$conditions; // Normalizing
+		if ( !is_array( $conditions ) ) $conditions = array($conditions); // Normalizing
 
 		foreach ( $conditions as $_idx => $_condition ) {
 			$func = is_array( $_condition ) && isset( $_condition['func'] )
@@ -1071,6 +1075,9 @@ class WPRSS_Admin_Notices {
 
 		if ( !$notice )
 			throw new Exception( sprintf( 'Could not render notice: no notice found for ID "%1$s"' ), $id );
+
+        $helper = wprss()->getAdminHelper();
+
 		ob_start();
 		$notice = apply_filters( $this->prefix( 'admin_notice_render_before' ), $notice, $this );
 		?>
@@ -1080,7 +1087,7 @@ class WPRSS_Admin_Notices {
 				<?php echo $notice['content'] ?>
 			</div>
 			<a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
-			<span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $notice['nonce'] ?></span>
+            <span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $helper->resolveValue($notice['nonce']) ?></span>
 		</div>
 		<?php
 		do_action( $this->prefix( 'admin_notice_render_after' ), $notice, $this );
@@ -1113,7 +1120,8 @@ class WPRSS_Admin_Notices {
 			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice_id ) );
 
 		// Is it the right nonce?
-		if ( $notice['nonce'] !== $nonce )
+        $noticeNonce = wprss()->getAdminHelper()->resolveValue($notice['nonce']);
+		if ( $noticeNonce !== $nonce )
 			throw new Exception( sprintf( 'Could not hide notice: Nonce "%1$s" does not belong to notice "%2$s"', $nonce, $notice_id ) );
 
 		// Verify nonce
@@ -1158,7 +1166,7 @@ function wprss_admin_notice_get_collection() {
 		$collection->init();
 		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
 
-		add_action( 'admin_enqueue_scripts', 'wprss_admin_notices_collection_enqueue_scripts' );
+        add_action( 'wprss_admin_exclusive_scripts_styles', 'wprss_admin_notices_collection_enqueue_scripts' );
 	}
 
 	return $collection;
@@ -1263,14 +1271,37 @@ function wprss_admin_notice_hide() {
 function wprss_is_wprss_page() {
 	global $typenow;
 
-	if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
-	  $post = get_post( $_GET['post'] );
-	  if ( $post !== NULL && !is_wp_error( $post ) )
-		$typenow = $post->post_type;
+    $postType = $typenow;
+	if ( empty( $postType ) && isset( $_GET['post'] ) && !empty( $_GET['post'] ) ) {
+        $post = get_post(filter_var($_GET['post'], FILTER_SANITIZE_NUMBER_INT));
+        if ( $post !== NULL && !is_wp_error( $post ) )
+            $postType = $post->post_type;
 	}
 
-	$is_wprss_page = ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' );
-	return apply_filters( 'wprss_is_wprss_page',  $is_wprss_page );
+    $filterFlags = FILTER_FLAG_STRIP_BACKTICK | FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH;
+    if (empty($postType) && isset($_GET['post_type'])) {
+        $postType = filter_var(trim($_GET['post_type']), FILTER_SANITIZE_STRING, $filterFlags);
+    }
+
+    $pagenow = isset($_GET['page']) ? filter_var($_GET['page'], FILTER_SANITIZE_STRING, $filterFlags) : null;
+    $wprss_post_types = apply_filters('wprss_post_types', array(
+        'wprss_feed',
+        'wprss_feed_item',
+        'wprss_blacklist',
+    ));
+    $wprss_pages = apply_filters('wprss_page_slugs', array(
+        'wprss-aggregator',
+        'wprss-aggregator-settings',
+        'wprss-import-export-settings',
+        'wprss-debugging',
+        'wprss-addons',
+        'wprss-welcome',
+        'wprss-help'
+    ));
+
+	$is_wprss_post = in_array($postType, $wprss_post_types, true);
+    $is_wprss_page = in_array($pagenow, $wprss_pages, true);
+	return apply_filters( 'wprss_is_wprss_page',  $is_wprss_post || $is_wprss_page );
 }
 
 

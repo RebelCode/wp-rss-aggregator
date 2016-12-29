@@ -160,9 +160,13 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
     protected function _createEvent($name, $args = array())
     {
         $event = new Event($name);
-        foreach($args as $_key => $_val) {
-            $event->setData($_key, $_val);
+
+        if (!is_array($args)) {
+            throw $this->exception('Args must be an array');
         }
+
+        $event->setData($args);
+
         return $event;
     }
 }

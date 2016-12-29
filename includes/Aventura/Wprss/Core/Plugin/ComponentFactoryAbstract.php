@@ -10,6 +10,8 @@ namespace Aventura\Wprss\Core\Plugin;
  */
 abstract class ComponentFactoryAbstract extends ComponentAbstract implements ComponentFactoryInterface
 {
+    const COMPONENT_INTERFACE = 'Aventura\\Wprss\\Core\\Plugin\\ComponentInterface';
+
     /**
      * Creates a new component instance.
      *
@@ -23,8 +25,7 @@ abstract class ComponentFactoryAbstract extends ComponentAbstract implements Com
     public function createComponent($class, PluginInterface $parent, array $data = array())
     {
         $className = $this->getComponentClassName($class);
-        $componentBase = 'Aventura\Wprss\Core\Plugin\ComponentInterface';
-        if (!static::classImplements($className, $componentBase)) {
+        if (!$this->validComponentClass($className)) {
             throw $this->exception(array('Could not create component: "%1$s" is not a component class as it does not implement "%2$s"', $className, $componentBase), array(__NAMESPACE__, 'Exception'));
         }
 
@@ -35,7 +36,7 @@ abstract class ComponentFactoryAbstract extends ComponentAbstract implements Com
         $data['plugin'] = $parent;
         $component = new $className($data);
         $component->hook();
-        
+
         return $component;
     }
 
@@ -43,22 +44,56 @@ abstract class ComponentFactoryAbstract extends ComponentAbstract implements Com
      * Get the name of a component class, based on it's relative or absolute name, or mapped ID.
      *
      * @since 4.8.1
-     * @param string $className A relative or absolute class name, or some other class identifier that is mapped
+     *
+     * @param string $name A relative or absolute class name, or some other class identifier that is mapped
      *  to a class name. If relative, then relative to the {@see getBaseNamespace()}.
+     *
      * @return string Name of the component class.
      */
-    public function getComponentClassName($className)
+    public function getComponentClassName($name)
     {
+        $className = null;
         // Namespace specified as array of parts; assume root namespace
-        if (is_array($className)) {
-            $className = '\\' . trim(implode('\\', $className), '\\');
-        }
-        
-        if (static::isRootNamespace($className)) {
-            return $className;
+        if (is_array($name)) {
+            $name = '\\' . trim(implode('\\', $name), '\\');
         }
 
-        $rootNamespace = $this->getBaseNamespace();
-        return sprintf('%1$s\\%2$s', $rootNamespace, $className);
+        if (static::isRootNamespace($name) && $this->validComponentClass($name)) {
+            $className = $name;
+        } else {
+            $rootNamespace = $this->getBaseNamespace();
+            $className = sprintf('%1$s\\%2$s', $rootNamespace, $name);
+        }
+
+        $this->event('component_class_name', array(
+            'name'          => $name,
+            'class_name'    => &$className
+        ));
+
+        return $className;
+    }
+
+    /**
+     * Determines if a class name is of a valid component.
+     *
+     * @since 4.10
+     *
+     * @param string|object $className A class name or object to check.
+     *
+     * @return bool
+     *
+     * @throws \InvalidArgumentException If supplied argument is not a string or object.
+     */
+    public function validComponentClass($className)
+    {
+        if (is_object($className)) {
+            $className = get_class($className);
+        }
+
+        if (!is_string($className)) {
+            throw new \InvalidArgumentException('Could not validate component class: class name must be a string or object');
+        }
+
+        return static::classImplements($className, static::COMPONENT_INTERFACE);
     }
 }

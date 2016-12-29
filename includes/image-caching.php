@@ -12,6 +12,7 @@ class WPRSS_Image_Cache {
 	protected $_temp_dir; // System temp dir + 'remote-image-cache'
 	protected $_current_time;
 	protected $_ttl = 30; // Time to live, in seconds
+        protected $_cache_orig_filename_length = 25; // How much of the original filename to preserve in the cache filename, in addition to the hash
 
 	protected $_image_class_name = 'WPRSS_Image_Cache_Image';
 	protected $_images = array();
@@ -159,6 +160,40 @@ class WPRSS_Image_Cache {
 
 		return $this;
 	}
+
+
+        /**
+         * Get the length of the original filename to preserve in cache.
+         *
+         * This is in addition to the hash. The cache filename will have the
+         * following format:
+         * [trimmed-orig-filename]-[hash].[orig-extension]
+         * The return value determine the length of the `trimmed-orig-filename`
+         * segment.
+         *
+         * @since 4.10
+         *
+         * @return int The length of the original filename to preserve.
+         */
+        public function get_cache_orig_filename_length() {
+            return $this->_cache_orig_filename_length;
+        }
+
+
+        /**
+         * Set the length of the original filename that will be preserved in cache.
+         *
+         * @see get_cache_orig_filename_length()
+         *
+         * @param int $length The length of the original filename preserved.
+         *
+         * @return \WPRSS_Image_Cache
+         */
+        public function set_cache_orig_filename_length($length) {
+            $this->_cache_orig_filename_length = intval($length);
+
+            return $this;
+        }
 
 
 	/**
@@ -610,21 +645,25 @@ class WPRSS_Image_Cache {
 		$path = isset( $path_matches[2][0] ) ? $path_matches[2][0] : null;
 		$domain = isset( $path_matches[1][0] ) ? $path_matches[1][0] : null;
 
-		$unique_filename = str_replace( '/', '-', $path );
-
 		$base_filename = $extension
 			? basename( $url_filename, '.' . $extension )
 			: basename( $url_filename );
 
-		if ( $hash = self::hash( $url ) )
-			$base_filename = $base_filename . '-' .$hash;
-
-		if ( !is_null( $extension ) )
-			$base_filename .= '.' . $extension;
+		$hash = self::hash( $url );
 
 		$path = trailingslashit( substr( $path, 0, strlen( $path ) - strlen( $url_filename ) ) );
-		$path = trailingslashit( $domain ) . $path;
-		$unique_filename = $path . $base_filename;
+                if ( $orig_path_length = $this->get_cache_orig_filename_length() ) {
+                    $base_filename = substr( $base_filename, 0, $orig_path_length );
+                }
+
+		$unique_filename = trailingslashit( $domain ) .
+                        ($orig_path_length
+                            ? "$base_filename-"
+                            : '') .
+                        $hash .
+                        (is_null( $extension )
+                            ? ''
+                            : ".$extension");
 
 		return $unique_filename;
 	}
