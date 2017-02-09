@@ -281,7 +281,9 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     {
         $prefix = $this->hasData('event_prefix')
             ? $this->getData('event_prefix')
-            : ($code = $this->getCode()) ? sprintf('%1$s_', $code) : '';
+            : (($code = $this->getCode())
+                    ? sprintf('%1$s_', $code)
+                    : '');
 
         return string_had_prefix($name, $this->getPrefixOverride())
             ? $name
