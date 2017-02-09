@@ -64,21 +64,41 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return $this->getData('basename');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getTextDomain()
     {
         return $this->getData('text_domain');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->getData('name');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getCode()
     {
         return $this->_getDataOrConst('code');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getVersion()
     {
         return $this->_getDataOrConst('version');
@@ -93,17 +113,32 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return $this->_factory;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function setFactory(ComponentFactoryInterface $factory)
     {
         $this->_setFactory($factory);
         return $this;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function isActive()
     {
         return static::isPluginActive($this);
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function deactivate()
     {
         static::deactivatePlugin($this);
@@ -128,6 +163,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return is_plugin_active($plugin);
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     static public function deactivatePlugin($plugin)
     {
         static::_ensurePluginFunctionsExist();
@@ -139,6 +179,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         deactivate_plugins($plugin);
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     static protected function _ensurePluginFunctionsExist()
     {
         // Making sure there are the functions we need
@@ -231,6 +276,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return $this;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function log($level, $message, array $context = array())
     {
         $isFormattable = is_array($message) && isset($message[0]) && is_string($message[0]);
@@ -250,6 +300,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return false;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function logObject($level, $object, array $context = array())
     {
         if (empty($object)) {
