@@ -12,9 +12,9 @@ use Aventura\Wprss\Core\Component;
 class Plugin extends Plugin\PluginAbstract
 {
     const CODE = 'wprss';
-    const VERSION = WPRSS_VERSION;
+    const VERSION = \WPRSS_VERSION;
 
-    const POST_TYPE_FEED_SOURCE = WPRSS_POST_TYPE_FEED_SOURCE;
+    const POST_TYPE_FEED_SOURCE = \WPRSS_POST_TYPE_FEED_SOURCE;
 
     protected $adminAjaxNotices;
     protected $leaveReviewNotification;
