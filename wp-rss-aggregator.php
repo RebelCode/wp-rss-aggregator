@@ -116,7 +116,28 @@
         define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . 'test/diag' );
     }
 
-    define( 'WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator' );
+    define('WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator');
+
+    /**
+     * Code of the Core plugin.
+     *
+     * @since [*next-version*]
+     */
+    define('WPRSS_PLUGIN_CODE', 'wprss');
+
+    /**
+     * Prefix for events used by this plugin.
+     *
+     * @since [*next-version*]
+     */
+    define('WPRSS_EVENT_PREFIX', \WPRSS_PLUGIN_CODE . '_');
+
+    /**
+     * Whether this plugin is in debug mode.
+     *
+     * @since [*next-version*]
+     */
+    define('WPRSS_DEBUG', \WP_DEBUG);
 
     /**
      * Load required files.
@@ -146,7 +167,6 @@
 
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
-
     /* Load the shortcodes functions file. */
     require_once ( WPRSS_INC . 'shortcodes.php' );
 
