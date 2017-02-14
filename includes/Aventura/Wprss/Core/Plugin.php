@@ -11,7 +11,7 @@ use Aventura\Wprss\Core\Component;
  */
 class Plugin extends Plugin\PluginAbstract
 {
-    const CODE = 'wprss';
+    const CODE = \WPRSS_PLUGIN_CODE;
     const VERSION = \WPRSS_VERSION;
 
     const POST_TYPE_FEED_SOURCE = \WPRSS_POST_TYPE_FEED_SOURCE;
