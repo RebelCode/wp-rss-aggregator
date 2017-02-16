@@ -463,7 +463,9 @@ class Manager {
 
 		// Update the DB option
 		$license->setStatus( $licenseData->license );
-		$license->setExpiry( $licenseData->expires );
+        if (isset($licenseData->expires)) {
+            $license->setExpiry( $licenseData->expires );
+        }
 		$this->saveLicenseStatuses();
 
 		// Return the data
