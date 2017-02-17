@@ -21,6 +21,15 @@ abstract class AddonAbstract extends PluginAbstract implements AddonInterface, C
     {
         parent::__construct($data, $factory);
         $this->_setParent($parent);
+
+        /**
+         * This is necessary because extensions still don't know about the new
+         * DI container mechanics, and no container is being passed in those
+         * extensions to the constructor of this class.
+         *
+         * @todo Remove when add-ons re-factored.
+         */
+        $this->tmpParent = wprss_wp_container()->get($this->_getServiceIdPrefix('plugin'));
     }
 
     /**

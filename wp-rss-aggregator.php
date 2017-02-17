@@ -116,7 +116,28 @@
         define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . 'test/diag' );
     }
 
-    define( 'WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator' );
+    define('WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator');
+
+    /**
+     * Code of the Core plugin.
+     *
+     * @since [*next-version*]
+     */
+    define('WPRSS_PLUGIN_CODE', 'wprss');
+
+    /**
+     * Prefix for events used by this plugin.
+     *
+     * @since [*next-version*]
+     */
+    define('WPRSS_EVENT_PREFIX', \WPRSS_PLUGIN_CODE . '_');
+
+    /**
+     * Whether this plugin is in debug mode.
+     *
+     * @since [*next-version*]
+     */
+    define('WPRSS_DEBUG', \WP_DEBUG);
 
     /**
      * Load required files.
@@ -146,7 +167,6 @@
 
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
-
     /* Load the shortcodes functions file. */
     require_once ( WPRSS_INC . 'shortcodes.php' );
 
@@ -267,55 +287,27 @@
     /* The "Leave a Review" notification module */
     require_once ( WPRSS_INC . 'leave-review-notification.php' );
 
+    /* Dependency injection */
+    require_once ( WPRSS_INC . 'di.php' );
+
     // Initializes licensing
     add_action( 'plugins_loaded', 'wprss_licensing' );
 
     register_activation_hook( __FILE__ , 'wprss_activate' );
     register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
+    do_action('wprss_pre_init');
 
     /**
      * Returns the Core plugin singleton instance.
+     *
+     * Using DI container since [*next-version*].
      *
      * @since 4.8.1
      * @return Aventura\Wprss\Core\Plugin
      */
     function wprss() {
-        static $plugin = null;
-
-
-        // One time initialization
-        if (is_null($plugin)) {
-            static $timesCalled = 0;
-            if ($timesCalled) {
-                throw new Exception( sprintf('%1$s has been initialized recursively', WPRSS_CORE_PLUGIN_NAME) );
-            }
-            $timesCalled++;
-
-            /**
-             * Basically, we could just do this here:
-             * Factory::create();
-             *
-             * However, the actual setup allows for even further customization.
-             * In fact, the factory can be substituted by some entirely different factory,
-             * that creates and initializes a different plugin in a different way.
-             */
-
-            $factoryClassName = apply_filters('wprss_core_plugin_factory_class_name',
-                'Aventura\\Wprss\\Core\\Factory');
-
-            if (!class_exists($factoryClassName)) {
-                throw new Aventura\Wprss\Exception(
-                    sprintf('Could not initialize add-on: Factory class "%1$s" does not exist', $factoryClassName));
-            }
-
-            $plugin = call_user_func_array(array($factoryClassName, 'create'), array(array(
-                'basename'      => __FILE__,
-                'name'          => WPRSS_CORE_PLUGIN_NAME
-            )));
-        }
-
-        return $plugin;
+        return wprss_wp_container()->get(sprintf('%1$splugin', \WPRSS_SERVICE_ID_PREFIX));
     }
 
     try {
@@ -326,7 +318,6 @@
         }
         wp_die( $e->getMessage() );
     }
-
 
     add_action( 'init', 'wprss_init' );
     /**

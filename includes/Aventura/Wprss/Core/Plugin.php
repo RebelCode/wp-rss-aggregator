@@ -11,14 +11,10 @@ use Aventura\Wprss\Core\Component;
  */
 class Plugin extends Plugin\PluginAbstract
 {
-    const CODE = 'wprss';
-    const VERSION = WPRSS_VERSION;
+    const CODE = \WPRSS_PLUGIN_CODE;
+    const VERSION = \WPRSS_VERSION;
 
-    const POST_TYPE_FEED_SOURCE = WPRSS_POST_TYPE_FEED_SOURCE;
-
-    protected $adminAjaxNotices;
-    protected $leaveReviewNotification;
-    protected $adminHelper;
+    const POST_TYPE_FEED_SOURCE = \WPRSS_POST_TYPE_FEED_SOURCE;
 
     /**
      * Hooks the rest of the functionality of this class.
@@ -166,11 +162,7 @@ class Plugin extends Plugin\PluginAbstract
      */
     public function getAdminAjaxNotices()
     {
-        if (is_null($this->adminAjaxNotices)) {
-            $this->adminAjaxNotices = $this->getFactory()->createAdminAjaxNotices();
-        }
-
-        return $this->adminAjaxNotices;
+        return $this->_getContainer()->get($this->_getServiceIdPrefix('admin_ajax_notices'));
     }
 
     /**
@@ -182,11 +174,7 @@ class Plugin extends Plugin\PluginAbstract
      */
     public function getLeaveReviewNotification()
     {
-        if (is_null($this->leaveReviewNotification)) {
-            $this->leaveReviewNotification = $this->getFactory()->createLeaveReviewNotification();
-        }
-
-        return $this->leaveReviewNotification;
+        return $this->_getContainer()->get($this->_getServiceIdPrefix('leave_review'));
     }
 
     /**
@@ -198,10 +186,6 @@ class Plugin extends Plugin\PluginAbstract
      */
     public function getAdminHelper()
     {
-        if (is_null($this->adminHelper)) {
-            $this->adminHelper = $this->getFactory()->createAdminHelper();
-        }
-
-        return $this->adminHelper;
+        return $this->_getContainer()->get($this->_getServiceIdPrefix('admin_helper'));
     }
 }
