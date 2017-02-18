@@ -2,6 +2,7 @@
 
 namespace Aventura\Wprss\Core\Plugin\Di;
 
+use Exception as BaseException;
 use Dhii\Di\AbstractCompositeContainer;
 use Dhii\Di\ParentAwareContainerInterface;
 use Interop\Container\ContainerInterface as BaseContainerInterface;
@@ -78,7 +79,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
      *
      * @return NotFoundException The new exception instance.
      */
-    protected function _createNotFoundException($message, $code = 0, Exception $innerException = null)
+    protected function _createNotFoundException($message, $code = 0, BaseException $innerException = null)
     {
         return new NotFoundException($message, $code, $innerException);
     }
@@ -90,7 +91,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
      *
      * @return ContainerException The new exception instance.
      */
-    protected function _createContainerException($message, $code = 0, Exception $innerException = null)
+    protected function _createContainerException($message, $code = 0, BaseException $innerException = null)
     {
         return new ContainerException($message, $code, $innerException);
     }
