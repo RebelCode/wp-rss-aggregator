@@ -2,6 +2,7 @@
 
 namespace Aventura\Wprss\Core\Plugin\Di;
 
+use Exception as BaseException;
 use Dhii\Di\AbstractParentAwareContainer as BaseParentAwareContainer;
 use Dhii\Di\ParentAwareContainerInterface;
 
@@ -70,7 +71,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
      *
      * @return NotFoundException The new exception instance.
      */
-    protected function _createNotFoundException($message, $code = 0, Exception $innerException = null)
+    protected function _createNotFoundException($message, $code = 0, BaseException $innerException = null)
     {
         return new NotFoundException($message, $code, $innerException);
     }
@@ -82,7 +83,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
      *
      * @return ContainerException The new exception instance.
      */
-    protected function _createContainerException($message, $code = 0, Exception $innerException = null)
+    protected function _createContainerException($message, $code = 0, BaseException $innerException = null)
     {
         return new ContainerException($message, $code, $innerException);
     }
