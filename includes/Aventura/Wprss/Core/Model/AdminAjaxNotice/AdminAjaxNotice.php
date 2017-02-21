@@ -2,28 +2,17 @@
 
 namespace Aventura\Wprss\Core\Model\AdminAjaxNotice;
 
-use \Aventura\Wprss\Core\Block;
-
 /**
  * Implementation of a notice that shows on the admin side and uses AJAX for dismissal.
  *
  * @since [*next-version*]
  */
-class AdminAjaxNotice extends NoticeAbstract
+class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
 {
     /**
-     * Throw an exception when an error is encountered during condition resolution.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     */
-    const CONDITION_ON_ERROR_THROW_EXCEPTION = 'throw_exception';
-
-    /**
-     * Gets the notice HTML element class.
-     *
-     * @since [*next-version*]
-     *
-     * @return string The HTML "class" attribute value.
      */
     public function getElementClass()
     {
@@ -31,11 +20,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the HTML ID of the close button.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return string The HTML ID attribute value string.
      */
     public function getCloseButtonId()
     {
@@ -43,11 +30,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the HTML class of the close button.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return string The HTML class attribute value string.
      */
     public function getCloseButtonClass()
     {
@@ -55,11 +40,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the content of the close button.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return Block\BlockInterface|string The block or string for the close button content.
      */
     public function getCloseButtonContent()
     {
@@ -67,11 +50,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the AJAX nonce code.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return type
      */
     public function getNonce()
     {
@@ -79,11 +60,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the AJAX nonce HTML element ID.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return type
      */
     public function getNonceElementId()
     {
@@ -91,9 +70,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the AJAX nonce HTML element class.
+     * {@inheritdoc}
      *
-     * @return type
+     * @since [*next-version*]
      */
     public function getNonceElementClass()
     {
@@ -101,13 +80,9 @@ class AdminAjaxNotice extends NoticeAbstract
     }
 
     /**
-     * Gets the action to be taken when an error is encountered during condition resolution.
-     *
-     * @see CONDITION_ON_ERROR_THROW_EXCEPTION
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return string A string identifying the action to be taken.
      */
     public function getConditionOnError()
     {
