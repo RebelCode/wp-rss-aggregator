@@ -165,6 +165,9 @@
     /* Only function definitions, no effect! */
     require_once(WPRSS_INC . 'functions.php');
 
+    /* Dependency injection */
+    require_once ( WPRSS_INC . 'di.php' );
+
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
     /* Load the shortcodes functions file. */
@@ -286,9 +289,6 @@
 
     /* The "Leave a Review" notification module */
     require_once ( WPRSS_INC . 'leave-review-notification.php' );
-
-    /* Dependency injection */
-    require_once ( WPRSS_INC . 'di.php' );
 
     // Initializes licensing
     add_action( 'plugins_loaded', 'wprss_licensing' );

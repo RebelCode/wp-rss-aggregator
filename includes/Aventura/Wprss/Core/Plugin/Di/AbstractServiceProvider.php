@@ -11,7 +11,11 @@ use Aventura\Wprss\Core\Model\ModelAbstract;
  */
 abstract class AbstractServiceProvider extends ModelAbstract
 {
-    protected $serviceCache;
+    /**
+     * @since [*next-version*]
+     * @var array
+     */
+    protected $services;
 
     /**
      * Retrieves the definitions that this service provides.
@@ -26,9 +30,9 @@ abstract class AbstractServiceProvider extends ModelAbstract
      */
     protected function _getServices()
     {
-        if (is_null($this->serviceCache)) {
+        if (is_null($this->services)) {
             $definitions = $this->_getServiceDefinitions();
-            $this->event('services', array('definitions' => &$definitions));
+            $this->_trigger('services', array('definitions' => &$definitions));
 
             if (empty($definitions)) {
                 $definitions = array();
@@ -38,10 +42,25 @@ abstract class AbstractServiceProvider extends ModelAbstract
                 $definitions = (array) $definitions;
             }
 
-            $this->serviceCache = $definitions;
+            $this->services = $definitions;
         }
 
-        return $this->serviceCache;
+        return $this->services;
+    }
+
+    /**
+     * Retrieves the internal services list.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $services An array of service definitions.
+     * @return AbstractServiceProvider This instance.
+     */
+    protected function _setServices(array $services)
+    {
+        $this->services = $services;
+
+        return $this;
     }
 
     /**
@@ -68,5 +87,46 @@ abstract class AbstractServiceProvider extends ModelAbstract
     protected function _getServiceIdPrefix()
     {
         return $this->_getDataOrConst('service_id_prefix', $this->_getEventPrefix());
+    }
+
+    /**
+     * Alias of `getServiceIdPrefix()`.
+     *
+     * @see getServiceIdPrefix().
+     *
+     * @since [*next-version*]
+     */
+    protected function _p($name = null)
+    {
+        $prefix = $this->_getServiceIdPrefix();
+        return static::stringHadPrefix($name)
+            ? $name
+            : "{$prefix}{$name}";
+    }
+
+    /**
+     * Triggers and returns an event.
+     *
+     * Due to nature of the WP native function used by this method,
+     * the single argument accepted by handlers is an array, and
+     * must be accepted by reference.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name Name of the event.
+     *  Will be automatically prefixed, unless prefix overridden.
+     * @param array $args Data for the event.
+     * @return array The args list, after all handlers have been applied to it.
+     */
+    protected function _trigger($name, $args = array())
+    {
+        if (!isset($args['caller'])) {
+            $args['caller'] = $this;
+        }
+
+        $realName = $this->getEventPrefix($name);
+        do_action_ref_array($realName, array(&$args));
+
+        return $args;
     }
 }
