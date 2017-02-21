@@ -1,5 +1,7 @@
 <?php
 
+define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
+
     /**
      * Serves up a notice to leave a review for this plugin
      *
