@@ -1,6 +1,6 @@
 <?php
 
-namespace Aventura\Wprss\Core\Model\Notice;
+namespace Aventura\Wprss\Core\Model\AdminAjaxNotice;
 
 /**
  * Something that represents a notice shown on the admin WordPress screens.
