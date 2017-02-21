@@ -78,6 +78,6 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
      */
     public function isDismissable()
     {
-        return $this->getData('dismissable', true);
+        return $this->getData('is_dismissable', true);
     }
 }
