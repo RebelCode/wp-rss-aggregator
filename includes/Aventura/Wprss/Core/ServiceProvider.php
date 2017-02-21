@@ -54,22 +54,7 @@ class ServiceProvider extends AbstractServiceProvider implements ServiceProvider
      */
     public function getServiceIdPrefix($name = null)
     {
-        $prefix = $this->_getServiceIdPrefix();
-        return static::stringHadPrefix($name)
-            ? $name
-            : "{$prefix}{$name}";
-    }
-
-    /**
-     * Alias of `getServiceIdPrefix()`.
-     *
-     * @see getServiceIdPrefix().
-     *
-     * @since [*next-version*]
-     */
-    protected function _p($name = null)
-    {
-        return $this->getServiceIdPrefix($name);
+        return $this->_p($name);
     }
 
     /**

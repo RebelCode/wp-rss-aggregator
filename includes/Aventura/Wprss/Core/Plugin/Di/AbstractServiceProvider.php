@@ -71,6 +71,21 @@ abstract class AbstractServiceProvider extends ModelAbstract
     }
 
     /**
+     * Alias of `getServiceIdPrefix()`.
+     *
+     * @see getServiceIdPrefix().
+     *
+     * @since [*next-version*]
+     */
+    protected function _p($name = null)
+    {
+        $prefix = $this->_getServiceIdPrefix();
+        return static::stringHadPrefix($name)
+            ? $name
+            : "{$prefix}{$name}";
+    }
+
+    /**
      * Triggers and returns an event.
      *
      * Due to nature of the WP native function used by this method,
