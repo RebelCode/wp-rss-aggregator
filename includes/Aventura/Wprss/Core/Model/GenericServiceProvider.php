@@ -2,6 +2,7 @@
 
 namespace Aventura\Wprss\Core\Model;
 use Aventura\Wprss\Core\Plugin\Di\AbstractServiceProvider;
+use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
 
 /**
  * A generic service provider.
@@ -11,7 +12,7 @@ use Aventura\Wprss\Core\Plugin\Di\AbstractServiceProvider;
  *
  * @since [*next-version*]
  */
-class GenericServiceProvider extends AbstractServiceProvider
+class GenericServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * @since [*next-version*]
@@ -23,5 +24,25 @@ class GenericServiceProvider extends AbstractServiceProvider
         parent::__construct($data);
 
         $this->_setServices($services);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getServices()
+    {
+        return $this->_getServices();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getServiceIdPrefix($id = null)
+    {
+        return $this->_p($id);
     }
 }
