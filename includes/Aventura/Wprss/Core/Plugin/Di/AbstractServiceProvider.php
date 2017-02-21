@@ -28,7 +28,7 @@ abstract class AbstractServiceProvider extends ModelAbstract
     {
         if (is_null($this->serviceCache)) {
             $definitions = $this->_getServiceDefinitions();
-            $this->event('services', array('definitions' => &$definitions));
+            $this->_trigger('services', array('definitions' => &$definitions));
 
             if (empty($definitions)) {
                 $definitions = array();
@@ -68,5 +68,31 @@ abstract class AbstractServiceProvider extends ModelAbstract
     protected function _getServiceIdPrefix()
     {
         return $this->_getDataOrConst('service_id_prefix', $this->_getEventPrefix());
+    }
+
+    /**
+     * Triggers and returns an event.
+     *
+     * Due to nature of the WP native function used by this method,
+     * the single argument accepted by handlers is an array, and
+     * must be accepted by reference.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name Name of the event.
+     *  Will be automatically prefixed, unless prefix overridden.
+     * @param array $args Data for the event.
+     * @return array The args list, after all handlers have been applied to it.
+     */
+    protected function _trigger($name, $args = array())
+    {
+        if (!isset($args['caller'])) {
+            $args['caller'] = $this;
+        }
+
+        $realName = $this->getEventPrefix($name);
+        do_action_ref_array($realName, array(&$args));
+
+        return $args;
     }
 }
