@@ -58,7 +58,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
      */
     public function getConditions()
     {
-        return $this->getData('conditions', array());
+        return $this->getData('condition', array());
     }
 
     /**
