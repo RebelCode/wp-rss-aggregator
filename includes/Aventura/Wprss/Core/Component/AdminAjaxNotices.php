@@ -11,7 +11,6 @@ use Aventura\Wprss\Core;
  */
 class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
 {
-
     /**
      * Retrieve the notice collection.
      *
@@ -38,5 +37,20 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     public function addNotice($notice)
     {
         return wprss_admin_notice_add($notice);
+    }
+
+    /**
+     * Gets the service ID for a notice name.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $noticeName The unique notice name.
+     * @return string The service ID that corresponds to the given name.
+     */
+    protected function _p($noticeName)
+    {
+        return static::stringHadPrefix($noticeName)
+            ? $noticeName
+            : WPRSS_NOTICE_SERVICE_ID_PREFIX . $noticeName;
     }
 }
