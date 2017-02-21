@@ -167,4 +167,13 @@ interface NoticeInterface
      * @return string The condition type string.
      */
     public function getConditionType();
+
+    /**
+     * Gets whether the notice is dismissable or persistent.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True if the notice can be dismissed, false if it is persistent.
+     */
+    public function isDismissable();
 }
