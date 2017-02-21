@@ -92,7 +92,10 @@ function wprss_core_container()
     static $container = null;
 
     if (is_null($container)) {
-        $serviceProvider = new ServiceProvider(array('service_id_prefix' => \WPRSS_SERVICE_ID_PREFIX));
+        $serviceProvider = new ServiceProvider(array(
+            'service_id_prefix'         => \WPRSS_SERVICE_ID_PREFIX,
+            'event_prefix'              => \WPRSS_EVENT_PREFIX,
+        ));
         $container = new Container($serviceProvider, wprss_hub_container());
 
         /**
