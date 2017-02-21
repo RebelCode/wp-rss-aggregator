@@ -11,7 +11,11 @@ use Aventura\Wprss\Core\Model\ModelAbstract;
  */
 abstract class AbstractServiceProvider extends ModelAbstract
 {
-    protected $serviceCache;
+    /**
+     * @since [*next-version*]
+     * @var array
+     */
+    protected $services;
 
     /**
      * Retrieves the definitions that this service provides.
@@ -26,7 +30,7 @@ abstract class AbstractServiceProvider extends ModelAbstract
      */
     protected function _getServices()
     {
-        if (is_null($this->serviceCache)) {
+        if (is_null($this->services)) {
             $definitions = $this->_getServiceDefinitions();
             $this->_trigger('services', array('definitions' => &$definitions));
 
@@ -38,10 +42,25 @@ abstract class AbstractServiceProvider extends ModelAbstract
                 $definitions = (array) $definitions;
             }
 
-            $this->serviceCache = $definitions;
+            $this->services = $definitions;
         }
 
-        return $this->serviceCache;
+        return $this->services;
+    }
+
+    /**
+     * Retrieves the internal services list.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $services An array of service definitions.
+     * @return AbstractServiceProvider This instance.
+     */
+    protected function _setServices(array $services)
+    {
+        $this->services = $services;
+
+        return $this;
     }
 
     /**
