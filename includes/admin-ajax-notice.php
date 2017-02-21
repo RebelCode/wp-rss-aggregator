@@ -1,5 +1,8 @@
 <?php
 
+use Aventura\Wprss\Core\Model\AdminAjaxNotice\ServiceProvider;
+use Dhii\Di\WritableContainerInterface;
+
 define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
 
     /**
@@ -1320,3 +1323,30 @@ function wprss_user_can_manage_options() {
 	return apply_filters( 'wprss_user_can_manage_options', current_user_can( 'manage_options' ) );
 }
 
+// Adds the AJAX notice service provider to the core container
+add_filter(WPRSS_EVENT_PREFIX .'core_container_init', function(WritableContainerInterface $container) {
+    $noticeProvider = wprss_core_admin_ajax_notices_service_provider();
+    $container->register($noticeProvider);
+});
+
+/**
+ * Retrieves the service provider that provides notice service definitions.
+ *
+ * @since [*next-version*]
+ *
+ * @staticvar ServiceProvider $provider
+ * @return ServiceProvider
+ */
+function wprss_core_admin_ajax_notices_service_provider()
+{
+    static $provider = null;
+
+    if(is_null($provider)) {
+        $provider = new ServiceProvider(array(
+            'service_id_prefix'         => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
+            'event_prefix'              => \WPRSS_EVENT_PREFIX,
+        ));
+    }
+
+    return $provider;
+}
