@@ -53,16 +53,8 @@
 				// Increment the counter
 				$wprss_bulk_count++;
 			}
-			add_action('admin_notices', 'wprss_notify_bulk_add');
+            wprss()->getAdminAjaxNotices()->addNotice('bulk_feed_import');
 		}
-	}
-
-	function wprss_notify_bulk_add() {
-		global $wprss_bulk_count; ?>
-		<div class="updated">
-			<p><?php echo sprintf( __( 'Successfully imported <code>%1$s</code> feed sources.', WPRSS_TEXT_DOMAIN ), $wprss_bulk_count )?></p>
-		</div>
-		<?php
 	}
 
 

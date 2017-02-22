@@ -6,6 +6,7 @@ use Aventura\Wprss\Core\Plugin\Di\AbstractComponentServiceProvider;
 use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
 use Interop\Container\ContainerInterface;
 use Aventura\Wprss\Core\Component\AdminAjaxNotices;
+use Aventura\Wprss\Core\Block\CallbackBlock;
 
 /**
  * Provides services that represent admin notices.
@@ -25,7 +26,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_p('admin_ajax_notice_controller')   => array($this, '_createAdminAjaxNoticeController'),
             $this->_p('admin_ajax_notices')             => array($this, '_createAdminAjaxNotices'),
             $this->_pn('more_features')                 => array($this, '_createMoreFeaturesNotice'),
-            $this->_pn('deleting_feed_items')           => array($this, '_createDeletingFeedItemsNotice')
+            $this->_pn('deleting_feed_items')           => array($this, '_createDeletingFeedItemsNotice'),
+            $this->_pn('bulk_feed_import')              => array($this, '_createBulkFeedImportNotice'),
         );
     }
 
@@ -145,6 +147,34 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'deleting_feed_items',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'           => wpautop($this->__('The feed items for this feed source are being deleted in the background.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that tells the user how many feed sources where successfully imported
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'debug_reset_settings',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => new CallbackBlock(array(), function() {
+                global $wprss_bulk_count;
+
+                return wpautop(
+                    sprintf($this->__('Successfully imported <code>%1$s</code> feed sources.'), $wprss_bulk_count)
+                );
+            })
         ), $c);
 
         return $notice;
