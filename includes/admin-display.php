@@ -396,7 +396,8 @@
                 // delete it
                 delete_transient( 'wprss_delete_posts_by_source_notif' );
                 // Add an action to show the notification
-                add_action( 'all_admin_notices', 'wprss_notify_about_deleting_source_feed_items' );
+                wprss()->getAdminAjaxNotices()->addNotice('deleting_feed_items');
+                // add_action( 'all_admin_notices', 'wprss_notify_about_deleting_source_feed_items' );
             }
         }
     }

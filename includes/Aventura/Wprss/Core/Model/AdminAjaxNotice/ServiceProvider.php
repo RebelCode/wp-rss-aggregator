@@ -25,6 +25,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_p('admin_ajax_notice_controller')   => array($this, '_createAdminAjaxNoticeController'),
             $this->_p('admin_ajax_notices')             => array($this, '_createAdminAjaxNotices'),
             $this->_pn('more_features')                 => array($this, '_createMoreFeaturesNotice'),
+            $this->_pn('deleting_feed_items')           => array($this, '_createDeletingFeedItemsNotice')
         );
     }
 
@@ -121,6 +122,27 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'condition'             => $c->get($this->_p('admin_helper'))->createCommand('wprss_is_wprss_page'),
             'content'               => wpautop($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
                                        $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'http://www.wprssaggregator.com/extensions')))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs users that feed items are deleting in the background.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createDeletingFeedItemsNotice(ContainerInterface $c, $p = null, $config = null)
+    {
+        $notice = $this->_createNotice(array(
+            'id'                => 'deleting_feed_items',
+            'condition'         => $c->get($this->_p('admin_helper'))->createCommand('wprss_is_wprss_page'),
+            'content'           => wpautop($this->__('The feed items for this feed source are being deleted in the background.'))
         ), $c);
 
         return $notice;
