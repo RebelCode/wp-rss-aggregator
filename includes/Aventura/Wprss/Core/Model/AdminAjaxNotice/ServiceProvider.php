@@ -35,6 +35,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_pn('debug_cleared_log')             => array($this, '_createDebugClearedLogNotice'),
             $this->_pn('debug_settings_reset')          => array($this, '_createDebugSettingsResetNotice'),
             $this->_pn('blacklist_item_success')        => array($this, '_createBlacklistItemSuccessNotice'),
+            $this->_pn('bulk_feed_activated')           => array($this, '_createBulkFeedActivatedNotice'),
+            $this->_pn('bulk_feed_paused')              => array($this, '_createBulkFeedPausedNotice'),
         );
     }
 
@@ -338,6 +340,50 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'blacklist_item_success',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'           => wpautop($this->__('The item was deleted successfully and added to the blacklist.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that the selected feed sources have been activated.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createBulkFeedActivatedNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'bulk_feed_activated',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('The feed sources have been activated!'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that the selected feed sources have been paused.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createBulkFeedPausedNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'bulk_feed_paused',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('The feed sources have been paused!'))
         ), $c);
 
         return $notice;
