@@ -1143,6 +1143,11 @@ class WPRSS_Admin_Notices {
 // This should initialize the notice collection before anything can use it
 add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
 
+// Trigger the component to initialize
+add_action('wprss_pre_init', function() {
+    wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX.'admin_ajax_notices');
+});
+
 
 /**
  * Returns the singleton, plugin-wide instane of the admin notices controller.
