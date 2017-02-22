@@ -1037,7 +1037,7 @@ class WPRSS_Admin_Notices {
 				: $this->get_notices( $id );
 
 		if ( !$notice )
-			throw new Exception( sprintf( 'Could not render notice: no notice found for ID "%1$s"' ), $id );
+			throw new Exception( sprintf( 'Could not render notice: no notice found for ID "%1$s"', $id ) );
 
         $helper = wprss()->getAdminHelper();
 
