@@ -161,11 +161,11 @@
                         foreach ( $options as $key => $value ) {
                             update_option( $key, $value );
                         }
-                        add_action( 'admin_notices', 'wp_rss_aggregator_import_notice1' );
+                        wprss()->getAdminAjaxNotices()->addNotice('settings_import_success');
                         do_action( 'wprss_settings_imported' );
                     }
                     else {
-                        add_action( 'admin_notices', 'wp_rss_aggregator_import_notice2' );
+                        wprss()->getAdminAjaxNotices()->addNotice('settings_import_failed');
                     }
                 }
             }

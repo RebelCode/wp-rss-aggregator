@@ -28,6 +28,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_pn('more_features')                 => array($this, '_createMoreFeaturesNotice'),
             $this->_pn('deleting_feed_items')           => array($this, '_createDeletingFeedItemsNotice'),
             $this->_pn('bulk_feed_import')              => array($this, '_createBulkFeedImportNotice'),
+            $this->_pn('settings_import_success')       => array($this, '_createSettingsImportSuccessNotice'),
+            $this->_pn('settings_import_failed')        => array($this, '_createSettingsImportFailedNotice'),
         );
     }
 
@@ -181,6 +183,50 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     }
 
     /**
+     * Creates a notice that informs the user that the settings import was successful.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createSettingsImportSuccessNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'settings_import_success',
+            'notice_type'       => NoticeInterface::TYPE_UPDATED,
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('All options are restored successfully.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that the settings import failed.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createSettingsImportFailedNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'settings_import_failed',
+            'notice_type'       => NoticeInterface::TYPE_ERROR,
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('Invalid file or file size too big.'))
+        ), $c);
+
+        return $notice;
+    }
      * Crates a new admin notice instance.
      *
      * @since [*next-version*]
