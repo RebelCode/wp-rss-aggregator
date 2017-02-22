@@ -160,21 +160,9 @@ function wprss_check_notice_transient() {
 		// Remove the transient
 		delete_transient( 'wprss_item_blacklist_notice' );
 		// Show the notice
-		add_action( 'admin_notices', 'wprss_blacklist_item_notice' );
+		// add_action( 'admin_notices', 'wprss_blacklist_item_notice' );
+        wprss()->getAdminAjaxNotices()->addNotice('blacklist_item_success');
 	}
-}
-
-/**
- * The admin notice shown when an item is blacklisted.
- */
-function wprss_blacklist_item_notice() {
-	?>
-	<div class="updated">
-		<p>
-			The item was deleted successfully and added to the blacklist.
-		</p>
-	</div>
-	<?php
 }
 
 
