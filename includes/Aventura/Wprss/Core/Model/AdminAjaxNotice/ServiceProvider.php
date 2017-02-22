@@ -4,6 +4,8 @@ namespace Aventura\Wprss\Core\Model\AdminAjaxNotice;
 
 use Aventura\Wprss\Core\Plugin\Di\AbstractComponentServiceProvider;
 use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
+use Interop\Container\ContainerInterface;
+use Aventura\Wprss\Core\Component\AdminAjaxNotices;
 
 /**
  * Provides services that represent admin notices.
@@ -20,8 +22,29 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     protected function _getServiceDefinitions()
     {
         return array(
-            // Add notice services here
+            $this->_p('admin_ajax_notices')             => array($this, '_createAdminAjaxNotices'),
         );
+    }
+
+    /**
+     * Creates an instance of the admin AJAX notices component.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createAdminAjaxNotices(ContainerInterface $c, $p = null, $config = null)
+    {
+        $config = $this->_normalizeConfig($config, array(
+            'plugin'            => $c->get($this->_p('plugin'))
+        ));
+        $service = new AdminAjaxNotices($config, $c);
+        $this->_prepareComponent($service);
+
+        return $service;
     }
 
     /**

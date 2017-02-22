@@ -30,7 +30,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_p('logger')                  => array($this, '_createLogger'),
             $this->_p('admin_helper')            => array($this, '_createAdminHelper'),
             $this->_p('leave_review')            => array($this, '_createLeaveReview'),
-            $this->_p('admin_ajax_notices')      => array($this, '_createAdminAjaxNotices'),
         );
     }
 
@@ -128,27 +127,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'plugin'            => $c->get($this->_p('plugin'))
         ));
         $service = new Component\AdminHelper($config);
-        $this->_prepareComponent($service);
-
-        return $service;
-    }
-
-    /**
-     * Creates an instance of the admin AJAX notices component.
-     *
-     * @since [*next-version*]
-     *
-     * @param ContainerInterface $c
-     * @param null $p
-     * @param array $config
-     * @return Component\AdminAjaxNotices
-     */
-    public function _createAdminAjaxNotices(ContainerInterface $c, $p = null, $config = null)
-    {
-        $config = $this->_normalizeConfig($config, array(
-            'plugin'            => $c->get($this->_p('plugin'))
-        ));
-        $service = new Component\AdminAjaxNotices($config);
         $this->_prepareComponent($service);
 
         return $service;
