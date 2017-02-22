@@ -2,7 +2,7 @@
 
 namespace Aventura\Wprss\Core\Model\AdminAjaxNotice;
 
-use Aventura\Wprss\Core\Plugin\Di\AbstractServiceProvider;
+use Aventura\Wprss\Core\Plugin\Di\AbstractComponentServiceProvider;
 use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
 
 /**
@@ -10,7 +10,7 @@ use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
  *
  * @since [*next-version*]
  */
-class ServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class ServiceProvider extends AbstractComponentServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
