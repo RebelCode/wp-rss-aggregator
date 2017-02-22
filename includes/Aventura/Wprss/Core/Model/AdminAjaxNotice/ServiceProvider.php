@@ -41,6 +41,6 @@ class ServiceProvider extends AbstractServiceProvider implements ServiceProvider
      */
     public function getServiceIdPrefix($id = null)
     {
-        return $this->_p($name);
+        return $this->_p($id);
     }
 }
