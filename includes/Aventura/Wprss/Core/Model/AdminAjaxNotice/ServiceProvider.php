@@ -79,6 +79,45 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     }
 
     /**
+     * Normalizes data of a notice.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $container DI container that will be used to retrieve notice controller.
+     * @param array $data Data to normalize.
+     * @return array Normalized data with defaults.
+     */
+    protected function _normalizeNoticeData(ContainerInterface $container, $data = array())
+    {
+        /* If using the notices controller to normalize on creation, the notice ID  will be
+         * prefixed twice. This is because data is again auto normalized when adding the
+         * notice to the controller. If ID is prefixed twice, this will cause nonce
+         * validation to fail when trying to dismiss the notice.
+         */
+//        $noticeController = $container->get($this->_p('admin_ajax_notice_controller'));
+        /* @var $noticeController \WPRSS_Admin_Notices */
+//        $newData = $noticeController->normalize_notice_data($data);
+
+//        return $newData;
+        return $data;
+    }
+
+    /**
+     * Crates a new admin notice instance.
+     *
+     * @since [*next-version*]
+     *
+     * @return NoticeInterface
+     */
+    protected function _createNotice($data, ContainerInterface $container)
+    {
+        $data = $this->_normalizeNoticeData($container, $data);
+        $notice = new AdminAjaxNotice($data);
+
+        return $notice;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]
@@ -96,5 +135,32 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     public function getServiceIdPrefix($id = null)
     {
         return $this->_p($id);
+    }
+
+    /**
+     * Retrieve the prefix that is used by services that represent notices.
+     *
+     * @param string|null $id The ID to prefix, if not null.
+     *
+     * @since [*next-version*]
+     */
+    protected function _pn($id = null)
+    {
+        $prefix = $this->_getNoticeServiceIdPrefix();
+        return static::stringHadPrefix($id)
+            ? $id
+            : "{$prefix}{$id}";
+    }
+
+    /**
+     * Retrieves the prefix applied to IDs of services that represent notices.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The prefix.
+     */
+    protected function _getNoticeServiceIdPrefix()
+    {
+        return $this->_getDataOrConst('notice_service_id_prefix');
     }
 }

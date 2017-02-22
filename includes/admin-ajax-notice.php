@@ -1329,7 +1329,8 @@ function wprss_core_admin_ajax_notices_service_provider()
 
     if(is_null($provider)) {
         $provider = new ServiceProvider(array(
-            'service_id_prefix'         => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
+            'notice_service_id_prefix'  => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
+            'service_id_prefix'         => \WPRSS_SERVICE_ID_PREFIX,
             'event_prefix'              => \WPRSS_EVENT_PREFIX,
         ));
     }
