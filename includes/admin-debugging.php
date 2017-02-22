@@ -232,10 +232,10 @@
         $debug_messages = apply_filters(
             'wprss_debug_messages',
             array(
-                '1'     =>  'wprss_debugging_admin_notice_update_feeds',
-                '2'     =>  'wprss_debugging_admin_notice_reimport_feeds',
-                '3'     =>  'wprss_debugging_admin_notice_clear_log',
-				'4'		=>	'wprss_debugging_admin_notice_reset_settings'
+                '1'     =>  'debug_feeds_updating',
+                '2'     =>  'debug_feeds_reimporting',
+                '3'     =>  'debug_cleared_log',
+				'4'		=>	'debug_settings_reset'
             )
         );
         
@@ -249,9 +249,24 @@
             if ( isset( $_GET['debug_message'] ))  {//&& ( check_admin_referer( 'wprss-delete-import-feed-items' ) || check_admin_referer( 'wprss-update-feed-items' ) ) ) {
                 $message = $_GET['debug_message'];
 
-                foreach ( $debug_messages as $id => $callback) {
+                foreach ( $debug_messages as $id => $noticeId) {
                     if ( $message == $id ) {
-                        call_user_func( $callback );
+                        $component  = wprss()->getAdminAjaxNotices();
+                        $collection = $component->getNoticeCollection();
+
+                        $noticeObj = $component->getNotice($noticeId);
+
+                        if (!$noticeObj instanceof Aventura\Wprss\Core\DataObject) {
+                            throw new Exception(
+                                sprintf(
+                                    __('Expected notice to be a DataObject instance: %s given.', WPRSS_TEXT_DOMAIN),
+                                    is_object($noticeObj)? get_class($noticeObj) : gettype($noticeObj)
+                                )
+                            );
+                        }
+
+                        echo $collection->render_notice($collection->normalize_notice_data($noticeObj->getData()));
+
                         break;
                     }
                 }  

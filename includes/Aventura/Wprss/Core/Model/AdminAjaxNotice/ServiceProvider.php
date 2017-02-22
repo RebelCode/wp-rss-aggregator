@@ -30,6 +30,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_pn('bulk_feed_import')              => array($this, '_createBulkFeedImportNotice'),
             $this->_pn('settings_import_success')       => array($this, '_createSettingsImportSuccessNotice'),
             $this->_pn('settings_import_failed')        => array($this, '_createSettingsImportFailedNotice'),
+            $this->_pn('debug_feeds_updating')          => array($this, '_createDebugFeedsUpdatingNotice'),
+            $this->_pn('debug_feeds_reimporting')       => array($this, '_createDebugFeedsReimportingNotice'),
+            $this->_pn('debug_cleared_log')             => array($this, '_createDebugClearedLogNotice'),
+            $this->_pn('debug_settings_reset')          => array($this, '_createDebugSettingsResetNotice'),
         );
     }
 
@@ -227,6 +231,96 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
 
         return $notice;
     }
+
+    /**
+     * Creates a notice that informs the user that all feed sources are updating.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'debug_feeds_updating',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('Feeds are being updated in the background.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that the feed items have been deleted and are being reimported.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'debug_feeds_reimporting',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('Feeds deleted and are being re-imported in the background.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that the debug log has been cleared.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createDebugClearedLogNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'debug_cleared_log',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('The error log has been cleared.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that the settings have been reset to default.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createDebugSettingsResetNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $helper = $c->get($this->_p('admin_helper'));
+        $notice = $this->_createNotice(array(
+            'id'                => 'debug_settings_reset',
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'content'           => wpautop($this->__('The plugin settings have been reset to default.'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
      * Crates a new admin notice instance.
      *
      * @since [*next-version*]
