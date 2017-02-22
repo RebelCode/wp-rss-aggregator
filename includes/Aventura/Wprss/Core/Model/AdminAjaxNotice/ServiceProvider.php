@@ -116,10 +116,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createMoreFeaturesNotice(ContainerInterface $c, $p = null, $config = null)
     {
+        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                    => 'more_features',
             'notice_type'           => NoticeInterface::TYPE_UPDATED,
-            'condition'             => $c->get($this->_p('admin_helper'))->createCommand('wprss_is_wprss_page'),
+            'condition'             => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'               => wpautop($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
                                        $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'http://www.wprssaggregator.com/extensions')))
         ), $c);
@@ -139,9 +140,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDeletingFeedItemsNotice(ContainerInterface $c, $p = null, $config = null)
     {
+        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'deleting_feed_items',
-            'condition'         => $c->get($this->_p('admin_helper'))->createCommand('wprss_is_wprss_page'),
+            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'           => wpautop($this->__('The feed items for this feed source are being deleted in the background.'))
         ), $c);
 
