@@ -5,48 +5,6 @@ use Dhii\Di\WritableContainerInterface;
 
 define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
 
-    /**
-     * Serves up a notice to leave a review for this plugin
-     *
-     * @link http://wp.tutsplus.com/tutorials/creative-coding/a-primer-on-ajax-in-the-wordpress-dashboard-requesting-and-responding/
-     * @link http://wptheming.com/2011/08/admin-notices-in-wordpress/
-     *
-     * @since 3.0
-     *
-     */
-
-    add_action( 'admin_notices', 'wprss_display_admin_notice' );
-    /**
-     * Renders the administration notice. Also renders a hidden nonce used for security when processing the Ajax request.
-     *
-     * @since 3.0
-     */
-    function wprss_display_admin_notice() {
-        // If not an admin, do not show the notification
-        if ( ! current_user_can( 'manage_options' ) ) return;
-
-        global $pagenow, $typenow;
-        if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
-          $post = get_post( $_GET['post'] );
-          if ( $post !== NULL && !is_wp_error( $post ) )
-            $typenow = $post->post_type;
-        }
-        $notices_settings = get_option( 'wprss_settings_notices' );
-
-        if ( ( false == $notices_settings ) && ( ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' ) ) ) {
-            $html = '<div id="ajax-notification" class="updated">';
-                $html .= '<p>';
-                $html .= __( 'Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ', WPRSS_TEXT_DOMAIN );
-                $html .= __( 'Check out the', WPRSS_TEXT_DOMAIN ) . ' <a target="_blank" href="http://www.wprssaggregator.com/extensions"><strong>' . __( 'extensions', 'WPRSS_TEXT_DOMAIN' ) . '</strong></a> ' . __( 'page.', WPRSS_TEXT_DOMAIN );
-                $html .= '<a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">' . __( 'Dismiss this notification', WPRSS_TEXT_DOMAIN ) . '</a>';
-                $html .= '</p>';
-                $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
-            $html .= '</div>';
-
-            echo $html;
-        }
-    }
-
 
     add_action( 'wp_ajax_wprss_hide_admin_notification', 'wprss_hide_admin_notification' );
     /**

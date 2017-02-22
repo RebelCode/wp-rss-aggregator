@@ -104,7 +104,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     protected function _getNoticeNamesToAdd()
     {
         return array(
-            // Add notice names here
+            'more_features'
         );
     }
 
