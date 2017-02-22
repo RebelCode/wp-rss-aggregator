@@ -77,7 +77,58 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
      */
     public function addNotice($notice)
     {
+        if (is_string($notice)) {
+            $notice = $this->_getNotice($notice);
+        }
+
+        if ($notice instanceof Core\DataObjectInterface) {
+            $notice = $notice->getData();
+        }
+
         return wprss_admin_notice_add($notice);
+    }
+
+    /**
+     * Retrieves a notice instance for the given ID.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The unique notice name.
+     * @return NoticeInterface The notice for the name.
+     */
+    public function getNotice($name)
+    {
+        return $this->_getNotice($name);
+    }
+
+    /**
+     * Get a notice instance by its unique identifier.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name Unique name of the notice.
+     * @return NoticeInterface The notice.
+     */
+    protected function _getNotice($name)
+    {
+        $serviceId = $this->_p($name);
+
+        return $this->_getContainer()->get($serviceId);
+    }
+
+    /**
+     * Determine whether or not a notice with the specified name exists.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The unique name of the notice.
+     * @return bool True if a notice with the specified name exists; false otherwise.
+     */
+    protected function _hasNotice($name)
+    {
+        $id = $this->_p($name);
+
+        return $this->_getContainer()->has($id);
     }
 
     /**
