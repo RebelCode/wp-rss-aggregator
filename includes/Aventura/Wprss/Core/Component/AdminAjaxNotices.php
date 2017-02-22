@@ -3,6 +3,7 @@
 namespace Aventura\Wprss\Core\Component;
 
 use Aventura\Wprss\Core;
+use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 use Interop\Container\ContainerInterface;
 
 /**
@@ -50,6 +51,61 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     protected function _getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function hook()
+    {
+        parent::hook();
+        $this->_hookNotices();
+    }
+
+    /**
+     * Hooks in a callback that adds existing notices to the controller.
+     *
+     * @see _addNotices()
+     *
+     * @since [*next-version*]
+     */
+    protected function _hookNotices()
+    {
+        $this->on('!plugins_loaded', array($this, '_addNotices'));
+    }
+
+    /**
+     * Adds notices to the notice controller.
+     *
+     * @see \WPRSS_Admin_Notices
+     *
+     * @since [*next-version*]
+     *
+     * @return AdminAjaxNotices This instance.
+     */
+    public function _addNotices($eventData)
+    {
+        foreach ($this->_getNoticeNamesToAdd() as $_name) {
+            $this->addNotice($_name);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieves a list of notice names that should be added to the notice controller.
+     *
+     * @since [*next-version*]
+     *
+     * @return array|\Traversable A list of notice names that should be added
+     */
+    protected function _getNoticeNamesToAdd()
+    {
+        return array(
+            // Add notice names here
+        );
     }
 
     /**
