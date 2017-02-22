@@ -22,8 +22,39 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     protected function _getServiceDefinitions()
     {
         return array(
+            $this->_p('admin_ajax_notice_controller')   => array($this, '_createAdminAjaxNoticeController'),
             $this->_p('admin_ajax_notices')             => array($this, '_createAdminAjaxNotices'),
         );
+    }
+
+    /**
+     * Creates an instance of the admin AJAX notice controller.
+     *
+     * @uses-filter wprss_admin_notice_collection_before_init To modify collection before initialization.
+     * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
+     * @uses-action wprss_admin_exclusive_scripts_styles To enqueue the scripts for the collection.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p Deprecated.
+     * @param array $config
+     * @return \WPRSS_Admin_Notices
+     */
+    public function _createAdminAjaxNoticeController(ContainerInterface $c, $p = null, $config = null)
+    {
+        $config = $this->_normalizeConfig($config, array(
+            'setting_code'          => 'wprss_admin_notices',
+            'id_prefix'             => 'wprss_',
+            'text_domain'           => \WPRSS_TEXT_DOMAIN
+        ));
+        // Initialize collection
+        $controller = new \WPRSS_Admin_Notices($config);
+        $controller = apply_filters( \WPRSS_EVENT_PREFIX.'admin_notice_collection_before_init', $controller );
+        $controller->init();
+        $controller = apply_filters( \WPRSS_EVENT_PREFIX.'admin_notice_collection_after_init', $controller );
+
+        return $controller;
     }
 
     /**

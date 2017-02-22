@@ -1149,11 +1149,6 @@ add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
  * Initializes it if necessary.
  *
  * @since 4.7.4
- * @uses-filter wprss_admin_notice_collection_before_init To modify collection before initialization.
- * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
- * @uses-action admin_enqueue_scripts To enqueue the scripts for the collection.
- * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
- * @uses-action wprss_admin_notice_collection_after_localize_vars To access list of vars exposed to the frontend.
  * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
  * @return \WPRSS_Admin_Notices|null The singleton instance of notice collection, or null if it is unavailable.
  */
@@ -1161,17 +1156,8 @@ function wprss_admin_notice_get_collection() {
 	static $collection = null;
 
 	if ( is_null( $collection ) && is_admin() ) {
-		// Initialize collection
-		$collection = new WPRSS_Admin_Notices(array(
-			'setting_code'			=> 'wprss_admin_notices',
-			'id_prefix'				=> 'wprss_',
-			'text_domain'			=> WPRSS_TEXT_DOMAIN
-		));
-		$collection = apply_filters( 'wprss_admin_notice_collection_before_init', $collection );
-		$collection->init();
-		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
-
-        add_action( 'wprss_admin_exclusive_scripts_styles', 'wprss_admin_notices_collection_enqueue_scripts' );
+        $collection = wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX.'admin_ajax_notice_controller');
+        add_action( \WPRSS_EVENT_PREFIX.'admin_exclusive_scripts_styles', 'wprss_admin_notices_collection_enqueue_scripts' );
 	}
 
 	return $collection;
