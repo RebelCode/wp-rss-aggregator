@@ -3,6 +3,7 @@
 namespace Aventura\Wprss\Core\Component;
 
 use Aventura\Wprss\Core;
+use Interop\Container\ContainerInterface;
 
 /**
  * Component responsible for notices in the backend.
@@ -11,6 +12,46 @@ use Aventura\Wprss\Core;
  */
 class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
 {
+    /**
+     * @since [*next-version*]
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    public function __construct($data, ContainerInterface $container)
+    {
+        parent::__construct($data);
+
+        $this->_setContainer($container);
+    }
+
+    /**
+     * Sets the container that this component will use.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $container The container to set.
+     * @return AdminAjaxNotices This instance.
+     */
+    protected function _setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Retrieves the container used by this instance.
+     *
+     * @since [*next-version*]
+     *
+     * @return ContainerInterface The container instance.
+     */
+    protected function _getContainer()
+    {
+        return $this->container;
+    }
+
     /**
      * Retrieve the notice collection.
      *
