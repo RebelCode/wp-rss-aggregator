@@ -72,22 +72,20 @@ class Settings {
      * @return \Aventura\Wprss\Core\Licensing\Settings
 	 */
 	protected function _initNotices() {
-		$noticesCollection = wprss_admin_notice_get_collection();
+        $noticesCollection = wprss_admin_notice_get_collection();
+        $factory = wprss_core_container()->get(sprintf('%sfactory', WPRSS_SERVICE_ID_PREFIX));
+        $noticesComponent = wprss()->getAdminAjaxNotices();
+
 		foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
 			$_year = date('Y');
-			$noticesCollection->add_notice(
-				array(
-					'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
-					'addon'				=>	$_addonId,
-					'notice_type'		=>	'error',
-					'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
-					'content'			=>	sprintf(
-						__( '<p>Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
-						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-						$_addonName
-					)
-				)
-			)->add_notice(
+            $emptyLicenseNotice = $factory->make(sprintf('%saddon_empty_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
+                'addon_id'    => $_addonId,
+                'addon_name'  => $_addonName,
+                'settings'    => $this
+            ));
+            $noticesComponent->addNotice($emptyLicenseNotice);
+
+            $noticesCollection->add_notice(
 				array(
 					'id'				=>	sprintf( 'saved_inactive_license_notice_%s', $_addonId ),
 					'addon'				=>	$_addonId,

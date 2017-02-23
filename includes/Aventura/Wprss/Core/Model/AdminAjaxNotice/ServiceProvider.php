@@ -41,6 +41,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_pn('blacklist_item_success')        => array($this, '_createBlacklistItemSuccessNotice'),
             $this->_pn('bulk_feed_activated')           => array($this, '_createBulkFeedActivatedNotice'),
             $this->_pn('bulk_feed_paused')              => array($this, '_createBulkFeedPausedNotice'),
+
+            $this->_pn('addon_empty_license')           => array($this, '_createAddonEmptyLicenseNotice'),
         );
     }
 
@@ -379,6 +381,47 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'bulk_feed_paused',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'           => wpautop($this->__('The feed sources have been paused!'))
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that an addon license has been saved empty.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createAddonEmptyLicenseNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $addonId = isset($config['addon_id'])
+            ? $config['addon_id']
+            : null;
+        $addonName = isset($config['addon_name'])
+            ? $config['addon_name']
+            : null;
+        $licenseSettings = isset($config['settings'])
+            ? $config['settings']
+            : wprss_licensing_get_settings_controller();
+
+        $helper = $c->get($this->_p('admin_helper'));
+
+        $notice = $this->_createNotice(array(
+            'id'                => 'addon_empty_license',
+            'notice_type'       => NoticeInterface::TYPE_ERROR,
+            'condition'         => $helper->createCommand(array($licenseSettings, 'emptyLicenseKeyNoticeCondition')),
+            'content'           => new CallbackBlock(array(), function() use ($addonName) {
+                return sprintf(
+                    __( '<p>Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
+                    esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                    $addonName
+                );
+            }),
+            'addon'             => $addonId
         ), $c);
 
         return $notice;
