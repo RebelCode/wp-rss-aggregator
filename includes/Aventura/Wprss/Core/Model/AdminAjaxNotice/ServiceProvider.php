@@ -180,14 +180,13 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
     {
         $me = $this;
+        $import = $c->get($this->_p('bulk_source_import'));
         $notice = $this->_createNotice(array(
             'id'                => 'debug_reset_settings',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => new CallbackBlock(array(), function() use ($me) {
-                global $wprss_bulk_count;
-
+            'content'           => new CallbackBlock(array(), function() use ($me, $import) {
                 return $me->_autoParagraph(
-                    sprintf($me->__('Successfully imported <code>%1$s</code> feed sources.'), $wprss_bulk_count)
+                    sprintf($me->__('Successfully imported <code>%1$s</code> feed sources.'), $import->getImportedSourcesCount())
                 );
             })
         ), $c);
