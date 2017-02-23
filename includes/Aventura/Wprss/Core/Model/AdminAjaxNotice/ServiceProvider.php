@@ -43,6 +43,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_pn('bulk_feed_paused')              => array($this, '_createBulkFeedPausedNotice'),
 
             $this->_pn('addon_empty_license')           => array($this, '_createAddonEmptyLicenseNotice'),
+            $this->_pn('addon_inactive_license')        => array($this, '_createAddonInactiveLicenseNotice'),
         );
     }
 
@@ -417,6 +418,47 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
                 return sprintf(
                     __( '<p>Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
+                    esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                    $addonName
+                );
+            }),
+            'addon'             => $addonId
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that an addon license is inactive.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createAddonInactiveLicenseNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $addonId = isset($config['addon_id'])
+            ? $config['addon_id']
+            : null;
+        $addonName = isset($config['addon_name'])
+            ? $config['addon_name']
+            : null;
+        $licenseSettings = isset($config['settings'])
+            ? $config['settings']
+            : wprss_licensing_get_settings_controller();
+
+        $helper = $c->get($this->_p('admin_helper'));
+
+        $notice = $this->_createNotice(array(
+            'id'                => 'addon_saved_inactive_license',
+            'notice_type'       => NoticeInterface::TYPE_ERROR,
+            'condition'         => $helper->createCommand(array($licenseSettings, 'savedInactiveLicenseNoticeCondition')),
+            'content'           => new CallbackBlock(array(), function() use ($addonName) {
+                return sprintf(
+                    __( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
                     esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
                     $addonName
                 );
