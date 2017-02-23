@@ -7,6 +7,8 @@ use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
 use Interop\Container\ContainerInterface;
 use Aventura\Wprss\Core\Component\AdminAjaxNotices;
 use Aventura\Wprss\Core\Block\CallbackBlock;
+use Aventura\Wprss\Core\Component\AdminHelper;
+use Aventura\Wprss\Core\Model\CommandInterface;
 
 /**
  * Provides services that represent admin notices.
@@ -25,6 +27,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         return array(
             $this->_p('admin_ajax_notice_controller')   => array($this, '_createAdminAjaxNoticeController'),
             $this->_p('admin_ajax_notices')             => array($this, '_createAdminAjaxNotices'),
+            $this->_p('command.is_wprss_page')          => array($this, '_createCommandIsWprssPage'),
+
             $this->_pn('more_features')                 => array($this, '_createMoreFeaturesNotice'),
             $this->_pn('deleting_feed_items')           => array($this, '_createDeletingFeedItemsNotice'),
             $this->_pn('bulk_feed_import')              => array($this, '_createBulkFeedImportNotice'),
@@ -125,11 +129,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createMoreFeaturesNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                    => 'more_features',
             'notice_type'           => NoticeInterface::TYPE_UPDATED,
-            'condition'             => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'             => $this->_getCommandIsWprssPage($c),
             'content'               => wpautop($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
                                        $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'http://www.wprssaggregator.com/extensions')))
         ), $c);
@@ -149,10 +152,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDeletingFeedItemsNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'deleting_feed_items',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('The feed items for this feed source are being deleted in the background.'))
         ), $c);
 
@@ -171,10 +173,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'debug_reset_settings',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => new CallbackBlock(array(), function() {
                 global $wprss_bulk_count;
 
@@ -199,11 +200,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createSettingsImportSuccessNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'settings_import_success',
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('All options are restored successfully.'))
         ), $c);
 
@@ -222,11 +222,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createSettingsImportFailedNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'settings_import_failed',
             'notice_type'       => NoticeInterface::TYPE_ERROR,
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('Invalid file or file size too big.'))
         ), $c);
 
@@ -245,10 +244,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_updating',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('Feeds are being updated in the background.'))
         ), $c);
 
@@ -267,10 +265,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_reimporting',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('Feeds deleted and are being re-imported in the background.'))
         ), $c);
 
@@ -289,10 +286,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDebugClearedLogNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'debug_cleared_log',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('The error log has been cleared.'))
         ), $c);
 
@@ -311,10 +307,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDebugSettingsResetNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'debug_settings_reset',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('The plugin settings have been reset to default.'))
         ), $c);
 
@@ -333,10 +328,9 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createBlacklistItemSuccessNotice(ContainerInterface $c, $p = null, $config)
     {
-        $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
             'id'                => 'blacklist_item_success',
-            'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
+            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => wpautop($this->__('The item was deleted successfully and added to the blacklist.'))
         ), $c);
 
@@ -403,5 +397,66 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     protected function _getNoticeServiceIdPrefix()
     {
         return $this->_getDataOrConst('notice_service_id_prefix');
+    }
+
+    /**
+     * Creates a notice that informs the user that all feed sources are updating.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @return CommandInterface
+     */
+    public function _createCommandIsWprssPage(ContainerInterface $c)
+    {
+        $helper = $this->_getAdminHelper($c);
+        $command = $this->_createCommand($c, array($helper, 'isWprssPage'));
+
+        return $command;
+    }
+
+    /**
+     * Creates a command that can be invoked like a function.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c The container which to use while creating the command.
+     * @param array $config Data for the command.
+     * @return CommandInterface The new command.
+     */
+    protected function _createCommand(ContainerInterface $c, $config = array())
+    {
+        $helper = $this->_getAdminHelper($c);
+        $config = $this->_normalizeConfig($config, array());
+        $command = $helper->createCommand($config);
+
+        return $command;
+    }
+
+    /**
+     * Retrieves the admin helper from the container.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c The container which has the admin helper.
+     * @return AdminHelper The helper.
+     */
+    protected function _getAdminHelper(ContainerInterface $c)
+    {
+        return $c->get($this->_p('admin_helper'));
+    }
+
+    /**
+     * Retrieves the command which can determine whether currently on WPRA page.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c The container which has the command.
+     * @return AdminHelper The command.
+     */
+    protected function _getCommandIsWprssPage(ContainerInterface $c)
+    {
+        return $c->get($this->_p('command.is_wprss_page'));
     }
 }
