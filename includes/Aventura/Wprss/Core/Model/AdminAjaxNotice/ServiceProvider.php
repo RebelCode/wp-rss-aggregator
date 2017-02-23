@@ -337,7 +337,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     {
         $notice = $this->_createNotice(array(
             'id'                => 'blacklist_item_success',
-            'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('The item was deleted successfully and added to the blacklist.'))
         ), $c);
 
