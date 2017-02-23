@@ -459,4 +459,24 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     {
         return $c->get($this->_p('command.is_wprss_page'));
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Uses the translator retrieved from global container as default.
+     *
+     * This is because it's not possible to inject a translator created
+     * in another service provider into this one, due to the way containers
+     * are registered.
+     *
+     * @since [*next-version*]
+     */
+    protected function _translate($text, $translator = null)
+    {
+        if (is_null($translator) && !$this->_getTranslator()) {
+            $translator = wprss_wp_container()->get($this->_p('translator'));
+        }
+
+        return parent::_translate($text, $translator);
+    }
 }
