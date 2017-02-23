@@ -359,7 +359,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'bulk_feed_activated',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
-            'content'           => wpautop($this->__('The feed sources have been activated!'))
+            'content'           => $this->_autoParagraph($this->__('The feed sources have been activated!'))
         ), $c);
 
         return $notice;
@@ -381,7 +381,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'bulk_feed_paused',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
-            'content'           => wpautop($this->__('The feed sources have been paused!'))
+            'content'           => $this->_autoParagraph($this->__('The feed sources have been paused!'))
         ), $c);
 
         return $notice;
@@ -416,10 +416,12 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'emptyLicenseKeyNoticeCondition')),
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
-                return sprintf(
-                    __( '<p>Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
-                    esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-                    $addonName
+                return $this->_autoParagraph(
+                    sprintf(
+                        __( 'Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.', WPRSS_TEXT_DOMAIN ),
+                        esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                        $addonName
+                    )
                 );
             }),
             'addon'             => $addonId
@@ -457,10 +459,12 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'savedInactiveLicenseNoticeCondition')),
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
-                return sprintf(
-                    __( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
-                    esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-                    $addonName
+                return $this->_autoParagraph(
+                    sprintf(
+                        __( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
+                        esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                        $addonName
+                    )
                 );
             }),
             'addon'             => $addonId
@@ -501,10 +505,12 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'soonToExpireLicenseNoticeCondition')),
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
-                return sprintf(
-                    __( '<p>The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.</p>', WPRSS_TEXT_DOMAIN ),
-                    esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-                    $addonName
+                return $this->_autoParagraph(
+                    sprintf(
+                        __( '<p>The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.</p>', WPRSS_TEXT_DOMAIN ),
+                        esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                        $addonName
+                    )
                 );
             }),
             'addon'             => $addonId
