@@ -72,7 +72,6 @@ class Settings {
      * @return \Aventura\Wprss\Core\Licensing\Settings
 	 */
 	protected function _initNotices() {
-        $noticesCollection = wprss_admin_notice_get_collection();
         $factory = wprss_core_container()->get(sprintf('%sfactory', WPRSS_SERVICE_ID_PREFIX));
         $noticesComponent = wprss()->getAdminAjaxNotices();
 
@@ -92,19 +91,13 @@ class Settings {
             ));
             $noticesComponent->addNotice($inactiveLicenseNotice);
 
-            $noticesCollection->add_notice(
-				array(
-					'id'				=>	sprintf( 'soon_to_expire_license_notice_%s_%s', $_addonId, $_year ),
-					'addon'				=>	$_addonId,
-					'notice_type'		=>	'error',
-					'condition'			=>	array( array( $this, 'soonToExpireLicenseNoticeCondition' ) ),
-					'content'			=>	sprintf(
-						__( '<p>The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.</p>', WPRSS_TEXT_DOMAIN ),
-						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-						$_addonName
-					)
-				)
-			);
+            $expiringLicenseNotice = $factory->make(sprintf('%saddon_expiring_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
+                'addon_id'    => $_addonId,
+                'addon_name'  => $_addonName,
+                'settings'    => $this,
+                'year'        => $_year
+            ));
+            $noticesComponent->addNotice($expiringLicenseNotice);
 		}
 
         return $this;

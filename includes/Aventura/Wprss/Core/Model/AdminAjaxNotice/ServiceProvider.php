@@ -44,6 +44,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
 
             $this->_pn('addon_empty_license')           => array($this, '_createAddonEmptyLicenseNotice'),
             $this->_pn('addon_inactive_license')        => array($this, '_createAddonInactiveLicenseNotice'),
+            $this->_pn('addon_expiring_license')        => array($this, '_createAddonExpiringLicenseNotice'),
         );
     }
 
@@ -459,6 +460,50 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
                 return sprintf(
                     __( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
+                    esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                    $addonName
+                );
+            }),
+            'addon'             => $addonId
+        ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that informs the user that an addon license will soon expire.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return Component\AdminAjaxNotices
+     */
+    public function _createAddonExpiringLicenseNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $addonId = isset($config['addon_id'])
+            ? $config['addon_id']
+            : null;
+        $addonName = isset($config['addon_name'])
+            ? $config['addon_name']
+            : null;
+        $licenseSettings = isset($config['settings'])
+            ? $config['settings']
+            : wprss_licensing_get_settings_controller();
+        $year = isset($config['year'])
+            ? $config['year']
+            : date('Y');
+
+        $helper = $c->get($this->_p('admin_helper'));
+
+        $notice = $this->_createNotice(array(
+            'id'                => sprintf('addon_empty_license_%s', $year),
+            'notice_type'       => NoticeInterface::TYPE_ERROR,
+            'condition'         => $helper->createCommand(array($licenseSettings, 'soonToExpireLicenseNoticeCondition')),
+            'content'           => new CallbackBlock(array(), function() use ($addonName) {
+                return sprintf(
+                    __( '<p>The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.</p>', WPRSS_TEXT_DOMAIN ),
                     esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
                     $addonName
                 );
