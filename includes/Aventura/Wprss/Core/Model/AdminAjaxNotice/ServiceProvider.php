@@ -133,7 +133,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                    => 'more_features',
             'notice_type'           => NoticeInterface::TYPE_UPDATED,
             'condition'             => $this->_getCommandIsWprssPage($c),
-            'content'               => wpautop($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
+            'content'               => $this->_autoParagraph($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
                                        $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'http://www.wprssaggregator.com/extensions')))
         ), $c);
 
@@ -155,7 +155,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'deleting_feed_items',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('The feed items for this feed source are being deleted in the background.'))
+            'content'           => $this->_autoParagraph($this->__('The feed items for this feed source are being deleted in the background.'))
         ), $c);
 
         return $notice;
@@ -173,14 +173,15 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
     {
+        $me = $this;
         $notice = $this->_createNotice(array(
             'id'                => 'debug_reset_settings',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => new CallbackBlock(array(), function() {
+            'content'           => new CallbackBlock(array(), function() use ($me) {
                 global $wprss_bulk_count;
 
-                return wpautop(
-                    sprintf($this->__('Successfully imported <code>%1$s</code> feed sources.'), $wprss_bulk_count)
+                return $me->_autoParagraph(
+                    sprintf($me->__('Successfully imported <code>%1$s</code> feed sources.'), $wprss_bulk_count)
                 );
             })
         ), $c);
@@ -204,7 +205,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'settings_import_success',
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('All options are restored successfully.'))
+            'content'           => $this->_autoParagraph($this->__('All options are restored successfully.'))
         ), $c);
 
         return $notice;
@@ -226,7 +227,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'settings_import_failed',
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('Invalid file or file size too big.'))
+            'content'           => $this->_autoParagraph($this->__('Invalid file or file size too big.'))
         ), $c);
 
         return $notice;
@@ -247,7 +248,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_updating',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('Feeds are being updated in the background.'))
+            'content'           => $this->_autoParagraph($this->__('Feeds are being updated in the background.'))
         ), $c);
 
         return $notice;
@@ -268,7 +269,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_reimporting',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('Feeds deleted and are being re-imported in the background.'))
+            'content'           => $this->_autoParagraph($this->__('Feeds deleted and are being re-imported in the background.'))
         ), $c);
 
         return $notice;
@@ -289,7 +290,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_cleared_log',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('The error log has been cleared.'))
+            'content'           => $this->_autoParagraph($this->__('The error log has been cleared.'))
         ), $c);
 
         return $notice;
@@ -310,7 +311,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_settings_reset',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('The plugin settings have been reset to default.'))
+            'content'           => $this->_autoParagraph($this->__('The plugin settings have been reset to default.'))
         ), $c);
 
         return $notice;
@@ -331,7 +332,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'blacklist_item_success',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => wpautop($this->__('The item was deleted successfully and added to the blacklist.'))
+            'content'           => $this->_autoParagraph($this->__('The item was deleted successfully and added to the blacklist.'))
         ), $c);
 
         return $notice;
@@ -478,5 +479,18 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         }
 
         return parent::_translate($text, $translator);
+    }
+
+    /**
+     * Converts plain text paragraphs to HTML ones.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $text The text to add paragraphs to.
+     * @return string The text with HTML paragraphs.
+     */
+    protected function _autoParagraph($text)
+    {
+        return \wpautop($text);
     }
 }
