@@ -8,6 +8,7 @@ use Interop\Container\ContainerInterface;
 use Dhii\Di\FactoryInterface;
 use Aventura\Wprss\Core\Plugin\ComponentInterface;
 use Aventura\Wprss\Core\Model\Event\EventManagerInterface;
+use Aventura\Wprss\Core\Component\AdminHelper;
 
 /**
  * Providers service definitions.
@@ -30,6 +31,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_p('logger')                  => array($this, '_createLogger'),
             $this->_p('admin_helper')            => array($this, '_createAdminHelper'),
             $this->_p('leave_review')            => array($this, '_createLeaveReview'),
+            $this->_p('translator')              => array($this, '_createTranslator'),
         );
     }
 
@@ -174,5 +176,31 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $this->_prepareComponent($service);
 
         return $service;
+    }
+
+    /**
+     * Creates a translator.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return callable
+     */
+    public function _createTranslator(ContainerInterface $c, $p = null, $config = null)
+    {
+        $textDomain = \WPRSS_TEXT_DOMAIN;
+        $helper = $c->get($this->_p('admin_helper'));
+        /* @var $helper \Aventura\Wprss\Core\Component\AdminHelper */
+        $command = $helper->createCommand(array(
+            'function'      => function($text, $context = null) use ($textDomain) {
+                return is_null($context)
+                        ? __($text, $textDomain)
+                        : _x($text, $context, $textDomain);
+            }
+        ));
+
+        return $command;
     }
 }

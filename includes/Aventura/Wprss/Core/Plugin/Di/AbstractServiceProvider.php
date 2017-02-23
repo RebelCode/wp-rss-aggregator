@@ -2,14 +2,14 @@
 
 namespace Aventura\Wprss\Core\Plugin\Di;
 
-use Aventura\Wprss\Core\Model\ModelAbstract;
+use Aventura\Wprss\Core\Model\AbstractTranslatingModel;
 
 /**
  * Common functionality for WPRA service providers.
  *
  * @since [*next-version*]
  */
-abstract class AbstractServiceProvider extends ModelAbstract
+abstract class AbstractServiceProvider extends AbstractTranslatingModel
 {
     /**
      * @since [*next-version*]
