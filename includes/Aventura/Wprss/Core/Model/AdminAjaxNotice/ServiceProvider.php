@@ -517,8 +517,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
                 return $this->_autoParagraph(
                     sprintf(
-                        __( 'The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.', WPRSS_TEXT_DOMAIN ),
-                        esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
+                        __( 'The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. <a href="%1$s">Please renew it</a> to keep receiving updates and benefit from support.', WPRSS_TEXT_DOMAIN ),
+                        esc_attr( 'https://docs.wprssaggregator.com/renewing-your-license/' ),
                         $addonName
                     )
                 );
