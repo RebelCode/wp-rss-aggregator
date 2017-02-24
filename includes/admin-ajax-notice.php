@@ -2,6 +2,7 @@
 
 use Aventura\Wprss\Core\Model\AdminAjaxNotice\ServiceProvider;
 use Dhii\Di\WritableContainerInterface;
+use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 
 define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
 
@@ -138,6 +139,7 @@ class WPRSS_Admin_Notices {
 	protected $_notice_base_class;
 	protected $_nonce_base_class;
 	protected $_btn_close_base_class;
+        protected $_dismiss_mode_class_prefix;
 
 
 	/**
@@ -185,6 +187,11 @@ class WPRSS_Admin_Notices {
 			$data['btn_close_base_class'] = $this->prefix( 'admin-notice-btn-close' );
 		$this->set_btn_close_base_class( $data['btn_close_base_class'] );
 
+                // Class prefix for dismiss mode
+                if ( !isset( $data['dismiss_mode_class_prefix'] ) )
+                        $data['dismiss_mode_class_prefix'] = 'dismiss-mode-';
+                $this->set_dismiss_mode_class_prefix($data['dismiss_mode_class_prefix']);
+
 		$this->_construct();
 	}
 
@@ -217,6 +224,31 @@ class WPRSS_Admin_Notices {
 		return $this;
 	}
 
+
+        /**
+         * Sets the prefix for dismiss mode class name.
+         *
+         * @since [*next-version*]
+         *
+         * @param string $prefix The prefix.
+         * @return $this This instance.
+         */
+        public function set_dismiss_mode_class_prefix($prefix) {
+            $this->_dismiss_mode_class_prefix = trim($prefix);
+            return $this;
+        }
+
+
+        /**
+         * Sets the prefix for dismiss mode class name.
+         *
+         * @since [*next-version*]
+         *
+         * @return string The prefix.
+         */
+        public function get_dismiss_mode_class_prefix() {
+            return $this->_dismiss_mode_class_prefix;
+        }
 
 	/**
 	 * Get the ID prefix, or a prefixed string.
@@ -458,6 +490,7 @@ class WPRSS_Admin_Notices {
 			'btn_close_id'			=> null, // The HTML ID for the close button
 			'btn_close_class'		=> 'btn-close', // The HTML class for the close button, in addition to default
 			'btn_close_content'	 => __( 'Dismiss this notification', $this->get_text_domain() ), // The content of the close button. HTML allowed.
+                        'dismiss_mode'          => NoticeInterface::DISMISS_MODE_AJAX
 		)));
 
 		// Auto-generate ID
@@ -1045,11 +1078,13 @@ class WPRSS_Admin_Notices {
 		$notice = apply_filters( $this->prefix( 'admin_notice_render_before' ), $notice, $this );
 		?>
 
-		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?>">
+		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?> dismiss-mode-<?php echo $notice['dismiss_mode'] ?>">
 			<div class="notice-content">
 				<?php echo $notice['content'] ?>
 			</div>
+                        <?php if ($notice['dismiss_mode'] !== NoticeInterface::DISMISS_MODE_NONE): ?>
 			<a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
+                        <?php endif ?>
             <span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $helper->resolveValue($notice['nonce']) ?></span>
 		</div>
 		<?php
@@ -1149,7 +1184,8 @@ function wprss_admin_notices_collection_enqueue_scripts() {
 		'notice_class'				=> $collection->get_notice_base_class(),
 		'nonce_class'				=> $collection->get_nonce_base_class(),
 		'btn_close_class'			=> $collection->get_btn_close_base_class(),
-		'action_code'				=> wprss_admin_notice_get_action_code()
+		'action_code'				=> wprss_admin_notice_get_action_code(),
+                'dismiss_mode_class_prefix'             => $collection->get_dismiss_mode_class_prefix(),
 	), $collection );
 	wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
 	do_action( 'wprss_admin_notice_collection_after_localize_vars', $settings, $collection );
