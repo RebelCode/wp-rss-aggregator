@@ -718,6 +718,6 @@
         if ( is_null( $extension ) )
             $extension = '.js';
 
-        $script_url = WPRSS_JS . $url . (wprss_is_script_debug() ? wprss_get_minified_extension_prefix() : '') . $extension;
+        $script_url = WPRSS_JS . $url . (!wprss_is_script_debug() ? wprss_get_minified_extension_prefix() : '') . $extension;
         return apply_filters( 'wprss_script_url',  $script_url, $url, $extension );
     }
