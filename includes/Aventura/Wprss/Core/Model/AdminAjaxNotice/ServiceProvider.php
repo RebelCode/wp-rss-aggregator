@@ -161,7 +161,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'deleting_feed_items',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('The feed items for this feed source are being deleted in the background.'))
+            'content'           => $this->_autoParagraph($this->__('The feed items for this feed source are being deleted in the background.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -188,7 +189,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
                 return $me->_autoParagraph(
                     sprintf($me->__('Successfully imported <code>%1$s</code> feed sources.'), $import->getImportedSourcesCount())
                 );
-            })
+            }),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -210,7 +212,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'settings_import_success',
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('All options are restored successfully.'))
+            'content'           => $this->_autoParagraph($this->__('All options are restored successfully.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -232,7 +235,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'settings_import_failed',
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('Invalid file or file size too big.'))
+            'content'           => $this->_autoParagraph($this->__('Invalid file or file size too big.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -253,7 +257,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_updating',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('Feeds are being updated in the background.'))
+            'content'           => $this->_autoParagraph($this->__('Feeds are being updated in the background.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -274,7 +279,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_reimporting',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('Feeds deleted and are being re-imported in the background.'))
+            'content'           => $this->_autoParagraph($this->__('Feeds deleted and are being re-imported in the background.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -295,7 +301,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_cleared_log',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('The error log has been cleared.'))
+            'content'           => $this->_autoParagraph($this->__('The error log has been cleared.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -316,7 +323,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'debug_settings_reset',
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('The plugin settings have been reset to default.'))
+            'content'           => $this->_autoParagraph($this->__('The plugin settings have been reset to default.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -336,7 +344,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     {
         $notice = $this->_createNotice(array(
             'id'                => 'blacklist_item_success',
-            'content'           => $this->_autoParagraph($this->__('The item was deleted successfully and added to the blacklist.'))
+            'content'           => $this->_autoParagraph($this->__('The item was deleted successfully and added to the blacklist.')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -358,7 +367,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'bulk_feed_activated',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
-            'content'           => $this->_autoParagraph($this->__('The feed sources have been activated!'))
+            'content'           => $this->_autoParagraph($this->__('The feed sources have been activated!')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
@@ -380,7 +390,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $notice = $this->_createNotice(array(
             'id'                => 'bulk_feed_paused',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
-            'content'           => $this->_autoParagraph($this->__('The feed sources have been paused!'))
+            'content'           => $this->_autoParagraph($this->__('The feed sources have been paused!')),
+            'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 
         return $notice;
