@@ -140,7 +140,7 @@ class Settings {
 	public function savedInactiveLicenseNoticeCondition( $args ) {
 		if ( ! isset( $args['addon'] ) ) return false;
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && strlen( $license->getKey() ) > 0 && $license->isInactive();
+		return $license !== null && strlen( $license->getKey() ) > 0 && ! $license->isValid();
 	}
 
 
