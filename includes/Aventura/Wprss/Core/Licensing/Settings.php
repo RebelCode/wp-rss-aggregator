@@ -125,7 +125,7 @@ class Settings {
 	public function emptyLicenseKeyNoticeCondition( $args ) {
 		if ( ! isset( $args['addon'] ) ) return false;
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && ! $license->isValid();
+		return is_null($license) || strlen( $license->getKey() ) === 0;
 	}
 
 
