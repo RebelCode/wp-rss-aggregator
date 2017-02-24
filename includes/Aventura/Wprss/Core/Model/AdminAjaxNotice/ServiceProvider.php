@@ -411,7 +411,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $helper = $c->get($this->_p('admin_helper'));
 
         $notice = $this->_createNotice(array(
-            'id'                => 'addon_empty_license',
+            'id'                => sprintf('addon_empty_license_%s', $addonId),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'emptyLicenseKeyNoticeCondition')),
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
@@ -454,7 +454,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $helper = $c->get($this->_p('admin_helper'));
 
         $notice = $this->_createNotice(array(
-            'id'                => 'addon_saved_inactive_license',
+            'id'                => sprintf('addon_saved_inactive_license_%s', $addonId),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'savedInactiveLicenseNoticeCondition')),
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
@@ -500,7 +500,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $helper = $c->get($this->_p('admin_helper'));
 
         $notice = $this->_createNotice(array(
-            'id'                => sprintf('addon_empty_license_%s', $year),
+            'id'                => sprintf('addon_empty_license_%1$s_%2$s', $addonId, $year),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'soonToExpireLicenseNoticeCondition')),
             'content'           => new CallbackBlock(array(), function() use ($addonName) {
