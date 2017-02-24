@@ -82,7 +82,7 @@ function wprss_licensing() {
         // Licensing Settings Controller hooks
         add_action( 'wprss_admin_init', array( $settingsController, 'registerSettings' ), 100 );
         add_action( 'admin_init', array( $settingsController, 'handleLicenseStatusChange' ), 10 );
-        add_action( 'wprss_settings_license_key_is_valid', array( $settingsController, 'validateLicenseKeyForSave' ) );
+        add_action( 'wprss_settings_license_key_is_valid', array( $settingsController, 'validateLicenseKeyForSave' ), 10, 2 );
 
         $licensing = (object) compact( 'manager', 'settingsController', 'ajaxController' );
 
