@@ -123,9 +123,12 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function emptyLicenseKeyNoticeCondition( $args ) {
-		if ( ! isset( $args['addon'] ) ) return false;
+		if ( ! isset( $args['addon'] ) ) {
+			return false;
+		}
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && ! $license->isValid();
+
+		return is_null($license) || strlen( $license->getKey() ) === 0;
 	}
 
 
@@ -135,9 +138,11 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function savedInactiveLicenseNoticeCondition( $args ) {
-		if ( ! isset( $args['addon'] ) ) return false;
+		if ( ! isset( $args['addon'] ) ) {
+			return false;
+		}
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && strlen( $license->getKey() ) > 0 && $license->isInactive();
+		return $license !== null && strlen( $license->getKey() ) > 0 && ! $license->isValid();
 	}
 
 
@@ -312,7 +317,7 @@ class Settings {
 		<p>
 			<?php
 				$license = $manager->getLicense( $addonId );
-				if ( $license !== null && ($licenseKey = $license->getKey()) && !empty( $licenseKey ) ) :
+				if ( $license !== null && !$license->isInvalid() && ($licenseKey = $license->getKey()) && !empty( $licenseKey ) ) :
 					if ( is_object( $data ) ) :
 						$currentActivations = $data->site_count;
 						$activationsLeft = $data->activations_left;
