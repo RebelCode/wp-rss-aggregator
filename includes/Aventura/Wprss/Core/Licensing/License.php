@@ -98,6 +98,18 @@ class License {
 		return $this;
 	}
 
+    /**
+     * Sanitizes a license key string.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function _sanitizeKey($key) {
+        return trim( $key );
+    }
+
 	/**
 	 * Gets the license status.
 	 *
