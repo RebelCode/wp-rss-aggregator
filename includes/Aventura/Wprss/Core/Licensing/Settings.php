@@ -138,7 +138,9 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function savedInactiveLicenseNoticeCondition( $args ) {
-		if ( ! isset( $args['addon'] ) ) return false;
+		if ( ! isset( $args['addon'] ) ) {
+			return false;
+		}
 		$license = $this->getManager()->getLicense( $args['addon'] );
 		return $license !== null && strlen( $license->getKey() ) > 0 && ! $license->isValid();
 	}
