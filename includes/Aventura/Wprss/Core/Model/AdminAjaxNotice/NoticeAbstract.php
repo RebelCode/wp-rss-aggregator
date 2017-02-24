@@ -11,6 +11,12 @@ use \Aventura\Wprss\Core;
  */
 abstract class NoticeAbstract extends Core\Model\ModelAbstract implements NoticeInterface
 {
+    protected static $dismissModes = array(
+        NoticeInterface::DISMISS_MODE_NONE          => NoticeInterface::DISMISS_MODE_NONE,
+        NoticeInterface::DISMISS_MODE_FRONTEND      => NoticeInterface::DISMISS_MODE_FRONTEND,
+        NoticeInterface::DISMISS_MODE_AJAX          => NoticeInterface::DISMISS_MODE_AJAX,
+    );
+
     /**
      * {@inheritdoc}
      *
@@ -74,10 +80,20 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @return type
+     * @since [*next-version*]
      */
     public function isDismissable()
     {
-        return $this->getData('is_dismissable', true);
+        return $this->getDismissMode() !== NoticeInterface::DISMISS_MODE_NONE;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getDismissMode()
+    {
+        return $this->getData('dismiss_mode', NoticeInterface::DISMISS_MODE_AJAX);
     }
 }

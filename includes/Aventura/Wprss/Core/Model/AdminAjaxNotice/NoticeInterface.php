@@ -90,6 +90,29 @@ interface NoticeInterface
     const STYLE_ALT = 'alt';
 
     /**
+     * Notice is dismissable by making an async request to the backend,
+     * where the decision to dismiss will persist.
+     *
+     * @since [*next-version*]
+     */
+    const DISMISS_MODE_AJAX = 'ajax';
+
+    /**
+     * Notice is dismissable by simply and only removing the notice element from the DOM.
+     * Does not persist.
+     *
+     * @since [*next-version*]
+     */
+    const DISMISS_MODE_FRONTEND = 'front';
+
+    /**
+     * Noice cannot be dismissed manually.
+     *
+     * @since [*next-version*]
+     */
+    const DISMISS_MODE_NONE = 'none';
+
+    /**
      * Gets the ID of the notice.
      *
      * @since [*next-version*]
@@ -176,4 +199,16 @@ interface NoticeInterface
      * @return bool True if the notice can be dismissed, false if it is persistent.
      */
     public function isDismissable();
+
+    /**
+     * Determines the way in which a notice can be dismissed, if any.
+     *
+     * @since [*next-version*]
+     * @see DISMISS_MODE_NONE
+     * @see DISMISS_MODE_AJAX
+     * @see DISMISS_MODE_FRONTEND
+     *
+     * @return string|int One of the `DISMISS_MODE_*` class constants.
+     */
+    public function getDismissMode();
 }
