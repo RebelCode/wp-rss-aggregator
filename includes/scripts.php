@@ -5,16 +5,19 @@
      * @package WPRSSAggregator
      */
 
-	 add_action( 'init', 'wprss_register_scripts', 9 );
-	 function wprss_register_scripts() {
-		// Add the Class library, the Xdn library, and the Aventura namespace and classes
-        wp_register_script( 'wprss-xdn-class', wprss_get_script_url( 'class' ), array('jquery') );
-        wp_register_script( 'wprss-xdn-lib', wprss_get_script_url( 'xdn' ), array('wprss-xdn-class') );
-        wp_register_script( 'aventura', wprss_get_script_url( 'aventura' ), array('wprss-xdn-lib') );
+    add_action( 'init', 'wprss_register_scripts', 9 );
+    function wprss_register_scripts()
+    {
+        $version = wprss()->getVersion();
 
-		// This handles the client side for WPRSS_Admin_Notices
-		wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), false, true );
-	 }
+        // Add the Class library, the Xdn library, and the Aventura namespace and classes
+        wp_register_script( 'wprss-xdn-class', wprss_get_script_url( 'class' ), array('jquery'), $version );
+        wp_register_script( 'wprss-xdn-lib', wprss_get_script_url( 'xdn' ), array('wprss-xdn-class'), $version );
+        wp_register_script( 'aventura', wprss_get_script_url( 'aventura' ), array('wprss-xdn-lib'), $version );
+
+        // This handles the client side for WPRSS_Admin_Notices
+        wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), $version, true );
+    }
 
 
     add_action( 'admin_enqueue_scripts', 'wprss_admin_scripts_styles' );
@@ -30,10 +33,11 @@
         $pageBase = $screen->base;
         $postType = $screen->post_type;
         $page = isset( $_GET['page'] )? $_GET['page'] : '';
+        $version = wprss()->getVersion();
 
         // On all admin screens
-        wp_enqueue_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css' );
-        wp_enqueue_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css' );
+        wp_enqueue_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css', array(), $version );
+        wp_enqueue_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
 
         // Only on WPRA-related admin screens
         if ($isWpraScreen) {
@@ -54,17 +58,18 @@
         $pageBase = $screen->base;
         $postType = $screen->post_type;
         $page = isset( $_GET['page'] )? $_GET['page'] : '';
+        $version = wprss()->getVersion();
 
-        wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css' );
-        wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css' );
-        wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css' );
-        wp_enqueue_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css' );
+        wp_enqueue_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css', array(), $version );
+        wp_enqueue_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css', array(), $version );
+        wp_enqueue_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css', array(), $version );
+        wp_enqueue_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css', array(), $version );
 
         wp_enqueue_script( 'wprss-xdn-class' );
         wp_enqueue_script( 'wprss-xdn-lib' );
         wp_enqueue_script( 'aventura' );
 
-        wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery') );
+        wp_enqueue_script( 'wprss-admin-addon-ajax', WPRSS_JS .'admin-addon-ajax.js', array('jquery'), $version );
         wp_localize_script( 'wprss-admin-addon-ajax', 'wprss_admin_addon_ajax', array(
             'please_wait'   =>  __( 'Please wait ...', WPRSS_TEXT_DOMAIN )
         ));
@@ -74,7 +79,7 @@
         $blacklist_remove_url = wp_nonce_url( $blacklist_remove_url, 'blacklist-remove-selected', 'wprss_blacklist_trash' );
         $blacklist_remove_url .= '&wprss-blacklist-remove=';
 
-        wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider') );
+        wp_enqueue_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider'), $version );
         wp_localize_script( 'wprss-admin-custom', 'wprss_admin_custom', array(
             'failed_to_import'      =>  __( 'Failed to import', WPRSS_TEXT_DOMAIN ),
             'items_are_importing'   =>  __( 'Items are importing', WPRSS_TEXT_DOMAIN ),
@@ -87,22 +92,22 @@
             'blacklist_remove_url'  =>  $blacklist_remove_url
         ) );
 
-        wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker') );
-        wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
+        wp_enqueue_script( 'jquery-ui-timepicker-addon', WPRSS_JS .'jquery-ui-timepicker-addon.js', array('jquery','jquery-ui-datepicker'), $version );
+        wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
 
         if ($pageBase === 'post' && $postType = 'wprss_feed') {
             // Change text on post screen from 'Enter title here' to 'Enter feed name here'
             add_filter( 'enter_title_here', 'wprss_change_title_text' );
         }
         if ('wprss_feed' === $postType) {
-            wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ) );
+            wp_enqueue_script( 'wprss-custom-bulk-actions', WPRSS_JS . 'admin-custom-bulk-actions.js', array( 'jquery' ), $version );
             wp_localize_script( 'wprss-custom-bulk-actions', 'wprss_admin_bulk', array(
                 'activate'   =>  __( 'Activate', WPRSS_TEXT_DOMAIN ),
                 'pause'   =>  __( 'Pause', WPRSS_TEXT_DOMAIN )
             ) );
         }
         if ('wprss_feed_item' === $postType) {
-            wp_enqueue_script( 'wprss-custom-bulk-actions-feed-item', WPRSS_JS . 'admin-custom-bulk-actions-feed-item.js', array( 'jquery' ) );
+            wp_enqueue_script( 'wprss-custom-bulk-actions-feed-item', WPRSS_JS . 'admin-custom-bulk-actions-feed-item.js', array( 'jquery' ), $version );
             wp_localize_script( 'wprss-custom-bulk-actions-feed-item', 'wprss_admin_bulk_feed_item', array(
                 'trash' => __( 'Move to Trash', WPRSS_TEXT_DOMAIN )
             ) );
@@ -110,7 +115,7 @@
 
         // Load Heartbeat script and set dependancy for Heartbeat to ensure Heartbeat is loaded
         if ($pageBase === 'edit' && $postType === 'wprss_feed' && apply_filters('wprss_ajax_polling', TRUE) === TRUE ) {
-            wp_enqueue_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js' );
+            wp_enqueue_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js', array(), $version );
             wp_localize_script( 'wprss-feed-source-table-heartbeat', 'wprss_admin_heartbeat', array(
                 'ago'   =>  __( 'ago', WPRSS_TEXT_DOMAIN )
             ) );
@@ -124,9 +129,9 @@
         );
 
         if ($pageBase === 'wprss_feed_page_wprss-aggregator-settings') {
-            wp_enqueue_script( 'wprss-admin-license-manager', WPRSS_JS . 'admin-license-manager.js' );
+            wp_enqueue_script( 'wprss-admin-license-manager', WPRSS_JS . 'admin-license-manager.js', array(), $version );
 
-            wp_enqueue_script( 'wprss-admin-licensing', WPRSS_JS . 'admin-licensing.js' );
+            wp_enqueue_script( 'wprss-admin-licensing', WPRSS_JS . 'admin-licensing.js', array(), $version );
             wp_localize_script( 'wprss-admin-licensing', 'wprss_admin_licensing', array(
                 'activating'    => __('Activating...', WPRSS_TEXT_DOMAIN),
                 'deactivating'  => __('Deactivating...', WPRSS_TEXT_DOMAIN)
@@ -134,7 +139,7 @@
         }
 
         if ($pageBase === 'wprss_feed_page_wprss-help') {
-            wp_enqueue_script( 'wprss-admin-help', WPRSS_JS . 'admin-help.js' );
+            wp_enqueue_script( 'wprss-admin-help', WPRSS_JS . 'admin-help.js', array(), $version );
             wp_localize_script( 'wprss-admin-help', 'wprss_admin_help', array(
                 'sending'       => __('Sending...', WPRSS_TEXT_DOMAIN),
                 'sent-error'    => sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/')),
