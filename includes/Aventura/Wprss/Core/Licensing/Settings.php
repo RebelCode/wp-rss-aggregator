@@ -123,8 +123,11 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function emptyLicenseKeyNoticeCondition( $args ) {
-		if ( ! isset( $args['addon'] ) ) return false;
+		if ( ! isset( $args['addon'] ) ) {
+			return false;
+		}
 		$license = $this->getManager()->getLicense( $args['addon'] );
+
 		return is_null($license) || strlen( $license->getKey() ) === 0;
 	}
 
