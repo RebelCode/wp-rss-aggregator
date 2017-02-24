@@ -131,7 +131,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createMoreFeaturesNotice(ContainerInterface $c, $p = null, $config = null)
     {
@@ -154,7 +154,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createDeletingFeedItemsNotice(ContainerInterface $c, $p = null, $config = null)
     {
@@ -175,7 +175,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -202,7 +202,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createSettingsImportSuccessNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -224,7 +224,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createSettingsImportFailedNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -246,7 +246,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -267,7 +267,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -288,7 +288,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createDebugClearedLogNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -309,7 +309,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createDebugSettingsResetNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -330,7 +330,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createBlacklistItemSuccessNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -350,7 +350,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createBulkFeedActivatedNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -372,7 +372,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createBulkFeedPausedNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -394,7 +394,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createAddonEmptyLicenseNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -437,7 +437,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createAddonInactiveLicenseNotice(ContainerInterface $c, $p = null, $config)
     {
@@ -480,7 +480,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return NoticeInterface
      */
     public function _createAddonExpiringLicenseNotice(ContainerInterface $c, $p = null, $config)
     {
