@@ -94,7 +94,7 @@ class License {
 	 * @return self
 	 */
 	public function setKey( $key ) {
-		$this->_key = $key;
+		$this->_key = $this->_sanitizeKey( $key );
 		return $this;
 	}
 
