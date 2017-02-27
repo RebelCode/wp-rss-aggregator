@@ -51,11 +51,18 @@ jQuery( document ).ready( function($) {
 
 	};
 
+    on_form_submit = function() {
+        // Disable submission
+        return false;
+    };
+
 	// This .js is only enqueued on our settings page, so just check the tab we're on.
 	if ( document.location.href.search('tab=licenses_settings') > 0 ) {
 		$('.button-activate-license').click(manage_license);
 		$('.button-deactivate-license').click(manage_license);
 		$('.submit').remove();
+        // Handle form submission
+        $('form').submit(on_form_submit);
 	}
 
 });
