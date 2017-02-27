@@ -51,6 +51,22 @@ jQuery( document ).ready( function($) {
 
 	};
 
+    handle_license_keypress = function(event) {
+        if (event.keyCode !== 13) {
+            return;
+        }
+        var row = $(this).closest('tr'),
+            nextRow = row.next(),
+            btn = nextRow.find('.button-process-license');
+
+        btn.click();
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        return false;
+    };
+
     on_form_submit = function() {
         // Disable submission
         return false;
@@ -63,6 +79,8 @@ jQuery( document ).ready( function($) {
 		$('.submit').remove();
         // Handle form submission
         $('form').submit(on_form_submit);
+        // Handle keypress on license fields
+        $('.wprss-license-input').bind('keypress', handle_license_keypress);
 	}
 
 });
