@@ -212,7 +212,7 @@ class Settings {
 		$displayedKey = is_null( $license )? '' : self::obfuscateLicenseKey( $license->getKey() );
 		// Render the markup ?>
 		<input id="wprss-<?php echo $addonId ?>-license-key" name="wprss_settings_license_keys[<?php echo $addonId ?>_license_key]"
-			   type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
+			   class="wprss-license-input" type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
 		/>
 		<label class="description" for="wprss-<?php echo $addonId ?>-license-key">
 			<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ) ?>
