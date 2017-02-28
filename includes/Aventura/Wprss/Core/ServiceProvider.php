@@ -2,23 +2,21 @@
 
 namespace Aventura\Wprss\Core;
 
-use Aventura\Wprss\Core\Plugin\Di\AbstractServiceProvider;
+use Aventura\Wprss\Core\Plugin\Di\AbstractComponentServiceProvider;
 use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
 use Interop\Container\ContainerInterface;
 use Dhii\Di\FactoryInterface;
 use Aventura\Wprss\Core\Plugin\ComponentInterface;
 use Aventura\Wprss\Core\Model\Event\EventManagerInterface;
+use Aventura\Wprss\Core\Component\AdminHelper;
 
 /**
  * Providers service definitions.
  *
  * @since [*next-version*]
  */
-class ServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class ServiceProvider extends AbstractComponentServiceProvider implements ServiceProviderInterface
 {
-    const PREFIX_OVERRIDE = '!';
-    const COMPONENT_INTERFACE = 'Aventura\\Wprss\\Core\\Plugin\\ComponentInterface';
-
     /**
      * {@inheritdoc}
      *
@@ -33,7 +31,7 @@ class ServiceProvider extends AbstractServiceProvider implements ServiceProvider
             $this->_p('logger')                  => array($this, '_createLogger'),
             $this->_p('admin_helper')            => array($this, '_createAdminHelper'),
             $this->_p('leave_review')            => array($this, '_createLeaveReview'),
-            $this->_p('admin_ajax_notices')      => array($this, '_createAdminAjaxNotices'),
+            $this->_p('translator')              => array($this, '_createTranslator'),
         );
     }
 
@@ -96,42 +94,6 @@ class ServiceProvider extends AbstractServiceProvider implements ServiceProvider
     }
 
     /**
-     * Throws an exception if given instance or class name is not a valid component or component class name.
-     *
-     * @since [*next-version*]
-     *
-     * @param string|ComponentInterface|mixed $component
-     * @throws Exception If the argument is not a valid component instance or class name.
-     */
-    protected function _assertComponent($component)
-    {
-        if (!is_a($component, static::COMPONENT_INTERFACE)) {
-            $componentType = is_string($component)
-                    ? $component
-                    : (is_object($component)
-                            ? get_class($component)
-                            : get_type($component));
-            throw $this->exception(array('"%1$s" is not a component', $componentType));
-        }
-    }
-
-    /**
-     * Prepares a component instance.
-     *
-     * @since [*next-version*]
-     *
-     * @param ComponentInterface $component The component to prepare.
-     * @return ComponentInterface The prepared component.
-     */
-    protected function _prepareComponent($component)
-    {
-        $this->_assertComponent($component);
-        $component->hook();
-
-        return $component;
-    }
-
-    /**
      * Creates an event manager instance.
      *
      * @since [*next-version*]
@@ -167,27 +129,6 @@ class ServiceProvider extends AbstractServiceProvider implements ServiceProvider
             'plugin'            => $c->get($this->_p('plugin'))
         ));
         $service = new Component\AdminHelper($config);
-        $this->_prepareComponent($service);
-
-        return $service;
-    }
-
-    /**
-     * Creates an instance of the admin AJAX notices component.
-     *
-     * @since [*next-version*]
-     *
-     * @param ContainerInterface $c
-     * @param null $p
-     * @param array $config
-     * @return Component\AdminAjaxNotices
-     */
-    public function _createAdminAjaxNotices(ContainerInterface $c, $p = null, $config = null)
-    {
-        $config = $this->_normalizeConfig($config, array(
-            'plugin'            => $c->get($this->_p('plugin'))
-        ));
-        $service = new Component\AdminAjaxNotices($config);
         $this->_prepareComponent($service);
 
         return $service;
@@ -238,35 +179,28 @@ class ServiceProvider extends AbstractServiceProvider implements ServiceProvider
     }
 
     /**
-     * Normalizes a factory config, optionally by using defaults.
+     * Creates a translator.
      *
      * @since [*next-version*]
      *
-     * @param array|null $config The config to normalize.
-     * @param array $defaults Defaults, if any, which will be extended by the normalized config.
-     * @return array The normalized config, optionally applied on top of defaults.
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return callable
      */
-    protected function _normalizeConfig($config, $defaults = array())
+    public function _createTranslator(ContainerInterface $c, $p = null, $config = null)
     {
-        if (is_null($config)) {
-            $config = array();
-        }
+        $textDomain = \WPRSS_TEXT_DOMAIN;
+        $helper = $c->get($this->_p('admin_helper'));
+        /* @var $helper \Aventura\Wprss\Core\Component\AdminHelper */
+        $command = $helper->createCommand(array(
+            'function'      => function($text, $context = null) use ($textDomain) {
+                return is_null($context)
+                        ? __($text, $textDomain)
+                        : _x($text, $context, $textDomain);
+            }
+        ));
 
-        return $this->_arrayMergeRecursive($defaults, $config);
-    }
-
-    /**
-     * Merges two arrays recursively, preserving element types.
-     *
-     * @since [*next-version*]
-     *
-     * @see \array_merge_recursive_distinct()
-     * @param array $array1
-     * @param array $array2
-     * @return array
-     */
-    protected function _arrayMergeRecursive(&$array1, &$array2)
-    {
-        return \array_merge_recursive_distinct($array1, $array2);
+        return $command;
     }
 }

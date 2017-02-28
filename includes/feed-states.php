@@ -90,44 +90,16 @@
         $transient = get_transient( 'wprss_notify_bulk_change_state' );
         if ( $transient !== FALSE ) {
             switch ( $transient ) {
-                case 'activated': add_action( 'all_admin_notices', 'wprss_notify_feed_sources_activated' ); break;
-                case 'paused': add_action( 'all_admin_notices', 'wprss_notify_feed_sources_paused' ); break;
+                case 'activated':
+                    wprss()->getAdminAjaxNotices()->addNotice('bulk_feed_activated');
+                    break;
+                case 'paused':
+                    wprss()->getAdminAjaxNotices()->addNotice('bulk_feed_paused');
+                    break;
             }
             delete_transient( 'wprss_notify_bulk_change_state' );
         }
     }
-
-
-
-    /**
-     * Shows an admin notice to notify that feed sources have been activated.
-     *
-     * @since 4.1
-     */
-    function wprss_notify_feed_sources_activated() {
-        ?>
-        <div class="updated">
-            <?php echo wpautop( __( 'The feed sources have been activated!', WPRSS_TEXT_DOMAIN ) ) ?>
-        </div>
-        <?php
-    }
-
-
-    /**
-     * Shows an admin notice to notify that feed sources have been activated.
-     *
-     * @since 4.1
-     */
-    function wprss_notify_feed_sources_paused() {
-        ?>
-        <div class="updated">
-            <?php echo wpautop( __( 'The feed sources have been paused!!', WPRSS_TEXT_DOMAIN ) ) ?>
-        </div>
-        <?php
-    }
-
-
-
 
 
     

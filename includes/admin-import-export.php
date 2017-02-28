@@ -1,4 +1,8 @@
 <?php
+
+use Dhii\Di\WritableContainerInterface;
+use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
+
     /**
      * Build the import/export settings page, used to import and export the plugin's settings
      * Based on http://wp.tutsplus.com/tutorials/creative-coding/creating-a-simple-backuprestore-settings-feature/
@@ -10,59 +14,25 @@
 	/**
 	 * Checks for the submission of a bulk import.
 	 * If a bulk submission is made, creates the feed sources.
-	 * 
+	 *
 	 * @since 4.5
 	 */
-	function wp_rss_aggregator_bulk_import() {
+    function wp_rss_aggregator_bulk_import() {
 		// Check if recieving
 		if ( !empty( $_POST['bulk-feeds'] ) ) {
 			// Check nonce
-			check_admin_referer('wprss-bulk-import', 'wprss-bulk-import');
+			\check_admin_referer('wprss-bulk-import', 'wprss-bulk-import');
 			// Get the site which we should post to
-			$post_site = is_multisite() ? get_current_blog_id() : '';
+			$post_site = \is_multisite() ? \get_current_blog_id() : '';
 			// Get the text
 			$bulk_feeds = $_POST['bulk-feeds'];
-			// Split by lines
-			$lines = explode("\n", $bulk_feeds);
-			// Keep a counter
-			global $wprss_bulk_count;
-			$wprss_bulk_count = 0;
-			// Iterate each line
-			foreach( $lines as $line ) {
-				// Split by comma
-				$parts = array_map('trim', explode(",", $line) );
-				// Check if split was successful
-				if ( count($parts) < 2 ) continue;
-				// Prepare the feed data
-				$name = $parts[0];
-				$url = $parts[1];
-				// Check if both name and url are set
-				if ( empty($name) || empty($url) ) continue;
-				$feed = array(
-					'post_title'	=> $name,
-					'post_status'	=> 'publish',
-					'post_type'		=> 'wprss_feed',
-					'post_site'		=> $post_site
-				);
-				// Insert the feed into the DB
-				$inserted_id = wp_insert_post( $feed );
-				// Check if an error occurred
-				if ( is_wp_error($inserted_id) ) continue;
-				// Set the URL
-				update_post_meta($inserted_id, 'wprss_url', $url);
-				// Increment the counter
-				$wprss_bulk_count++;
-			}
-			add_action('admin_notices', 'wprss_notify_bulk_add');
-		}
-	}
 
-	function wprss_notify_bulk_add() {
-		global $wprss_bulk_count; ?>
-		<div class="updated">
-			<p><?php echo sprintf( __( 'Successfully imported <code>%1$s</code> feed sources.', WPRSS_TEXT_DOMAIN ), $wprss_bulk_count )?></p>
-		</div>
-		<?php
+            $importer = \wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX.'bulk_source_import');
+            /* @var $importer Aventura\Wprss\Core\Component\BulkSourceImport */
+            $results = $importer->import($bulk_feeds);
+
+            \wprss()->getAdminAjaxNotices()->addNotice('bulk_feed_import');
+		}
 	}
 
 
@@ -161,7 +131,8 @@
                     wp_die( "Error during import" );
                 } else {
                     $file_name = $_FILES['import']['name'];
-                    $file_ext = strtolower( end( explode( ".", $file_name ) ) );
+                    $file_name_parts = explode( ".", $file_name );
+                    $file_ext = strtolower( end( $file_name_parts ) );
                     $file_size = $_FILES['import']['size'];
                     if ( ( $file_ext == "json" ) && ( $file_size < 500000 ) ) {
                         $encode_options = file_get_contents( $_FILES['import']['tmp_name'] );
@@ -169,11 +140,11 @@
                         foreach ( $options as $key => $value ) {
                             update_option( $key, $value );
                         }
-                        add_action( 'admin_notices', 'wp_rss_aggregator_import_notice1' );
+                        wprss()->getAdminAjaxNotices()->addNotice('settings_import_success');
                         do_action( 'wprss_settings_imported' );
                     }
                     else {
-                        add_action( 'admin_notices', 'wp_rss_aggregator_import_notice2' );
+                        wprss()->getAdminAjaxNotices()->addNotice('settings_import_failed');
                     }
                 }
             }
@@ -240,3 +211,14 @@
         <?php
         }
     }
+
+
+// Adds the bulk import service provider to the core container
+add_filter(\WPRSS_EVENT_PREFIX .'core_container_init', function(WritableContainerInterface $container) {
+    $serviceProvider = new ServiceProvider(array(
+        'notice_service_id_prefix'  => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
+        'service_id_prefix'         => \WPRSS_SERVICE_ID_PREFIX,
+        'event_prefix'              => \WPRSS_EVENT_PREFIX,
+    ));
+    $container->register($serviceProvider);
+});
