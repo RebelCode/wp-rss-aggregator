@@ -62,6 +62,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     {
         parent::hook();
         $this->_hookNotices();
+        $this->_hookAssets();
     }
 
     /**
@@ -74,6 +75,75 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     protected function _hookNotices()
     {
         $this->on('!plugins_loaded', array($this, '_addNotices'));
+    }
+
+    /**
+     * Hooks in a callback that enqueues assets necessary for the notices.
+     *
+     * @since [*next-version*]
+     */
+    protected function _hookAssets()
+    {
+        $me = $this;
+
+        $this->on('!init', array($this, '_registerAssets'));
+
+        $this->on('admin_notice_add_after', function ($notice) use (&$me) {
+            /* @var $notice array Notice data */
+            /* @var $me AdminAjaxNotices */
+            $me->on('admin_scripts_styles', function () use (&$me) {
+                /* @var $me AdminAjaxNotices */
+                $me->_enqueueAssets();
+            });
+        });
+    }
+
+    /**
+     * Enqueues assets of this component.
+     *
+     * @since [*next-version*]
+     *
+     * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
+     * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
+     */
+    public function _enqueueAssets()
+    {
+	// Get singleton collection
+	$collection = $this->getNoticeCollection();
+
+	// Get script handles via filter
+        $script_handles = array( 'wprss-admin-notifications' );
+	$this->event( 'admin_notice_collection_before_enqueue_scripts', array(&$script_handles, $collection) );
+	// Iterate and enqueue scripts
+	foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
+	// Post-enqueueing action
+	$this->event( 'admin_notice_collection_after_enqueue_scripts', array(&$script_handles, $collection) );
+    }
+
+    /**
+     * Registers assets of this component
+     *
+     * @since [*next-version*]
+     */
+    public function _registerAssets()
+    {
+        $version = $this->getPlugin()->getVersion();
+        $collection = $this->getNoticeCollection();
+        // This handles the client side for WPRSS_Admin_Notices
+        wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), $version, true );
+
+	// Frontend settings
+        $settings = array(
+            'notice_class'                  => $collection->get_notice_base_class(),
+            'nonce_class'                   => $collection->get_nonce_base_class(),
+            'btn_close_class'               => $collection->get_btn_close_base_class(),
+            'action_code'                   => wprss_admin_notice_get_action_code(),
+            'dismiss_mode_class_prefix'     => $collection->get_dismiss_mode_class_prefix(),
+	);
+	$this->event( 'admin_notice_collection_before_localize_vars', array(&$settings, $collection) );
+	wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
+
+        wp_enqueue_style( 'wprss-admin-styles' );
     }
 
     /**
