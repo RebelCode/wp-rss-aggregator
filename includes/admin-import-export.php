@@ -131,7 +131,8 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
                     wp_die( "Error during import" );
                 } else {
                     $file_name = $_FILES['import']['name'];
-                    $file_ext = strtolower( end( explode( ".", $file_name ) ) );
+                    $file_name_parts = explode( ".", $file_name );
+                    $file_ext = strtolower( end( $file_name_parts ) );
                     $file_size = $_FILES['import']['size'];
                     if ( ( $file_ext == "json" ) && ( $file_size < 500000 ) ) {
                         $encode_options = file_get_contents( $_FILES['import']['tmp_name'] );
