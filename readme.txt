@@ -12,99 +12,100 @@ WP RSS Aggregator is the most comprehensive RSS feed importer and autoblogging p
 
 WP RSS Aggregator is the original and best plugin for easily importing, merging and displaying RSS and Atom feeds on your WordPress site. It’s the most comprehensive and elegant RSS feed solution for WordPress.
 
-[youtube https://www.youtube.com/watch?v=xXefoQHOfno]
-
-With the free core version of WP RSS Aggregator you will be able to aggregate as many RSS feeds from as many sources as you'd like, with the ability to stagger them for better performance.
-Using the [shortcodes](http://docs.wprssaggregator.com/shortcodes/) you can then display the imported feed items from one or more sources anywhere on your WordPress site.
+With the free core version of WP RSS Aggregator you can aggregate as many RSS feeds from as many sources as you need, with the ability to [stagger them](https://docs.wprssaggregator.com/staggering-updates/) for better performance.
+Using our [shortcode](http://docs.wprssaggregator.com/shortcodes/) and its parameters you can then display the imported feed items from one or more sources anywhere on your WordPress site.
 
 [youtube https://www.youtube.com/watch?v=OgB3veegtz4]
 
-Go [here](http://docs.wprssaggregator.com/introductory-videos/) to watch all our other video tutorials for our premium add-ons.
-
-### Feature Highlights ###
+### Core Features ###
 These are the main [features](https://www.wprssaggregator.com/features/) offered with the free core version of WP RSS Aggregator.
 
-> * Set a name for each feed source.
-> * Import any number of feed items from multiple RSS Feeds.
-> * Display feed items using the [shortcodes](http://docs.wprssaggregator.com/shortcodes/) or by
-> [calling the display function from within your theme](http://docs.wprssaggregator.com/shortcodes/#using-shortcodes-directly-in-templates).
-> * Limit the age of, or number of, feed items stored in the database (general or per feed source).
-> * Set a general or per feed source feed import time interval.
-> * Set the links as no-follow or not, or add no-follow to the meta tag.
-> * Customise the output using various [shortcode parameters](http://docs.wprssaggregator.com/shortcodes/#core-parameters) and [styling changes](http://docs.wprssaggregator.com/styling-the-feeds/).
-> * Choose the Open Link Behaviour (lightbox, new window or current window).
-> * Opens YouTube, DailyMotion and Vimeo videos directly.
-> * Create a [custom RSS feed](https://docs.wprssaggregator.com/custom-feed-url/).
-> * Extendable via [action and filter hooks](https://docs.wprssaggregator.com/category/filters/).
-> * Incorporates feed auto-discovery, which lets you add feed sources without knowing the exact URL (not guaranteed to work for all sources).
-> * Integrated with the Simplepie library that comes with WordPress.
-> * Import/Export functionality.
-> * [View all features](https://www.wprssaggregator.com/features/).
+**Import & Display**
+
+* Import any number of feed items from multiple RSS Feeds.
+* Incorporates feed auto-discovery to add feed sources without knowing the exact URL (not guaranteed to work for all sources).
+* Display feed items via our [shortcode](https://docs.wprssaggregator.com/shortcodes/) and its parameters.
+* Display feed items by [calling the display function from within your theme](http://docs.wprssaggregator.com/shortcodes/#using-shortcodes-directly-in-templates).
+
+**General Settings**
+
+* Import feed items with [unique titles only](http://docs.wprssaggregator.com/general-plugin-settings/#unique-titles-only).
+* Limit the number of feed items stored [per feed source](http://docs.wprssaggregator.com/general-plugin-settings/#limit-feed-items-per-feed).
+* Limit the number of feed items stored [by their age](http://docs.wprssaggregator.com/general-plugin-settings/#limit-feed-items-by-age).
+* Link to the [enclosure tag URL](https://docs.wprssaggregator.com/adding-a-feed-source-importing-as-feed-items/#step-5-other-options) for each feed item.
+* Set all feed item links as nofollow.
+* Easily manage your feed sources and imported feed items.
+* [Stagger the update interval](https://docs.wprssaggregator.com/staggering-updates/) of each source to improve site performance.
+
+**General Display Settings**
+
+* Link the title and source name to the original source.
+* Choose to hide or show the date and source of each feed item.
+* Choose to display the original author’s name with each feed item.
+* Change the date display format based on your needs.
+* Style the shortcode’s feed item display with some CSS.
+* Change the open link behaviour (lightbox, new window or current window).
+* Change the feed item list pagination type.
+
+**Other Features**
+
+* Opens YouTube, DailyMotion and Vimeo videos directly.
+* Create a [custom RSS feed](https://docs.wprssaggregator.com/custom-feed-url/) from imported feed items.
+* Blacklist selected feed items so they’re never imported again.
+* Import/export your feed sources using the WordPress or OPML Importer.
+* Extendable via [action and filter hooks](https://docs.wprssaggregator.com/category/filters/).
+* Integrated with the Simplepie library that comes with WordPress.
+* Multilingual ready.
 
 ### Minimal System Requirements ###
 * PHP 5.3.9 or higher
 * WordPress 4.0 or higher
 
 ### Premium Add-Ons ###
-WP RSS Aggregator has a number of [premium add-ons](https://www.wprssaggregator.com/extensions/) that add more functionality to the core plugin.
-They provide the means to create auto-blogging websites, display job listings, import YouTube videos and lots more.
-Take a look at our [Use Cases](https://www.wprssaggregator.com/use-cases/) and [Showcase](https://www.wprssaggregator.com/showcase/) for more ideas.
-These are the add-ons currently available:
+With our premium add-ons you can do such things as creating auto-blogging websites, displaying job listings, importing YouTube videos, building news websites, and lots more. Take a look at our [Use Cases](https://www.wprssaggregator.com/use-cases/) and [Showcase](https://www.wprssaggregator.com/showcase/) for more ideas. Go [here](http://docs.wprssaggregator.com/introductory-videos/) to watch the video tutorials for our premium add-ons.
 
-> * [Excerpts & Thumbnails](https://www.wprssaggregator.com/extension/excerpts-thumbnails/) displays an excerpt and thumbnail image
-> (taken from within the RSS feed) together with the title, date and source of each feed item.It uses the shortcode to display the feed items.
-> * [Categories](https://www.wprssaggregator.com/extension/categories/) categorises your feed sources and allows you to display
-> feed items from a particular category within your site using the
-> [shortcode parameters](http://docs.wprssaggregator.com/shortcodes/#categories-parameters). (It does not use WordPress Post Categories)
-> * [Keyword Filtering](https://www.wprssaggregator.com/extension/keyword-filtering/) filters the feed items to be imported based on your own keywords,
-> key phrases, or tags; you only get the items you're interested in. It is compatible with all other add-ons.
-> * [Feed to Post](https://www.wprssaggregator.com/extension/feed-to-post/) is an advanced importer that lets you import
-> RSS feed items as WordPress posts or any other custom post type. You can use it to populate a website in minutes (auto-blog).
-> This is the most popular and feature-filled extension. (It does not use shortcodes)
-> * [Full Text RSS Feeds](https://www.wprssaggregator.com/extension/full-text-rss-feeds/) adds connectivity to our premium full text service,
-> which allows you to import the full post content for an unlimited number of feed items per feed source,
-> even when the feed itself doesn’t provide it. (Requires [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/))
-> * [WordAi](https://www.wprssaggregator.com/extension/wordai/) allows you to take an RSS feed and turn it into
-> new content that is both completely unique and completely readable.
-> (Requires [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/) and a [WordAi account](https://wordai.com/))
-> * [SpinnerChief](https://www.wprssaggregator.com/extension/spinnerchief/) is an extension for
-> [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/) that allows you to integrate the SpinnerChief article spinner
-> so that the imported content is both completely unique and completely readable. (Requires [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/) and
-> a [SpinnerChief account](http://www.spinnerchief.com/))
-> * [Widget](https://www.wprssaggregator.com/extension/widget/) adds a widget to your website
-> that displays all the imported feed items. It can also display excerpts and thumbnail images when used in conjunction
-> with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extension/excerpts-thumbnails/) add-on.
+The add-ons currently available are:
 
-View a comparison of our three most popular add-ons [here](http://www.wprssaggregator.com/product-comparison/).
-If you're unsure as to which add-ons you need, we put together [this comprehensive post](https://www.wprssaggregator.com/add-ons-purchase/)
-to help you out, or simply [contact our support team](https://www.wprssaggregator.com/contact/).
+* [Feed to Post](https://www.wprssaggregator.com/extension/feed-to-post/) is an advanced importer that lets you import RSS feed items as WordPress posts or any other custom post type. You can use it to populate a website in minutes (auto-blog). This is the most popular and feature-filled extension. (It does not use shortcodes)
+
+* [Full Text RSS Feeds](https://www.wprssaggregator.com/extension/full-text-rss-feeds/) adds connectivity to our premium full text service, which allows you to import the full post content for an unlimited number of feed items per feed source, even when the feed itself doesn’t provide it. (Requires [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/))
+
+* [WordAi](https://www.wprssaggregator.com/extension/wordai/) allows you to take an RSS feed and turn it into new content that is both completely unique and completely readable. (Requires [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/) and a [WordAi account](https://wordai.com/))
+
+* [SpinnerChief](https://www.wprssaggregator.com/extension/spinnerchief/) is an extension for [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/) that allows you to integrate the SpinnerChief article spinner so that the imported content is both completely unique and completely readable. (Requires [Feed to Post](http://www.wprssaggregator.com/extension/feed-to-post/) and a [SpinnerChief account](http://www.spinnerchief.com/))
+
+* [Excerpts & Thumbnails](https://www.wprssaggregator.com/extension/excerpts-thumbnails/) displays an excerpt and thumbnail image (taken from within the RSS feed) together with the title, date and source of each feed item.It uses the shortcode to display the feed items.
+
+* [Categories](https://www.wprssaggregator.com/extension/categories/) categorises your feed sources and allows you to display feed items from a particular category within your site using the [shortcode parameters](http://docs.wprssaggregator.com/shortcodes/#categories-parameters). (It does not use WordPress Post Categories)
+
+* [Keyword Filtering](https://www.wprssaggregator.com/extension/keyword-filtering/) filters the feed items to be imported based on your own keywords, key phrases, or tags; you only get the items you're interested in. It is compatible with all other add-ons.
+
+* [Widget](https://www.wprssaggregator.com/extension/widget/) adds a widget to your website that displays all the imported feed items. It can also display excerpts and thumbnail images when used in conjunction with the [Excerpts & Thumbnails](http://www.wprssaggregator.com/extension/excerpts-thumbnails/) add-on.
  
-There are also two premium bundles available, the [Simple Feeds Bundle](https://www.wprssaggregator.com/extension/simple-feeds-bundle/)
-and the [Advanced Feeds Bundle](https://www.wprssaggregator.com/extension/advanced-feeds-bundle/).
-View a quick comparison of these bundles [here](http://www.wprssaggregator.com/bundle-comparison/) or follow the guides below for more information:
+There are also two premium bundles available, the [Simple Feeds Bundle](https://www.wprssaggregator.com/extension/simple-feeds-bundle/) and the [Advanced Feeds Bundle](https://www.wprssaggregator.com/extension/advanced-feeds-bundle/). View a comparison of these bundles [here](http://www.wprssaggregator.com/bundle-comparison/) or follow the guides below for more information:
 
-* [Enhance Your Feed Display](https://www.wprssaggregator.com/enhance-feed-display/)
-* [Automatic Content Aggregation and Curation](https://www.wprssaggregator.com/content-aggregation-curation/)
+* [Enhance Your Feed Display](https://www.wprssaggregator.com/enhance-feed-display/) with the Simple Feeds Bundle
+* [Content Aggregation and Curation](https://www.wprssaggregator.com/content-aggregation-curation/) with the Advanced Feeds Bundle
 
 We also provide a [Feed Creator](http://createfeed.wprssaggregator.com/) service that allows you to generate RSS feeds from any webpage, even if it doesn't have its own RSS feed.
 
-### Demos ###
-To try out some of the premium add-ons for yourself you can use our free demo sites:
+### Free Demos ###
+We offer two free demo sites, each including a different set of add-ons:
 
 * [Simple Feeds Bundle Demo](http://simple.wprssaggregator.com/)
 * [Advanced Feeds Bundle Demo](http://demo.wprssaggregator.com/)
 
-We also have a number of live demo sites built by our team to showcase the power of WP RSS Aggregator and its add-ons. You can check them out [here](https://www.wprssaggregator.com/live-demos/).
+We also have a number of live demo sites built by our team to showcase the power of our add-ons:
+
+* [WP News Desk](http://wpnewsdesk.com/)
+* [Travel Blogger Community](http://travelbloggercommunity.com/)
+* [Dribbble Me](http://dribbble.wprssaggregator.com/)
 
 ### Documentation ###
-Our comprehensive [documentation](http://docs.wprssaggregator.com/) provides you with everything you need
-to install, set up and customise the plugin to your needs. You can also browse through a large number of
-[FAQs](http://docs.wprssaggregator.com/category/faqs/) that cover almost everything there is to ask.
+Our comprehensive [documentation](http://docs.wprssaggregator.com/) provides you with everything you need to install, set up and customise the plugin to your needs. You can also browse through a large number of [FAQs](http://docs.wprssaggregator.com/category/faqs/) that cover almost everything there is to ask.
 
 ### Support ###
-Support for the free version of WP RSS Aggregator is provided via the plugin directory support forum
-[here](https://wordpress.org/support/plugin/wp-rss-aggregator). It’s important to read and follow the
-[Support Guidelines](https://wordpress.org/support/topic/support-guidelines-1/) before opening a new ticket.
+Support for the free version of WP RSS Aggregator is provided via the plugin directory support forum [here](https://wordpress.org/support/plugin/wp-rss-aggregator). It’s important to read and follow the [Support Guidelines](https://wordpress.org/support/topic/support-guidelines-1/) before opening a new ticket.
 
 For premium support (owners of premium add-on licenses) and pre-sales questions please contact us via our [premium support channel](https://www.wprssaggregator.com/contact/).
 
@@ -115,6 +116,7 @@ Would you like to praise any member of our team for our plugins or support servi
 * [Elegant Themes](https://www.elegantthemes.com/blog/tips-tricks/how-to-get-the-most-from-your-wordpress-rss-feed)
 * [LatestWP](http://www.latestwp.com/2015/03/15/wp-rss-aggregator-plugin-review/)
 * [WPBeginner](http://www.wpbeginner.com/plugins/how-to-fetch-feeds-in-wordpress-using-wp-rss-aggregator/)
+* [Cloudways](https://www.cloudways.com/blog/wp-rss-aggregator-plugin-rss-feed-importer-autoblogging-plugin/)
 * [WPExplorer](http://www.wpexplorer.com/custom-rss-aggregator-plugin/)
 * [WPKube](http://www.wpkube.com/wp-rss-aggregator-wordpress-review/)
 * [Torque](http://torquemag.io/wp-rss-aggregator-review-do-more-with-rss-feeds/)
@@ -128,14 +130,16 @@ Would you like to praise any member of our team for our plugins or support servi
 * [Magazine3](http://magazine3.com/blog/news-aggregator-website/)
 
 ### Translations ###
+Would you like to contribute to a translation for WP RSS Aggregator and its add-ons? [Get in touch](https://www.wprssaggregator.com/contact/).
+
 * Italian - Davide De Maestri
 * Spanish - Andrew Kurtis
 * Brazilian Portugese - Bruno Calheira
 * Dutch - Erick Suiker
 
+
 ### NOTES ###
-The core WP RSS Aggregator plugin is free to download from the WordPress.org plugin repository.
-The plugin works on self-hosted versions of WordPress only (WordPress.org). It is not compatible with the hosted version
+The core WP RSS Aggregator plugin is free to download from the WordPress.org plugin repository. The plugin works on self-hosted versions of WordPress only (WordPress.org). It is not compatible with the hosted version
 of WordPress (WordPress.com). [Click here](https://www.wpmayor.com/differences-between-wordpressorg-and-wordpresscom/) if you're not sure about the difference between the two.
 
 Terms & conditions can be found [here](https://www.wprssaggregator.com/terms-conditions/).
