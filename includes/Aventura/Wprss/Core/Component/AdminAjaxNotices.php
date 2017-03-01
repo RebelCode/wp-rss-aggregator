@@ -86,7 +86,11 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     {
         $me = $this;
 
-        $this->on('!init', array($this, '_registerAssets'));
+        $this->on('!init', function() {
+            if (is_admin()) {
+                $this->_registerAssets();
+            }
+        });
 
         $this->on('admin_notice_add_after', function ($notice) use (&$me) {
             /* @var $notice array Notice data */
