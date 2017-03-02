@@ -286,6 +286,19 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= 4.11 (2017-02-03) =
+* Fixed bug with lifetime licenses showing expiry notices.
+* Fixed bug with being able to submit form on Licenses page.
+* Fixed bug with empty saved license key causing PHP notice, and not triggering reminder notification.
+* Fixed bug with saved but inactive licenses not triggering reminder notification.
+* Fixed bug with minified assets not being served by default.
+* Fixed bug with cached admin assets being served even after update.
+* Fixed bug with admin notifications displayed on unrelated pages not being dismissable.
+* Enhanced Licenses page so as to make the [Enter] key toggle license activation.
+* Enhanced architecture by using a DI container.
+* Enhanced admin notifications by refactoring them to use the same mechanism.
+* Enhanced admin notifications by making all of them dismissable.
+
 = 4.10 (2016-12-29) =
 * Fixed bug with feed error output breaking tooltips on "Feed Sources" page.
 * Fixed bug with nonces on the "Feed Sources" page that broke some source actions.
