@@ -10,12 +10,12 @@ use Aventura\Wprss\Core\Plugin\Di\ServiceProviderInterface;
  * Many instances can be created, as needed, to group service definitions,
  * which can be injected in the constructor.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class GenericServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $services The services to set for this instance, if any.
      */
@@ -29,7 +29,7 @@ class GenericServiceProvider extends AbstractServiceProvider implements ServiceP
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServices()
     {
@@ -39,7 +39,7 @@ class GenericServiceProvider extends AbstractServiceProvider implements ServiceP
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServiceIdPrefix($id = null)
     {

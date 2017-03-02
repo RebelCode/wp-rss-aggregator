@@ -7,7 +7,7 @@ use Interop\Container\ServiceProvider as BaseServiceProviderInterface;
 /**
  * Represents a WPRA-specific service provider.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 interface ServiceProviderInterface extends BaseServiceProviderInterface
 {
@@ -16,7 +16,7 @@ interface ServiceProviderInterface extends BaseServiceProviderInterface
      *
      * @param string|null $id The ID to prefix, if not null.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServiceIdPrefix($id = null);
 }

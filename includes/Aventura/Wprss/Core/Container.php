@@ -11,12 +11,12 @@ use Dhii\Di\WritableContainerInterface;
 /**
  * The container that stores local, specific services.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class Container extends AbstractContainer implements FactoryInterface, WritableContainerInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function __construct(BaseServiceProvider $serviceProvider, BaseContainerInterface $parent = null)
     {
@@ -31,7 +31,7 @@ class Container extends AbstractContainer implements FactoryInterface, WritableC
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function make($id, array $config = array())
     {
@@ -41,7 +41,7 @@ class Container extends AbstractContainer implements FactoryInterface, WritableC
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function register(\Interop\Container\ServiceProvider $serviceProvieder)
     {
@@ -53,7 +53,7 @@ class Container extends AbstractContainer implements FactoryInterface, WritableC
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function set($id, $definition)
     {

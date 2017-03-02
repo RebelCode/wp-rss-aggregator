@@ -10,14 +10,14 @@ use Aventura\Wprss\Core\Component\BulkSourceImport;
 /**
  * Provides services that represent admin notices.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class ServiceProvider extends AbstractComponentServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _getServiceDefinitions()
     {
@@ -30,7 +30,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a bulk source import component.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -66,7 +66,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServices()
     {
@@ -76,7 +76,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServiceIdPrefix($id = null)
     {

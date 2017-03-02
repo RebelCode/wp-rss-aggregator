@@ -9,7 +9,7 @@ use Dhii\Di\ParentAwareContainerInterface;
 /**
  * Common functionality for containers.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 abstract class AbstractContainer extends BaseParentAwareContainer implements
     ContainerInterface,
@@ -18,7 +18,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
     /**
      * Parameter-less constructor.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _construct()
     {
@@ -27,7 +27,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $id The ID of the service to check for.
      *
@@ -41,7 +41,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $id The ID of the service to retrieve.
      *
@@ -57,7 +57,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getParentContainer()
     {
@@ -67,7 +67,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return NotFoundException The new exception instance.
      */
@@ -79,7 +79,7 @@ abstract class AbstractContainer extends BaseParentAwareContainer implements
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return ContainerException The new exception instance.
      */

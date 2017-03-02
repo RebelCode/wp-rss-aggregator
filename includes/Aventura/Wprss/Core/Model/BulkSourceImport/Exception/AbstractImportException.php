@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Model\BulkSourceImport\Exception;
 /**
  * Common functionality for feed source import exceptions.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class AbstractImportException extends \RuntimeException
 {

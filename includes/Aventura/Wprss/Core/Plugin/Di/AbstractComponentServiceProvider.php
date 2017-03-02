@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Plugin\Di;
 /**
  * A service provider that can create components.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class AbstractComponentServiceProvider extends AbstractServiceProvider
 {
@@ -15,7 +15,7 @@ class AbstractComponentServiceProvider extends AbstractServiceProvider
     /**
      * Throws an exception if given instance or class name is not a valid component or component class name.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string|ComponentInterface|mixed $component
      * @throws Exception If the argument is not a valid component instance or class name.
@@ -35,7 +35,7 @@ class AbstractComponentServiceProvider extends AbstractServiceProvider
     /**
      * Prepares a component instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ComponentInterface $component The component to prepare.
      * @return ComponentInterface The prepared component.
@@ -51,7 +51,7 @@ class AbstractComponentServiceProvider extends AbstractServiceProvider
     /**
      * Normalizes a factory config, optionally by using defaults.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|null $config The config to normalize.
      * @param array $defaults Defaults, if any, which will be extended by the normalized config.
@@ -69,7 +69,7 @@ class AbstractComponentServiceProvider extends AbstractServiceProvider
     /**
      * Merges two arrays recursively, preserving element types.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @see \array_merge_recursive_distinct()
      * @param array $array1

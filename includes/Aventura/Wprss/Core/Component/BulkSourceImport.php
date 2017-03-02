@@ -8,20 +8,20 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ImporterInterface;
 /**
  * A component that is responsible for importing feed sources in bulk.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class BulkSourceImport extends ComponentAbstract
 {
     const K_IMPORTED_SOURCES_COUNT = 'imported_sources_count';
 
     /**
-     * @since [*next-version*]
+     * @since 4.11
      * @var ImporterInterface
      */
     protected $importer;
 
     /**
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $data The data members map.
      * @param ImporterInterface $importer The importer that this instance should use to import sources.
@@ -36,7 +36,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Resets data about the last import.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function resetStats()
     {
@@ -48,7 +48,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Imports a text representation of a feed source list.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $input The input string containing feed source representations.
      *  {@see \Aventura\Wprss\Core\Model\BulkSourceImport\PlainTextImporter::import()}
@@ -80,7 +80,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Counts successful import results.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $results A list of import results.
      *  See {@see ImporterInterface::import()}.
@@ -101,7 +101,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Retrieves errors that occurred during an import.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $results A list of import results.
      *  See {@see ImporterInterface::import()}.
@@ -122,7 +122,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Retrieves the amount of feed sources successfully imported during the last import.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return int The amount of sources.
      */
@@ -134,7 +134,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Retrieves the imported sources count data member.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return int The amount of sources.
      */
@@ -146,7 +146,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Sets the imported sources count data member.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param int $count The new count.
      * @return BulkSourceImport This instance.
@@ -161,7 +161,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Assigns the importer that this instance should use.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ImporterInterface $importer The importer.
      * @return BulkSourceImport This instance.
@@ -176,7 +176,7 @@ class BulkSourceImport extends ComponentAbstract
     /**
      * Retrieves the importer used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return ImporterInterface
      */

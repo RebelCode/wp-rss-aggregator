@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Block;
 /**
  * A block that renders using a callback function.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class CallbackBlock extends AbstractBlock
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $data
      * @param \callable $callback
@@ -27,7 +27,7 @@ class CallbackBlock extends AbstractBlock
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getOutput()
     {

@@ -121,21 +121,21 @@
     /**
      * Code of the Core plugin.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     define('WPRSS_PLUGIN_CODE', 'wprss');
 
     /**
      * Prefix for events used by this plugin.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     define('WPRSS_EVENT_PREFIX', \WPRSS_PLUGIN_CODE . '_');
 
     /**
      * Whether this plugin is in debug mode.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     define('WPRSS_DEBUG', \WP_DEBUG);
 
@@ -301,7 +301,7 @@
     /**
      * Returns the Core plugin singleton instance.
      *
-     * Using DI container since [*next-version*].
+     * Using DI container since 4.11.
      *
      * @since 4.8.1
      * @return Aventura\Wprss\Core\Plugin

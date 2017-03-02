@@ -21,7 +21,7 @@ if (!function_exists('wprss_wp_container')) {
      *
      * This is intended to be used everywhere in WP, by all plugins.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @staticvar CompositeContainer $container
      * @return CompositeContainerInterface The global composite container.
@@ -38,7 +38,7 @@ if (!function_exists('wprss_wp_container')) {
              *
              * This allows registration of child containers specific to plugins.
              *
-             * @since [*next-version*]
+             * @since 4.11
              *
              * @param WritableCompositeContainerInterface The global DI container.
              */
@@ -52,7 +52,7 @@ if (!function_exists('wprss_wp_container')) {
 /**
  * Retrieves the container that has access to all services of all WPRA plugins.
  *
- * @since [*next-version*]
+ * @since 4.11
  * @staticvar WpraCompositeContainer $container
  * @return CompositeContainerInterface The WPRA hub container.
  */
@@ -69,7 +69,7 @@ function wprss_hub_container()
          *
          * This allows registration of child containers specific to WPRA extensions.
          *
-         * @since [*next-version*]
+         * @since 4.11
          *
          * @param WritableCompositeContainerInterface The WPRA container DI container.
          */
@@ -82,7 +82,7 @@ function wprss_hub_container()
 /**
  * Retrieves the WPRA Core container instance.
  *
- * @since [*next-version*]
+ * @since 4.11
  *
  * @staticvar Container $container
  * @return Container The container instance.
@@ -101,7 +101,7 @@ function wprss_core_container()
         /**
          * Exposes the WPRA Core container at the moment of its initialization.
          *
-         * @since [*next-version*]
+         * @since 4.11
          *
          * @param WritableCompositeContainerInterface The container which has all WPRA Core services.
          */

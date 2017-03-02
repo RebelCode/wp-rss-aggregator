@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * Manages WPRA Core events.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class EventManager extends Core\Model\Event\EventManagerAbstract
 {

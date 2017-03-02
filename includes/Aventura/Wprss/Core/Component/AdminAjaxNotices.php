@@ -14,7 +14,7 @@ use Interop\Container\ContainerInterface;
 class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      * @var ContainerInterface
      */
     protected $container;
@@ -29,7 +29,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Sets the container that this component will use.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $container The container to set.
      * @return AdminAjaxNotices This instance.
@@ -44,7 +44,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Retrieves the container used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return ContainerInterface The container instance.
      */
@@ -56,7 +56,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function hook()
     {
@@ -70,7 +70,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
      *
      * @see _addNotices()
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _hookNotices()
     {
@@ -80,7 +80,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Hooks in a callback that enqueues assets necessary for the notices.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _hookAssets()
     {
@@ -105,7 +105,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Enqueues assets of this component.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
      * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
@@ -127,7 +127,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Registers assets of this component
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function _registerAssets()
     {
@@ -155,7 +155,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
      *
      * @see \WPRSS_Admin_Notices
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return AdminAjaxNotices This instance.
      */
@@ -171,7 +171,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Retrieves a list of notice names that should be added to the notice controller.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return array|\Traversable A list of notice names that should be added
      */
@@ -221,7 +221,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Retrieves a notice instance for the given ID.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $name The unique notice name.
      * @return NoticeInterface The notice for the name.
@@ -234,7 +234,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Get a notice instance by its unique identifier.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $name Unique name of the notice.
      * @return NoticeInterface The notice.
@@ -249,7 +249,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Determine whether or not a notice with the specified name exists.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $name The unique name of the notice.
      * @return bool True if a notice with the specified name exists; false otherwise.
@@ -264,7 +264,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     /**
      * Gets the service ID for a notice name.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $noticeName The unique notice name.
      * @return string The service ID that corresponds to the given name.

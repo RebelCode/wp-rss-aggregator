@@ -13,14 +13,14 @@ use Aventura\Wprss\Core\Model\CommandInterface;
 /**
  * Provides services that represent admin notices.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class ServiceProvider extends AbstractComponentServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _getServiceDefinitions()
     {
@@ -55,7 +55,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
      * @uses-action wprss_admin_exclusive_scripts_styles To enqueue the scripts for the collection.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p Deprecated.
@@ -81,7 +81,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates an instance of the admin AJAX notices component.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -102,7 +102,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Normalizes data of a notice.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $container DI container that will be used to retrieve notice controller.
      * @param array $data Data to normalize.
@@ -126,7 +126,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs users about other features.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -149,7 +149,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs users that feed items are deleting in the background.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -171,7 +171,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that tells the user how many feed sources where successfully imported
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -199,7 +199,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the settings import was successful.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -222,7 +222,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the settings import failed.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -245,7 +245,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that all feed sources are updating.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -267,7 +267,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the feed items have been deleted and are being reimported.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -289,7 +289,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the debug log has been cleared.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -311,7 +311,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the settings have been reset to default.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -333,7 +333,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that an item has been successfully blacklisted.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -354,7 +354,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the selected feed sources have been activated.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -377,7 +377,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that the selected feed sources have been paused.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -400,7 +400,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that an addon license has been saved empty.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -443,7 +443,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that an addon license is inactive.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -486,7 +486,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that an addon license will soon expire.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -532,7 +532,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Crates a new admin notice instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return NoticeInterface
      */
@@ -547,7 +547,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServices()
     {
@@ -557,7 +557,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServiceIdPrefix($id = null)
     {
@@ -569,7 +569,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      *
      * @param string|null $id The ID to prefix, if not null.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _pn($id = null)
     {
@@ -582,7 +582,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Retrieves the prefix applied to IDs of services that represent notices.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The prefix.
      */
@@ -594,7 +594,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a notice that informs the user that all feed sources are updating.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -611,7 +611,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a command that can be invoked like a function.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c The container which to use while creating the command.
      * @param array $config Data for the command.
@@ -629,7 +629,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Retrieves the admin helper from the container.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c The container which has the admin helper.
      * @return AdminHelper The helper.
@@ -642,7 +642,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Retrieves the command which can determine whether currently on WPRA page.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c The container which has the command.
      * @return AdminHelper The command.
@@ -661,7 +661,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * in another service provider into this one, due to the way containers
      * are registered.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _translate($text, $translator = null)
     {
@@ -675,7 +675,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Converts plain text paragraphs to HTML ones.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $text The text to add paragraphs to.
      * @return string The text with HTML paragraphs.

@@ -7,7 +7,7 @@ use Dhii\Di\WritableCompositeContainerInterface as BaseWritableCompositeContaine
 /**
  * Represents a WPRA-specific composite container.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 interface WritableCompositeContainerInterface extends BaseWritableCompositeContainerInterface
 {

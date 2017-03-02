@@ -7,7 +7,7 @@ use Interop\Container\ContainerInterface as BaseContainerInterface;
 /**
  * Represents a generic WPRA container.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 interface ContainerInterface extends BaseContainerInterface
 {

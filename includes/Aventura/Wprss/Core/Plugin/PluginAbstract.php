@@ -17,7 +17,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     const VERSION = '';
 
     /**
-     * @deprecated [*next-version*]
+     * @deprecated 4.11
      * @since 4.8.1
      */
     protected $_factory;
@@ -25,9 +25,9 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     protected $_logger;
     /** @since 4.8.1 */
     protected $_eventManager;
-    /** @since [*next-version*] */
+    /** @since 4.11 */
     protected $container;
-    /** @since [*next-version*] */
+    /** @since 4.11 */
     protected $factory;
 
     /**
@@ -40,7 +40,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      *      * `text_domain`         - The text domain used for translation by this plugin. See {@see getTextDomain}.
      *      * `name`                - The human-readable name of the plugin. See {@see getName()}.
      * Any other data will just be added to this instances internal data.
-     * @param mixed Deprecated since [*next-version*].
+     * @param mixed Deprecated since 4.11.
      * @param ContainerInterface $container The DI container that will be used by this plugin to resolve dependencies.
      * @param FactoryInterface $factory The factory that will be used by this plugin to create generate new instances.
      *
@@ -99,7 +99,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Gets the service factory.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return FactoryInterface
      */
@@ -111,7 +111,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Sets the DI container.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $container The container.
      * @return $this This instance.
@@ -126,7 +126,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Gets the DI container.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return ContainerInterface
      */
@@ -137,7 +137,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
          * DI container mechanics, and no container is being passed in those
          * extensions to the constructor of this class.
          *
-         * @todo Remove when add-ons refactored ([*next-version*]).
+         * @todo Remove when add-ons refactored (4.11).
          */
         if (is_null($this->container)) {
             return wprss_wp_container();
@@ -149,7 +149,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Gets the service ID prefix, or prefixes the given ID with it.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string|null $id The service ID to prefix, if not null.
      * @return string The prefix, or potentially prefixed ID.
@@ -165,7 +165,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Gets the prefix for service IDs.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return type
      */
@@ -176,7 +176,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
          * DI container mechanics, and no container is being passed in those
          * extensions to the constructor of this class.
          *
-         * @todo Remove when add-ons refactored ([*next-version*]).
+         * @todo Remove when add-ons refactored (4.11).
          */
         $default = \WPRSS_SERVICE_ID_PREFIX;
 
@@ -234,7 +234,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     }
 
     /**
-     * @todo Change to return the interop factory once extensions are refactored ([*next-version*]).
+     * @todo Change to return the interop factory once extensions are refactored (4.11).
      * @since 4.8.1
      * @return ComponentFactoryInterface
      */
@@ -244,7 +244,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     }
 
     /**
-     * @deprecated [*next-version*] Factory can no longer be set after construction.
+     * @deprecated 4.11 Factory can no longer be set after construction.
      * @since 4.8.1
      *
      * @return string
@@ -366,7 +366,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Sets the logger instance to be used by this plugin.
      *
-     * @deprecated [*next-version*] Logger can no longer be set, but is retrieved from container.
+     * @deprecated 4.11 Logger can no longer be set, but is retrieved from container.
      * @since 4.8.1
      * @param Core\Model\LoggerInterface $logger
      * @return Core\Plugin\PluginAbstract
@@ -449,7 +449,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Sets the event manager for this instance.
      *
-     * @deprecated [*next-version*]
+     * @deprecated 4.11
      * @since 4.8.1
      * @param Core\Model\Event\EventManagerInterface $manager An event manager.
      * @return PluginAbstract This instance.

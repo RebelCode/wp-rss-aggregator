@@ -13,14 +13,14 @@ use Aventura\Wprss\Core\Component\AdminHelper;
 /**
  * Providers service definitions.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class ServiceProvider extends AbstractComponentServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _getServiceDefinitions()
     {
@@ -38,7 +38,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServices()
     {
@@ -48,7 +48,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getServiceIdPrefix($name = null)
     {
@@ -58,7 +58,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates the main plugin instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return Plugin
      */
@@ -81,7 +81,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Gets the reference to the factory.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p Previous definition.
@@ -96,7 +96,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates an event manager instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -116,7 +116,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates an instance of the admin helper component.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -137,7 +137,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates an instance of the leave-a-review component.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -158,7 +158,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates an instance of the leave-a-review component.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p
@@ -181,7 +181,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Creates a translator.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c
      * @param null $p

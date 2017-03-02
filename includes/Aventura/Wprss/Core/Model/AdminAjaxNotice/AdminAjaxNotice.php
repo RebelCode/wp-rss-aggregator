@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model\AdminAjaxNotice;
 /**
  * Implementation of a notice that shows on the admin side and uses AJAX for dismissal.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getElementClass()
     {
@@ -22,7 +22,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getCloseButtonId()
     {
@@ -32,7 +32,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getCloseButtonClass()
     {
@@ -42,7 +42,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getCloseButtonContent()
     {
@@ -52,7 +52,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getNonce()
     {
@@ -62,7 +62,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getNonceElementId()
     {
@@ -72,7 +72,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getNonceElementClass()
     {
@@ -82,7 +82,7 @@ class AdminAjaxNotice extends NoticeAbstract implements AdminAjaxNoticeInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getConditionOnError()
     {

@@ -5,14 +5,14 @@ namespace Aventura\Wprss\Core\Model\BulkSourceImport\Exception;
 /**
  * An exception that occurs if a feed source representation is invalid.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class SourceValidationFailureException extends AbstractSourceValidationFailureException implements SourceValidationFailureExceptionInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $message {@inheritdoc}
      * @param int $code {@inheritdoc}
@@ -29,7 +29,7 @@ class SourceValidationFailureException extends AbstractSourceValidationFailureEx
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getValidationErrors()
     {

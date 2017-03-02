@@ -7,14 +7,14 @@ use RebelCode\Wprss\Debug\DiagTest\Model\TestCase;
 /**
  * Tests dependency injection mechanism.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class DiTest extends TestCase
 {
     /**
      * Tests whether the global container is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testGlobalContainer()
     {
@@ -25,7 +25,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the WPRA Core container is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testWpraCoreContainer()
     {
@@ -36,7 +36,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the essential `event_manager` service is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testEventManagerService()
     {
@@ -48,7 +48,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the essential `logger` service is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testLoggerService()
     {
@@ -61,7 +61,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the essential `factory` service is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testFactoryService()
     {
@@ -73,7 +73,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the essential `plugin` service is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testPluginService()
     {
@@ -85,7 +85,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the essential `admin_helper` service is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testAdminHelperService()
     {
@@ -98,7 +98,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the essential `leave_review` service is returned correctly.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testLeaveReviewService()
     {
@@ -111,7 +111,7 @@ class DiTest extends TestCase
     /**
      * Tests whether the structure of container relationships is correct.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function testContainerStructure()
     {

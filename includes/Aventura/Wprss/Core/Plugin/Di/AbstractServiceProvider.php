@@ -7,12 +7,12 @@ use Aventura\Wprss\Core\Model\AbstractTranslatingModel;
 /**
  * Common functionality for WPRA service providers.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 abstract class AbstractServiceProvider extends AbstractTranslatingModel
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      * @var array
      */
     protected $services;
@@ -24,7 +24,7 @@ abstract class AbstractServiceProvider extends AbstractTranslatingModel
      * The definition list is normalized to an array.
      * The eventual definitions list is cached.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return array The definitions provided by this instance.
      */
@@ -51,7 +51,7 @@ abstract class AbstractServiceProvider extends AbstractTranslatingModel
     /**
      * Retrieves the internal services list.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $services An array of service definitions.
      * @return AbstractServiceProvider This instance.
@@ -68,7 +68,7 @@ abstract class AbstractServiceProvider extends AbstractTranslatingModel
      *
      * Not cached, not normalized. Override this in descendants class.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return array The definition list.
      */
@@ -80,7 +80,7 @@ abstract class AbstractServiceProvider extends AbstractTranslatingModel
     /**
      * Retrieves the prefix used by IDs of services that this instance provides.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The prefix used for IDs of services.
      */
@@ -94,7 +94,7 @@ abstract class AbstractServiceProvider extends AbstractTranslatingModel
      *
      * @see getServiceIdPrefix().
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _p($name = null)
     {
@@ -111,7 +111,7 @@ abstract class AbstractServiceProvider extends AbstractTranslatingModel
      * the single argument accepted by handlers is an array, and
      * must be accepted by reference.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $name Name of the event.
      *  Will be automatically prefixed, unless prefix overridden.

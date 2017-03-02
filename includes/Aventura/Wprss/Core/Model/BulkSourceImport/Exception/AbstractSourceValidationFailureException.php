@@ -5,12 +5,12 @@ namespace Aventura\Wprss\Core\Model\BulkSourceImport\Exception;
 /**
  * Common functionality for exeptions that occur if a source representation is invalid.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class AbstractSourceValidationFailureException extends AbstractImportException
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      * @var array|\Traversable
      */
     protected $validationErrors;
@@ -18,7 +18,7 @@ class AbstractSourceValidationFailureException extends AbstractImportException
     /**
      * Retrieve the list of validation errors that this instance represents.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return array|\Traversable The error list.
      */
@@ -34,7 +34,7 @@ class AbstractSourceValidationFailureException extends AbstractImportException
     /**
      * Sets the list of validation errors that this intance should represent.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\Traversable $errorList The list of errors.
      * @return AbstractSourceValidationFailureException This instance.
@@ -50,7 +50,7 @@ class AbstractSourceValidationFailureException extends AbstractImportException
     /**
      * Throws an exception if the given list is invalid.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param \Traversable $list
      * @return AbstractSourceValidationFailureException This instance.
@@ -68,7 +68,7 @@ class AbstractSourceValidationFailureException extends AbstractImportException
     /**
      * Determines if the given list is valid.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\Traversable $list The list to validate.
      * @return boolean True if the given list is valid; false otherwise.

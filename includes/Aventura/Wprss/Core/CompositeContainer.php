@@ -8,12 +8,12 @@ use Interop\Container\ContainerInterface as BaseContainerInterface;
 /**
  * A container that delegates service lookup to child containers.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class CompositeContainer extends AbstractWritableCompositeContainer
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param BaseContainerInterface $parent The parent of this container, if any.
      */

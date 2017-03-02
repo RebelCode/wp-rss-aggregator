@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Model\BulkSourceImport;
 /**
  * An importer that can import feed sources into WordPress.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 abstract class AbstractWpImporter extends AbstractImporter
 {
@@ -13,7 +13,7 @@ abstract class AbstractWpImporter extends AbstractImporter
     /**
      * Prepares data using a feed source representation, ready to be converted into a local resource.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\ArrayAccess $source The feed source representation.
      * @return array Data ready for insertion that can represent a feed source.
@@ -35,7 +35,7 @@ abstract class AbstractWpImporter extends AbstractImporter
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _createLocalResource($data)
     {
@@ -52,7 +52,7 @@ abstract class AbstractWpImporter extends AbstractImporter
     /**
      * Inserts a post with the specified data into WordPress.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param type $data
      * @return int The ID of the inserted post.
@@ -72,7 +72,7 @@ abstract class AbstractWpImporter extends AbstractImporter
     /**
      * Updates a meta value for a WordPress post.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param int $postId The ID of the post.
      * @param string $metaName Name of the meta to update.
@@ -93,7 +93,7 @@ abstract class AbstractWpImporter extends AbstractImporter
     /**
      * Retrieves default values for posts which represent imported feed sources.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $data Additional data to merge into defaults.
      * @return array The defaults, merged with additional data.

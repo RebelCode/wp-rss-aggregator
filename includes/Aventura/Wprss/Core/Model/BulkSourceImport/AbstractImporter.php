@@ -7,14 +7,14 @@ use Aventura\Wprss\Core\Model\AbstractTranslatingModel;
 /**
  * Common functionality for feed source importers.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 abstract class AbstractImporter extends AbstractTranslatingModel
 {
     /**
      * Transforms import input into feed source data.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return array[] A list of data maps.
      */
@@ -23,7 +23,7 @@ abstract class AbstractImporter extends AbstractTranslatingModel
     /**
      * Imports feed sources from a list.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\Traversable $list
      *
@@ -49,7 +49,7 @@ abstract class AbstractImporter extends AbstractTranslatingModel
     /**
      * Imports a feed source.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\ArrayAccess $source The source to import.
      * @return int The ID of the imported resource. See {@see _createLocalResource()}.
@@ -66,7 +66,7 @@ abstract class AbstractImporter extends AbstractTranslatingModel
     /**
      * Prepares data using a feed source representation, ready to be converted into a local resource.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\ArrayAccess $source The feed source representation.
      * @return array Data ready for insertion that can represent a feed source.
@@ -90,7 +90,7 @@ abstract class AbstractImporter extends AbstractTranslatingModel
     /**
      * Merges two arrays recursively.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $default
      * @param array $additional
@@ -106,7 +106,7 @@ abstract class AbstractImporter extends AbstractTranslatingModel
      *
      * If resulting list is empty, the source is valid.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\ArrayAccess $source The feed source representation.
      *
@@ -141,7 +141,7 @@ abstract class AbstractImporter extends AbstractTranslatingModel
     /**
      * Throws an exception if specified source is not valid.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array|\ArrayAccess $source The source that must be valid.
      * @return AbstractImporter This instance.

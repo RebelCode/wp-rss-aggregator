@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core\Model\BulkSourceImport;
 /**
  * Something that can create multiple feed sources from input.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 interface ImporterInterface
 {
@@ -15,7 +15,7 @@ interface ImporterInterface
     /**
      * Creates feed sources from input.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param mixed $input Some kind of input that can be used to retrieve information about a feed source.
      *

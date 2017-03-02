@@ -5,7 +5,7 @@ namespace Aventura\Wprss\Core;
 use Dhii\Di\FactoryInterface;
 
 /**
- * @deprecated [*next-version*] Here only for BC.
+ * @deprecated 4.11 Here only for BC.
  * @since 4.8.1
  */
 class Factory extends Plugin\FactoryAbstract
@@ -27,7 +27,7 @@ class Factory extends Plugin\FactoryAbstract
     /**
      * Prefixes a service name with the WPRA service ID prefix.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $name A service name.
      * @return string The prefixed name.
@@ -40,7 +40,7 @@ class Factory extends Plugin\FactoryAbstract
     /**
      * Gets service the factory.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return FactoryInterface The factory.
      */
@@ -52,7 +52,7 @@ class Factory extends Plugin\FactoryAbstract
     /**
      * Retrieve the DI container.
      *
-     * @since [*next-version*]
+     * @since 4.11
      * @return ContainerInterface The container instance.
      */
     protected function _getContainer()

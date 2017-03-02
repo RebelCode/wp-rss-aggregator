@@ -6,12 +6,12 @@ namespace Aventura\Wprss\Core\Model\BulkSourceImport;
 /**
  * Something that can create multiple feed sources from plain text.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class PlainTextImporter extends AbstractWpImporter implements ImporterInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      * 
      * @param array $data Data members map.
      * @param callable $translator A translator.
@@ -28,7 +28,7 @@ class PlainTextImporter extends AbstractWpImporter implements ImporterInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $input The plain text to import from.
      * The current format is as follows:
@@ -49,7 +49,7 @@ class PlainTextImporter extends AbstractWpImporter implements ImporterInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _inputToSourcesList($input)
     {

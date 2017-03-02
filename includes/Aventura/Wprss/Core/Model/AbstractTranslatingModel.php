@@ -5,12 +5,12 @@ namespace Aventura\Wprss\Core\Model;
 /**
  * A model that has translation capabilities via an external translator.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class AbstractTranslatingModel extends ModelAbstract
 {
     /**
-     * @since [*next-version*]
+     * @since 4.11
      * @var callable
      */
     protected $translator;
@@ -18,7 +18,7 @@ class AbstractTranslatingModel extends ModelAbstract
     /**
      * Sets the translator to be used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param callable $translator The translator.
      * @return $this This instance.
@@ -38,7 +38,7 @@ class AbstractTranslatingModel extends ModelAbstract
     /**
      * Retrieves the translator used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return callable The translator.
      */
@@ -55,7 +55,7 @@ class AbstractTranslatingModel extends ModelAbstract
      * If translator is not specified, and one is set for this instance,
      * that translator will be used instead.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     protected function _translate($text, $translator = null) {
         if (is_null($translator)) {

@@ -14,7 +14,7 @@ use Aventura\Wprss\Core\Model\Event\EventManagerInterface;
  * This is to be used with the Core plugin.
  *
  * @since 4.8.1
- * @deprecated [*next-version*] Here only for BC.
+ * @deprecated 4.11 Here only for BC.
  */
 class ComponentFactory extends Plugin\ComponentFactoryAbstract
 {
@@ -30,8 +30,8 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Retrieve the DI container.
      *
-     * @since [*next-version*]
-     * @deprecated [*next-version*] This is just a temporary measure, until this class is removed.
+     * @since 4.11
+     * @deprecated 4.11 This is just a temporary measure, until this class is removed.
      *
      * @return ContainerInterface The container instance.
      */
@@ -43,7 +43,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Prefixes a service name with the WPRA service ID prefix.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $name A service name.
      * @return string The prefixed name.
@@ -56,8 +56,8 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Retrieve the factory used for component creation.
      *
-     * @since [*next-version*]
-     * @deprecated [*next-version*] This is just a temporary measure, until this class is removed.
+     * @since 4.11
+     * @deprecated 4.11 This is just a temporary measure, until this class is removed.
      *
      * @return FactoryInterface The factory instance.
      */
@@ -113,7 +113,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Creates a component that is responsible for the admin notices.
      *
-     * @deprecated [*next-version*]
+     * @deprecated 4.11
      * @since 4.10
      *
      * @return Component\AdminAjaxNotices
@@ -128,7 +128,7 @@ class ComponentFactory extends Plugin\ComponentFactoryAbstract
     /**
      * Creates a helper component related to the backend.
      *
-     * @deprecated [*next-version*]
+     * @deprecated 4.11
      * @since 4.10
      *
      * @return Component\AdminHelper

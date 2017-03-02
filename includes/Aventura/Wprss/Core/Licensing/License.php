@@ -101,7 +101,7 @@ class License {
     /**
      * Sanitizes a license key string.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string $key
      * @return string

@@ -10,7 +10,7 @@ use Interop\Container\ContainerInterface as BaseContainerInterface;
 /**
  * Common functionality for composite containers that can have children added.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 class AbstractWritableCompositeContainer extends AbstractCompositeContainer implements
     ParentAwareContainerInterface,
@@ -19,7 +19,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function get($id)
     {
@@ -29,7 +29,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function has($id)
     {
@@ -39,7 +39,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getParentContainer()
     {
@@ -49,7 +49,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getContainers()
     {
@@ -59,7 +59,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * Adds a child container.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param BaseContainerInterface $container The container to add.
      *
@@ -75,7 +75,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return NotFoundException The new exception instance.
      */
@@ -87,7 +87,7 @@ class AbstractWritableCompositeContainer extends AbstractCompositeContainer impl
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return ContainerException The new exception instance.
      */

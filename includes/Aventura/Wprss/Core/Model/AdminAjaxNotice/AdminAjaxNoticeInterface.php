@@ -7,21 +7,21 @@ use \Aventura\Wprss\Core\Block\BlockInterface;
 /**
  * Something that represents a WPRA admin AJAX notice.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 interface AdminAjaxNoticeInterface extends NoticeInterface
 {
     /**
      * Throw an exception when an error is encountered during condition resolution.
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     const CONDITION_ON_ERROR_THROW_EXCEPTION = 'throw_exception';
 
     /**
      * Gets the notice HTML element class.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The HTML "class" attribute value.
      */
@@ -30,7 +30,7 @@ interface AdminAjaxNoticeInterface extends NoticeInterface
     /**
      * Gets the HTML ID of the close button.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The HTML ID attribute value string.
      */
@@ -39,7 +39,7 @@ interface AdminAjaxNoticeInterface extends NoticeInterface
     /**
      * Gets the HTML class of the close button.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The HTML class attribute value string.
      */
@@ -48,7 +48,7 @@ interface AdminAjaxNoticeInterface extends NoticeInterface
     /**
      * Gets the content of the close button.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return BlockInterface|string The block or string for the close button content.
      */
@@ -57,7 +57,7 @@ interface AdminAjaxNoticeInterface extends NoticeInterface
     /**
      * Gets the AJAX nonce code.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The nonce code string.
      */
@@ -66,7 +66,7 @@ interface AdminAjaxNoticeInterface extends NoticeInterface
     /**
      * Gets the AJAX nonce HTML element ID.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string The HTML ID attribute value string.
      */
@@ -84,7 +84,7 @@ interface AdminAjaxNoticeInterface extends NoticeInterface
      *
      * @see CONDITION_ON_ERROR_THROW_EXCEPTION
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return string A string identifying the action to be taken.
      */

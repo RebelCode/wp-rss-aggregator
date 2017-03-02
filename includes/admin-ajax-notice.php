@@ -228,7 +228,7 @@ class WPRSS_Admin_Notices {
         /**
          * Sets the prefix for dismiss mode class name.
          *
-         * @since [*next-version*]
+         * @since 4.11
          *
          * @param string $prefix The prefix.
          * @return $this This instance.
@@ -242,7 +242,7 @@ class WPRSS_Admin_Notices {
         /**
          * Sets the prefix for dismiss mode class name.
          *
-         * @since [*next-version*]
+         * @since 4.11
          *
          * @return string The prefix.
          */
@@ -1298,7 +1298,7 @@ add_filter(WPRSS_EVENT_PREFIX .'core_container_init', function(WritableContainer
 /**
  * Retrieves the service provider that provides notice service definitions.
  *
- * @since [*next-version*]
+ * @since 4.11
  *
  * @staticvar ServiceProvider $provider
  * @return ServiceProvider

@@ -7,7 +7,7 @@ use \Aventura\Wprss\Core;
 /**
  * Basic functionality for a notice.
  *
- * @since [*next-version*]
+ * @since 4.11
  */
 abstract class NoticeAbstract extends Core\Model\ModelAbstract implements NoticeInterface
 {
@@ -20,7 +20,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function isActive()
     {
@@ -30,7 +30,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getType()
     {
@@ -40,7 +40,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getStyle()
     {
@@ -50,7 +50,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getContent()
     {
@@ -60,7 +60,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getConditions()
     {
@@ -70,7 +70,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getConditionType()
     {
@@ -80,7 +80,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function isDismissable()
     {
@@ -90,7 +90,7 @@ abstract class NoticeAbstract extends Core\Model\ModelAbstract implements Notice
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.11
      */
     public function getDismissMode()
     {
