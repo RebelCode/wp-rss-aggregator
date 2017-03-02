@@ -86,9 +86,9 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
     {
         $me = $this;
 
-        $this->on('!init', function() {
+        $this->on('!init', function() use (&$me) {
             if (is_admin()) {
-                $this->_registerAssets();
+                $me->_registerAssets();
             }
         });
 
