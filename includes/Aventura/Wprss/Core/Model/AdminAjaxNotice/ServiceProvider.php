@@ -463,13 +463,14 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             : wprss_licensing_get_settings_controller();
 
         $helper = $c->get($this->_p('admin_helper'));
+        $me = $this;
 
         $notice = $this->_createNotice(array(
             'id'                => sprintf('addon_saved_inactive_license_%s', $addonId),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'savedInactiveLicenseNoticeCondition')),
-            'content'           => new CallbackBlock(array(), function() use ($addonName) {
-                return $this->_autoParagraph(
+            'content'           => new CallbackBlock(array(), function() use ($addonName, &$me) {
+                return $me->_autoParagraph(
                     sprintf(
                         __( 'The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.', WPRSS_TEXT_DOMAIN ),
                         esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
