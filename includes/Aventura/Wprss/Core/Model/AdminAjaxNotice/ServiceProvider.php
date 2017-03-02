@@ -420,13 +420,14 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             : wprss_licensing_get_settings_controller();
 
         $helper = $c->get($this->_p('admin_helper'));
+        $me = $this;
 
         $notice = $this->_createNotice(array(
             'id'                => sprintf('addon_empty_license_%s', $addonId),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'emptyLicenseKeyNoticeCondition')),
-            'content'           => new CallbackBlock(array(), function() use ($addonName) {
-                return $this->_autoParagraph(
+            'content'           => new CallbackBlock(array(), function() use ($addonName, &$me) {
+                return $me->_autoParagraph(
                     sprintf(
                         __( 'Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.', WPRSS_TEXT_DOMAIN ),
                         esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
@@ -510,13 +511,14 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             : date('Y');
 
         $helper = $c->get($this->_p('admin_helper'));
+        $me = $this;
 
         $notice = $this->_createNotice(array(
             'id'                => sprintf('addon_empty_license_%1$s_%2$s', $addonId, $year),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'soonToExpireLicenseNoticeCondition')),
-            'content'           => new CallbackBlock(array(), function() use ($addonName) {
-                return $this->_autoParagraph(
+            'content'           => new CallbackBlock(array(), function() use ($addonName, &$me) {
+                return $me->_autoParagraph(
                     sprintf(
                         __( 'The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. <a href="%1$s">Please renew it</a> to keep receiving updates and benefit from support.', WPRSS_TEXT_DOMAIN ),
                         esc_attr( 'https://docs.wprssaggregator.com/renewing-your-license/' ),
