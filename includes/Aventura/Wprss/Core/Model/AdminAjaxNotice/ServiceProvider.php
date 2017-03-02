@@ -683,7 +683,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param string $text The text to add paragraphs to.
      * @return string The text with HTML paragraphs.
      */
-    protected function _autoParagraph($text)
+    public function _autoParagraph($text)
     {
         return \wpautop($text);
     }
