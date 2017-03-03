@@ -110,16 +110,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     protected function _normalizeNoticeData(ContainerInterface $container, $data = array())
     {
-        /* If using the notices controller to normalize on creation, the notice ID  will be
-         * prefixed twice. This is because data is again auto normalized when adding the
-         * notice to the controller. If ID is prefixed twice, this will cause nonce
-         * validation to fail when trying to dismiss the notice.
-         */
-//        $noticeController = $container->get($this->_p('admin_ajax_notice_controller'));
-        /* @var $noticeController \WPRSS_Admin_Notices */
-//        $newData = $noticeController->normalize_notice_data($data);
+        if (!isset($data['id']) && isset($data['content'])) {
+            $data['id'] = $this->_hashNoticeContent($container, $data['content']);
+        }
 
-//        return $newData;
         return $data;
     }
 
@@ -686,5 +680,24 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     public function _autoParagraph($text)
     {
         return \wpautop($text);
+    }
+
+    /**
+     * Computes a unique hash of the notice content.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $c A container instance.
+     * @param string|callable $content The content to hash.
+     *
+     * @return string The content hash.
+     */
+    public function _hashNoticeContent(ContainerInterface $c, $content) {
+        $helper = $this->_getAdminHelper($c);
+        $hash = \is_callable($content)
+                ? $helper->hashCallable($content)
+                : $helper->hashScalar((string) $content);
+
+        return $hash;
     }
 }
