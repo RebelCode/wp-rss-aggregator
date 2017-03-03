@@ -82,6 +82,100 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     }
 
     /**
+     * Computes a hash of a given callable.
+     *
+     * @since [*next-version*]
+     *
+     * @param callable $callable The callable to hash.
+     *
+     * @throws \InvalidArgumentException If not a valid callable.
+     *
+     * @return string A hash of the callable.
+     */
+    public function hashCallable($callable)
+    {
+        if (\is_object($callable) && \is_callable($callable)) {
+            return $this->hashObject($callable);
+        }
+
+        if (\is_array($callable) && \is_callable($callable)) {
+            if (\is_object($callable[0])) {
+                $callable[0] = \get_class($callable);
+            }
+
+            return $this->hashArray($callable);
+        }
+
+        if (\is_string($callable) && \is_callable($callable)) {
+            return $this->hashScalar($callable);
+        }
+
+        throw new \InvalidArgumentException('Could not hash: not a valid callback');
+    }
+
+    /**
+     * Computes a hash of the array.
+     *
+     * Accounts for nested arrays.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $array The array to hash.
+     *
+     * @return string A hash of the array.
+     */
+    public function hashArray(array $array)
+    {
+        $itemHashes = array();
+        foreach ($array as $_idx => $_item) {
+            if (\is_array($_item)) {
+                $itemHashes[$_idx] = $this->hashArray($_item);
+            } elseif (\is_object($_item)) {
+                $itemHashes[$_idx] = $this->hashObject($_item);
+            } elseif (\is_resource($_item)) {
+                $itemHashes[$_idx] = (string) $_item;
+            } else {
+                $itemHashes[$_idx] = $_item;
+            }
+        }
+
+        $itemHashes = \serialize($itemHashes);
+
+        return $this->hashScalar($itemHashes);
+    }
+
+    /**
+     * Computes a hash of an object.
+     *
+     * The same object will always have the same hash.
+     * Different identical objects will produce different results.
+     *
+     * @since [*next-version*]
+     *
+     * @param object $object The object to hash.
+     *
+     * @return string A hash of the object.
+     */
+    public function hashObject($object)
+    {
+        return \spl_object_hash($object);
+    }
+
+    /**
+     * Computes a hash of a scalar value.
+     *
+     * @since [*next-version*]
+     *
+     * @param string|int|float|bool $value The value to hash.
+     *
+     * @return string A hash of the scalar value.
+     */
+    public function hashScalar($value)
+    {
+        return \sha1($value);
+    }
+
+    /**
      * Retrieves the factory used by this instance.
      *
      * @since [*next-version*]
