@@ -197,6 +197,19 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     }
 
     /**
+     * Creates a new admin notificiation instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $data The data for the notice.
+     * @return NoticeInterface The new notice.
+     */
+    public function createNotice($data)
+    {
+        return $this->_getFactory()->make($this->_pn('generic_fallback'), $data);
+    }
+
+    /**
      * Retrieves the factory used by this instance.
      *
      * @since [*next-version*]
