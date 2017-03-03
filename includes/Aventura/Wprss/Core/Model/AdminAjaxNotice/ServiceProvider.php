@@ -45,6 +45,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_pn('addon_empty_license')           => array($this, '_createAddonEmptyLicenseNotice'),
             $this->_pn('addon_inactive_license')        => array($this, '_createAddonInactiveLicenseNotice'),
             $this->_pn('addon_expiring_license')        => array($this, '_createAddonExpiringLicenseNotice'),
+            $this->_pn('generic_fallback')              => array($this, '_createGenericFallbackNotice'),
         );
     }
 
@@ -522,6 +523,27 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             }),
             'addon'             => $addonId
         ), $c);
+
+        return $notice;
+    }
+
+    /**
+     * Creates a notice that can be used to wrap non-DI compliant notices.
+     *
+     * @since 4.11
+     *
+     * @param ContainerInterface $c
+     * @param null $p Deprecated
+     * @param array $config Configuration for this service.
+     * @return NoticeInterface The new notice.
+     */
+    public function _createGenericFallbackNotice(ContainerInterface $c, $p = null, $config)
+    {
+        $notice = $this->_createNotice($this->_normalizeConfig($config, array(
+            'notice_type'       => NoticeInterface::TYPE_UPDATED,
+            'content'           => '',
+            'addon'             => '',
+        )), $c);
 
         return $notice;
     }
