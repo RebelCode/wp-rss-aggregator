@@ -5,6 +5,8 @@ namespace Aventura\Wprss\Core\Plugin\Di;
 use Exception as BaseException;
 use Dhii\Di\AbstractParentAwareContainer as BaseParentAwareContainer;
 use Dhii\Di\ParentAwareContainerInterface;
+use Dhii\Di\Exception\NotFoundException;
+use Dhii\Di\Exception\ContainerException;
 
 /**
  * Common functionality for containers.
