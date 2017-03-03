@@ -1169,7 +1169,7 @@ function wprss_admin_notice_get_collection() {
 function wprss_admin_notices_collection_enqueue_scripts() {
     $notices = wprss()->getAdminAjaxNotices();
     $notices->_registerAssets();
-    $notices->_enqueueAssets();
+    $notices->enqueueAssets();
 }
 
 /**

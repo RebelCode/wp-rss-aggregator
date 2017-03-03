@@ -97,7 +97,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
             /* @var $me AdminAjaxNotices */
             $me->on('admin_scripts_styles', function () use (&$me) {
                 /* @var $me AdminAjaxNotices */
-                $me->_enqueueAssets();
+                $me->enqueueAssets();
             });
         });
     }
@@ -110,18 +110,20 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
      * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
      * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
      */
-    public function _enqueueAssets()
+    public function enqueueAssets()
     {
-	// Get singleton collection
-	$collection = $this->getNoticeCollection();
+        // Get singleton collection
+        $collection = $this->getNoticeCollection();
 
-	// Get script handles via filter
-        $script_handles = array( 'wprss-admin-notifications' );
-	$this->event( 'admin_notice_collection_before_enqueue_scripts', array(&$script_handles, $collection) );
-	// Iterate and enqueue scripts
-	foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
-	// Post-enqueueing action
-	$this->event( 'admin_notice_collection_after_enqueue_scripts', array(&$script_handles, $collection) );
+        // Get script handles via filter
+        $script_handles = array('wprss-admin-notifications');
+        $this->event('admin_notice_collection_before_enqueue_scripts', array(&$script_handles, $collection));
+        // Iterate and enqueue scripts
+        foreach ($script_handles as $_idx => $_handle) {
+            wp_enqueue_script($_handle);
+        }
+        // Post-enqueueing action
+        $this->event('admin_notice_collection_after_enqueue_scripts', array(&$script_handles, $collection));
     }
 
     /**
