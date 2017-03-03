@@ -3,6 +3,7 @@
 namespace Aventura\Wprss\Core\Component;
 
 use Aventura\Wprss\Core;
+use Dhii\Di\FactoryInterface;
 
 /**
  * Helper component for things related to the backend.
@@ -11,6 +12,20 @@ use Aventura\Wprss\Core;
  */
 class AdminHelper extends Core\Plugin\ComponentAbstract
 {
+    /**
+     * The factory used by this instance to create services.
+     *
+     * @since [*next-version*]
+     *
+     * @var FactoryInterface
+     */
+    protected $factory;
+
+    public function __construct($data, FactoryInterface $factory) {
+        parent::__construct($data);
+        $this->_setFactory($factory);
+    }
+
     /**
      * Determine if currently showing page is related to WPRSS.
      *
@@ -64,5 +79,67 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
         }
 
         return $value;
+    }
+
+    /**
+     * Retrieves the factory used by this instance.
+     *
+     * @since [*next-version*]
+     *
+     * @return FactoryInterface The factory instance.
+     */
+    protected function _getFactory()
+    {
+        return $this->factory;
+    }
+
+    /**
+     * Assigns the factory to be used by this instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param FactoryInterface $factory The factory instance..
+     *
+     * @return $this
+     */
+    protected function _setFactory(FactoryInterface $factory)
+    {
+        $this->factory = $factory;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve the prefix used for notice services retrieved by this instance.
+     *
+     * @since 4.11
+     *
+     * @param string $name The service ID to prefix, if any.
+     *
+     * @return string The prefix, or prefixed ID.
+     */
+    protected function _pn($name = null)
+    {
+        $prefix = $this->getData('notice_service_id_prefix');
+        return static::stringHadPrefix($name)
+            ? $name
+            : "{$prefix}{$name}";
+    }
+
+    /**
+     * Retrieve the prefix used for services retrieved by this instance.
+     *
+     * @since 4.11
+     *
+     * @param string $name The service ID to prefix, if any.
+     *
+     * @return string The prefix, or prefixed ID.
+     */
+    protected function _p($name = null)
+    {
+        $prefix = $this->getData('service_id_prefix');
+        return static::stringHadPrefix($name)
+            ? $name
+            : "{$prefix}{$name}";
     }
 }

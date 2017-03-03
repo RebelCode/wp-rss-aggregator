@@ -126,9 +126,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     public function _createAdminHelper(ContainerInterface $c, $p = null, $config = null)
     {
         $config = $this->_normalizeConfig($config, array(
-            'plugin'            => $c->get($this->_p('plugin'))
+            'plugin'                    => $c->get($this->_p('plugin')),
+            'service_id_prefix'         => \WPRSS_SERVICE_ID_PREFIX,
+            'notice_service_id_prefix'  => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
         ));
-        $service = new Component\AdminHelper($config);
+        $service = new Component\AdminHelper($config, $c->get($this->_p('factory')));
         $this->_prepareComponent($service);
 
         return $service;
