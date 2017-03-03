@@ -15,7 +15,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * The factory used by this instance to create services.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @var FactoryInterface
      */
@@ -84,7 +84,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * Resolves a value accounting for case of it producing output.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param mixed $value The value to resolve.
      *
@@ -105,7 +105,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * Computes a hash of a given callable.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param callable $callable The callable to hash.
      *
@@ -139,7 +139,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
      *
      * Accounts for nested arrays.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $array The array to hash.
      *
@@ -171,7 +171,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
      * The same object will always have the same hash.
      * Different identical objects will produce different results.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param object $object The object to hash.
      *
@@ -185,7 +185,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * Computes a hash of a scalar value.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param string|int|float|bool $value The value to hash.
      *
@@ -199,7 +199,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * Creates a new admin notificiation instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param array $data The data for the notice.
      * @return NoticeInterface The new notice.
@@ -212,7 +212,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * Retrieves the factory used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @return FactoryInterface The factory instance.
      */
@@ -224,7 +224,7 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     /**
      * Assigns the factory to be used by this instance.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param FactoryInterface $factory The factory instance..
      *

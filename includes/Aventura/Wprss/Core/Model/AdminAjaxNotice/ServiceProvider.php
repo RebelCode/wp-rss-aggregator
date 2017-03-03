@@ -707,7 +707,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     /**
      * Computes a unique hash of the notice content.
      *
-     * @since [*next-version*]
+     * @since 4.11
      *
      * @param ContainerInterface $c A container instance.
      * @param string|callable $content The content to hash.
