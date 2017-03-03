@@ -82,6 +82,27 @@ class AdminHelper extends Core\Plugin\ComponentAbstract
     }
 
     /**
+     * Resolves a value accounting for case of it producing output.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed $value The value to resolve.
+     *
+     * @return mixed|string The resolved value, if not null.
+     *  Otherwise, output produced during resolution.
+     */
+    public function resolveValueOutput($value)
+    {
+        ob_start();
+        $value = $this->resolveValue($value);
+        $output = ob_get_clean();
+
+        return is_null($value)
+                ? $output
+                : $value;
+    }
+
+    /**
      * Computes a hash of a given callable.
      *
      * @since [*next-version*]
