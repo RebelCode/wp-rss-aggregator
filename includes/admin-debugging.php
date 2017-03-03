@@ -235,7 +235,7 @@
                 '1'     =>  'debug_feeds_updating',
                 '2'     =>  'debug_feeds_reimporting',
                 '3'     =>  'debug_cleared_log',
-				'4'		=>	'debug_settings_reset'
+                '4'		=>	'debug_settings_reset',
             )
         );
         
