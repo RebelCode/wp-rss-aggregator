@@ -7,7 +7,7 @@ use Aventura\Wprss\Core;
 /**
  * @since 4.8.1
  */
-class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements EventManagerInterface
+class EventManagerAbstract extends Core\Model\ModelAbstract implements EventManagerInterface
 {
     /** @since 4.8.1 */
     const DEFAULT_PRIORITY      = 10;
@@ -23,12 +23,6 @@ class EventManagerAbstract extends Core\Plugin\ComponentAbstract implements Even
      */
     protected $_events = array();
     protected $_isRan;
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setIsKeepRecords(true);
-    }
 
     /**
      * Registers an event listener.

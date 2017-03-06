@@ -72,46 +72,32 @@ class Settings {
      * @return \Aventura\Wprss\Core\Licensing\Settings
 	 */
 	protected function _initNotices() {
-		$noticesCollection = wprss_admin_notice_get_collection();
+        $factory = wprss_core_container()->get(sprintf('%sfactory', WPRSS_SERVICE_ID_PREFIX));
+        $noticesComponent = wprss()->getAdminAjaxNotices();
+
 		foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
 			$_year = date('Y');
-			$noticesCollection->add_notice(
-				array(
-					'id'				=>	sprintf( 'empty_license_notice_%s', $_addonId ),
-					'addon'				=>	$_addonId,
-					'notice_type'		=>	'error',
-					'condition'			=>	array( array( $this, 'emptyLicenseKeyNoticeCondition' ) ),
-					'content'			=>	sprintf(
-						__( '<p>Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.</p>', WPRSS_TEXT_DOMAIN ),
-						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-						$_addonName
-					)
-				)
-			)->add_notice(
-				array(
-					'id'				=>	sprintf( 'saved_inactive_license_notice_%s', $_addonId ),
-					'addon'				=>	$_addonId,
-					'notice_type'		=>	'error',
-					'condition'			=>	array( array( $this, 'savedInactiveLicenseNoticeCondition' ) ),
-					'content'			=>	sprintf(
-						__( '<p>The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.</p>', WPRSS_TEXT_DOMAIN ),
-						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-						$_addonName
-					)
-				)
-			)->add_notice(
-				array(
-					'id'				=>	sprintf( 'soon_to_expire_license_notice_%s_%s', $_addonId, $_year ),
-					'addon'				=>	$_addonId,
-					'notice_type'		=>	'error',
-					'condition'			=>	array( array( $this, 'soonToExpireLicenseNoticeCondition' ) ),
-					'content'			=>	sprintf(
-						__( '<p>The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. Make sure to renew it to keep receiving updates and benefit from support.</p>', WPRSS_TEXT_DOMAIN ),
-						esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
-						$_addonName
-					)
-				)
-			);
+            $emptyLicenseNotice = $factory->make(sprintf('%saddon_empty_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
+                'addon_id'    => $_addonId,
+                'addon_name'  => $_addonName,
+                'settings'    => $this
+            ));
+            $noticesComponent->addNotice($emptyLicenseNotice);
+
+            $inactiveLicenseNotice = $factory->make(sprintf('%saddon_inactive_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
+                'addon_id'    => $_addonId,
+                'addon_name'  => $_addonName,
+                'settings'    => $this
+            ));
+            $noticesComponent->addNotice($inactiveLicenseNotice);
+
+            $expiringLicenseNotice = $factory->make(sprintf('%saddon_expiring_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
+                'addon_id'    => $_addonId,
+                'addon_name'  => $_addonName,
+                'settings'    => $this,
+                'year'        => $_year
+            ));
+            $noticesComponent->addNotice($expiringLicenseNotice);
 		}
 
         return $this;
@@ -123,9 +109,12 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function emptyLicenseKeyNoticeCondition( $args ) {
-		if ( ! isset( $args['addon'] ) ) return false;
+		if ( ! isset( $args['addon'] ) ) {
+			return false;
+		}
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && ! $license->isValid();
+
+		return is_null($license) || strlen( $license->getKey() ) === 0;
 	}
 
 
@@ -135,9 +124,11 @@ class Settings {
 	 * @return boolean True if the notice is to be shown, false if not.
 	 */
 	public function savedInactiveLicenseNoticeCondition( $args ) {
-		if ( ! isset( $args['addon'] ) ) return false;
+		if ( ! isset( $args['addon'] ) ) {
+			return false;
+		}
 		$license = $this->getManager()->getLicense( $args['addon'] );
-		return $license !== null && strlen( $license->getKey() ) > 0 && $license->isInactive();
+		return $license !== null && strlen( $license->getKey() ) > 0 && ! $license->isValid();
 	}
 
 
@@ -207,7 +198,7 @@ class Settings {
 		$displayedKey = is_null( $license )? '' : self::obfuscateLicenseKey( $license->getKey() );
 		// Render the markup ?>
 		<input id="wprss-<?php echo $addonId ?>-license-key" name="wprss_settings_license_keys[<?php echo $addonId ?>_license_key]"
-			   type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
+			   class="wprss-license-input" type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
 		/>
 		<label class="description" for="wprss-<?php echo $addonId ?>-license-key">
 			<?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ) ?>
@@ -312,7 +303,7 @@ class Settings {
 		<p>
 			<?php
 				$license = $manager->getLicense( $addonId );
-				if ( $license !== null && ($licenseKey = $license->getKey()) && !empty( $licenseKey ) ) :
+				if ( $license !== null && !$license->isInvalid() && ($licenseKey = $license->getKey()) && !empty( $licenseKey ) ) :
 					if ( is_object( $data ) ) :
 						$currentActivations = $data->site_count;
 						$activationsLeft = $data->activations_left;

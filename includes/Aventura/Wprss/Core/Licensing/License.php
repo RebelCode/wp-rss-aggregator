@@ -94,9 +94,21 @@ class License {
 	 * @return self
 	 */
 	public function setKey( $key ) {
-		$this->_key = $key;
+		$this->_key = $this->_sanitizeKey( $key );
 		return $this;
 	}
+
+    /**
+     * Sanitizes a license key string.
+     *
+     * @since 4.11
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function _sanitizeKey($key) {
+        return trim( $key );
+    }
 
 	/**
 	 * Gets the license status.

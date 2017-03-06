@@ -4,9 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "44b97b847dc179cdf80a5e508ee99077",
-    "content-hash": "1a1e1d95a2f79c198e9c6aed9d5bad60",
+    "hash": "5857acb2c4cc4ce9c2cec0e66451e8b5",
+    "content-hash": "3955b4a2f79fedff2bb24232b584409d",
     "packages": [
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "time": "2014-12-30 15:22:37"
+        },
+        {
+            "name": "container-interop/service-provider",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/service-provider.git",
+                "reference": "5cb38893b836edb00d3e1ace26c20ee1d29957cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/service-provider/zipball/5cb38893b836edb00d3e1ace26c20ee1d29957cf",
+                "reference": "5cb38893b836edb00d3e1ace26c20ee1d29957cf",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting container interoperability through standard service providers",
+            "homepage": "https://github.com/container-interop/service-provider",
+            "time": "2016-05-16 07:42:22"
+        },
         {
             "name": "dhii/collections-abstract",
             "version": "v0.1.0",
@@ -132,6 +190,149 @@
             ],
             "description": "Interfaces for collections",
             "time": "2016-11-16 14:45:08"
+        },
+        {
+            "name": "dhii/di",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/di.git",
+                "reference": "52efd50f1b11fcdd2f789bae483bdb858772c306"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/di/zipball/52efd50f1b11fcdd2f789bae483bdb858772c306",
+                "reference": "52efd50f1b11fcdd2f789bae483bdb858772c306",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.1",
+                "container-interop/service-provider": "^0.3",
+                "dhii/di-abstract": "^0.1",
+                "dhii/di-interface": "^0.1",
+                "php": "^5.3 | ^7.0"
+            },
+            "provide": {
+                "container-interop/container-interop-implementation": "^1.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Di\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "A DI container implementation",
+            "keywords": [
+                "container",
+                "dependency injection",
+                "di"
+            ],
+            "time": "2017-02-03 13:33:48"
+        },
+        {
+            "name": "dhii/di-abstract",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/di-abstract.git",
+                "reference": "e87ee3782d5f4c44724e79c4b2e1a55103e5cd11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/di-abstract/zipball/e87ee3782d5f4c44724e79c4b2e1a55103e5cd11",
+                "reference": "e87ee3782d5f4c44724e79c4b2e1a55103e5cd11",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.1",
+                "container-interop/service-provider": "^0.3",
+                "dhii/di-interface": "^0.1",
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Di\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Base abstract classes for DI container implementations",
+            "time": "2017-02-02 18:30:06"
+        },
+        {
+            "name": "dhii/di-interface",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/di-interface.git",
+                "reference": "0320846a577d68b761e29acd5d4db40d88cc4f98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/di-interface/zipball/0320846a577d68b761e29acd5d4db40d88cc4f98",
+                "reference": "0320846a577d68b761e29acd5d4db40d88cc4f98",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.1",
+                "container-interop/service-provider": "^0.3",
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Di\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Interfaces for DI container implementations",
+            "time": "2017-02-02 13:12:09"
         },
         {
             "name": "dhii/stats-abstract",

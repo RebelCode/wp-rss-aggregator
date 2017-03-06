@@ -27,6 +27,9 @@ class Manager {
 	// Regex pattern for statuses in license option
 	const DB_LICENSE_STATUSES_OPTION_PATTERN = '%s_license_%s';
 
+    // Lifetime expiration value
+    const EXPIRATION_LIFETIME = 'lifetime';
+
 	/**
 	 * License instance.
 	 *
@@ -353,6 +356,9 @@ class Manager {
 		$license = $this->getLicense($addonId);
 		// Get expiry
 		$expires = $license->getExpiry();
+        if ($expires === static::EXPIRATION_LIFETIME) {
+            return false;
+        }
 		// Split using space and get first part only (date only)
 		$parts = explode( ' ', $expires );
 		$dateOnly = strtotime( $parts[0] );
@@ -463,7 +469,9 @@ class Manager {
 
 		// Update the DB option
 		$license->setStatus( $licenseData->license );
-		$license->setExpiry( $licenseData->expires );
+        if (isset($licenseData->expires)) {
+            $license->setExpiry( $licenseData->expires );
+        }
 		$this->saveLicenseStatuses();
 
 		// Return the data

@@ -1,46 +1,10 @@
 <?php
 
-    /**
-     * Serves up a notice to leave a review for this plugin
-     *
-     * @link http://wp.tutsplus.com/tutorials/creative-coding/a-primer-on-ajax-in-the-wordpress-dashboard-requesting-and-responding/
-     * @link http://wptheming.com/2011/08/admin-notices-in-wordpress/
-     *
-     * @since 3.0
-     *
-     */
+use Aventura\Wprss\Core\Model\AdminAjaxNotice\ServiceProvider;
+use Dhii\Di\WritableContainerInterface;
+use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 
-    add_action( 'admin_notices', 'wprss_display_admin_notice' );
-    /**
-     * Renders the administration notice. Also renders a hidden nonce used for security when processing the Ajax request.
-     *
-     * @since 3.0
-     */
-    function wprss_display_admin_notice() {
-        // If not an admin, do not show the notification
-        if ( ! current_user_can( 'manage_options' ) ) return;
-
-        global $pagenow, $typenow;
-        if ( empty( $typenow ) && !empty( $_GET['post'] ) ) {
-          $post = get_post( $_GET['post'] );
-          if ( $post !== NULL && !is_wp_error( $post ) )
-            $typenow = $post->post_type;
-        }
-        $notices_settings = get_option( 'wprss_settings_notices' );
-
-        if ( ( false == $notices_settings ) && ( ( $typenow == 'wprss_feed' ) || ( $typenow == 'wprss_feed_item' ) ) ) {
-            $html = '<div id="ajax-notification" class="updated">';
-                $html .= '<p>';
-                $html .= __( 'Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ', WPRSS_TEXT_DOMAIN );
-                $html .= __( 'Check out the', WPRSS_TEXT_DOMAIN ) . ' <a target="_blank" href="http://www.wprssaggregator.com/extensions"><strong>' . __( 'extensions', 'WPRSS_TEXT_DOMAIN' ) . '</strong></a> ' . __( 'page.', WPRSS_TEXT_DOMAIN );
-                $html .= '<a href="javascript:;" id="dismiss-ajax-notification" style="float:right;">' . __( 'Dismiss this notification', WPRSS_TEXT_DOMAIN ) . '</a>';
-                $html .= '</p>';
-                $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
-            $html .= '</div>';
-
-            echo $html;
-        }
-    }
+define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
 
 
     add_action( 'wp_ajax_wprss_hide_admin_notification', 'wprss_hide_admin_notification' );
@@ -175,6 +139,7 @@ class WPRSS_Admin_Notices {
 	protected $_notice_base_class;
 	protected $_nonce_base_class;
 	protected $_btn_close_base_class;
+        protected $_dismiss_mode_class_prefix;
 
 
 	/**
@@ -222,6 +187,11 @@ class WPRSS_Admin_Notices {
 			$data['btn_close_base_class'] = $this->prefix( 'admin-notice-btn-close' );
 		$this->set_btn_close_base_class( $data['btn_close_base_class'] );
 
+                // Class prefix for dismiss mode
+                if ( !isset( $data['dismiss_mode_class_prefix'] ) )
+                        $data['dismiss_mode_class_prefix'] = 'dismiss-mode-';
+                $this->set_dismiss_mode_class_prefix($data['dismiss_mode_class_prefix']);
+
 		$this->_construct();
 	}
 
@@ -254,6 +224,31 @@ class WPRSS_Admin_Notices {
 		return $this;
 	}
 
+
+        /**
+         * Sets the prefix for dismiss mode class name.
+         *
+         * @since 4.11
+         *
+         * @param string $prefix The prefix.
+         * @return $this This instance.
+         */
+        public function set_dismiss_mode_class_prefix($prefix) {
+            $this->_dismiss_mode_class_prefix = trim($prefix);
+            return $this;
+        }
+
+
+        /**
+         * Sets the prefix for dismiss mode class name.
+         *
+         * @since 4.11
+         *
+         * @return string The prefix.
+         */
+        public function get_dismiss_mode_class_prefix() {
+            return $this->_dismiss_mode_class_prefix;
+        }
 
 	/**
 	 * Get the ID prefix, or a prefixed string.
@@ -495,6 +490,7 @@ class WPRSS_Admin_Notices {
 			'btn_close_id'			=> null, // The HTML ID for the close button
 			'btn_close_class'		=> 'btn-close', // The HTML class for the close button, in addition to default
 			'btn_close_content'	 => __( 'Dismiss this notification', $this->get_text_domain() ), // The content of the close button. HTML allowed.
+                        'dismiss_mode'          => NoticeInterface::DISMISS_MODE_AJAX
 		)));
 
 		// Auto-generate ID
@@ -1074,7 +1070,7 @@ class WPRSS_Admin_Notices {
 				: $this->get_notices( $id );
 
 		if ( !$notice )
-			throw new Exception( sprintf( 'Could not render notice: no notice found for ID "%1$s"' ), $id );
+			throw new Exception( sprintf( 'Could not render notice: no notice found for ID "%1$s"', $id ) );
 
         $helper = wprss()->getAdminHelper();
 
@@ -1082,11 +1078,13 @@ class WPRSS_Admin_Notices {
 		$notice = apply_filters( $this->prefix( 'admin_notice_render_before' ), $notice, $this );
 		?>
 
-		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?>">
+		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?> dismiss-mode-<?php echo $notice['dismiss_mode'] ?>">
 			<div class="notice-content">
 				<?php echo $notice['content'] ?>
 			</div>
+                        <?php if ($notice['dismiss_mode'] !== NoticeInterface::DISMISS_MODE_NONE): ?>
 			<a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
+                        <?php endif ?>
             <span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $helper->resolveValue($notice['nonce']) ?></span>
 		</div>
 		<?php
@@ -1138,17 +1136,17 @@ class WPRSS_Admin_Notices {
 // This should initialize the notice collection before anything can use it
 add_action( 'init', 'wprss_admin_notice_get_collection', 9 );
 
+// Trigger the component to initialize
+add_action('wprss_pre_init', function() {
+    wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX.'admin_ajax_notices');
+});
+
 
 /**
  * Returns the singleton, plugin-wide instane of the admin notices controller.
  * Initializes it if necessary.
  *
  * @since 4.7.4
- * @uses-filter wprss_admin_notice_collection_before_init To modify collection before initialization.
- * @uses-filter wprss_admin_notice_collection_after_init To modify collection after initialization.
- * @uses-action admin_enqueue_scripts To enqueue the scripts for the collection.
- * @uses-filter wprss_admin_notice_collection_before_localize_vars To modify list of vars to expose to the frontend.
- * @uses-action wprss_admin_notice_collection_after_localize_vars To access list of vars exposed to the frontend.
  * @staticvar WPRSS_Admin_Notices $collection The singleton instance.
  * @return \WPRSS_Admin_Notices|null The singleton instance of notice collection, or null if it is unavailable.
  */
@@ -1156,17 +1154,8 @@ function wprss_admin_notice_get_collection() {
 	static $collection = null;
 
 	if ( is_null( $collection ) && is_admin() ) {
-		// Initialize collection
-		$collection = new WPRSS_Admin_Notices(array(
-			'setting_code'			=> 'wprss_admin_notices',
-			'id_prefix'				=> 'wprss_',
-			'text_domain'			=> WPRSS_TEXT_DOMAIN
-		));
-		$collection = apply_filters( 'wprss_admin_notice_collection_before_init', $collection );
-		$collection->init();
-		$collection = apply_filters( 'wprss_admin_notice_collection_after_init', $collection );
-
-        add_action( 'wprss_admin_exclusive_scripts_styles', 'wprss_admin_notices_collection_enqueue_scripts' );
+        $collection = wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX.'admin_ajax_notice_controller');
+        add_action( \WPRSS_EVENT_PREFIX.'admin_exclusive_scripts_styles', 'wprss_admin_notices_collection_enqueue_scripts' );
 	}
 
 	return $collection;
@@ -1176,29 +1165,11 @@ function wprss_admin_notice_get_collection() {
  * Enqueues the scripts for a notice collection.
  *
  * @since 4.7.8
- * @uses-filter wprss_admin_notice_collection_before_enqueue_scripts To modify list of script handles to enqueue.
- * @uses-action wprss_admin_notice_collection_after_enqueue_scripts To access list of enqueued script handles.
  */
 function wprss_admin_notices_collection_enqueue_scripts() {
-	// Get singleton collection
-	$collection = wprss_admin_notice_get_collection();
-
-	// Get script handles via filter
-	$script_handles = apply_filters( 'wprss_admin_notice_collection_before_enqueue_scripts', array( 'wprss-admin-notifications' ), $collection );
-	// Iterate and enqueue scripts
-	foreach ( $script_handles as $_idx => $_handle ) wp_enqueue_script( $_handle );
-	// Post-enqueueing action
-	do_action( 'wprss_admin_notice_collection_after_enqueue_scripts', $script_handles, $collection );
-
-	// Frontend settings
-	$settings = apply_filters( 'wprss_admin_notice_collection_before_localize_vars', array(
-		'notice_class'				=> $collection->get_notice_base_class(),
-		'nonce_class'				=> $collection->get_nonce_base_class(),
-		'btn_close_class'			=> $collection->get_btn_close_base_class(),
-		'action_code'				=> wprss_admin_notice_get_action_code()
-	), $collection );
-	wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
-	do_action( 'wprss_admin_notice_collection_after_localize_vars', $settings, $collection );
+    $notices = wprss()->getAdminAjaxNotices();
+    $notices->_registerAssets();
+    $notices->enqueueAssets();
 }
 
 /**
@@ -1318,3 +1289,31 @@ function wprss_user_can_manage_options() {
 	return apply_filters( 'wprss_user_can_manage_options', current_user_can( 'manage_options' ) );
 }
 
+// Adds the AJAX notice service provider to the core container
+add_filter(WPRSS_EVENT_PREFIX .'core_container_init', function(WritableContainerInterface $container) {
+    $noticeProvider = wprss_core_admin_ajax_notices_service_provider();
+    $container->register($noticeProvider);
+});
+
+/**
+ * Retrieves the service provider that provides notice service definitions.
+ *
+ * @since 4.11
+ *
+ * @staticvar ServiceProvider $provider
+ * @return ServiceProvider
+ */
+function wprss_core_admin_ajax_notices_service_provider()
+{
+    static $provider = null;
+
+    if(is_null($provider)) {
+        $provider = new ServiceProvider(array(
+            'notice_service_id_prefix'  => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
+            'service_id_prefix'         => \WPRSS_SERVICE_ID_PREFIX,
+            'event_prefix'              => \WPRSS_EVENT_PREFIX,
+        ));
+    }
+
+    return $provider;
+}

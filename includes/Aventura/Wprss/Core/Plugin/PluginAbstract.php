@@ -3,6 +3,8 @@
 namespace Aventura\Wprss\Core\Plugin;
 
 use Aventura\Wprss\Core;
+use Dhii\Di\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * The base class for all WP plugins.
@@ -14,12 +16,19 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     const CODE = '';
     const VERSION = '';
 
-    /** @since 4.8.1 */
+    /**
+     * @deprecated 4.11
+     * @since 4.8.1
+     */
     protected $_factory;
     /** @since 4.8.1 */
     protected $_logger;
     /** @since 4.8.1 */
     protected $_eventManager;
+    /** @since 4.11 */
+    protected $container;
+    /** @since 4.11 */
+    protected $factory;
 
     /**
      *
@@ -31,12 +40,18 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      *      * `text_domain`         - The text domain used for translation by this plugin. See {@see getTextDomain}.
      *      * `name`                - The human-readable name of the plugin. See {@see getName()}.
      * Any other data will just be added to this instances internal data.
-     * @param ComponentFactoryInterface A factory that will create components for this plugin.
+     * @param mixed Deprecated since 4.11.
+     * @param ContainerInterface $container The DI container that will be used by this plugin to resolve dependencies.
+     * @param FactoryInterface $factory The factory that will be used by this plugin to create generate new instances.
      *
      * @throws Exception If required fields are not specified.
      */
-    public function __construct($data, ComponentFactoryInterface $factory = null)
-    {
+    public function __construct(
+            $data,
+            $_factory = null, // Deprecated; kept for BC
+            ContainerInterface $container = null,
+            FactoryInterface $factory = null
+    ){
         if (!is_array($data)) {
             $data = array('basename' => $data);
         }
@@ -48,43 +63,178 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         $data['basename'] = static::standardizeBasename($data['basename']);
 
         // Normalizing and setting component factory
-        if (is_null($factory) && isset($data['component_factory'])) {
-            $factory = $data['component_factory'];
+        if (is_null($_factory) && isset($data['component_factory'])) {
+            $_factory = $data['component_factory'];
+        }
+
+        if ($_factory) {
+            $this->setFactory($_factory);
         }
 
         if ($factory) {
-            $this->setFactory($factory);
+            $this->_setFactory($factory);
+        }
+
+        if ($container) {
+            $this->_setContainer($container);
         }
 
         parent::__construct($data);
     }
 
+    /**
+     * Sets the service factory.
+     *
+     * @since 4.8.1
+     * @param FactoryInterface $factory The factory.
+     * @return $this This instance.
+     */
+    protected function _setFactory(FactoryInterface $factory)
+    {
+        $this->factory = $factory;
+
+        return $this;
+    }
+
+    /**
+     * Gets the service factory.
+     *
+     * @since 4.11
+     *
+     * @return FactoryInterface
+     */
+    protected function _getFactory()
+    {
+        return $this->factory;
+    }
+
+    /**
+     * Sets the DI container.
+     *
+     * @since 4.11
+     *
+     * @param ContainerInterface $container The container.
+     * @return $this This instance.
+     */
+    protected function _setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Gets the DI container.
+     *
+     * @since 4.11
+     *
+     * @return ContainerInterface
+     */
+    protected function _getContainer()
+    {
+        /**
+         * This is necessary because extensions still don't know about the new
+         * DI container mechanics, and no container is being passed in those
+         * extensions to the constructor of this class.
+         *
+         * @todo Remove when add-ons refactored (4.11).
+         */
+        if (is_null($this->container)) {
+            return wprss_wp_container();
+        }
+
+        return $this->container;
+    }
+
+    /**
+     * Gets the service ID prefix, or prefixes the given ID with it.
+     *
+     * @since 4.11
+     *
+     * @param string|null $id The service ID to prefix, if not null.
+     * @return string The prefix, or potentially prefixed ID.
+     */
+    protected function _getServiceIdPrefix($id = null)
+    {
+        $prefix = $this->_getServiceIdPrefixRaw();
+        return static::stringHadPrefix($id)
+            ? $id
+            : "{$prefix}{$id}";
+    }
+
+    /**
+     * Gets the prefix for service IDs.
+     *
+     * @since 4.11
+     *
+     * @return type
+     */
+    protected function _getServiceIdPrefixRaw()
+    {
+        /**
+         * This is necessary because extensions still don't know about the new
+         * DI container mechanics, and no container is being passed in those
+         * extensions to the constructor of this class.
+         *
+         * @todo Remove when add-ons refactored (4.11).
+         */
+        $default = \WPRSS_SERVICE_ID_PREFIX;
+
+        return $this->_getDataOrConst('service_id_prefix', $default);
+    }
+
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getBasename()
     {
         return $this->getData('basename');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getTextDomain()
     {
         return $this->getData('text_domain');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->getData('name');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getCode()
     {
         return $this->_getDataOrConst('code');
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function getVersion()
     {
         return $this->_getDataOrConst('version');
     }
 
     /**
+     * @todo Change to return the interop factory once extensions are refactored (4.11).
      * @since 4.8.1
      * @return ComponentFactoryInterface
      */
@@ -93,17 +243,33 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return $this->_factory;
     }
 
+    /**
+     * @deprecated 4.11 Factory can no longer be set after construction.
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function setFactory(ComponentFactoryInterface $factory)
     {
-        $this->_setFactory($factory);
+        $this->_factory = $factory;
         return $this;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function isActive()
     {
         return static::isPluginActive($this);
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function deactivate()
     {
         static::deactivatePlugin($this);
@@ -128,6 +294,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return is_plugin_active($plugin);
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     static public function deactivatePlugin($plugin)
     {
         static::_ensurePluginFunctionsExist();
@@ -139,43 +310,17 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         deactivate_plugins($plugin);
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     static protected function _ensurePluginFunctionsExist()
     {
         // Making sure there are the functions we need
 		if (!function_exists( 'is_plugin_active' )) {
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
-    }
-
-    /**
-     * Sets the component factory instance.
-     *
-     * If class name given instead, it will be instantiated.
-     *
-     * @since 4.8.1
-     * @param ComponentFactoryInterface|string $factory The component factory instance or class name.
-     * @return PluginInterface This instance.
-     * @throws Exception If factory class specified as classname string does not exist, or is not a factory.
-     */
-    protected function _setFactory(ComponentFactoryInterface $factory) {
-        // Factory could be a classname
-        if (is_string($factory)) {
-            // Making sure it exists
-            $factory = trim($factory);
-            if (!class_exists($factory)) {
-                throw $this->exception(array('Could not set component factory: Factory class "%1$s" does not exist', $factory), array(__NAMESPACE__, 'Exception'));
-            }
-            // Making sure it's a factory
-            if (!is_a($factory, __NAMESPACE__ . '\ComponentFactoryInterface')) {
-                throw $this->exception(array('Could not set component factory: Factory class "%1$s" is not a factory', $factory), array(__NAMESPACE__, 'Exception'));
-            }
-
-            $factory = new $factory();
-            /* @var $factory Aventura\Wprss\Core\Plugin\ComponentFactoryInterface */
-        }
-
-        $this->_factory = $factory;
-        return $this;
     }
 
     /**
@@ -215,12 +360,13 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      */
     public function getLogger()
     {
-        return $this->_logger;
+        return $this->_getContainer()->get($this->_getServiceIdPrefix('logger'));
     }
 
     /**
      * Sets the logger instance to be used by this plugin.
      *
+     * @deprecated 4.11 Logger can no longer be set, but is retrieved from container.
      * @since 4.8.1
      * @param Core\Model\LoggerInterface $logger
      * @return Core\Plugin\PluginAbstract
@@ -231,6 +377,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return $this;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function log($level, $message, array $context = array())
     {
         $isFormattable = is_array($message) && isset($message[0]) && is_string($message[0]);
@@ -250,6 +401,11 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
         return false;
     }
 
+    /**
+     * @since 4.8.1
+     *
+     * @return string
+     */
     public function logObject($level, $object, array $context = array())
     {
         if (empty($object)) {
@@ -281,7 +437,9 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     {
         $prefix = $this->hasData('event_prefix')
             ? $this->getData('event_prefix')
-            : ($code = $this->getCode()) ? sprintf('%1$s_', $code) : '';
+            : (($code = $this->getCode())
+                    ? sprintf('%1$s_', $code)
+                    : '');
 
         return string_had_prefix($name, $this->getPrefixOverride())
             ? $name
@@ -291,6 +449,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
     /**
      * Sets the event manager for this instance.
      *
+     * @deprecated 4.11
      * @since 4.8.1
      * @param Core\Model\Event\EventManagerInterface $manager An event manager.
      * @return PluginAbstract This instance.
@@ -309,7 +468,7 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      */
     public function getEventManager()
     {
-        return $this->_eventManager;
+        return $this->_getContainer()->get($this->_getServiceIdPrefix('event_manager'));
     }
 
     /**

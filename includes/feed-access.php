@@ -352,7 +352,9 @@ class WPRSS_Feed_Access
 }
 
 // Initialize
-WPRSS_Feed_Access::instance();
+add_action('wprss_init', function() {
+    WPRSS_Feed_Access::instance();
+});
 
 
 /**
