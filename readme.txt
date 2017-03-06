@@ -286,7 +286,7 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
-= 4.11 (2017-02-03) =
+= 4.11 (2017-02-06) =
 * Fixed bug with lifetime licenses showing expiry notices.
 * Fixed bug with being able to submit form on Licenses page.
 * Fixed bug with empty saved license key causing PHP notice, and not triggering reminder notification.
