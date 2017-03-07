@@ -286,6 +286,9 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= 4.11.1 (2017-03-07) =
+* Fixed bug that caused minor publishing controls to be hidden on unrelated Edit screens.
+
 = 4.11 (2017-02-06) =
 * Fixed bug with lifetime licenses showing expiry notices.
 * Fixed bug with being able to submit form on Licenses page.
