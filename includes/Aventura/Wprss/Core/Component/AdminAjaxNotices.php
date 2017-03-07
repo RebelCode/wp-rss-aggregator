@@ -122,6 +122,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
         foreach ($script_handles as $_idx => $_handle) {
             wp_enqueue_script($_handle);
         }
+        wp_enqueue_style( 'wprss-admin-notifications' );
         // Post-enqueueing action
         $this->event('admin_notice_collection_after_enqueue_scripts', array(&$script_handles, $collection));
     }
@@ -138,18 +139,18 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
         // This handles the client side for WPRSS_Admin_Notices
         wp_register_script( 'wprss-admin-notifications', wprss_get_script_url( 'admin-notifications' ), array('aventura'), $version, true );
 
-	// Frontend settings
+        // Frontend settings
         $settings = array(
             'notice_class'                  => $collection->get_notice_base_class(),
             'nonce_class'                   => $collection->get_nonce_base_class(),
             'btn_close_class'               => $collection->get_btn_close_base_class(),
             'action_code'                   => wprss_admin_notice_get_action_code(),
             'dismiss_mode_class_prefix'     => $collection->get_dismiss_mode_class_prefix(),
-	);
-	$this->event( 'admin_notice_collection_before_localize_vars', array(&$settings, $collection) );
-	wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
+        );
+        $this->event( 'admin_notice_collection_before_localize_vars', array(&$settings, $collection) );
+        wp_localize_script( 'aventura', 'adminNoticeGlobalVars', $settings);
 
-        wp_enqueue_style( 'wprss-admin-styles' );
+        wp_register_style( 'wprss-admin-notifications', WPRSS_CSS . 'admin-notifications.css', array(), $version );
     }
 
     /**
