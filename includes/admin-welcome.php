@@ -121,7 +121,7 @@
 									</div>
 								<?php break; endforeach; endif; ?>
 								
-		 						<?php echo wpautop( sprintf( __( 'Need functionality not already available in core or the add-ons? You can <a href="%1$s">suggest new features</a>!', WPRSS_TEXT_DOMAIN ), 'https://trello.com/b/UJJwpvZu/wp-rss-aggregator-public-roadmap' ) ) ?>
+                                                                <?php echo wpautop( sprintf( __( 'Need functionality not already available in core or the add-ons? You can <a href="%1$s">suggest new features</a>!', WPRSS_TEXT_DOMAIN ), 'https://www.wprssaggregator.com/feature-requests/' ) ) ?>
 
 							</div>
 
