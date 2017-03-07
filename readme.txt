@@ -4,7 +4,7 @@ Plugin URI: https://www.wprssaggregator.com
 Tags: RSS, RSS feeds, aggregation, autoblog, content curation, feed reader, feed to post, RSS aggregator, RSS feeder, RSS import, RSS to post, syndication, multiple feed import
 Requires at least: 4.0
 Tested up to: 4.7.2
-Stable tag: 4.11
+Stable tag: 4.11.1
 License: GPLv3
 WP RSS Aggregator is the most comprehensive RSS feed importer and autoblogging plugin for WordPress with premium add-ons for additional functionality.
 
@@ -286,18 +286,21 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
-= 4.11 (2017-02-06) =
+= 4.11.1 (2017-03-07) =
+* Fixed bug that caused minor publishing controls to be hidden on unrelated Edit screens.
+
+= 4.11 (2017-03-06) =
 * Fixed bug with lifetime licenses showing expiry notices.
 * Fixed bug with being able to submit form on Licenses page.
 * Fixed bug with empty saved license key causing PHP notice, and not triggering reminder notification.
 * Fixed bug with saved but inactive licenses not triggering reminder notification.
 * Fixed bug with minified assets not being served by default.
 * Fixed bug with cached admin assets being served even after update.
-* Fixed bug with admin notifications displayed on unrelated pages not being dismissable.
+* Fixed bug with admin notifications displayed on unrelated pages not being dismissible.
 * Enhanced Licenses page so as to make the [Enter] key toggle license activation.
 * Enhanced architecture by using a DI container.
 * Enhanced admin notifications by refactoring them to use the same mechanism.
-* Enhanced admin notifications by making all of them dismissable.
+* Enhanced admin notifications by making all of them dismissible.
 
 = 4.10 (2016-12-29) =
 * Fixed bug with feed error output breaking tooltips on "Feed Sources" page.

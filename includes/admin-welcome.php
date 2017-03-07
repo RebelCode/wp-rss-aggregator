@@ -107,6 +107,7 @@
 										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf"><?php _e( 'Keyword Filtering', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/full-text-rss-feeds/" target="wprss_kf"><?php _e( 'Full Text RSS Feeds', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 										<li><strong><a href="http://www.wprssaggregator.com/extension/wordai/" target="wprss_ai"><?php _e( 'WordAi', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/spinnerchief/" target="wprss_sc"><?php _e( 'SpinnerChief', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 									</ul>
 								</p>
 								<?php echo wpautop( sprintf( __( 'More information about add-ons can be found on our website <a href="%1$s">%2$s</a>', WPRSS_TEXT_DOMAIN ), 'http://www.wprssaggregator.com', 'www.wprssaggregator.com' ) ) ?>
@@ -121,7 +122,7 @@
 									</div>
 								<?php break; endforeach; endif; ?>
 								
-		 						<?php echo wpautop( sprintf( __( 'Need functionality not already available in core or the add-ons? You can <a href="%1$s">suggest new features</a>!', WPRSS_TEXT_DOMAIN ), 'https://trello.com/b/UJJwpvZu/wp-rss-aggregator-public-roadmap' ) ) ?>
+                                                                <?php echo wpautop( sprintf( __( 'Need functionality not already available in core or the add-ons? You can <a href="%1$s">suggest new features</a>!', WPRSS_TEXT_DOMAIN ), 'https://www.wprssaggregator.com/feature-requests/' ) ) ?>
 
 							</div>
 
