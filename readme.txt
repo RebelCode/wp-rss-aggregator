@@ -293,11 +293,11 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 * Fixed bug with saved but inactive licenses not triggering reminder notification.
 * Fixed bug with minified assets not being served by default.
 * Fixed bug with cached admin assets being served even after update.
-* Fixed bug with admin notifications displayed on unrelated pages not being dismissable.
+* Fixed bug with admin notifications displayed on unrelated pages not being dismissible.
 * Enhanced Licenses page so as to make the [Enter] key toggle license activation.
 * Enhanced architecture by using a DI container.
 * Enhanced admin notifications by refactoring them to use the same mechanism.
-* Enhanced admin notifications by making all of them dismissable.
+* Enhanced admin notifications by making all of them dismissible.
 
 = 4.10 (2016-12-29) =
 * Fixed bug with feed error output breaking tooltips on "Feed Sources" page.
