@@ -78,6 +78,10 @@
                         'label'     => __( 'Limit feed items per import', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_per_import_callback'
                     ),
+                    'feed_items_import_order' => array(
+                        'label'     => __( 'Import order', WPRSS_TEXT_DOMAIN ),
+                        'callback'  => 'wprss_setting_feed_items_import_order_callback'
+                    ),
                     'limit-feed-items-imported' => array(
                         'label'     => __( 'Limit feed items per feed', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
@@ -897,9 +901,11 @@
     }
 
     /**
+     * Renders the `limit_feed_items_per_import` setting.
+     *
      * @since [*next-version*]
      *
-     * @param type $field
+     * @param array $field Field data.
      */
     function wprss_setting_limit_feed_items_per_import_callback($field)
     {
@@ -912,6 +918,35 @@
             'placeholder'       => __( 'No Limit', WPRSS_TEXT_DOMAIN )
         ));
         ?>
+        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
+
+    /**
+     * Renders the `feed_items_import_order` setting.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $field Field data.
+     */
+    function wprss_setting_feed_items_import_order_callback($field)
+    {
+        $id = $field['field_id'];
+        $mainOptionName = 'wprss_settings_general';
+        $value = wprss_get_general_setting($id);
+        $items = array(
+            ''                     => __('Any', WPRSS_TEXT_DOMAIN),
+            'latest'               => __('Latest First', WPRSS_TEXT_DOMAIN),
+            'oldest'               => __('Oldest First', WPRSS_TEXT_DOMAIN),
+        );
+        ?>
+		<select id="<?php echo $id ?>" name="<?php echo \Aventura\Wprss\Core\Model\SettingsAbstract::getNameHtml(array($mainOptionName, $id)) ?>">
+		<?php
+        foreach( $items as $_value => $_label ): ?>
+            <option value="<?php echo esc_attr($_value) ?>" <?php selected( $value, $_value ) ?> >
+                <?php echo esc_html($_label) ?>
+            </option>
+        <?php endforeach ?>
+        </select>
         <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 

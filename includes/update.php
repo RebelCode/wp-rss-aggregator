@@ -265,6 +265,7 @@
 
                 // From [*next-version*]
                 'limit_feed_items_per_import'   => null,
+                'feed_items_import_order'       => '',
 			)
 		);
 

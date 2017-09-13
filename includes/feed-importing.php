@@ -72,6 +72,25 @@
 			wprss_log_obj( 'Feed URL is valid', $feed_url, null, WPRSS_LOG_LEVEL_INFO );
 			// Get the feed items from the source
 			$items = wprss_get_feed_items( $feed_url, $feed_ID );
+
+            // Sort the items
+            $sortOrder = trim(wprss_get_general_setting('feed_items_import_order'));
+            if (!empty($sortOrder)) {
+                switch ($sortOrder) {
+                    case 'latest':
+                        wprss_sort_items_by_date($items, true);
+                        break;
+
+                    case 'oldest':
+                        wprss_sort_items_by_date($items, false);
+                        break;
+
+                    case '':
+                    default:
+                        break;
+                }
+            }
+
 			// If got NULL, convert to an empty array
 			if ( $items === NULL ) {
 				$items = array();
@@ -699,3 +718,34 @@
 			}
 		}
 	}
+
+    /**
+     * Sorts a list of feed items.
+     *
+     * @since [*next-version*]
+     *
+     * @param \SimplePie_Item[] $items The list of items to sort.
+     * @param bool $descending True to sort in descending order; false for ascending.
+     */
+    function wprss_sort_items_by_date(&$items, $descending = true)
+    {
+        usort($items, function($a, $b) use ($descending) {
+            if (!($a instanceof \SimplePie_Item) || !($b instanceof \SimplePie_Item)) {
+                return 0;
+            }
+
+            $aDate = intval($a->get_gmdate('U'));
+            $bDate = intval($b->get_gmdate('U'));
+
+            if ($aDate === $bDate) {
+                return null;
+            }
+
+            if ($descending) {
+                return $aDate > $bDate ? -1 : 1;
+            }
+            else {
+                return $aDate < $bDate ? -1 : 1;
+            }
+        });
+    }
