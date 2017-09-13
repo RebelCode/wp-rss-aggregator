@@ -262,6 +262,9 @@
 
                 // From 4.8.2
                 'feed_request_useragent'    => null,
+
+                // From [*next-version*]
+                'limit_feed_items_per_import'   => null,
 			)
 		);
 

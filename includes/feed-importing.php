@@ -144,6 +144,11 @@
 			}
 
 			$items_to_insert = $new_items;
+            $per_import = wprss_get_general_setting('limit_feed_items_per_import');
+            if (!empty($per_import)) {
+                wprss_log_obj( 'Per-import limit', $per_import, null, WPRSS_LOG_LEVEL_SYSTEM );
+                $items_to_insert = array_slice( $items_to_insert, 0, $per_import );
+            }
 
 			// If using a limit - delete any excess items to make room for the new items
 			if ( $feed_limit !== NULL ) {

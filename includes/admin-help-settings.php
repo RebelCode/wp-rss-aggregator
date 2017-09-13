@@ -32,6 +32,15 @@ function wprss_settings_add_tooltips() {
 '.											'<hr/>
 
 '.											'<em>Use 0 or leave empty for no limit.</em>', WPRSS_TEXT_DOMAIN),
+                // Limit feed items per import
+                'limit_feed_items_per_import' => __('The maximum allowed amount of items to process per import.
+'.                                           '<hr />
+
+'.                                           'Will not process more than this amount of items every import, regardless of other settings.
+'.                                           '<hr />
+
+'.                                           '<em>Leave empty for no limit</em>',
+                                             WPRSS_TEXT_DOMAIN),
 				// Feed processing interval
 				'cron-interval'             => __('How frequently should the feed sources (that do not have their own update interval) check for updates and fetch items accordingly.
 

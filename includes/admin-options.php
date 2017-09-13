@@ -74,6 +74,10 @@
                         'label'     => __( 'Limit feed items stored', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_callback'
                     ),
+                    'limit_feed_items_per_import' => array(
+                        'label'     => __( 'Limit feed items per import', WPRSS_TEXT_DOMAIN ),
+                        'callback'  => 'wprss_setting_limit_feed_items_per_import_callback'
+                    ),
                     'limit-feed-items-imported' => array(
                         'label'     => __( 'Limit feed items per feed', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
@@ -890,6 +894,25 @@
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[styles_disable]" type="checkbox" value="1" <?php echo checked( 1, $styles_disable, false ) ?> />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
+
+    /**
+     * @since [*next-version*]
+     *
+     * @param type $field
+     */
+    function wprss_setting_limit_feed_items_per_import_callback($field)
+    {
+        $id = $field['field_id'];
+        $mainOptionName = 'wprss_settings_general';
+        $value = wprss_get_general_setting($id);
+        echo \Aventura\Wprss\Core\Model\SettingsAbstract::getTextHtml($value, array(
+            'id'                => $id,
+            'name'              => \Aventura\Wprss\Core\Model\SettingsAbstract::getNameHtml(array($mainOptionName, $id)),
+            'placeholder'       => __( 'No Limit', WPRSS_TEXT_DOMAIN )
+        ));
+        ?>
+        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
