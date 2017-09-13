@@ -73,6 +73,12 @@
 			// Get the feed items from the source
 			$items = wprss_get_feed_items( $feed_url, $feed_ID );
 
+			// If got NULL, convert to an empty array
+			if ( $items === NULL ) {
+				$items = array();
+				wprss_log( 'Items were NULL. Using empty array', null, WPRSS_LOG_LEVEL_WARNING );
+			}
+
             // Sort the items
             $sortOrder = trim(wprss_get_general_setting('feed_items_import_order'));
             if (!empty($sortOrder)) {
@@ -90,12 +96,6 @@
                         break;
                 }
             }
-
-			// If got NULL, convert to an empty array
-			if ( $items === NULL ) {
-				$items = array();
-				wprss_log( 'Items were NULL. Using empty array', null, WPRSS_LOG_LEVEL_WARNING );
-			}
 
 			// If using a limit ...
 			if ( $feed_limit === NULL ) {
