@@ -37,10 +37,10 @@ function wprss_settings_add_tooltips() {
 '.                                           '<hr />
 
 '.                                           'Will not process more than this amount of items every time the feed source updates, regardless of other settings.
-'.                                           'The frequency of updates is determined by the feed processing interval    .
+'.                                           'The frequency of updates is determined by the feed processing interval.
 '.                                           '<hr />
 
-'.                                           '<em>Leave empty for no limit</em>',
+'.                                           '<em>Leave empty for no limit.</em>',
                                              WPRSS_TEXT_DOMAIN),
                 // Feed items import order
                 'feed_items_import_order'    => __('The order, in which the feed items will be imported.
@@ -52,7 +52,7 @@ function wprss_settings_add_tooltips() {
 '.                                           'This setting is very useful in combination with the per-import limit.
 '.                                           '<hr />
 
-'.                                           '<em>Default: Any</em>',
+'.                                           '<em>Default: Any.</em>',
                                              WPRSS_TEXT_DOMAIN),
 				// Feed processing interval
 				'cron-interval'             => __('How frequently should the feed sources (that do not have their own update interval) check for updates and fetch items accordingly.
