@@ -867,7 +867,7 @@
     function wprss_sort_comparators_default($feedSource = null)
     {
         $helper = wprss_wp_container()->get('wprss.admin_helper');
-        $defaultArgs = array(3 => $feedSource);
+        $defaultArgs = array(2 => $feedSource);
         return array(
             $helper->createCommand('wprss_item_comparator_date', $defaultArgs),
         );
