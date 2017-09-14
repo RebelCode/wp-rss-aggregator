@@ -60,27 +60,6 @@
     function wprss_addons_get_extra()
     {
         return apply_filters('wprss_extra_addons', array(
-            'et'                    => array(
-                'title'                 => 'Excerpts & Thumbnails',
-                'description'           => __("Adds the ability to display thumbnails and excerpts. Perfect for adding some life and color to your feed item display. For more flexibility Feed to Post is a better option.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/excerpts-thumbnails/'
-            ),
-            'c'                     => array(
-                'title'                 => 'Categories',
-                'description'           => __("Assign categories to your feed sources. Then display a particular category or multiple categories on a post or page via shortcodes.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-categories/wp-rss-categories.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/categories/'
-            ),
-            'kf'                    => array(
-                'title'                 => 'Keyword Filtering',
-                'description'           => __("Import feeds that contain specific keywords in either the title or their content. Control what gets imported to your blog. You can use keywords, keyphrases and categories.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/keyword-filtering/'
-            ),
             'ftp'                   => array(
                 'title'                 => 'Feed to Post',
                 'description'           => __("Allows you to import feed items into posts or any other custom post type that you have created. Takes WP RSS Aggregator to a whole new level of flexibility.", WPRSS_TEXT_DOMAIN),
@@ -102,6 +81,34 @@
                 'basename'              => 'wp-rss-wordai/wp-rss-wordai.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/wordai/'
             ),
+            'spc'                   => array(
+                'title'                 => 'SpinnerChief',
+                'description'           => __("An extension for Feed to Post that allows you to integrate the SpinnerChief article spinner so that the imported content is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/spinnerchief/'
+            ),
+            'et'                    => array(
+                'title'                 => 'Excerpts & Thumbnails',
+                'description'           => __("Adds the ability to display thumbnails and excerpts. Perfect for adding some life and color to your feed item display. For more flexibility Feed to Post is a better option.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/excerpts-thumbnails/'
+            ),
+            'c'                     => array(
+                'title'                 => 'Categories',
+                'description'           => __("Assign categories to your feed sources. Then display a particular category or multiple categories on a post or page via shortcodes.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-categories/wp-rss-categories.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/categories/'
+            ),
+            'kf'                    => array(
+                'title'                 => 'Keyword Filtering',
+                'description'           => __("Import feeds that contain specific keywords in either the title or their content. Control what gets imported to your blog. You can use keywords, keyphrases and categories.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/keyword-filtering/'
+            ),
             'widget'                => array(
                 'title'                 => 'Widget',
                 'description'           => __("An add-on for WP RSS Aggregator that displays your imported feed items in a widget on your site. Intergrates well with Excerpts &amp; Thumbnails", WPRSS_TEXT_DOMAIN),
@@ -109,13 +116,6 @@
                 'basename'              => 'wp-rss-widget/wp-rss-widget.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/widget/'
             ),
-            'spc'                   => array(
-                'title'                 => 'SpinnerChief',
-                'description'           => __("An extension for Feed to Post that allows you to integrate the SpinnerChief article spinner so that the imported content is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/spinnerchief/'
-            )
         ));
     }
     
