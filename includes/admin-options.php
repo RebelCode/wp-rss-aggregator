@@ -70,6 +70,10 @@
                         'label'     =>  __( 'Limit feed items stored by age', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
                     ),
+                    'limit-feed-items-imported' => array(
+                        'label'     => __( 'Limit feed items stored per feed', WPRSS_TEXT_DOMAIN ),
+                        'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
+                    ),
                     'limit-feed-items-db' => array(
                         'label'     => __( 'Limit feed items stored', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_callback'
@@ -81,10 +85,6 @@
                     'feed_items_import_order' => array(
                         'label'     => __( 'Import order', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_feed_items_import_order_callback'
-                    ),
-                    'limit-feed-items-imported' => array(
-                        'label'     => __( 'Limit feed items per feed', WPRSS_TEXT_DOMAIN ),
-                        'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
                     ),
                     'cron-interval' => array(
                         'label'     =>  __( 'Feed processing interval', WPRSS_TEXT_DOMAIN ),
