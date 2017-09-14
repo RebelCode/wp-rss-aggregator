@@ -518,6 +518,7 @@ i.wprss-updating-feed-icon.wprss-show {
     border: 1px solid #E5E5E5;
     position: relative;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    padding-bottom: 60px;
 }
 
 #add-ons .add-on h3 {
@@ -538,8 +539,16 @@ i.wprss-updating-feed-icon.wprss-show {
     background: #F5F5F5;
     border-top: 1px solid #E1E1E1;
     overflow: hidden;
-    padding: 15px;
-    position: relative;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding-top: 15px;
+    height: 45px;
+}
+
+#add-ons .add-on .footer .button {
+    float: left;
+    margin-left: 15px;
 }
 
 #add-ons .add-on-active .button-disabled:focus,
@@ -552,6 +561,16 @@ i.wprss-updating-feed-icon.wprss-show {
     width: 100%;
     margin: 25px 0 25px;
     border-top: #F5F5F5 solid 1px;
+}
+
+#menu-posts-wprss_feed .dashicons {
+    vertical-align: text-top;
+}
+
+.dashicons-star-filled.wprss-more-features-glyph {
+    color: #ffd700;
+    margin-left: 5px;
+    font-size: 12pt;
 }
 
 
