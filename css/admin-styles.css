@@ -518,6 +518,7 @@ i.wprss-updating-feed-icon.wprss-show {
     border: 1px solid #E5E5E5;
     position: relative;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    padding-bottom: 60px;
 }
 
 #add-ons .add-on h3 {
@@ -538,8 +539,16 @@ i.wprss-updating-feed-icon.wprss-show {
     background: #F5F5F5;
     border-top: 1px solid #E1E1E1;
     overflow: hidden;
-    padding: 15px;
-    position: relative;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding-top: 15px;
+    height: 45px;
+}
+
+#add-ons .add-on .footer .button {
+    float: left;
+    margin-left: 15px;
 }
 
 #add-ons .add-on-active .button-disabled:focus,
