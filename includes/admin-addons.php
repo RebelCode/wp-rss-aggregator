@@ -76,7 +76,7 @@
             ),
             'wai'                   => array(
                 'title'                 => 'WordAi',
-                'description'           => __("Allows you to take an RSS feed and turn it into new content that is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
+                'description'           => __("An extension for Feed to Post that allows you to integrate the WordAi article spinner so that the imported content is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-wordai/wp-rss-wordai.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/wordai/'
