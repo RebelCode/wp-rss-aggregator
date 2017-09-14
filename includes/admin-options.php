@@ -67,11 +67,11 @@
             array(
                 'general'   =>  array(
                     'limit-feed-items-by-age' => array(
-                        'label'     =>  __( 'Limit feed items by age', WPRSS_TEXT_DOMAIN ),
+                        'label'     =>  __( 'Limit feed items stored by age', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
                     ),
                     'limit-feed-items-db' => array(
-                        'label'     => __( 'Limit feed items stored', WPRSS_TEXT_DOMAIN ),
+                        'label'     => __( 'Limit feed items stored per feed', WPRSS_TEXT_DOMAIN ),
                         'callback'  => 'wprss_setting_limit_feed_items_callback'
                     ),
                     'limit_feed_items_per_import' => array(
