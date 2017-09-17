@@ -903,7 +903,7 @@
     /**
      * Renders the `limit_feed_items_per_import` setting.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param array $field Field data.
      */
@@ -924,7 +924,7 @@
     /**
      * Renders the `feed_items_import_order` setting.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param array $field Field data.
      */

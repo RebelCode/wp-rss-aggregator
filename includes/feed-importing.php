@@ -709,7 +709,7 @@
     /**
      * Validates a feed item.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param \SimplePie_Item|mixed $item The item to validate.
      *
@@ -728,7 +728,7 @@
      * Use the `wprss_item_comparators` filter to change the list of comparators
      * used to determine the new order of items. See {@see wprss_items_sort_compare_items()}.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param \SimplePie_Item[] $items The items list.
      * @param \WP_Post $feedSource The feed source, for which to sort, if any.
@@ -760,7 +760,7 @@
      * the comparators establishes a difference between items, or the list of
      * comparators is exhausted.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param \SimplePie_Item|mixed $itemA The item being compared;
      * @param \SimplePie_Item|mixed $itemB The item being compared to;
@@ -792,7 +792,7 @@
     /**
      * Retrieves a custom field of a feed source, or a general setting if the field doesn't exist.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param string $key The key of the field or setting.
      * @param \WP_Post|null $feedSource The feed source, if any.
@@ -815,7 +815,7 @@
      *
      * Which should come first is determined by `feed_items_import_order` setting.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param \SimplePie_Item|mixed $itemA The first item.
      * @param \SimplePie_Item|mixed $itemB The second item.
@@ -858,7 +858,7 @@
     /**
      * Retrieves default comparators for sorting.
      *
-     * @since [*next-version*]
+     * @since 4.11.2
      *
      * @param \WP_Post|null $feedSource The feed source, for which to get comparators, if any.
      *
