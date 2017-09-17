@@ -243,6 +243,10 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= 4.11.2 (2017-09-18) =
+* Added 2 new general settings for item import order and per-import limit.
+* Cosmetic and documentation improvements.
+
 = 4.11.1 (2017-03-07) =
 * Fixed bug that caused minor publishing controls to be hidden on unrelated Edit screens.
 
