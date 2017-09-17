@@ -92,6 +92,7 @@
         // On all admin screens
         wp_enqueue_style( 'wprss-admin-editor-styles' );
         wp_enqueue_style( 'wprss-admin-tracking-styles' );
+        wp_enqueue_style( 'wprss-admin-general-styles' );
 
         // Only on WPRA-related admin screens
         if ($isWpraScreen) {
@@ -212,5 +213,6 @@
         wp_register_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css', array(), $version );
         wp_register_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css', array(), $version );
         wp_register_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
+        wp_register_style( 'wprss-admin-general-styles', WPRSS_CSS . 'admin-general-styles.css', array(), $version );
         wp_register_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
     }
