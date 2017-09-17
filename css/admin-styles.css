@@ -563,16 +563,6 @@ i.wprss-updating-feed-icon.wprss-show {
     border-top: #F5F5F5 solid 1px;
 }
 
-#menu-posts-wprss_feed .dashicons {
-    vertical-align: text-top;
-}
-
-.dashicons-star-filled.wprss-more-features-glyph {
-    color: #ffd700;
-    margin-left: 5px;
-    font-size: 12pt;
-}
-
 
 /*== BLACKLIST */
 body.post-type-wprss_blacklist .add-new-h2,

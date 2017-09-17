@@ -1,0 +1,14 @@
+/*
+ * These are the styles that get enqueued by WP RSS Aggregator on all pages of
+ * the admin panel.
+ */
+
+#menu-posts-wprss_feed .dashicons {
+    vertical-align: text-top;
+}
+
+.dashicons-star-filled.wprss-more-features-glyph {
+    color: #ffd700;
+    margin-left: 5px;
+    font-size: 12pt;
+}
