@@ -12,6 +12,8 @@
 	add_filter('wprss_normalize_permalink', 'wprss_google_alerts_url_fix', 10);
 	add_filter('wprss_normalize_permalink', 'wprss_convert_video_permalink', 100);
 
+    // Adds comparators for item sorting
+    add_filter('wprss_item_comparators', 'wprss_sort_comparators_default');
 
 	add_action( 'wprss_fetch_single_feed_hook', 'wprss_fetch_insert_single_feed_items' );
 	/**
@@ -72,11 +74,15 @@
 			wprss_log_obj( 'Feed URL is valid', $feed_url, null, WPRSS_LOG_LEVEL_INFO );
 			// Get the feed items from the source
 			$items = wprss_get_feed_items( $feed_url, $feed_ID );
+
 			// If got NULL, convert to an empty array
 			if ( $items === NULL ) {
 				$items = array();
 				wprss_log( 'Items were NULL. Using empty array', null, WPRSS_LOG_LEVEL_WARNING );
 			}
+
+            // See `wprss_item_comparators` filter
+            wprss_sort_items($items);
 
 			// If using a limit ...
 			if ( $feed_limit === NULL ) {
@@ -144,6 +150,11 @@
 			}
 
 			$items_to_insert = $new_items;
+            $per_import = wprss_get_general_setting('limit_feed_items_per_import');
+            if (!empty($per_import)) {
+                wprss_log_obj( 'Per-import limit', $per_import, null, WPRSS_LOG_LEVEL_SYSTEM );
+                $items_to_insert = array_slice( $items_to_insert, 0, $per_import );
+            }
 
 			// If using a limit - delete any excess items to make room for the new items
 			if ( $feed_limit !== NULL ) {
@@ -694,3 +705,170 @@
 			}
 		}
 	}
+
+    /**
+     * Validates a feed item.
+     *
+     * @since 4.11.2
+     *
+     * @param \SimplePie_Item|mixed $item The item to validate.
+     *
+     * @return \SimplePie_Item|null The item, if it passes; otherwise, null.
+     */
+    function wprss_item_filter_valid($item)
+    {
+        return $item instanceof \SimplePie_Item
+                ? $item
+                : null;
+    }
+
+    /**
+     * Sorts items according to settings.
+     *
+     * Use the `wprss_item_comparators` filter to change the list of comparators
+     * used to determine the new order of items. See {@see wprss_items_sort_compare_items()}.
+     *
+     * @since 4.11.2
+     *
+     * @param \SimplePie_Item[] $items The items list.
+     * @param \WP_Post $feedSource The feed source, for which to sort, if any.
+     */
+    function wprss_sort_items(&$items, $feedSource = null)
+    {
+        // Callbacks used to compare items
+        $comparators = apply_filters('wprss_item_comparators', array());
+        if (empty($comparators)) {
+            return;
+        }
+
+        try {
+            usort($items, function ($itemA, $itemB) use ($comparators, $feedSource) {
+                return wprss_items_sort_compare_items($itemA, $itemB, $comparators, $feedSource);
+            });
+
+            wprss_log_obj( 'Sorted', NULL, WPRSS_LOG_LEVEL_INFO );
+        } catch (\InvalidArgumentException $e) {
+            wprss_log( 'Error was encountered while sorting items; list remains unsorted', NULL, WPRSS_LOG_LEVEL_WARNING );
+        }
+    }
+
+    /**
+     * Recursively compares two items using a list of comparators.
+     *
+     * If a comparator determines that two items are equal, then the items are
+     * evaluated using the next comparator in list, recursively until one of
+     * the comparators establishes a difference between items, or the list of
+     * comparators is exhausted.
+     *
+     * @since 4.11.2
+     *
+     * @param \SimplePie_Item|mixed $itemA The item being compared;
+     * @param \SimplePie_Item|mixed $itemB The item being compared to;
+     * @param callable[] $comparators A list of functions for item comparison.
+     *
+     * @return int A result usable as a return value for {@see usort()}.
+     *
+     * @throws \InvalidArgumentException If the comparator is not callable.
+     */
+    function wprss_items_sort_compare_items($itemA, $itemB, $comparators, $feedSource = null)
+    {
+        if (empty($comparators)) {
+            return 0;
+        }
+
+        $comparator = array_shift($comparators);
+        if (!is_callable($comparator)) {
+            throw new \InvalidArgumentException('Comparator must be callable');
+        }
+
+        $result = call_user_func_array($comparator, array($itemA, $itemB, $feedSource));
+        if (!$result) {
+            return wprss_items_sort_compare_items($itemA, $itemB, $comparators);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Retrieves a custom field of a feed source, or a general setting if the field doesn't exist.
+     *
+     * @since 4.11.2
+     *
+     * @param string $key The key of the field or setting.
+     * @param \WP_Post|null $feedSource The feed source, if any.
+     * @return type
+     */
+    function wprss_get_source_meta_or_setting($key, $feedSource = null)
+    {
+        $value = null;
+        if ($feedSource instanceof \WP_Post) {
+            $value = $feedSource->{$key};
+        }
+
+        return $value !== null && $value !== false
+                ? $value
+                : wprss_get_general_setting($key);
+    }
+
+    /**
+     * Determines date order of two feed items.
+     *
+     * Which should come first is determined by `feed_items_import_order` setting.
+     *
+     * @since 4.11.2
+     *
+     * @param \SimplePie_Item|mixed $itemA The first item.
+     * @param \SimplePie_Item|mixed $itemB The second item.
+     * @param \WP_Post|null $feedSource The feed source for which the items are being compared, if any.
+     * @return int A comparison result for {@see usort()}.
+     */
+    function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
+    {
+        $sortOrder = wprss_get_source_meta_or_setting('feed_items_import_order', $feedSource);
+        if (empty($sortOrder)) {
+            return 0;
+        }
+
+        if (!wprss_item_filter_valid($itemA) || !wprss_item_filter_valid($itemB)) {
+            return 0;
+        }
+
+        $aDate = intval($itemA->get_gmdate('U'));
+        $bDate = intval($itemB->get_gmdate('U'));
+
+        switch ($sortOrder) {
+            case 'latest':
+                if ($aDate === $bDate) {
+                    return null;
+                }
+                return $aDate > $bDate ? -1 : 1;
+                break;
+
+            case 'oldest':
+                return $aDate < $bDate ? -1 : 1;
+                break;
+
+            case '':
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    /**
+     * Retrieves default comparators for sorting.
+     *
+     * @since 4.11.2
+     *
+     * @param \WP_Post|null $feedSource The feed source, for which to get comparators, if any.
+     *
+     * @return callable[] The list of comparators.
+     */
+    function wprss_sort_comparators_default($feedSource = null)
+    {
+        $helper = wprss_wp_container()->get('wprss.admin_helper');
+        $defaultArgs = array(2 => $feedSource);
+        return array(
+            $helper->createCommand('wprss_item_comparator_date', $defaultArgs),
+        );
+    }

@@ -14,9 +14,13 @@
         <div class="wrap">
             <?php screen_icon( 'wprss-aggregator' ); ?>
 
-            <h2><?php _e( 'Add-Ons', WPRSS_TEXT_DOMAIN ); ?></h2>
-            <p><?php _e( "The following Add-ons are available to increase the functionality of the WP RSS Aggregator plugin.", WPRSS_TEXT_DOMAIN ); ?><br />
-               <?php _e( "Each Add-on can be installed as a separate plugin.", WPRSS_TEXT_DOMAIN ); ?></p>
+            <h2><?php _e( 'More Features With Our Premium Add-Ons', WPRSS_TEXT_DOMAIN ); ?></h2>
+            <p><?php echo sprintf(__( 'The following <a href="%1$s" target="_blank">add-ons</a> are available to increase the functionality of the WP RSS Aggregator plugin.', WPRSS_TEXT_DOMAIN ), 'http://www.wprssaggregator.com/extensions') ?></p>
+            <p><?php echo sprintf(__(
+                       'Save more with our <a href="%1$s" target="_blank"><strong>Simple Feeds Bundle</strong></a> or'
+                       . ' <a href="%2$s" target="_blank"><strong>Advanced Feeds Bundle</strong></a>!', WPRSS_TEXT_DOMAIN ),
+                       'https://www.wprssaggregator.com/extension/simple-feeds-bundle/',
+                       'https://www.wprssaggregator.com/extension/advanced-feeds-bundle/'); ?></p>
         
             <div id="add-ons" class="clearfix">
                 
@@ -56,54 +60,26 @@
     function wprss_addons_get_extra()
     {
         return apply_filters('wprss_extra_addons', array(
-            'et'                    => array(
-                'title'                 => 'Excerpts & Thumbnails',
-                'description'           => __("Adds the ability to display thumbnails and excerpts. Perfect for adding some life and color to your feed item display. For more flexibility Feed to Post is a better option.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/excerpts-thumbnails/'
-            ),
-            'c'                     => array(
-                'title'                 => 'Categories',
-                'description'           => __("Assign categories to your feed sources. Then display a particular category or multiple categories on a post or page via shortcodes.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-categories/wp-rss-categories.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/categories/'
-            ),
-            'kf'                    => array(
-                'title'                 => 'Keyword Filtering',
-                'description'           => __("Import feeds that contain specific keywords in either the title or their content. Control what gets imported to your blog. You can use keywords, keyphrases and categories.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/keyword-filtering/'
-            ),
             'ftp'                   => array(
                 'title'                 => 'Feed to Post',
-                'description'           => __("Allows you to import feed items into posts or any other custom post type that you have created. Takes WP RSS Aggregator to a whole new level of flexibility.", WPRSS_TEXT_DOMAIN),
+                'description'           => __("An advanced importer that lets you import RSS feed items as WordPress posts or any other custom post type. You can use it to populate a website in minutes (auto-blog). This is the most popular and feature-filled extension.", WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-feed-to-post/wp-rss-feed-to-post.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/feed-to-post/'
             ),
             'ftr'                   => array(
                 'title'                 => 'Full Text RSS Feeds',
-                'description'           => __("This add-ons provides the connectivity to our Full Text Premium service, which gives you unlimited feed items returned per feed source.", WPRSS_TEXT_DOMAIN),
+                'description'           => __("Adds connectivity to our premium full text service, which allows you to import the full post content for an unlimited number of feed items per feed source, even when the feed itself doesn't provide it", WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-full-text-feeds/wp-rss-full-text.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/full-text-rss-feeds/'
             ),
             'wai'                   => array(
                 'title'                 => 'WordAi',
-                'description'           => __("Allows you to spin the content for posts imported by Feed to Post using WordAi. Cleverly rewrite your posts without changing their meaning and maintaining human readability.", WPRSS_TEXT_DOMAIN),
+                'description'           => __("An extension for Feed to Post that allows you to integrate the WordAi article spinner so that the imported content is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-wordai/wp-rss-wordai.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/wordai/'
-            ),
-            'widget'                => array(
-                'title'                 => 'Widget',
-                'description'           => __("An add-on for WP RSS Aggregator that displays your imported feed items in a widget on your site. Intergrates well with Excerpts &amp; Thumbnails", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-widget/wp-rss-widget.php',
-                'url'                   => 'http://www.wprssaggregator.com/extension/widget/'
             ),
             'spc'                   => array(
                 'title'                 => 'SpinnerChief',
@@ -111,7 +87,35 @@
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
                 'url'                   => 'http://www.wprssaggregator.com/extension/spinnerchief/'
-            )
+            ),
+            'et'                    => array(
+                'title'                 => 'Excerpts & Thumbnails',
+                'description'           => __("Displays an excerpt and thumbnail image (taken from within the RSS feed) together with the title, date and source of each feed item. It uses the shortcode to display the feed items.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/excerpts-thumbnails/'
+            ),
+            'c'                     => array(
+                'title'                 => 'Categories',
+                'description'           => __("Categorises your feed sources and allows you to display feed items from a particular category within your site using the shortcode parameters.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-categories/wp-rss-categories.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/categories/'
+            ),
+            'kf'                    => array(
+                'title'                 => 'Keyword Filtering',
+                'description'           => __("Filters the feed items to be imported based on your own keywords, key phrases, or tags; you only get the items you're interested in. It is compatible with all other add-ons.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/keyword-filtering/'
+            ),
+            'widget'                => array(
+                'title'                 => 'Widget',
+                'description'           => __("Adds a widget to your website that displays all the imported feed items. It can also display excerpts and thumbnail images when used in conjunction with the Excerpts &amp; Thumbnails add-on", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-widget/wp-rss-widget.php',
+                'url'                   => 'http://www.wprssaggregator.com/extension/widget/'
+            ),
         ));
     }
     

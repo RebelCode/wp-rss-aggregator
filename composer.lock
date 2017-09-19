@@ -4,22 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5857acb2c4cc4ce9c2cec0e66451e8b5",
     "content-hash": "3955b4a2f79fedff2bb24232b584409d",
     "packages": [
         {
             "name": "container-interop/container-interop",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/container-interop/container-interop.git",
-                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e"
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/fc08354828f8fd3245f77a66b9e23a6bca48297e",
-                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
                 "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -32,7 +34,8 @@
                 "MIT"
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
-            "time": "2014-12-30 15:22:37"
+            "homepage": "https://github.com/container-interop/container-interop",
+            "time": "2017-02-14T19:40:03+00:00"
         },
         {
             "name": "container-interop/service-provider",
@@ -63,7 +66,7 @@
             ],
             "description": "Promoting container interoperability through standard service providers",
             "homepage": "https://github.com/container-interop/service-provider",
-            "time": "2016-05-16 07:42:22"
+            "time": "2016-05-16T07:42:22+00:00"
         },
         {
             "name": "dhii/collections-abstract",
@@ -106,7 +109,7 @@
                 }
             ],
             "description": "A collections library",
-            "time": "2016-11-10 19:29:24"
+            "time": "2016-11-10T19:29:24+00:00"
         },
         {
             "name": "dhii/collections-abstract-base",
@@ -148,7 +151,7 @@
                 }
             ],
             "description": "Collection base classes that do not depend on other non-collection packages, on which there is a dependency of other collection packages that depend on this package. This is done to avoid circular reference in the collection toolchain",
-            "time": "2016-11-10 15:09:37"
+            "time": "2016-11-10T15:09:37+00:00"
         },
         {
             "name": "dhii/collections-interface",
@@ -189,7 +192,7 @@
                 }
             ],
             "description": "Interfaces for collections",
-            "time": "2016-11-16 14:45:08"
+            "time": "2016-11-16T14:45:08+00:00"
         },
         {
             "name": "dhii/di",
@@ -243,7 +246,7 @@
                 "dependency injection",
                 "di"
             ],
-            "time": "2017-02-03 13:33:48"
+            "time": "2017-02-03T13:33:48+00:00"
         },
         {
             "name": "dhii/di-abstract",
@@ -288,7 +291,7 @@
                 }
             ],
             "description": "Base abstract classes for DI container implementations",
-            "time": "2017-02-02 18:30:06"
+            "time": "2017-02-02T18:30:06+00:00"
         },
         {
             "name": "dhii/di-interface",
@@ -332,7 +335,7 @@
                 }
             ],
             "description": "Interfaces for DI container implementations",
-            "time": "2017-02-02 13:12:09"
+            "time": "2017-02-02T13:12:09+00:00"
         },
         {
             "name": "dhii/stats-abstract",
@@ -374,7 +377,7 @@
                 }
             ],
             "description": "Abstract base for stats",
-            "time": "2016-11-10 18:55:43"
+            "time": "2016-11-10T18:55:43+00:00"
         },
         {
             "name": "dhii/stats-interface",
@@ -413,7 +416,56 @@
                 }
             ],
             "description": "Interfaces for stats",
-            "time": "2016-11-10 15:38:37"
+            "time": "2016-11-10T15:38:37+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "2cc4a01788191489dc7459446ba832fa79a216a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/2cc4a01788191489dc7459446ba832fa79a216a7",
+                "reference": "2cc4a01788191489dc7459446ba832fa79a216a7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-06-28 15:35:32"
         }
     ],
     "packages-dev": [],
