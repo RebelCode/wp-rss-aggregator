@@ -59,15 +59,11 @@
     function wprss_premium_help_display() {
         printf('<h3>%s</h3>', __( 'Premium Support', WPRSS_TEXT_DOMAIN ));
         printf(
-            _x(
-                'Contact us %s for pre-sales and premium support.',
-                '%s = "here" link to the "Contact Us" page on the site',
+            __(
+                'Contact us <a href="%s">here</a> for pre-sales and premium support.',
                 WPRSS_TEXT_DOMAIN
             ),
-            sprintf(
-                '<a href="http://www.wprssaggregator.com/contact/" target="wpra-contact-us-page">%s</a>',
-                _x( 'here', 'Contact us here', WPRSS_TEXT_DOMAIN )
-            )
+            "http://www.wprssaggregator.com/contact/"
         );
     }
 
