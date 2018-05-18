@@ -74,8 +74,8 @@
 	/**
 	 * Print the premium help section with inline support form.
 	 *
-     * (Currently unused)
-     *
+	 * (Currently unused)
+	 *
 	 * @since 4.7
 	 */
 	function wprss_premium_help_support_form() {
