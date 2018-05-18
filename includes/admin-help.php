@@ -51,12 +51,30 @@
 	}
 
 
+    /**
+     * Print the premium help section, linking to the contact us page on the site.
+     *
+     * @since [*next-version*]
+     */
+    function wprss_premium_help_display() {
+        printf('<h3>%s</h3>', __( 'Premium Support', WPRSS_TEXT_DOMAIN ));
+        printf(
+            __(
+                'Contact us <a href="%s">here</a> for pre-sales and premium support.',
+                WPRSS_TEXT_DOMAIN
+            ),
+            "http://www.wprssaggregator.com/contact/"
+        );
+    }
+
 	/**
 	 * Print the premium help section with inline support form.
 	 *
+	 * (Currently unused)
+	 *
 	 * @since 4.7
 	 */
-	function wprss_premium_help_display() {
+	function wprss_premium_help_support_form() {
 		// Addon and license object, both detected in the below algorithm that searches for a
 		// premium addon that is activated with a valid license
 		$addon = null;
