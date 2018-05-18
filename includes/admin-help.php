@@ -60,10 +60,11 @@
         printf('<h3>%s</h3>', __( 'Premium Support', WPRSS_TEXT_DOMAIN ));
         printf(
             __(
-                'Contact us <a href="%s">here</a> for pre-sales and premium support.',
+                'Contact us <a href="%s" target="%s=">here</a> for pre-sales and premium support.',
                 WPRSS_TEXT_DOMAIN
             ),
-            "http://www.wprssaggregator.com/contact/"
+            "http://www.wprssaggregator.com/contact/",
+            "wpra-premium-contact-us-form"
         );
     }
 
