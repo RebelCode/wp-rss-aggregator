@@ -66,7 +66,7 @@
             ),
             sprintf(
                 '<a href="http://www.wprssaggregator.com/contact/" target="wpra-contact-us-page">%s</a>',
-                _x( 'here', '', WPRSS_TEXT_DOMAIN )
+                _x( 'here', 'Contact us here', WPRSS_TEXT_DOMAIN )
             )
         );
     }
