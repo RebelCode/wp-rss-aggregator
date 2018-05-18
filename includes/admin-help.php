@@ -54,9 +54,11 @@
 	/**
 	 * Print the premium help section with inline support form.
 	 *
+     * (Currently unused)
+     *
 	 * @since 4.7
 	 */
-	function wprss_premium_help_display() {
+	function wprss_premium_help_support_form() {
 		// Addon and license object, both detected in the below algorithm that searches for a
 		// premium addon that is activated with a valid license
 		$addon = null;
