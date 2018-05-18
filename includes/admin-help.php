@@ -54,7 +54,7 @@
     /**
      * Print the premium help section, linking to the contact us page on the site.
      *
-     * @since 4.7
+     * @since [*next-version*]
      */
     function wprss_premium_help_display() {
         printf('<h3>%s</h3>', __( 'Premium Support', WPRSS_TEXT_DOMAIN ));
