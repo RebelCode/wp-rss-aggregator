@@ -51,6 +51,26 @@
 	}
 
 
+    /**
+     * Print the premium help section, linking to the contact us page on the site.
+     *
+     * @since 4.7
+     */
+    function wprss_premium_help_display() {
+        printf('<h3>%s</h3>', __( 'Premium Support', WPRSS_TEXT_DOMAIN ));
+        printf(
+            _x(
+                'Contact us %s for pre-sales and premium support.',
+                '%s = "here" link to the "Contact Us" page on the site',
+                WPRSS_TEXT_DOMAIN
+            ),
+            sprintf(
+                '<a href="http://www.wprssaggregator.com/contact/" target="wpra-contact-us-page">%s</a>',
+                _x( 'here', '', WPRSS_TEXT_DOMAIN )
+            )
+        );
+    }
+
 	/**
 	 * Print the premium help section with inline support form.
 	 *
