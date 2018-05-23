@@ -243,6 +243,9 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= 4.11.3 (2018-05-23) =
+* Removed contact form for GDPR compliance.
+
 = 4.11.2 (2017-09-18) =
 * Added 2 new general settings for item import order and per-import limit.
 * Cosmetic and documentation improvements.
