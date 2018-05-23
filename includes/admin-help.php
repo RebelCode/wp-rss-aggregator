@@ -63,7 +63,7 @@
                 'Contact us <a href="%s" target="%s=">here</a> for pre-sales and premium support.',
                 WPRSS_TEXT_DOMAIN
             ),
-            "http://www.wprssaggregator.com/contact/",
+            "https://www.wprssaggregator.com/contact/",
             "wpra-premium-contact-us-form"
         );
     }
