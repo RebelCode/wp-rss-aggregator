@@ -30,7 +30,7 @@
 
     /**
      * @package     WPRSSAggregator
-     * @version     4.11.2
+     * @version     4.11.3
      * @since       1.0
      * @author      RebelCode
      * @copyright   Copyright (c) 2012-2016, RebelCode Ltd.
