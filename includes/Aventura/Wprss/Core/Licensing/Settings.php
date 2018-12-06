@@ -325,7 +325,7 @@ class Settings {
 								<a href="<?php echo $accountUrl; ?>"><?php _e("No activations left. Click here to manage the sites you've activated licenses on.", WPRSS_TEXT_DOMAIN); ?></a>
 								<br/>
 							<?php endif; ?>
-							<?php if ( strtotime($expires) < strtotime("+2 weeks") ) : ?>
+							<?php if ( !empty($expires) && $expires !== 'never' && strtotime($expires) < strtotime("+2 weeks") ) : ?>
 								<?php $renewalUrl = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $licenseKey); ?>
 								<a href="<?php echo $renewalUrl; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
 								<br/>
