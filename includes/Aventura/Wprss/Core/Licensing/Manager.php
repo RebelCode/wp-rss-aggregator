@@ -340,7 +340,7 @@ class Manager {
 		// Iterate all licenses
 		foreach ( $this->_licenses as $_addonId => $_license ) {
 			if ($this->isLicenseExpiring($_addonId)) {
-				$expiringLicences[ $addonId ] = $_license;
+				$expiringLicences[ $_addonId ] = $_license;
 			}
 		}
 		return $expiringLicences;
