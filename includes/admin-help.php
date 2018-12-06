@@ -54,7 +54,7 @@
     /**
      * Print the premium help section, linking to the contact us page on the site.
      *
-     * @since [*next-version*]
+     * @since 4.11.3
      */
     function wprss_premium_help_display() {
         printf('<h3>%s</h3>', __( 'Premium Support', WPRSS_TEXT_DOMAIN ));
@@ -63,7 +63,7 @@
                 'Contact us <a href="%s" target="%s=">here</a> for pre-sales and premium support.',
                 WPRSS_TEXT_DOMAIN
             ),
-            "http://www.wprssaggregator.com/contact/",
+            "https://www.wprssaggregator.com/contact/",
             "wpra-premium-contact-us-form"
         );
     }
