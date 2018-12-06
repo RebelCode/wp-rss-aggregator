@@ -250,7 +250,7 @@ class Manager {
 	 * Gets the license key for a specific addon.
 	 *
 	 * @param  string $addonId The addon id.
-	 * @return array
+	 * @return License
 	 */
 	public function getLicense( $addonId ) {
 		if ( ! $this->licenseExists( $addonId ) ) {
