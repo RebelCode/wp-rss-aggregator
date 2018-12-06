@@ -2,10 +2,10 @@
 
 namespace Aventura\Wprss\Core\Licensing;
 
-use \Aventura\Wprss\Core\Licensing\License\Status;
-use \Aventura\Wprss\Core\Licensing\Api\RequestException;
-use \Aventura\Wprss\Core\Licensing\Api\ResponseException;
-use \Aventura\Wprss\Core\Licensing\Plugin\UpdaterException;
+use Aventura\Wprss\Core\Licensing\Api\RequestException;
+use Aventura\Wprss\Core\Licensing\Api\ResponseException;
+use Aventura\Wprss\Core\Licensing\License\Status;
+use Aventura\Wprss\Core\Licensing\Plugin\UpdaterException;
 
 /**
  * Manager class for license handling.
@@ -386,44 +386,63 @@ class Manager {
 	/**
 	 * Activates an add-on's license.
 	 *
-	 * @uses self::sendApiRequest() Sends the request with $action set as 'activate_license'.
+	 * @uses self::sendDualApiRequest() Sends the request with $action set as 'activate_license'.
 	 *
 	 * @param  string $addonId The ID of the addon.
 	 * @param  string $return  What to return from the response.
 	 * @return mixed
 	 */
 	public function activateLicense( $addonId, $return = 'license') {
-		return $this->sendApiRequest( $addonId, 'activate_license', $return );
+		return $this->sendDualApiRequest( $addonId, 'activate_license', $return );
 	}
 
 
 	/**
 	 * Deactivates an add-on's license.
 	 *
-	 * @uses self::sendApiRequest() Sends the request with $action set as 'deactivate_license'.
+	 * @uses self::sendDualApiRequest() Sends the request with $action set as 'deactivate_license'.
 	 *
 	 * @param  string $addonId The ID of the addon.
 	 * @param  string $return  What to return from the response.
 	 * @return mixed
 	 */
 	public function deactivateLicense( $addonId, $return = 'license') {
-		return $this->sendApiRequest( $addonId, 'deactivate_license', $return );
+		return $this->sendDualApiRequest( $addonId, 'deactivate_license', $return );
 	}
 
 
 	/**
 	 * Checks an add-on's license's status with the server.
 	 *
-	 * @uses self::sendApiRequest() Sends the request with $action set as 'check_license'.
+	 * @uses self::sendDualApiRequest() Sends the request with $action set as 'check_license'.
 	 *
 	 * @param  string $addonId The ID of the addon.
 	 * @param  string $return  What to return from the response.
 	 * @return mixed
 	 */
 	public function checkLicense( $addonId, $return = 'license') {
-		return $this->sendApiRequest( $addonId, 'check_license', $return );
+		return $this->sendDualApiRequest( $addonId, 'check_license', $return );
 	}
 
+    /**
+     * Calls the EDD Software Licensing API for a specified addon, falling back to the lifetime variant if required.
+     *
+     * @uses self::sendApiRequest To send the individual requests.
+     *
+     * @param string $addonId The ID of the addon
+     * @param string $action  The action to perform on the license.
+     * @param string $return  What to return from the response. If 'ALL', the entire license status object is returned,
+     *                        Otherwise, the property with name $return will be returned, or null if it doesn't exist.
+     * @return mixed
+     */
+    public function sendDualApiRequest( $addonId, $action = 'check_license', $return = 'license' ) {
+		$data   = $this->sendApiRequest( $addonId, $action, $return );
+		$status = is_object( $data ) ? $data->license : $data;
+
+		return ( in_array($status, ['invalid', 'item_name_mismatch', 'failed']) )
+			? $this->sendApiRequest( $addonId . static::LIFETIME_ADDON_ID_SUFFIX, $action, $return )
+			: $data;
+    }
 
 	/**
 	 * Calls the EDD Software Licensing API to perform licensing tasks on the addon's store server.
@@ -435,28 +454,45 @@ class Manager {
 	 * @return mixed
 	 */
 	public function sendApiRequest( $addonId, $action = 'check_license', $return = 'license' ) {
+		$lfSuffix = static::LIFETIME_ADDON_ID_SUFFIX;
+		$lfSuffixLen = strlen($lfSuffix);
+
+		// Check if a lifetime license (ends with lifetime suffix)
+		$isLifetime = (substr($addonId, -$lfSuffixLen) === $lfSuffix);
+		// Get the "real" addon ID (without the lifetime suffix)
+		$addonRid = $isLifetime
+			? substr($addonId, 0, -$lfSuffixLen)
+            : $addonId;
+
 		// Get the license for the addon
-		$license = $this->getLicense( $addonId );
+		$license = $this->getLicense( $addonRid );
 		// Use blank license if addon license does not exist
 		if ( $license === null ) {
 			$license = new License();
 		}
 
-		// Addon Uppercase ID
-		$addonUid = strtoupper( $addonId );
+		// Uppercase the addon ID
+		$addonUid = strtoupper( $addonRid );
+
 		// Prepare constants names
 		$itemNameConstant = sprintf( 'WPRSS_%s_SL_ITEM_NAME', $addonUid );
 		$storeUrlConstant = sprintf( 'WPRSS_%s_SL_STORE_URL', $addonUid );
+
 		// Check for existence of constants
 		if ( !defined($itemNameConstant) || !defined($storeUrlConstant) ) {
 			return null;
 		}
+
 		// Get constant values
 		$itemName = constant( $itemNameConstant );
 		$storeUrl = constant( $storeUrlConstant );
+        // Correct item name for lifetime variants
+        $itemName = ($isLifetime)
+            ? sprintf(static::LIFETIME_ITEM_NAME_PATTERN, $itemName)
+            : $itemName;
 
         try {
-            $licenseData = $this->api($storeUrl, array(
+            $licenseData = $this->api($storeUrl, $requestData = array(
                 'edd_action'            => $action,
                 'license'               => $license,
                 'item_name'             => $itemName,
@@ -560,6 +596,10 @@ class Manager {
 	 * @return boolean True if the updater was initialized, false on failure due to an invalid license.
 	 */
 	public function initUpdaterInstance($id, $itemName, $version, $path, $storeUrl = WPRSS_SL_STORE_URL) {
+	    // Generate the lifetime-variant item ID and name
+        $lfId = sprintf('%s%s', $id, static::LIFETIME_ADDON_ID_SUFFIX);
+        $lfItemName = sprintf('%s%s', $itemName, static::LIFETIME_ADDON_ID_SUFFIX);
+
 		// Prepare the data
 		$license = $this->getLicense( $id );
 		// If the addon doesn't have a license or the license is not valid, do not set the updater.
@@ -576,8 +616,17 @@ class Manager {
 				'item_name' =>	$itemName,				// name of this plugin
 			));
 
+            // Create an updater for the lifetime-variant of the license
+			$lfUpdater = $this->newUpdater($storeUrl, $path, array(
+				'version'   =>	$version,
+				'license'   =>	$license,
+				'item_name' =>	$lfItemName,
+			));
+
 			// Register the updater
 			$this->_setUpdaterInstance($id, $updater);
+            // Register the updater for the lifetime variant
+			$this->_setUpdaterInstance($lfId, $lfUpdater);
 
 			// Return true to indicate success
 			return true;
