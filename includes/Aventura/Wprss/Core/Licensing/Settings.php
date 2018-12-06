@@ -309,7 +309,12 @@ class Settings {
 						$activationsLeft = $data->activations_left;
 						$activationsLimit = $data->license_limit;
 						$expires = $data->expires;
-						$expires = substr( $expires, 0, strpos( $expires, " " ) );
+                        $expiresSpace = strpos($expires, ' ');
+                        // if expiry has space, get only first word
+                        $expires = ( $expiresSpace !== false ) ? substr( $expires, 0, $expiresSpace ) : $expires;
+						$expires = trim($expires);
+                        // change lifetime expiry to never
+                        $expires = ($expires === Manager::EXPIRATION_LIFETIME) ? __('never', WPRSS_TEXT_DOMAIN) : $expires;
 
 						// If the license key is garbage, don't show any of the data.
 						if ( !empty($data->payment_id) && !empty($data->license_limit ) ) :
