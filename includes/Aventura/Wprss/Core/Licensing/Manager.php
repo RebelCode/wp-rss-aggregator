@@ -29,6 +29,10 @@ class Manager {
 
     // Lifetime expiration value
     const EXPIRATION_LIFETIME = 'lifetime';
+    // Addon ID suffix for the lifetime-variant licenses
+    const LIFETIME_ADDON_ID_SUFFIX = '_lf';
+    // The EDD SL item name pattern for lifetime variants
+    const LIFETIME_ITEM_NAME_PATTERN = '%s (Lifetime)';
 
 	/**
 	 * License instance.
