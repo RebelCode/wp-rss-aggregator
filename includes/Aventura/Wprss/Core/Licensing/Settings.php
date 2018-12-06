@@ -333,9 +333,11 @@ class Settings {
 							<strong><?php _e('Activations', WPRSS_TEXT_DOMAIN); ?>:</strong>
 								<?php echo $currentActivations.'/'.$activationsLimit; ?> (<?php echo $activationsLeft; ?> left)
 							<br/>
-							<strong><?php _e('Expires on', WPRSS_TEXT_DOMAIN); ?>:</strong>
+                            <?php if ( !empty($expires) ) : ?>
+							<strong><?php _e('Expires', WPRSS_TEXT_DOMAIN); ?>:</strong>
 								<code><?php echo $expires; ?></code>
 							<br/>
+                            <?php endif; ?>
 							<strong><?php _e('Registered to', WPRSS_TEXT_DOMAIN); ?>:</strong>
 								<?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
 						</small>
