@@ -243,6 +243,10 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= [*next-version*] (YYYY-MM-DD) =
+* Added handling of lifetime licenses.
+* License renewal link and expiry are not shown if they are not applicable.
+
 = 4.11.2 (2017-09-18) =
 * Added 2 new general settings for item import order and per-import limit.
 * Cosmetic and documentation improvements.
