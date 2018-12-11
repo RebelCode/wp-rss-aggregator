@@ -262,7 +262,7 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 
 == Changelog ==
 
-= [*next-version*] (YYYY-MM-DD) =
+= 4.11.4 (2018-12-11) =
 * Added handling of lifetime licenses.
 * License renewal link and expiry are not shown if they are not applicable.
 
