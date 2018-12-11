@@ -243,6 +243,10 @@ Our complete documentation with FAQs included can be found on our dedicated [doc
 
 == Changelog ==
 
+= [*next-version*] (YYYY-MM-DD) =
+* Added handling of lifetime licenses.
+* License renewal link and expiry are not shown if they are not applicable.
+
 = 4.11.3 (2018-05-23) =
 * Updated Help & Support page.
 
