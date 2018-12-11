@@ -12,7 +12,7 @@
      */
 
     /**
-     * Copyright (C) 2012-2016 RebelCode Ltd.
+     * Copyright (C) 2012-2018 RebelCode Ltd.
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@
      * @version     4.11.4
      * @since       1.0
      * @author      RebelCode
-     * @copyright   Copyright (c) 2012-2016, RebelCode Ltd.
+     * @copyright   Copyright (c) 2012-2018, RebelCode Ltd.
      * @link        https://www.wprssaggregator.com/
      * @license     http://www.gnu.org/licenses/gpl.html
      */
