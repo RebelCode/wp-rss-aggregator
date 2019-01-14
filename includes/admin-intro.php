@@ -36,6 +36,49 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
 });
 
 /**
+ * Previews a feed by fetching some feed items.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $url The URL of the feed source.
+ * @param int    $max The maximum number of items to fetch.
+ *
+ * @return array An array of feed items, as associative arrays containing the following keys:
+ *               * title - The feed title
+ *               * permalink - The URL of the original article
+ *               * date - The published date of the original article
+ *               * author - The name of the author
+ *
+ * @throws Exception If failed to fetch the feed items.
+ */
+function wprss_preview_feed_items($url, $max = 10)
+{
+    $items = wprss_get_feed_items($url, null);
+
+    if ($items === null) {
+        throw new Exception(__('Failed to retrieve items'));
+    }
+
+    $count = 0;
+    $results = [];
+    foreach ($items as $item) {
+        /* @var $item SimplePie_Item */
+        $results[] = [
+            'title' => $item->get_title(),
+            'permalink' => $item->get_permalink(),
+            'date' => $item->get_date(get_option('date_format')),
+            'author' => $item->get_author()->name,
+        ];
+
+        if ($count++ > $max) {
+            break;
+        }
+    }
+
+    return $results;
+}
+
+/**
  * Creates a feed source with a given URL.
  *
  * @since [*next-version*]
