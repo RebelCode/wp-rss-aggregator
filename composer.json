@@ -16,5 +16,8 @@
         "dhii/di": "^0.1.1",
         "dhii/di-abstract": "^0.1",
         "dhii/di-interface": "^0.1"
+    },
+    "require-dev": {
+        "johnpbloch/wordpress-core": "^4.4 | ^5.0"
     }
 }
