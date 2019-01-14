@@ -168,6 +168,60 @@ function wprss_import_feed_sources_array($array)
 }
 
 /**
+ * Retrieves the ID of the page with the shortcode for the introduction, creating it if necessary.
+ *
+ * @since [*next-version*]
+ *
+ * @return int The ID of the page.
+ *
+ * @throws Exception If failed to create the page.
+ */
+function wprss_get_intro_shortcode_page()
+{
+    $id = get_option(WPRSS_INTRO_SHORTCODE_PAGE_OPTION, 0);
+    $page = get_post($id);
+
+    if (!$page) {
+        $id = wprss_create_shortcode_page();
+        update_option(WPRSS_INTRO_SHORTCODE_PAGE_OPTION, $id);
+    }
+
+    return $id;
+}
+
+/**
+ * Creates a page that contains the WP RSS Aggregator shortcode.
+ *
+ * @since [*next-version*]
+ *
+ * @param string|null $title  Optional title for the page.
+ * @param string      $status Optional status of the page.
+ *
+ * @return int The ID of the created page.
+ *
+ * @throws Exception If failed to create the page.
+ */
+function wprss_create_shortcode_page($title = null, $status = 'draft')
+{
+    $title = ($title === null)
+        ? _x('Feeds', 'default name of shortcode page', WPRSS_TEXT_DOMAIN)
+        : $title;
+
+    $id = wp_insert_post([
+        'post_type' => 'page',
+        'post_title' => $title,
+        'post_content' => '[wp-rss-aggregator]',
+        'post_status' => $status
+    ]);
+
+    if (is_wp_error($id)) {
+        throw new Exception($id->get_error_message(), $id->get_error_code());
+    }
+
+    return $id;
+}
+
+/**
  * Retrieves the step the user has reached in the introduction.
  *
  * @since [*next-version*]
