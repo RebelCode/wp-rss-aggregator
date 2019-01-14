@@ -278,6 +278,9 @@
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
+    /* The introduction onboarding module */
+    require_once ( WPRSS_INC . 'admin-intro.php' );
+
 	/* SimplePie */
 	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
 
