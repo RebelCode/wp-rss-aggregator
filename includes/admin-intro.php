@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) {
     die;
 }
 
+define('WPRSS_INTRO_PAGE_SLUG', 'wpra-intro');
 define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
 define('WPRSS_PREV_WELCOME_SCREEN_OPTION', 'wprss_pwsv');
 define('WPRSS_INTRO_DONE_OPTION', 'wprss_did_intro');
@@ -13,6 +14,39 @@ define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
 define('WPRSS_INTRO_FEED_URL_PARAM', 'wprss_intro_feed_url');
 define('WPRSS_INTRO_SHORTCODE_PAGE_OPTION', 'wprss_intro_shortcode_page');
 define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page');
+
+/**
+ * Registers the introduction page.
+ *
+ * @since [*next-version*]
+ */
+add_action('admin_menu', function () {
+    add_submenu_page(
+        null,
+        __('Welcome to WP RSS Aggregator'),
+        __('Welcome to WP RSS Aggregator'),
+        'read',
+        WPRSS_INTRO_PAGE_SLUG,
+        'wpra_render_intro_page'
+    );
+});
+
+/**
+ * Renders the intro page.
+ *
+ * @since [*next-version*]
+ *
+ * @throws Twig_Error_Loader
+ * @throws Twig_Error_Runtime
+ * @throws Twig_Error_Syntax
+ */
+function wpra_render_intro_page()
+{
+    echo wprss_render_template('admin-intro-page.twig', [
+        'title' => 'Welcome to WP RSS Aggregator 👋',
+        'subtitle' => 'Follow these introductory steps to get started with WP RSS Aggregator.',
+    ]);
+}
 
 /**
  * AJAX handler for setting the introduction step the user has reached.
@@ -281,6 +315,18 @@ function wprss_get_intro_step()
 function wprss_set_intro_step($step)
 {
     update_option(WPRSS_INTRO_STEP_OPTION, max($step, 0));
+}
+
+/**
+ * Retrieves the URL of the intro page.
+ *
+ * @since [*next-version*]
+ *
+ * @return string
+ */
+function wprss_get_intro_page_url()
+{
+    return menu_page_url(WPRSS_INTRO_PAGE_SLUG, false);
 }
 
 /**
