@@ -8,6 +8,8 @@ define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
 define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
 define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
 define('WPRSS_INTRO_FEED_URL_PARAM', 'wprss_intro_feed_url');
+define('WPRSS_INTRO_SHORTCODE_PAGE_OPTION', 'wprss_intro_shortcode_page');
+define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page');
 
 /**
  * AJAX handler for setting the introduction step the user has reached.
@@ -72,6 +74,39 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
         wprss_ajax_success_response($data);
     } catch (Exception $e) {
         wprss_ajax_error_response($e->getMessage(), 500);
+    }
+});
+
+/**
+ * Handler that redirects to the intro-created page that contains the WP RSS Aggregator shortcode.
+ *
+ * The page is created automatically if it doesn't exist.
+ *
+ * @since [*next-version*]
+ */
+add_action('init', function () {
+    if (!filter_input(INPUT_GET, WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM, FILTER_VALIDATE_BOOLEAN)) {
+        return;
+    }
+
+    check_admin_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
+    if (!current_user_can('manage_options')) {
+        wp_die('', '', [
+            'response' => 403,
+        ]);
+    }
+
+    try {
+        $id = wprss_get_intro_shortcode_page();
+        $url = get_preview_post_link($id);
+
+        if ($url === null) {
+            throw new Exception('Failed to get the preview URL for the page');
+        }
+
+        wp_redirect($url);
+    } catch (Exception $e) {
+        wp_die($e->getMessage());
     }
 });
 
