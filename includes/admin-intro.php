@@ -4,6 +4,37 @@ if (!defined('ABSPATH')) {
     die;
 }
 
+define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
+define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
+define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
+
+/**
+ * AJAX handler for setting the introduction step the user has reached.
+ *
+ * @since [*next-version*]
+ */
+add_action('wp_ajax_wprss_set_intro_step', function () {
+    check_ajax_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
+    if (!current_user_can('manage_options')) {
+        wp_die('', '', [
+            'response' => 403,
+        ]);
+    }
+
+    $step = filter_input(INPUT_POST, WPRSS_INTRO_STEP_POST_PARAM, FILTER_VALIDATE_INT);
+
+    if ($step === null) {
+        wprss_ajax_error_response(
+            sprintf(__('Missing intro step param "%s"', WPRSS_TEXT_DOMAIN), WPRSS_INTRO_STEP_POST_PARAM)
+        );
+    }
+
+    wprss_set_intro_step($step);
+    wprss_ajax_success_response([
+        'wprss_intro_step' => $step,
+    ]);
+});
+
 /**
  * Retrieves the step the user has reached in the introduction.
  *
