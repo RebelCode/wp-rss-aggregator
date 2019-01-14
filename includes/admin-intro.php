@@ -36,6 +36,55 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
 });
 
 /**
+ * Creates a feed source with a given URL.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $url The URL of the RSS feed.
+ *
+ * @return int The ID of the created feed source.
+ *
+ * @throws Exception If an error occurred while creating the feed source.
+ */
+function wprss_create_feed_source_with_url($url)
+{
+    $name = parse_url($url, PHP_URL_HOST);
+    $name = ($name === null) ? $url : $name;
+    $result = wprss_import_feed_sources_array([$url => $name]);
+
+    if (empty($result)) {
+        throw new Exception(
+            sprintf(__('Failed to import the feed source "%s" with URL "%s"', WPRSS_TEXT_DOMAIN), $name, $url)
+        );
+    }
+
+    if ($result[0] instanceof Exception) {
+        throw $result[0];
+    }
+
+    return $result[0];
+}
+
+/**
+ * Imports feed sources from an associative array.
+ *
+ * @since [*next-version*]
+ *
+ * @param string[] $array An array of feed source URLs mapping to feed source names.
+ *
+ * @return array The import results. For each source representation (in order), the result will be one of:
+ *               - Integer, representing the ID of the created resource;
+ *               - An {@link Exception} if something went wrong during import.
+ */
+function wprss_import_feed_sources_array($array)
+{
+    /* @var $importer Aventura\Wprss\Core\Component\BulkSourceImport */
+    $importer = wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX . 'array_source_importer');
+
+    return $importer->import($array);
+}
+
+/**
  * Retrieves the step the user has reached in the introduction.
  *
  * @since [*next-version*]
