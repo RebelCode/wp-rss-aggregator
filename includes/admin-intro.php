@@ -4,6 +4,9 @@ if (!defined('ABSPATH')) {
     die;
 }
 
+define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
+define('WPRSS_PREV_WELCOME_SCREEN_OPTION', 'wprss_pwsv');
+define('WPRSS_INTRO_DONE_OPTION', 'wprss_did_intro');
 define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
 define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
 define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
@@ -278,6 +281,32 @@ function wprss_get_intro_step()
 function wprss_set_intro_step($step)
 {
     update_option(WPRSS_INTRO_STEP_OPTION, max($step, 0));
+}
+
+/**
+ * Checks whether the introduction should be shown or not, based on whether the user is new and has not already
+ * previously done the introduction.
+ *
+ * @since [*next-version*]
+ *
+ * @return bool True if the introduction should be shown, falses if not.
+ */
+function wprss_should_do_intro()
+{
+    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DONE_OPTION, 0)) !== 1;
+}
+
+/**
+ * Checks if the user is new to WP RSS Aggregator.
+ *
+ * @since [*next-version*]
+ *
+ * @return bool True if the user is new, false if not.
+ */
+function wprss_is_new_user()
+{
+    return get_option(WPRSS_FIRST_ACTIVATION_OPTION, null) === null &&
+           get_option(WPRSS_PREV_WELCOME_SCREEN_OPTION, null) === null;
 }
 
 /**
