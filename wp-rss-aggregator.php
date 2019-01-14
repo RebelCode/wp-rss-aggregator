@@ -88,6 +88,9 @@
     if( !defined( 'WPRSS_LANG' ) )
         define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ), true );
 
+    if( !defined( 'WPRSS_TEMPLATES' ) )
+        define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ), true );
+
     // Set the constant path to the plugin's log file.
     if( !defined( 'WPRSS_LOG_FILE' ) )
         define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log', true );
@@ -283,6 +286,9 @@
 
 	/* SimplePie */
 	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
+
+    /* Twig */
+    require_once ( WPRSS_INC . '/twig.php' );
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
