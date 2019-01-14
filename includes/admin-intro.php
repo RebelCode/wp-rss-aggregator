@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
 define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
 define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
+define('WPRSS_INTRO_FEED_URL_PARAM', 'wprss_intro_feed_url');
 
 /**
  * AJAX handler for setting the introduction step the user has reached.
@@ -33,6 +34,45 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
     wprss_ajax_success_response([
         'wprss_intro_step' => $step,
     ]);
+});
+
+/**
+ * AJAX handler for creating a feed source from the introduction and previewing its items.
+ *
+ * @since [*next-version*]
+ */
+add_action('wp_ajax_wprss_create_intro_feed', function () {
+    check_ajax_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
+    if (!current_user_can('manage_options')) {
+        wp_die('', '', [
+            'response' => 403,
+        ]);
+    }
+
+    $url = filter_input(INPUT_POST, WPRSS_INTRO_FEED_URL_PARAM, FILTER_VALIDATE_URL);
+
+    if ($url === null) {
+        wprss_ajax_error_response(
+            __('Missing feed URL parameter', WPRSS_TEXT_DOMAIN)
+        );
+    }
+    if ($url === false) {
+        wprss_ajax_error_response(
+            __('The given feed URL is invalid', WPRSS_TEXT_DOMAIN)
+        );
+    }
+
+    try {
+        $id = wprss_create_feed_source_with_url($url);
+        $items = wprss_preview_feed_items($url);
+        $data = [
+            'feed_source_id' => $id,
+            'feed_items' => $items,
+        ];
+        wprss_ajax_success_response($data);
+    } catch (Exception $e) {
+        wprss_ajax_error_response($e->getMessage(), 500);
+    }
 });
 
 /**
