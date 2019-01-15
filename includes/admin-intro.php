@@ -42,6 +42,28 @@ add_action('admin_menu', function () {
  */
 function wpra_render_intro_page()
 {
+    wp_enqueue_script('intro-wizard', WPRSS_JS . 'intro.min.js', [], '0.1', true);
+    wp_enqueue_style('intro-wizard', WPRSS_CSS . 'intro.min.css');
+
+    $nonce = wp_create_nonce(WPRSS_INTRO_NONCE_NAME);
+    wp_localize_script('intro-wizard', 'wprssWizardConfig', [
+        'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $nonce),
+        'feedEndpoint' => [
+            'url' => admin_url('admin-ajax.php'),
+            'defaultPayload' => [
+                'action' => 'wprss_create_intro_feed',
+                'nonce' => $nonce,
+            ],
+        ],
+        'saveStepEnpoint' => [
+            'url' => admin_url('admin-ajax.php'),
+            'defaultPayload' => [
+                'action' => 'wprss_set_intro_step',
+                'nonce' => $nonce,
+            ],
+        ]
+    ]);
+
     echo wprss_render_template('admin-intro-page.twig', [
         'title' => 'Welcome to WP RSS Aggregator 👋',
         'subtitle' => 'Follow these introductory steps to get started with WP RSS Aggregator.',
