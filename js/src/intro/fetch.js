@@ -15,5 +15,12 @@ export function post (url, data, config = {}) {
   return fetch(url, {
     method: 'post',
     body: preparedData
-  }).then(response => response.json())
+  }).then(response => {
+    return response.json()
+  }).then(data => {
+    if (data.status !== 200) {
+      throw data
+    }
+    return data
+  })
 }

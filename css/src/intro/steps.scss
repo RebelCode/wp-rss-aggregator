@@ -13,6 +13,7 @@ $primary-color: #1a53e6;
 
 @import "animation";
 @import "expander";
+@import "loading";
 
 @mixin clear() {
   &:after {
@@ -78,9 +79,17 @@ $primary-color: #1a53e6;
 
   display: flex;
   margin: 0 -.5rem;
+  @include breakpoint(tablet) {
+    flex-wrap: wrap;
+  }
   .col {
     flex-basis: 50%;
     padding: 0 .5rem;
+
+    @include breakpoint(tablet) {
+      flex-basis: 100%;
+      padding-bottom: 1rem;
+    }
 
     img {
       max-width: 100%;
@@ -93,6 +102,12 @@ $primary-color: #1a53e6;
       margin-top: 0;
     }
   }
+}
+
+.wpra-feed-input {
+  width: 26rem;
+  padding: 6px 10px;
+  max-width: 100%;
 }
 
 .wpra-feedback {
@@ -136,19 +151,42 @@ $primary-color: #1a53e6;
   margin-bottom: 1rem;
   border-left: 4px solid #ff792b;
   .wpra-feed-item {
-    padding: .3rem;
+    padding: .75rem;
     &__link {
-      //font-size: 1rem;
+      padding-bottom: 4px;
     }
   }
 }
 
 .step-items {
+  $size: 35px;
+
   display: flex;
+  position: relative;
 
   flex-direction: column;
   align-items: flex-end;
-  padding: 1rem;
+
+  .step-progress {
+    position: absolute;
+    width: 3px;
+    height: 0;
+    background-color: $success-color;
+    left: $size / 2;
+    top: 0;
+    transition: height .3s ease;
+    z-index: -1;
+    &--1 {
+      height: 50%;
+    }
+    &--2 {
+      height: 100%;
+    }
+
+    @include breakpoint(tablet) {
+      display: none;
+    }
+  }
 
   @include breakpoint(tablet) {
     padding: .625rem;
@@ -160,8 +198,12 @@ $primary-color: #1a53e6;
     font-size: 16px;
     width: 15rem;
     margin-bottom: 2.25rem;
-    opacity: .5;
     display: flex;
+    background-color: #f1f1f1;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     @include breakpoint(tablet) {
       flex-direction: column;
@@ -170,12 +212,15 @@ $primary-color: #1a53e6;
     }
 
     &_active {
+      .step-item__info {
+        opacity: 1;
+      }
+      .step-item__status {
+        opacity: 1;
+      }
       opacity: 1;
       @include breakpoint(tablet) {
         flex-grow: 1;
-        .step-item__info {
-          //display: block;
-        }
       }
     }
     &__title {
@@ -189,6 +234,7 @@ $primary-color: #1a53e6;
       display: flex;
       align-items: center;
       padding-left: .75rem;
+      opacity: .5;
       @include breakpoint(tablet) {
         padding-left: 0;
         padding-top: .3rem;
@@ -197,27 +243,42 @@ $primary-color: #1a53e6;
     }
 
     &__status {
-      width: 40px;
-      height: 40px;
+      width: $size;
+      height: $size;
       border-radius: 50%;
       border: 2px dashed $medium-gray;
       flex-shrink: 0;
+      opacity: .5;
 
       text-align: center;
       font-size: 1.25rem;
       line-height: 2.375rem;
 
       color: $success-color;
+
+      span {
+        display: block;
+        margin: 0 !important;
+        width: 100%;
+        line-height: 35px;
+        font-size: 26px;
+      }
     }
 
     &_completed {
-      .step-item__status {
-        border-style: solid;
-        border-color: lighten($success-color, 4);
+      opacity: 1;
+      .step-item {
+        &__status {
+          border-style: solid;
+          border-color: $success-color;
+          opacity: 1;
 
-        span {
-          position: relative;
-          top: -1px;
+          span {
+            position: relative;
+          }
+        }
+        &__info {
+          opacity: .5;
         }
       }
     }
@@ -232,11 +293,69 @@ $primary-color: #1a53e6;
     margin-left: 0;
   }
 
+  ol {
+    margin-left: 1.5rem;
+    line-height: 1.5;
+    font-size: 13px;
+    ul {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    input {
+      flex-shrink: 0;
+    }
+    .warning-icon {
+      padding-left: 4px;
+      color: #ee5a65;
+    }
+  }
+
+  .button-clear {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 12px 2px;
+    vertical-align: baseline;
+
+    opacity: .55;
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  .button {
+    vertical-align: baseline !important;
+  }
+
+  .pad {
+    display: flex;
+    &-item {
+      &--grow {
+        flex-grow: 1;
+      }
+      &--no-shrink {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .wpra-success {
+    padding-right: 1rem;
+    font-size: 14px;
+  }
+
   &_content {
     padding: 1rem;
     font-size: 14px;
     max-width: $wizard-width;
     min-height: 16rem;
+    padding-top: 12px;
 
     @include breakpoint(tablet) {
       padding: .625rem;
@@ -257,10 +376,12 @@ $primary-color: #1a53e6;
     .connect-steps {
       flex-shrink: 0;
       max-width: 450px;
+      padding: 1rem;
 
       @include breakpoint(tablet) {
         max-width: 100%;
         flex-basis: auto;
+        padding: .5rem;
       }
     }
 
@@ -401,23 +522,27 @@ $primary-color: #1a53e6;
   &_label {
     font-size: 1rem;
     padding-top: .2rem;
-    padding-bottom: .5rem;
+    padding-bottom: .75rem;
   }
 }
 
 .wrpa-shortcode {
   .wrpa-shortcode-form {
     display: inline-block;
-    padding: 4px;
+    padding: 4px 8px;
     border-radius: 4px;
     background-color: $deep-gray;
     cursor: pointer;
+    margin-right: 4px;
     .wrpa-shortcode-form__shortcode {
       display: inline-block;
     }
     .wrpa-shortcode-form__button {
       display: inline-block;
-      opacity: .5;
+      opacity: .65;
+      font-size: 11px;
+      font-style: italic;
+      padding-right: 3px;
     }
   }
 }
@@ -454,17 +579,14 @@ $primary-color: #1a53e6;
   width: 100%;
   max-width: $wizard-width;
   border-top: 2px solid $light-gray;
-  padding: 1rem;
-  text-align: right;
+  padding: 1rem 0;
 
   .button {
     margin: 0;
   }
 
   @include breakpoint(tablet) {
-    padding: .625rem;
     padding-bottom: 2rem;
-    //text-align: left;
   }
 
   .fa-animated {

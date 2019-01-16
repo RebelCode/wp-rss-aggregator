@@ -48,6 +48,9 @@ function wpra_render_intro_page()
     $nonce = wp_create_nonce(WPRSS_INTRO_NONCE_NAME);
     wp_localize_script('intro-wizard', 'wprssWizardConfig', [
         'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $nonce),
+        'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
+        'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/',
+        'supportUrl' => 'https://www.wprssaggregator.com/contact/',
         'feedEndpoint' => [
             'url' => admin_url('admin-ajax.php'),
             'defaultPayload' => [
@@ -55,13 +58,6 @@ function wpra_render_intro_page()
                 'nonce' => $nonce,
             ],
         ],
-        'saveStepEnpoint' => [
-            'url' => admin_url('admin-ajax.php'),
-            'defaultPayload' => [
-                'action' => 'wprss_set_intro_step',
-                'nonce' => $nonce,
-            ],
-        ]
     ]);
 
     echo wprss_render_template('admin-intro-page.twig', [
