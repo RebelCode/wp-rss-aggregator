@@ -246,8 +246,8 @@ function wprss_create_intro_feed_source($url)
     ]);
 
     // Re-import the items for this feed
-    wp_schedule_single_event(time(),'wprss_delete_feed_items', [strval($feedId)]);
-    wp_schedule_single_event(time() + 5,'wprss_fetch_single_feed_hook', [strval($feedId)]);
+    wprss_delete_feed_items($feedId);
+    wprss_fetch_insert_single_feed_items($feedId);
 
     return $feedId;
 }
