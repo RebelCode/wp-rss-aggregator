@@ -79,6 +79,9 @@ $primary-color: #1a53e6;
 
   display: flex;
   margin: 0 -.5rem;
+  border-top: 2px solid rgba(0,0,0,.05);
+  padding-top: 1.45rem;
+
   @include breakpoint(tablet) {
     flex-wrap: wrap;
   }
@@ -97,6 +100,7 @@ $primary-color: #1a53e6;
 
     p {
       font-size: 14px;
+      line-height: 1.6;
     }
     p:first-child {
       margin-top: 0;
@@ -305,12 +309,23 @@ $primary-color: #1a53e6;
   .form-group {
     display: flex;
     align-items: center;
+    @include breakpoint(tablet) {
+      display: block;
+      align-items: unset;
+      input {
+        margin-bottom: 8px;
+      }
+    }
     input {
       flex-shrink: 0;
     }
     .warning-icon {
       padding-left: 4px;
       color: #ee5a65;
+    }
+    a {
+      flex-shrink: 0;
+      margin-left: 6px;
     }
   }
 
@@ -358,7 +373,7 @@ $primary-color: #1a53e6;
     padding-top: 12px;
 
     @include breakpoint(tablet) {
-      padding: .625rem;
+      padding: 0;
     }
   }
 

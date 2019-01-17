@@ -53,6 +53,7 @@ function wpra_render_intro_page()
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
         'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/',
         'supportUrl' => 'https://www.wprssaggregator.com/contact/',
+        'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.png',
         'feedEndpoint' => [
             'url' => admin_url('admin-ajax.php'),
             'defaultPayload' => [

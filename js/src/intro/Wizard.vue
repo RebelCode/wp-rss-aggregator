@@ -30,6 +30,7 @@
                                    class="wpra-feed-input"
                             >
                             <span class="dashicons dashicons-warning warning-icon" v-if="isFeedError"></span>
+                            <a :href="validateLink" target="_blank" v-if="isFeedError">Validate feed</a>
                         </div>
                     </form>
 
@@ -82,12 +83,10 @@
                     </div>
 
                     <div class="wrpa-shortcode">
-                        <div class="wrpa-shortcode-form" @click="copyToClipboard('[wp-rss-aggregator]')">
-                            <div class="wrpa-shortcode-form__shortcode">
-                                [wp-rss-aggregator]
-                            </div>
+                        <div class="wrpa-shortcode-form" @click="copyToClipboard()">
+                            <input class="wrpa-shortcode-form__shortcode" type="text" readonly value="[wp-rss-aggregator]" ref="selected"/>
                             <div class="wrpa-shortcode-form__button">
-                                Click to copy
+                                Ctrl+C or CMD+C to copy
                             </div>
                         </div>
                         OR
@@ -97,11 +96,11 @@
 
                 <div class="wizard_content" :key="activeScreen" v-if="active('finish')">
                     <div class="wizard_hello">
-                        You're on your way!
+                        You’ve successfully set up your first feed source 😄
                     </div>
 
                     <div class="wpra-cols-title">
-                        Do more with WP RSS Aggregator. Here's a look at what CryptoHeadlines.com is doing:
+                        Do more with WP RSS Aggregator - here is what we did at CryptoHeadlines.com.
                     </div>
 
                     <div class="wpra-cols">
@@ -111,14 +110,16 @@
                             <p>Full Text RSS Feeds is used to fetch the full content of the job listings to present more information to the potential applicant.</p>
                             <p>Keyword Filtering is used to filter out content that contains profanity and keywords or phrases deemed as inappropriate.</p>
                             <div style="margin-bottom: .5rem">
-                                <a :href="addOnsUrl" class="button button-primary" target="_blank">Browse Add-ons</a>
+                                <a :href="addOnsUrl" class="button" target="_blank">
+                                    Browse Add-ons ⭐️
+                                </a>
                             </div>
                             <div>
-                                <a :href="supportUrl" target="_blank">Contact support for more information.</a>
+                                <a :href="supportUrl" target="_blank" style="font-size: .9em">Contact support for more information.</a>
                             </div>
                         </div>
                         <div class="col">
-                            <img src="https://www.wprssaggregator.com/wp-content/uploads/2012/09/travel-blogger-community400px@2x.png"
+                            <img :src="demoImageUrl"
                                  class="img wpra-demo-photo">
 
                             <div class="wpra-feedback">
@@ -148,19 +149,12 @@
 
             <div class="connect-actions pad">
                 <div class="pad-item--grow">
-                    <transition name="fade" mode="out-in">
-                        <div v-if="active('finish')" key="info" class="wpra-success">
-                            🎉
-                            Congratulations! You've succesfully set up your first feed source. Continue adding more sources and setting up your preferred options in our Settings.
-                        </div>
-                        <button v-else class="button-clear"
-                                key="button"
-                                @click="finish"
-                        >
-                            Skip the introduction
-                        </button>
-                    </transition>
-                    &nbsp;
+                    <button v-if="!active('finish')"
+                            class="button-clear"
+                            @click="finish"
+                    >
+                        Skip the introduction
+                    </button>
                 </div>
                 <div class="pad-item--no-shrink">
                     <button class="button-clear"
@@ -170,10 +164,10 @@
                         Back
                     </button>
                     <button @click="next"
-                            class="button button-large"
-                            :class="{'loading-button': isLoading, 'button-primary': !active('finish')}"
+                            class="button button-primary button-large"
+                            :class="{'loading-button': isLoading}"
                     >
-                        {{ active('finish') ? 'Continue' : 'Next' }}
+                        {{ active('finish') ? 'Continue to Plugin' : 'Next' }}
                     </button>
                 </div>
             </div>
@@ -209,6 +203,11 @@
           title: _('Display feed items'),
           description: false,
           next: this.continueItems,
+          entered: () => {
+            setTimeout(() => {
+              this.copyToClipboard()
+            }, 400)
+          },
           completed: () => {
             return this.feed.items.length && this.itemsPassed
           }
@@ -239,10 +238,15 @@
         },
         previewUrl: CONFIG.previewUrl,
         addOnsUrl: CONFIG.addOnsUrl,
-        supportUrl: CONFIG.supportUrl
+        supportUrl: CONFIG.supportUrl,
+        demoImageUrl: CONFIG.demoImageUrl,
       }
     },
     computed: {
+      validateLink () {
+        return 'https://validator.w3.org/feed/check.cgi?url=' + encodeURI(this.form.feedSourceUrl)
+      },
+
       activeScreenIndex () {
         return this.screens.findIndex(screen => screen.id === this.activeScreen)
       },
@@ -360,8 +364,11 @@
        */
       finish (confirmFinish = false) {
         const visitList = () => window.location.href = CONFIG.feedListUrl
-        if (confirmFinish && confirm('Are you sure you want to skip the introduction?')) {
-          visitList()
+        if (confirmFinish) {
+          if (confirm('Are you sure you want to skip the introduction?')) {
+            visitList()
+          }
+          return
         }
         visitList()
         // redirect to the URL.
@@ -371,8 +378,14 @@
         return this.activeScreen === pageName
       },
 
-      copyToClipboard (text) {
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+      copyToClipboard () {
+        try {
+          this.$refs.selected.focus()
+          this.$refs.selected.select()
+        }
+        catch (e) {
+          console.error(e)
+        }
       }
     },
     components: {
