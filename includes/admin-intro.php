@@ -414,7 +414,7 @@ function wprss_get_intro_page_url()
  *
  * @since [*next-version*]
  *
- * @return bool True if the introduction should be shown, falses if not.
+ * @return bool True if the introduction should be shown, false if not.
  */
 function wprss_should_do_intro()
 {
