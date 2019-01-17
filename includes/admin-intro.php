@@ -127,6 +127,7 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
         $data = [
             'feed_items' => $items,
         ];
+        wprss_set_intro_done(true);
         wprss_ajax_success_response($data);
     } catch (Exception $e) {
         wprss_ajax_error_response($e->getMessage(), 500);
@@ -418,6 +419,18 @@ function wprss_get_intro_page_url()
 function wprss_should_do_intro()
 {
     return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1;
+}
+
+/**
+ * Sets the intro as done or not.
+ *
+ * @since [*next-version*]
+ *
+ * @param bool $done True to mark the introduction as done, false to show the intro on the next plugin activation.
+ */
+function wprss_set_intro_done($done = true)
+{
+    update_option(WPRSS_INTRO_DID_INTRO_OPTION, '1', false);
 }
 
 /**
