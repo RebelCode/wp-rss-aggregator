@@ -123,12 +123,12 @@
                                  class="img wpra-demo-photo">
 
                             <div class="wpra-feedback">
-                                <div class="wpra-feedback__photo">
-                                    <img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/review2.jpg">
-                                </div>
+                                <!--<div class="wpra-feedback__photo">-->
+                                    <!--<img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/review2.jpg">-->
+                                <!--</div>-->
                                 <div class="wpra-feedback__copy">
                                     <div class="wpra-feedback__text">
-                                        I’ve been testing several RSS plug-ins and some worked for a while and then stopped. RSS Aggregator is very stable.
+                                        This plugin has made my life a lot easier, and the support has been great as well.
                                     </div>
                                     <div class="wpra-feedback__rating">
                                         <span class="dashicons dashicons-star-filled"></span>
@@ -138,7 +138,9 @@
                                         <span class="dashicons dashicons-star-filled"></span>
                                     </div>
                                     <div class="wpra-feedback__by">
-                                        Review by abkuijer
+                                        <a :href="feedbackUrl" target="_blank">
+                                            Review by officeinnovator
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -240,6 +242,7 @@
         addOnsUrl: CONFIG.addOnsUrl,
         supportUrl: CONFIG.supportUrl,
         demoImageUrl: CONFIG.demoImageUrl,
+        feedbackUrl: CONFIG.feedbackUrl,
       }
     },
     computed: {

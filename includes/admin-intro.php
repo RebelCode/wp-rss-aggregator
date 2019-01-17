@@ -54,6 +54,7 @@ function wpra_render_intro_page()
         'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/',
         'supportUrl' => 'https://www.wprssaggregator.com/contact/',
         'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.png',
+        'feedbackUrl' => 'https://wordpress.org/support/topic/does-everything-i-need-16/',
         'feedEndpoint' => [
             'url' => admin_url('admin-ajax.php'),
             'defaultPayload' => [
