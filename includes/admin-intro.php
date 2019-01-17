@@ -122,7 +122,7 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
     }
 
     try {
-        wprss_create_intro_feed_source($url);
+        wp_schedule_single_event(time(), 'wprss_create_intro_feed_source', [$url]);
         $items = wprss_preview_feed_items($url);
         $data = [
             'feed_items' => $items,
@@ -209,6 +209,7 @@ function wprss_preview_feed_items($url, $max = 10)
     return $results;
 }
 
+add_action('wprss_create_intro_feed_source', 'wprss_create_intro_feed_source');
 /**
  * Creates the feed source for the onboarding introduction process.
  *
