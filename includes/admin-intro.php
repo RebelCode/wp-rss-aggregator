@@ -8,6 +8,7 @@ define('WPRSS_INTRO_PAGE_SLUG', 'wpra-intro');
 define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
 define('WPRSS_PREV_WELCOME_SCREEN_OPTION', 'wprss_pwsv');
 define('WPRSS_INTRO_DONE_OPTION', 'wprss_did_intro');
+define('WPRSS_INTRO_FEED_ID_OPTION', 'wprss_intro_feed_id');
 define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
 define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
 define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
@@ -206,6 +207,46 @@ function wprss_preview_feed_items($url, $max = 10)
     }
 
     return $results;
+}
+
+/**
+ * Creates the feed source for the onboarding introduction process.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $url The URL.
+ *
+ * @return int The ID of the feed source.
+ *
+ * @throws Exception If an error occurred while creating the feed source.
+ */
+function wprss_create_intro_feed_source($url)
+{
+    $feedId = get_option(WPRSS_INTRO_FEED_ID_OPTION, 0);
+    $feed = get_post($feedId, OBJECT);
+
+    if ($feed === null || $feed->post_status != 'publish') {
+        $newId = wprss_create_feed_source_with_url($url);
+        update_option(WPRSS_INTRO_FEED_ID_OPTION, $newId);
+
+        return $newId;
+    }
+
+    // Update the existing feed source with a new generated name and new URL
+    wp_update_post([
+        'ID' => $feedId,
+        'post_title' => wprss_feed_source_name_from_url($url),
+        'post_status' => 'publish',
+        'meta_input' => [
+            'wprss_url' => $url
+        ]
+    ]);
+
+    // Re-import the items for this feed
+    wp_schedule_single_event(time(),'wprss_delete_feed_items', [strval($feedId)]);
+    wp_schedule_single_event(time() + 5,'wprss_fetch_single_feed_hook', [strval($feedId)]);
+
+    return $feedId;
 }
 
 /**
