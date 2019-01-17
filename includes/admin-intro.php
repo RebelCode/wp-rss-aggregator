@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 define('WPRSS_INTRO_PAGE_SLUG', 'wpra-intro');
 define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
 define('WPRSS_PREV_WELCOME_SCREEN_OPTION', 'wprss_pwsv');
-define('WPRSS_INTRO_DONE_OPTION', 'wprss_did_intro');
+define('WPRSS_INTRO_DID_INTRO_OPTION', 'wprss_did_intro');
 define('WPRSS_INTRO_FEED_ID_OPTION', 'wprss_intro_feed_id');
 define('WPRSS_INTRO_FEED_LIMIT', 20);
 define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
@@ -417,7 +417,7 @@ function wprss_get_intro_page_url()
  */
 function wprss_should_do_intro()
 {
-    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DONE_OPTION, 0)) !== 1;
+    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1;
 }
 
 /**
