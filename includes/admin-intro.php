@@ -122,10 +122,9 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
     }
 
     try {
-        $id = wprss_create_intro_feed_source($url);
+        wprss_create_intro_feed_source($url);
         $items = wprss_preview_feed_items($url);
         $data = [
-            'feed_source_id' => $id,
             'feed_items' => $items,
         ];
         wprss_ajax_success_response($data);
