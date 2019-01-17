@@ -66,8 +66,6 @@
 		if (wprss_should_do_intro()) {
 		    wp_safe_redirect( wprss_get_intro_page_url() );
         }
-
-		exit;
 	}
 
 
