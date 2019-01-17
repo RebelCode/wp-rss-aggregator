@@ -46,6 +46,7 @@ class ArrayImporter extends AbstractWpImporter implements ImporterInterface
             $sources[] = [
                 ImporterInterface::SK_URL => $k,
                 ImporterInterface::SK_TITLE => $v,
+                'status' => 'publish'
             ];
         }
 
