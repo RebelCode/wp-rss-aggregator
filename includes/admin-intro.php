@@ -221,8 +221,7 @@ function wprss_preview_feed_items($url, $max = 10)
  */
 function wprss_create_feed_source_with_url($url)
 {
-    $name = parse_url($url, PHP_URL_HOST);
-    $name = ($name === null) ? $url : $name;
+    $name = wprss_feed_source_name_from_url($url);
     $result = wprss_import_feed_sources_array([$url => $name]);
 
     if (empty($result)) {
@@ -255,6 +254,23 @@ function wprss_import_feed_sources_array($array)
     $importer = wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX . 'array_source_importer');
 
     return $importer->import($array);
+}
+
+/**
+ * Generates a feed source name from a feed source URL.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $url The URL.
+ *
+ * @return string The generated name.
+ */
+function wprss_feed_source_name_from_url($url)
+{
+    $name = parse_url($url, PHP_URL_HOST);
+    $name = ($name === null) ? $url : $name;
+
+    return $name;
 }
 
 /**
