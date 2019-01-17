@@ -9,6 +9,7 @@ define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
 define('WPRSS_PREV_WELCOME_SCREEN_OPTION', 'wprss_pwsv');
 define('WPRSS_INTRO_DONE_OPTION', 'wprss_did_intro');
 define('WPRSS_INTRO_FEED_ID_OPTION', 'wprss_intro_feed_id');
+define('WPRSS_INTRO_FEED_LIMIT', 20);
 define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
 define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
 define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
@@ -227,6 +228,7 @@ function wprss_create_intro_feed_source($url)
 
     if ($feed === null || $feed->post_status != 'publish') {
         $newId = wprss_create_feed_source_with_url($url);
+        update_post_meta($newId, 'wprss_limit', WPRSS_INTRO_FEED_LIMIT);
         update_option(WPRSS_INTRO_FEED_ID_OPTION, $newId);
 
         return $newId;
@@ -238,7 +240,8 @@ function wprss_create_intro_feed_source($url)
         'post_title' => wprss_feed_source_name_from_url($url),
         'post_status' => 'publish',
         'meta_input' => [
-            'wprss_url' => $url
+            'wprss_url' => $url,
+            'wprss_limit' => WPRSS_INTRO_FEED_LIMIT
         ]
     ]);
 
