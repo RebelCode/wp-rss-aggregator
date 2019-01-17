@@ -63,7 +63,10 @@
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) )
 			return;
 
-		wp_safe_redirect( admin_url( 'index.php?page=wprss-welcome' ) );
+		if (wprss_should_do_intro()) {
+		    wp_safe_redirect( wprss_get_intro_page_url() );
+        }
+
 		exit;
 	}
 
