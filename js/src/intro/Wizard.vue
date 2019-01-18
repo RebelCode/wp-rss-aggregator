@@ -35,11 +35,13 @@
                     </form>
 
                     <div class="wizard_error" v-if="isFeedError">
-                        <p>Oh no! This RSS feed URL appears to be invalid. Here are a couple of things you can try:</p>
+                        <p>This RSS feed URL appears to be invalid. Here are a couple of things you can try:</p>
                         <ol>
                             <li>Check whether the URL you entered is the correct one by trying one of the options when clicking on "How do I find an RSS feed URL?" below.</li>
-                            <li>Test out this other RSS feed URL to make sure the plugin is working correctly. If it works, you may contact us here so we can help you figure out what's wrong with your source: https://www.wpmayor.com/feed/</li>
-                            <li>Test the URL's validity by W3C standards, the standards we use in our plugins: https://validator.w3.org/feed/</li>
+                            <li>
+                                Test out this other RSS feed URL to make sure the plugin is working correctly - https://www.wpmayor.com/feed/ - If it works, you may <a :href="supportUrl" target="_blank">contact us here</a> to help you with your source.
+                            </li>
+                            <li>Test the URL's validity by W3C standards, the standards we use in our plugins, using the “Validate feed” link above.</li>
                         </ol>
                     </div>
 
