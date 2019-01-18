@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 define('WPRSS_INTRO_PAGE_SLUG', 'wpra-intro');
 define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
-define('WPRSS_PREV_WELCOME_SCREEN_OPTION', 'wprss_pwsv');
+define('WPRSS_DB_VERSION_OPTION', 'wprss_db_version');
 define('WPRSS_INTRO_DID_INTRO_OPTION', 'wprss_did_intro');
 define('WPRSS_INTRO_FEED_ID_OPTION', 'wprss_intro_feed_id');
 define('WPRSS_INTRO_FEED_LIMIT', 20);
@@ -445,7 +445,7 @@ function wprss_set_intro_done($done = true)
 function wprss_is_new_user()
 {
     return get_option(WPRSS_FIRST_ACTIVATION_OPTION, null) === null &&
-           get_option(WPRSS_PREV_WELCOME_SCREEN_OPTION, null) === null;
+           intval(get_option(WPRSS_DB_VERSION_OPTION, 0)) > 0;
 }
 
 /**
