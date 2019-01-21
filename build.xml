@@ -21,6 +21,7 @@
         <include name="**/**" />
 
         <exclude name=".git/**" />
+        <exclude name=".idea/**" />
         <exclude name=".gitignore" />
         <exclude name="bin/**" />
         <exclude name="docs/**" />
@@ -29,8 +30,12 @@
         <exclude name="nbproject/**" />
         <exclude name="build.xml" />
         <exclude name="*.neon" />
+        <exclude name=".babelrc" />
         <exclude name="composer.json" />
         <exclude name="composer.lock" />
+        <exclude name="package.json" />
+        <exclude name="package.lock.json" />
+        <exclude name="webpack.config.js" />
         <exclude name="*.zip" />
     </fileset>
 
