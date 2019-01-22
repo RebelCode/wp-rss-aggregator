@@ -20,7 +20,7 @@ define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page
 /**
  * Registers the introduction page.
  *
- * @since [*next-version*]
+ * @since 4.12
  */
 add_action('admin_menu', function () {
     add_submenu_page(
@@ -36,7 +36,7 @@ add_action('admin_menu', function () {
 /**
  * Renders the intro page.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @throws Twig_Error_Loader
  * @throws Twig_Error_Runtime
@@ -51,10 +51,11 @@ function wpra_render_intro_page()
     wp_localize_script('intro-wizard', 'wprssWizardConfig', [
         'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $nonce),
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
-        'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/',
-        'supportUrl' => 'https://www.wprssaggregator.com/contact/',
+        'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_addons_button&utm_content=addons_button',
+        'supportUrl' => 'https://www.wprssaggregator.com/contact/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_support_link&utm_content=support_link',
         'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.png',
         'feedbackUrl' => 'https://wordpress.org/support/topic/does-everything-i-need-16/',
+        'knowledgeBaseUrl' => 'https://kb.wprssaggregator.com/',
         'feedEndpoint' => [
             'url' => admin_url('admin-ajax.php'),
             'defaultPayload' => [
@@ -73,7 +74,7 @@ function wpra_render_intro_page()
 /**
  * AJAX handler for setting the introduction step the user has reached.
  *
- * @since [*next-version*]
+ * @since 4.12
  */
 add_action('wp_ajax_wprss_set_intro_step', function () {
     check_ajax_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
@@ -100,7 +101,7 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
 /**
  * AJAX handler for creating a feed source from the introduction and previewing its items.
  *
- * @since [*next-version*]
+ * @since 4.12
  */
 add_action('wp_ajax_wprss_create_intro_feed', function () {
     check_ajax_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
@@ -141,7 +142,7 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
  *
  * The page is created automatically if it doesn't exist.
  *
- * @since [*next-version*]
+ * @since 4.12
  */
 add_action('init', function () {
     if (!filter_input(INPUT_GET, WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM, FILTER_VALIDATE_BOOLEAN)) {
@@ -172,7 +173,7 @@ add_action('init', function () {
 /**
  * Previews a feed by fetching some feed items.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $url The URL of the feed source.
  * @param int    $max The maximum number of items to fetch.
@@ -216,7 +217,7 @@ add_action('wprss_create_intro_feed_source', 'wprss_create_intro_feed_source');
 /**
  * Creates the feed source for the onboarding introduction process.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $url The URL.
  *
@@ -258,7 +259,7 @@ function wprss_create_intro_feed_source($url)
 /**
  * Creates a feed source with a given URL.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $url The URL of the RSS feed.
  *
@@ -287,7 +288,7 @@ function wprss_create_feed_source_with_url($url)
 /**
  * Imports feed sources from an associative array.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string[] $array An array of feed source URLs mapping to feed source names.
  *
@@ -306,7 +307,7 @@ function wprss_import_feed_sources_array($array)
 /**
  * Generates a feed source name from a feed source URL.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $url The URL.
  *
@@ -323,7 +324,7 @@ function wprss_feed_source_name_from_url($url)
 /**
  * Retrieves the ID of the page with the shortcode for the introduction, creating it if necessary.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @return int The ID of the page.
  *
@@ -345,7 +346,7 @@ function wprss_get_intro_shortcode_page()
 /**
  * Creates a page that contains the WP RSS Aggregator shortcode.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string|null $title  Optional title for the page.
  * @param string      $status Optional status of the page.
@@ -377,7 +378,7 @@ function wprss_create_shortcode_page($title = null, $status = 'draft')
 /**
  * Retrieves the step the user has reached in the introduction.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @return int
  */
@@ -389,7 +390,7 @@ function wprss_get_intro_step()
 /**
  * Sets the step the user has reached in the introduction.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param int $step A positive integer.
  */
@@ -401,7 +402,7 @@ function wprss_set_intro_step($step)
 /**
  * Retrieves the URL of the intro page.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @return string
  */
@@ -414,7 +415,7 @@ function wprss_get_intro_page_url()
  * Checks whether the introduction should be shown or not, based on whether the user is new and has not already
  * previously done the introduction.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @return bool True if the introduction should be shown, false if not.
  */
@@ -426,7 +427,7 @@ function wprss_should_do_intro()
 /**
  * Sets the intro as done or not.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param bool $done True to mark the introduction as done, false to show the intro on the next plugin activation.
  */
@@ -438,7 +439,7 @@ function wprss_set_intro_done($done = true)
 /**
  * Checks if the user is new to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @return bool True if the user is new, false if not.
  */
@@ -451,7 +452,7 @@ function wprss_is_new_user()
 /**
  * Sends an AJAX success response.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param array $data   Optional data to send.
  * @param int   $status Optional HTTP status code of the response.
@@ -470,7 +471,7 @@ function wprss_ajax_success_response($data = [], $status = 200)
 /**
  * Sends an AJAX success response.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $message Optional error message.
  * @param int    $status  Optional HTTP status code of the response.

@@ -36,7 +36,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return \Aventura\Wprss\Core\Component\BulkSourceImport
      */
     public function _createBulkSourceImport(ContainerInterface $c, $p = null, $config = null)
     {
@@ -51,6 +51,16 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         return $service;
     }
 
+    /**
+     * Creates a plain text importer component.
+     *
+     * @since 4.11
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     * @return PlainTextImporter
+     */
     public function _createPlainTextImporter(ContainerInterface $c, $p = null, $config = null)
     {
         $config = $this->_normalizeConfig($config, array(
@@ -64,6 +74,17 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         return $service;
     }
 
+    /**
+     * Creates an array importer component.
+     *
+     * @since 4.12
+     *
+     * @param ContainerInterface $c
+     * @param null $p
+     * @param array $config
+     *
+     * @return ArrayImporter
+     */
     public function _createArrayImporter(ContainerInterface $c, $p = null, $config = null)
     {
         $config = $this->_normalizeConfig($config, array(

@@ -100,17 +100,17 @@
 								<h3><?php _e( 'Check out our add-ons:', WPRSS_TEXT_DOMAIN ) ?></h3>
 
 									<ul>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/widget/" target="wprss_widget"><?php _e( 'Widget', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/feed-to-post/" target="wprss_ftp"><?php _e( 'Feed to Post', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et"><?php _e( 'Excerpts &amp; Thumbnails', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/categories/" target="wprss_cat"><?php _e( 'Categories', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf"><?php _e( 'Keyword Filtering', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/full-text-rss-feeds/" target="wprss_kf"><?php _e( 'Full Text RSS Feeds', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
-										<li><strong><a href="http://www.wprssaggregator.com/extension/wordai/" target="wprss_ai"><?php _e( 'WordAi', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/widget/" target="wprss_widget"><?php _e( 'Widget', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/feed-to-post/" target="wprss_ftp"><?php _e( 'Feed to Post', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/excerpts-thumbnails/"  target="wprss_et"><?php _e( 'Excerpts &amp; Thumbnails', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/categories/" target="wprss_cat"><?php _e( 'Categories', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/keyword-filtering/" target="wprss_kf"><?php _e( 'Keyword Filtering', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/full-text-rss-feeds/" target="wprss_kf"><?php _e( 'Full Text RSS Feeds', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
+										<li><strong><a href="https://www.wprssaggregator.com/extension/wordai/" target="wprss_ai"><?php _e( 'WordAi', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 										<li><strong><a href="https://www.wprssaggregator.com/extension/spinnerchief/" target="wprss_sc"><?php _e( 'SpinnerChief', WPRSS_TEXT_DOMAIN ); ?></a></strong></li>
 									</ul>
 								</p>
-								<?php echo wpautop( sprintf( __( 'More information about add-ons can be found on our website <a href="%1$s">%2$s</a>', WPRSS_TEXT_DOMAIN ), 'http://www.wprssaggregator.com', 'www.wprssaggregator.com' ) ) ?>
+								<?php echo wpautop( sprintf( __( 'More information about add-ons can be found on our website <a href="%1$s">%2$s</a>', WPRSS_TEXT_DOMAIN ), 'https://www.wprssaggregator.com', 'www.wprssaggregator.com' ) ) ?>
 
 		 						<hr/>
 

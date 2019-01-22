@@ -3,9 +3,9 @@ Contributors: RebelCode, jeangalea, markzahra, Mekku, xedin.unknown,
 Plugin URI: https://www.wprssaggregator.com
 Tags: RSS import, RSS aggregator, autoblog, content curation, feed to post
 Requires at least: 4.0 or higher
-Tested up to: 5.0
+Tested up to: 5.0.3
 Requires PHP: 5.3.9 or higher
-Stable tag: 4.11.4
+Stable tag: 4.12
 License: GPLv3
 
 WP RSS Aggregator is the original & most popular WordPress solution for importing RSS feeds, auto-blogging, content curation & aggregation.
@@ -14,16 +14,14 @@ WP RSS Aggregator is the original & most popular WordPress solution for importin
 
 WP RSS Aggregator is the original and best plugin for easily importing, merging and displaying RSS and Atom feeds on your WordPress site. It's the most comprehensive and elegant RSS feed solution for WordPress.
 
-WP RSS Aggregator and its premium add-ons are compatible with the new Gutenberg block editor introduced in the revolutionary WordPress 5.0. You can find more information about how the two work together [here](https://kb.wprssaggregator.com/article/444-gutenberg-compatibility-core-plugin).
-
 == Engage Your Audience with Fresh Content ==
 
-Content remains king, which is why we provide a reliable solution to share content from any source. Whether you're sharing your own content between sites or importing news, tutorials, videos & more, from top sources around the world, this is the solution you need.
+Content remains an integral part of any website, which is why we provide a reliable solution to share content from any source on your own WordPress site. Whether sharing your own content across sites or importing news, tutorials, Youtube videos & more, from top sources around the world, this is the only solution you need.
 
 * No limit on the number of sources you can import from.
 * No limit on the number of items you can import.
-* Automate the import of content on a schedule.
-* Use our [shortcode](http://docs.wprssaggregator.com/shortcodes/) to easily display imported items.
+* Automate each import on its own schedule.
+* Use our [shortcode](https://kb.wprssaggregator.com/article/54-how-to-use-the-shortcode-to-display-feed-items) to easily display items.
 
 [youtube https://www.youtube.com/watch?v=OgB3veegtz4]
 
@@ -42,15 +40,15 @@ Content remains king, which is why we provide a reliable solution to share conte
 * Integrated with the Simplepie library that comes with WordPress.
 * Multilingual ready
 
-[Click here to learn more about this free core plugin.](https://www.wprssaggregator.com/extension/core-plugin/)
+[Click here to learn more about this free core plugin.](https://www.wprssaggregator.com/extension/core-plugin/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_learn_more&utm_content=learn_more)
 
 == Take It A Step Further - Import Posts ==
 
-Grow your WordPress site's credibility and popularity with related posts, job listings, Youtube videos, and more. Build news aggregators, curate articles from around the web, make money from affiliate links and much more.
+Increase your WordPress site's credibility and popularity with related posts, job listings, Youtube videos, and more. Build news aggregators, curate articles from around the web, make money from affiliate programs and much more.
 
 [youtube https://www.youtube.com/watch?v=-2z_bNws2MM]
 
-Our **[Advanced Feeds Bundle](https://www.wprssaggregator.com/extension/advanced-feeds-bundle/)** contains our 3 most popular premium add-ons which turn simple RSS feeds into full WordPress posts on your site.
+Our **[Advanced Feeds Bundle](https://www.wprssaggregator.com/extension/advanced-feeds-bundle/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_afb_link&utm_content=afb_link)** contains our 3 most popular premium add-ons which turn simple RSS feeds into full WordPress posts on your site.
 
 * Import as Drafts or set posts to Publish upon import
 * Import into Posts or any Custom Post Type on your site
@@ -65,16 +63,16 @@ Our **[Advanced Feeds Bundle](https://www.wprssaggregator.com/extension/advanced
 
 This bundle is a discounted grouping of all 3 add-ons, but each one can also be purchased separately. Get to know the add-ons individually:
 
-* **[Feed to Post](https://www.wprssaggregator.com/extension/feed-to-post/)**
-* **[Full Text RSS Feeds](https://www.wprssaggregator.com/extension/full-text-rss-feeds/)**
-* **[Keyword Filtering](https://www.wprssaggregator.com/extension/keyword-filtering/)**
+* **[Feed to Post](https://www.wprssaggregator.com/extension/feed-to-post/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_f2p_link&utm_content=f2p_link)**
+* **[Full Text RSS Feeds](https://www.wprssaggregator.com/extension/full-text-rss-feeds/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_ftr_link&utm_content=ftr_link)**
+* **[Keyword Filtering](https://www.wprssaggregator.com/extension/keyword-filtering/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_kf_link&utm_content=kf_link)**
 
 [Click here for a free demo of the above 3 add-ons.](http://demo.wprssaggregator.com/)
 
 You may even use our content spinner integrations with the above add-ons to spin the content upon import.
 
-* [WordAi Integration](https://www.wprssaggregator.com/extension/wordai/)
-* [SpinnerChief Integration](https://www.wprssaggregator.com/extension/spinnerchief/)
+* [WordAi Integration](https://www.wprssaggregator.com/extension/wordai/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_wai_link&utm_content=wai_link)
+* [SpinnerChief Integration](https://www.wprssaggregator.com/extension/spinnerchief/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_sc_link&utm_content=sc_link)
 
 Have a look at these incredible plugins in action:
 
@@ -84,7 +82,7 @@ Have a look at these incredible plugins in action:
 
 You can even take things a step further by easily creating a mobile app using the imported content. [Check out this tutorial from MobiLoud](https://www.mobiloud.com/help/knowledge-base/wp-rss-aggregator-mobile-app/) on how we built an app for WP News Desk.
 
-== ...Or Enhance Your Feed Lists (Shortcode) ==
+== ...Or Enhance Your Feed List Display (Using the Shortcode) ==
 
 Sometimes, the shortcode display of a list of feed items is all you need.
 
@@ -94,10 +92,10 @@ If this is what you're looking for, we have two add-ons that will enhance your f
 
 If you're a more organised person, you can categorise the feed sources as you want. The shortcode parameter for categories then lets you display groups of feed sources together. So you can now set up a page dedicate to world news showing only sources which work for that, another for entertainment, another for sport, and so on.
 
-* **[Excerpts & Thumbnails](https://www.wprssaggregator.com/extension/excerpts-thumbnails/)**
-* **[Categories](https://www.wprssaggregator.com/extension/categories/)**
+* **[Excerpts & Thumbnails](https://www.wprssaggregator.com/extension/excerpts-thumbnails/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_et_link&utm_content=et_link)**
+* **[Categories](https://www.wprssaggregator.com/extension/categories/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_cat_link&utm_content=cat_link)**
 
-These two add-ons form part of a discounted bundle called the **[Simple Feeds Bundle](https://www.wprssaggregator.com/extension/simple-feeds-bundle/)** which also includes keyword filtering.
+These two add-ons form part of a discounted bundle called the **[Simple Feeds Bundle](https://www.wprssaggregator.com/extension/simple-feeds-bundle/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_sfb_link&utm_content=sfb_link)** which also includes keyword filtering.
 
 [Click here for a free demo of these 3 add-ons.](http://simple.wprssaggregator.com/)
 
@@ -105,15 +103,18 @@ These two add-ons form part of a discounted bundle called the **[Simple Feeds Bu
 
 Our comprehensive [Knowledge Base](https://kb.wprssaggregator.com/) provides you with everything you need to install, set up and customise the plugin to your needs. You can also browse through a number of FAQs to get started.
 
-If that doesn't do the trick, we provide support for the free version of WP RSS Aggregator via the plugin repo support forum [here](https://wordpress.org/support/plugin/wp-rss-aggregator), while for premium support (owners of valid premium add-on licenses) and pre-sales questions please contact us via our [premium support channel](https://www.wprssaggregator.com/contact/).
+If that doesn't do the trick, we provide support for the free version of WP RSS Aggregator via the plugin repo support forum [here](https://wordpress.org/support/plugin/wp-rss-aggregator), while for premium support (owners of valid premium add-on licenses) and pre-sales questions please contact us via our [premium support channel](https://www.wprssaggregator.com/contact/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_contact_link&utm_content=contact_link).
 
 == Related Info ==
+
+WP RSS Aggregator and its premium add-ons are compatible with the new Gutenberg block editor introduced in the revolutionary WordPress 5.0. You can find more information about how the two work together [here](https://kb.wprssaggregator.com/article/444-gutenberg-compatibility-core-plugin).
 
 We provide a [Feed Creator](http://createfeed.wprssaggregator.com/) service that allows you to generate RSS feeds from any webpage, even if it doesn't have its own RSS feed.
 
 Our terms & conditions can be found [here](https://www.wprssaggregator.com/terms-conditions/).
 
 == High Praise From Trusted WordPress Leaders ==
+* [MH Themes](https://mhthemes.com/blog/create-news-aggregator-site-with-wordpress/)
 * [WP Mayor](http://www.wpmayor.com/rss-feeds-review-wp-rss-aggregator/)
 * [MobiLoud](https://www.mobiloud.com/blog/wordpress-rss-aggregator/)
 * [WPulsar](http://www.wpulsar.com/wp-rss-aggregator-plugin-feed-to-posts-keyword-filtering-review/)
@@ -164,7 +165,7 @@ It is advisable to use the 'HTML' view of the editor when inserting shortcodes w
 
 Here are two examples of a function call from within the theme's files:
 `
-<?php 
+<?php
 wprss_display_feed_items( $args = array(
 	'links_before' => '<ul>',
 	'links_after' => '</ul>',
@@ -172,11 +173,11 @@ wprss_display_feed_items( $args = array(
 	'link_after' => '</li>',
 	'limit' => '8',
 	'source' => '5,9'
-	)); 
+	));
 ?>
 `
 
-OR 
+OR
 
 `<?php do_shortcode('[wp-rss-aggregator]'); ?>`
 
@@ -194,7 +195,7 @@ Or you can call the function directly within your theme: `<?php wprss_display_fe
 
 No, there is no limit for the number of feed sources. Having many (50+) feed sources should not present any problems in itself. However, pulling in posts from many sites is bound to put your server under some stress, so you might want to consider using a hosting solution that goes beyond your typical shared host.
 
-Check out our dedicated page on [WordPress hosting](http://www.wprssaggregator.com/recommended-web-hosts/) recommendations.
+Check out our dedicated page on [WordPress hosting](https://www.wprssaggregator.com/recommended-web-hosts/?utm_source=wordpress-dot-org&utm_medium=readme&utm_campaign=readme_q-and-a_hosts&utm_content=q-and-a_hosts) recommendations.
 
 - - -
 
@@ -216,7 +217,7 @@ If the problems persist, please [contact our support team](https://wordpress.org
 
 - - -
 
-= Can I store imported feed items as posts? = 
+= Can I store imported feed items as posts? =
 
 Yes! You can do that with the [Feed to Post](http://www.wprssaggregator.com/extensions/feed-to-post) premium add-on. You will not only be able to store items as posts, but also as any other custom post type. You can also set the author, set tags and categories, import images into the gallery or set featured images, and much more.
 
@@ -261,6 +262,11 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 9. The complete settings page for the core plugin
 
 == Changelog ==
+
+= [*next-version*] (YYYY-MM-DD) =
+* Added an introduction page for new plugin users.
+* Disabled the welcome page on activation and updates.
+* Changed protocol for all links to HTTPS wherever necessary or applicable.
 
 = 4.11.4 (2018-12-11) =
 * Added handling of lifetime licenses.

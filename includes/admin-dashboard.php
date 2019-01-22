@@ -117,7 +117,7 @@
 		// Prepare fragments of the message
 		$thank_you = sprintf(
 			__( 'Thank you for using <a href="%1$s" target="_blank">WP RSS Aggregator</a>!', WPRSS_TEXT_DOMAIN ),
-			'http://www.wprssaggregator.com/'
+			'https://www.wprssaggregator.com/'
 		);
 		$rate_us = sprintf(
 			__( 'Please <a href="%1$s" target="_blank">rate us</a>!', WPRSS_TEXT_DOMAIN ),

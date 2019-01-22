@@ -92,7 +92,7 @@
             'id'			=> $prefix .'url',
             'type'			=> 'url',
             'after'			=> 'wprss_validate_feed_link',
-			'placeholder'	=>	'http://'
+			'placeholder'	=>	'https://'
         );
 
         $wprss_meta_fields[ 'limit' ] = array(
@@ -275,7 +275,7 @@
                             if ( url.trim().length > 0 ) {
                                 // Encode the url and generate the full url to the w3 feed validator
                                 var encodedUrl = encodeURIComponent( url );
-                                var fullURL = 'http://validator.w3.org/feed/check.cgi?url=' + encodedUrl;
+                                var fullURL = 'https://validator.w3.org/feed/check.cgi?url=' + encodedUrl;
                                 // Open the window / tab
                                 window.open( fullURL, 'wprss-feed-validator' );
                             }
@@ -440,7 +440,7 @@
                     <?php wprss_log_obj( 'Failed to preview feed.', $feed->get_error_message(), NULL, WPRSS_LOG_LEVEL_INFO ); ?>
                 </span>
 				<?php
-				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'http://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
+				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'https://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
             }
             
         }
@@ -629,13 +629,13 @@
      *
      */
     function wprss_help_meta_box_callback() {
-       echo '<p><a href="http://www.wprssaggregator.com/documentation/">View the documentation</p>';
+       echo '<p><a href="https://www.wprssaggregator.com/documentation/">View the documentation</p>';
        echo '<p><strong>';
        _e( 'Need help?', WPRSS_TEXT_DOMAIN );
-       echo '</strong> <a target="_blank" href="http://wordpress.org/support/plugin/wp-rss-aggregator">';
+       echo '</strong> <a target="_blank" href="https://wordpress.org/support/plugin/wp-rss-aggregator">';
        _e( 'Check out the support forum', WPRSS_TEXT_DOMAIN );
        echo '</a></p>';
-       echo '</strong> <a target="_blank" href="http://www.wprssaggregator.com/feature-requests/">';
+       echo '</strong> <a target="_blank" href="https://www.wprssaggregator.com/feature-requests/">';
        _e( 'Suggest a new feature', WPRSS_TEXT_DOMAIN );
        echo '</a></p>';
     }
@@ -674,7 +674,7 @@
     function wprss_follow_meta_box_callback() {
         ?>
         <ul>
-            <li class="twitter"><a href="http://twitter.com/wpmayor"><?php _e( 'Follow WP Mayor on Twitter.', WPRSS_TEXT_DOMAIN ) ?></a></li>
+            <li class="twitter"><a href="https://twitter.com/wpmayor"><?php _e( 'Follow WP Mayor on Twitter.', WPRSS_TEXT_DOMAIN ) ?></a></li>
             <li class="facebook"><a href="https://www.facebook.com/wpmayor"><?php _e( 'Like WP Mayor on Facebook.', WPRSS_TEXT_DOMAIN ) ?></a></li>
         </ul>
     <?php }

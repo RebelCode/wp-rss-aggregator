@@ -16,7 +16,7 @@
 				// Feed Source URL
 				'wprss_url'             => __('The URL of the feed source. In most cases, the URL of the site will also work, but for best results we recommend trying to find the URL of the RSS feed.
 
-' .											'Also include the <code>http://</code> prefix in the URL.', WPRSS_TEXT_DOMAIN),
+' .											'Also include the <code>http://</code> or <code>https://</code> prefix in the URL.', WPRSS_TEXT_DOMAIN),
 				// Feed limit
 				'wprss_limit'           => __('The maximum number of imported items from this feed to keep stored.
 

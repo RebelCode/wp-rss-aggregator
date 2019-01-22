@@ -65,7 +65,7 @@ function wprss_settings_add_tooltips() {
 
 '.											'Since this feature requires checking every post title, WordPress installs with a significant amount of posts may notice a slight slowdown of the post import process.', WPRSS_TEXT_DOMAIN),
 				// Custom Feed URL
-				'custom-feed-url'           => __('The URL of the custom feed, located at <code>http://yoursite.com/[custom feed url]</code>.
+				'custom-feed-url'           => __('The URL of the custom feed, located at <code>https://yoursite.com/[custom feed url]</code>.
 '.											'<hr/>
 
 '.											'WP RSS Aggregator allows you to create a custom RSS feed, that contains all of your imported feed items. This setting allows you to change the URL of this custom feed.

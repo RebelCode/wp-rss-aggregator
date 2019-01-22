@@ -61,6 +61,7 @@
                             </code>
                         </p>
                         <p>The RSS feed’s URL is found between the quotes after href=. In the above case, it would be  https://www.sourcedomain.com/feed/.</p>
+                        <p><a :href="knowledgeBaseUrl" target="_blank">Browse our Knowledge Base for more information.</a></p>
                     </expander>
                 </div>
 
@@ -245,6 +246,7 @@
         supportUrl: CONFIG.supportUrl,
         demoImageUrl: CONFIG.demoImageUrl,
         feedbackUrl: CONFIG.feedbackUrl,
+        knowledgeBaseUrl: CONFIG.knowledgeBaseUrl,
       }
     },
     computed: {
