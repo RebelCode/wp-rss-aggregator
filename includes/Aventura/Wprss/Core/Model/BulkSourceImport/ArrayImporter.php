@@ -7,14 +7,14 @@ use Exception;
 /**
  * A simple feed source importer that imports from an array of URLs mapping to feed source names.
  *
- * @since [*next-version*]
+ * @since 4.12
  */
 class ArrayImporter extends AbstractWpImporter implements ImporterInterface
 {
     /**
      * Constructor.
      *
-     * @since 4.11
+     * @since 4.12
      *
      * @param array    $data       Data members map.
      * @param callable $translator A translator.
@@ -33,7 +33,7 @@ class ArrayImporter extends AbstractWpImporter implements ImporterInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.12
      */
     protected function _inputToSourcesList($input)
     {
@@ -56,7 +56,7 @@ class ArrayImporter extends AbstractWpImporter implements ImporterInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.12
      */
     public function import($input)
     {

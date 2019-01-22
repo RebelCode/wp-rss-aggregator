@@ -3,7 +3,7 @@
 /**
  * Retrieves the twig instance for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @return Twig_Environment The twig instance.
  */
@@ -28,7 +28,7 @@ function wprss_twig()
 /**
  * Loads a WPRSS twig template.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $template The tmeplate name.
  *
@@ -45,7 +45,7 @@ function wprss_load_template($template)
 /**
  * Loads and renders a WPRSS template.
  *
- * @since [*next-version*]
+ * @since 4.12
  *
  * @param string $template The template name.
  * @param array  $context  The template context.
