@@ -263,6 +263,8 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 == Changelog ==
 
 = [*next-version*] (YYYY-MM-DD) =
+* Added an introduction page for new plugin users.
+* Disabled the welcome page on activation and updates.
 * Changed protocol for all links to HTTPS wherever necessary or applicable.
 
 = 4.11.4 (2018-12-11) =
