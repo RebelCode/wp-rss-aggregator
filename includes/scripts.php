@@ -68,7 +68,7 @@
         wp_register_script( 'wprss-admin-help', WPRSS_JS . 'admin-help.js', array(), $version );
         wp_localize_script( 'wprss-admin-help', 'wprss_admin_help', array(
             'sending'       => __('Sending...', WPRSS_TEXT_DOMAIN),
-            'sent-error'    => sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>', WPRSS_TEXT_DOMAIN), esc_attr('http://www.wprssaggregator.com/contact/')),
+            'sent-error'    => sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>', WPRSS_TEXT_DOMAIN), esc_attr('https://www.wprssaggregator.com/contact/')),
             'sent-ok'       => __("Your message has been sent and we'll send you a confirmation e-mail when we receive it.", WPRSS_TEXT_DOMAIN)
         ));
     }
@@ -214,5 +214,5 @@
         wp_register_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css', array(), $version );
         wp_register_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-general-styles', WPRSS_CSS . 'admin-general-styles.css', array(), $version );
-        wp_register_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
+        wp_register_style( 'jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
     }

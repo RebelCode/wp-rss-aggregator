@@ -99,7 +99,7 @@
         define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
 
 	if ( !defined('WPRSS_SL_STORE_URL') ) {
-		define( 'WPRSS_SL_STORE_URL', 'http://www.wprssaggregator.com', TRUE );
+		define( 'WPRSS_SL_STORE_URL', 'https://www.wprssaggregator.com', TRUE );
 	}
 
 	if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
@@ -508,7 +508,7 @@
 			'id'			=> 'php_version_change_warning',
 			'content'		=> sprintf( __(
 					'<p><strong>%2$s is moving to PHP %1$s</strong></br>'
-					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
+					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="https://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
 				WPRSS_TEXT_DOMAIN ), $minVersion, WPRSS_CORE_PLUGIN_NAME ),
 			'notice_type'	=> 'error',
 			'condition'		=> 'wprss_is_wprss_page'

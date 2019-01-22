@@ -135,7 +135,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'notice_type'           => NoticeInterface::TYPE_UPDATED,
             'condition'             => $this->_getCommandIsWprssPage($c),
             'content'               => $this->_autoParagraph($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
-                                       $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'http://www.wprssaggregator.com/extensions')))
+                                       $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'https://www.wprssaggregator.com/extensions')))
         ), $c);
 
         return $notice;

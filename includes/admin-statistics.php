@@ -1,7 +1,7 @@
 <?php
 
 if ( !defined( 'WPRSS_TRACKING_SERVER_URL' ) )
-	define( 'WPRSS_TRACKING_SERVER_URL', 'http://www.wprssaggregator.com/', TRUE );
+	define( 'WPRSS_TRACKING_SERVER_URL', 'https://www.wprssaggregator.com/', TRUE );
 
 if ( !defined( 'WPRSS_TRACKING_INTEVAL' ) )
 	define( 'WPRSS_TRACKING_INTEVAL', 'daily', TRUE );

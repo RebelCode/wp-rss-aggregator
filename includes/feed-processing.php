@@ -295,7 +295,7 @@
             # Generate the new URL to FB Graph
             $com_index = stripos( $url, '.com' );
             $fb_page = substr( $url, $com_index + 4 ); # 4 = length of ".com"
-            $fb_graph_url = 'http://graph.facebook.com' . $fb_page;
+            $fb_graph_url = 'https://graph.facebook.com' . $fb_page;
             # Contact FB Graph and get data
             $response = wp_remote_get( $fb_graph_url );
             # If the repsonse successful and has a body
@@ -305,7 +305,7 @@
                 # If an id is present ...
                 if ( isset( $json['id'] ) ) {
                     # Generate the final URL for this feed and update the post meta
-                    $final_url = "http://www.facebook.com/feeds/page.php?format=rss20&id=" . $json['id'];
+                    $final_url = "https://www.facebook.com/feeds/page.php?format=rss20&id=" . $json['id'];
                     update_post_meta( $post_id, 'wprss_url', $final_url, $url );
                 }
             }
