@@ -51,10 +51,11 @@ function wpra_render_intro_page()
     wp_localize_script('intro-wizard', 'wprssWizardConfig', [
         'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $nonce),
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
-        'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/',
-        'supportUrl' => 'https://www.wprssaggregator.com/contact/',
+        'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_addons_button&utm_content=addons_button',
+        'supportUrl' => 'https://www.wprssaggregator.com/contact/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_support_link&utm_content=support_link',
         'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.png',
         'feedbackUrl' => 'https://wordpress.org/support/topic/does-everything-i-need-16/',
+        'knowledgeBaseUrl' => 'https://kb.wprssaggregator.com/',
         'feedEndpoint' => [
             'url' => admin_url('admin-ajax.php'),
             'defaultPayload' => [
