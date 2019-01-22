@@ -14,12 +14,18 @@ function wprss_twig()
     if ($twig === null) {
         $options = [];
 
-        if (defined('WP_DEBUG') && WP_DEBUG) {
+        if (!defined('WP_DEBUG') || !WP_DEBUG) {
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
         }
 
         $loader = new Twig_Loader_Filesystem(WPRSS_TEMPLATES);
         $twig = new Twig_Environment($loader, $options);
+
+        $twig->addFunction(
+            new Twig_SimpleFunction('wpra_link', function ($text, $url, $b = true) {
+                return wprss_link_display($url, $text, $b);
+            })
+        );
     }
 
     return $twig;
@@ -30,7 +36,7 @@ function wprss_twig()
  *
  * @since [*next-version*]
  *
- * @param string $template The tmeplate name.
+ * @param string $template The template name.
  *
  * @return Twig_TemplateWrapper
  * @throws Twig_Error_Loader
