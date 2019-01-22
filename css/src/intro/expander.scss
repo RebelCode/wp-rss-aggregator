@@ -1,0 +1,26 @@
+.wpra-expander {
+  &__title {
+    cursor: pointer;
+    user-select: none;
+    span {
+      opacity: .5;
+      vertical-align: bottom;
+      transition: transform .3s ease;
+    }
+  }
+  &__content {
+    padding: 0 .5rem;
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  &--expanded {
+    .wpra-expander__content {
+      opacity: 1;
+    }
+    .wpra-expander__title {
+      span {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

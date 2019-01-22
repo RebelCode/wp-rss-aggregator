@@ -109,7 +109,7 @@
         if ( $plugin_file == 'wp-rss-aggregator/wp-rss-aggregator.php' ) {
             // the anchor tag and href to the URLs we want.
             $settings_link = '<a href="' . admin_url() . 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings">' . __( 'Settings', WPRSS_TEXT_DOMAIN ) . '</a>';
-            $docs_link = '<a href="http://www.wprssaggregator.com/documentation/">' . __( 'Documentation', WPRSS_TEXT_DOMAIN ) . '</a>';
+            $docs_link = '<a href="https://www.wprssaggregator.com/documentation/">' . __( 'Documentation', WPRSS_TEXT_DOMAIN ) . '</a>';
             // add the links to the beginning of the list
             array_unshift( $action_links, $settings_link, $docs_link );
         }

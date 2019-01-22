@@ -11,10 +11,14 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "twig/twig": "^1.0",
         "dhii/collections-abstract": "^0.1.0",
         "dhii/collections-interface": "^0.1.2",
         "dhii/di": "^0.1.1",
         "dhii/di-abstract": "^0.1",
         "dhii/di-interface": "^0.1"
+    },
+    "require-dev": {
+        "johnpbloch/wordpress-core": "^4.4 | ^5.0"
     }
 }

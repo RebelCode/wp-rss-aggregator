@@ -435,15 +435,15 @@
 				switch( $host ) {
 					case 'youtube':
 						preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
-						$permalink = 'http://www.youtube.com/embed/' . $yt_matches[2];
+						$permalink = 'https://www.youtube.com/embed/' . $yt_matches[2];
 						break;
 					case 'vimeo':
 						preg_match( '/(\d*)$/i', $permalink, $vim_matches );
-						$permalink = 'http://player.vimeo.com/video/' . $vim_matches[0];
+						$permalink = 'https://player.vimeo.com/video/' . $vim_matches[0];
 						break;
 					case 'dailymotion':
 						preg_match( '/(\.com\/)(video\/)(.*)/i', $permalink, $dm_matches );
-						$permalink = 'http://www.dailymotion.com/embed/video/' . $dm_matches[3];
+						$permalink = 'https://www.dailymotion.com/embed/video/' . $dm_matches[3];
 						break;
 				}
 			}

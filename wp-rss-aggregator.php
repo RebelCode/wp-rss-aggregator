@@ -3,7 +3,7 @@
      * Plugin Name: WP RSS Aggregator
      * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
      * Description: Imports and aggregates multiple RSS Feeds.
-     * Version: 4.11.4
+     * Version: 4.12
      * Author: RebelCode
      * Author URI: https://www.wprssaggregator.com
      * Text Domain: wprss
@@ -30,7 +30,7 @@
 
     /**
      * @package     WPRSSAggregator
-     * @version     4.11.4
+     * @version     4.12
      * @since       1.0
      * @author      RebelCode
      * @copyright   Copyright (c) 2012-2018, RebelCode Ltd.
@@ -44,7 +44,7 @@
 
     // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.11.4', true );
+        define( 'WPRSS_VERSION', '4.12', true );
 
     if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
         define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
@@ -88,6 +88,9 @@
     if( !defined( 'WPRSS_LANG' ) )
         define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ), true );
 
+    if( !defined( 'WPRSS_TEMPLATES' ) )
+        define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ), true );
+
     // Set the constant path to the plugin's log file.
     if( !defined( 'WPRSS_LOG_FILE' ) )
         define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log', true );
@@ -96,7 +99,7 @@
         define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
 
 	if ( !defined('WPRSS_SL_STORE_URL') ) {
-		define( 'WPRSS_SL_STORE_URL', 'http://www.wprssaggregator.com', TRUE );
+		define( 'WPRSS_SL_STORE_URL', 'https://www.wprssaggregator.com', TRUE );
 	}
 
 	if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
@@ -278,8 +281,14 @@
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
+    /* The introduction onboarding module */
+    require_once ( WPRSS_INC . 'admin-intro.php' );
+
 	/* SimplePie */
 	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
+
+    /* Twig */
+    require_once ( WPRSS_INC . '/twig.php' );
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
@@ -499,7 +508,7 @@
 			'id'			=> 'php_version_change_warning',
 			'content'		=> sprintf( __(
 					'<p><strong>%2$s is moving to PHP %1$s</strong></br>'
-					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="http://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
+					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="https://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
 				WPRSS_TEXT_DOMAIN ), $minVersion, WPRSS_CORE_PLUGIN_NAME ),
 			'notice_type'	=> 'error',
 			'condition'		=> 'wprss_is_wprss_page'

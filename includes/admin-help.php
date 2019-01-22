@@ -24,7 +24,7 @@
 							WPRSS_TEXT_DOMAIN
 						)
 					),
-					'http://docs.wprssaggregator.com/'
+					'https://docs.wprssaggregator.com/'
 				);
 			?>
 			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
@@ -35,7 +35,7 @@
 							WPRSS_TEXT_DOMAIN
 						)
 					),
-					'http://docs.wprssaggregator.com/category/faqs/'
+					'https://docs.wprssaggregator.com/category/faqs/'
 				)
 			?>
 
@@ -168,7 +168,7 @@
 			wpautop(
 				__( 'Users of the free version of WP RSS Aggregator can ask questions on the <a href="%s">support forum</a>.', WPRSS_TEXT_DOMAIN )
 			),
-			'http://wordpress.org/support/plugin/wp-rss-aggregator'
+			'https://wordpress.org/support/plugin/wp-rss-aggregator'
 		);
 	}
 
@@ -202,7 +202,7 @@
 		// doesn't mean the user received the email, it "only means that the method used
 		// was able to  process the request without any errors."
 		if ($sent === FALSE) {
-			$ret['error'] = sprintf(__('There was an error sending the form. Please use the <a href="%s" target="_blank">contact form on our site.</a>'), esc_attr('http://www.wprssaggregator.com/contact/'));
+			$ret['error'] = sprintf(__('There was an error sending the form. Please use the <a href="%s" target="_blank">contact form on our site.</a>'), esc_attr('https://www.wprssaggregator.com/contact/'));
 			$ret['message'] = $message;
 		} else {
 			$ret['status'] = 'OK';
