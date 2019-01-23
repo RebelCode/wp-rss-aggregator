@@ -445,7 +445,7 @@ function wprss_get_intro_page_url()
  */
 function wprss_should_do_intro()
 {
-    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1;
+    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1 && wprss_can_use_twig();
 }
 
 /**
