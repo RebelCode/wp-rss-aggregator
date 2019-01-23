@@ -12,7 +12,7 @@ function wprss_twig()
     static $twig = null;
 
     if ($twig === null) {
-        $options = [];
+        $options = array();
 
         if (defined('WP_DEBUG') && WP_DEBUG) {
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
@@ -55,7 +55,7 @@ function wprss_load_template($template)
  * @throws Twig_Error_Runtime
  * @throws Twig_Error_Syntax
  */
-function wprss_render_template($template, $context = [])
+function wprss_render_template($template, $context = array())
 {
     return wprss_twig()->load($template)->render($context);
 }
