@@ -1,5 +1,24 @@
 <?php
 
+if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
+    return;
+}
+
+// Minimum version requirement for twig
+define('WPRSS_TWIG_MIN_PHP_VERSION', '5.4.0');
+
+/**
+ * Returns whether twig can be used.
+ *
+ * @since [*next-version*]
+ *
+ * @return bool True if twig can be used, false if not.
+ */
+function wprss_can_use_twig()
+{
+    return version_compare(PHP_VERSION, WPRSS_TWIG_MIN_PHP_VERSION, '>=');
+}
+
 /**
  * Retrieves the twig instance for WP RSS Aggregator.
  *
