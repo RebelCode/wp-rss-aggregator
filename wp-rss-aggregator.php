@@ -168,6 +168,12 @@
     /* Only function definitions, no effect! */
     require_once(WPRSS_INC . 'functions.php');
 
+    /* SimplePie */
+    require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
+
+    /* Twig */
+    require_once ( WPRSS_INC . '/twig.php' );
+
     /* Dependency injection */
     require_once ( WPRSS_INC . 'di.php' );
 
@@ -283,12 +289,6 @@
 
     /* The introduction onboarding module */
     require_once ( WPRSS_INC . 'admin-intro.php' );
-
-	/* SimplePie */
-	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
-
-    /* Twig */
-    require_once ( WPRSS_INC . '/twig.php' );
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
