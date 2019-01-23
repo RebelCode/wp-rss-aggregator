@@ -470,7 +470,7 @@ function wprss_set_intro_done($done = true)
 function wprss_is_new_user()
 {
     return get_option(WPRSS_FIRST_ACTIVATION_OPTION, null) === null &&
-           intval(get_option(WPRSS_DB_VERSION_OPTION, 0)) > 0;
+           intval(get_option(WPRSS_DB_VERSION_OPTION, 0)) <= 0;
 }
 
 /**
