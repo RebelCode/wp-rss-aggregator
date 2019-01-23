@@ -14,7 +14,7 @@
         "twig/twig": "^1.0",
         "dhii/collections-abstract": "^0.1.0",
         "dhii/collections-interface": "^0.1.2",
-        "dhii/output-renderer-base": "^0.1",
+        "dhii/output-renderer-interface": "^0.3",
         "dhii/di": "^0.1.1",
         "dhii/di-abstract": "^0.1",
         "dhii/di-interface": "^0.1"
