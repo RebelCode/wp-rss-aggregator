@@ -18,6 +18,30 @@ define('WPRSS_INTRO_SHORTCODE_PAGE_OPTION', 'wprss_intro_shortcode_page');
 define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page');
 
 /**
+ * Detects an activation and redirects the user to the intro page.
+ *
+ * @since [*next-version*]
+ */
+add_action('admin_init', function () {
+    // Continue only if during an activation redirect
+    if (!get_transient('_wprss_activation_redirect')) {
+        return;
+    }
+
+    // Delete the redirect transient
+    delete_transient('_wprss_activation_redirect');
+
+    // Continue only if activating from a non-network site and not bulk activating plugins
+    if (is_network_admin() || isset($_GET['activate-multi'])) {
+        return;
+    }
+
+    if (wprss_should_do_intro()) {
+        wp_safe_redirect(wprss_get_intro_page_url());
+    }
+});
+
+/**
  * Registers the introduction page.
  *
  * @since 4.12
