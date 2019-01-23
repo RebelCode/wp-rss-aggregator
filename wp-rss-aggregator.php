@@ -287,8 +287,10 @@
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
-    /* The introduction onboarding module */
-    require_once ( WPRSS_INC . 'admin-intro.php' );
+    /* The introduction onboarding module - if the twig library can be used */
+    if (wprss_can_use_twig()) {
+        require_once(WPRSS_INC . 'admin-intro.php');
+    }
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
