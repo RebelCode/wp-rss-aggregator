@@ -514,7 +514,7 @@
             require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
         }
 
-        deactivate_plugins(__FILE__);
+        deactivate_plugins(plugin_basename(__FILE__));
 
         $firstLine = get_transient('_wprss_activation_redirect')
             ? __('WP RSS Aggregator cannot be activated.', WPRSS_TEXT_DOMAIN)
