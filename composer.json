@@ -12,12 +12,14 @@
     "minimum-stability": "dev",
     "require": {
         "twig/twig": "^1.0",
+        "dhii/di": "^0.1.1",
+        "dhii/di-abstract": "^0.1",
+        "dhii/di-interface": "^0.1",
         "dhii/collections-abstract": "^0.1.0",
         "dhii/collections-interface": "^0.1.2",
         "dhii/output-renderer-interface": "^0.3",
-        "dhii/di": "^0.1.1",
-        "dhii/di-abstract": "^0.1",
-        "dhii/di-interface": "^0.1"
+        "dhii/normalization-helper-base": "^0.1-alpha4",
+        "dhii/exception": "^0.1-alpha5"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^4.4 | ^5.0"
