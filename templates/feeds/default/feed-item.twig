@@ -1,0 +1,37 @@
+{#
+    Template for a single feed item.
+
+    This template requires `item` in context, which should contain the data of the feed item
+ #}
+
+{% if item.title.show %}
+    {{ wpra_link(item.title.text, item.url, item.title.is_link)|raw }}
+    {{ item.title.after }}
+{% endif %}
+
+<div class="wprss-feed-meta">
+    {% if item.source.show %}
+        <span class="feed-source">
+            {{ item.source.prefix }}
+            {{ wpra_link(item.source.title, item.source.url, item.source.is_link)|raw }}
+        </span>
+    {% endif %}
+
+    {% if item.date.show %}
+        <span class="feed-date">
+            {{ item.date.prefix }} {{ item.date.text }}
+        </span>
+    {% endif %}
+
+    {% if item.author.show and item.author.name|length > 0 %}
+        <span class="feed-author">
+            {{ item.author.prefix }} {{ item.author.name }}
+        </span>
+    {% endif %}
+</div>
+
+{% if item.time_ago.show %}
+    <div class="wprss-time-ago">
+        {{ item.time_ago.format|format(item.time_ago.text) }}
+    </div>
+{% endif %}

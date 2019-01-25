@@ -1,0 +1,17 @@
+{#
+    Template for a list of feed items.
+
+    This template requires `items` and `options` in context:
+    * `items` containing the list of feed items (see `item` in `feed-item.twig` template)
+    * `options` containing various display options
+ #}
+
+{% if items|length > 0 %}
+    {% for item in items %}
+        {{ options.before_item|raw }}
+        {{ include('feeds/default/feed-item.twig') }}
+        {{ options.after_item|raw }}
+    {% endfor %}
+{% else %}
+    {{ options.messages.no_items }}
+{% endif %}
