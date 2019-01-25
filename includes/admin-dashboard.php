@@ -43,32 +43,6 @@
 		include_once( 'admin-welcome.php' );
 	}
 
-
-	add_action( 'admin_init', 'wprss_welcome' );
-	/**
-	 * Detects an activation and redirects the user to
-	 * the welcome page.
-	 *
-	 * @since 3.3
-	 */
-	function wprss_welcome() {
-		// Bail if no activation redirect
-		if ( ! get_transient( '_wprss_activation_redirect' ) )
-			return;
-
-		// Delete the redirect transient
-		delete_transient( '_wprss_activation_redirect' );
-
-		// Bail if activating from network, or bulk
-		if ( is_network_admin() || isset( $_GET['activate-multi'] ) )
-			return;
-
-		if (wprss_should_do_intro()) {
-		    wp_safe_redirect( wprss_get_intro_page_url() );
-        }
-	}
-
-
 	add_action( 'admin_head', 'wprss_admin_head' );
 	/**
 	 * Removes the dashboard welcome page from the dashboard

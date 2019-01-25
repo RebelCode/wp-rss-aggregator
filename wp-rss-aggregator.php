@@ -49,6 +49,9 @@
     if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
         define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
 
+    if( !defined( 'WPRSS_MIN_PHP_VERSION' ) )
+        define( 'WPRSS_MIN_PHP_VERSION', '5.3.9', true );
+
     // Set the database version number of the plugin.
     if( !defined( 'WPRSS_DB_VERSION' ) )
         define( 'WPRSS_DB_VERSION', 15 );
@@ -168,11 +171,18 @@
     /* Only function definitions, no effect! */
     require_once(WPRSS_INC . 'functions.php');
 
+    /* SimplePie */
+    require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
+
+    /* Twig */
+    require_once ( WPRSS_INC . '/twig.php' );
+
     /* Dependency injection */
     require_once ( WPRSS_INC . 'di.php' );
 
     /* Load install, upgrade and migration code. */
     require_once ( WPRSS_INC . 'update.php' );
+
     /* Load the shortcodes functions file. */
     require_once ( WPRSS_INC . 'shortcodes.php' );
 
@@ -281,14 +291,10 @@
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
-    /* The introduction onboarding module */
-    require_once ( WPRSS_INC . 'admin-intro.php' );
-
-	/* SimplePie */
-	require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
-
-    /* Twig */
-    require_once ( WPRSS_INC . '/twig.php' );
+    /* The introduction onboarding module - if the twig library can be used */
+    if (wprss_can_use_twig()) {
+        require_once(WPRSS_INC . 'admin-intro.php');
+    }
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
@@ -348,7 +354,7 @@
     add_action('after_plugin_row', function($plugin_file) {
         if ($plugin_file !== plugin_basename(__FILE__)
             || version_compare(WPRSS_VERSION, '4.13', '>=')
-            || version_compare(PHP_VERSION, '15.4', '>=')
+            || version_compare(PHP_VERSION, '5.4', '>=')
         ) {
             return;
         }
@@ -520,23 +526,76 @@
 	}
 
 
-	add_action( 'init', 'wprss_add_php_version_change_warning' );
-	function wprss_add_php_version_change_warning() {
-		$minVersion = '5.3';
-		if ( version_compare(PHP_VERSION, $minVersion, '>=') )
-			return;
+    add_action( 'init', 'wprss_add_php_version_warning' );
+    function wprss_add_php_version_warning() {
+        if (version_compare(PHP_VERSION, WPRSS_MIN_PHP_VERSION, '>=')) {
+            return;
+        }
 
-		wprss_admin_notice_add(array(
-			'id'			=> 'php_version_change_warning',
-			'content'		=> sprintf( __(
-					'<p><strong>%2$s is moving to PHP %1$s</strong></br>'
-					. 'The next release of your favourite aggregator will not support PHP 5.2. <a href="https://www.wprssaggregator.com/wp-rss-aggregator-to-require-php-5-3/" target="_blank">Read why here</a></p>',
-				WPRSS_TEXT_DOMAIN ), $minVersion, WPRSS_CORE_PLUGIN_NAME ),
-			'notice_type'	=> 'error',
-			'condition'		=> 'wprss_is_wprss_page'
-		));
+        if (!function_exists('deactivate_plugins')) {
+            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        }
+
+        deactivate_plugins(plugin_basename(__FILE__));
+
+        $firstLine = get_transient('_wprss_activation_redirect')
+            ? __('WP RSS Aggregator cannot be activated.', WPRSS_TEXT_DOMAIN)
+            : __('WP RSS Aggregator has been deactivated.', WPRSS_TEXT_DOMAIN);
+
+        $supportLink = sprintf(
+        '<a href="%2$s" target="_blank">%1$s</a>',
+            _x(
+                'contact support',
+                'Used like "Kindly contact your hosting provider or contact support for more information."',
+                WPRSS_TEXT_DOMAIN
+            ),
+            'https://wordpress.org/support/plugin/wp-rss-aggregator'
+        );
+        $secondLine = sprintf(
+            __("The plugin requires version %s or later and your site's PHP version is %s.", WPRSS_TEXT_DOMAIN),
+            '<strong>' . WPRSS_MIN_PHP_VERSION . '</strong>',
+            '<strong>' . PHP_VERSION . '</strong>'
+        );
+        $thirdLine = sprintf(
+            _x(
+                'Kindly contact your hosting provider to upgrade your PHP version or %s for more information.',
+                'the "%s" part is a link with text = "contact support"',
+                WPRSS_TEXT_DOMAIN
+            ),
+            $supportLink
+        );
+
+        wp_die(
+            implode('<br/>', array($firstLine, $secondLine, $thirdLine)),
+            __('WP RSS Aggregator - PHP version error'),
+            array(
+                'back_link' => true
+            )
+        );
 	}
 
+    /**
+     * Informs users that have not updated to 4.13 that 4.13 will stop supporting PHP 5.3, if their PHP version is
+     * less than 5.4.
+     *
+     * @since [*next-version*]
+     */
+    add_action('after_plugin_row', function($plugin_file) {
+        if ($plugin_file !== plugin_basename(__FILE__)
+            || version_compare(WPRSS_VERSION, '4.13', '>=')
+            || version_compare(PHP_VERSION, '5.4', '>=')
+        ) {
+            return;
+        }
+
+        $message = __(
+            'As of version 4.13, WP RSS Aggregator will stop supporting PHP 5.3 and will require PHP 5.4 or later. Kindly contact your site\'s hosting provider for PHP version update options.',
+            WPRSS_TEXT_DOMAIN
+        );
+        $notice = sprintf('<div class="update-notice notice inline notice-error notice-alt"><p>%s</p></div>', $message);
+        $td = sprintf('<td colspan="3" class="plugin-update colspanchange">%s</td>', $notice);
+        printf('<tr class="plugin-update-tr active">%s</tr>', $td);
+    }, 5, 2);
 
     /**
      * Plugin activation procedure

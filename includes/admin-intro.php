@@ -18,6 +18,30 @@ define('WPRSS_INTRO_SHORTCODE_PAGE_OPTION', 'wprss_intro_shortcode_page');
 define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page');
 
 /**
+ * Detects an activation and redirects the user to the intro page.
+ *
+ * @since [*next-version*]
+ */
+add_action('admin_init', function () {
+    // Continue only if during an activation redirect
+    if (!get_transient('_wprss_activation_redirect')) {
+        return;
+    }
+
+    // Delete the redirect transient
+    delete_transient('_wprss_activation_redirect');
+
+    // Continue only if activating from a non-network site and not bulk activating plugins
+    if (is_network_admin() || isset($_GET['activate-multi'])) {
+        return;
+    }
+
+    if (wprss_should_do_intro()) {
+        wp_safe_redirect(wprss_get_intro_page_url());
+    }
+});
+
+/**
  * Registers the introduction page.
  *
  * @since 4.12
@@ -421,7 +445,7 @@ function wprss_get_intro_page_url()
  */
 function wprss_should_do_intro()
 {
-    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1;
+    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1 && wprss_can_use_twig();
 }
 
 /**
@@ -446,7 +470,7 @@ function wprss_set_intro_done($done = true)
 function wprss_is_new_user()
 {
     return get_option(WPRSS_FIRST_ACTIVATION_OPTION, null) === null &&
-           intval(get_option(WPRSS_DB_VERSION_OPTION, 0)) > 0;
+           intval(get_option(WPRSS_DB_VERSION_OPTION, 0)) <= 0;
 }
 
 /**
