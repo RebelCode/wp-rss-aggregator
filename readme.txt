@@ -263,7 +263,7 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 
 == Changelog ==
 
-= [*next-version*] (YYYY-MM-DD) =
+= 4.12 (2019-01-29) =
 * The plugin now checks if its running on PHP 5.3.9, and deactivates itself when not.
 * Added message informing users that v4.13 will drop support for PHP 5.3.
 * Added an introduction page for new plugin users.
