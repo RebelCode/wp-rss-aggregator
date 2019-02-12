@@ -76,7 +76,15 @@
                                 <a :href="item.permalink" target="_blank">{{ item.title }}</a>
                             </div>
                             <div class="wpra-feed-item__info">
-                                Published on {{ item.date }} | By {{ item.author }}
+                                <template v-if="item.date || item.author">
+                                    <template v-if="item.date">
+                                        Published on {{ item.date }}
+                                    </template>
+                                    <template v-if="item.date && item.author">|</template>
+                                    <template v-if="item.author">
+                                        By {{ item.author }}
+                                    </template>
+                                </template>
                             </div>
                         </div>
                     </div>
