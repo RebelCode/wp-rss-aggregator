@@ -100,6 +100,7 @@ define('WPRSS_POST_TYPE_FEED_SOURCE', 'wprss_feed');
                     'with_front' => false,
                 ),
                 'capability_type'       => 'feed_item',
+                'map_meta_cap'          => true,
                 'labels'                => $labels
             )
         );
