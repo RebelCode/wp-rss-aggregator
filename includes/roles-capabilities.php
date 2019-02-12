@@ -45,7 +45,7 @@
     function wprss_get_core_caps() {
         $capabilities = array();
 
-        $capability_types = array( 'feed', 'feed_source' );
+        $capability_types = array( 'feed', 'feed_item' );
 
         foreach ( $capability_types as $capability_type ) {
             $capabilities[ $capability_type ] = array(
