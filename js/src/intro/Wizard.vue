@@ -89,19 +89,32 @@
                         </div>
                     </div>
 
-                    <div class="wizard_label">
-                        Copy and paste this shortcode to any page or post to display the full list:
-                    </div>
-
                     <div class="wrpa-shortcode">
+                        <div class="wrpa-shortcode-preview">
+                            <div class="wrpa-shortcode-label">
+                                Create a draft page to preview these feed items on your site:
+                            </div>
+                            <a :href="previewUrl" target="_blank" class="button"
+                               @click="preparePreview"
+                               :class="{'button-primary': isPrepared, 'loading-button': isPreparing}"
+                            >
+                                {{ isPrepared ? 'Preview the Page' : 'Create Draft Page' }}
+                            </a>
+                        </div>
                         <div class="wrpa-shortcode-form" @click="copyToClipboard()">
-                            <input class="wrpa-shortcode-form__shortcode" type="text" readonly value="[wp-rss-aggregator]" ref="selected"/>
+                            <div class="wrpa-shortcode-label">
+                                Copy the shortcode to any page or post on your site:
+                            </div>
+                            <input class="wrpa-shortcode-form__shortcode"
+                                   type="text"
+                                   readonly
+                                   value="[wp-rss-aggregator]"
+                                   ref="selected"
+                            />
                             <div class="wrpa-shortcode-form__button">
-                                Ctrl+C or CMD+C to copy
+                                {{ isCopied ? 'Copied!' : 'Click to copy' }}
                             </div>
                         </div>
-                        OR
-                        <a :href="previewUrl" target="_blank">Preview the feed items on a new page</a>
                     </div>
                 </div>
 
@@ -191,6 +204,7 @@
 <script>
   import Expander from './Expander'
   import { post } from './fetch'
+  import { copyToClipboard } from './copy'
 
   const _ = (str) => str
 
@@ -216,11 +230,6 @@
           title: _('Display feed items'),
           description: false,
           next: this.continueItems,
-          entered: () => {
-            setTimeout(() => {
-              this.copyToClipboard()
-            }, 400)
-          },
           completed: () => {
             return this.feed.items.length && this.itemsPassed
           }
@@ -233,6 +242,11 @@
             return this.feed.items.length && this.itemsPassed
           }
         }],
+        isCopied: false,
+
+        isPreparing: false,
+        isPrepared: false,
+
         transition: 'slide-up', // 'slide-down',
 
         activeScreen: 'feed',
@@ -279,6 +293,21 @@
       this.onScreenEnter()
     },
     methods: {
+      preparePreview (e) {
+        if (this.isPreparing) {
+          e.preventDefault()
+          return
+        }
+        if (!this.isPrepared) {
+          e.preventDefault()
+          this.isPreparing = true
+          fetch(this.previewUrl).then(() => {
+            this.isPreparing = false
+            this.isPrepared = true
+          })
+        }
+      },
+
       /**
        * Submits first feed step.
        *
@@ -394,13 +423,14 @@
       },
 
       copyToClipboard () {
-        try {
-          this.$refs.selected.focus()
-          this.$refs.selected.select()
+        if (this.isCopied) {
+          return
         }
-        catch (e) {
-          console.error(e)
-        }
+        copyToClipboard('[wp-rss-aggregator]')
+        this.isCopied = true
+        setTimeout(() => {
+          this.isCopied = false
+        }, 1000)
       }
     },
     components: {
