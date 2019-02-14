@@ -296,6 +296,9 @@
         require_once(WPRSS_INC . 'admin-intro.php');
     }
 
+	/* Add components to the plugins page  */
+	require_once(WPRSS_INC . 'admin-plugins.php');
+
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
 
