@@ -57,10 +57,40 @@
 				wprss_free_help_display();
 			}
 			?>
+
+            <h3><?php _e( 'Built-in Help Beacon', WPRSS_TEXT_DOMAIN ) ?></h3>
+            <form method="POST">
+                <?php if (wprss_is_help_beacon_enabled()): ?>
+                    <p><?php _e('The built-in help beacon is currently <b>enabled</b>.', WPRSS_TEXT_DOMAIN); ?></p>
+                    <button type="submit" name="wprss_hs_beacon_enabled" value="0" class="button button-secondary">
+                        <?php _e('Disable built-in help beacon', WPRSS_TEXT_DOMAIN); ?>
+                    </button>
+                <?php else: ?>
+                    <p><?php _e('The built-in help beacon is currently <b>disabled</b>.', WPRSS_TEXT_DOMAIN); ?></p>
+                    <button type="submit" name="wprss_hs_beacon_enabled" value="1" class="button button-primary">
+                        <?php _e('Enable built-in help beacon', WPRSS_TEXT_DOMAIN); ?>
+                    </button>
+                <?php endif; ?>
+
+                <?php wp_nonce_field('wprss_hs_beacon_enabled'); ?>
+            </form>
 		</div>
 	<?php
 	}
 
+	// Handler to update the HS beacon enabled option
+	add_action('init', function () {
+	    if (!is_admin()) {
+	        return;
+        }
+
+	    $enabled = filter_input(INPUT_POST, 'wprss_hs_beacon_enabled', FILTER_VALIDATE_INT);
+
+	    if ($enabled !== null) {
+            check_admin_referer('wprss_hs_beacon_enabled');
+            update_option('wprss_hs_beacon_enabled', $enabled);
+        }
+    });
 
     /**
      * Print the premium help section, linking to the contact us page on the site.
