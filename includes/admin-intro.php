@@ -68,7 +68,7 @@ add_action('admin_menu', function () {
  */
 function wpra_render_intro_page()
 {
-    wp_enqueue_script('intro-wizard', WPRSS_JS . 'intro.min.js', [], '0.1', true);
+    wprss_plugin_enqueue_app_scripts('intro-wizard', WPRSS_JS . 'intro.min.js', [], '0.1', true);
     wp_enqueue_style('intro-wizard', WPRSS_CSS . 'intro.min.css');
 
     $nonce = wp_create_nonce(WPRSS_INTRO_NONCE_NAME);
