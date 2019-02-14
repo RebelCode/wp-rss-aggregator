@@ -2,6 +2,17 @@
 
 	use Aventura\Wprss\Core\Licensing\License\Status as License_Status;
 
+    /**
+     * Checks if the HS becaon is enabled or not.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True if enabled, false if not.
+     */
+    function wprss_is_help_beacon_enabled() {
+        return (int) get_option('wprss_hs_beacon_enabled', 1) === 1;
+    }
+
 	/**
 	 * Build the Help page
 	 *
