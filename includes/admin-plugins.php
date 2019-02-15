@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Detects an activation and redirects the user to the intro page.
+ * Adds deactivate poll application on plugin's page.
  *
  * @since [*next-version*]
  */
