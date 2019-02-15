@@ -589,13 +589,8 @@
         flush_rewrite_rules();
         wprss_schedule_fetch_all_feeds_cron();
 
-        // Get the previous welcome screen version
-        $pwsv = get_option( 'wprss_pwsv', '0.0' );
-        // If the aggregator version is higher than the previous version ...
-        if ( version_compare( WPRSS_VERSION, $pwsv, '>' ) ) {
-            // Sets a transient to trigger a redirect upon completion of activation procedure
-            set_transient( '_wprss_activation_redirect', true, 30 );
-        }
+        // Sets a transient to trigger a redirect upon completion of activation procedure
+        set_transient( '_wprss_activation_redirect', true, 30 );
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		// Check if WordPress SEO is activate, if yes set its options for hiding the metaboxes on the wprss_feed and wprss_feed_item screens

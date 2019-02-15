@@ -45,6 +45,8 @@
 			delete_option( 'wprss_addon_notices' );
 			delete_option( 'wprss_settings_notices' );
 			delete_option( 'wprss_pwsv' );
+			delete_option( WPRSS_UPDATE_PAGE_PREV_VERSION_OPTION );
+			delete_option( WPRSS_INTRO_DID_INTRO_OPTION );
 		}
 
 		// Deactivate the plugin
