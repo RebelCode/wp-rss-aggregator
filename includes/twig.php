@@ -33,7 +33,7 @@ function wprss_twig()
     if ($twig === null) {
         $options = array();
 
-        if (defined('WP_DEBUG') && WP_DEBUG) {
+        if (!defined('WP_DEBUG') || !WP_DEBUG) {
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
         }
 
