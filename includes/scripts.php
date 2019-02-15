@@ -5,6 +5,8 @@
      * @package WPRSSAggregator
      */
 
+    use Aventura\Wprss\Core\Licensing\License\Status as License_Status;
+
     add_action( 'init', 'wprss_register_scripts', 9 );
     function wprss_register_scripts()
     {
@@ -73,6 +75,9 @@
         ));
 
         wp_register_script( 'wprss-hs-beacon-js', WPRSS_JS . 'beacon.min.js', array(), $version );
+        wp_localize_script( 'wprss-hs-beacon-js', 'WprssHelpBeaconConfig', array (
+            'premiumSupport' => ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) )
+        ));
     }
 
 
