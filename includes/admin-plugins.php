@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Detects an activation and redirects the user to the intro page.
+ * Adds deactivate poll application on plugin's page.
  *
  * @since [*next-version*]
  */
@@ -27,7 +27,7 @@ add_action('admin_init', function () {
                 'reason' => 'Other',
                 'follow_up' => null,
                 'date' => date('j M Y'),
-                'addons' => array_keys(wprss_licensing_get_manager()->getAddons()),
+                'addons' => array_values(wprss_licensing_get_manager()->getAddons()),
             ],
             'form' => [
                 [
