@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "8e36fe3298c4b640cb0d629b36bdc1bc",
@@ -469,16 +469,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+                "reference": "82ebae02209c21113908c229e9883c419720738a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+                "reference": "82ebae02209c21113908c229e9883c419720738a",
                 "shasum": ""
             },
             "require": {
@@ -490,7 +490,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -523,7 +523,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "twig/twig",
@@ -531,12 +531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3afb492c4d36a3607942ce25824bc1d042928bf8"
+                "reference": "210fb60a0d7d8f679d9ae82bc6c38eb9dc9369ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3afb492c4d36a3607942ce25824bc1d042928bf8",
-                "reference": "3afb492c4d36a3607942ce25824bc1d042928bf8",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/210fb60a0d7d8f679d9ae82bc6c38eb9dc9369ed",
+                "reference": "210fb60a0d7d8f679d9ae82bc6c38eb9dc9369ed",
                 "shasum": ""
             },
             "require": {
@@ -551,7 +551,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.37-dev"
+                    "dev-master": "1.38-dev"
                 }
             },
             "autoload": {
@@ -589,22 +589,22 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-01-14T15:13:59+00:00"
+            "time": "2019-02-15T07:31:33+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "5.1-beta1-44583",
+            "version": "5.2-alpha-44746",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "ea192186a69d30b09157253cb10c7aafcb4776cd"
+                "reference": "7bff4fb5e5b4d8a00a6339d95eda855d94e01a64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/ea192186a69d30b09157253cb10c7aafcb4776cd",
-                "reference": "ea192186a69d30b09157253cb10c7aafcb4776cd",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/7bff4fb5e5b4d8a00a6339d95eda855d94e01a64",
+                "reference": "7bff4fb5e5b4d8a00a6339d95eda855d94e01a64",
                 "shasum": ""
             },
             "require": {
@@ -631,7 +631,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-01-14T07:27:13+00:00"
+            "time": "2019-02-14T00:57:14+00:00"
         }
     ],
     "aliases": [],
