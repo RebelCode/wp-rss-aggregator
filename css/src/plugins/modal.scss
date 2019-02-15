@@ -48,6 +48,27 @@
     line-height: 1.5;
     border-bottom: 1px solid #eee;
 
+    &.invisible-header {
+      border: none;
+      font-size: unset;
+      font-weight: unset;
+      padding-top: 12px !important;
+      h3 {
+        margin-top: 0;
+        line-height: 1.5;
+        margin-bottom: 0;
+      }
+      p {
+        margin-top: .25rem;
+        font-size: 14px;
+        opacity: .6;
+        margin-bottom: 0;
+      }
+      & + .modal__content {
+        padding-top: 6px !important;
+      }
+    }
+
     @include breakpoint(mobile) {
       position: relative;
 

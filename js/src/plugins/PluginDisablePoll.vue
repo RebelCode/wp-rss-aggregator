@@ -1,10 +1,16 @@
 <template>
     <div class="wpra-plugin-disable-poll">
         <modal :active="isModalVisible"
-               @close="isModalVisible = false"
+               @close="closeModal"
+               :header-class="'invisible-header'"
         >
             <div slot="header">
-                Quick Feedback
+                <h3>
+                    Do you have a moment to share why you are deactivating WP RSS Aggregator?
+                </h3>
+                <p>
+                    Your feedback will help us to improve our plugins and service.
+                </p>
             </div>
 
             <div slot="body">
@@ -13,8 +19,14 @@
 
             <div slot="footer">
                 <div class="footer-confirm__buttons">
-                    <input type="button" class="button button-clear" value="Skip & Deactivate">
-                    <input type="button" class="button button-primary" value="Submit & Deactivate">
+                    <button class="button button-clear" @click="deactivate">
+                        Skip & Deactivate
+                    </button>
+                    <button class="button button-primary"
+                            :class="{'loading-button': isDeactivating}"
+                            @click="submit">
+                        Submit & Deactivate
+                    </button>
                 </div>
             </div>
         </modal>
@@ -24,6 +36,7 @@
 <script>
   import Modal from './Modal'
   import SerializedForm from './SerializedForm'
+  import axios from 'axios'
 
   /**
    * Selector string for plugin's deactivation link.
@@ -31,6 +44,7 @@
    * @type {string}
    */
   const deactivateSelector = '[data-slug="wp-rss-aggregator"] .deactivate a'
+  const deactivateLink = document.querySelector(deactivateSelector)
 
   export default {
     components: {
@@ -39,87 +53,52 @@
     },
     data () {
       return {
-        model: {
-          reason: null,
-          follow_up: null,
-          date: null
-        },
-        form: [
-          {
-            label: '',
-            type: 'radio',
-            name: 'reason',
-            options: [
-              {
-                value: 'I no longer need the plugin',
-              },
-              {
-                value: 'I found a better alternative',
-              },
-              {
-                value: "I couldn't get the plugin to work",
-              },
-              {
-                value: "I'm temporarily deactivating the plugin, but I'll be back",
-              },
-              {
-                value: 'I have a WP RSS Aggregator add-on',
-              },
-              {
-                value: 'Other',
-              },
-            ]
-          },
-          {
-            label: 'Would you mind sharing its name?',
-            type: 'textarea',
-            name: 'follow_up',
-            condition: {
-              field: 'reason',
-              operator: '=',
-              value: 'I found a better alternative',
-            },
-          },
-          {
-            type: 'content',
-            label: 'Have you <a target="_blank" href="https://wordpress.org/support/plugin/wp-rss-aggregator/">contacted our support team</a> or checked out our <a href="https://kb.wprssaggregator.com/" target="_blank">Knowledge Base</a>?',
-            condition: {
-              field: 'reason',
-              operator: '=',
-              value: 'I couldn\'t get the plugin to work',
-            },
-          },
-          {
-            type: 'content',
-            label: 'This core plugin is required for all our premium add-ons. Please don\'t deactivate it if you currently have premium add-ons installed and activated.',
-            condition: {
-              field: 'reason',
-              operator: '=',
-              value: 'I have a WP RSS Aggregator add-on',
-            },
-          },
-          {
-            label: 'Please share your reason...',
-            type: 'textarea',
-            name: 'follow_up',
-            condition: {
-              field: 'reason',
-              operator: '=',
-              value: 'Other',
-            },
-          },
-        ],
+        isDeactivating: false,
+        deactivateUrl: null,
+        submitUrl: WrpaDisablePoll.url,
+        model: WrpaDisablePoll.model,
+        form: WrpaDisablePoll.form,
         isModalVisible: false
       }
     },
+    watch: {
+      'model.reason' () {
+        this.model.follow_up = null
+      }
+    },
     mounted () {
-      document.querySelector(deactivateSelector).addEventListener('click', this.handleDeactivateClick)
+      deactivateLink.addEventListener('click', this.handleDeactivateClick)
     },
     methods: {
       handleDeactivateClick (e) {
-        e.preventDefault()
+        if (this.isModalVisible) {
+          return
+        }
 
+        e.preventDefault()
         this.isModalVisible = true
+      },
+
+      closeModal () {
+        this.isModalVisible = false
+        this.deactivateUrl = null
+      },
+
+      submit () {
+        this.isDeactivating = true
+        axios.post(this.submitUrl, this.model, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).then(() => {
+          this.deactivate()
+        }).finally(() => {
+          this.isDeactivating = false
+        })
+      },
+
+      deactivate () {
+        deactivateLink.click()
       }
     }
   }

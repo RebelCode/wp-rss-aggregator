@@ -2,7 +2,7 @@
     <transition name="modal-transition">
         <div class="modal" v-if="active" @click.self="$emit('close')">
             <div :class="['modal__body', this.modalBodyClass]">
-                <div class="modal__header">
+                <div class="modal__header" :class="headerClass">
                     <slot name="header"></slot>
                 </div>
                 <div class="modal__content">
@@ -53,6 +53,17 @@
       modalBodyClass: {
         type: String,
         default: ''
+      },
+
+      /**
+       * Additional classes for modal header.
+       *
+       * @property {object|Array}
+       */
+      headerClass: {
+        default () {
+          return {}
+        }
       },
 
       /**

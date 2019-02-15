@@ -1,6 +1,9 @@
 <template>
     <div class="form">
-        <div class="form-group" v-for="datum of form">
+        <div class="form-group"
+             v-for="datum of form"
+             v-if="satisfiesCondition(datum)"
+        >
             <template v-if="datum.type === 'radio'">
                 <label :for="datum.name" v-html="datum.label" v-if="datum.label"></label>
                 <div class="form-check" v-for="(radio, $i) of datum.options">
@@ -16,12 +19,12 @@
                 </div>
             </template>
 
-            <template v-if="datum.type === 'textarea' && satisfiesCondition(datum)">
+            <template v-if="datum.type === 'textarea'">
                 <label :for="datum.name" v-html="datum.label" v-if="datum.label"></label>
                 <textarea v-model="model[datum.name]" :id="datum.name"></textarea>
             </template>
 
-            <template v-if="datum.type === 'content' && satisfiesCondition(datum)">
+            <template v-if="datum.type === 'content'">
                 <p v-html="datum.label"></p>
             </template>
         </div>
