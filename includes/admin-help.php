@@ -10,7 +10,7 @@
      * @return bool True if enabled, false if not.
      */
     function wprss_is_help_beacon_enabled() {
-        return (int) get_option('wprss_hs_beacon_enabled', 1) === 1;
+        return (int) get_option('wprss_hs_beacon_enabled', 0) === 1;
     }
 
 	/**
