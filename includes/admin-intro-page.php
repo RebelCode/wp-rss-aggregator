@@ -18,30 +18,6 @@ define('WPRSS_INTRO_SHORTCODE_PAGE_OPTION', 'wprss_intro_shortcode_page');
 define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page');
 
 /**
- * Detects an activation and redirects the user to the intro page.
- *
- * @since [*next-version*]
- */
-add_action('admin_init', function () {
-    // Continue only if during an activation redirect
-    if (!get_transient('_wprss_activation_redirect')) {
-        return;
-    }
-
-    // Delete the redirect transient
-    delete_transient('_wprss_activation_redirect');
-
-    // Continue only if activating from a non-network site and not bulk activating plugins
-    if (is_network_admin() || isset($_GET['activate-multi'])) {
-        return;
-    }
-
-    if (wprss_should_do_intro()) {
-        wp_safe_redirect(wprss_get_intro_page_url());
-    }
-});
-
-/**
  * Registers the introduction page.
  *
  * @since 4.12
@@ -51,9 +27,9 @@ add_action('admin_menu', function () {
         null,
         __('Welcome to WP RSS Aggregator'),
         __('Welcome to WP RSS Aggregator'),
-        'read',
+        'manage_options',
         WPRSS_INTRO_PAGE_SLUG,
-        'wpra_render_intro_page'
+        'wprss_render_intro_page'
     );
 });
 
@@ -66,7 +42,7 @@ add_action('admin_menu', function () {
  * @throws Twig_Error_Runtime
  * @throws Twig_Error_Syntax
  */
-function wpra_render_intro_page()
+function wprss_render_intro_page()
 {
     wp_enqueue_script('intro-wizard', WPRSS_JS . 'intro.min.js', [], '0.1', true);
     wp_enqueue_style('intro-wizard', WPRSS_CSS . 'intro.min.css');
@@ -443,9 +419,9 @@ function wprss_get_intro_page_url()
  *
  * @return bool True if the introduction should be shown, false if not.
  */
-function wprss_should_do_intro()
+function wprss_should_do_intro_page()
 {
-    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1 && wprss_can_use_twig();
+    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1 && current_user_can('manage_options');
 }
 
 /**
