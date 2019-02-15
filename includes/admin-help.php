@@ -57,6 +57,29 @@
 				wprss_free_help_display();
 			}
 			?>
+            <h3><?php _e( 'Built-in Help Beacon', WPRSS_TEXT_DOMAIN ) ?></h3>
+            <form method="POST">
+                <p>
+                    <?php _e('The help beacon provides built-in documentation, a support contact form and also a live chat with our support team if they are online.', WPRSS_TEXT_DOMAIN); ?>
+                </p>
+                <p>
+                    <?php _e('The beacon tracks what plugin pages you were on before clicking it. This helps it provide relevant help results and also helps the support team better understand the problem you are facing.', WPRSS_TEXT_DOMAIN); ?>
+                    <?php _e('Don\'t worry. The beacon only works on WP RSS Aggregator admin pages and does not track your clicks and keyboard input.', WPRSS_TEXT_DOMAIN); ?>
+                </p>
+                <?php if (wprss_is_help_beacon_enabled()): ?>
+                    <p><?php _e('The built-in help beacon is currently <b>enabled</b>.', WPRSS_TEXT_DOMAIN); ?></p>
+                    <button type="submit" name="wprss_hs_beacon_enabled" value="0" class="button button-secondary">
+                        <?php _e('Disable built-in help beacon', WPRSS_TEXT_DOMAIN); ?>
+                    </button>
+                <?php else: ?>
+                    <p><?php _e('By enabling the help beacon, you are consenting to this data collection.', WPRSS_TEXT_DOMAIN); ?></p>
+                    <button type="submit" name="wprss_hs_beacon_enabled" value="1" class="button button-primary">
+                        <?php _e('Enable built-in help beacon', WPRSS_TEXT_DOMAIN); ?>
+                    </button>
+                <?php endif; ?>
+
+                <?php wp_nonce_field('wprss_hs_beacon_enabled'); ?>
+            </form>
 		</div>
 	<?php
 	}
@@ -90,31 +113,6 @@
             "https://www.wprssaggregator.com/contact/",
             "wpra-premium-contact-us-form"
         );
-        ?>
-        <h3><?php _e( 'Built-in Help Beacon', WPRSS_TEXT_DOMAIN ) ?></h3>
-        <form method="POST">
-            <p>
-                <?php _e('The help beacon provides built-in documentation, a support contact form and also a live chat with our support team if they are online.', WPRSS_TEXT_DOMAIN); ?>
-            </p>
-            <p>
-                <?php _e('The beacon tracks what plugin pages you were on before clicking it. This helps it provide relevant help results and also helps the support team better understand the problem you are facing.', WPRSS_TEXT_DOMAIN); ?>
-                <?php _e('Don\'t worry. The beacon only works on WP RSS Aggregator admin pages and does not track your clicks and keyboard input.', WPRSS_TEXT_DOMAIN); ?>
-            </p>
-            <?php if (wprss_is_help_beacon_enabled()): ?>
-                <p><?php _e('The built-in help beacon is currently <b>enabled</b>.', WPRSS_TEXT_DOMAIN); ?></p>
-                <button type="submit" name="wprss_hs_beacon_enabled" value="0" class="button button-secondary">
-                    <?php _e('Disable built-in help beacon', WPRSS_TEXT_DOMAIN); ?>
-                </button>
-            <?php else: ?>
-                <p><?php _e('By enabling the help beacon, you are consenting to this data collection.', WPRSS_TEXT_DOMAIN); ?></p>
-                <button type="submit" name="wprss_hs_beacon_enabled" value="1" class="button button-primary">
-                    <?php _e('Enable built-in help beacon', WPRSS_TEXT_DOMAIN); ?>
-                </button>
-            <?php endif; ?>
-
-            <?php wp_nonce_field('wprss_hs_beacon_enabled'); ?>
-        </form>
-        <?php
     }
 
 	/**
