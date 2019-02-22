@@ -19,6 +19,7 @@
         "dhii/di-interface": "^0.1"
     },
     "require-dev": {
-        "johnpbloch/wordpress-core": "^4.4 | ^5.0"
+        "johnpbloch/wordpress-core": "^4.4 | ^5.0",
+        "phing/phing": "2.*"
     }
 }
