@@ -11,6 +11,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "php": "^5.3 | ^7.0",
         "twig/twig": "^1.0",
         "dhii/collections-abstract": "^0.1.0",
         "dhii/collections-interface": "^0.1.2",
