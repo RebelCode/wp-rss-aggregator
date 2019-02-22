@@ -33,9 +33,19 @@ function wprss_render_update_page()
     wprss_update_previous_update_page_version();
 
     echo wprss_render_template('admin-update-page.twig', [
-        'title' => __('Thank you for updating to the latest version of WP RSS Aggregator', WPRSS_TEXT_DOMAIN),
-        'subtitle' => sprintf(_x('Version %s', '%s is the current plugin version', WPRSS_TEXT_DOMAIN), WPRSS_VERSION),
-        'version' => WPRSS_VERSION
+        'title' => __('What\'s new in WP RSS Aggregator?', WPRSS_TEXT_DOMAIN),
+        'version' => WPRSS_VERSION,
+        'beacon_nonce_field' => wp_nonce_field('wprss_hs_beacon_enabled'),
+        'beacon_enabled' => false, // wprss_is_help_beacon_enabled(),
+        'url' => [
+            'main' => admin_url('edit.php?post_type=wprss_feed'),
+            'website' => 'https://www.wprssaggregator.com/',
+            'support' => 'https://www.wprssaggregator.com/contact/',
+            'kb' => 'https://kb.wprssaggregator.com/',
+        ],
+        'path' => [
+            'images' => WPRSS_IMG
+        ]
     ]);
 }
 
