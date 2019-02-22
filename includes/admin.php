@@ -136,7 +136,7 @@
          * Manifest file holds function used for bootstrapping and ordered
          * loading of dependencies and application.
          */
-        wp_enqueue_script('wpra-manifest', WPRSS_JS . 'wpra-manifest.min.js', [], '0.1', true);
+        wp_enqueue_script('wpra-manifest', WPRSS_JS . 'wpra-manifest.min.js', array(), '0.1', true);
 
         /*
          * Vendor file holds all common dependencies for "compilable" applications.
@@ -145,16 +145,16 @@
          * holds only logic for that particular application. Common dependencies like Vue
          * live in this file and loaded before that application.
          */
-        wp_enqueue_script('wpra-vendor', WPRSS_JS . 'wpra-vendor.min.js', [
+        wp_enqueue_script('wpra-vendor', WPRSS_JS . 'wpra-vendor.min.js', array(
             'wpra-manifest'
-        ], '0.1', true);
+        ), '0.1', true);
 
         /*
          * Enqueue requested script.
          */
-        $deps = array_merge([
+        $deps = array_merge(array(
             'wpra-manifest',
             'wpra-vendor',
-        ], $deps);
+        ), $deps);
         wp_enqueue_script($handle, $src, $deps, $ver, $in_footer);
     }

@@ -439,7 +439,7 @@ class Manager {
         $data   = $this->sendApiRequest( $addonId, $action, $return );
         $status = is_object( $data ) ? $data->license : $data;
 
-        return ( in_array($status, ['invalid', 'item_name_mismatch', 'failed']) )
+        return ( in_array($status, array('invalid', 'item_name_mismatch', 'failed')) )
             ? $this->sendApiRequest( $addonId . static::LIFETIME_ADDON_ID_SUFFIX, $action, $return )
             : $data;
     }
