@@ -115,3 +115,46 @@
         }
         return $action_links;
     }
+
+    /**
+     * Function for registering application's scripts that depends on advanced libraries.
+     * It will enqueue manifest and vendor scripts, which contains all required logic
+     * for bootstrapping application and dependencies.
+     *
+     * Use only for Vue-related apps that use Webpack for being built.
+     *
+     * @since [*next-version*]
+     *
+     * @param $handle
+     * @param string $src
+     * @param array $deps
+     * @param bool $ver
+     * @param bool $in_footer
+     */
+    function wprss_plugin_enqueue_app_scripts( $handle, $src = '', $deps = array(), $ver = false, $in_footer = false ) {
+        /*
+         * Manifest file holds function used for bootstrapping and ordered
+         * loading of dependencies and application.
+         */
+        wp_enqueue_script('wpra-manifest', WPRSS_JS . 'wpra-manifest.min.js', array(), '0.1', true);
+
+        /*
+         * Vendor file holds all common dependencies for "compilable" applications.
+         *
+         * For example, `intro` pages application's and plugin's page application's files
+         * holds only logic for that particular application. Common dependencies like Vue
+         * live in this file and loaded before that application.
+         */
+        wp_enqueue_script('wpra-vendor', WPRSS_JS . 'wpra-vendor.min.js', array(
+            'wpra-manifest'
+        ), '0.1', true);
+
+        /*
+         * Enqueue requested script.
+         */
+        $deps = array_merge(array(
+            'wpra-manifest',
+            'wpra-vendor',
+        ), $deps);
+        wp_enqueue_script($handle, $src, $deps, $ver, $in_footer);
+    }

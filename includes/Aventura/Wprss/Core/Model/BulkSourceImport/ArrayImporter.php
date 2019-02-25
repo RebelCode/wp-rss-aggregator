@@ -38,16 +38,16 @@ class ArrayImporter extends AbstractWpImporter implements ImporterInterface
     protected function _inputToSourcesList($input)
     {
         if (!is_array($input)) {
-            return [];
+            return array();
         }
 
-        $sources = [];
+        $sources = array();
         foreach ($input as $k => $v) {
-            $sources[] = [
+            $sources[] = array(
                 ImporterInterface::SK_URL => $k,
                 ImporterInterface::SK_TITLE => $v,
-                'status' => 'publish'
-            ];
+                'status' => 'publish',
+            );
         }
 
         return $sources;
