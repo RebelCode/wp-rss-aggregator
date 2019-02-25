@@ -745,8 +745,6 @@
             usort($items, function ($itemA, $itemB) use ($comparators, $feedSource) {
                 return wprss_items_sort_compare_items($itemA, $itemB, $comparators, $feedSource);
             });
-
-            wprss_log_obj( 'Sorted', NULL, WPRSS_LOG_LEVEL_INFO );
         } catch (\InvalidArgumentException $e) {
             wprss_log( 'Error was encountered while sorting items; list remains unsorted', NULL, WPRSS_LOG_LEVEL_WARNING );
         }

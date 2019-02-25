@@ -160,8 +160,6 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
     function wprss_import_export_settings_page_display() {
         if ( !isset( $_POST['export'] ) ) { ?>
             <div class="wrap">
-                <?php screen_icon( 'wprss-aggregator' ); ?>
-				
 				<!-- Bulk Add -->
 				<h2><?php _e( 'Bulk Feed Import', WPRSS_TEXT_DOMAIN ); ?></h2>
 				<p><?php _e( 'Import multiple feed sources at once, by entering the name and URLs of your feeds below.', WPRSS_TEXT_DOMAIN ); ?></p>

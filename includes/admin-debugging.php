@@ -246,8 +246,6 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
         ?>
 
         <div class="wrap">
-            <?php screen_icon( 'wprss-aggregator' ); ?>
-
             <h2><?php _e( 'Debugging', WPRSS_TEXT_DOMAIN ); ?></h2>
             <?php 
             if ( isset( $_GET['debug_message'] ))  {//&& ( check_admin_referer( 'wprss-delete-import-feed-items' ) || check_admin_referer( 'wprss-update-feed-items' ) ) ) {

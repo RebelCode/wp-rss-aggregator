@@ -22,8 +22,6 @@
 	    ?>
 
 		<div class="wrap">
-			<?php screen_icon( 'wprss-aggregator' ); ?>
-
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
 			<h3><?php _e( 'Documentation', WPRSS_TEXT_DOMAIN ) ?></h3>
 			<?php
