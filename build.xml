@@ -17,57 +17,86 @@
     <property name="releasesDir" value="${basedir}/releases" />
 
     <!-- Build files and directories -->
-    <fileset dir="." id="buildFiles">
+    <fileset dir="." id="copyFiles">
         <include name="**/**" />
 
         <exclude name=".git/**" />
         <exclude name=".idea/**" />
-        <exclude name=".gitignore" />
+        <exclude name=".git*" />
         <exclude name="bin/**" />
         <exclude name="docs/**" />
         <exclude name="build/**" />
         <exclude name="releases/**" />
+        <exclude name="vendor/**" />
         <exclude name="nbproject/**" />
         <exclude name="build.xml" />
         <exclude name="*.neon" />
         <exclude name=".babelrc" />
-        <exclude name="composer.json" />
         <exclude name="composer.lock" />
-        <exclude name="package.json" />
-        <exclude name="package.lock.json" />
-        <exclude name="webpack.config.js" />
+        <exclude name="package-lock.json" />
         <exclude name="*.zip" />
     </fileset>
 
-    <!-- Clean up -->
-    <target name="cleanup" description="Performs clean up">
+    <!-- Deletion of non-build files and directories -->
+    <fileset dir="${buildFilesDir}" id="nonBuildFiles">
+        <include name="composer.json" />
+        <include name="composer.lock" />
+        <include name="package.json" />
+        <include name="package-lock.json" />
+        <include name="webpack.config.js" />
+    </fileset>
+
+    <!-- Clears existing build -->
+    <target name="delete-build" description="Deletes any existing build files">
+        <chmod mode="0777">
+            <fileset dir="${buildDir}" defaultexcludes="false">
+                <include name="**/**" />
+            </fileset>
+        </chmod>
         <delete dir="${buildDir}" includeemptydirs="true" />
+    </target>
+
+    <!-- Generates a copy of the current state -->
+    <target name="copy" description="Generates a copy of the current state for building" depends="delete-build">
+        <copy todir="${buildFilesDir}">
+            <fileset refid="copyFiles" />
+        </copy>
     </target>
 
     <!-- Installs all dependencies, including dev ones -->
     <target name="install-dev" description="Installs dependencies, including dev ones">
-        <exec dir="${basedir}/" command="composer install" passthru="true" />
+        <exec dir="${buildFilesDir}/" command="composer install" passthru="true" />
     </target>
 
     <!-- Installs all non-dev dependencies -->
     <target name="install" description="Installs dependencies, excluding dev ones">
-        <exec dir="${basedir}/" command="composer install --no-dev" passthru="true" />
+        <exec dir="${buildFilesDir}/" command="composer install --no-dev" passthru="true" />
+    </target>
+
+    <!-- Cleans up the build files -->
+    <target name="cleanup" description="Performs clean up on the build files">
+        <delete>
+            <fileset refid="nonBuildFiles" />
+        </delete>
     </target>
 
     <!-- Generates a build for the current project state -->
-    <target name="build" description="Generates a build for the current state" depends="cleanup">
-        <copy todir="${buildFilesDir}">
-            <fileset refid="buildFiles" />
-        </copy>
+    <target name="build" description="Generates a build for the current state" depends="copy, install, cleanup">
     </target>
 
-    <!-- Creates the ZIP archive for release -->
-    <target name="release" description="Creates the release archive" depends="install, build, version">
-        <zip destfile="${buildDir}/${releaseZip}" basedir="${buildDir}" />
+    <!-- Creates the ZIP archive for the build files -->
+    <target name="archive" description="Creates an archive for the current build files">
+        <zip destfile="${buildDir}/${releaseZip}" basedir="${buildFilesDir}" />
         <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
     </target>
 
-    <target name="version" description="Replaces all occurrences of next version placeholder with actual version number">
+    <!-- Creates a release -->
+    <target name="release" description="Creates a release" depends="build, snv-tags, archive">
+        <zip destfile="${buildDir}/${releaseZip}" basedir="${buildFilesDir}" />
+        <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
+    </target>
+
+    <target name="snv-tags" description="Replaces all occurrences of next version placeholder with actual version number">
         <reflexive>
             <fileset refid="buildFiles" />
             <filterchain>
