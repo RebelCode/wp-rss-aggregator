@@ -21,6 +21,9 @@ add_action('admin_init', function () {
         wprss_plugin_enqueue_app_scripts('wpra-plugins', WPRSS_JS . 'plugins.min.js', [], '0.1', true);
         wp_enqueue_style('wpra-plugins', WPRSS_CSS . 'plugins.min.css');
 
+        $addons = wprss_find_installed_addon_names();
+        $addons = array_fill_keys($addons, 1);
+
         wp_localize_script('wpra-plugins', 'WrpaDisablePoll', [
             'image' => WPRSS_IMG,
             'url' => 'https://hooks.zapier.com/hooks/catch/305784/puf5uf/',
@@ -28,7 +31,7 @@ add_action('admin_init', function () {
                 'reason' => 'Other',
                 'follow_up' => null,
                 'date' => date('j M Y'),
-                'addons' => array_values(wprss_licensing_get_manager()->getAddons()),
+                'addons' => $addons,
             ],
             'form' => [
                 [
