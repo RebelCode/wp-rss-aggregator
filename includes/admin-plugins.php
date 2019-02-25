@@ -25,6 +25,7 @@ add_action('admin_init', function () {
         $addons = array_fill_keys($addons, 1);
 
         wp_localize_script('wpra-plugins', 'WrpaDisablePoll', array(
+            'image' => WPRSS_IMG,
             'url' => 'https://hooks.zapier.com/hooks/catch/305784/puf5uf/',
             'model' => array(
                 'reason' => 'Other',
@@ -88,6 +89,7 @@ add_action('admin_init', function () {
                 ),
                 array(
                     'type' => 'content',
+                    'className' => 'error',
                     'label' => __('This core plugin is required for all our premium add-ons. Please don\'t deactivate it if you currently have premium add-ons installed and activated.', WPRSS_TEXT_DOMAIN),
                     'condition' =>
                         array(

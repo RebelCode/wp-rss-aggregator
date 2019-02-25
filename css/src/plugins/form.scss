@@ -33,5 +33,16 @@
         margin-bottom: 0;
       }
     }
+    .error {
+      margin: 0 !important;
+    }
+  }
+}
+
+.wpra-plugin-disable-poll {
+  &__logo {
+    img {
+      max-height: 40px;
+    }
   }
 }

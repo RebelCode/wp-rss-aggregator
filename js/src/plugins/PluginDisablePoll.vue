@@ -5,6 +5,9 @@
                :header-class="'invisible-header'"
         >
             <div slot="header">
+                <div class="wpra-plugin-disable-poll__logo">
+                    <img :src="image('light-line-logo.png')" alt="">
+                </div>
                 <h3>
                     Do you have a moment to share why you are deactivating WP RSS Aggregator?
                 </h3>
@@ -70,6 +73,10 @@
       deactivateLink.addEventListener('click', this.handleDeactivateClick)
     },
     methods: {
+      image (path) {
+        return WrpaDisablePoll.image + path
+      },
+
       handleDeactivateClick (e) {
         if (this.isModalVisible) {
           return
