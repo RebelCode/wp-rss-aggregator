@@ -12,7 +12,7 @@
     <property name="basedir" value="." override="true" />
     <property name="binDir" value="${basedir}/bin" />
     <property name="buildDir" value="${basedir}/build" />
-    <property name="buildFilesDir" value="${buildDir}/${releaseProjectName}" />
+    <property name="fullBuildDir" value="${buildDir}/${releaseProjectName}" />
     <property name="vendorDir" value="${basedir}/vendor" />
     <property name="releasesDir" value="${basedir}/releases" />
 
@@ -28,6 +28,7 @@
         <exclude name="build/**" />
         <exclude name="releases/**" />
         <exclude name="vendor/**" />
+        <exclude name="node_modules/**" />
         <exclude name="nbproject/**" />
         <exclude name="build.xml" />
         <exclude name="*.neon" />
@@ -37,68 +38,72 @@
         <exclude name="*.zip" />
     </fileset>
 
-    <!-- Deletion of non-build files and directories -->
-    <fileset dir="${buildFilesDir}" id="nonBuildFiles">
-        <include name="composer.json" />
-        <include name="composer.lock" />
-        <include name="package.json" />
-        <include name="package-lock.json" />
-        <include name="webpack.config.js" />
-    </fileset>
-
     <!-- Clears existing build -->
     <target name="delete-build" description="Deletes any existing build files">
-        <chmod mode="0777">
-            <fileset dir="${buildDir}" defaultexcludes="false">
-                <include name="**/**" />
-            </fileset>
-        </chmod>
-        <delete dir="${buildDir}" includeemptydirs="true" />
+        <if>
+            <available file="${fullBuildDir}" />
+            <then>
+                <chmod mode="0777" quiet="true">
+                    <fileset dir="${fullBuildDir}" defaultexcludes="false">
+                        <include name="**/**" />
+                    </fileset>
+                </chmod>
+            </then>
+        </if>
+        <delete dir="${fullBuildDir}" includeemptydirs="true" />
     </target>
 
     <!-- Generates a copy of the current state -->
     <target name="copy" description="Generates a copy of the current state for building" depends="delete-build">
-        <copy todir="${buildFilesDir}">
+        <copy todir="${fullBuildDir}">
             <fileset refid="copyFiles" />
         </copy>
     </target>
 
-    <!-- Installs all dependencies, including dev ones -->
-    <target name="install-dev" description="Installs dependencies, including dev ones">
-        <exec dir="${buildFilesDir}/" command="composer install" passthru="true" />
+    <!-- Installs all non-dev PHP dependencies -->
+    <target name="install-deps" description="Installs dependencies">
+        <exec dir="${fullBuildDir}/" command="composer install --no-dev" passthru="true" />
+        <exec dir="${fullBuildDir}/" command="npm install" passthru="true" />
     </target>
 
-    <!-- Installs all non-dev dependencies -->
-    <target name="install" description="Installs dependencies, excluding dev ones">
-        <exec dir="${buildFilesDir}/" command="composer install --no-dev" passthru="true" />
+    <!-- Builds JS and CSS assets -->
+    <target name="build-assets" description="Builds JS and CSS assets">
+        <exec dir="${fullBuildDir}/" command="npm run build" passthru="true" />
     </target>
 
     <!-- Cleans up the build files -->
     <target name="cleanup" description="Performs clean up on the build files">
-        <delete>
-            <fileset refid="nonBuildFiles" />
-        </delete>
+        <delete dir="${fullBuildDir}/node_modules" />
+        <delete file="${fullBuildDir}/composer.json" />
+        <delete file="${fullBuildDir}/composer.lock" />
+        <delete file="${fullBuildDir}/package.json" />
+        <delete file="${fullBuildDir}/package-lock.json" />
+        <delete file="${fullBuildDir}/webpack.config.js" />
     </target>
 
     <!-- Generates a build for the current project state -->
-    <target name="build" description="Generates a build for the current state" depends="copy, install, cleanup">
+    <target name="build" description="Generates a build for the current state" depends="copy, install-deps, build-assets, cleanup">
     </target>
 
     <!-- Creates the ZIP archive for the build files -->
     <target name="archive" description="Creates an archive for the current build files">
-        <zip destfile="${buildDir}/${releaseZip}" basedir="${buildFilesDir}" />
-        <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
+        <zip destfile="${fullBuildDir}/${releaseZip}">
+            <fileset dir="${buildDir}">
+                <include name="${releaseProjectName}/**" />
+            </fileset>
+        </zip>
+        <move file="${fullBuildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
     </target>
 
     <!-- Creates a release -->
     <target name="release" description="Creates a release" depends="build, snv-tags, archive">
-        <zip destfile="${buildDir}/${releaseZip}" basedir="${buildFilesDir}" />
-        <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
     </target>
 
     <target name="snv-tags" description="Replaces all occurrences of next version placeholder with actual version number">
         <reflexive>
-            <fileset refid="buildFiles" />
+            <fileset dir="${fullBuildDir}">
+                <include name="*.php" />
+            </fileset>
             <filterchain>
                 <replaceregexp>
                     <regexp pattern="\[\*next-version\*\]" replace="${version}"/>
