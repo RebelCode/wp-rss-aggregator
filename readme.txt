@@ -265,6 +265,12 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 
 = [*next-version*] =
 * Added a modal with an optional poll when the plugin is deactivated.
+* Improved the core plugin's on-boarding process for brand new users.
+* Fixed the "Sorted" error appearing constantly in the debug log.
+* The timeout for the truncating posts hook has been extended.
+* Fixed PHP warnings appearing on WordPress multisite.
+* Fixed PHP notice appearing on Feed Items page.
+* Fixed strict standards notice appearing on settings import.
 
 = 4.12 (2019-01-29) =
 * The plugin now checks if its running on PHP 5.3.9, and deactivates itself when not.
