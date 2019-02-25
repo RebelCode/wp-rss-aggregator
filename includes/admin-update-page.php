@@ -32,6 +32,8 @@ function wprss_render_update_page()
 {
     wprss_update_previous_update_page_version();
 
+    wp_enqueue_style('update-page', WPRSS_CSS . 'update.min.css');
+
     echo wprss_render_template('admin-update-page.twig', [
         'title' => __('What\'s new in WP RSS Aggregator?', WPRSS_TEXT_DOMAIN),
         'version' => WPRSS_VERSION,

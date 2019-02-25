@@ -62,7 +62,7 @@
     </target>
 
     <!-- Creates the ZIP archive for release -->
-    <target name="release" description="Creates the release archive" depends="install, build">
+    <target name="release" description="Creates the release archive" depends="install, build, version">
         <zip destfile="${buildDir}/${releaseZip}" basedir="${buildDir}" />
         <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
     </target>

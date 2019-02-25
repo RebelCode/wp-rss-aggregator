@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e36fe3298c4b640cb0d629b36bdc1bc",
+    "content-hash": "6a9a013a5923eec5eae1c295b1d63e16",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -531,12 +531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "210fb60a0d7d8f679d9ae82bc6c38eb9dc9369ed"
+                "reference": "3757418b886e6b8494357553ed633d5cb5276012"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/210fb60a0d7d8f679d9ae82bc6c38eb9dc9369ed",
-                "reference": "210fb60a0d7d8f679d9ae82bc6c38eb9dc9369ed",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3757418b886e6b8494357553ed633d5cb5276012",
+                "reference": "3757418b886e6b8494357553ed633d5cb5276012",
                 "shasum": ""
             },
             "require": {
@@ -589,29 +589,29 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-02-15T07:31:33+00:00"
+            "time": "2019-02-22T00:48:47+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "5.2-alpha-44746",
+            "version": "5.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "7bff4fb5e5b4d8a00a6339d95eda855d94e01a64"
+                "reference": "a7e63657327246275b61910f119796da8b664441"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/7bff4fb5e5b4d8a00a6339d95eda855d94e01a64",
-                "reference": "7bff4fb5e5b4d8a00a6339d95eda855d94e01a64",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/a7e63657327246275b61910f119796da8b664441",
+                "reference": "a7e63657327246275b61910f119796da8b664441",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "provide": {
-                "wordpress/core-implementation": "dev-master"
+                "wordpress/core-implementation": "5.1.x-dev"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -631,7 +631,100 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-02-14T00:57:14+00:00"
+            "time": "2019-02-19T03:12:18+00:00"
+        },
+        {
+            "name": "phing/phing",
+            "version": "2.15.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phingofficial/phing.git",
+                "reference": "0999ab4e94e609dc00998e3d1b88df843054db7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/0999ab4e94e609dc00998e3d1b88df843054db7c",
+                "reference": "0999ab4e94e609dc00998e3d1b88df843054db7c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "lastcraft/simpletest": "@dev",
+                "mikey179/vfsstream": "^1.6",
+                "pdepend/pdepend": "2.x",
+                "pear/archive_tar": "1.4.x",
+                "pear/http_request2": "dev-trunk",
+                "pear/net_growl": "dev-trunk",
+                "pear/pear-core-minimal": "1.10.1",
+                "pear/versioncontrol_git": "@dev",
+                "pear/versioncontrol_svn": "~0.5",
+                "phpdocumentor/phpdocumentor": "2.x",
+                "phploc/phploc": "~2.0.6",
+                "phpmd/phpmd": "~2.2",
+                "phpunit/phpunit": ">=3.7",
+                "sebastian/git": "~1.0",
+                "sebastian/phpcpd": "2.x",
+                "siad007/versioncontrol_hg": "^1.0",
+                "squizlabs/php_codesniffer": "~2.2",
+                "symfony/yaml": "~2.7"
+            },
+            "suggest": {
+                "pdepend/pdepend": "PHP version of JDepend",
+                "pear/archive_tar": "Tar file management class",
+                "pear/versioncontrol_git": "A library that provides OO interface to handle Git repository",
+                "pear/versioncontrol_svn": "A simple OO-style interface for Subversion, the free/open-source version control system",
+                "phpdocumentor/phpdocumentor": "Documentation Generator for PHP",
+                "phploc/phploc": "A tool for quickly measuring the size of a PHP project",
+                "phpmd/phpmd": "PHP version of PMD tool",
+                "phpunit/php-code-coverage": "Library that provides collection, processing, and rendering functionality for PHP code coverage information",
+                "phpunit/phpunit": "The PHP Unit Testing Framework",
+                "sebastian/phpcpd": "Copy/Paste Detector (CPD) for PHP code",
+                "siad007/versioncontrol_hg": "A library for interfacing with Mercurial repositories.",
+                "tedivm/jshrink": "Javascript Minifier built in PHP"
+            },
+            "bin": [
+                "bin/phing"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.15.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "classes/phing/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "classes"
+            ],
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Michiel Rook",
+                    "email": "mrook@php.net"
+                },
+                {
+                    "name": "Phing Community",
+                    "homepage": "https://www.phing.info/trac/wiki/Development/Contributors"
+                }
+            ],
+            "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
+            "homepage": "https://www.phing.info/",
+            "keywords": [
+                "build",
+                "phing",
+                "task",
+                "tool"
+            ],
+            "time": "2016-10-13T09:01:45+00:00"
         }
     ],
     "aliases": [],

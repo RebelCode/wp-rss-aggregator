@@ -35,9 +35,10 @@ class AbstractRegex extends Core\Model\ModelAbstract
         }
 
         $string = (array)$string;
-        return array_map(function ($string) use ($delimiter) {
+        $self = $this;
+        return array_map(function ($string) use ($delimiter, $self) {
             if (is_array($string)) {
-                return $this->quoteAll($string, $delimiter);
+                return $self->quoteAll($string, $delimiter);
             }
             return preg_quote($string, $delimiter);
         }, $string);
