@@ -44,6 +44,8 @@ add_action('admin_menu', function () {
  */
 function wprss_render_intro_page()
 {
+    wprss_update_previous_update_page_version();
+
     wprss_plugin_enqueue_app_scripts('intro-wizard', WPRSS_JS . 'intro.min.js', array(), '0.1', true);
     wp_enqueue_style('intro-wizard', WPRSS_CSS . 'intro.min.css');
 
