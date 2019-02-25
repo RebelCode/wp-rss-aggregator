@@ -22,6 +22,7 @@ add_action('admin_init', function () {
         wp_enqueue_style('wpra-plugins', WPRSS_CSS . 'plugins.min.css');
 
         wp_localize_script('wpra-plugins', 'WrpaDisablePoll', [
+            'image' => WPRSS_IMG,
             'url' => 'https://hooks.zapier.com/hooks/catch/305784/puf5uf/',
             'model' => [
                 'reason' => 'Other',
@@ -85,6 +86,7 @@ add_action('admin_init', function () {
                 ],
                 [
                     'type' => 'content',
+                    'className' => 'error',
                     'label' => __('This core plugin is required for all our premium add-ons. Please don\'t deactivate it if you currently have premium add-ons installed and activated.', WPRSS_TEXT_DOMAIN),
                     'condition' =>
                         [
