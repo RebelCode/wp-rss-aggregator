@@ -25,7 +25,9 @@
             </template>
 
             <template v-if="datum.type === 'content'">
-                <p v-html="datum.label"></p>
+                <div :class="datum.className">
+                    <p v-html="datum.label"></p>
+                </div>
             </template>
         </div>
     </div>
