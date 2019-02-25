@@ -34,21 +34,21 @@ function wprss_render_update_page()
 
     wp_enqueue_style('update-page', WPRSS_CSS . 'update.min.css');
 
-    echo wprss_render_template('admin-update-page.twig', [
+    echo wprss_render_template('admin-update-page.twig', array(
         'title' => __('What\'s new in WP RSS Aggregator?', WPRSS_TEXT_DOMAIN),
         'version' => WPRSS_VERSION,
         'beacon_nonce_field' => wp_nonce_field('wprss_hs_beacon_enabled'),
-        'beacon_enabled' => false, // wprss_is_help_beacon_enabled(),
-        'url' => [
+        'beacon_enabled' => wprss_is_help_beacon_enabled(),
+        'url' => array(
             'main' => admin_url('edit.php?post_type=wprss_feed'),
             'website' => 'https://www.wprssaggregator.com/',
             'support' => 'https://www.wprssaggregator.com/contact/',
             'kb' => 'https://kb.wprssaggregator.com/',
-        ],
-        'path' => [
-            'images' => WPRSS_IMG
-        ]
-    ]);
+        ),
+        'path' => array(
+            'images' => WPRSS_IMG,
+        ),
+    ));
 }
 
 /**

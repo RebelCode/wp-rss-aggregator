@@ -44,11 +44,11 @@ add_action('admin_menu', function () {
  */
 function wprss_render_intro_page()
 {
-    wprss_plugin_enqueue_app_scripts('intro-wizard', WPRSS_JS . 'intro.min.js', [], '0.1', true);
+    wprss_plugin_enqueue_app_scripts('intro-wizard', WPRSS_JS . 'intro.min.js', array(), '0.1', true);
     wp_enqueue_style('intro-wizard', WPRSS_CSS . 'intro.min.css');
 
     $nonce = wp_create_nonce(WPRSS_INTRO_NONCE_NAME);
-    wp_localize_script('intro-wizard', 'wprssWizardConfig', [
+    wp_localize_script('intro-wizard', 'wprssWizardConfig', array(
         'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $nonce),
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
         'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_addons_button&utm_content=addons_button',
@@ -56,19 +56,19 @@ function wprss_render_intro_page()
         'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.png',
         'feedbackUrl' => 'https://wordpress.org/support/topic/does-everything-i-need-16/',
         'knowledgeBaseUrl' => 'https://kb.wprssaggregator.com/',
-        'feedEndpoint' => [
+        'feedEndpoint' => array(
             'url' => admin_url('admin-ajax.php'),
-            'defaultPayload' => [
+            'defaultPayload' => array(
                 'action' => 'wprss_create_intro_feed',
                 'nonce' => $nonce,
-            ],
-        ],
-    ]);
+            ),
+        ),
+    ));
 
-    echo wprss_render_template('admin-intro-page.twig', [
+    echo wprss_render_template('admin-intro-page.twig', array(
         'title' => 'Welcome to WP RSS Aggregator 👋',
         'subtitle' => 'Follow these introductory steps to get started with WP RSS Aggregator.',
-    ]);
+    ));
 }
 
 /**
@@ -79,9 +79,9 @@ function wprss_render_intro_page()
 add_action('wp_ajax_wprss_set_intro_step', function () {
     check_ajax_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
     if (!current_user_can('manage_options')) {
-        wp_die('', '', [
+        wp_die('', '', array(
             'response' => 403,
-        ]);
+        ));
     }
 
     $step = filter_input(INPUT_POST, WPRSS_INTRO_STEP_POST_PARAM, FILTER_VALIDATE_INT);
@@ -93,9 +93,9 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
     }
 
     wprss_set_intro_step($step);
-    wprss_ajax_success_response([
+    wprss_ajax_success_response(array(
         'wprss_intro_step' => $step,
-    ]);
+    ));
 });
 
 /**
@@ -106,9 +106,9 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
 add_action('wp_ajax_wprss_create_intro_feed', function () {
     check_ajax_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
     if (!current_user_can('manage_options')) {
-        wp_die('', '', [
+        wp_die('', '', array(
             'response' => 403,
-        ]);
+        ));
     }
 
     $url = filter_input(INPUT_POST, WPRSS_INTRO_FEED_URL_PARAM, FILTER_VALIDATE_URL);
@@ -125,11 +125,11 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
     }
 
     try {
-        wp_schedule_single_event(time(), 'wprss_create_intro_feed_source', [$url]);
+        wp_schedule_single_event(time(), 'wprss_create_intro_feed_source', array($url));
         $items = wprss_preview_feed_items($url);
-        $data = [
+        $data = array(
             'feed_items' => $items,
-        ];
+        );
         wprss_set_intro_done(true);
         wprss_ajax_success_response($data);
     } catch (Exception $e) {
@@ -151,9 +151,9 @@ add_action('init', function () {
 
     check_admin_referer(WPRSS_INTRO_NONCE_NAME, 'nonce');
     if (!current_user_can('manage_options')) {
-        wp_die('', '', [
+        wp_die('', '', array(
             'response' => 403,
-        ]);
+        ));
     }
 
     try {
@@ -195,15 +195,15 @@ function wprss_preview_feed_items($url, $max = 10)
     }
 
     $count = 0;
-    $results = [];
+    $results = array();
     foreach ($items as $item) {
         /* @var $item SimplePie_Item */
-        $results[] = [
+        $results[] = array(
             'title' => $item->get_title(),
             'permalink' => $item->get_permalink(),
             'date' => $item->get_date(get_option('date_format')),
             'author' => $item->get_author()->name,
-        ];
+        );
 
         if ($count++ > $max) {
             break;
@@ -239,15 +239,15 @@ function wprss_create_intro_feed_source($url)
     }
 
     // Update the existing feed source with a new generated name and new URL
-    wp_update_post([
+    wp_update_post(array(
         'ID' => $feedId,
         'post_title' => wprss_feed_source_name_from_url($url),
         'post_status' => 'publish',
-        'meta_input' => [
+        'meta_input' => array(
             'wprss_url' => $url,
             'wprss_limit' => WPRSS_INTRO_FEED_LIMIT
-        ]
-    ]);
+        )
+    ));
 
     // Re-import the items for this feed
     wprss_delete_feed_items($feedId);
@@ -270,7 +270,7 @@ function wprss_create_intro_feed_source($url)
 function wprss_create_feed_source_with_url($url)
 {
     $name = wprss_feed_source_name_from_url($url);
-    $result = wprss_import_feed_sources_array([$url => $name]);
+    $result = wprss_import_feed_sources_array(array($url => $name));
 
     if (empty($result)) {
         throw new Exception(
@@ -361,12 +361,12 @@ function wprss_create_shortcode_page($title = null, $status = 'draft')
         ? _x('Feeds', 'default name of shortcode page', WPRSS_TEXT_DOMAIN)
         : $title;
 
-    $id = wp_insert_post([
+    $id = wp_insert_post(array(
         'post_type' => 'page',
         'post_title' => $title,
         'post_content' => '[wp-rss-aggregator]',
-        'post_status' => $status
-    ]);
+        'post_status' => $status,
+    ));
 
     if (is_wp_error($id)) {
         throw new Exception($id->get_error_message(), $id->get_error_code());
@@ -459,14 +459,14 @@ function wprss_is_new_user()
  * @param array $data   Optional data to send.
  * @param int   $status Optional HTTP status code of the response.
  */
-function wprss_ajax_success_response($data = [], $status = 200)
+function wprss_ajax_success_response($data = array(), $status = 200)
 {
-    echo json_encode([
+    echo json_encode(array(
         'success' => true,
         'error' => '',
         'data' => $data,
         'status' => $status,
-    ]);
+    ));
     wp_die();
 }
 
@@ -480,11 +480,11 @@ function wprss_ajax_success_response($data = [], $status = 200)
  */
 function wprss_ajax_error_response($message, $status = 400)
 {
-    echo json_encode([
+    echo json_encode(array(
         'success' => false,
         'error' => $message,
-        'data' => [],
+        'data' => array(),
         'status' => $status,
-    ]);
+    ));
     wp_die();
 }
