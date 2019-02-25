@@ -375,7 +375,9 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 				'wprss_settings_notices',
 				'wprss_addon_notices',
 				'wprss_pwsv',
-				'wprss_db_version'
+				'wprss_db_version',
+				WPRSS_INTRO_DID_INTRO_OPTION,
+				WPRSS_UPDATE_PAGE_PREV_VERSION_OPTION
 			)
 		);
 		// Delete the settings

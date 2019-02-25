@@ -27,6 +27,7 @@ let config = {
   entry: {
     intro: './js/src/intro/index.js',
     plugins: './js/src/plugins/index.js',
+    update: './css/src/update/index.scss',
   },
   output: {
     path: __dirname + '/js',
