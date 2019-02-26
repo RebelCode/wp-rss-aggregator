@@ -103,6 +103,7 @@
         <reflexive>
             <fileset dir="${buildDir}">
                 <include name="*.php" />
+                <include name="includes/**.php" />
             </fileset>
             <filterchain>
                 <replaceregexp>
