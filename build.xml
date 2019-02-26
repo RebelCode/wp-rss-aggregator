@@ -99,6 +99,7 @@
     <target name="release" description="Creates a release" depends="build, snv-tags, archive">
     </target>
 
+    <!-- Replaces next-version tags with the release version -->
     <target name="snv-tags" description="Replaces all occurrences of next version placeholder with actual version number">
         <reflexive>
             <fileset dir="${buildDir}">
