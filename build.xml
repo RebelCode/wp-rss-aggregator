@@ -11,8 +11,8 @@
     <!-- Directories -->
     <property name="basedir" value="." override="true" />
     <property name="binDir" value="${basedir}/bin" />
-    <property name="buildDir" value="${basedir}/build" />
-    <property name="fullBuildDir" value="${buildDir}/${releaseProjectName}" />
+    <property name="outputDir" value="${basedir}/build" />
+    <property name="buildDir" value="${outputDir}/${releaseProjectName}" />
     <property name="vendorDir" value="${basedir}/vendor" />
     <property name="releasesDir" value="${basedir}/releases" />
 
@@ -41,44 +41,44 @@
     <!-- Clears existing build -->
     <target name="delete-build" description="Deletes any existing build files">
         <if>
-            <available file="${fullBuildDir}" />
+            <available file="${buildDir}" />
             <then>
                 <chmod mode="0777" quiet="true">
-                    <fileset dir="${fullBuildDir}" defaultexcludes="false">
+                    <fileset dir="${buildDir}" defaultexcludes="false">
                         <include name="**/**" />
                     </fileset>
                 </chmod>
             </then>
         </if>
-        <delete dir="${fullBuildDir}" includeemptydirs="true" />
+        <delete dir="${buildDir}" includeemptydirs="true" />
     </target>
 
     <!-- Generates a copy of the current state -->
     <target name="copy" description="Generates a copy of the current state for building" depends="delete-build">
-        <copy todir="${fullBuildDir}">
+        <copy todir="${buildDir}">
             <fileset refid="copyFiles" />
         </copy>
     </target>
 
     <!-- Installs all non-dev PHP dependencies -->
     <target name="install-deps" description="Installs dependencies">
-        <exec dir="${fullBuildDir}/" command="composer install --no-dev" passthru="true" />
-        <exec dir="${fullBuildDir}/" command="npm install" passthru="true" />
+        <exec dir="${buildDir}/" command="composer install --no-dev" passthru="true" />
+        <exec dir="${buildDir}/" command="npm install" passthru="true" />
     </target>
 
     <!-- Builds JS and CSS assets -->
     <target name="build-assets" description="Builds JS and CSS assets">
-        <exec dir="${fullBuildDir}/" command="npm run build" passthru="true" />
+        <exec dir="${buildDir}/" command="npm run build" passthru="true" />
     </target>
 
     <!-- Cleans up the build files -->
     <target name="cleanup" description="Performs clean up on the build files">
-        <delete dir="${fullBuildDir}/node_modules" />
-        <delete file="${fullBuildDir}/composer.json" />
-        <delete file="${fullBuildDir}/composer.lock" />
-        <delete file="${fullBuildDir}/package.json" />
-        <delete file="${fullBuildDir}/package-lock.json" />
-        <delete file="${fullBuildDir}/webpack.config.js" />
+        <delete dir="${buildDir}/node_modules" />
+        <delete file="${buildDir}/composer.json" />
+        <delete file="${buildDir}/composer.lock" />
+        <delete file="${buildDir}/package.json" />
+        <delete file="${buildDir}/package-lock.json" />
+        <delete file="${buildDir}/webpack.config.js" />
     </target>
 
     <!-- Generates a build for the current project state -->
@@ -87,12 +87,12 @@
 
     <!-- Creates the ZIP archive for the build files -->
     <target name="archive" description="Creates an archive for the current build files">
-        <zip destfile="${fullBuildDir}/${releaseZip}">
-            <fileset dir="${buildDir}">
+        <zip destfile="${buildDir}/${releaseZip}">
+            <fileset dir="${outputDir}">
                 <include name="${releaseProjectName}/**" />
             </fileset>
         </zip>
-        <move file="${fullBuildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
+        <move file="${buildDir}/${releaseZip}" todir="${releasesDir}" overwrite="true" />
     </target>
 
     <!-- Creates a release -->
@@ -101,7 +101,7 @@
 
     <target name="snv-tags" description="Replaces all occurrences of next version placeholder with actual version number">
         <reflexive>
-            <fileset dir="${fullBuildDir}">
+            <fileset dir="${buildDir}">
                 <include name="*.php" />
             </fileset>
             <filterchain>
