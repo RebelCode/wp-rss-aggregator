@@ -557,7 +557,7 @@
      * Informs users that have not updated to 4.13 that 4.13 will stop supporting PHP 5.3, if their PHP version is
      * less than 5.4.
      *
-     * @since [*next-version*]
+     * @since 4.12.1
      */
     add_action('after_plugin_row', function($plugin_file) {
         if ($plugin_file !== plugin_basename(__FILE__)

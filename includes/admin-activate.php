@@ -10,7 +10,7 @@ if (wprss_can_use_twig()) {
 /**
  * Detects an activation and redirects the user to the correct page (intro or update).
  *
- * @since [*next-version*]
+ * @since 4.12.1
  */
 add_action('admin_init', function () {
     // Continue only if during an activation redirect

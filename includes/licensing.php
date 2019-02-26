@@ -62,7 +62,7 @@ function wprss_get_addons($noCache = false) {
 /**
  * Finds all WPRA addons installed, even if they are deactivated.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return array An array of WordPress plugin info arrays.
  */
@@ -81,7 +81,7 @@ function wprss_find_installed_addons()
 /**
  * Retrieves the names of the installed addons, even if they are deactivated.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return string[] A list of the names of installed addons.
  */

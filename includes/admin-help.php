@@ -5,7 +5,7 @@
     /**
      * Checks if the HS becaon is enabled or not.
      *
-     * @since [*next-version*]
+     * @since 4.12.1
      *
      * @return bool True if enabled, false if not.
      */

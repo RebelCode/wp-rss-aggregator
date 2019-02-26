@@ -123,7 +123,7 @@
      *
      * Use only for Vue-related apps that use Webpack for being built.
      *
-     * @since [*next-version*]
+     * @since 4.12.1
      *
      * @param $handle
      * @param string $src

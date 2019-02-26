@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 /**
  * Adds deactivate poll application on plugin's page.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  */
 add_action('admin_init', function () {
     $page = trim($_SERVER["REQUEST_URI"], '/');

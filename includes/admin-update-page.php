@@ -6,7 +6,7 @@ define('WPRSS_UPDATE_PAGE_PREV_VERSION_OPTION', 'wprss_prev_update_page_version'
 /**
  * Registers the update page.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  */
 add_action('admin_menu', function () {
     add_submenu_page(
@@ -22,7 +22,7 @@ add_action('admin_menu', function () {
 /**
  * Renders the update page.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @throws Twig_Error_Loader
  * @throws Twig_Error_Runtime
@@ -54,7 +54,7 @@ function wprss_render_update_page()
 /**
  * Retrieves the URL of the update page.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return string
  */
@@ -67,7 +67,7 @@ function wprss_get_update_page_url()
  * Checks whether the update should be shown or not, based on whether the user is new and previously had an older
  * version of the plugin.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return bool True if the update page should be shown, false if not.
  */
@@ -79,7 +79,7 @@ function wprss_should_do_update_page()
 /**
  * Checks whether the user had a previous version of WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return mixed
  */
@@ -94,7 +94,7 @@ function wprss_user_had_previous_version()
 /**
  * Updates the previous update page version to the current plugin version.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  */
 function wprss_update_previous_update_page_version()
 {
@@ -104,7 +104,7 @@ function wprss_update_previous_update_page_version()
 /**
  * Retrieves the previous update page version seen by the user, if at all.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return string The version string, or '0.0.0' if the user is new nad has not used WPRA before.
  */
@@ -118,7 +118,7 @@ function wprss_get_previous_update_page_version()
 /**
  * Migrates the previously used "welcome screen" version DB option.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  */
 function wprss_migrate_welcome_page_to_update_page()
 {
