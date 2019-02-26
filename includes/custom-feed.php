@@ -13,13 +13,9 @@
      * @since 3.3
      */
     function wprss_addfeed_add_feed() {
-        $general_settings = get_option( 'wprss_settings_general', 'wprss' );
-        if ( !empty( $general_settings ) && isset( $general_settings['custom_feed_url'] ) && !empty( $general_settings['custom_feed_url'] ) ) {
-            $url = $general_settings['custom_feed_url'];
-        }
-        else {
-            $url = $general_settings['custom_feed_url'] = 'wprss';
-            update_option( 'wprss_settings_general', $general_settings );
+        $url = wprss_get_general_setting('custom_feed_url');
+        if (empty($url)) {
+            $url = 'wprss';
         }
 
         // Add the feed

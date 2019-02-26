@@ -9,3 +9,5 @@ log-*.txt
 /releases/
 /build/
 /node_modules/
+
+/js/update.min.js

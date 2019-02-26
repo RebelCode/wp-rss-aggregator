@@ -1267,7 +1267,9 @@ function wprss_is_wprss_page() {
         'wprss-debugging',
         'wprss-addons',
         'wprss-welcome',
-        'wprss-help'
+        'wprss-help',
+        'wpra-intro',
+        'wpra-update',
     ));
 
 	$is_wprss_post = in_array($postType, $wprss_post_types, true);

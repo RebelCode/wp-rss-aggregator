@@ -10,7 +10,7 @@ define('WPRSS_TWIG_MIN_PHP_VERSION', '5.4.0');
 /**
  * Returns whether twig can be used.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return bool True if twig can be used, false if not.
  */

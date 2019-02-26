@@ -545,13 +545,24 @@ $primary-color: #1a53e6;
 }
 
 .wrpa-shortcode {
+  display: flex;
+  &-form, &-preview {
+    padding-bottom: 10px;
+    padding-right: 75px;
+    flex-basis: 50%;
+    .wrpa-shortcode-label {
+      font-size: 1rem;
+      padding-bottom: 12px;
+      line-height: 1.5;
+    }
+    .button.loading-button {
+      &::before {
+        box-shadow: inset 0 -4px 0 6px #797979 !important;
+      }
+    }
+  }
   .wrpa-shortcode-form {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: $deep-gray;
     cursor: pointer;
-    margin-right: 4px;
     .wrpa-shortcode-form__shortcode {
       display: inline-block;
     }

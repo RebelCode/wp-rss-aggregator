@@ -60,9 +60,9 @@
 		 */
 		public function opml_import() {
 			// Show the Icon and Title
-			?><div class="wrap"><?php
-			screen_icon();
-			?><h2><?php _e( 'Import OPML', WPRSS_TEXT_DOMAIN ) ?></h2><?php
+			?>
+			<div class="wrap">
+			<h2><?php _e( 'Import OPML', WPRSS_TEXT_DOMAIN ) ?></h2><?php
 
 			// Get the current step from URL query string
 			$step = empty( $_GET['step'] ) ? 0 : (int) $_GET['step'];

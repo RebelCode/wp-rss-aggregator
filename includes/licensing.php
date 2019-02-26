@@ -60,6 +60,39 @@ function wprss_get_addons($noCache = false) {
 }
 
 /**
+ * Finds all WPRA addons installed, even if they are deactivated.
+ *
+ * @since 4.12.1
+ *
+ * @return array An array of WordPress plugin info arrays.
+ */
+function wprss_find_installed_addons()
+{
+    $all_plugins = get_plugins();
+    $addons = array();
+    foreach ($all_plugins as $plugin_path => $plugin) {
+        if ($plugin_path !== WPRSS_FILE_CONSTANT && strpos($plugin['Name'], 'WP RSS Aggregator - ') === 0) {
+            $addons[$plugin_path] = $plugin;
+        }
+    }
+    return $addons;
+}
+
+/**
+ * Retrieves the names of the installed addons, even if they are deactivated.
+ *
+ * @since 4.12.1
+ *
+ * @return string[] A list of the names of installed addons.
+ */
+function wprss_find_installed_addon_names()
+{
+    return array_map(function ($plugin_info) {
+        return substr($plugin_info['Name'], strlen('WP RSS Aggregator - '));
+    }, wprss_find_installed_addons());
+}
+
+/**
  * Hooks the licensing system into WordPress.
  */
 function wprss_licensing() {

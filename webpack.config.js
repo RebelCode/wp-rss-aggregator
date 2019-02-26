@@ -4,12 +4,35 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+function makePlugins (plugins) {
+  let base = [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'wpra-vendor',
+      filename: 'wpra-vendor.min.js',
+      minChunks: function(module){
+        return module.context && module.context.includes('node_modules');
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'wpra-manifest',
+      filename: 'wpra-manifest.min.js',
+      minChunks: Infinity
+    }),
+  ]
+  return base.concat(plugins)
+}
+
 let config = {
   context: __dirname,
-  entry: './js/src/intro/index.js',
+  entry: {
+    intro: './js/src/intro/index.js',
+    plugins: './js/src/plugins/index.js',
+    update: './css/src/update/index.scss',
+  },
   output: {
     path: __dirname + '/js',
-    filename: 'intro.min.js',
+    filename: '[name].min.js',
+    library: 'WPRA',
     libraryTarget: 'umd'
   },
   devtool: debug ? 'inline-sourcemap' : false,
@@ -47,12 +70,12 @@ let config = {
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
-  plugins: debug ? [
-    new ExtractTextPlugin('./../css/intro.min.css'),
-    new VueLoaderPlugin()
-  ] : [
+  plugins: debug ? makePlugins([
+    new ExtractTextPlugin('./../css/[name].min.css'),
+    new VueLoaderPlugin(),
+  ]) : makePlugins([
     new ExtractTextPlugin({ // define where to save the file
-      filename: './../css/intro.min.css',
+      filename: './../css/[name].min.css',
       allChunks: true
     }),
     new VueLoaderPlugin(),
@@ -72,7 +95,7 @@ let config = {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
-  ],
+  ])
 }
 
 module.exports = config
