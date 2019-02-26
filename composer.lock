@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a9a013a5923eec5eae1c295b1d63e16",
+    "content-hash": "82040b29c7301848d26db400448745c2",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -531,12 +531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3757418b886e6b8494357553ed633d5cb5276012"
+                "reference": "4f9d21fbcee167662330c12ae74cd922234bad24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3757418b886e6b8494357553ed633d5cb5276012",
-                "reference": "3757418b886e6b8494357553ed633d5cb5276012",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4f9d21fbcee167662330c12ae74cd922234bad24",
+                "reference": "4f9d21fbcee167662330c12ae74cd922234bad24",
                 "shasum": ""
             },
             "require": {
@@ -589,7 +589,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-02-22T00:48:47+00:00"
+            "time": "2019-02-25T08:38:34+00:00"
         }
     ],
     "packages-dev": [
@@ -599,12 +599,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "a7e63657327246275b61910f119796da8b664441"
+                "reference": "fe856ac0d520fbc203e302854ca28a6cecc5ed41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/a7e63657327246275b61910f119796da8b664441",
-                "reference": "a7e63657327246275b61910f119796da8b664441",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/fe856ac0d520fbc203e302854ca28a6cecc5ed41",
+                "reference": "fe856ac0d520fbc203e302854ca28a6cecc5ed41",
                 "shasum": ""
             },
             "require": {
@@ -631,7 +631,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-02-19T03:12:18+00:00"
+            "time": "2019-02-22T18:16:25+00:00"
         },
         {
             "name": "phing/phing",
@@ -732,6 +732,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^5.3 | ^7.0"
+    },
     "platform-dev": []
 }
