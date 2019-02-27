@@ -37,7 +37,10 @@ function wprss_twig()
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
         }
 
-        $loader = new Twig_Loader_Filesystem(WPRSS_TEMPLATES);
+        $paths = [WPRSS_TEMPLATES];
+        $paths = apply_filters('wprss_template_paths', $paths);
+
+        $loader = new Twig_Loader_Filesystem($paths);
         $twig = new Twig_Environment($loader, $options);
 
         $twig->addFunction(
