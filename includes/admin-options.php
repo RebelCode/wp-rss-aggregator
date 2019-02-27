@@ -355,8 +355,6 @@
     function wprss_settings_page_display() {
         ?>
         <div class="wrap">
-            <?php screen_icon( 'wprss-aggregator' ); ?>            
-        
             <h2><?php _e( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ); ?></h2>   
 
             <?php settings_errors(); ?> 

@@ -3,7 +3,7 @@
      * Plugin Name: WP RSS Aggregator
      * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
      * Description: Imports and aggregates multiple RSS Feeds.
-     * Version: 4.12
+     * Version: 4.12.1
      * Author: RebelCode
      * Author URI: https://www.wprssaggregator.com
      * Text Domain: wprss
@@ -30,7 +30,7 @@
 
     /**
      * @package     WPRSSAggregator
-     * @version     4.12
+     * @version     4.12.1
      * @since       1.0
      * @author      RebelCode
      * @copyright   Copyright (c) 2012-2018, RebelCode Ltd.
@@ -44,7 +44,7 @@
 
     // Set the version number of the plugin.
     if( !defined( 'WPRSS_VERSION' ) )
-        define( 'WPRSS_VERSION', '4.12', true );
+        define( 'WPRSS_VERSION', '4.12.1', true );
 
     if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
         define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
@@ -291,10 +291,11 @@
     /* Load the admin settings help file */
     require_once ( WPRSS_INC . 'admin-help-settings.php' );
 
-    /* The introduction onboarding module - if the twig library can be used */
-    if (wprss_can_use_twig()) {
-        require_once(WPRSS_INC . 'admin-intro.php');
-    }
+    /* Admin plugin activation events */
+    require_once ( WPRSS_INC . 'admin-activate.php' );
+
+	/* Add components to the plugins page  */
+	require_once(WPRSS_INC . 'admin-plugins.php');
 
 	/* Access to feed */
 	require_once ( WPRSS_INC . 'feed-access.php' );
@@ -556,7 +557,7 @@
      * Informs users that have not updated to 4.13 that 4.13 will stop supporting PHP 5.3, if their PHP version is
      * less than 5.4.
      *
-     * @since [*next-version*]
+     * @since 4.12.1
      */
     add_action('after_plugin_row', function($plugin_file) {
         if ($plugin_file !== plugin_basename(__FILE__)
@@ -591,13 +592,8 @@
         flush_rewrite_rules();
         wprss_schedule_fetch_all_feeds_cron();
 
-        // Get the previous welcome screen version
-        $pwsv = get_option( 'wprss_pwsv', '0.0' );
-        // If the aggregator version is higher than the previous version ...
-        if ( version_compare( WPRSS_VERSION, $pwsv, '>' ) ) {
-            // Sets a transient to trigger a redirect upon completion of activation procedure
-            set_transient( '_wprss_activation_redirect', true, 30 );
-        }
+        // Sets a transient to trigger a redirect upon completion of activation procedure
+        set_transient( '_wprss_activation_redirect', true, 30 );
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		// Check if WordPress SEO is activate, if yes set its options for hiding the metaboxes on the wprss_feed and wprss_feed_item screens

@@ -1,0 +1,48 @@
+.form {
+  &-check {
+    input {
+      display: inline-block !important;
+      width: auto !important;
+      margin: 0 4px 0 0;
+    }
+    label {
+      display: inline-block !important;
+    }
+    padding: 4px 0;
+  }
+  &-group {
+    padding-bottom: 8px;
+    label {
+      display: block;
+    }
+    & > label {
+      margin-bottom: 2px;
+    }
+    input, textarea {
+      display: block;
+      width: 100%;
+    }
+    &:last-child {
+      padding-bottom: 0;
+    }
+    p {
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .error {
+      margin: 0 !important;
+    }
+  }
+}
+
+.wpra-plugin-disable-poll {
+  &__logo {
+    img {
+      max-height: 40px;
+    }
+  }
+}

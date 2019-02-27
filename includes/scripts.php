@@ -5,6 +5,8 @@
      * @package WPRSSAggregator
      */
 
+    use Aventura\Wprss\Core\Licensing\License\Status as License_Status;
+
     add_action( 'init', 'wprss_register_scripts', 9 );
     function wprss_register_scripts()
     {
@@ -70,6 +72,11 @@
             'sending'       => __('Sending...', WPRSS_TEXT_DOMAIN),
             'sent-error'    => sprintf(__('There was an error sending the form. Please use the <a href="%s">contact form on our site.</a>', WPRSS_TEXT_DOMAIN), esc_attr('https://www.wprssaggregator.com/contact/')),
             'sent-ok'       => __("Your message has been sent and we'll send you a confirmation e-mail when we receive it.", WPRSS_TEXT_DOMAIN)
+        ));
+
+        wp_register_script( 'wprss-hs-beacon-js', WPRSS_JS . 'beacon.min.js', array(), $version );
+        wp_localize_script( 'wprss-hs-beacon-js', 'WprssHelpBeaconConfig', array (
+            'premiumSupport' => ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) )
         ));
     }
 
@@ -156,6 +163,11 @@
             wp_enqueue_script( 'wprss-admin-help' );
         }
 
+        if (wprss_is_help_beacon_enabled()) {
+            wp_enqueue_script('wprss-hs-beacon-js');
+            wp_enqueue_style('wprss-hs-beacon-css');
+        }
+
         do_action('wprss_admin_exclusive_scripts_styles');
     }
 
@@ -214,5 +226,6 @@
         wp_register_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css', array(), $version );
         wp_register_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-general-styles', WPRSS_CSS . 'admin-general-styles.css', array(), $version );
+        wp_register_style( 'wprss-hs-beacon-css', WPRSS_CSS, 'beacon.css', array(), $version );
         wp_register_style( 'jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
     }

@@ -12,8 +12,6 @@
         
         ?>
         <div class="wrap">
-            <?php screen_icon( 'wprss-aggregator' ); ?>
-
             <h2><?php _e( 'More Features With Our Premium Add-Ons', WPRSS_TEXT_DOMAIN ); ?></h2>
             <p><?php echo sprintf(__( 'The following <a href="%1$s" target="_blank">add-ons</a> are available to increase the functionality of the WP RSS Aggregator plugin.', WPRSS_TEXT_DOMAIN ), 'https://www.wprssaggregator.com/extensions') ?></p>
             <p><?php echo sprintf(__(

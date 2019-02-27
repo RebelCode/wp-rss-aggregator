@@ -246,8 +246,6 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
         ?>
 
         <div class="wrap">
-            <?php screen_icon( 'wprss-aggregator' ); ?>
-
             <h2><?php _e( 'Debugging', WPRSS_TEXT_DOMAIN ); ?></h2>
             <?php 
             if ( isset( $_GET['debug_message'] ))  {//&& ( check_admin_referer( 'wprss-delete-import-feed-items' ) || check_admin_referer( 'wprss-update-feed-items' ) ) ) {
@@ -375,7 +373,9 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 				'wprss_settings_notices',
 				'wprss_addon_notices',
 				'wprss_pwsv',
-				'wprss_db_version'
+				'wprss_db_version',
+				WPRSS_INTRO_DID_INTRO_OPTION,
+				WPRSS_UPDATE_PAGE_PREV_VERSION_OPTION
 			)
 		);
 		// Delete the settings

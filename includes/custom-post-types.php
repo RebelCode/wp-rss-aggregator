@@ -99,7 +99,8 @@ define('WPRSS_POST_TYPE_FEED_SOURCE', 'wprss_feed');
                     'slug'       => 'feed-items',
                     'with_front' => false,
                 ),
-                'capability_type'       => 'feed_source',
+                'capability_type'       => 'feed_item',
+                'map_meta_cap'          => true,
                 'labels'                => $labels
             )
         );

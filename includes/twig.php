@@ -10,7 +10,7 @@ define('WPRSS_TWIG_MIN_PHP_VERSION', '5.4.0');
 /**
  * Returns whether twig can be used.
  *
- * @since [*next-version*]
+ * @since 4.12.1
  *
  * @return bool True if twig can be used, false if not.
  */
@@ -33,7 +33,7 @@ function wprss_twig()
     if ($twig === null) {
         $options = array();
 
-        if (defined('WP_DEBUG') && WP_DEBUG) {
+        if (!defined('WP_DEBUG') || !WP_DEBUG) {
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
         }
 

@@ -1,0 +1,76 @@
+<div class="wrap wrap--wpra-update">
+    <div class="wpra-update wpra-text-center">
+        <div class="wpra-update__logo">
+            <img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/wp_rss_logo.png">
+        </div>
+        <div class="wpra-update-head__copy">
+            <div class="wpra-update-head__title">{{ title }}</div>
+            <div class="wpra-update-head__link">
+                <a href="{{ url.main }}">Skip the update details and get back to the plugin.</a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="wp-header-end">
+
+    <div id="wpra-update-app">
+        <div class="postbox">
+            <div class="inside wpra-update-feature">
+                <div class="wpra-update-feature__text">
+                    <h3>Better self-help solutions right on your site</h3>
+                    <p>You can now make the best use of our knowledge base and support options from right within your
+                        WordPress Dashboard! Through our support beacon you will have access to our complete knowledge base
+                        without ever leaving your site. It even includes a contact form should you need to ask us any
+                        questions.</p>
+                    <p>The beacon will be visible on the bottom right-hand corner of only WP RSS Aggregator's pages. It can
+                        be enabled or disabled at any time through the Help & Support page in our sub-menu on the left.</p>
+                    <form method="post" class="wpra-inline-form">
+                        {% if beacon_enabled == false %}
+                            <button class="button button-primary button-large" type="submit" name="wprss_hs_beacon_enabled"
+                                    value="1">Enable Support Beacon
+                            </button>
+                        {% else %}
+                            <button class="button button-large" type="submit" name="wprss_hs_beacon_enabled" value="0">
+                                Disable Support Beacon
+                            </button>
+                        {% endif %}
+                        {{ beacon_nonce_field | raw }}
+                    </form>
+                </div>
+                <div class="wpra-update-feature__image">
+                    <img src="{{ path.images }}/wp-rss-aggregator-support-beacon.png" alt="Support Beacon">
+                </div>
+            </div>
+        </div>
+
+        <div class="postbox">
+            <div class="inside">
+                <h3>Other fixes and improvements</h3>
+                <ul class="wpra-updates">
+                    <li>Performance improvements across the core plugin.</li>
+                    <li>Sorted out the "Sorted" error appearing constantly in the debug log.</li>
+                    <li>Improved the core plugin's on-boarding process for brand new users.</li>
+                    <li>The timeout for the truncating posts hook has been extended.</li>
+                    <li>Fixed PHP warnings appearing on WordPress multisite.</li>
+                    <li>Fixed PHP notice appearing on Feed Items page.</li>
+                    <li>Fixed strict standards notice appearing on settings import.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="wpra-text-center">
+            <a class="button button-large button-icon" href="{{ url.main }}">
+                Continue to WP RSS Aggregator
+                <span class="dashicons dashicons-arrow-right-alt2"></span>
+            </a>
+        </div>
+
+        <div class="wpra-text-center wpra-links">
+            <a href="{{ url.website }}" target="_blank">Visit website</a> |
+            <a href="{{ url.support }}" target="_blank">Contact support</a> |
+            <a href="{{ url.kb }}" target="_blank">Browse knowledge base</a>
+        </div>
+    </div>
+
+    <br class="clear">
+</div>
