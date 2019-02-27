@@ -19,6 +19,7 @@
         "dhii/collections-abstract": "^0.1.0",
         "dhii/collections-interface": "^0.1.2",
         "dhii/output-renderer-interface": "^0.3",
+        "dhii/output-renderer-base": "^0.1-alpha1",
         "dhii/normalization-helper-base": "^0.1-alpha4",
         "dhii/exception": "^0.1-alpha5"
     },
