@@ -1,11 +1,7 @@
 <?php
 
-use Aventura\Wprss\Core\Template\Api\FeedTemplateInterface;
-use Aventura\Wprss\Core\Template\Api\TemplateContextFactoryInterface;
-use Aventura\Wprss\Core\Template\FeedItemContextFactory;
-use Aventura\Wprss\Core\Template\TemplateContextFactory;
-use Aventura\Wprss\Core\Template\TemplateQueryFactory;
-use Aventura\Wprss\Core\Template\TwigFeedTemplate;
+use RebelCode\Wpra\Core\Templates\ListViewTemplate;
+use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 
 /**
  * Feed display related functions
@@ -14,123 +10,66 @@ use Aventura\Wprss\Core\Template\TwigFeedTemplate;
  */
 
 if (defined('WPRSS_USE_LEGACY_FEED_DISPLAY') && WPRSS_USE_LEGACY_FEED_DISPLAY) {
-    require_once(WPRSS_INC . 'feed-display.php');
+    require_once(WPRSS_INC . 'leagacy-feed-display.php');
+    die;
+}
+
+// Initializes the master feeds template and adds a hook for registering additional templates
+add_action('init', function () {
+    $master = wprss_get_master_feeds_template();
+
+    do_action('wprss_init_templates', $master);
+});
+
+// Hooks in the handler for server-side feed item rendering
+add_action('wp_ajax_wprss_render', 'wp_render_ajax');
+add_action('wp_ajax_nopriv_wprss_render', 'wp_render_ajax');
+
+/**
+ * The handler for server-side feed item rendering.
+ *
+ * @since [*next-version*]
+ */
+function wp_render_ajax() {
+    $args = filter_input(INPUT_GET, 'wprss_render_args', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY | FILTER_NULL_ON_FAILURE);
+    $args = is_array($args) ? $args : [];
+
+    echo json_encode(['render' => wprss_render_feeds($args), 'page' => $args['page']]);
     die;
 }
 
 /**
- * This function builds the render context for rendering the feed items template.
- *
- * Firstly, WP RSS Aggregator's standard render context includes the feed items, so a query
- * must first be obtained via {@link wprss_get_feed_items_template_query()}.
- *
- * Secondly, it builds the builds the context using a {@link TemplateContextFactoryInterface}
- * instance. The default implementation used is the {@link TemplateContextFactory} class, which
- * requires a separate factory for creating the sub-contexts for each feed item yielded by the
- * query, as an instance of {@link FeedItemContextFactoryInterface}.
- *
- * @param array $args Optional render arguments.
- *
- * @return array The template context.
- */
-function wprss_get_template_context(array $args = [])
-{
-    $query = wprss_get_template_query($args);
-    $factory = wprss_get_template_context_factory($args);
-
-    $context = $factory->make($query, $args);
-
-    return apply_filters('wprss_template_context', $context, $args);
-}
-
-/**
- * Retrieves the template context factory to use for rendering feed items.
- *
- * The default implementation used is the {@link TemplateContextFactory} class, which requires a
- * separate factory for creating the sub-contexts for every feed item to be rendered, as an
- * instance of {@link FeedItemContextFactoryInterface}. The default implementation used for this
- * factory is the {@link FeedItemContextFactory}.
+ * Retrieves the WP RSS Aggregator master template for rendering feed items.
  *
  * @since [*next-version*]
  *
- * @param array $args Optional render arguments.
- *
- * @return TemplateContextFactoryInterface The template context factory.
+ * @return MasterFeedsTemplate
  */
-function wprss_get_template_context_factory(array $args = [])
+function wprss_get_master_feeds_template()
 {
-    $itemFactory = apply_filters('wprss_template_item_context_factory', new FeedItemContextFactory(), $args);
-    $contextFactory = apply_filters('wprss_template_context_factory', new TemplateContextFactory($itemFactory), $args);
+    static $instance = null;
 
-    return $contextFactory;
-}
-
-/**
- * Retrieves the template query.
- *
- * @since [*next-version*]
- *
- * @param array $args The render arguments.
- *
- * @return WP_Query The query object.
- */
-function wprss_get_template_query(array $args = [])
-{
-    $factory = apply_filters('wprss_template_query_factory', new TemplateQueryFactory(), $args);
-
-    return $factory->make($args);
-}
-
-/**
- * Retrieves the template to use for rendering feed items.
- *
- * @since [*next-version*]
- *
- * @param array $args The render arguments.
- *
- * @return FeedTemplateInterface The template instance.
- */
-function wprss_get_template(array $args = [])
-{
-    $templateName = (isset($args['template']))
-        ? $args['template']
-        : 'default';
-
-    $templateFile = sprintf('feeds/%s/main.twig', $templateName);
-
-    return new TwigFeedTemplate($templateFile);
-}
-
-/**
- * Renders imported feed items.
- *
- * @since [*next-version*]
- *
- * @param array $args Optional arguments for which items to render and how to render them.
- *
- * @return string The rendered result.
- */
-function wprss_render($args = [])
-{
-    if (!is_array($args)) {
-        $args = [];
+    if ($instance === null) {
+        $instance = new MasterFeedsTemplate(['list-view' => new ListViewTemplate()], 'list-view');
     }
 
-    // Transform the args into the template context
-    $context = wprss_get_template_context($args);
-    // Get the template
-    $template = wprss_get_template($args);
+    return $instance;
+}
 
-    // Render the template with the context and return the result
-    try {
-        return $template->render($context);
-    } catch (Exception $exception) {
-        return sprintf(
-            '<p>%s</p><p><pre>%s</pre></p>',
-            __('Cannot show feed items. The following error occurred:', WPRSS_TEXT_DOMAIN),
-            $exception->getMessage()
-        );
-    }
+/**
+ * Renders WP RSS Aggregator imported feed items.
+ *
+ * @since [*next-version*]
+ *
+ * @param array $ctx Optional template render context.
+ *
+ * @return string
+ */
+function wprss_render_feeds($ctx = [])
+{
+    $ctx = is_array($ctx) ? $ctx : [];
+
+    return wprss_get_master_feeds_template()->render($ctx);
 }
 
 /**
@@ -142,7 +81,7 @@ function wprss_render($args = [])
  */
 function wprss_display_feed_items($args = [])
 {
-    echo wprss_render($args);
+    echo wprss_render_feeds($args);
 }
 
 /**
@@ -150,27 +89,22 @@ function wprss_display_feed_items($args = [])
  * It is used for backwards compatibility to versions < 2.0
  *
  * @since 2.1
+ *
+ * @param array $args Optional arguments for which items to render and how to render them.
  */
 function wp_rss_aggregator($args = [])
 {
     wprss_display_feed_items($args);
 }
 
-add_action('wp_ajax_wprss_render', 'wp_render_ajax');
-add_action('wp_ajax_nopriv_wprss_render', 'wp_render_ajax');
-
-function wp_render_ajax() {
-    $args = filter_input(INPUT_GET, 'wprss_render_args', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY | FILTER_NULL_ON_FAILURE);
-    $args = is_array($args) ? $args : [];
-
-    echo json_encode(['render' => wprss_render($args), 'page' => $args['page']]);
-    die;
-}
-
 /**
  * Retrieve settings and prepare them for use in the display function
  *
  * @since 3.0
+ *
+ * @param array $settings The settings.
+ *
+ * @return array
  */
 function wprss_get_display_settings($settings = null)
 {
@@ -216,7 +150,7 @@ function wprss_get_display_settings($settings = null)
  *
  * @param string $link The link URL
  * @param string $text The link text to display
- * @param string $bool Optional boolean. If FALSE, the text is returned unlinked. Default: TRUE.
+ * @param bool $bool Optional boolean. If FALSE, the text is returned unlinked. Default: TRUE.
  *
  * @return string The generated link
  * @since 4.2.4
@@ -227,72 +161,6 @@ function wprss_link_display($link, $text, $bool = true)
     $a = $bool ? "<a {$display_settings['open']} {$display_settings['follow']} href='$link'>$text</a>" : $text;
 
     return $a;
-}
-
-add_filter('wprss_pagination', 'wprss_pagination_links');
-/**
- * Display pagination links
- *
- * @since 3.5
- */
-function wprss_pagination_links($output)
-{
-    // Get the general setting
-    $pagination = wprss_get_general_setting('pagination');
-
-    // Check the pagination setting, if using page numbers
-    if ($pagination === 'numbered') {
-        global $wp_query;
-        $big = 999999999; // need an unlikely integer
-        $output .= paginate_links([
-            'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-            'format' => '?paged=%#%',
-            'current' => max(1, get_query_var('paged')),
-            'total' => $wp_query->max_num_pages,
-        ]);
-
-        return $output;
-    } // Otherwise, using default paginations
-    else {
-        $output .= '<div class="nav-links">';
-        $output .= '    <div class="nav-previous alignleft">' . get_next_posts_link(__('Older posts',
-                WPRSS_TEXT_DOMAIN)) . '</div>';
-        $output .= '    <div class="nav-next alignright">' . get_previous_posts_link(__('Newer posts',
-                WPRSS_TEXT_DOMAIN)) . '</div>';
-        $output .= '</div>';
-
-        return $output;
-    }
-}
-
-add_filter('wprss_item_title', 'wprss_shorten_title', 10, 2);
-add_filter('the_title', 'wprss_shorten_title', 10, 2);
-
-/**
- * Checks the title limit option and shortens the title when necassary.
- *
- * @since 1.0
- */
-function wprss_shorten_title($title, $id = null)
-{
-    if ($id === null) {
-        return $title;
-    }
-    if ($id instanceof WP_Post) {
-        $id = $id->ID;
-    }
-
-    // Get the option. If does not exist, use 0, which is ignored.
-    $general_settings = get_option('wprss_settings_general');
-    $title_limit = isset($general_settings['title_limit']) ? intval($general_settings['title_limit']) : 0;
-    // Check if the title is for a wprss_feed_item, and check if trimming is needed
-    if (isset($id) && get_post_type($id) === 'wprss_feed_item' && $title_limit > 0 && strlen($title) > $title_limit) {
-        // Return the trimmed version of the title
-        return substr($title, 0, $title_limit) . apply_filters('wprss_shortened_title_ending', '...');
-    }
-
-    // Otherwise, return the same title
-    return $title;
 }
 
 /**

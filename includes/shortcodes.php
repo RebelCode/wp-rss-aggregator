@@ -25,7 +25,7 @@ function wprss_shortcode($atts = [])
         }
     }
 
-    return apply_filters('wprss_shortcode_output', wprss_render($atts));
+    return apply_filters('wprss_shortcode_output', wprss_render_feeds($atts));
 }
 
 // Register shortcodes
