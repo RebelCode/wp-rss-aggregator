@@ -53,6 +53,11 @@ function wprss_twig()
         $loader = new FilesystemLoader($paths);
         $twig = new Environment($loader, $options);
 
+        // Add required extensions
+        $twig->addExtension(new I18nExtension());
+        $twig->addExtension(new DateExtension());
+        $twig->addExtension(new TextExtension());
+
         // Add our custom filters
         foreach (wprss_get_twig_custom_filters() as $name => $config) {
             $options = isset($config['options']) ? $config['options'] : [];
