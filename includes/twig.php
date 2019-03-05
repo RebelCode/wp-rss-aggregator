@@ -53,11 +53,11 @@ function wprss_twig()
         $loader = new FilesystemLoader($paths);
         $twig = new Environment($loader, $options);
 
-        $twig->addFunction(
-            new Twig_SimpleFunction('wpra_link', function ($text, $url, $b = true) {
-                return wprss_link_display($url, $text, $b);
-            })
-        );
+        // Add our custom filters
+        foreach (wprss_get_twig_custom_filters() as $name => $config) {
+            $options = isset($config['options']) ? $config['options'] : [];
+            $twig->addFilter(new TwigFilter($name, $config['function'], $options));
+        }
     }
 
     return $twig;
@@ -96,4 +96,25 @@ function wprss_load_template($template)
 function wprss_render_template($template, $context = array())
 {
     return wprss_twig()->load($template)->render($context);
+}
+
+/**
+ * Retrieves custom WP RSS Aggregator Twig filters.
+ *
+ * @since [*next-version*]
+ *
+ * @return array
+ */
+function wprss_get_twig_custom_filters()
+{
+    return [
+        'wpralink' => [
+            'function' => function ($text, $url, $flag) {
+                return wprss_link_display($url, $text, $flag);
+            },
+            'options' => [
+                'is_safe' => ['html']
+            ]
+        ]
+    ];
 }
