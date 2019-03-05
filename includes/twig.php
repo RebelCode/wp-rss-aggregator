@@ -1,5 +1,12 @@
 <?php
 
+use Twig\Environment;
+use Twig\Extensions\DateExtension;
+use Twig\Extensions\I18nExtension;
+use Twig\Extensions\TextExtension;
+use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
+
 if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
     return;
 }
@@ -42,8 +49,9 @@ function wprss_twig()
         $paths = [WPRSS_TEMPLATES];
         $paths = apply_filters('wprss_template_paths', $paths);
 
-        $loader = new Twig_Loader_Filesystem($paths);
-        $twig = new Twig_Environment($loader, $options);
+        // Set up the twig loader and the environment instances
+        $loader = new FilesystemLoader($paths);
+        $twig = new Environment($loader, $options);
 
         $twig->addFunction(
             new Twig_SimpleFunction('wpra_link', function ($text, $url, $b = true) {
