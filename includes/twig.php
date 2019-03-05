@@ -33,10 +33,12 @@ function wprss_twig()
     if ($twig === null) {
         $options = array();
 
+        // If WP_DEBUG is turned off, use Twig's compiled template cache
         if (!defined('WP_DEBUG') || !WP_DEBUG) {
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
         }
 
+        // Retrieve the template paths
         $paths = [WPRSS_TEMPLATES];
         $paths = apply_filters('wprss_template_paths', $paths);
 
