@@ -20,17 +20,17 @@ trait ParseArgsWithSchemaCapableTrait
      * @param array  $schema The schema with each element's key being the arg key and each value being a sub-array
      *                       containing the following data:
      *                       - "default": Optional default value to use if the value is not in the args. If no
-     *                       default value is given, the entry is omitted from the result.
-     *                       - "callback": Optional callback that returns the sanitized value. The callback receives
-     *                       three arguments: the original value, the full original args array and the schema
-     *                       sub-array. The callback is invoked AFTER the filter, if a filter is given.
-     *                       If the callback throws an {@link \InvalidArgumentException}, the default value is used.
-     *                       - "filter": Optional filter to use with {@link filter_var}. If given, two optional
-     *                       "options" and "flags" keys may also be specified to provide filter options and flags
-     *                       respectively. A custom "enum" filter is available for validating values that should be
-     *                       restricted to a set of known values, defined in the "options" key. The "callback" cannot
-     *                       be used when using the "enum" filter.
+     *                                    default value is given, the entry is omitted from the result.
      *                       - "key": Optional destination key to remap the args entry.
+     *                       - "filter": Optional {@link filter_var} filter to use. A custom "enum" filter is also
+     *                                   available for filtering values to a restricted set of known presets defined in
+     *                                   the "options" key. Alternatively, the filter may be a callable that accepts 3
+     *                                   arguments (the value, the full args array and the schema sub-array) and returns
+     *                                   the filtered value or throws an {@link \InvalidArgumentException} to use the
+     *                                   "default" value (or omit from the result if no default is given).
+     *                       - "options": Optional filter options to use with the specified filter, or enum values if
+     *                                    the filter is "enum".
+     *                       - "flags": Optional filter flags to use with the specified filter.
      * @param string $delim  Optional string delimiter to split keys into paths.
      *
      * @return array The parsed arguments arrays.
@@ -64,10 +64,12 @@ trait ParseArgsWithSchemaCapableTrait
             $filterFlags = array_key_exists('flags', $_singleSchema)
                 ? $_singleSchema['flags']
                 : [];
-            // Get the callback
-            $callback = array_key_exists('callback', $_singleSchema)
-                ? $_singleSchema['callback']
-                : null;
+
+            $callback = null;
+            if (is_callable($filter)) {
+                $callback = $filter;
+                $filter = null;
+            }
 
             // Custom enum filter becomes the callback
             if ($filter === "enum") {
