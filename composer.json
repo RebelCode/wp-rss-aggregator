@@ -12,7 +12,8 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^5.4 | ^7.0",
-        "twig/twig": "^1.0",
+        "twig/twig": "^1.37.1",
+        "twig/extensions": "^1.5.4",
         "dhii/di": "^0.1.1",
         "dhii/di-abstract": "^0.1",
         "dhii/di-interface": "^0.1",
