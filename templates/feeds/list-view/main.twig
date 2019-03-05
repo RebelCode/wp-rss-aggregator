@@ -1,17 +1,5 @@
-{#
-    Template for rendering a full list of aggregated feed items with optional pagination.
-
-    This template requires `items` and `options` in context:
-    * `items` containing the list of feed items (see `item` in `feed-item.twig` template)
-    * `options` containing various display options
- #}
-
-<div class="wp-rss-aggregator {{ options.html_classes }}" data-page="{{ options.pagination.page }}">
+<div class="wp-rss-aggregator {{ options.html_classes }}" data-page="{{ options.pagination_page }}">
     {{ options.before_list|raw }}
-    {{ include('feeds/default/feed-list.twig') }}
+    {{ include('feeds/list-view/feed-list.twig') }}
     {{ options.after_list|raw }}
-
-    {% if options.pagination.enabled %}
-        {{ options.pagination.content|raw }}
-    {% endif %}
 </div>

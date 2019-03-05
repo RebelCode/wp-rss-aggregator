@@ -1,37 +1,39 @@
-{#
-    Template for a single feed item.
+{# Get the title and optionally truncating it #}
+{% set item_title = item.title %}
+{% if options.title_max_length > 0 %}
+    {% set item_title = item_title|truncate(options.title_max_length) %}
+{% endif %}
 
-    This template requires `item` in context, which should contain the data of the feed item
- #}
+{# Show the title #}
+{{ item_title | wpralink(item.url, options.title_is_link) }}
+{{ options.title_after }}
 
-{% if item.title.show %}
-    {{ wpra_link(item.title.text, item.url, item.title.is_link)|raw }}
-    {{ item.title.after }}
+{# Prepare date HTML class and formatted strinng #}
+{% set date_str = item.date|date(options.date_format) %}
+{% set date_class = "feed-date" %}
+{# If time-ago format is used, use alternate format and HTML class #}
+{% if options.date_use_time_ago %}
+    {% set date_str = date_str|time_diff %}
+    {% set date_class = "time-ago" %}
 {% endif %}
 
 <div class="wprss-feed-meta">
-    {% if item.source.show %}
+    {% if options.source_enabled %}
         <span class="feed-source">
-            {{ item.source.prefix }}
-            {{ wpra_link(item.source.title, item.source.url, item.source.is_link)|raw }}
+            {{ options.source_prefix }}
+            {{ item.source.title | wpralink(item.source.site_url, options.source_is_link) }}
         </span>
     {% endif %}
 
-    {% if item.date.show %}
-        <span class="feed-date">
-            {{ item.date.prefix }} {{ item.date.text }}
+    {% if options.date_enabled %}
+        <span class="{{ date_class }}">
+            {{ options.date_prefix }} {{ date_str }}
         </span>
     {% endif %}
 
-    {% if item.author.show and item.author.name|length > 0 %}
+    {% if options.author_enabled and item.author|length > 0 %}
         <span class="feed-author">
-            {{ item.author.prefix }} {{ item.author.name }}
+            {{ options.author_prefix }} {{ item.author }}
         </span>
     {% endif %}
 </div>
-
-{% if item.time_ago.show %}
-    <div class="wprss-time-ago">
-        {{ item.time_ago.format|format(item.time_ago.text) }}
-    </div>
-{% endif %}
