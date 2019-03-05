@@ -63,7 +63,7 @@ class UserFeedTemplate extends ListViewTemplate
      *
      * @since [*next-version*]
      */
-    public function getId()
+    public function getKey()
     {
         return $this->id;
     }

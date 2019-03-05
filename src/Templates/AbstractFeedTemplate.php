@@ -175,7 +175,7 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
      */
     protected function getTemplatePath()
     {
-        return implode(DIRECTORY_SEPARATOR, [static::ROOT_DIR_NAME, $this->getId(), static::MAIN_FILE_NAME]);
+        return implode(DIRECTORY_SEPARATOR, [static::ROOT_DIR_NAME, $this->getKey(), static::MAIN_FILE_NAME]);
     }
 
     /**
@@ -193,8 +193,7 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
 
         return [
             'template' => [
-                'id' => $this->getId(),
-                'name' => $this->getName(),
+                'type' => $this->getKey(),
                 'path' => $this->getTemplatePath(),
             ],
             'items' => $this->getFeedItemsToRender($pCtx),

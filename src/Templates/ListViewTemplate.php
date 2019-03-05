@@ -17,7 +17,7 @@ class ListViewTemplate extends AbstractFeedTemplate
      *
      * @since [*next-version*]
      */
-    public function getId()
+    public function getKey()
     {
         return 'list-view';
     }

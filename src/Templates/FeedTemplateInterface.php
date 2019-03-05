@@ -13,13 +13,13 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 interface FeedTemplateInterface extends DhiiTemplateInterface
 {
     /**
-     * Retrieves the template's ID.
+     * Retrieves the template's key.
      *
      * @since [*next-version*]
      *
      * @return string
      */
-    public function getId();
+    public function getKey();
 
     /**
      * Retrieves the template's name.
