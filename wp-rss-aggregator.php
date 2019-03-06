@@ -189,6 +189,9 @@
     /* Load the custom post types and taxonomies. */
     require_once ( WPRSS_INC . 'custom-post-types.php' );
 
+    /* Load the admin templates module */
+    require_once ( WPRSS_INC . 'admin-templates.php' );
+
     /* Load the file for setting capabilities of our post types */
     require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
