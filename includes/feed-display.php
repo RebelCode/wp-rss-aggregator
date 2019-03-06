@@ -1,6 +1,6 @@
 <?php
 
-use RebelCode\Wpra\Core\Templates\ListViewTemplate;
+use RebelCode\Wpra\Core\Templates\ListTemplateType;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 
 /**
@@ -13,13 +13,6 @@ if (defined('WPRSS_USE_LEGACY_FEED_DISPLAY') && WPRSS_USE_LEGACY_FEED_DISPLAY) {
     require_once(WPRSS_INC . 'leagacy-feed-display.php');
     die;
 }
-
-// Initializes the master feeds template and adds a hook for registering additional templates
-add_action('init', function () {
-    $master = wprss_get_master_feeds_template();
-
-    do_action('wprss_init_templates', $master);
-});
 
 // Hooks in the handler for server-side feed item rendering
 add_action('wp_ajax_wprss_render', 'wp_render_ajax');
@@ -50,7 +43,11 @@ function wprss_get_master_feeds_template()
     static $instance = null;
 
     if ($instance === null) {
-        $instance = new MasterFeedsTemplate(['list-view' => new ListViewTemplate()], 'list-view');
+        $instance = new MasterFeedsTemplate('default');
+        // Register the core list template
+        $instance->addTemplateType(new ListTemplateType());
+        // Trigger action to allow registration of additional template types
+        do_action('wprss_register_template_types', $instance);
     }
 
     return $instance;
