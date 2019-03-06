@@ -4,7 +4,7 @@
         {% set hasItems = true %}
         <li>
             {{ options.before_item|raw }}
-            {{ include('feeds/list-view/feed-item.twig') }}
+            {{ include(template.dir ~ 'feed-item.twig') }}
             {{ options.after_item|raw }}
         </li>
     {% endfor %}
