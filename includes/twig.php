@@ -1,10 +1,14 @@
 <?php
 
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extensions\DateExtension;
 use Twig\Extensions\I18nExtension;
 use Twig\Extensions\TextExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\TemplateWrapper;
 use Twig\TwigFilter;
 
 if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
@@ -31,14 +35,14 @@ function wprss_can_use_twig()
  *
  * @since 4.12
  *
- * @return Twig_Environment The twig instance.
+ * @return Environment The twig instance.
  */
 function wprss_twig()
 {
     static $twig = null;
 
     if ($twig === null) {
-        $options = array();
+        $options = [];
 
         // If WP_DEBUG is turned off, use Twig's compiled template cache
         if (!defined('WP_DEBUG') || !WP_DEBUG) {
@@ -75,10 +79,10 @@ function wprss_twig()
  *
  * @param string $template The template name.
  *
- * @return Twig_TemplateWrapper
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
+ * @return TemplateWrapper
+ * @throws LoaderError
+ * @throws RuntimeError
+ * @throws SyntaxError
  */
 function wprss_load_template($template)
 {
@@ -94,11 +98,11 @@ function wprss_load_template($template)
  * @param array  $context  The template context.
  *
  * @return string
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
+ * @throws LoaderError
+ * @throws RuntimeError
+ * @throws SyntaxError
  */
-function wprss_render_template($template, $context = array())
+function wprss_render_template($template, $context = [])
 {
     return wprss_twig()->load($template)->render($context);
 }
@@ -118,8 +122,8 @@ function wprss_get_twig_custom_filters()
                 return wprss_link_display($url, $text, $flag);
             },
             'options' => [
-                'is_safe' => ['html']
-            ]
-        ]
+                'is_safe' => ['html'],
+            ],
+        ],
     ];
 }
