@@ -10,39 +10,33 @@ use Exception;
 use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Data\WpOptionsDataSet;
 use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
 use stdClass;
 use Traversable;
-use Twig_Error_Loader;
-use Twig_Error_Syntax;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
 
 /**
  * Abstract implementation of a standard WP RSS Aggregator template.
  *
- * By default, this implementation loads twig template files according to the pattern `feeds/<id>/main.twig`, where
- * `<id>` is the ID of the template. This can be changed by overriding the {@link getTemplatePath} method.
- * Each instance also stores its options in separate records in the `wp_options` table. Each record follows the
- * naming scheme `wprss_templates/<id>` where `<id>` is the ID of the template.
+ * By default, this implementation loads twig template files according to the pattern `feeds/<key>/main.twig`, where
+ * `<key>` is the key of the template. This can be changed by overriding the {@link getTemplatePath} method.
  *
- * For rendering, this implementation requires a render context that contains the list of feed items to render mapped
- * to the `items` key and any additional template options to be mapped to the `options` key. Only the `items` key is
- * required. Extensions may impose different requirements.
+ * For rendering, this implementation will construct a standard WP RSS Aggregator feed item query iterator, as an
+ * instance of {@link FeedItemsQueryIterator}. This iterator's constructor arguments may be included in the render
+ * context to specify which items to render, as "query_sources", "query_exclude", "query_max_num", "query_page" and
+ * "query_factory".
  *
- * Twig template files will have access to both of those keys, together with a `template` key that will map to an array
- * of information about the template. The `options` data will also be wrapped in a {@link DataSetInterface} instance
- * but since such instances may be interfaced like arrays, this wrapping should affect the twig template.
- *
- * This implementation uses a 3-layered approach for its options. Options given in a render context are optional. Any
- * options not specified in the render context are retrieved from the template's own internal options data set. This
- * data set is populated with options from the database as previously mentioned. On top of this, a default data set is
- * used to provide default option values for those options that are not present in storage.
+ * Twig template files will have access to an "options" variable which contains the template's options, an "items"
+ * variable which contains the items to be rendered and a "template" variable containing information about the template.
+ * The "template.dir" variable may be useful for requiring other template files located in the same directory as the
+ * main template file.
  *
  * @since [*next-version*]
  */
-abstract class AbstractFeedTemplate implements FeedTemplateInterface
+abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 {
     /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
@@ -77,64 +71,6 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
     const MAIN_FILE_NAME = 'main.twig';
 
     /**
-     * The pattern for the DB option key where template option values are stored.
-     *
-     * @since [*next-version*]
-     */
-    const DB_OPTIONS_KEY = 'wprss_templates/%s';
-
-    /**
-     * The template options.
-     *
-     * @since [*next-version*]
-     *
-     * @var DataSetInterface
-     */
-    protected $options;
-
-    /**
-     * Constructor.
-     *
-     * @since [*next-version*]
-     */
-    public function __construct()
-    {
-        $this->options = $this->createOptions();
-    }
-
-    /**
-     * Retrieves the key for the database option that stores this template's option values.
-     *
-     * @since [*next-version*]
-     *
-     * @return string
-     */
-    protected function getDbOptionKey()
-    {
-        return sprintf(static::DB_OPTIONS_KEY, $this->getId());
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    protected function createOptions()
-    {
-        return new WpOptionsDataSet($this->getDbOptionKey(), [], $this->getDefaultOptions());
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]
@@ -146,11 +82,11 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
 
         try {
             return wprss_render_template($this->getTemplatePath(), $prepCtx);
-        } catch (Twig_Error_Loader $loaderEx) {
+        } catch (LoaderError $loaderEx) {
             throw $this->_createTemplateRenderException(
                 __('Could not load template', WPRSS_TEXT_DOMAIN), null, $loaderEx, $this, $argCtx
             );
-        } catch (Twig_Error_Syntax $synEx) {
+        } catch (SyntaxError $synEx) {
             throw $this->_createTemplateRenderException(
                 sprintf(
                     __('Syntax error in template at line %d: %s', WPRSS_TEXT_DOMAIN),
@@ -167,15 +103,27 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
     }
 
     /**
-     * Retrieves the path to the template file.
+     * Retrieves the path to the template directory.
      *
      * @since [*next-version*]
      *
-     * @return string The path to the template file, relative to a registered WPRA template path.
+     * @return string The path to the template directory, relative to a registered WPRA template path.
+     */
+    protected function getTemplateDir()
+    {
+        return static::ROOT_DIR_NAME . DIRECTORY_SEPARATOR . $this->getKey() . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Retrieves the path to the template main file.
+     *
+     * @since [*next-version*]
+     *
+     * @return string The path to the template main file, relative to a registered WPRA template path.
      */
     protected function getTemplatePath()
     {
-        return implode(DIRECTORY_SEPARATOR, [static::ROOT_DIR_NAME, $this->getKey(), static::MAIN_FILE_NAME]);
+        return $this->getTemplateDir() . static::MAIN_FILE_NAME;
     }
 
     /**
@@ -195,6 +143,7 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
             'template' => [
                 'type' => $this->getKey(),
                 'path' => $this->getTemplatePath(),
+                'dir'  => $this->getTemplateDir(),
             ],
             'items' => $this->getFeedItemsToRender($pCtx),
             'options' => $this->createContextDataSet($pCtx),
@@ -212,7 +161,7 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
      */
     protected function createContextDataSet(array $ctx)
     {
-        return new ArrayDataSet($ctx, [], $this->getOptions());
+        return new ArrayDataSet($ctx);
     }
 
     /**
@@ -317,13 +266,4 @@ abstract class AbstractFeedTemplate implements FeedTemplateInterface
      * @return array
      */
     abstract protected function getContextSchema();
-
-    /**
-     * The data set for the default template options.
-     *
-     * @since [*next-version*]
-     *
-     * @return DataSetInterface|null
-     */
-    abstract protected function getDefaultOptions();
 }
