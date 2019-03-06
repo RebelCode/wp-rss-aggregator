@@ -35,6 +35,7 @@ class WpPostFeedTemplate extends PostMetaDataSet
             'id' => $post->ID,
             'name' => $post->post_title,
             'slug' => $post->post_name,
+            'template_type' => 'list',
         ]);
 
         parent::__construct($post->ID, static::META_PREFIX, [], $parent);
