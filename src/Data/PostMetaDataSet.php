@@ -54,7 +54,15 @@ class PostMetaDataSet extends AbstractInheritingDataSet
      */
     public function getIterator()
     {
-        return new ArrayIterator(get_post_meta($this->postId));
+        $realMeta = ($this->parent !== null)
+            ? iterator_to_array($this->parent)
+            : [];
+
+        foreach (get_post_meta($this->postId) as $key => $value) {
+            $realMeta[$key] = $this->get($key);
+        }
+
+        return new ArrayIterator($realMeta);
     }
 
     /**

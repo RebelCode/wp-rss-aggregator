@@ -84,6 +84,14 @@ class ArrayDataSet extends AbstractInheritingDataSet
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->data);
+        $data = ($this->parent !== null)
+            ? iterator_to_array($this->parent)
+            : [];
+
+        foreach ($this->data as $key => $value) {
+            $data[$this->reverseAlias($key)] = $value;
+        }
+
+        return new ArrayIterator($data);
     }
 }

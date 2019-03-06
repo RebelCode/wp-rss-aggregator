@@ -60,6 +60,28 @@ abstract class AbstractInheritingDataSet implements DataSetInterface
     }
 
     /**
+     * Reverses an alias back to the key.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $alias The alias.
+     *
+     * @return string The key for the given alias, or the argument if no key was found for the given alias.
+     */
+    protected function reverseAlias($alias)
+    {
+        static $cache = null;
+
+        if ($cache === null) {
+            $cache = array_flip($this->aliases);
+        }
+
+        return (array_key_exists($alias, $cache))
+            ? $cache[$alias]
+            : $alias;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]

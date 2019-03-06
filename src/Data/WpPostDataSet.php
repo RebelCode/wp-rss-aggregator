@@ -63,23 +63,14 @@ class WpPostDataSet extends AbstractInheritingDataSet
      */
     public function getIterator()
     {
-        $fAliases = array_flip($this->aliases);
-
         $array = [];
         foreach ($this->post->to_array() as $key => $value) {
-            // Reverse alias the key
-            $aliasKey = isset($fAliases[$key]) ? $fAliases[$key] : $key;
-            // Add to the final array
-            $array[$aliasKey] = $value;
+            $array[$this->reverseAlias($key)] = $value;
         }
 
         foreach (get_post_meta($this->post->ID, '') as $key => $value) {
             // Reverse alias the key
-            $aliasKey = isset($fAliases[$key]) ? $fAliases[$key] : $key;
-            // Remove meta prefix
-            $aliasKey = (!empty($this->metaPrefix) && strpos($key, $this->metaPrefix) === 0)
-                ? substr($aliasKey, strlen($this->metaPrefix))
-                : $aliasKey;
+            $aliasKey = $this->reverseAlias($key);
             // Unpack meta arrays if they are "single" values
             $realValue = (is_array($value) && count($value) === 1) ? $value[0] : $value;
             // Add to the final array
@@ -99,6 +90,22 @@ class WpPostDataSet extends AbstractInheritingDataSet
     protected function aliasKey($key)
     {
         return $this->metaPrefix . parent::aliasKey($key);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Additionally strips the meta prefix from the alias before reversing the alias.
+     *
+     * @since [*next-version*]
+     */
+    protected function reverseAlias($alias)
+    {
+        $key = (!empty($this->metaPrefix) && strpos($alias, $this->metaPrefix) === 0)
+            ? substr($alias, strlen($this->metaPrefix))
+            : $alias;
+
+        return parent::reverseAlias($key);
     }
 
     /**
