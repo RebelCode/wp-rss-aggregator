@@ -10,7 +10,7 @@ use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
  */
 
 if (defined('WPRSS_USE_LEGACY_FEED_DISPLAY') && WPRSS_USE_LEGACY_FEED_DISPLAY) {
-    require_once(WPRSS_INC . 'leagacy-feed-display.php');
+    require_once(WPRSS_INC . 'legacy-feed-display.php');
     die;
 }
 
@@ -147,7 +147,7 @@ function wprss_get_display_settings($settings = null)
  *
  * @param string $link The link URL
  * @param string $text The link text to display
- * @param bool $bool Optional boolean. If FALSE, the text is returned unlinked. Default: TRUE.
+ * @param bool   $bool Optional boolean. If FALSE, the text is returned unlinked. Default: TRUE.
  *
  * @return string The generated link
  * @since 4.2.4
