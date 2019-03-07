@@ -3,13 +3,13 @@
 namespace RebelCode\Wpra\Core\Data;
 
 use ArrayAccess;
-use IteratorAggregate;
+use Iterator;
 
 /**
  * Interface for a set of data.
  *
  * @since [*next-version*]
  */
-interface DataSetInterface extends ArrayAccess, IteratorAggregate
+interface DataSetInterface extends ArrayAccess, Iterator
 {
 }

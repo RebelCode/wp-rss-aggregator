@@ -10,7 +10,7 @@ use stdClass;
  *
  * @since [*next-version*]
  */
-class ArrayDataSet extends AbstractInheritingDataSet
+class ArrayDataSet extends AbstractDataSet
 {
     /**
      * The options data as an associative array.
@@ -26,14 +26,10 @@ class ArrayDataSet extends AbstractInheritingDataSet
      *
      * @since [*next-version*]
      *
-     * @param array|stdClass        $data    The data store, as an associative array or object.
-     * @param array                 $aliases A mapping of input keys to the actual data store keys.
-     * @param DataSetInterface|null $parent  Optional parent data set to inherit from.
+     * @param array|stdClass $data The data store, as an associative array or object.
      */
-    public function __construct($data, $aliases = [], DataSetInterface $parent = null)
+    public function __construct($data)
     {
-        parent::__construct($aliases, $parent);
-
         $this->data = (array) $data;
     }
 
@@ -82,16 +78,8 @@ class ArrayDataSet extends AbstractInheritingDataSet
      *
      * @since [*next-version*]
      */
-    public function getIterator()
+    protected function getIterator()
     {
-        $data = ($this->parent !== null)
-            ? iterator_to_array($this->parent)
-            : [];
-
-        foreach ($this->data as $key => $value) {
-            $data[$this->reverseAlias($key)] = $value;
-        }
-
-        return new ArrayIterator($data);
+        return new ArrayIterator($this->data);
     }
 }
