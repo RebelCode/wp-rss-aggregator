@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates;
+namespace RebelCode\Wpra\Core\Templates\Types;
 
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
+use RebelCode\Wpra\Core\Templates\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
 use stdClass;

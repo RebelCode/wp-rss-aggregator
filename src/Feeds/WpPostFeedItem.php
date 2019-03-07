@@ -1,17 +1,19 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds;
+namespace RebelCode\Wpra\Core\Models;
 
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\PostMetaDataSet;
+use RebelCode\Wpra\Core\Data\WpCptDataSet;
+use RebelCode\Wpra\Core\Models\FeedSource;
 use WP_Post;
 
 /**
- * An implementation of a data set for WP RSS Aggregator feed sources.
+ * An implementation of a data set for WP RSS Aggregator imported feed items.
  *
  * @since [*next-version*]
  */
-class FeedSource extends ArrayDataSet
+class FeedItem extends WpCptDataSet
 {
     /**
      * The meta key prefix.
@@ -29,14 +31,11 @@ class FeedSource extends ArrayDataSet
      */
     public function __construct($post)
     {
-        $post = ($post instanceof WP_Post) ? $post : get_post($post);
-        $data = [
-            'id' => $post->ID,
-            'title' => $post->post_title,
-        ];
-        $aliases = [];
-        $parent = new PostMetaDataSet($post->ID, static::META_PREFIX);
-
-        parent::__construct($data, $aliases, $parent);
+        parent::__construct($post, static::META_PREFIX, [
+            'url' => 'item_permalink',
+            'source_id' => 'feed_id',
+            'author' => 'item_author',
+            'enclosure' => 'item_enclosure',
+        ]);
     }
 }

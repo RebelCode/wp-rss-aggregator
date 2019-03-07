@@ -7,7 +7,7 @@ namespace RebelCode\Wpra\Core\Data;
  *
  * @since [*next-version*]
  */
-class WpOptionsDataSet extends ArrayDataSet
+class WpArrayOptionDataSet extends ArrayDataSet
 {
     /**
      * The name of the WordPress option.
@@ -23,13 +23,11 @@ class WpOptionsDataSet extends ArrayDataSet
      *
      * @since [*next-version*]
      *
-     * @param string                $optionName The name of the WordPress option.
-     * @param array                 $aliases    A mapping of input keys to real storage keys.
-     * @param DataSetInterface|null $parent     Optional parent data set to inherit from.
+     * @param string $optionName The name of the WordPress option.
      */
-    public function __construct($optionName, $aliases = [], DataSetInterface $parent = null)
+    public function __construct($optionName)
     {
-        parent::__construct([], $aliases, $parent);
+        parent::__construct([]);
 
         $this->optionName = $optionName;
     }
@@ -39,7 +37,7 @@ class WpOptionsDataSet extends ArrayDataSet
      *
      * @since [*next-version*]
      */
-    public function getIterator()
+    protected function getIterator()
     {
         $this->loadData();
 

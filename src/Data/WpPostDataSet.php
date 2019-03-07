@@ -2,7 +2,6 @@
 
 namespace RebelCode\Wpra\Core\Data;
 
-use ArrayIterator;
 use OutOfRangeException;
 use WP_Post;
 
@@ -11,152 +10,26 @@ use WP_Post;
  *
  * @since [*next-version*]
  */
-class WpPostDataSet extends AbstractInheritingDataSet
+class WpPostDataSet extends ArrayDataSet
 {
-    /**
-     * The WordPress post instance.
-     *
-     * @since [*next-version*]
-     *
-     * @var WP_Post
-     */
-    protected $post;
-
-    /**
-     * Optional prefix for meta keys.
-     *
-     * @since [*next-version*]
-     *
-     * @var string
-     */
-    protected $metaPrefix;
-
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param int|string|WP_Post    $post       The WordPress post instance or post ID.
-     * @param string                $metaPrefix Optional prefix for meta keys.
-     * @param array                 $aliases    A mapping of input keys to real meta keys.
-     * @param DataSetInterface|null $parent     Optional parent data set to inherit from.
+     * @param int|string|WP_Post $post The WordPress post instance or post ID.
      */
-    public function __construct($post, $metaPrefix, $aliases = [], DataSetInterface $parent = null)
+    public function __construct($post)
     {
-        parent::__construct($aliases, $parent);
+        $post = ($post instanceof WP_Post) ? $post : get_post($post);
 
-        $this->post = ($post instanceof WP_Post) ? $post : get_post($post);
-
-        if (!($this->post instanceof WP_Post)) {
+        if (!($post instanceof WP_Post)) {
             throw new OutOfRangeException(
                 sprintf(__('Post with ID %s does not exist', WPRSS_TEXT_DOMAIN), $post)
             );
         }
 
-        $this->metaPrefix = $metaPrefix;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    public function getIterator()
-    {
-        $array = [];
-        foreach ($this->post->to_array() as $key => $value) {
-            $array[$this->reverseAlias($key)] = $value;
-        }
-
-        foreach (get_post_meta($this->post->ID, '') as $key => $value) {
-            // Reverse alias the key
-            $aliasKey = $this->reverseAlias($key);
-            // Unpack meta arrays if they are "single" values
-            $realValue = (is_array($value) && count($value) === 1) ? $value[0] : $value;
-            // Add to the final array
-            $array[$aliasKey] = $realValue;
-        }
-
-        return new ArrayIterator($array);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * Additionally adds the meta prefix to keys.
-     *
-     * @since [*next-version*]
-     */
-    protected function aliasKey($key)
-    {
-        return $this->metaPrefix . parent::aliasKey($key);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * Additionally strips the meta prefix from the alias before reversing the alias.
-     *
-     * @since [*next-version*]
-     */
-    protected function reverseAlias($alias)
-    {
-        $key = (!empty($this->metaPrefix) && strpos($alias, $this->metaPrefix) === 0)
-            ? substr($alias, strlen($this->metaPrefix))
-            : $alias;
-
-        return parent::reverseAlias($key);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    protected function get($key)
-    {
-        return $this->post->{$key};
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    protected function has($key)
-    {
-        return property_exists($this->post, $key) || metadata_exists('post', $this->post->ID, $key);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    protected function set($key, $value)
-    {
-        if (property_exists($this->post, $key)) {
-            wp_update_post([
-                'ID' => $this->post->ID,
-                $key => $value,
-            ]);
-
-            return;
-        }
-
-        update_post_meta($this->post->ID, $key, $value);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    protected function delete($key)
-    {
-        if (!property_exists($this->post, $key)) {
-            delete_post_meta($this->post->ID, $key);
-        }
+        parent::__construct($post->to_array());
     }
 
     /**
