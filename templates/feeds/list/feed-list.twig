@@ -1,0 +1,14 @@
+<ul>
+    {% set hasItems = false %}
+    {% for item in items %}
+        {% set hasItems = true %}
+        <li>
+            {{ options.before_item|raw }}
+            {{ include(template.dir ~ 'feed-item.twig') }}
+            {{ options.after_item|raw }}
+        </li>
+    {% endfor %}
+    {% if not hasItems %}
+        <p>{% trans "No feed items found." %}</p>
+    {% endif %}
+</ul>

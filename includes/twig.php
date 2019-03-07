@@ -1,5 +1,16 @@
 <?php
 
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Extensions\DateExtension;
+use Twig\Extensions\I18nExtension;
+use Twig\Extensions\TextExtension;
+use Twig\Loader\FilesystemLoader;
+use Twig\TemplateWrapper;
+use Twig\TwigFilter;
+
 if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
     return;
 }
@@ -24,21 +35,38 @@ function wprss_can_use_twig()
  *
  * @since 4.12
  *
- * @return Twig_Environment The twig instance.
+ * @return Environment The twig instance.
  */
 function wprss_twig()
 {
     static $twig = null;
 
     if ($twig === null) {
-        $options = array();
+        $options = [];
 
+        // If WP_DEBUG is turned off, use Twig's compiled template cache
         if (!defined('WP_DEBUG') || !WP_DEBUG) {
             $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
         }
 
-        $loader = new Twig_Loader_Filesystem(WPRSS_TEMPLATES);
-        $twig = new Twig_Environment($loader, $options);
+        // Retrieve the template paths
+        $paths = [WPRSS_TEMPLATES];
+        $paths = apply_filters('wprss_template_paths', $paths);
+
+        // Set up the twig loader and the environment instances
+        $loader = new FilesystemLoader($paths);
+        $twig = new Environment($loader, $options);
+
+        // Add required extensions
+        $twig->addExtension(new I18nExtension());
+        $twig->addExtension(new DateExtension());
+        $twig->addExtension(new TextExtension());
+
+        // Add our custom filters
+        foreach (wprss_get_twig_custom_filters() as $name => $config) {
+            $options = isset($config['options']) ? $config['options'] : [];
+            $twig->addFilter(new TwigFilter($name, $config['function'], $options));
+        }
     }
 
     return $twig;
@@ -49,12 +77,12 @@ function wprss_twig()
  *
  * @since 4.12
  *
- * @param string $template The tmeplate name.
+ * @param string $template The template name.
  *
- * @return Twig_TemplateWrapper
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
+ * @return TemplateWrapper
+ * @throws LoaderError
+ * @throws RuntimeError
+ * @throws SyntaxError
  */
 function wprss_load_template($template)
 {
@@ -70,11 +98,32 @@ function wprss_load_template($template)
  * @param array  $context  The template context.
  *
  * @return string
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
+ * @throws LoaderError
+ * @throws RuntimeError
+ * @throws SyntaxError
  */
-function wprss_render_template($template, $context = array())
+function wprss_render_template($template, $context = [])
 {
     return wprss_twig()->load($template)->render($context);
+}
+
+/**
+ * Retrieves custom WP RSS Aggregator Twig filters.
+ *
+ * @since [*next-version*]
+ *
+ * @return array
+ */
+function wprss_get_twig_custom_filters()
+{
+    return [
+        'wpralink' => [
+            'function' => function ($text, $url, $flag) {
+                return wprss_link_display($url, $text, $flag);
+            },
+            'options' => [
+                'is_safe' => ['html'],
+            ],
+        ],
+    ];
 }

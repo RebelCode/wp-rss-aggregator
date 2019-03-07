@@ -189,6 +189,9 @@
     /* Load the custom post types and taxonomies. */
     require_once ( WPRSS_INC . 'custom-post-types.php' );
 
+    /* Load the admin templates module */
+    require_once ( WPRSS_INC . 'admin-templates.php' );
+
     /* Load the file for setting capabilities of our post types */
     require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
@@ -346,6 +349,28 @@
         do_action( 'wprss_init' );
     }
 
+    /**
+     * Informs users that have not updated to 4.13 that 4.13 will stop supporting PHP 5.3, if their PHP version is
+     * less than 5.4.
+     *
+     * @since [*next-version*]
+     */
+    add_action('after_plugin_row', function($plugin_file) {
+        if ($plugin_file !== plugin_basename(__FILE__)
+            || version_compare(WPRSS_VERSION, '4.13', '>=')
+            || version_compare(PHP_VERSION, '5.4', '>=')
+        ) {
+            return;
+        }
+
+        $message = __(
+            'As of version 4.13, WP RSS Aggregator will stop supporting PHP 5.3 and will require PHP 5.4 or later. Kindly contact your site\'s hosting provider for PHP version update options.',
+            WPRSS_TEXT_DOMAIN
+        );
+        $notice = sprintf('<div class="update-notice notice inline notice-error notice-alt"><p>%s</p></div>', $message);
+        $td = sprintf('<td colspan="3" class="plugin-update colspanchange">%s</td>', $notice);
+        printf('<tr class="plugin-update-tr active">%s</tr>', $td);
+    }, 5, 2);
 
     add_filter( 'wprss_admin_pointers', 'wprss_check_tracking_notice' );
     /**
