@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates;
+namespace RebelCode\Wpra\Core\Templates\Types;
 
 use Dhii\Output\TemplateInterface;
 
@@ -9,7 +9,7 @@ use Dhii\Output\TemplateInterface;
  *
  * @since [*next-version*]
  */
-interface FeedTemplateTypeInterface extends TemplateInterface
+interface TemplateTypeInterface extends TemplateInterface
 {
     /**
      * Retrieves the template type key.

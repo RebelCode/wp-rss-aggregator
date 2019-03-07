@@ -1,7 +1,7 @@
 <?php
 
-use RebelCode\Wpra\Core\Templates\ListTemplateType;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
+use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
 
 /**
  * Feed display related functions

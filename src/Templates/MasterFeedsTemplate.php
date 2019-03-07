@@ -8,6 +8,7 @@ use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Templates\Types\TemplateTypeInterface;
 use WP_Post;
 
 /**
@@ -44,7 +45,7 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @var FeedTemplateTypeInterface[]
+     * @var TemplateTypeInterface[]
      */
     protected $types;
 
@@ -66,9 +67,9 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @param FeedTemplateTypeInterface $templateType The feed template type instance.
+     * @param TemplateTypeInterface $templateType The feed template type instance.
      */
-    public function addTemplateType(FeedTemplateTypeInterface $templateType)
+    public function addTemplateType(TemplateTypeInterface $templateType)
     {
         $this->types[$templateType->getKey()] = $templateType;
     }
@@ -112,7 +113,7 @@ class MasterFeedsTemplate implements TemplateInterface
     public function getTemplateModel($key)
     {
         $posts = get_posts([
-            'post_type' => 'wprss_feed_template',
+            'post_type' => WPRSS_FEED_TEMPLATE_CPT,
             'posts_per_page' => 1,
             'name' => $key,
         ]);
@@ -121,25 +122,7 @@ class MasterFeedsTemplate implements TemplateInterface
             return null;
         }
 
-        return $this->getTemplateModelForPost($posts[0]);
-    }
-
-    /**
-     * Retrieves the template model for a WP RSS Aggregator feed template post.
-     *
-     * @since [*next-version*]
-     *
-     * @param WP_Post $post The post for the feed template.
-     *
-     * @return DataSetInterface The template model instance.
-     */
-    public function getTemplateModelForPost(WP_Post $post)
-    {
-        $templateType = $post->wprss_template_type;
-
-        return ($templateType === '__built_in')
-            ? new BuiltInFeedTemplate($post)
-            : new WpPostFeedTemplate($post);
+        return wprss_create_template_from_post($posts[0]);
     }
 
     /**
@@ -149,7 +132,7 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @param $key
      *
-     * @return mixed|FeedTemplateTypeInterface|string
+     * @return mixed|TemplateTypeInterface|string
      */
     protected function getTemplateType($key)
     {

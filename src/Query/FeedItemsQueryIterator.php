@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Query;
 
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Feeds\FeedItem;
+use RebelCode\Wpra\Core\Feeds\WpPostFeedItem;
 use WP_Post;
 
 /**
@@ -100,7 +100,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
         $post = parent::current();
         $item = ($this->factory !== null)
             ? call_user_func_array($this->factory, [$post])
-            : new FeedItem($post);
+            : new WpPostFeedItem($post);
 
         return $item;
     }

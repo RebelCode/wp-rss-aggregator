@@ -1,16 +1,16 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates;
+namespace RebelCode\Wpra\Core\Feeds;
 
 use RebelCode\Wpra\Core\Data\WpCptDataSet;
 use WP_Post;
 
 /**
- * A feed template model implementation for standard WP RSS Aggregator templates that are stored as a CPT.
+ * Model class for posts of the WP RSS Aggregator feed source custom post type.
  *
  * @since [*next-version*]
  */
-class WpPostFeedTemplate extends WpCptDataSet
+class WpPostFeedSource extends WpCptDataSet
 {
     /**
      * The meta prefix.

@@ -2,8 +2,11 @@
 
 namespace RebelCode\Wpra\Core\Templates;
 
+use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
-use RebelCode\Wpra\Core\Data\WpOptionsDataSet;
+use RebelCode\Wpra\Core\Data\MergedDataSet;
+use RebelCode\Wpra\Core\Data\WpArrayOptionDataSet;
+use RebelCode\Wpra\Core\Data\WpCptDataSet;
 use WP_Post;
 
 /**
@@ -12,7 +15,7 @@ use WP_Post;
  *
  * @since [*next-version*]
  */
-class BuiltInFeedTemplate extends WpOptionsDataSet
+class BuiltInFeedTemplate extends WpCptDataSet
 {
     /**
      * The name of the option from which to retrieve the template settings.
@@ -26,15 +29,39 @@ class BuiltInFeedTemplate extends WpOptionsDataSet
      *
      * @since [*next-version*]
      *
-     * @param int|string|WP_Post $post The post ID or {@link WP_Post} instance for the feed template.
+     * @param int|string|WP_Post $postOrId The post instance or ID.
      */
-    public function __construct($post)
+    public function __construct($postOrId)
     {
-        parent::__construct(static::OPTION_NAME, $this->createAliases(), $this->createParent($post));
+        parent::__construct($postOrId, '', $this->createAliases());
     }
 
     /**
-     * Creates the aliases for this instance.
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function createInnerDataSet(WP_Post $post, $metaPrefix = '', $aliases = [])
+    {
+        $primary = new AliasingDataSet(
+            new WpArrayOptionDataSet(static::OPTION_NAME),
+            $aliases
+        );
+        $secondary = new ArrayDataSet([
+            'id' => $post->ID,
+            'name' => $post->post_title,
+            'slug' => $post->post_name,
+            'template_type' => '__built_in',
+            'pagination_enabled' => false,
+            'author_prefix' => __('By', 'wprss'),
+        ]);
+        $inner = new MergedDataSet($primary, $secondary);
+
+        return $inner;
+    }
+
+    /**
+     * Creates the aliases for this instance's data set.
      *
      * @since [*next-version*]
      *
@@ -59,29 +86,5 @@ class BuiltInFeedTemplate extends WpOptionsDataSet
             'links_rel_nofollow' => 'follow_dd',
             'links_video_embed_page' => 'video_link',
         ];
-    }
-
-    /**
-     * Creates the parent data set for this instance.
-     *
-     * @since [*next-version*]
-     *
-     * @param int|string|WP_Post $post The post ID or {@link WP_Post} instance for the feed template.
-     *
-     * @return ArrayDataSet
-     */
-    protected function createParent($post)
-    {
-        $post = ($post instanceof WP_Post) ? $post : get_post($post);
-        $parent = new ArrayDataSet([
-            'id' => $post->ID,
-            'name' => $post->post_title,
-            'slug' => $post->post_name,
-            'template_type' => '__built_in',
-            'pagination_enabled' => false,
-            'author_prefix' => __('By', 'wprss'),
-        ]);
-
-        return $parent;
     }
 }

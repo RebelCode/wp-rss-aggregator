@@ -1,13 +1,13 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates;
+namespace RebelCode\Wpra\Core\Templates\Types;
 
 /**
  * An implementation for the list template type.
  *
  * @since [*next-version*]
  */
-class ListTemplateType extends AbstractFeedTemplateType
+class ListTemplateType extends AbstractTemplateType
 {
     /**
      * {@inheritdoc}
