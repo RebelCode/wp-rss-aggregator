@@ -1,7 +1,11 @@
 <?php
 
+use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Data\WpCptDataSet;
+use RebelCode\Wpra\Core\Templates\BuiltInFeedTemplate;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
+use RebelCode\Wpra\Core\Templates\WpPostFeedTemplate;
 
 /**
  * Feed display related functions
@@ -17,6 +21,9 @@ if (defined('WPRSS_USE_LEGACY_FEED_DISPLAY') && WPRSS_USE_LEGACY_FEED_DISPLAY) {
 // Hooks in the handler for server-side feed item rendering
 add_action('wp_ajax_wprss_render', 'wp_render_ajax');
 add_action('wp_ajax_nopriv_wprss_render', 'wp_render_ajax');
+// This ensures that there is always at least one template available, by constructing the core list template
+// from the old general display settings.
+add_action('init', 'wprss_auto_create_default_template');
 
 /**
  * The handler for server-side feed item rendering.
@@ -67,6 +74,70 @@ function wprss_render_feeds($ctx = [])
     $ctx = is_array($ctx) ? $ctx : [];
 
     return wprss_get_master_feeds_template()->render($ctx);
+}
+
+/**
+ * Retrieves WP RSS Aggregator user templates.
+ *
+ * @since [*next-version*]
+ *
+ * @param string|array|null $statuses The status to retrieve, an array of statuses to retrieve or null to retrieve all.
+ *
+ * @return DataSetInterface[] The templates as data set model instances.
+ */
+function wprss_get_templates($statuses = 'publish')
+{
+    $statuses = ($statuses === null) ? ['publish', 'draft', 'trash'] : $statuses;
+    $statuses = (is_string($statuses)) ? [$statuses] : $statuses;
+
+    $posts = get_posts([
+        'post_type' => WPRSS_FEED_TEMPLATE_CPT,
+        'post_status' => $statuses,
+        'posts_per_page' => -1,
+    ]);
+
+    return array_map(function ($post) {
+        return wprss_create_template_from_post($post);
+    }, $posts);
+}
+
+/**
+ * Creates a WP RSS Aggregator template data set model instance from a WordPress post.
+ *
+ * @since [*next-version*]
+ *
+ * @param WP_Post $post The post instance.
+ *
+ * @return WpCptDataSet The data set model instance.
+ */
+function wprss_create_template_from_post(WP_Post $post)
+{
+    $templateType = get_post_meta($post->ID, 'wprss_template_type', true);
+
+    return ($templateType === '__built_in')
+        ? new BuiltInFeedTemplate($post)
+        : new WpPostFeedTemplate($post);
+}
+
+/**
+ * Auto creates a default template, that uses the old general display settings, if there are no saved templates.
+ *
+ * @since [*next-version*]
+ */
+function wprss_auto_create_default_template() {
+    $templates = wprss_get_templates();
+
+    if (count($templates) === 0) {
+        wp_insert_post([
+            'post_type' => WPRSS_FEED_TEMPLATE_CPT,
+            'post_title' => __('Default'),
+            'post_name' => 'default',
+            'post_status' => 'publish',
+            'meta_input' => [
+                'wprss_template_type' => '__built_in',
+            ],
+        ]);
+    }
 }
 
 /**
