@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Models;
+namespace RebelCode\Wpra\Core\Feeds;
 
 use RebelCode\Wpra\Core\Data\WpCptDataSet;
 use WP_Post;
@@ -10,7 +10,7 @@ use WP_Post;
  *
  * @since [*next-version*]
  */
-class FeedItem extends WpCptDataSet
+class WpPostFeedItem extends WpCptDataSet
 {
     /**
      * The meta key prefix.
