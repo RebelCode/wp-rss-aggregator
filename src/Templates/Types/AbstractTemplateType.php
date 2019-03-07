@@ -11,7 +11,6 @@ use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
-use RebelCode\Wpra\Core\Templates\Types\TemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
 use stdClass;
