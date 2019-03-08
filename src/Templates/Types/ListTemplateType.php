@@ -34,7 +34,7 @@ class ListTemplateType extends AbstractTemplateType
      *
      * @since [*next-version*]
      */
-    protected function getContextSchema()
+    protected function getOptions()
     {
         return [
             'items_max_num' => [

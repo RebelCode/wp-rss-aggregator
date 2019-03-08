@@ -198,7 +198,7 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
     protected function getFullContextSchema()
     {
         $standard = $this->getStandardContextSchema();
-        $extension = $this->getContextSchema();
+        $extension = $this->getOptions();
 
         return array_merge($extension, $standard);
     }
@@ -257,7 +257,7 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
     }
 
     /**
-     * Retrieves the schema for template-specific context options.
+     * Retrieves the schema for template-specific options.
      *
      * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
      *
@@ -265,5 +265,5 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
      *
      * @return array
      */
-    abstract protected function getContextSchema();
+    abstract protected function getOptions();
 }
