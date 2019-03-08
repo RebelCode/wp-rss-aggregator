@@ -7,7 +7,9 @@ use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Templates\Types\TemplateTypeInterface;
 use WP_Post;
 
@@ -98,7 +100,9 @@ class MasterFeedsTemplate implements TemplateInterface
             );
         }
 
-        return $template->render($model);
+        $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
+
+        return $template->render($fullCtx);
     }
 
     /**
