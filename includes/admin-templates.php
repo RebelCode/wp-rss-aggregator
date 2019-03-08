@@ -1,10 +1,5 @@
 <?php
 
-use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Data\WpCptDataSet;
-use RebelCode\Wpra\Core\Templates\BuiltInFeedTemplate;
-use RebelCode\Wpra\Core\Templates\WpPostFeedTemplate;
-
 /* @since [*next-version*] */
 define('WPRSS_FEED_TEMPLATE_CPT', 'wprss_feed_template');
 
