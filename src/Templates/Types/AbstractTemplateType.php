@@ -216,11 +216,22 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
     {
         // The standard schema for all WP RSS Aggregator templates
         return [
+            'template' => [
+                'default' => '',
+                'filter' => FILTER_SANITIZE_STRING,
+            ],
             'limit' => [
                 'key' => 'query_max_num',
                 'default' => wprss_get_general_setting('feed_limit'),
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
+            ],
+            'source' => [
+                'key' => 'query_sources',
+                'default' => [],
+                'filter' => function ($value) {
+                    return $this->sanitizeIdCommaList($value);
+                },
             ],
             'sources' => [
                 'key' => 'query_sources',
