@@ -5,6 +5,8 @@ if (wprss_can_use_twig()) {
     require_once(WPRSS_INC . 'admin-intro-page.php');
     /* The update page module */
     require_once(WPRSS_INC . 'admin-update-page.php');
+    /* The templates module */
+    require_once(WPRSS_INC . 'admin-templates-page.php');
 }
 
 /**

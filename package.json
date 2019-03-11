@@ -9,6 +9,7 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
+    "@rebelcode/ui-framework": "^0.2.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-syntax-flow": "^6.18.0",
@@ -22,6 +23,7 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.22.0",
+    "bottlejs": "^1.7.2",
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
     "exports-loader": "^0.7.0",
