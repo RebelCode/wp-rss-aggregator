@@ -36,7 +36,12 @@
       let cells = this.hooks.apply('wpra-templates-list-cells', this, {
         name: function ({ row }) {
           return [
-            <div>{ row.title }</div>
+            <div><strong>{ row.title }</strong> <small>ID: { row.id }</small></div>,
+            <div class="row-actions">
+              <span class="edit">
+                <a href="http://scotchbox.local/wp/wp-admin/post.php?post=1556&amp;action=edit" aria-label="Edit “asdasdasd”">Edit</a>
+              </span>
+            </div>
           ]
         },
         style: function ({ row }) {
