@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Data;
 
+use Exception;
 use RebelCode\Wpra\Core\Util\MergedIterator;
 
 /**
@@ -120,7 +121,11 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function set($key, $value)
     {
-        $this->primary->offsetSet($key, $value);
+        try {
+            $this->primary->offsetSet($key, $value);
+        } catch (Exception $exception) {
+            $this->secondary->offsetSet($key, $value);
+        }
     }
 
     /**
@@ -130,7 +135,11 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function delete($key)
     {
-        $this->primary->offsetUnset($key);
+        try {
+            $this->primary->offsetUnset($key);
+        } catch (Exception $exception) {
+            $this->secondary->offsetUnset($key);
+        }
     }
 
     /**

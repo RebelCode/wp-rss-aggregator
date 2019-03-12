@@ -45,10 +45,12 @@ class WpCptDataSet extends AbstractDelegateDataSet
      */
     protected function createInnerDataSet(WP_Post $post, $metaPrefix = '', $aliases = [])
     {
-        $postDataSet = new PrefixingDataSet(
+        $postDataSet = new MaskingDataSet(
             new WpPostDataSet($post),
-            'post_'
+            $this->getPostDataMask(),
+            false
         );
+
         $metaDataSet = new PrefixingDataSet(
             new WpMetaDataSet($post),
             $metaPrefix
