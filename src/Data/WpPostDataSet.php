@@ -91,7 +91,7 @@ class WpPostDataSet extends AliasingDataSet
     {
         return array_merge([
             'id' => 'ID',
-            'slug' => 'post_name',
+            'name' => 'post_name',
             'type' => 'post_type',
             'title' => 'post_title',
             'content' => 'post_content',

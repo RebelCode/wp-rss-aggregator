@@ -55,9 +55,32 @@ class WpCptDataSet extends AbstractDelegateDataSet
             new WpMetaDataSet($post),
             $metaPrefix
         );
-        $fullAliases = array_merge(['id' => 'ID'], $aliases);
+
+        $fullAliases = array_merge([
+            'id' => 'ID',
+            'slug' => 'name'
+        ], $aliases);
         $fullDataSet = new AliasingDataSet(new MergedDataSet($postDataSet, $metaDataSet), $fullAliases);
 
         return $fullDataSet;
+    }
+
+    /**
+     * Retrieves the mask to use for post data.
+     *
+     * @see MaskingDataSet::__construct
+     *
+     * @since [*next-version*]
+     *
+     * @return array
+     */
+    protected function getPostDataMask()
+    {
+        return [
+            'id' => true,
+            'title' => true,
+            'status' => true,
+            'name' => true,
+        ];
     }
 }
