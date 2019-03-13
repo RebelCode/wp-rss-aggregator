@@ -1,4 +1,5 @@
 import App from './App.vue'
+import AppPage from './AppPage.vue'
 
 /**
  * Main application's container.
@@ -6,7 +7,7 @@ import App from './App.vue'
 export default {
   register (services) {
     console.info('registering services', App)
-    services['App'] = App
+    services['App'] = AppPage
     return services
   },
   run ({ container }) {
@@ -22,6 +23,12 @@ export default {
     container.hooks.register('wpra-templates-list', function (vnode) {
       vnode.children.push(this.$createElement('div', ['From hook.']))
       console.info({vnode, 'this': this})
+      return vnode
+    })
+
+    container.hooks.register('postbox-content-template-details', function (vnode) {
+      console.info('postbox-content-template-details', {vnode, 'this': this})
+      vnode.push(this.$createElement('div', ['Hello from hook: ' + this.expanded]))
       return vnode
     })
     // Application run logic.
