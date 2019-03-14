@@ -37,7 +37,6 @@ abstract class AbstractRestApiEndPoint
             $response = new WP_Error('wprss_rest_api_error', $exception->getMessage(), ['status' => 500]);
         }
 
-
         // If the response is an error or no transformer should be used, return the response "as is"
         if ($response instanceof WP_Error) {
             return $response;
