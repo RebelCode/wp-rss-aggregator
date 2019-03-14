@@ -430,7 +430,7 @@ try {
     $instance = wprss();
 } catch (Exception $e) {
     if (WP_DEBUG && WP_DEBUG_DISPLAY) {
-        throw $e;
+        trigger_error($e->getMessage());
     }
     wp_die( $e->getMessage() );
 }
