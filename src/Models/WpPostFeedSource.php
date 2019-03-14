@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Models;
 
+use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\WpCptDataSet;
 use WP_Post;
 
@@ -28,6 +29,19 @@ class WpPostFeedSource extends WpCptDataSet
      */
     public function __construct($post)
     {
-        parent::__construct($post, static::META_PREFIX);
+        parent::__construct($post, static::META_PREFIX, ['ID', 'post_title']);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function createPostDataSet($postOrId)
+    {
+        return new AliasingDataSet(parent::createPostDataSet($postOrId), [
+            'id' => 'ID',
+            'title' => 'post_title'
+        ]);
     }
 }
