@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Util;
 
 use Iterator;
+use Traversable;
 
 /**
  * Functionality for objects that need to implement the {@link Iterator} interface but wish to delegate the actual
@@ -29,6 +30,36 @@ trait IteratorDelegateTrait
      * @return Iterator|null
      */
     abstract protected function getIterator();
+
+    /**
+     * Returns whether or not iterators values should be unpacked in to arrays during iteration.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True to unpack iterator values, false to leave them as iterator instances.
+     */
+    protected function recursiveUnpackIterators()
+    {
+        return false;
+    }
+
+    /**
+     * Processes a value that needs to be yielded during iteration.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed $value The value.
+     *
+     * @return mixed
+     */
+    protected function yieldValue($value)
+    {
+        if ($this->recursiveUnpackIterators() && $value instanceof Traversable) {
+            return iterator_to_array($value);
+        }
+
+        return $value;
+    }
 
     /**
      * Rewinds the iterator.
@@ -69,13 +100,16 @@ trait IteratorDelegateTrait
     /**
      * Retrieves the current iteration value.
      *
+     * Consumers that override this method are encourage to pass the value through {@link yieldValue} before
+     * returning it.
+     *
      * @since [*next-version*]
      *
      * @return mixed
      */
     public function current()
     {
-        return $this->_iterator->current();
+        return $this->yieldValue($this->_iterator->current());
     }
 
     /**
