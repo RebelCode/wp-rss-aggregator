@@ -20,12 +20,22 @@ class FeedsShortcodeModule implements ModuleInterface
     public function getServices()
     {
         return [
+            /*
+             * The shortcode handler.
+             *
+             * @since [*next-version*]
+             */
             'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
                 return new FeedsShortcode(
                     $c->get('wpra/settings/dataset'),
                     $c->get('wpra/templates/feeds/master_template')
                 );
             },
+            /*
+             * The shortcode names.
+             *
+             * @since [*next-version*]
+             */
             'wpra/shortcode/feeds/names' => function (ContainerInterface $c) {
                 return [
                     'wp_rss_aggregator',
