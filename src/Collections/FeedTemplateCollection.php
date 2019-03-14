@@ -28,8 +28,23 @@ class FeedTemplateCollection extends WpPostCollection
      *
      * @since [*next-version*]
      */
-    protected function createResult(WP_Post $post)
+    protected function createModel(WP_Post $post)
     {
         return new FeedTemplate($post);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Overridden to ensure that the status is "publish".
+     *
+     * @since [*next-version*]
+     */
+    protected function getNewPostData($data)
+    {
+        $data = parent::getNewPostData($data);
+        $data['post_status'] = 'publish';
+
+        return $data;
     }
 }
