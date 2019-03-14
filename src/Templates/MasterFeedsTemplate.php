@@ -7,6 +7,8 @@ use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
+use Exception;
+use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
@@ -52,16 +54,27 @@ class MasterFeedsTemplate implements TemplateInterface
     protected $types;
 
     /**
+     * The collection of templates.
+     *
+     * @since [*next-version*]
+     *
+     * @var DataSetInterface
+     */
+    protected $collection;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param string $default The name of the template to use by default.
+     * @param string           $default    The name of the template to use by default.
+     * @param DataSetInterface $collection The collection of templates.
      */
-    public function __construct($default)
+    public function __construct($default, DataSetInterface $collection)
     {
         $this->types = [];
         $this->default = $default;
+        $this->collection = $collection;
     }
 
     /**
@@ -83,22 +96,38 @@ class MasterFeedsTemplate implements TemplateInterface
      */
     public function render($ctx = null)
     {
-        $arrCtx = $this->_normalizeArray($ctx);
+        try {
+            $arrCtx = $this->_normalizeArray($ctx);
+        } catch (InvalidArgumentException $exception) {
+            $arrCtx = [];
+        }
 
-        $templateKey = array_key_exists('template', $arrCtx)
+        $hasTemplate = array_key_exists('template', $arrCtx);
+
+        // If not template is manually specified, check if should default to legacy rendering system
+        if (!$hasTemplate && $this->fallBackToLegacySystem()) {
+            return wprss_display_feed_items();
+        }
+
+        $templateKey = $hasTemplate
             ? $arrCtx['template']
             : $this->default;
 
-        $model = $this->getTemplateModel($templateKey);
-        $type = $model['template_type'];
-        $template = $this->getTemplateType($type);
+        try {
+            $model = $this->collection[$templateKey];
+        } catch (Exception $exception) {
+            $model = null;
+        }
 
-        if ($template === null) {
+        if ($model === null) {
             throw $this->_createTemplateRenderException(
                 sprintf(__('Template "%s" does not exist', WPRSS_TEXT_DOMAIN), $templateKey),
                 null, null, $this, $ctx
             );
         }
+
+        $type = isset($model['type']) ? $model['type'] : '';
+        $template = $this->getTemplateType($type);
 
         $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
 
@@ -143,5 +172,18 @@ class MasterFeedsTemplate implements TemplateInterface
         return isset($this->types[$key])
             ? $this->types[$key]
             : $this->types['list'];
+    }
+
+    /**
+     * Checks whether or not the master feeds template should fall back to the legacy rendering method when no
+     * template is explicitly specified in the render context.
+     *
+     * @since [*next-version*]
+     *
+     * @return bool True to fall back to the legacy rendering system, false to use the default template.
+     */
+    protected function fallBackToLegacySystem()
+    {
+        return apply_filters('wpra/templates/fallback_to_legacy_system', false);
     }
 }
