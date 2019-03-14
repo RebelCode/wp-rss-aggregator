@@ -4,12 +4,7 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use Twig\Extensions\DateExtension;
-use Twig\Extensions\I18nExtension;
-use Twig\Extensions\TextExtension;
-use Twig\Loader\FilesystemLoader;
 use Twig\TemplateWrapper;
-use Twig\TwigFilter;
 
 if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
     return;
@@ -39,37 +34,7 @@ function wprss_can_use_twig()
  */
 function wprss_twig()
 {
-    static $twig = null;
-
-    if ($twig === null) {
-        $options = [];
-
-        // If WP_DEBUG is turned off, use Twig's compiled template cache
-        if (!defined('WP_DEBUG') || !WP_DEBUG) {
-            $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
-        }
-
-        // Retrieve the template paths
-        $paths = [WPRSS_TEMPLATES];
-        $paths = apply_filters('wprss_template_paths', $paths);
-
-        // Set up the twig loader and the environment instances
-        $loader = new FilesystemLoader($paths);
-        $twig = new Environment($loader, $options);
-
-        // Add required extensions
-        $twig->addExtension(new I18nExtension());
-        $twig->addExtension(new DateExtension());
-        $twig->addExtension(new TextExtension());
-
-        // Add our custom filters
-        foreach (wprss_get_twig_custom_filters() as $name => $config) {
-            $options = isset($config['options']) ? $config['options'] : [];
-            $twig->addFilter(new TwigFilter($name, $config['function'], $options));
-        }
-    }
-
-    return $twig;
+    return wpra_container()->get('wpra/twig');
 }
 
 /**
