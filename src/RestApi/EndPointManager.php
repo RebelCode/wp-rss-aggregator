@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\RestApi;
 
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 use Dhii\Validation\ValidatorInterface;
+use WP_Error;
 use WP_REST_Request;
 
 /**
@@ -100,7 +101,10 @@ class EndPointManager
             try {
                 return $authValidator->validate($request);
             } catch (ValidationFailedExceptionInterface $exception) {
-                return false;
+                return new WP_Error('wprss_not_authorized', __('Unauthorized', 'wprss'), [
+                    'status' => 401,
+                    'reasons' => $exception->getValidationErrors(),
+                ]);
             }
         };
     }
