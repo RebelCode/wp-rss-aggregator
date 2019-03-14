@@ -193,9 +193,6 @@ require_once ( WPRSS_INC . 'di.php' );
 /* Load install, upgrade and migration code. */
 require_once ( WPRSS_INC . 'update.php' );
 
-/* Load the shortcodes functions file. */
-// require_once ( WPRSS_INC . 'shortcodes.php' );
-
 /* Load the custom post types and taxonomies. */
 require_once ( WPRSS_INC . 'custom-post-types.php' );
 
