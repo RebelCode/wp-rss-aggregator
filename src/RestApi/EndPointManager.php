@@ -2,6 +2,10 @@
 
 namespace RebelCode\Wpra\Core\RestApi;
 
+use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
+use Dhii\Validation\ValidatorInterface;
+use WP_REST_Request;
+
 /**
  * A REST API route manager.
  *
@@ -76,8 +80,28 @@ class EndPointManager
             register_rest_route($this->namespace, $pattern, [
                 'methods' => $methods,
                 'callback' => $endpoint,
-                'permission_callback' => $authFn,
+                'permission_callback' => $this->getPermissionCallback($authFn),
             ]);
         }
+    }
+
+    /**
+     * Retrieves the permissions callback for an auth validator.
+     *
+     * @since [*next-version*]
+     *
+     * @param ValidatorInterface $authValidator The validator instance.
+     *
+     * @return callable The callback.
+     */
+    protected function getPermissionCallback(ValidatorInterface $authValidator)
+    {
+        return function (WP_REST_Request $request) use ($authValidator) {
+            try {
+                return $authValidator->validate($request);
+            } catch (ValidationFailedExceptionInterface $exception) {
+                return false;
+            }
+        };
     }
 }

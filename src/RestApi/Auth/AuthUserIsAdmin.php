@@ -7,14 +7,14 @@ namespace RebelCode\Wpra\Core\RestApi\Auth;
  *
  * @since [*next-version*]
  */
-class AuthUserIsAdmin
+class AuthUserIsAdmin extends AbstractAuthValidator
 {
     /**
-     * @since [*next-version*]
+     * {@inheritdoc}
      *
-     * @return array The auth errors.
+     * @since [*next-version*]
      */
-    public function __invoke()
+    protected function _getValidationErrors($subject)
     {
         $userId = get_current_user_id();
 

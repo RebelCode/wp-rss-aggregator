@@ -20,10 +20,11 @@
         "dhii/di-interface": "^0.1",
         "dhii/collections-abstract": "^0.1.0",
         "dhii/collections-interface": "^0.1.2",
-        "dhii/transformer-interface":" ^0.1",
+        "dhii/transformer-interface": "^0.1",
         "dhii/output-renderer-interface": "^0.3",
         "dhii/output-renderer-base": "^0.1-alpha1",
         "dhii/normalization-helper-base": "^0.1-alpha4",
+        "dhii/validation-base": "^0.2",
         "dhii/exception": "^0.1-alpha5"
     },
     "require-dev": {
