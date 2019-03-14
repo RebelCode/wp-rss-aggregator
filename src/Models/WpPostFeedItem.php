@@ -41,7 +41,13 @@ class WpPostFeedItem extends WpCptDataSet
      */
     public function __construct($post)
     {
-        parent::__construct($post, static::META_PREFIX, ['ID', 'post_title', 'post_content', 'post_excerpt']);
+        parent::__construct($post, static::META_PREFIX, [
+            'ID',
+            'post_title',
+            'post_content',
+            'post_excerpt',
+            'post_date'
+        ]);
     }
 
     /**
