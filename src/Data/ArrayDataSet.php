@@ -3,7 +3,11 @@
 namespace RebelCode\Wpra\Core\Data;
 
 use ArrayIterator;
+use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
+use Dhii\I18n\StringTranslatingTrait;
+use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use stdClass;
+use Traversable;
 
 /**
  * A data set implementation that uses a static array or object data store.
@@ -12,6 +16,15 @@ use stdClass;
  */
 class ArrayDataSet extends AbstractDataSet
 {
+    /* @since [*next-version*] */
+    use NormalizeArrayCapableTrait;
+
+    /* @since [*next-version*] */
+    use CreateInvalidArgumentExceptionCapableTrait;
+
+    /* @since [*next-version*] */
+    use StringTranslatingTrait;
+
     /**
      * The options data as an associative array.
      *
@@ -26,11 +39,11 @@ class ArrayDataSet extends AbstractDataSet
      *
      * @since [*next-version*]
      *
-     * @param array|stdClass $data The data store, as an associative array or object.
+     * @param array|stdClass|Traversable $data The data store, as an associative array, object or iterator.
      */
     public function __construct($data)
     {
-        $this->data = (array) $data;
+        $this->data = $this->_normalizeArray($data);
     }
 
     /**

@@ -85,6 +85,16 @@ abstract class AbstractDataSet implements DataSetInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function recursiveUnpackIterators()
+    {
+        return true;
+    }
+
+    /**
      * Retrieves a value by key.
      *
      * This method should assume that existence checking has already been performed.

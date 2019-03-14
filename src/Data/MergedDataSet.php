@@ -101,7 +101,9 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function has($key)
     {
-        return $this->primary->offsetExists($key) || $this->secondary->offsetExists($key);
+        return $this->isOverridden($key)
+            ? $this->secondary->offsetExists($key)
+            : $this->primary->offsetExists($key) || $this->secondary->offsetExists($key);
     }
 
     /**
@@ -111,7 +113,9 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function get($key)
     {
-        return $this->getChildForKey($key)->offsetGet($key);
+        return $this->primary->offsetExists($key) && !$this->isOverridden($key)
+            ? $this->primary->offsetGet($key)
+            : $this->secondary->offsetGet($key);
     }
 
     /**
@@ -121,6 +125,12 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function set($key, $value)
     {
+        if ($this->isOverridden($key)) {
+            $this->secondary->offsetSet($key, $value);
+
+            return;
+        }
+
         try {
             $this->primary->offsetSet($key, $value);
         } catch (Exception $exception) {
@@ -135,6 +145,12 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function delete($key)
     {
+        if ($this->isOverridden($key)) {
+            $this->secondary->offsetUnset($key);
+
+            return;
+        }
+
         try {
             $this->primary->offsetUnset($key);
         } catch (Exception $exception) {
@@ -153,25 +169,7 @@ class MergedDataSet extends AbstractDataSet
      */
     protected function isOverridden($key)
     {
-        return array_key_exists($key, $this->overrideMap) && $this->overrideMap[$key];
-    }
-
-    /**
-     * Retrieves the child data set to use for a given key.
-     *
-     * @since [*next-version*]
-     *
-     * @param int|string $key The key.
-     *
-     * @return DataSetInterface The data set to use.
-     */
-    protected function getChildForKey($key)
-    {
-        if ($this->primary->offsetExists($key) && !$this->isOverridden($key)) {
-            return $this->primary;
-        }
-
-        return $this->secondary;
+        return array_key_exists($key, $this->overrideMap) && $this->overrideMap[$key] !== false;
     }
 
     /**
@@ -201,7 +199,39 @@ class MergedDataSet extends AbstractDataSet
     {
         $key = $this->_iterator->key();
         $set = $this->getChildForKey($key);
+        $val = $set->offsetGet($key);
 
-        return $set->offsetGet($key);
+        return $this->yieldValue($val);
+    }
+
+    /**
+     * Retrieves the child dataset to use for a given key.
+     *
+     * This method will attempt to return the dataset that already has the key. However, priority is determined by
+     * referring to the override map.
+     *
+     * If a key is marked as overwritten, then the secondary dataset is prioritized. If it does not contain the
+     * key, the primary dataset is returned.
+     *
+     * If a key is not marked as overwritten, then the primary dataset is prioritized. If it does not contain the key,
+     * then the secondary dataset is returned.
+     *
+     * @since [*next-version*]
+     *
+     * @param int|string $key The key.
+     *
+     * @return DataSetInterface The data set to use.
+     */
+    protected function getChildForKey($key)
+    {
+        if ($this->isOverridden($key)) {
+            return $this->secondary->offsetExists($key)
+                ? $this->secondary
+                : $this->primary;
+        }
+
+        return $this->primary->offsetExists($key)
+            ? $this->primary
+            : $this->secondary;
     }
 }

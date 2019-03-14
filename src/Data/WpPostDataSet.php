@@ -2,9 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Data;
 
-use OutOfRangeException;
-use RuntimeException;
-use WP_Error;
+use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
 use WP_Post;
 
 /**
@@ -12,102 +10,50 @@ use WP_Post;
  *
  * @since [*next-version*]
  */
-class WpPostDataSet extends AliasingDataSet
+class WpPostDataSet extends MergedDataSet
 {
+    /* @since [*next-version*] */
+    use NormalizeWpPostCapableTrait;
+
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param int|string|WP_Post $post  The WordPress post instance or post ID.
-     * @param array              $aliases Optional post key aliases to use or override.
+     * @param int|string|WP_Post $postOrId The WordPress post instance or post ID.
      */
-    public function __construct($post, array $aliases = [])
+    public function __construct($postOrId)
     {
-        $post = ($post instanceof WP_Post) ? $post : get_post($post);
+        $post = $this->normalizeWpPost($postOrId);
 
-        if (!($post instanceof WP_Post)) {
-            throw new OutOfRangeException(
-                sprintf(__('Post with ID %s does not exist', WPRSS_TEXT_DOMAIN), $post)
-            );
-        }
-
-        $inner = new ArrayDataSet($post->to_array());
-
-        parent::__construct($inner, $this->getWpPostAliases($aliases));
+        parent::__construct($this->createPostDataSet($post), $this->createMetaDataSet($post));
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * Checks if the key exists first, and throws an exception if not.
+     * Creates the data set for the post data.
      *
      * @since [*next-version*]
+     *
+     * @param WP_Post $post The WordPress post instance.
+     *
+     * @return DataSetInterface The created data set.
      */
-    protected function set($key, $value)
+    protected function createPostDataSet($post)
     {
-        $iKey = $this->getInnerKey($key);
-
-        if (!$this->inner->offsetExists($iKey) || $iKey === 'ID') {
-            throw new OutOfRangeException(
-                sprintf(__('Cannot modify WordPress post entry with key "%s"', 'wprss'), $iKey)
-            );
-        }
-
-        $result = wp_update_post([
-            'ID' =>$this['id'],
-            $iKey => $value,
-        ], true);
-
-        if ($result instanceof WP_Error) {
-            throw new RuntimeException($result->get_error_message(), $result->get_error_code());
-        }
-
-        $this->inner->offsetSet($iKey, $value);
+        return new WpPostDataDataSet($post);
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * Since data cannot be deleted from a WP post, the value is instead set to an empty string.
-     *
-     * @since [*next-version*]
-     */
-    protected function delete($key)
-    {
-        $this->set($key, '');
-    }
-
-    /**
-     * Retrieves the standard WordPress Post aliases, with optionally additional aliases.
+     * Creates the data set for the post data.
      *
      * @since [*next-version*]
      *
-     * @param array $extra Optional additional aliases.
+     * @param WP_Post $post The WordPress post instance.
      *
-     * @return array The standard WordPress Post aliases, together with the $extra aliases if any were given.
+     * @return DataSetInterface The created data set.
      */
-    protected function getWpPostAliases(array $extra = [])
+    protected function createMetaDataSet($post)
     {
-        return array_merge([
-            'id' => 'ID',
-            'name' => 'post_name',
-            'type' => 'post_type',
-            'title' => 'post_title',
-            'content' => 'post_content',
-            'filtered_content' => 'post_content_filtered',
-            'excerpt' => 'post_excerpt',
-            'status' => 'post_status',
-            'author' => 'post_author',
-            'publish_date' => 'post_date',
-            'publish_date_gmt' => 'post_date_gmt',
-            'modified_date' => 'post_modified',
-            'modified_date_gmt' => 'post_modified_gmt',
-            'parent' => 'post_parent',
-            'categories' => 'post_category',
-            'tags' => 'tags_input',
-            'password' => 'post_password',
-            'mime_type' => 'post_mime_type',
-        ], $extra);
+        return new WpPostMetaDataSet($post);
     }
 }

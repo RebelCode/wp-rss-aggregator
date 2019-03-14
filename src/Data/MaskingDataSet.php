@@ -2,6 +2,8 @@
 
 namespace RebelCode\Wpra\Core\Data;
 
+use OutOfRangeException;
+
 class MaskingDataSet extends AbstractDelegateDataSet
 {
     /**
@@ -55,6 +57,34 @@ class MaskingDataSet extends AbstractDelegateDataSet
      *
      * @since [*next-version*]
      */
+    protected function set($key, $value)
+    {
+       if (!$this->has($key)) {
+           throw new OutOfRangeException(sprintf('Cannot set masked key "%s"', $key));
+       }
+
+       parent::set($key, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function delete($key)
+    {
+        if (!$this->has($key)) {
+            throw new OutOfRangeException(sprintf('Cannot delete masked key "%s"', $key));
+        }
+
+        parent::delete($key);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
     public function rewind()
     {
         parent::rewind();
@@ -86,7 +116,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     protected function isExposed($key)
     {
         return array_key_exists($key, $this->mask)
-            ? $this->mask[$key]
+            ? $this->mask[$key] !== false
             : $this->defMask;
     }
 

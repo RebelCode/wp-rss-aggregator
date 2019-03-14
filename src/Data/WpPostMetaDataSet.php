@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Data;
 
 use ArrayIterator;
 use CallbackFilterIterator;
+use LogicException;
 use OutOfRangeException;
 use WP_Post;
 
@@ -12,7 +13,7 @@ use WP_Post;
  *
  * @since [*next-version*]
  */
-class WpMetaDataSet extends AbstractDataSet
+class WpPostMetaDataSet extends AbstractDataSet
 {
     /**
      * The WordPress post instance.
@@ -30,17 +31,17 @@ class WpMetaDataSet extends AbstractDataSet
      *
      * @var bool
      */
-    protected $hiddenMeta;
+    protected $incHiddenMeta;
 
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param int|string|WP_Post $post       The WordPress post instance or post ID.
-     * @param bool               $hiddenMeta True to include hidden meta data (meta key starts with an underscore).
+     * @param int|string|WP_Post $post          The WordPress post instance or post ID.
+     * @param bool               $incHiddenMeta True to include hidden meta data (meta key starts with an underscore).
      */
-    public function __construct($post, $hiddenMeta = false)
+    public function __construct($post, $incHiddenMeta = false)
     {
         $this->post = ($post instanceof WP_Post) ? $post : get_post($post);
 
@@ -50,7 +51,7 @@ class WpMetaDataSet extends AbstractDataSet
             );
         }
 
-        $this->hiddenMeta = $hiddenMeta;
+        $this->incHiddenMeta = $incHiddenMeta;
     }
 
     /**
@@ -64,7 +65,7 @@ class WpMetaDataSet extends AbstractDataSet
      */
     protected function isHidden($key)
     {
-        return !$this->hiddenMeta && strpos($key, '_') === 0;
+        return !$this->incHiddenMeta && strpos($key, '_') === 0;
     }
 
     /**
@@ -94,7 +95,11 @@ class WpMetaDataSet extends AbstractDataSet
      */
     protected function set($key, $value)
     {
-        return update_post_meta($this->post->ID, $key, $value);
+        if ($this->isHidden($key)) {
+            throw new LogicException(sprintf('Cannot modify hidden post meta "%s"', $key));
+        }
+
+        update_post_meta($this->post->ID, $key, $value);
     }
 
     /**
@@ -104,7 +109,11 @@ class WpMetaDataSet extends AbstractDataSet
      */
     protected function delete($key)
     {
-        return delete_post_meta($this->post->ID, $key);
+        if ($this->isHidden($key)) {
+            throw new LogicException(sprintf('Cannot delete hidden post meta "%s"', $key));
+        }
+
+        delete_post_meta($this->post->ID, $key);
     }
 
     /**
@@ -115,6 +124,7 @@ class WpMetaDataSet extends AbstractDataSet
     protected function getIterator()
     {
         $meta = get_post_meta($this->post->ID);
+        $meta = (is_array($meta) && count($meta) > 0) ? $meta : [];
         $array = array_map(function ($v) {
             return $v[0];
         }, $meta);

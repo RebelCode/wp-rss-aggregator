@@ -6,15 +6,33 @@ use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
 use WP_Post;
 
 /**
- * An implementation of a data set specifically tailored for WordPress posts that rely heavily on application
- * specific meta data.
+ * An implementation of a data set specifically tailored for WordPress posts of a custom post type that rely heavily on
+ * application-specific meta data.
  *
  * @since [*next-version*]
  */
-class WpCptDataSet extends AbstractDelegateDataSet
+class WpCptDataSet extends WpPostDataSet
 {
     /* @since [*next-version*] */
     use NormalizeWpPostCapableTrait;
+
+    /**
+     * The meta prefix.
+     *
+     * @since [*next-version*]
+     *
+     * @var string|null
+     */
+    protected $metaPrefix;
+
+    /**
+     * The post mask.
+     *
+     * @since [*next-version*]
+     *
+     * @var string[]|null
+     */
+    protected $postMask;
 
     /**
      * Constructor.
@@ -22,65 +40,42 @@ class WpCptDataSet extends AbstractDelegateDataSet
      * @since [*next-version*]
      *
      * @param int|string|WP_Post $postOrId   The post instance or ID.
-     * @param string             $metaPrefix Optional meta data prefix.
-     * @param string[]           $aliases    Optional list of aliases mapping to real post or meta keys.
+     * @param string|null        $metaPrefix Optional meta data prefix to strip from keys, or null for no stripping.
+     * @param string[]|null      $postFields Optional list of post fields to use, or null to use all of them.
      */
-    public function __construct($postOrId, $metaPrefix = '', $aliases = [])
+    public function __construct($postOrId, $metaPrefix = null, $postFields = null)
     {
-        $post = $this->normalizeWpPost($postOrId);
+        $this->metaPrefix = $metaPrefix;
+        $this->postMask = $postFields;
 
-        parent::__construct($this->createInnerDataSet($post, $metaPrefix, $aliases));
+        parent::__construct($postOrId);
     }
 
     /**
-     * Creates the inner data set.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @param WP_Post  $post       The post instance.
-     * @param string   $metaPrefix Optional meta data prefix.
-     * @param string[] $aliases    Optional list of aliases mapping to real post or meta keys.
-     *
-     * @return DataSetInterface The created data set instance.
      */
-    protected function createInnerDataSet(WP_Post $post, $metaPrefix = '', $aliases = [])
+    protected function createPostDataSet($postOrId)
     {
-        $postDataSet = new MaskingDataSet(
-            new WpPostDataSet($post),
-            $this->getPostDataMask(),
-            false
-        );
+        $original = parent::createPostDataSet($postOrId);
 
-        $metaDataSet = new PrefixingDataSet(
-            new WpMetaDataSet($post),
-            $metaPrefix
-        );
-
-        $fullAliases = array_merge([
-            'id' => 'ID',
-            'slug' => 'name'
-        ], $aliases);
-        $fullDataSet = new AliasingDataSet(new MergedDataSet($postDataSet, $metaDataSet), $fullAliases);
-
-        return $fullDataSet;
+        return (is_array($this->postMask) && count($this->postMask) > 0)
+            ? new MaskingDataSet($original, array_flip($this->postMask), false)
+            : $original;
     }
 
     /**
-     * Retrieves the mask to use for post data.
-     *
-     * @see MaskingDataSet::__construct
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @return array
      */
-    protected function getPostDataMask()
+    protected function createMetaDataSet($postOrId)
     {
-        return [
-            'id' => true,
-            'title' => true,
-            'status' => true,
-            'name' => true,
-        ];
+        $original = parent::createMetaDataSet($postOrId);
+
+        return (is_string($this->metaPrefix) && strlen($this->metaPrefix) > 0)
+            ? new PrefixingDataSet($original, $this->metaPrefix)
+            : $original;
     }
 }
