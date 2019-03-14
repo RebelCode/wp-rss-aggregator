@@ -129,11 +129,11 @@ class WpPostCollection extends AbstractDataSet
      *
      * @since [*next-version*]
      *
-     * @param int|string|null $id Optional ID which if not null narrows down the query to only that post.
+     * @param int|string|null $key Optional ID or slug which, if not null, narrows down the query to only that post.
      *
      * @return WP_Post[] An array of posts objects.
      */
-    protected function queryPosts($id = null)
+    protected function queryPosts($key = null)
     {
         $queryArgs = [
             'post_type' => $this->postType,
@@ -142,23 +142,15 @@ class WpPostCollection extends AbstractDataSet
             'meta_query' => $this->metaQuery,
         ];
 
-        if ($id !== null) {
-            $queryArgs[$this->getPostQueryKey()] = $id;
+        if ($key !== null && is_numeric($key)) {
+            $queryArgs['p'] = $key;
+        }
+
+        if ($key !== null && is_string($key) && !is_numeric($key)) {
+            $queryArgs['name'] = $key;
         }
 
         return get_posts($queryArgs);
-    }
-
-    /**
-     * Retrieves the post key to use when querying for particular posts.
-     *
-     * @since [*next-version*]
-     *
-     * @return string
-     */
-    protected function getPostQueryKey()
-    {
-        return 'ID';
     }
 
     /**

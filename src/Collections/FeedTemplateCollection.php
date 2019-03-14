@@ -32,14 +32,4 @@ class FeedTemplateCollection extends WpPostCollection
     {
         return new FeedTemplate($post);
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    protected function getPostQueryKey()
-    {
-        return 'name';
-    }
 }
