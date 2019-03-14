@@ -1,18 +1,18 @@
 <?php
 
-namespace RebelCode\Wpra\Core\RestApi\Templates;
+namespace RebelCode\Wpra\Core\RestApi\EndPoints\Templates;
 
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\RestApi\AbstractRestApiHandler;
+use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
 use WP_REST_Request;
 use WP_REST_Response;
 
 /**
- * The REST API handler for retrieving templates.
+ * The REST API end point for retrieving templates.
  *
  * @since [*next-version*]
  */
-class GetTemplatesHandler extends AbstractRestApiHandler
+class GetTemplatesEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The query iterator for templates.

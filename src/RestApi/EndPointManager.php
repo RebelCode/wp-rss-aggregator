@@ -7,7 +7,7 @@ namespace RebelCode\Wpra\Core\RestApi;
  *
  * @since [*next-version*]
  */
-class RouteManager
+class EndPointManager
 {
     /**
      * The config for the routes to register with WordPress.
@@ -16,7 +16,7 @@ class RouteManager
      *
      * @var array
      */
-    protected $routes;
+    protected $endPoints;
 
     /**
      * The namespace to use for the routes.
@@ -36,7 +36,7 @@ class RouteManager
      */
     public function __construct($namespace)
     {
-        $this->routes = [];
+        $this->endPoints = [];
         $this->namespace = $namespace;
     }
 
@@ -45,37 +45,37 @@ class RouteManager
      *
      * @since [*next-version*]
      *
-     * @param      $pattern
-     * @param      $methods
-     * @param      $handler
-     * @param null $authFn
+     * @param string        $pattern  The route regex pattern.
+     * @param string[]      $methods  The supported HTTP methods.
+     * @param callable      $endpoint The endpoint callback function.
+     * @param callable|null $authFn   Optional authorization callback that returns a list of auth errors.
      */
-    public function addRoute($pattern, $methods, $handler, $authFn = null)
+    public function addEndPoint($pattern, $methods, $endpoint, $authFn = null)
     {
-        $this->routes[] = [
+        $this->endPoints[] = [
             'pattern' => $pattern,
             'methods' => $methods,
-            'handler' => $handler,
+            'endpoint' => $endpoint,
             'authFn' => $authFn,
         ];
     }
 
     /**
-     * Registers the routes with WordPress.
+     * Registers the routes and endpoints with WordPress.
      *
      * @since [*next-version*]
      */
-    public function registerRoutes()
+    public function register()
     {
-        foreach ($this->routes as $route) {
+        foreach ($this->endPoints as $route) {
             $pattern = $route['pattern'];
             $methods = $route['methods'];
-            $handler = $route['handler'];
+            $endpoint = $route['endpoint'];
             $authFn = $route['authFn'];
 
             register_rest_route($this->namespace, $pattern, [
                 'methods' => $methods,
-                'callback' => $handler,
+                'callback' => $endpoint,
                 'permission_callback' => $authFn,
             ]);
         }

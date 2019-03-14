@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\RestApi;
+namespace RebelCode\Wpra\Core\RestApi\EndPoints;
 
 use Dhii\Transformer\TransformerInterface;
 use Exception;
@@ -12,15 +12,13 @@ use WP_REST_Request;
 use WP_REST_Response;
 
 /**
- * Abstract functionality for REST API handlers.
+ * Abstract functionality for REST API end points.
  *
  * @since [*next-version*]
  */
-abstract class AbstractRestApiHandler
+abstract class AbstractRestApiEndPoint
 {
     /**
-     * Invokes the handler.
-     *
      * @since [*next-version*]
      */
     public function __invoke()
