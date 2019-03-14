@@ -45,7 +45,7 @@ class GetTemplatesHandler extends AbstractRestApiHandler
         $rId = isset($request['id']) ? ($request['id']) : null;
         $fId = filter_var($rId, FILTER_SANITIZE_STRING);
 
-        $data = ($fId === null)
+        $data = (empty($fId))
             ? $this->collection
             : $this->collection[$fId];
 
