@@ -904,3 +904,8 @@ function wprss_get_script_url( $url, $extension = null ) {
     $script_url = WPRSS_JS . $url . (!wprss_is_script_debug() ? wprss_get_minified_extension_prefix() : '') . $extension;
     return apply_filters( 'wprss_script_url',  $script_url, $url, $extension );
 }
+
+// If ET is active, fallback to the legacy rendering system
+add_filter('wpra/templates/fallback_to_legacy_system', function ($fallback) {
+    return $fallback || defined('WPRSS_ET_VERSION');
+});
