@@ -67,7 +67,7 @@ function wprss_render_intro_page()
         ),
     ));
 
-    echo wprss_render_template('admin-intro-page.twig', array(
+    echo wprss_render_template('admin/intro-page.twig', array(
         'title' => 'Welcome to WP RSS Aggregator 👋',
         'subtitle' => 'Follow these introductory steps to get started with WP RSS Aggregator.',
     ));
