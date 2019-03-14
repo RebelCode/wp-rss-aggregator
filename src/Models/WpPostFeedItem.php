@@ -1,10 +1,11 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds;
+namespace RebelCode\Wpra\Core\Models;
 
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\WpCptDataSet;
+use RebelCode\Wpra\Core\Models\WpPostFeedSource;
 use WP_Post;
 
 /**
@@ -45,16 +46,19 @@ class WpPostFeedItem extends WpCptDataSet
      */
     protected function createInnerDataSet(WP_Post $post, $metaPrefix = '', $aliases = [])
     {
-        // Create the parent data set
-        $parent = parent::createInnerDataSet($post, $metaPrefix, $aliases);
+        // Create the data set
+        $dataSet = parent::createInnerDataSet($post, $metaPrefix, $aliases);
+
         // Create the feed source data set model
-        $feedId = $parent['source_id'];
-        $source = new WpPostFeedSource($feedId);
-        // Merge the parent with an array data set that contains the "source"
+        $feedId = $dataSet['source_id'];
+        $feedDataSet = new WpPostFeedSource($feedId);
+
+        // Merge the original with an array data set that contains the "source"
         $inner = new MergedDataSet(
-            new ArrayDataSet(['source' => $source,]),
+            new ArrayDataSet(['source' => $feedDataSet]),
             parent::createInnerDataSet($post, $metaPrefix, $aliases)
         );
+
         return $inner;
     }
 }

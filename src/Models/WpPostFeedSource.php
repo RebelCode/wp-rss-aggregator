@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds;
+namespace RebelCode\Wpra\Core\Models;
 
 use RebelCode\Wpra\Core\Data\WpCptDataSet;
 use WP_Post;
