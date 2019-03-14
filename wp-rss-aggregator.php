@@ -37,7 +37,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Aventura\Wprss\Core\Plugin\Di\ContainerInterface;
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Container\WpFilterContainer;
+use RebelCode\Wpra\Core\Modules\FeedsShortcodeModule;
+use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
+use RebelCode\Wpra\Core\Modules\ModuleInterface;
+use RebelCode\Wpra\Core\Modules\RestApiModule;
+use RebelCode\Wpra\Core\Modules\SettingsModule;
+use RebelCode\Wpra\Core\Modules\TwigModule;
 use RebelCode\Wpra\Core\Plugin;
 
 /**
@@ -318,6 +326,93 @@ register_activation_hook( __FILE__ , 'wprss_activate' );
 register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
 
 do_action('wprss_pre_init');
+
+// Run WPRA
+wpra_run();
+
+/**
+ * Runs WP RSS Aggregator.
+ *
+ * @since [*next-version*]
+ */
+function wpra_run()
+{
+    try {
+        wpra()->run(wpra_container());
+    } catch (Exception $exception) {
+        if (WP_DEBUG && WP_DEBUG_DISPLAY) {
+            trigger_error($exception->getMessage());
+        }
+        wp_die($exception->getMessage());
+    }
+}
+
+/**
+ * Retrieves the WP RSS Aggregator instance.
+ *
+ * @since [*next-version*]
+ *
+ * @return Plugin
+ */
+function wpra()
+{
+    static $instance = null;
+
+    if ($instance === null) {
+        $modules = wpra_modules();
+        $plugin = new Plugin($modules);
+        $instance = apply_filters('wprss_plugin_instance', $plugin);
+    }
+
+    return $instance;
+}
+
+/**
+ * Retrieves the WP RSS Aggregator plugin modules.
+ *
+ * @since [*next-version*]
+ *
+ * @return ModuleInterface[] The modules.
+ */
+function wpra_modules()
+{
+    return apply_filters('wpra/modules', [
+        'settings' => new SettingsModule(),
+        'shortcode' => new FeedsShortcodeModule(),
+        'templates' => new FeedTemplatesModule(),
+        'twig' => new TwigModule(),
+        'rest_api' => new RestApiModule(),
+    ]);
+}
+
+/**
+ * Retrieves the WP RSS Aggregator DI container.
+ *
+ * @since [*next-version*]
+ *
+ * @return ContainerInterface The container instance.
+ */
+function wpra_container()
+{
+    static $container = null;
+
+    if ($container === null) {
+        $plugin = wpra();
+
+        // Set up the container via the PHP-DI builder
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(false);
+        $builder->useAnnotations(false);
+
+        // Add the plugin's service definitions
+        $builder->addDefinitions($plugin->getServices());
+
+        // Construct the wrapper container
+        $container = new WpFilterContainer($builder->build());
+    }
+
+    return $container;
+}
 
 /**
  * Returns the Core plugin singleton instance.
