@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Collections\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Handlers\Templates\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Handlers\Templates\CreateDefaultFeedTemplateHandler;
+use RebelCode\Wpra\Core\RestApi\EndPointManager;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
 
@@ -21,7 +22,7 @@ class FeedTemplatesModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         return [
             /*
@@ -83,11 +84,68 @@ class FeedTemplatesModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
+    public function getExtensions()
+    {
+        return [
+            /*
+             * Registers the core template types.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/master_template' => function (ContainerInterface $c, MasterFeedsTemplate $master) {
+                $master->addTemplateType($c->get('wpra/templates/feeds/list_template_type'));
+
+                return $master;
+            },
+            /*
+             * Extends the REST API by adding the template endpoints to the endpoint manager.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/rest_api/v1/endpoint_manager' => function (ContainerInterface $c, EndPointManager $manager) {
+                $manager->addEndPoint(
+                    '/templates(?:/(?P<id>[^/]+))?',
+                    ['GET'],
+                    $c->get('wpra/rest_api/v1/templates/get_endpoint'),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+                $manager->addEndPoint(
+                    '/templates(?:/(?P<id>[^/]+))?',
+                    ['PATCH'],
+                    $c->get('wpra/rest_api/v1/templates/patch_endpoint'),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+                $manager->addEndPoint(
+                    '/templates(?:/(?P<id>[^/]+))?',
+                    ['PUT'],
+                    $c->get('wpra/rest_api/v1/templates/put_endpoint'),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+                $manager->addEndPoint(
+                    '/templates(?:/(?P<id>[^/]+))?',
+                    ['POST'],
+                    $c->get('wpra/rest_api/v1/templates/post_endpoint'),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+                $manager->addEndPoint(
+                    '/templates(?:/(?P<id>[^/]+))?',
+                    ['DELETE'],
+                    $c->get('wpra/rest_api/v1/templates/delete_endpoint'),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+
+                return $manager;
+            },
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
     public function run(ContainerInterface $c)
     {
-        // Register the template types
-        $this->registerTemplateTypes($c);
-
         // Hooks in the handler for server-side feed item rendering
         add_action('wp_ajax_wprss_render', [$this, 'serverSideRenderFeeds']);
         add_action('wp_ajax_nopriv_wprss_render', [$this, 'serverSideRenderFeeds']);
@@ -95,40 +153,5 @@ class FeedTemplatesModule implements ModuleInterface
         // This ensures that there is always at least one template available, by constructing the core list template
         // from the old general display settings.
         add_action('init', $c->get('wpra/templates/feeds/create_default_template_handler'));
-    }
-
-    /**
-     * Registers the template types with the master template.
-     *
-     * @since [*next-version*]
-     *
-     * @param ContainerInterface $c The container.
-     */
-    protected function registerTemplateTypes(ContainerInterface $c)
-    {
-        // Get the master feeds template
-        $master = $c->get('wpra/templates/feeds/master_template');
-
-        // Add the "list" template type
-        $master->addTemplateType($c->get('wpra/templates/feeds/list_template_type'));
-    }
-
-    /**
-     * The handler for server-side feed item rendering.
-     *
-     * @since [*next-version*]
-     */
-    public function serverSideRenderFeeds()
-    {
-        $args = filter_input(
-            INPUT_GET,
-            'wprss_render_args',
-            FILTER_DEFAULT,
-            FILTER_REQUIRE_ARRAY | FILTER_NULL_ON_FAILURE
-        );
-        $args = is_array($args) ? $args : [];
-
-        echo json_encode(['render' => wprss_render_feeds($args), 'page' => $args['page']]);
-        die;
     }
 }

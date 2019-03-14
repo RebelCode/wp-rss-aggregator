@@ -22,7 +22,7 @@ class RestApiModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         return [
             /*
@@ -98,73 +98,23 @@ class RestApiModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
+    public function getExtensions()
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
     public function run(ContainerInterface $c)
     {
-        // Add known routes to the route manager
-        $this->addRestApiEndpoints($c);
-
         // Register routes with WordPress
         add_action('rest_api_init', function () use ($c) {
             /* @var $manager EndPointManager */
             $manager = $c->get('wpra/rest_api/v1/endpoint_manager');
             $manager->register();
         });
-    }
-
-    /**
-     * Adds the REST API endpoints to the route manager.
-     *
-     * @since [*next-version*]
-     *
-     * @param ContainerInterface $c The container.
-     */
-    protected function addRestApiEndpoints(ContainerInterface $c)
-    {
-        /* @var $manager EndPointManager */
-        $manager = $c->get('wpra/rest_api/v1/endpoint_manager');
-
-        $this->addTemplateRestApiEndPoints($manager, $c);
-    }
-
-    /**
-     * Adds the template REST API endpoints to the endpoint manager.
-     *
-     * @since [*next-version*]
-     *
-     * @param EndPointManager    $manager The endpoint manager.
-     * @param ContainerInterface $c The container.
-     */
-    protected function addTemplateRestApiEndPoints(EndPointManager $manager, ContainerInterface $c)
-    {
-        $manager->addEndPoint(
-            '/templates(?:/(?P<id>[^/]+))?',
-            ['GET'],
-            $c->get('wpra/rest_api/v1/templates/get_endpoint'),
-            $c->get('wpra/rest_api/v1/auth/user_is_admin')
-        );
-        $manager->addEndPoint(
-            '/templates(?:/(?P<id>[^/]+))?',
-            ['PATCH'],
-            $c->get('wpra/rest_api/v1/templates/patch_endpoint'),
-            $c->get('wpra/rest_api/v1/auth/user_is_admin')
-        );
-        $manager->addEndPoint(
-            '/templates(?:/(?P<id>[^/]+))?',
-            ['PUT'],
-            $c->get('wpra/rest_api/v1/templates/put_endpoint'),
-            $c->get('wpra/rest_api/v1/auth/user_is_admin')
-        );
-        $manager->addEndPoint(
-            '/templates(?:/(?P<id>[^/]+))?',
-            ['POST'],
-            $c->get('wpra/rest_api/v1/templates/post_endpoint'),
-            $c->get('wpra/rest_api/v1/auth/user_is_admin')
-        );
-        $manager->addEndPoint(
-            '/templates(?:/(?P<id>[^/]+))?',
-            ['DELETE'],
-            $c->get('wpra/rest_api/v1/templates/delete_endpoint'),
-            $c->get('wpra/rest_api/v1/auth/user_is_admin')
-        );
     }
 }

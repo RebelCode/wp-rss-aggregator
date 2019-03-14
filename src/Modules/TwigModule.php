@@ -4,7 +4,7 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Twig\WpraExtension;
-use Twig\Environment;
+use Twig\Environment as TwigEnvironment;
 use Twig\Extension\DebugExtension;
 use Twig\Extensions\DateExtension;
 use Twig\Extensions\I18nExtension;
@@ -23,7 +23,7 @@ class TwigModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         return [
             /*
@@ -32,7 +32,7 @@ class TwigModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/twig' => function (ContainerInterface $c) {
-                return new Environment(
+                return new TwigEnvironment(
                     $c->get('wpra/twig/loader'),
                     $c->get('wpra/twig/paths')
                 );
@@ -136,12 +136,30 @@ class TwigModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
+    public function getExtensions()
+    {
+        return [
+            /*
+             * Registers the Twig extensions.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/twig' => function (ContainerInterface $c, TwigEnvironment $twig) {
+                foreach ($c->get('wpra/twig/extensions') as $extension) {
+                    $twig->addExtension($extension);
+                }
+
+                return $twig;
+            }
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
     public function run(ContainerInterface $c)
     {
-        $twig = $c->get('wpra/twig');
-
-        foreach ($c->get('wpra/twig/extensions') as $extension) {
-            $twig->addExtension($extension);
-        }
     }
 }

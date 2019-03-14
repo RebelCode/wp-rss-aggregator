@@ -18,7 +18,16 @@ interface ModuleInterface
      *
      * @return callable[]
      */
-    public function getServices();
+    public function getFactories();
+
+    /**
+     * Retrieves the module's extensions.
+     *
+     * @since [*next-version*]
+     *
+     * @return callable[]
+     */
+    public function getExtensions();
 
     /**
      * Runs the module.

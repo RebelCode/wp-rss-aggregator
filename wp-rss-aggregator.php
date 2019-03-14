@@ -401,8 +401,22 @@ function wpra_container()
         $builder->useAutowiring(false);
         $builder->useAnnotations(false);
 
+        $factories = $plugin->getFactories();
+        $extensions = $plugin->getExtensions();
+        $definitions = [];
+        foreach ($factories as $key => $definition) {
+            // Merge factory with its extension, if an extension exists
+            if (array_key_exists($key, $extensions)) {
+                $extension = $extensions[$key];
+                $definition = function (ContainerInterface $c) use ($definition, $extension) {
+                    return $extension($c, $definition($c));
+                };
+            }
+            $definitions[$key] = $definition;
+        }
+
         // Add the plugin's service definitions
-        $builder->addDefinitions($plugin->getServices());
+        $builder->addDefinitions($definitions);
 
         // Construct the wrapper container
         $container = new WpFilterContainer($builder->build());

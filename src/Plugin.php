@@ -38,15 +38,43 @@ class Plugin implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         $services = [];
 
         foreach ($this->modules as $module) {
-            $services = array_merge($services, $module->getServices());
+            $services = array_merge($services, $module->getFactories());
         }
 
         return $services;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getExtensions()
+    {
+        $extensions = [];
+
+        foreach ($this->modules as $module) {
+            foreach ($module->getExtensions() as $key => $extension) {
+                if (array_key_exists($key, $extensions)) {
+                    $current = $extensions[$key];
+                    $extension = function (ContainerInterface $c, $previous) use ($current, $extension) {
+                        $result1 = $current($c, $previous);
+                        $result2 = $extension($c, $result1);
+
+                        return $result2;
+                    };
+                }
+
+                $extensions[$key] = $extension;
+            }
+        }
+
+        return $extensions;
     }
 
     /**

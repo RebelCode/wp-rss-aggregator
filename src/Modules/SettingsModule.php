@@ -19,7 +19,7 @@ class SettingsModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         return [
             'wpra/settings/option_name' => function (ContainerInterface $c) {
@@ -32,6 +32,16 @@ class SettingsModule implements ModuleInterface
                 );
             }
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getExtensions()
+    {
+        return [];
     }
 
     /**
