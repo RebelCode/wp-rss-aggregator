@@ -5,10 +5,10 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\RestApi\Auth\AuthUserIsAdmin;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
-use RebelCode\Wpra\Core\RestApi\EndPoints\Templates\CreateUpdateTemplateEndPoint;
-use RebelCode\Wpra\Core\RestApi\EndPoints\Templates\DeleteTemplateEndPoint;
-use RebelCode\Wpra\Core\RestApi\EndPoints\Templates\GetTemplatesEndPoint;
-use RebelCode\Wpra\Core\RestApi\EndPoints\Templates\PatchTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\CreateUpdateTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\DeleteTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\GetTemplatesEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\PatchTemplateEndPoint;
 
 /**
  * The REST API module for WP RSS Aggregator.

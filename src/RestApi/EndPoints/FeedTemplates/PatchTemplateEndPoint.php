@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\RestApi\EndPoints\Templates;
+namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
 use ArrayAccess;
 use RebelCode\Wpra\Core\Data\DataSetInterface;

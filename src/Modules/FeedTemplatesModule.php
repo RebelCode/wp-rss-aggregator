@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Data\Collections\FeedTemplateCollection;
+use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\CreateDefaultFeedTemplateHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderAdminTemplatesPageHandler;

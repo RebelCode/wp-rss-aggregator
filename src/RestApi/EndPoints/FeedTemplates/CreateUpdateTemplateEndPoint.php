@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\RestApi\EndPoints\Templates;
+namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
