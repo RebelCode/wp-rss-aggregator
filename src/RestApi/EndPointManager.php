@@ -99,7 +99,9 @@ class EndPointManager
     {
         return function (WP_REST_Request $request) use ($authValidator) {
             try {
-                return $authValidator->validate($request);
+                $authValidator->validate($request);
+
+                return true;
             } catch (ValidationFailedExceptionInterface $exception) {
                 return new WP_Error('wprss_not_authorized', __('Unauthorized', 'wprss'), [
                     'status' => 401,
