@@ -91,6 +91,8 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     {
         if ($key !== self::OPTIONS_KEY) {
             parent::set($key, $value);
+
+            return;
         }
 
         try {
