@@ -34,22 +34,58 @@ function wprss_render_templates_page()
     wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_JS . 'templates.min.js', array(), '0.1', true);
     wp_enqueue_style('wpra-templates', WPRSS_CSS . 'templates.min.css');
 
-    wp_localize_script('wpra-templates', 'WpraTemplates', [
+    wp_localize_script('wpra-templates', 'WpraGlobal', [
         'nonce' => wp_create_nonce('wp_rest'),
+    ]);
+
+    wp_localize_script('wpra-templates', 'WpraTemplates', [
         'model_schema' => apply_filters('wpra-template-model-schema', [
             'id' => '',
-            'title' => '',
-            'status' => '',
+            'name' => '',
             'slug' => '',
-            'type' => '',
+            'type' => 'list',
             'options' => [
-                'title_is_link' => false,
+                'items_max_num' => 15,
+                'title_max_length' => 0,
+                'title_is_link' => true,
+                'pagination' => true,
+                'pagination_type' => 'default',
+                'source_enabled' => true,
+                'source_prefix' => __('Source:', 'wprss'),
+                'source_is_link' => true,
+                'author_enabled' => false,
+                'author_prefix' =>  __('By', 'wprss'),
+                'date_enabled' => true,
+                'date_prefix' => __('Published on:', 'wprss'),
+                'date_format' => 'Y-m-d',
+                'date_use_time_ago' => false,
+                'links_behavior' => 'blank',
+                'links_nofollow' => false,
+                'links_video_embed_page' => false,
+                'bullets_enabled' => true,
+                'bullet_type' => 'default',
+                'custom_css_classname' => '',
             ]
         ]),
-        'type_options' => [
-            '__built_in' => 'List',
-            'list' => 'List',
-            'grid' => 'Grid',
+        'options' => [
+            'type' => [
+                '__built_in' => 'List',
+                'list' => 'List',
+                'grid' => 'Grid',
+            ],
+            'links_behavior' => [
+                'self' => 'Self',
+                'blank' => 'Open in a new tab',
+                'lightbox' => 'Open in a lightbox'
+            ],
+            'pagination_type' => [
+                'default' => 'Default',
+                'numbered' => 'Numbered',
+            ],
+            'bullet_type' => [
+                'default' => 'Bullets',
+                'numbers' => 'Numbers',
+            ]
         ],
         'base_url' => rest_url('/wpra/v1/templates'),
     ]);

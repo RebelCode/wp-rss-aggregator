@@ -17,19 +17,14 @@
           }
         },
 
-        list: [{
-          id: 1,
-          title: 'Foo',
-          template_type: 'list',
-        }, {
-          id: 2,
-          title: 'Bar',
-          template_type: '__built_in',
-        }]
+        list: [],
+
+        baseUrl: WpraTemplates.base_url,
       }
     },
     inject: [
-      'hooks'
+      'hooks',
+      'http',
     ],
     mounted () {
       this.fetchList()
@@ -37,9 +32,12 @@
     methods: {
       fetchList () {
         this.loading = true
-        // return api.get('/templates').then((response) => {
-        //
-        // })
+        return this.http.get(this.baseUrl).then((response) => {
+          this.list = response.data
+          console.info(response)
+        }).finally(() => {
+          this.loading = false
+        })
       }
     },
     render () {
@@ -56,7 +54,7 @@
         },
         style: function ({ row }) {
           return [
-            <div>{ row.template_type }</div>
+            <div>{ row.type }</div>
           ]
         },
         previewTemplate: function ({ row }) {
