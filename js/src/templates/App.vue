@@ -3,6 +3,8 @@
   export default {
     data () {
       return {
+        loading: false,
+
         columns: {
           name: {
             label: ('Template Name'),
@@ -30,7 +32,15 @@
       'hooks'
     ],
     mounted () {
-      console.info('Welcome, Neo', this, this.hooks)
+      this.fetchList()
+    },
+    methods: {
+      fetchList () {
+        this.loading = true
+        // return api.get('/templates').then((response) => {
+        //
+        // })
+      }
     },
     render () {
       let cells = this.hooks.apply('wpra-templates-list-cells', this, {
@@ -62,6 +72,7 @@
         <VueTable
           columns={this.columns}
           rows={this.list}
+          loading={this.loading}
           scopedSlots={
             cells
           }

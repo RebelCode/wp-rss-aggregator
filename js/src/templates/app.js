@@ -7,7 +7,7 @@ import AppPage from './AppPage.vue'
 export default {
   register (services) {
     console.info('registering services', App)
-    services['App'] = App
+    services['App'] = AppPage
     return services
   },
   run ({ container }) {

@@ -34,6 +34,26 @@ function wprss_render_templates_page()
     wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_JS . 'templates.min.js', array(), '0.1', true);
     wp_enqueue_style('wpra-templates', WPRSS_CSS . 'templates.min.css');
 
+    wp_localize_script('wpra-templates', 'WpraTemplates', [
+        'nonce' => wp_create_nonce('wp_rest'),
+        'model_schema' => apply_filters('wpra-template-model-schema', [
+            'id' => '',
+            'title' => '',
+            'status' => '',
+            'slug' => '',
+            'type' => '',
+            'options' => [
+                'title_is_link' => false,
+            ]
+        ]),
+        'type_options' => [
+            '__built_in' => 'List',
+            'list' => 'List',
+            'grid' => 'Grid',
+        ],
+        'base_url' => rest_url('/wpra/v1/templates'),
+    ]);
+
     echo wprss_render_template('admin-templates-page.twig', array(
         'title' => 'Templates',
         'subtitle' => 'Follow these introductory steps to get started with WP RSS Aggregator.',
