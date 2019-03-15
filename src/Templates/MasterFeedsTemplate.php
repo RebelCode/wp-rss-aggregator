@@ -12,8 +12,8 @@ use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
+use RebelCode\Wpra\Core\Templates\Models\FeedTemplate;
 use RebelCode\Wpra\Core\Templates\Types\TemplateTypeInterface;
-use WP_Post;
 
 /**
  * An implementation of a standard Dhii template that, depending on context, delegates rendering to a WP RSS
@@ -132,30 +132,6 @@ class MasterFeedsTemplate implements TemplateInterface
         $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
 
         return $template->render($fullCtx);
-    }
-
-    /**
-     * Retrieves a template model by key.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $key The key of the template.
-     *
-     * @return DataSetInterface|null The template model instance or null if not found.
-     */
-    public function getTemplateModel($key)
-    {
-        $posts = get_posts([
-            'post_type' => WPRSS_FEED_TEMPLATE_CPT,
-            'posts_per_page' => 1,
-            'name' => $key,
-        ]);
-
-        if (empty($posts)) {
-            return null;
-        }
-
-        return wprss_create_template_from_post($posts[0]);
     }
 
     /**

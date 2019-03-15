@@ -22,15 +22,26 @@ class CreateDefaultFeedTemplateHandler
     protected $collection;
 
     /**
+     * The data to use for creating the default feed template.
+     *
+     * @since [*next-version*]
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param array|Traversable $collection The templates collection.
+     * @param array|Traversable $collection The feed templates collection.
+     * @param array             $data       The data to use for creating the default feed template.
      */
-    public function __construct($collection)
+    public function __construct($collection, $data)
     {
         $this->collection = $collection;
+        $this->data = $data;
     }
 
     /**
@@ -39,19 +50,11 @@ class CreateDefaultFeedTemplateHandler
     public function __invoke()
     {
         $count = (is_array($this->collection) || $this->collection instanceof stdClass)
-            ? count((array)$this->collection)
+            ? count((array) $this->collection)
             : iterator_count($this->collection);
 
         if ($count === 0) {
-            wp_insert_post([
-                'post_type' => WPRSS_FEED_TEMPLATE_CPT,
-                'post_title' => __('Default'),
-                'post_name' => 'default',
-                'post_status' => 'publish',
-                'meta_input' => [
-                    'wprss_template_type' => '__built_in',
-                ],
-            ]);
+            $this->collection[] = $this->data;
         }
     }
 }

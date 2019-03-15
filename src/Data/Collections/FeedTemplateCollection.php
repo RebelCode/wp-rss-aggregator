@@ -13,17 +13,6 @@ use WP_Post;
 class FeedTemplateCollection extends WpPostCollection
 {
     /**
-     * Constructor.
-     *
-     * @since [*next-version*]
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct(WPRSS_FEED_TEMPLATE_CPT, []);
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]

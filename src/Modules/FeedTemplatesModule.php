@@ -59,17 +59,39 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/templates/feeds/collection' => function (ContainerInterface $c) {
-                return new FeedTemplateCollection();
+                return new FeedTemplateCollection($c->get('wpra/templates/feeds/cpt_name'));
             },
-            /**
+            /*
              * The handler that creates the default template if there are no user templates.
              *
              * @since [*next-version*]
              */
             'wpra/templates/feeds/create_default_template_handler' => function (ContainerInterface $c) {
-                return new CreateDefaultFeedTemplateHandler($c->get('wpra/templates/feeds/collection'));
+                return new CreateDefaultFeedTemplateHandler(
+                    $c->get('wpra/templates/feeds/collection'),
+                    $c->get('wpra/templates/feeds/default_template_data')
+                );
             },
-            /**
+            /*
+             * The data for the default feed template.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/default_template_data' => function (ContainerInterface $c) {
+                return [
+                    'name' => __('Default', 'wprss'),
+                    'type' => $c->get('wpra/templates/feeds/default_template_type'),
+                ];
+            },
+            /*
+             * The template type to use for the default template.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/default_template_type' => function () {
+                return '__built_in';
+            },
+            /*
              * The handler that responds to AJAX requests with rendered feed items.
              *
              * @since [*next-version*]
@@ -143,7 +165,7 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/templates/feeds/cpt_name'),
                     $c->get('wpra/templates/feeds/cpt_args')
                 );
-            }
+            },
         ];
     }
 

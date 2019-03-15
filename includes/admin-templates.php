@@ -1,9 +1,5 @@
 <?php
 
-/* @since [*next-version*] */
-define('WPRSS_FEED_TEMPLATE_CPT', 'wprss_feed_template');
-
-
 // Adds the "Templates" page and menu item
 add_action('admin_menu', function () {
     add_submenu_page(
