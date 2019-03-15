@@ -276,7 +276,7 @@ class FeedTemplatesModule implements ModuleInterface
         // Register the CPT
         add_action('init', $c->get('wpra/templates/feeds/register_cpt_handler'));
         // Register the admin submenu
-        add_action('admin_menu', $c->get('wpra/templates/feeds/register_submenu_handler'), 9);
+        add_action('admin_menu', $c->get('wpra/templates/feeds/register_submenu_handler'));
 
         // Hooks in the handler for server-side feed item rendering
         add_action('wp_ajax_wprss_render', [$this, 'serverSideRenderFeeds']);
