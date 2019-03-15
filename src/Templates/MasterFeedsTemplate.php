@@ -12,7 +12,6 @@ use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Templates\Models\FeedTemplate;
 use RebelCode\Wpra\Core\Templates\Types\TemplateTypeInterface;
 
 /**

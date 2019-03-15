@@ -2,7 +2,8 @@
 
 namespace RebelCode\Wpra\Core\Data\Collections;
 
-use RebelCode\Wpra\Core\Templates\Models\FeedTemplate;
+use RebelCode\Wpra\Core\Templates\Models\BuiltInFeedTemplate;
+use RebelCode\Wpra\Core\Templates\Models\WpPostFeedTemplate;
 use WP_Post;
 
 /**
@@ -13,13 +14,43 @@ use WP_Post;
 class FeedTemplateCollection extends WpPostCollection
 {
     /**
+     * The default template's type.
+     *
+     * @since [*next-version*]
+     *
+     * @var string
+     */
+    protected $defType;
+
+    /**
+     * Constructor.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $postType The name of the post type.
+     * @param string $defType  The default template's type.
+     */
+    public function __construct($postType, $defType)
+    {
+        parent::__construct($postType, []);
+
+        $this->defType = $defType;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]
      */
     protected function createModel(WP_Post $post)
     {
-        return new FeedTemplate($post);
+        $model = new WpPostFeedTemplate($post);
+
+        if ($model['type'] === $this->defType) {
+            return new BuiltInFeedTemplate($post);
+        }
+
+        return $model;
     }
 
     /**

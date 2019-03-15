@@ -59,7 +59,10 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/templates/feeds/collection' => function (ContainerInterface $c) {
-                return new FeedTemplateCollection($c->get('wpra/templates/feeds/cpt_name'));
+                return new FeedTemplateCollection(
+                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/default_template_type')
+                );
             },
             /*
              * The handler that creates the default template if there are no user templates.
