@@ -5,8 +5,10 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\Templates\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\Templates\CreateDefaultFeedTemplateHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\Templates\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
@@ -169,6 +171,38 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/templates/feeds/cpt_args')
                 );
             },
+
+            /*
+             * The handler that registers the feeds template submenu page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/register_submenu_handler' => function (ContainerInterface $c) {
+                return new RegisterSubMenuPageHandler($c->get('wpra/templates/feeds/submenu_info'));
+            },
+            /*
+             * The admin feeds templates page information.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/submenu_info' => function (ContainerInterface $c) {
+                return [
+                    'parent' => 'edit.php?post_type=wprss_feed',
+                    'slug' => 'wpra_feed_templates',
+                    'page_title' => __('Templates', 'wprss'),
+                    'menu_label' => __('Templates', 'wprss'),
+                    'capability' => 'edit_feed_templates',
+                    'callback' => $c->get('wpra/templates/feeds/render_admin_page_handler'),
+                ];
+            },
+            /*
+             * The handler that renders the admin feeds templates page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
+                return new RenderAdminTemplatesPageHandler();
+            },
         ];
     }
 
@@ -239,7 +273,10 @@ class FeedTemplatesModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
+        // Register the CPT
         add_action('init', $c->get('wpra/templates/feeds/register_cpt_handler'));
+        // Register the admin submenu
+        add_action('admin_menu', $c->get('wpra/templates/feeds/register_submenu_handler'), 9);
 
         // Hooks in the handler for server-side feed item rendering
         add_action('wp_ajax_wprss_render', [$this, 'serverSideRenderFeeds']);
