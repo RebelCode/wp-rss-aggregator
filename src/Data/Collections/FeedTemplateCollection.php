@@ -1,8 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Collections;
+namespace RebelCode\Wpra\Core\Data\Collections;
 
-use RebelCode\Wpra\Core\Models\FeedTemplate;
+use RebelCode\Wpra\Core\Templates\Models\FeedTemplate;
 use WP_Post;
 
 /**

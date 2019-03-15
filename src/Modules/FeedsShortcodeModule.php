@@ -17,7 +17,7 @@ class FeedsShortcodeModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         return [
             /*
@@ -43,6 +43,16 @@ class FeedsShortcodeModule implements ModuleInterface
                 ];
             }
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getExtensions()
+    {
+        return [];
     }
 
     /**

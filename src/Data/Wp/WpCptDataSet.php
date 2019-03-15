@@ -1,7 +1,9 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Data;
+namespace RebelCode\Wpra\Core\Data\Wp;
 
+use RebelCode\Wpra\Core\Data\MaskingDataSet;
+use RebelCode\Wpra\Core\Data\PrefixingDataSet;
 use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
 use WP_Post;
 

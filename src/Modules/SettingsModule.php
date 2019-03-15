@@ -5,7 +5,7 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Data\WpArrayOptionDataSet;
+use RebelCode\Wpra\Core\Data\Wp\WpArrayOptionDataSet;
 
 /**
  * The settings module for WP RSS Aggregator.
@@ -19,7 +19,7 @@ class SettingsModule implements ModuleInterface
      *
      * @since [*next-version*]
      */
-    public function getServices()
+    public function getFactories()
     {
         return [
             'wpra/settings/option_name' => function (ContainerInterface $c) {
@@ -32,6 +32,16 @@ class SettingsModule implements ModuleInterface
                 );
             }
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function getExtensions()
+    {
+        return [];
     }
 
     /**

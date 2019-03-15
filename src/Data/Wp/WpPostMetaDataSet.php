@@ -1,11 +1,12 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Data;
+namespace RebelCode\Wpra\Core\Data\Wp;
 
 use ArrayIterator;
 use CallbackFilterIterator;
 use LogicException;
 use OutOfRangeException;
+use RebelCode\Wpra\Core\Data\AbstractDataSet;
 use WP_Post;
 
 /**

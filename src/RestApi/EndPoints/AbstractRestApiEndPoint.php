@@ -5,7 +5,7 @@ namespace RebelCode\Wpra\Core\RestApi\EndPoints;
 use Dhii\Transformer\TransformerInterface;
 use Exception;
 use InvalidArgumentException;
-use RebelCode\Wpra\Core\Transformers\RecursiveToArrayTransformer;
+use RebelCode\Wpra\Core\RestApi\Transformers\RecursiveToArrayTransformer;
 use Traversable;
 use WP_Error;
 use WP_REST_Request;

@@ -1,10 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Models;
+namespace RebelCode\Wpra\Core\Templates\Models;
 
 use RebelCode\Wpra\Core\Data\AbstractDelegateDataSet;
-use RebelCode\Wpra\Core\Models\BuiltInFeedTemplate;
-use RebelCode\Wpra\Core\Models\WpPostFeedTemplate;
 use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
 use WP_Post;
 

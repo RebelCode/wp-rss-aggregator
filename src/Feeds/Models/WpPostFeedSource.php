@@ -1,9 +1,9 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Models;
+namespace RebelCode\Wpra\Core\Feeds\Models;
 
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
-use RebelCode\Wpra\Core\Data\WpCptDataSet;
+use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
 use WP_Post;
 
 /**

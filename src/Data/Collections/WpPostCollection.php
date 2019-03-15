@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Collections;
+namespace RebelCode\Wpra\Core\Data\Collections;
 
 use ArrayAccess;
 use ArrayIterator;
@@ -11,7 +11,7 @@ use Exception;
 use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AbstractDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Data\WpPostDataSet;
+use RebelCode\Wpra\Core\Data\Wp\WpPostDataSet;
 use RuntimeException;
 use stdClass;
 use Traversable;
