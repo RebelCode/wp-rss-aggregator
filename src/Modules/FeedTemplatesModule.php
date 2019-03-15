@@ -4,11 +4,11 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\FeedTemplateCollection;
+use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\AjaxRenderFeedsTemplateHandler;
+use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\CreateDefaultFeedTemplateHandler;
+use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Templates\AjaxRenderFeedsTemplateHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Templates\CreateDefaultFeedTemplateHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Templates\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
