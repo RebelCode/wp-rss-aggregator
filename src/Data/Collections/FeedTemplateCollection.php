@@ -2,8 +2,8 @@
 
 namespace RebelCode\Wpra\Core\Data\Collections;
 
-use RebelCode\Wpra\Core\Templates\Models\BuiltInFeedTemplate;
-use RebelCode\Wpra\Core\Templates\Models\WpPostFeedTemplate;
+use RebelCode\Wpra\Core\Templates\Feeds\Models\BuiltInFeedTemplate;
+use RebelCode\Wpra\Core\Templates\Feeds\Models\WpPostFeedTemplate;
 use WP_Post;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates;
+namespace RebelCode\Wpra\Core\Templates\Feeds;
 
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
+use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 
 /**
  * A fully generic WP RSS Aggregator feed template type, based on the core list template type.

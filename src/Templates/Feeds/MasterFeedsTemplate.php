@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates;
+namespace RebelCode\Wpra\Core\Templates\Feeds;
 
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
@@ -12,7 +12,7 @@ use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Templates\Types\TemplateTypeInterface;
+use RebelCode\Wpra\Core\Templates\Feeds\Types\TemplateTypeInterface;
 
 /**
  * An implementation of a standard Dhii template that, depending on context, delegates rendering to a WP RSS

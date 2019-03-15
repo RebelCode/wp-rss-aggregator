@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates\Types;
+namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 
 use Dhii\Output\TemplateInterface;
 

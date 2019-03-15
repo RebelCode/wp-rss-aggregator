@@ -10,8 +10,8 @@ use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderAdminTemplatesPageH
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
-use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
-use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;
+use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
+use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 
 /**
  * The templates module for WP RSS Aggregator.

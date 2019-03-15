@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates\Models;
+namespace RebelCode\Wpra\Core\Templates\Feeds\Models;
 
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
