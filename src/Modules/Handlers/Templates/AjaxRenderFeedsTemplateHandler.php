@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Handlers\Templates;
+namespace RebelCode\Wpra\Core\Modules\Handlers\Templates;
 
 use Dhii\Output\TemplateInterface;
 

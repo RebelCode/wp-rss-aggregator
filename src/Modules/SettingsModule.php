@@ -5,7 +5,7 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Data\WpArrayOptionDataSet;
+use RebelCode\Wpra\Core\Data\Wp\WpArrayOptionDataSet;
 
 /**
  * The settings module for WP RSS Aggregator.

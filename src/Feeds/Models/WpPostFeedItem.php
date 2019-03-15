@@ -1,14 +1,14 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Models;
+namespace RebelCode\Wpra\Core\Feeds\Models;
 
 use LogicException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\PrefixingDataSet;
-use RebelCode\Wpra\Core\Data\WpCptDataSet;
-use RebelCode\Wpra\Core\Models\WpPostFeedSource;
+use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
+use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedSource;
 use WP_Post;
 
 /**

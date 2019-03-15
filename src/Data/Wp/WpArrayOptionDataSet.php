@@ -1,6 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Data;
+namespace RebelCode\Wpra\Core\Data\Wp;
+
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 
 /**
  * An implementation of a data set that acts as a wrapper for serialized arrays stored in the `wp_options` table.

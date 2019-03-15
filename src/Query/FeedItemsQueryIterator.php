@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Query;
 
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Models\WpPostFeedItem;
+use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
 use WP_Post;
 
 /**

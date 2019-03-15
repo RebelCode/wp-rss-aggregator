@@ -3,9 +3,9 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Collections\FeedTemplateCollection;
-use RebelCode\Wpra\Core\Handlers\Templates\AjaxRenderFeedsTemplateHandler;
-use RebelCode\Wpra\Core\Handlers\Templates\CreateDefaultFeedTemplateHandler;
+use RebelCode\Wpra\Core\Data\Collections\FeedTemplateCollection;
+use RebelCode\Wpra\Core\Modules\Handlers\Templates\AjaxRenderFeedsTemplateHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\Templates\CreateDefaultFeedTemplateHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
 use RebelCode\Wpra\Core\Templates\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Types\ListTemplateType;

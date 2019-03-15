@@ -1,9 +1,10 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Data;
+namespace RebelCode\Wpra\Core\Data\Wp;
 
 use LogicException;
 use OutOfRangeException;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
 use WP_Post;
 

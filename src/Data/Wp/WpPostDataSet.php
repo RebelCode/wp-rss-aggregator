@@ -1,7 +1,9 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Data;
+namespace RebelCode\Wpra\Core\Data\Wp;
 
+use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
 use WP_Post;
 

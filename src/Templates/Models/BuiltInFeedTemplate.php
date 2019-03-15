@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Models;
+namespace RebelCode\Wpra\Core\Templates\Models;
 
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
@@ -11,8 +11,7 @@ use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\MaskingDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Data\WpArrayOptionDataSet;
-use RebelCode\Wpra\Core\Models\WpPostFeedTemplate;
+use RebelCode\Wpra\Core\Data\Wp\WpArrayOptionDataSet;
 use WP_Post;
 
 /**
