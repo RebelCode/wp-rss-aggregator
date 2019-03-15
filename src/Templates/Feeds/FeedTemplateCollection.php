@@ -47,7 +47,7 @@ class FeedTemplateCollection extends WpPostCollection
     {
         $model = new WpPostFeedTemplate($post);
 
-        if ($model['type'] === $this->defType) {
+        if (isset($model['type']) && $model['type'] === $this->defType) {
             return new BuiltInFeedTemplate($post);
         }
 
