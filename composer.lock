@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f9777c432bd9c3e219703efc97670c5",
+    "content-hash": "0d01701148198d41a4dcef98da82ce15",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1530,12 +1530,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e04a9a248f380917327aa2ba94b5ff40ccd4e147"
+                "reference": "a482da9fd0a0c00f7d8d6eb810538f9a02f1d08a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e04a9a248f380917327aa2ba94b5ff40ccd4e147",
-                "reference": "e04a9a248f380917327aa2ba94b5ff40ccd4e147",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a482da9fd0a0c00f7d8d6eb810538f9a02f1d08a",
+                "reference": "a482da9fd0a0c00f7d8d6eb810538f9a02f1d08a",
                 "shasum": ""
             },
             "require": {
@@ -1588,7 +1588,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-03-14T09:06:54+00:00"
+            "time": "2019-03-14T13:57:20+00:00"
         }
     ],
     "packages-dev": [
