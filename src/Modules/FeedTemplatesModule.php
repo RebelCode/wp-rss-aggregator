@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\FeedTemplateCollection;
+use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\Templates\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\Templates\CreateDefaultFeedTemplateHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
@@ -76,6 +77,73 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/ajax_render_handler' => function (ContainerInterface $c) {
                 return new AjaxRenderFeedsTemplateHandler($c->get('wpra/templates/feeds/master_template'));
             },
+
+            /*
+             * The name of the feeds template CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/cpt_name' => function (ContainerInterface $c) {
+                return 'wprss_feed_template';
+            },
+            /*
+             * The labels for the feeds template CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/cpt_labels' => function (ContainerInterface $c) {
+                return [
+                    'name' => __('Templates', WPRSS_TEXT_DOMAIN),
+                    'singular_name' => __('Template', WPRSS_TEXT_DOMAIN),
+                    'add_new' => __('Add New', WPRSS_TEXT_DOMAIN),
+                    'all_items' => __('Templates', WPRSS_TEXT_DOMAIN),
+                    'add_new_item' => __('Add New Template', WPRSS_TEXT_DOMAIN),
+                    'edit_item' => __('Edit Template', WPRSS_TEXT_DOMAIN),
+                    'new_item' => __('New Template', WPRSS_TEXT_DOMAIN),
+                    'view_item' => __('View Template', WPRSS_TEXT_DOMAIN),
+                    'search_items' => __('Search Feeds', WPRSS_TEXT_DOMAIN),
+                    'not_found' => __('No Templates Found', WPRSS_TEXT_DOMAIN),
+                    'not_found_in_trash' => __('No Templates Found In Trash', WPRSS_TEXT_DOMAIN),
+                    'menu_name' => __('Templates', WPRSS_TEXT_DOMAIN),
+                ];
+            },
+            /*
+             * The full arguments for the feeds template CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/cpt_args' => function (ContainerInterface $c) {
+                return [
+                    'exclude_from_search' => true,
+                    'publicly_queryable' => false,
+                    'show_in_nav_menus' => false,
+                    'show_in_admin_bar' => false,
+                    'public' => true,
+                    'show_ui' => false,
+                    'query_var' => 'feed_template',
+                    'menu_position' => 100,
+                    'show_in_menu' => false,
+                    'rewrite' => [
+                        'slug' => 'feed-templates',
+                        'with_front' => false,
+                    ],
+                    'capability_type' => 'feed_template',
+                    'map_meta_cap' => true,
+                    'supports' => ['title'],
+                    'labels' => $c->get('wpra/templates/feeds/cpt_labels'),
+                ];
+            },
+            /*
+             * The handler that registers the feeds template CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/register_cpt_handler' => function (ContainerInterface $c) {
+                return new RegisterCptHandler(
+                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/cpt_args')
+                );
+            }
         ];
     }
 
@@ -146,6 +214,8 @@ class FeedTemplatesModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
+        add_action('init', $c->get('wpra/templates/feeds/register_cpt_handler'));
+
         // Hooks in the handler for server-side feed item rendering
         add_action('wp_ajax_wprss_render', [$this, 'serverSideRenderFeeds']);
         add_action('wp_ajax_nopriv_wprss_render', [$this, 'serverSideRenderFeeds']);
