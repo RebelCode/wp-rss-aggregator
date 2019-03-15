@@ -25,15 +25,16 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * Overridden to ensure that the status is "publish".
+     * Overridden to ensure that the title is set (for auto slug generation) and the status is "publish".
      *
      * @since [*next-version*]
      */
     protected function getNewPostData($data)
     {
-        $data = parent::getNewPostData($data);
-        $data['post_status'] = 'publish';
+        $post = parent::getNewPostData($data);
+        $post['post_title'] = isset($data['name']) ? $data['name'] : '';
+        $post['post_status'] = 'publish';
 
-        return $data;
+        return $post;
     }
 }
