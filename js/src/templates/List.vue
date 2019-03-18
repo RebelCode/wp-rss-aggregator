@@ -25,6 +25,7 @@
     inject: [
       'hooks',
       'http',
+      'router',
     ],
     mounted () {
       this.fetchList()
@@ -67,6 +68,10 @@
       })
 
       let content = <div>
+        <h1 class="wp-heading-inline">Templates</h1>
+        <a href="#" onClick={(e) => {e.preventDefault(); this.router.navigate({ name: 'edit' })}} class="page-title-action">Add New</a>
+        <hr class="wp-header-end"/>
+
         <VueTable
           columns={this.columns}
           rows={this.list}
@@ -74,8 +79,7 @@
           scopedSlots={
             cells
           }
-        >
-        </VueTable>
+        />
       </div>
       return this.hooks.apply('wpra-templates-list', this, content)
     }

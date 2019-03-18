@@ -34,7 +34,10 @@ function wprss_render_templates_page()
     wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_JS . 'templates.min.js', array(), '0.1', true);
     wp_enqueue_style('wpra-templates', WPRSS_CSS . 'templates.min.css');
 
+    $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+
     wp_localize_script('wpra-templates', 'WpraGlobal', [
+        'templates_url_base' => str_replace($url, '', menu_page_url('wpra-templates', false)),
         'nonce' => wp_create_nonce('wp_rest'),
     ]);
 
