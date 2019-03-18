@@ -22,11 +22,18 @@
     inject: [
       'hooks',
       'http',
+      'router'
     ],
     methods: {
       save () {
         this.http.post(this.baseUrl, this.prepareModel()).then(response => {
-          console.info('yeah!', response)
+          this.router.navigate({
+            name: 'templates',
+            params: {
+              action: 'edit',
+              id: response.data.id
+            }
+          })
         })
       },
       prepareModel () {
@@ -41,6 +48,9 @@
     render () {
       let content = <div id="poststuff">
           <Layout class="metabox-holder columns-2">
+            <code>
+              { JSON.stringify(this.router.app.params) }
+            </code>
             <Sidebar>
               <Postbox id="template-create" title="Create" submit={true}>
                 <div class="submitbox" id="submitpost">

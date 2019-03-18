@@ -10,14 +10,14 @@ import Router from './Router'
  */
 export default {
   register (services) {
-    services['router'] = () => {
+    services['router'] = ({ vue }) => {
       return new Router([{
         route: WpraGlobal.templates_url_base + '&action',
-        name: 'edit',
+        name: 'templates-form',
         component: Edit,
       }, {
         route: WpraGlobal.templates_url_base,
-        name: 'list',
+        name: 'templates',
         component: List,
       }])
     }

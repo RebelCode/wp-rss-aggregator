@@ -1,5 +1,7 @@
 <script>
   import VueTable from 'vue-wp-list-table/dist/vue-wp-list-table.common'
+  import RouteLink from './RouteLink'
+
   export default {
     data () {
       return {
@@ -42,13 +44,23 @@
       }
     },
     render () {
+      const editPath = (id) => {
+        return {
+          name: 'templates',
+          params: {
+            action: 'edit',
+            id,
+          }
+        }
+      }
+
       let cells = this.hooks.apply('wpra-templates-list-cells', this, {
         name: function ({ row }) {
           return [
-            <div><strong>{ row.title }</strong> <small>ID: { row.id }</small></div>,
+            <div><strong>{ row.name }</strong> <small>ID: { row.id }</small></div>,
             <div class="row-actions">
               <span class="edit">
-                <a href="http://scotchbox.local/wp/wp-admin/post.php?post=1556&amp;action=edit" aria-label="Edit “asdasdasd”">Edit</a>
+                <RouteLink path={editPath(row.id)}>Edit</RouteLink>
               </span>
             </div>
           ]
@@ -67,9 +79,16 @@
         },
       })
 
+      let pathNew = {
+        name: 'templates',
+        params: {
+          action: 'new',
+        }
+      }
+
       let content = <div>
         <h1 class="wp-heading-inline">Templates</h1>
-        <a href="#" onClick={(e) => {e.preventDefault(); this.router.navigate({ name: 'edit' })}} class="page-title-action">Add New</a>
+        <RouteLink path={pathNew} class="page-title-action">Add New</RouteLink>
         <hr class="wp-header-end"/>
 
         <VueTable

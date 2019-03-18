@@ -1,6 +1,39 @@
+const getJsonFromUrl = (url) => {
+  if (!url) url = location.href
+  var question = url.indexOf('?')
+  var hash = url.indexOf('#')
+  if (hash == -1 && question == -1) return {}
+  if (hash == -1) hash = url.length
+  var query = question == -1 || hash == question + 1 ? url.substring(hash) :
+    url.substring(question + 1, hash)
+  var result = {}
+  query.split('&').forEach(function (part) {
+    if (!part) return
+    part = part.split('+').join(' ') // replace every + with space, regexp-free version
+    var eq = part.indexOf('=')
+    var key = eq > -1 ? part.substr(0, eq) : part
+    var val = eq > -1 ? decodeURIComponent(part.substr(eq + 1)) : ''
+    var from = key.indexOf('[')
+    if (from == -1) result[decodeURIComponent(key)] = val
+    else {
+      var to = key.indexOf(']', from)
+      var index = decodeURIComponent(key.substring(from + 1, to))
+      key = decodeURIComponent(key.substring(0, from))
+      if (!result[key]) result[key] = []
+      if (!index) result[key].push(val)
+      else result[key][index] = val
+    }
+  })
+  return result
+}
+
 export default class Router {
   constructor (routes) {
     this.routes = routes
+  }
+
+  get params () {
+    return this.app ? this.app.params : {}
   }
 
   setApp (app) {
@@ -8,9 +41,13 @@ export default class Router {
   }
 
   findRoute (location) {
-    return this.routes.find(({ route }) => {
+    return this.routes.find(({route}) => {
       return location.indexOf(route) !== -1
     })
+  }
+
+  updateParams (params) {
+    this.app.$set(this.app, 'params', params)
   }
 
   buildRoute (route) {
@@ -19,8 +56,24 @@ export default class Router {
       if (!routeObject) {
         return null
       }
-      return routeObject.route
+      const routeStr = routeObject.route
+      const join = routeStr.indexOf('?') !== -1 ? '&' : '?'
+      this.updateParams(route.params ? route.params : {})
+
+      return routeStr + join + this.buildParams(route.params ? route.params : {})
     }
+  }
+
+  buildParams (params) {
+    return Object.keys(params).map(param => {
+      return `${param}=${params[param]}`
+    }).join('&')
+  }
+
+  parseLocation (location) {
+    this.updateParams(getJsonFromUrl(location.search))
+    console.info('set params', this.params, getJsonFromUrl(location.search))
+    return location.pathname + location.search
   }
 
   navigate (route) {

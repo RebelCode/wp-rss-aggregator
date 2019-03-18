@@ -2,30 +2,27 @@ export default function (router) {
   return {
     data () {
       return {
-        currentRoute: this.getRouteFromLocation(window.location)
+        params: {},
+        currentRoute: null,
       }
     },
     created () {
       router.setApp(this)
+      this.currentRoute = router.parseLocation(window.location)
     },
     mounted () {
       window.addEventListener('popstate', () => {
-        this.currentRoute = this.getRouteFromLocation(window.location)
+        this.currentRoute = router.parseLocation(window.location)
       })
     },
     methods: {
-      getRouteFromLocation (location) {
-        return location.pathname + location.search
-      },
-    },
-    computed: {
       ViewComponent () {
         const matchingView = router.findRoute(this.currentRoute)
         return matchingView.component
       }
     },
     render (h) {
-      return h(this.ViewComponent)
+      return h(this.ViewComponent())
     }
   }
 }
