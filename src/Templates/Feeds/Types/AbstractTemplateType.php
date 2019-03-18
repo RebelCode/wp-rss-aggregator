@@ -137,7 +137,10 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
      */
     protected function prepareContext(array $ctx)
     {
-        $pCtx = $this->parseArgsWithSchema($ctx, $this->getFullContextSchema());
+        $optCtx = isset($ctx['options']) ? $ctx['options'] : [];
+
+        $opts = $this->parseArgsWithSchema($optCtx, $this->getOptions());
+        $std = $this->parseArgsWithSchema($ctx, $this->getStandardContextSchema());
 
         return [
             'template' => [
@@ -145,8 +148,8 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
                 'path' => $this->getTemplatePath(),
                 'dir'  => $this->getTemplateDir(),
             ],
-            'items' => $this->getFeedItemsToRender($pCtx),
-            'options' => $this->createContextDataSet($pCtx),
+            'items' => $this->getFeedItemsToRender($std),
+            'options' => $this->createContextDataSet($opts),
         ];
     }
 
