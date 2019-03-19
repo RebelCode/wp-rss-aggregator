@@ -15,20 +15,15 @@ if (window.UiFramework) {
   window.UiFramework = Object.assign({}, window.UiFramework, Core.UiFramework)
 }
 
-console.info({ Container, Core, Services }, Services.HookService)
-
 let services = {
   uiFramework: UiFramework,
   hooks: new Services.HookService,
   document: document,
   vue: function (container) {
-    let VueC = Vue.extend()
-    VueC.use(container.uiFramework.Core.InjectedComponents, {
+    Vue.use(container.uiFramework.Core.InjectedComponents, {
       container
     })
-    VueC.version = Vue.version
-    VueC.config = Vue.config
-    return VueC
+    return Vue
   }
 }
 const containerFactory = new Container.ContainerFactory(Bottle)

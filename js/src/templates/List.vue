@@ -19,8 +19,6 @@
           }
         },
 
-        list: [],
-
         baseUrl: WpraTemplates.base_url,
       }
     },
@@ -32,12 +30,21 @@
     mounted () {
       this.fetchList()
     },
+    computed: {
+      list: {
+        get () {
+          return this.$store.state.templates.items
+        },
+        set (value) {
+          this.$store.commit('templates/set', value)
+        },
+      }
+    },
     methods: {
       fetchList () {
         this.loading = true
         return this.http.get(this.baseUrl).then((response) => {
           this.list = response.data
-          console.info(response)
         }).finally(() => {
           this.loading = false
         })

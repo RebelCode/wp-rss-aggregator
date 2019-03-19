@@ -1,5 +1,6 @@
-export default function (router) {
+export default function ({ store, router }) {
   return {
+    store,
     data () {
       return {
         params: {},
@@ -11,6 +12,7 @@ export default function (router) {
       this.currentRoute = router.parseLocation(window.location)
     },
     mounted () {
+      console.info('router application', this, this.$store)
       window.addEventListener('popstate', () => {
         this.currentRoute = router.parseLocation(window.location)
       })

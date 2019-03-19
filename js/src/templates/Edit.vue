@@ -4,6 +4,7 @@
   import Sidebar from './Sidebar'
   import Layout from './Layout'
   import Input from './Input'
+  import deepmerge from './deepmerge'
 
   export default {
     data () {
@@ -24,9 +25,40 @@
       'http',
       'router'
     ],
+    mounted () {
+      this.resolveEditingItem()
+    },
     methods: {
+      resolveEditingItem () {
+        const loadItem = () => {
+          const id = this.router.params.id
+          if (!id) {
+            return Promise.resolve(null)
+          }
+          let item = this.$store.getters['templates/item'](id)
+          if (item) {
+            return Promise.resolve(item)
+          }
+          return this.http.get(`${this.baseUrl}/${id}`).then(response => {
+            return response.data
+          })
+        }
+
+        loadItem().then(item => {
+          if (!item) {
+            return
+          }
+          item = Object.assign({}, item)
+          this.model = deepmerge(this.model, item)
+        })
+      },
       save () {
-        this.http.post(this.baseUrl, this.prepareModel()).then(response => {
+        const isNew = !this.model.id
+        this.runRequest().then(response => {
+          this.model = deepmerge(this.model, response.data)
+          if (!isNew) {
+            return
+          }
           this.router.navigate({
             name: 'templates',
             params: {
@@ -35,6 +67,11 @@
             }
           })
         })
+      },
+      runRequest () {
+        const method = this.model.id ? 'put' : 'post'
+        const url = this.model.id ? `${this.baseUrl}/${this.model.id}` : this.baseUrl
+        return this.http[method](url, this.prepareModel())
       },
       prepareModel () {
         return Object.keys(this.model)
@@ -65,9 +102,13 @@
                     <div id="publishing-action">
                       <span class="spinner"></span>
                       <input name="original_publish" type="hidden" id="original_publish" value="Publish"/>
-                      <input type="submit" name="publish" id="publish" class="button button-primary button-large"
+                      <input type="submit"
+                             name="publish"
+                             id="publish"
+                             class="button button-primary button-large"
                              onClick={this.save}
-                             value="Publish"/>
+                             value={this.model.id ? 'Save' : 'Publish'}
+                      />
                     </div>
                     <div class="clear"></div>
                   </div>

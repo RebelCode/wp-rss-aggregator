@@ -1,16 +1,21 @@
 import axios from 'axios'
+import Vuex from 'vuex'
 import List from './List'
 import Edit from './Edit'
 
 import makeRouterApp from './RouterApp.js'
 import Router from './Router'
+import templates from './store'
 
 /**
  * Main application's container.
  */
 export default {
   register (services) {
-    services['router'] = ({ vue }) => {
+    /*
+     * Application router instance.
+     */
+    services['router'] = () => {
       return new Router([{
         route: WpraGlobal.templates_url_base + '&action',
         name: 'templates-form',
@@ -22,8 +27,28 @@ export default {
       }])
     }
 
-    services['App'] = ({ router }) => {
-      return makeRouterApp(router)
+    /*
+     * Application with client side routes.
+     */
+    services['App'] = (container) => {
+      return makeRouterApp(container)
+    }
+
+    /*
+     * Setup and register central storage management.
+     */
+    services['vuex'] = ({ vue }) => {
+      vue.use(Vuex)
+      return Vuex
+    }
+
+    services['store'] = ({ vuex }) => {
+      return new vuex.Store({
+        modules: {
+          templates
+        },
+        state: {}
+      })
     }
 
     services['http'] = () => {
