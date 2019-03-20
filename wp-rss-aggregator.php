@@ -356,7 +356,7 @@ function wpra()
     if ($instance === null) {
         $modules = wpra_modules();
         $plugin = new Plugin($modules);
-        $instance = apply_filters('wprss_plugin_instance', $plugin);
+        $instance = apply_filters('wpra_plugin_instance', $plugin);
     }
 
     return $instance;
@@ -371,7 +371,7 @@ function wpra()
  */
 function wpra_modules()
 {
-    return apply_filters('wpra/modules', [
+    return apply_filters('wpra_plugin_modules', [
         'settings' => new SettingsModule(),
         'shortcode' => new FeedsShortcodeModule(),
         'templates' => new FeedTemplatesModule(),
@@ -392,7 +392,7 @@ function wpra_container()
     static $container = null;
 
     if ($container === null) {
-        $container = new WpraContainer(wpra());
+        $container = apply_filters('wpra_plugin_container', new WpraContainer(wpra()));
     }
 
     return $container;
