@@ -3,6 +3,7 @@ export default function ({ store, router }) {
     store,
     data () {
       return {
+        afterNavigate: () => {},
         params: {},
         currentRoute: null,
       }
@@ -21,10 +22,12 @@ export default function ({ store, router }) {
       ViewComponent () {
         const matchingView = router.findRoute(this.currentRoute)
         return matchingView.component
-      }
+      },
     },
     render (h) {
-      return h(this.ViewComponent())
+      const content = h(this.ViewComponent())
+      this.afterNavigate()
+      return content
     }
   }
 }

@@ -1,4 +1,4 @@
-// require('./../../../css/src/plugins/index.scss')
+require('./../../../css/src/templates/index.scss')
 import * as UiFramework from '@rebelcode/ui-framework'
 import Bottle from 'bottlejs'
 import TemplatesApplication  from './app'

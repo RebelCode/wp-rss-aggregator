@@ -28,8 +28,9 @@ const getJsonFromUrl = (url) => {
 }
 
 export default class Router {
-  constructor (routes) {
+  constructor (routes, options) {
     this.routes = routes
+    this.options = options
   }
 
   get params () {
@@ -38,6 +39,7 @@ export default class Router {
 
   setApp (app) {
     this.app = app
+    this.app.afterNavigate = this.options.afterNavigating ? this.options.afterNavigating : () => {}
   }
 
   findRoute (location) {
@@ -47,6 +49,7 @@ export default class Router {
   }
 
   updateParams (params) {
+    console.warn('params set to', params)
     this.app.$set(this.app, 'params', params)
   }
 
@@ -58,9 +61,8 @@ export default class Router {
       }
       const routeStr = routeObject.route
       const join = routeStr.indexOf('?') !== -1 ? '&' : '?'
-      this.updateParams(route.params ? route.params : {})
 
-      return routeStr + join + this.buildParams(route.params ? route.params : {})
+      return routeStr + (route.params ? join + this.buildParams(route.params ? route.params : {}) : '')
     }
   }
 
@@ -79,6 +81,9 @@ export default class Router {
   navigate (route) {
     if (this.app) {
       this.app.currentRoute = this.buildRoute(route)
+    }
+    if (route.params) {
+      this.updateParams(route.params)
     }
     window.history.pushState(
       null,

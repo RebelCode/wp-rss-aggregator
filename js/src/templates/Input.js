@@ -27,18 +27,20 @@ export default {
       let options = Object.keys(this.options)
         .map(key => <option value={key} selected={ this.value === key }>{ this.options[key] }</option>)
 
-      return <select onChange={(e) => this.$emit('input', e.target.value)}>
-        { options }
-      </select>
+      return <select onChange={(e) => this.$emit('input', e.target.value)}>{ options }</select>
     },
   },
   render () {
     return <div class="form-input">
-      <label for="">
-        <div>{ this.label }</div>
-        { this.description ? <div>{ this.description }</div> : '' }
-      </label>
-      { this.inputNode() }
+      { this.label ? (
+        <label class="form-input__label">
+          <div>{this.label}</div>
+          {this.description ? <div class="form-input__label-description">{this.description}</div> : ''}
+        </label>
+      ) : null }
+      <div class="form-input__field">
+        { this.inputNode() }
+      </div>
     </div>
   }
 }

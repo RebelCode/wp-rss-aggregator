@@ -15,7 +15,7 @@ export default {
     /*
      * Application router instance.
      */
-    services['router'] = () => {
+    services['router'] = ({ document }) => {
       return new Router([{
         route: WpraGlobal.templates_url_base + '&action',
         name: 'templates-form',
@@ -24,7 +24,11 @@ export default {
         route: WpraGlobal.templates_url_base,
         name: 'templates',
         component: List,
-      }])
+      }], {
+        afterNavigating: () => {
+          document.querySelector('html').scrollTop = 0
+        }
+      })
     }
 
     /*
