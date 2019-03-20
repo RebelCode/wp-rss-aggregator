@@ -37,11 +37,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Container\WpFilterContainer;
+use RebelCode\Wpra\Core\Container\WpraContainer;
+use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\FeedsShortcodeModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
+use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
@@ -391,32 +392,7 @@ function wpra_container()
     static $container = null;
 
     if ($container === null) {
-        $plugin = wpra();
-
-        // Set up the container via the PHP-DI builder
-        $builder = new ContainerBuilder();
-        $builder->useAutowiring(false);
-        $builder->useAnnotations(false);
-
-        $factories = $plugin->getFactories();
-        $extensions = $plugin->getExtensions();
-        $definitions = [];
-        foreach ($factories as $key => $definition) {
-            // Merge factory with its extension, if an extension exists
-            if (array_key_exists($key, $extensions)) {
-                $extension = $extensions[$key];
-                $definition = function (ContainerInterface $c) use ($definition, $extension) {
-                    return $extension($c, $definition($c));
-                };
-            }
-            $definitions[$key] = $definition;
-        }
-
-        // Add the plugin's service definitions
-        $builder->addDefinitions($definitions);
-
-        // Construct the wrapper container
-        $container = new WpFilterContainer($builder->build());
+        $container = new WpraContainer(wpra());
     }
 
     return $container;
