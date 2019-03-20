@@ -40,10 +40,12 @@ class WpPluginInfoDataSet extends AbstractDelegateDataSet
         $inner = new ArrayDataSet(get_plugin_data($pluginFilePath));
         $aliased = new AliasingDataSet($inner, [
             'name' => 'Name',
+            'title' => 'Title',
             'plugin_uri' => 'PluginURI',
             'version' => 'Version',
             'description' => 'Description',
             'author' => 'Author',
+            'author_name' => 'AuthorName',
             'author_uri' => 'AuthorURI',
             'text_domain' => 'TextDomain',
             'domain_path' => 'DomainPath',
