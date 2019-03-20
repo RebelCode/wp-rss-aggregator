@@ -317,9 +317,6 @@ require_once ( WPRSS_INC . 'leave-review-notification.php' );
 // Initializes licensing
 add_action( 'plugins_loaded', 'wprss_licensing' );
 
-register_activation_hook( __FILE__ , 'wprss_activate' );
-register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
-
 do_action('wprss_pre_init');
 
 // Run WPRA
@@ -372,6 +369,8 @@ function wpra()
 function wpra_modules()
 {
     return apply_filters('wpra_plugin_modules', [
+        'core' => new CoreModule(__FILE__),
+        'i18n' => new I18nModule(),
         'settings' => new SettingsModule(),
         'shortcode' => new FeedsShortcodeModule(),
         'templates' => new FeedTemplatesModule(),
@@ -737,19 +736,6 @@ function wprss_deactivate() {
     // Flush the rewrite rules
     flush_rewrite_rules();
 }
-
-
-add_action( 'plugins_loaded', 'wprss_load_textdomain' );
-/**
- * Loads the plugin's translated strings.
- *
- * @since  2.1
- * @return void
- */
-function wprss_load_textdomain() {
-    load_plugin_textdomain( WPRSS_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
-
 
 /**
  * Utility filter function that returns TRUE;
