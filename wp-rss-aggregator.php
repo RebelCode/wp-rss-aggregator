@@ -40,7 +40,7 @@
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
 use RebelCode\Wpra\Core\Modules\CoreModule;
-use RebelCode\Wpra\Core\Modules\FeedsShortcodeModule;
+use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
@@ -372,7 +372,7 @@ function wpra_modules()
         'core' => new CoreModule(__FILE__),
         'i18n' => new I18nModule(),
         'settings' => new SettingsModule(),
-        'shortcode' => new FeedsShortcodeModule(),
+        'shortcode' => new FeedShortcodeModule(),
         'templates' => new FeedTemplatesModule(),
         'twig' => new TwigModule(),
         'rest_api' => new RestApiModule(),

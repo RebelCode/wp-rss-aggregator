@@ -10,7 +10,7 @@ use RebelCode\Wpra\Core\Shortcodes\FeedsShortcode;
  *
  * @since [*next-version*]
  */
-class FeedsShortcodeModule implements ModuleInterface
+class FeedShortcodeModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
