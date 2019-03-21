@@ -249,7 +249,7 @@ function wprss_blacklist_row_actions( $actions ) {
  */
 function wprss_check_if_blacklist_delete() {
 	// If the GET param is not set, do nothing. Return.
-	if ( empty( $_GET['wprss-blacklist-remove'] ) ) return;
+	if ( !array_key_exists('wprss-blacklist-remove', $_GET) ) return;
 
 	// The array of blacklist entries to delete
 	$to_delete = array();
