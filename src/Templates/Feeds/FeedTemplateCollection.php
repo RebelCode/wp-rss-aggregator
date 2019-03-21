@@ -28,12 +28,13 @@ class FeedTemplateCollection extends WpPostCollection
      *
      * @since [*next-version*]
      *
-     * @param string $postType The name of the post type.
-     * @param string $defType  The default template's type.
+     * @param string      $postType The name of the post type.
+     * @param string      $defType  The default template's type.
+     * @param string|null $search   Optional search term or null to use the full posts collection.
      */
-    public function __construct($postType, $defType)
+    public function __construct($postType, $defType, $search = null)
     {
-        parent::__construct($postType, []);
+        parent::__construct($postType, [], $search);
 
         $this->defType = $defType;
     }
