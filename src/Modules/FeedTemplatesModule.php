@@ -135,6 +135,14 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * The capability for the feed templates CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/cpt_capability' => function () {
+                return 'feed';
+            },
+            /*
              * The full arguments for the feeds template CPT.
              *
              * @since [*next-version*]
@@ -154,7 +162,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'slug' => 'feed-templates',
                         'with_front' => false,
                     ],
-                    'capability_type' => 'feed_template',
+                    'capability_type' => $c->get('wpra/templates/feeds/cpt_capability'),
                     'map_meta_cap' => true,
                     'supports' => ['title'],
                     'labels' => $c->get('wpra/templates/feeds/cpt_labels'),

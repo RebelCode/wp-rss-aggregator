@@ -45,6 +45,14 @@ class FeedItemsModule implements ModuleInterface
                 ];
             },
             /*
+             * The capability for the feed items CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/items/cpt_capability' => function () {
+                return 'feed';
+            },
+            /*
              * The full arguments for the feed items CPT.
              *
              * @since [*next-version*]
@@ -63,7 +71,7 @@ class FeedItemsModule implements ModuleInterface
                         'slug' => 'feed-items',
                         'with_front' => false,
                     ],
-                    'capability_type' => 'feed_item',
+                    'capability_type' => $c->get('wpra/feeds/items/cpt_capability'),
                     'map_meta_cap' => true,
                     'labels' => $c->get('wpra/feeds/items/cpt_labels'),
                 ];

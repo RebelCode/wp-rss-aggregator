@@ -52,6 +52,14 @@ class FeedSourcesModule implements ModuleInterface
                 ];
             },
             /*
+             * The capability for the feed sources CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/cpt_capability' => function () {
+                return 'feed';
+            },
+            /*
              * The full arguments for the feed sources CPT.
              *
              * @since [*next-version*]
@@ -71,7 +79,7 @@ class FeedSourcesModule implements ModuleInterface
                         'slug' => 'feeds',
                         'with_front' => false,
                     ],
-                    'capability_type' => 'feed',
+                    'capability_type' => $c->get('wpra/feeds/sources/cpt_capability'),
                     'map_meta_cap' => true,
                     'supports' => ['title'],
                     'labels' => $c->get('wpra/feeds/sources/cpt_labels'),
