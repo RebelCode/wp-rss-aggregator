@@ -5,7 +5,6 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\FeedSources\RenderFeedSourceContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RenderTemplateHandler;
 
 /**
  * The feed sources module for WP RSS Aggregator.
