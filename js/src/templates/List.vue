@@ -2,6 +2,7 @@
   import VueTable from 'vue-wp-list-table/dist/vue-wp-list-table.common'
   import RouteLink from './RouteLink'
   import Input from './Input'
+  import BottomPanel from './BottomPanel'
 
   export default {
     data () {
@@ -22,8 +23,11 @@
 
         filters: WpraTemplates.options.filter_types,
 
+        checked: [],
+
         filter: {
-          type: ''
+          type: '',
+          s: ''
         },
 
         baseUrl: WpraTemplates.base_url,
@@ -50,11 +54,20 @@
     methods: {
       fetchList () {
         this.loading = true
-        return this.http.get(this.baseUrl).then((response) => {
+        const params = this.filter.s ? {
+          s: this.filter.s
+        } : {}
+        return this.http.get(this.baseUrl, {
+          params
+        }).then((response) => {
           this.list = response.data
         }).finally(() => {
           this.loading = false
         })
+      },
+
+      setChecked (values) {
+        this.checked = values
       }
     },
     render () {
@@ -77,7 +90,10 @@
                 <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
               </span>
               <span class="inline" style={{paddingLeft: '4px'}}>
-                <a href="#">Duplicate</a>
+                <a href="#">Duplicate</a> |
+              </span>
+              <span class="trash" style={{paddingLeft: '4px'}}>
+                <a href="#" class="submitdelete" aria-label="Move to the Trash">Trash</a>
               </span>
             </div>
           ]
@@ -123,14 +139,23 @@
         <RouteLink path={pathNew} class="page-title-action">Add New</RouteLink>
 
         <p class="search-box" style={{padding: '10px'}}>
-          <label class="screen-reader-text" htmlFor="post-search-input">Search Pages:</label>
-          <input type="search" id="post-search-input" name="s"/>
-          <input type="submit" id="search-submit" class="button" value="Search Pages"/>
+          <label class="screen-reader-text" for="post-search-input">Search Templates:</label>
+          <input type="search"
+                 id="post-search-input"
+                 name="s"
+                 value={this.filter.s}
+                 onInput={ e => this.filter.s = e.target.value }
+                 onKeyup:enter={this.fetchList}
+          />
+          <input type="submit" id="search-submit" class="button" value="Search Templates"
+            onClick={this.fetchList}
+          />
         </p>
 
         <hr class="wp-header-end"/>
 
         <VueTable
+          onChecked={this.setChecked}
           columns={this.columns}
           rows={this.list}
           loading={this.loading}
@@ -138,6 +163,17 @@
             cells
           }
         />
+
+        {
+          this.checked.length ? <BottomPanel>
+              <div class="flex-row">
+                <div class="flex-col">
+                  <div class="wpra-bottom-panel__title">Bulk Actions</div>
+                  <a href="#">Trash</a>
+                </div>
+              </div>
+            </BottomPanel> : null
+        }
       </div>
       return this.hooks.apply('wpra-templates-list', this, content)
     }

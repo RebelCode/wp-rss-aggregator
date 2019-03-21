@@ -1,5 +1,6 @@
 var debug = process.env.NODE_ENV !== 'production'
 var webpack = require('webpack')
+var path = require('path')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -68,6 +69,7 @@ let config = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@rebelcode/std-lib': '@rebelcode/std-lib/dist/std-lib.umd.js',
+      'vue-wp-list-table': path.resolve(__dirname, '../../../../../vue-wp-list-table-component/'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
