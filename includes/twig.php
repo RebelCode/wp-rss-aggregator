@@ -1,10 +1,7 @@
 <?php
 
+use RebelCode\Wpra\Core\Templates\TwigTemplate;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-use Twig\TemplateWrapper;
 
 if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
     return;
@@ -34,7 +31,7 @@ function wprss_can_use_twig()
  */
 function wprss_twig()
 {
-    return wpra_container()->get('wpra/twig');
+    return wpra_get('twig');
 }
 
 /**
@@ -44,14 +41,11 @@ function wprss_twig()
  *
  * @param string $template The template name.
  *
- * @return TemplateWrapper
- * @throws LoaderError
- * @throws RuntimeError
- * @throws SyntaxError
+ * @return TwigTemplate
  */
 function wprss_load_template($template)
 {
-    return wprss_twig()->load($template);
+    return wpra_get('twig/collection')[$template];
 }
 
 /**
@@ -63,32 +57,8 @@ function wprss_load_template($template)
  * @param array  $context  The template context.
  *
  * @return string
- * @throws LoaderError
- * @throws RuntimeError
- * @throws SyntaxError
  */
 function wprss_render_template($template, $context = [])
 {
-    return wprss_twig()->load($template)->render($context);
-}
-
-/**
- * Retrieves custom WP RSS Aggregator Twig filters.
- *
- * @since [*next-version*]
- *
- * @return array
- */
-function wprss_get_twig_custom_filters()
-{
-    return [
-        'wpralink' => [
-            'function' => function ($text, $url, $flag) {
-                return wprss_link_display($url, $text, $flag);
-            },
-            'options' => [
-                'is_safe' => ['html'],
-            ],
-        ],
-    ];
+    return wprss_load_template($template)->render($context);
 }
