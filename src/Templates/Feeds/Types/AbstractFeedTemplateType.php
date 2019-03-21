@@ -8,25 +8,15 @@ use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
-use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
-use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
-use stdClass;
-use Traversable;
 
 /**
  * Abstract implementation of a standard WP RSS Aggregator feed template type.
  *
  * By default, this implementation loads twig template files according to the pattern `feeds/<key>/main.twig`, where
  * `<key>` is the key of the template. This can be changed by overriding the {@link getTemplatePath} method.
- *
- * For rendering, this implementation will construct a standard WP RSS Aggregator feed item query iterator, as an
- * instance of {@link FeedItemsQueryIterator}. This iterator's constructor arguments may be included in the render
- * context to specify which items to render, as "query_sources", "query_exclude", "query_max_num", "query_page" and
- * "query_factory".
  *
  * Twig template files will have access to an "options" variable which contains the template's options, an "items"
  * variable which contains the items to be rendered and a "template" variable containing information about the template.
@@ -42,9 +32,6 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 
     /* @since [*next-version*] */
     use ParseArgsWithSchemaCapableTrait;
-
-    /* @since [*next-version*] */
-    use SanitizeIdCommaListCapableTrait;
 
     /* @since [*next-version*] */
     use CreateInvalidArgumentExceptionCapableTrait;
@@ -159,15 +146,14 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
         $optCtx = isset($ctx['options']) ? $ctx['options'] : [];
 
         $opts = $this->parseArgsWithSchema($optCtx, $this->getOptions());
-        $std = $this->parseArgsWithSchema($ctx, $this->getStandardContextSchema());
 
         return [
             'template' => [
                 'type' => $this->getKey(),
                 'path' => $this->getTemplatePath(),
-                'dir'  => $this->getTemplateDir(),
+                'dir' => $this->getTemplateDir(),
             ],
-            'items' => $this->getFeedItemsToRender($std),
+            'items' => isset($ctx['items']) ? $ctx['items'] : [],
             'options' => $this->createContextDataSet($opts),
         ];
     }
@@ -184,109 +170,6 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     protected function createContextDataSet(array $ctx)
     {
         return new ArrayDataSet($ctx);
-    }
-
-    /**
-     * Retrieves the list of feed items to render.
-     *
-     * @see   DataSetInterface
-     *
-     * @since [*next-version*]
-     *
-     * @param array $ctx The render context.
-     *
-     * @return DataSetInterface[]|stdClass|Traversable A list of feed item instances.
-     */
-    protected function getFeedItemsToRender(array $ctx)
-    {
-        return new FeedItemsQueryIterator(
-            $ctx['query_sources'],
-            $ctx['query_exclude'],
-            $ctx['query_max_num'],
-            $ctx['query_page'],
-            $ctx['query_factory']
-        );
-    }
-
-    /**
-     * Retrieves the full schema for the template context.
-     *
-     * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
-     *
-     * @since [*next-version*]
-     *
-     * @return array
-     */
-    protected function getFullContextSchema()
-    {
-        $standard = $this->getStandardContextSchema();
-        $extension = $this->getOptions();
-
-        return array_merge($extension, $standard);
-    }
-
-    /**
-     * Retrieves the standard WP RSS Aggregator template context schema.
-     *
-     * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
-     *
-     * @since [*next-version*]
-     *
-     * @return array
-     */
-    protected function getStandardContextSchema()
-    {
-        // The standard schema for all WP RSS Aggregator templates
-        return [
-            'template' => [
-                'default' => '',
-                'filter' => FILTER_SANITIZE_STRING,
-            ],
-            'limit' => [
-                'key' => 'query_max_num',
-                'default' => wprss_get_general_setting('feed_limit'),
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-            ],
-            'source' => [
-                'key' => 'query_sources',
-                'default' => [],
-                'filter' => function ($value) {
-                    return $this->sanitizeIdCommaList($value);
-                },
-            ],
-            'sources' => [
-                'key' => 'query_sources',
-                'default' => [],
-                'filter' => function ($value) {
-                    return $this->sanitizeIdCommaList($value);
-                },
-            ],
-            'exclude' => [
-                'key' => 'query_exclude',
-                'default' => [],
-                'filter' => function ($value) {
-                    return $this->sanitizeIdCommaList($value);
-                },
-            ],
-            'page' => [
-                'key' => 'query_page',
-                'default' => 1,
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-            ],
-            'factory' => [
-                'key' => 'query_factory',
-                'default' => null,
-                'filter' => function ($value) {
-                    if (!is_callable($value)) {
-                        throw new InvalidArgumentException();
-                    }
-
-                    return $value;
-                },
-            ],
-        ];
     }
 
     /**
