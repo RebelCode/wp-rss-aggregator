@@ -88,6 +88,11 @@ function wprss_render_templates_page()
             'bullet_type' => [
                 'default' => 'Bullets',
                 'numbers' => 'Numbers',
+            ],
+            'filter_types' => [
+                '__built_in' => 'List',
+                'list' => 'List',
+                'grid' => 'Grid',
             ]
         ],
         'base_url' => rest_url('/wpra/v1/templates'),

@@ -33,6 +33,7 @@
       this.resolveEditingItem()
     },
     methods: {
+      
       resolveEditingItem () {
         this.isLoading = true
         const loadItem = () => {
