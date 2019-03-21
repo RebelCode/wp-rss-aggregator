@@ -8,6 +8,7 @@ use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
+use InvalidArgumentException;
 use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AbstractDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
@@ -19,11 +20,11 @@ use WP_Error;
 use WP_Post;
 
 /**
- * A data set implementation that acts as a wrapper for a collection of posts,
+ * A data set implementation that acts as a wrapper for a collection of posts.
  *
  * @since [*next-version*]
  */
-class WpPostCollection extends AbstractDataSet
+class WpPostCollection extends AbstractDataSet implements CollectionInterface
 {
     /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
@@ -62,17 +63,42 @@ class WpPostCollection extends AbstractDataSet
     protected $lastInsertedId;
 
     /**
+     * Optional search term or null to use the full posts collection.
+     *
+     * @since [*next-version*]
+     *
+     * @var string|null
+     */
+    protected $search;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param string $postType  The post type.
-     * @param array  $metaQuery The meta query.
+     * @param string      $postType  The post type.
+     * @param array       $metaQuery The meta query.
+     * @param string|null $search    Optional search term or null to use the full posts collection.
      */
-    public function __construct($postType, $metaQuery = [])
+    public function __construct($postType, $metaQuery = [], $search = null)
     {
         $this->postType = $postType;
         $this->metaQuery = $metaQuery;
+        $this->search = $search;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function search($search)
+    {
+        if (!is_string($search)) {
+            throw new InvalidArgumentException('Search term is not a string');
+        }
+
+        return new static($this->postType, $this->metaQuery, $search);
     }
 
     /**
@@ -206,7 +232,7 @@ class WpPostCollection extends AbstractDataSet
      */
     protected function getIterator()
     {
-        return new ArrayIterator($this->queryPosts());
+        return new ArrayIterator($this->queryPosts(null, $this->search));
     }
 
     /**
@@ -224,11 +250,12 @@ class WpPostCollection extends AbstractDataSet
      *
      * @since [*next-version*]
      *
-     * @param int|string|null $key Optional ID or slug which, if not null, narrows down the query to only that post.
+     * @param int|string|null $key    Optional ID or slug which, if not null, narrows down the query to only that post.
+     * @param string|null     $search Optional search string, or null to not search.
      *
      * @return WP_Post[] An array of posts objects.
      */
-    protected function queryPosts($key = null)
+    protected function queryPosts($key = null, $search = null)
     {
         $queryArgs = [
             'post_type' => $this->postType,
@@ -244,6 +271,10 @@ class WpPostCollection extends AbstractDataSet
 
         if ($key !== null && is_string($key) && !is_numeric($key)) {
             $queryArgs['name'] = $key;
+        }
+
+        if (is_string($search) && strlen($search) > 0) {
+            $queryArgs['s'] = $search;
         }
 
         return get_posts($queryArgs);

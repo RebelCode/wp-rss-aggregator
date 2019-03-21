@@ -5,38 +5,31 @@
      * @package WPRSSAggregator
      */
 
-
-    add_filter( 'the_content', 'wprss_render_feed_view' );
     /**
-     * Display template for a feed source. Simulates a shortcode call.
+     * Handles the display for a single feed item.
      *
      * @since 4.6.6
      */
-    function wprss_render_feed_view( $content ) {
-        if ( get_post_type() === 'wprss_feed' && ! is_feed() ) {
-            $content = wprss_shortcode( array(
-                'source'    =>  get_the_ID()
-            ) );
+    function wprss_display_single_feed_item( $atts = array() ) {
+        if ( empty( $atts ) ) return;
+        $id = empty( $atts['id'] ) ? FALSE : $atts['id'];
+        if ( $id === FALSE || get_post_type( $id ) !== 'wprss_feed_item' || ( $item = get_post( $id ) ) === FALSE ) {
+            return '';
         }
-        return $content;
-    }
-
-
-    add_filter( 'the_content', 'wprss_render_feed_item_view' );
-    /**
-     * Display template for a feed source. Simulates a shortcode call.
-     *
-     * @since 4.6.6
-     */
-    function wprss_render_feed_item_view( $content ) {
-        if ( get_post_type() === 'wprss_feed_item' && ! is_feed() ) {
-            $content = wprss_shortcode_single( array(
-                'id'    =>  get_the_ID()
-            ) );
+        //Enqueue scripts / styles
+        wp_enqueue_script( 'jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', array( 'jquery' ) );
+        wp_enqueue_script( 'wprss_custom', WPRSS_JS . 'custom.js', array( 'jquery', 'jquery.colorbox-min' ) );
+        $general_settings = get_option( 'wprss_settings_general' );
+        if( ! $general_settings['styles_disable'] == 1 ) {
+            wp_enqueue_style( 'colorbox', WPRSS_CSS . 'colorbox.css', array(), '1.4.33' );
+            wp_enqueue_style( 'styles', WPRSS_CSS . 'styles.css', array(), '' );
         }
-        return $content;
+        setup_postdata( $item );
+        $output = wprss_render_feed_item( $id );
+        $output = apply_filters( 'wprss_shortcode_single_output', $output );
+        wp_reset_postdata();
+        return $output;
     }
-
 
     /**
      * Renders a single feed item.

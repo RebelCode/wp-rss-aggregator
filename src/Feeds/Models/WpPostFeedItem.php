@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Feeds\Models;
 use LogicException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\PrefixingDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
@@ -31,6 +32,20 @@ class WpPostFeedItem extends WpCptDataSet
      * @since [*next-version*]
      */
     const SOURCE_KEY = 'source';
+
+    /**
+     * The key to which to map the feed item author.
+     *
+     * @since [*next-version*]
+     */
+    const AUTHOR_KEY = 'author';
+
+    /**
+     * The key to which to map the feed item URL.
+     *
+     * @since [*next-version*]
+     */
+    const URL_KEY = 'url';
 
     /**
      * Constructor.
@@ -73,21 +88,52 @@ class WpPostFeedItem extends WpCptDataSet
     {
         // Alias the original meta data
         $aliased = new AliasingDataSet(parent::createMetaDataSet($postOrId), [
-            'url' => 'item_permalink',
+            'permalink' => 'item_permalink',
             'source_id' => 'feed_id',
             'author' => 'item_author',
             'enclosure' => 'item_enclosure',
         ]);
 
-        // Create the feed source data set model
-        $sourceId = $aliased['source_id'];
-        $sourceData = new WpPostFeedSource($sourceId);
-        // Wrap it in a data set that maps it to a key
-        $sourceSet = new ArrayDataSet([static::SOURCE_KEY => $sourceData]);
+        $post = $this->normalizeWpPost($postOrId);
+        $wrapped = $this->wrapPostMetaDataSet($post, $aliased);
 
-        // Merge the real meta data with the dataset that contains the source, and explicitly set the secondary
-        // dataset to override to source key
-        $merged = new MergedDataSet($aliased, $sourceSet, [static::SOURCE_KEY => true]);
+        return $wrapped;
+    }
+
+    /**
+     * Wraps the post meta dataset with an additional layer that contains virtual data.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_Post          $post The post instance for the feed item.
+     * @param DataSetInterface $meta The post meta dataset.
+     *
+     * @return DataSetInterface The wrapped post meta dataset.
+     */
+    protected function wrapPostMetaDataSet(WP_Post $post, DataSetInterface $meta)
+    {
+        $wrapperData = [static::SOURCE_KEY => new WpPostFeedSource($meta['source_id'])];
+
+        // Use the real WordPress post author if the meta author does not exist
+        if (!isset($meta[static::AUTHOR_KEY]) || empty($meta[static::AUTHOR_KEY])) {
+            $wrapperData[static::AUTHOR_KEY] = get_the_author_meta('display_name', $post->post_author);
+        }
+
+        // Override the URL from meta if the post type is not a WP RSS Aggregator feed item
+        if ($post->post_type !== 'wprss_feed_item') {
+            $wrapperData[static::URL_KEY] = get_permalink($post);
+        }
+
+        // Copy the wrapper data and replace all values with true
+        // This will be used as the overrides option for the merged data set
+        $overrides = array_map(function () {
+            return true;
+        }, $wrapperData);
+
+        // Merge the real meta data with the wrapper dataset,
+        // and explicitly set the secondary dataset to override to wrapper's entries
+        $wrapper = new ArrayDataSet($wrapperData);
+        $merged = new MergedDataSet($meta, $wrapper, $overrides);
 
         return $merged;
     }

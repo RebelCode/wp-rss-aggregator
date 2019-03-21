@@ -37,11 +37,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Container\WpFilterContainer;
-use RebelCode\Wpra\Core\Modules\FeedsShortcodeModule;
+use RebelCode\Wpra\Core\Container\WpraContainer;
+use RebelCode\Wpra\Core\Modules\CoreModule;
+use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
+use RebelCode\Wpra\Core\Modules\FeedItemsModule;
+use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
+use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
+use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
@@ -193,11 +197,8 @@ require_once ( WPRSS_INC . 'di.php' );
 /* Load install, upgrade and migration code. */
 require_once ( WPRSS_INC . 'update.php' );
 
-/* Load the custom post types and taxonomies. */
-require_once ( WPRSS_INC . 'custom-post-types.php' );
-
-/* Load the admin templates module */
-require_once ( WPRSS_INC . 'admin-templates.php' );
+/* Deprecated things */
+require_once(WPRSS_INC . 'deprecated.php');
 
 /* Load the file for setting capabilities of our post types */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );
@@ -319,9 +320,6 @@ require_once ( WPRSS_INC . 'leave-review-notification.php' );
 // Initializes licensing
 add_action( 'plugins_loaded', 'wprss_licensing' );
 
-register_activation_hook( __FILE__ , 'wprss_activate' );
-register_deactivation_hook( __FILE__ , 'wprss_deactivate' );
-
 do_action('wprss_pre_init');
 
 // Run WPRA
@@ -358,7 +356,7 @@ function wpra()
     if ($instance === null) {
         $modules = wpra_modules();
         $plugin = new Plugin($modules);
-        $instance = apply_filters('wprss_plugin_instance', $plugin);
+        $instance = apply_filters('wpra_plugin_instance', $plugin);
     }
 
     return $instance;
@@ -373,9 +371,14 @@ function wpra()
  */
 function wpra_modules()
 {
-    return apply_filters('wpra/modules', [
+    return apply_filters('wpra_plugin_modules', [
+        'core' => new CoreModule(__FILE__),
+        'feed_sources' => new FeedSourcesModule(),
+        'feed_items' => new FeedItemsModule(),
+        'blacklist' => new FeedBlacklistModule(),
+        'i18n' => new I18nModule(),
         'settings' => new SettingsModule(),
-        'shortcode' => new FeedsShortcodeModule(),
+        'shortcode' => new FeedShortcodeModule(),
         'templates' => new FeedTemplatesModule(),
         'twig' => new TwigModule(),
         'rest_api' => new RestApiModule(),
@@ -394,35 +397,24 @@ function wpra_container()
     static $container = null;
 
     if ($container === null) {
-        $plugin = wpra();
-
-        // Set up the container via the PHP-DI builder
-        $builder = new ContainerBuilder();
-        $builder->useAutowiring(false);
-        $builder->useAnnotations(false);
-
-        $factories = $plugin->getFactories();
-        $extensions = $plugin->getExtensions();
-        $definitions = [];
-        foreach ($factories as $key => $definition) {
-            // Merge factory with its extension, if an extension exists
-            if (array_key_exists($key, $extensions)) {
-                $extension = $extensions[$key];
-                $definition = function (ContainerInterface $c) use ($definition, $extension) {
-                    return $extension($c, $definition($c));
-                };
-            }
-            $definitions[$key] = $definition;
-        }
-
-        // Add the plugin's service definitions
-        $builder->addDefinitions($definitions);
-
-        // Construct the wrapper container
-        $container = new WpFilterContainer($builder->build());
+        $container = apply_filters('wpra_plugin_container', new WpraContainer(wpra()));
     }
 
     return $container;
+}
+
+/**
+ * Retrieves a WP RSS Aggregator service from the container.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $key The service key, without the 'wpra/' prefix.
+ *
+ * @return mixed The service instance or value.
+ */
+function wpra_get($key)
+{
+    return wpra_container()->get('wpra/' . $key);
 }
 
 /**
@@ -764,19 +756,6 @@ function wprss_deactivate() {
     // Flush the rewrite rules
     flush_rewrite_rules();
 }
-
-
-add_action( 'plugins_loaded', 'wprss_load_textdomain' );
-/**
- * Loads the plugin's translated strings.
- *
- * @since  2.1
- * @return void
- */
-function wprss_load_textdomain() {
-    load_plugin_textdomain( WPRSS_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
-
 
 /**
  * Utility filter function that returns TRUE;

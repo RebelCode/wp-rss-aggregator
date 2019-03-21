@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Data\Collections\TwigTemplateCollection;
 use RebelCode\Wpra\Core\Twig\WpraExtension;
 use Twig\Environment as TwigEnvironment;
 use Twig\Extension\DebugExtension;
@@ -34,7 +35,7 @@ class TwigModule implements ModuleInterface
             'wpra/twig' => function (ContainerInterface $c) {
                 return new TwigEnvironment(
                     $c->get('wpra/twig/loader'),
-                    $c->get('wpra/twig/paths')
+                    $c->get('wpra/twig/options')
                 );
             },
             /*
@@ -54,17 +55,28 @@ class TwigModule implements ModuleInterface
                 return [WPRSS_TEMPLATES];
             },
             /*
-             * The options for Twig.
+             * The twig template collection.
              *
              * @since [*next-version*]
              */
-            'wpra/twig/options' => function (ContainerInterface $c) {
-                $debug = (defined('WP_DEBUG') && WP_DEBUG);
-
-                return [
-                    'debug' => $debug,
-                    'cache' => $debug ? $c->get('wpra/twig/cache') : false,
-                ];
+            'wpra/twig/collection' => function (ContainerInterface $c) {
+                return new TwigTemplateCollection($c->get('wpra/twig'));
+            },
+            /*
+             * The twig debug option.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/twig/debug' => function () {
+                return defined('WPRSS_DEBUG') && WPRSS_DEBUG;
+            },
+            /*
+             * The twig cache enabler option.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/twig/cache_enabled' => function (ContainerInterface $c) {
+                return !$c->get('wpra/twig/debug');
             },
             /*
              * The path to the Twig cache.
@@ -73,6 +85,17 @@ class TwigModule implements ModuleInterface
              */
             'wpra/twig/cache' => function (ContainerInterface $c) {
                 return get_temp_dir() . 'wprss/twig-cache';
+            },
+            /*
+             * The options for Twig.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/twig/options' => function (ContainerInterface $c) {
+                return [
+                    'debug' => $c->get('wpra/twig/debug'),
+                    'cache' => $c->get('wpra/twig/cache_enabled') ? $c->get('wpra/twig/cache') : false,
+                ];
             },
             /*
              * The extensions to use for WPRA's Twig instance.

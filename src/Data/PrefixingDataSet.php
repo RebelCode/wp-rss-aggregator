@@ -19,17 +19,29 @@ class PrefixingDataSet extends AbstractDelegateDataSet
     protected $prefix;
 
     /**
+     * Whether or not un-prefixed keys in the inner dataset can be accessed.
+     *
+     * @since [*next-version*]
+     *
+     * @var bool
+     */
+    protected $strict;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
      * @param DataSetInterface $inner  The inner data set.
      * @param string           $prefix The prefix to use when using the inner data set.
+     * @param bool             $strict True to allow access to not un-prefixed keys in the inner dataset, false to
+     *                                 hide them completely.
      */
-    public function __construct(DataSetInterface $inner, $prefix)
+    public function __construct(DataSetInterface $inner, $prefix, $strict = false)
     {
         parent::__construct($inner);
         $this->prefix = $prefix;
+        $this->strict = $strict;
     }
 
     /**
@@ -39,7 +51,7 @@ class PrefixingDataSet extends AbstractDelegateDataSet
      */
     protected function getInnerKey($outerKey)
     {
-        return ($this->inner->offsetExists($outerKey))
+        return ($this->inner->offsetExists($outerKey) && !$this->strict)
             ? $outerKey
             : $this->prefix . $outerKey;
     }
