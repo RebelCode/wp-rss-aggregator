@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
-use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -19,7 +19,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
      *
      * @since [*next-version*]
      *
-     * @var DataSetInterface
+     * @var CollectionInterface
      */
     protected $collection;
 
@@ -28,9 +28,9 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
      *
      * @since [*next-version*]
      *
-     * @param DataSetInterface $collection The templates' collection data set.
+     * @param CollectionInterface $collection The templates' collection data set.
      */
-    public function __construct(DataSetInterface $collection)
+    public function __construct(CollectionInterface $collection)
     {
         $this->collection = $collection;
     }
@@ -45,10 +45,24 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
         $rId = isset($request['id']) ? ($request['id']) : null;
         $fId = filter_var($rId, FILTER_SANITIZE_STRING);
 
-        $data = (empty($fId))
-            ? $this->collection
-            : $this->collection[$fId];
+        $rSearch = isset($request['s']) ? $request['s'] : null;
+        $fSearch = filter_var($rSearch, FILTER_SANITIZE_STRING);
+
+        $data = $this->getDataSet($fId, $fSearch);
 
         return new WP_REST_Response($data);
+    }
+
+    protected function getDataSet($id, $search)
+    {
+        if (!empty($id)) {
+            return $this->collection[$id];
+        }
+
+        if (!empty($search)) {
+            return $this->collection->search($search);
+        }
+
+        return $this->collection;
     }
 }
