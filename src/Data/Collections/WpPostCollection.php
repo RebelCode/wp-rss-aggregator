@@ -19,7 +19,7 @@ use WP_Error;
 use WP_Post;
 
 /**
- * A data set implementation that acts as a wrapper for a collection of posts,
+ * A data set implementation that acts as a wrapper for a collection of posts.
  *
  * @since [*next-version*]
  */
