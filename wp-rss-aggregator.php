@@ -398,6 +398,20 @@ function wpra_container()
 }
 
 /**
+ * Retrieves a WP RSS Aggregator service from the container.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $key The service key, without the 'wpra/' prefix.
+ *
+ * @return mixed The service instance or value.
+ */
+function wpra_get($key)
+{
+    return wpra_container()->get('wpra/' . $key);
+}
+
+/**
  * Returns the Core plugin singleton instance.
  *
  * Using DI container since 4.11.
