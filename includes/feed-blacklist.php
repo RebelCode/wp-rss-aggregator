@@ -20,7 +20,6 @@ add_action( 'admin_init', 'wprss_check_if_blacklist_item' );
 // Checks if the transient is set to show the notice
 add_action( 'admin_init', 'wprss_check_notice_transient' );
 // Register custom post type
-add_action( 'init', 'wprss_blacklist_cpt', 11 );
 // Add the row actions to the targetted post type
 add_filter( 'post_row_actions', 'wprss_blacklist_row_actions', 10, 1 );
 // Check if deleting a blacklist item, from the GET parameter
