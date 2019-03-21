@@ -25,7 +25,7 @@ add_filter('wp_link_query_args', 'wprss_modify_link_builder_query');
 function wprss_modify_link_builder_query($query)
 {
     // custom post type slugs to be removed
-    $toRemove = ['wprss_feed', 'wprss_feed_item'];
+    $toRemove = ['wprss_feed', 'wprss_feed_item', 'wprss_feed_template'];
 
     // find and remove the array keys
     foreach ($toRemove as $postType) {
