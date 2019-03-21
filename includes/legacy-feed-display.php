@@ -5,38 +5,6 @@
      * @package WPRSSAggregator
      */
 
-
-    add_filter( 'the_content', 'wprss_render_feed_view' );
-    /**
-     * Display template for a feed source. Simulates a shortcode call.
-     *
-     * @since 4.6.6
-     */
-    function wprss_render_feed_view( $content ) {
-        if ( get_post_type() === 'wprss_feed' && ! is_feed() ) {
-            $content = wprss_shortcode( array(
-                'source'    =>  get_the_ID()
-            ) );
-        }
-        return $content;
-    }
-
-
-    add_filter( 'the_content', 'wprss_render_feed_item_view' );
-    /**
-     * Display template for a feed source. Simulates a shortcode call.
-     *
-     * @since 4.6.6
-     */
-    function wprss_render_feed_item_view( $content ) {
-        if ( get_post_type() === 'wprss_feed_item' && ! is_feed() ) {
-            $content = wprss_display_single_feed_item( array(
-                'id'    =>  get_the_ID()
-            ) );
-        }
-        return $content;
-    }
-
     /**
      * Handles the display for a single feed item.
      *
