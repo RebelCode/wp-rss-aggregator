@@ -178,7 +178,8 @@ function wprss_blacklist_cpt() {
 		'exclude_from_search'   => true,
 		'show_ui'				=>	true,
 		'show_in_menu'			=>	'edit.php?post_type=wprss_feed',
-		'capability_type'		=>	'feed_source',
+		'capability_type'		=>	'feed_blacklist',
+        'map_meta_cap'          => true,
 		'supports'				=>	array( 'title' ),
 		'labels'				=>	array(
 			'name'					=> __( 'Blacklist', WPRSS_TEXT_DOMAIN ),
