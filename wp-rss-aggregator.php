@@ -40,7 +40,9 @@
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
 use RebelCode\Wpra\Core\Modules\CoreModule;
+use RebelCode\Wpra\Core\Modules\FeedItemsModule;
 use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
+use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
@@ -194,8 +196,8 @@ require_once ( WPRSS_INC . 'di.php' );
 /* Load install, upgrade and migration code. */
 require_once ( WPRSS_INC . 'update.php' );
 
-/* Load the custom post types and taxonomies. */
-require_once ( WPRSS_INC . 'custom-post-types.php' );
+/* Deprecated things */
+require_once(WPRSS_INC . 'deprecated.php');
 
 /* Load the file for setting capabilities of our post types */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );
@@ -370,6 +372,8 @@ function wpra_modules()
 {
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
+        'feed_sources' => new FeedSourcesModule(),
+        'feed_items' => new FeedItemsModule(),
         'i18n' => new I18nModule(),
         'settings' => new SettingsModule(),
         'shortcode' => new FeedShortcodeModule(),
