@@ -12,7 +12,7 @@ use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Templates\Feeds\Types\TemplateTypeInterface;
+use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 
 /**
  * An implementation of a standard Dhii template that, depending on context, delegates rendering to a WP RSS
@@ -48,7 +48,7 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @var TemplateTypeInterface[]
+     * @var FeedTemplateTypeInterface[]
      */
     protected $types;
 
@@ -81,9 +81,9 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @param TemplateTypeInterface $templateType The feed template type instance.
+     * @param FeedTemplateTypeInterface $templateType The feed template type instance.
      */
-    public function addTemplateType(TemplateTypeInterface $templateType)
+    public function addTemplateType(FeedTemplateTypeInterface $templateType)
     {
         $this->types[$templateType->getKey()] = $templateType;
     }
@@ -138,9 +138,9 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @param $key
+     * @param string $key The template type key.
      *
-     * @return mixed|TemplateTypeInterface|string
+     * @return FeedTemplateTypeInterface The template type instance.
      */
     protected function getTemplateType($key)
     {

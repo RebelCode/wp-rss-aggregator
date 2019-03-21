@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Data\Collections\TwigTemplateCollection;
 use RebelCode\Wpra\Core\Twig\WpraExtension;
 use Twig\Environment as TwigEnvironment;
 use Twig\Extension\DebugExtension;
@@ -52,6 +53,14 @@ class TwigModule implements ModuleInterface
              */
             'wpra/twig/paths' => function (ContainerInterface $c) {
                 return [WPRSS_TEMPLATES];
+            },
+            /*
+             * The twig template collection.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/twig/collection' => function (ContainerInterface $c) {
+                return new TwigTemplateCollection($c->get('wpra/twig'));
             },
             /*
              * The twig debug option.

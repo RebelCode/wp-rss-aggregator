@@ -7,7 +7,7 @@ namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
  *
  * @since [*next-version*]
  */
-class ListTemplateType extends AbstractTemplateType
+class ListTemplateType extends AbstractFeedTemplateType
 {
     /**
      * {@inheritdoc}

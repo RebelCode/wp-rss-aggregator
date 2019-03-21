@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
+use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
@@ -15,11 +16,9 @@ use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
 use stdClass;
 use Traversable;
-use Twig\Error\LoaderError;
-use Twig\Error\SyntaxError;
 
 /**
- * Abstract implementation of a standard WP RSS Aggregator template.
+ * Abstract implementation of a standard WP RSS Aggregator feed template type.
  *
  * By default, this implementation loads twig template files according to the pattern `feeds/<key>/main.twig`, where
  * `<key>` is the key of the template. This can be changed by overriding the {@link getTemplatePath} method.
@@ -36,7 +35,7 @@ use Twig\Error\SyntaxError;
  *
  * @since [*next-version*]
  */
-abstract class AbstractTemplateType implements TemplateTypeInterface
+abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 {
     /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
@@ -71,6 +70,27 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
     const MAIN_FILE_NAME = 'main.twig';
 
     /**
+     * The templates collection.
+     *
+     * @since [*next-version*]
+     *
+     * @var DataSetInterface
+     */
+    protected $collection;
+
+    /**
+     * Constructor.
+     *
+     * @since [*next-version*]
+     *
+     * @param DataSetInterface $collection The templates collection.
+     */
+    public function __construct(DataSetInterface $collection)
+    {
+        $this->collection = $collection;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]
@@ -81,25 +101,24 @@ abstract class AbstractTemplateType implements TemplateTypeInterface
         $prepCtx = $this->prepareContext($argCtx);
 
         try {
-            return wprss_render_template($this->getTemplatePath(), $prepCtx);
-        } catch (LoaderError $loaderEx) {
-            throw $this->_createTemplateRenderException(
-                __('Could not load template', WPRSS_TEXT_DOMAIN), null, $loaderEx, $this, $argCtx
-            );
-        } catch (SyntaxError $synEx) {
-            throw $this->_createTemplateRenderException(
-                sprintf(
-                    __('Syntax error in template at line %d: %s', WPRSS_TEXT_DOMAIN),
-                    $synEx->getTemplateLine(),
-                    $synEx->getMessage()
-                ),
-                null, $synEx, $this, $argCtx
-            );
+            return $this->getTemplate()->render($prepCtx);
         } catch (Exception $ex) {
             throw $this->_createTemplateRenderException(
                 __('An error occurred while rendering the twig template', WPRSS_TEXT_DOMAIN), null, $ex, $this, $prepCtx
             );
         }
+    }
+
+    /**
+     * Retrieves the template to render.
+     *
+     * @since [*next-version*]
+     *
+     * @return TemplateInterface The template instance.
+     */
+    protected function getTemplate()
+    {
+        return $this->collection[$this->getTemplatePath()];
     }
 
     /**

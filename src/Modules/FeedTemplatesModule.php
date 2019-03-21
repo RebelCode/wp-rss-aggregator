@@ -53,7 +53,7 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/templates/feeds/list_template_type' => function (ContainerInterface $c) {
-                return new ListTemplateType();
+                return new ListTemplateType($c->get('wpra/twig/collection'));
             },
             /*
              * The collection of feed templates.
