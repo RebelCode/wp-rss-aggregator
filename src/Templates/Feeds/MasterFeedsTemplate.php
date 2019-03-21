@@ -123,8 +123,10 @@ class MasterFeedsTemplate implements TemplateInterface
         $arrCtx = $this->parseArgsWithSchema($argCtx, $this->getContextSchema());
 
         // If using legacy rendering, simply call the old render function
-        if ($arrCtx['legacy'] !== false) {
-            return wprss_display_feed_items();
+        if ($arrCtx['legacy'] || (!isset($args['templates']) && $this->fallBackToLegacySystem())) {
+            ob_start();
+            wprss_display_feed_items();
+            return ob_get_clean();
         }
 
         try {
@@ -195,15 +197,7 @@ class MasterFeedsTemplate implements TemplateInterface
             ],
             'legacy' => [
                 'default' => false,
-                'filter' => function ($value, $args) {
-                    // If not template is manually specified and should fallback to legacy rendering, return true
-                    if (!isset($args['templates']) && $this->fallBackToLegacySystem()) {
-                        return true;
-                    }
-
-                    // Otherwise, filter the given value as a boolean
-                    return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-                },
+                'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
             'limit' => [
                 'key' => 'query_max_num',
