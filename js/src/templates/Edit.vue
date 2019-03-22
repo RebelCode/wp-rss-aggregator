@@ -37,6 +37,8 @@
     },
     methods: {
       resolveEditingItem () {
+        let modelDefault = deepmerge(jsonClone(WpraTemplates.model_schema), this.$store.state.templates.preset)
+
         this.isLoading = true
         const loadItem = () => {
           const id = this.router.params.id
@@ -55,7 +57,7 @@
         loadItem().then(item => {
           this.isLoading = false
           if (!item) {
-            this.$set(this, 'model', jsonClone(WpraTemplates.model_schema))
+            this.$set(this, 'model', modelDefault)
             this.rememberModel()
             return
           }

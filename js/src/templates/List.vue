@@ -3,6 +3,7 @@
   import RouteLink from './RouteLink'
   import Input from './Input'
   import BottomPanel from './BottomPanel'
+  import jsonClone from './jsonClone'
 
   export default {
     data () {
@@ -26,7 +27,7 @@
         checked: [],
 
         filter: {
-          paged: this.router.params.paged || 1,
+          paged: parseInt(this.router.params.paged || 1),
           type: this.router.params.type || '',
           s: this.router.params.s || '',
         },
@@ -42,15 +43,15 @@
       'router',
     ],
     mounted () {
-      this.fetchList()
+      if (!this.$store.state.templates.isInitialized) {
+        this.fetchList()
+      }
 
       this.router.onRouteNavigate(({ params }) => {
         Object.keys(this.filter).forEach(key => {
           this.filter[key] = params[key] || ''
         })
-        if (!this.filter.paged) {
-          this.filter.paged = 1
-        }
+        this.filter.paged = parseInt(this.filter.paged || 1)
         this.fetchList()
       })
     },
@@ -75,7 +76,7 @@
 
         let paged = parseInt(params.paged)
         delete params.paged
-        if (!!paged && paged !== 1) {
+        if (!!paged || paged !== 1) {
           params['page'] = paged
         }
 
@@ -90,6 +91,9 @@
       },
 
       deleteTemplate (id) {
+        if (!confirm('Are you sure you want to delete this template?')) {
+          return
+        }
         this.loading = true
         return this.http.delete(`${this.baseUrl}/${id}`).then(() => {
           return this.fetchList()
@@ -98,8 +102,50 @@
         })
       },
 
-      duplicateTemplate (row) {
+      bulkDelete () {
+        if (!confirm('Are you sure you want to delete selected templates?')) {
+          return
+        }
+        this.loading = true
+        return this.http.delete(this.baseUrl, {
+          params: {
+            ids: this.checked
+          }
+        }).then(() => {
+          this.checked = []
+          this.$refs.table.checkedItems = []
+          return this.fetchList()
+        }).then(() => {
+          this.loading = false
+        })
+      },
 
+      duplicateTemplate (row) {
+        let template = jsonClone(row)
+
+        delete template.id
+
+        if (template.type === '__built_in') {
+            delete template.type
+        }
+
+        this.$store.commit('templates/updatePreset', template)
+        this.router.navigate({
+          name: 'templates',
+          params: {
+            action: 'new',
+          }
+        })
+      },
+
+      createTemplate () {
+        this.$store.commit('templates/updatePreset', {})
+        this.router.navigate({
+          name: 'templates',
+          params: {
+            action: 'new',
+          }
+        })
       },
 
       setChecked (values) {
@@ -151,15 +197,15 @@
                   :
                   null
               }
-              <span class="inline" style={{paddingLeft: row.type !== '__built_in' ? '4px' : 0}}
-                onClick={this.duplicateTemplate(row)}
-              >
-                <a href="#">Duplicate</a> {row.type !== '__built_in' ? '|' : ''}
+              <span class="inline" style={{paddingLeft: row.type !== '__built_in' ? '4px' : 0}}>
+                <a href="#"
+                   onClick={(e) => {e.preventDefault(); this.duplicateTemplate(row)}}
+                >Duplicate</a> {row.type !== '__built_in' ? '|' : ''}
               </span>
               {
                 (row.type !== '__built_in')
                   ?
-                    <span class="trash" style={{paddingLeft: '4px'}} onClick={this.deleteTemplate(row.id)}>
+                    <span class="trash" style={{paddingLeft: '4px'}} onClick={(e) => {e.preventDefault(); this.deleteTemplate(row.id)}}>
                       <a href="#" class="submitdelete" aria-label="Delete Item">Delete</a>
                     </span>
                   :
@@ -206,7 +252,10 @@
 
       let content = <div>
         <h1 class="wp-heading-inline">Templates</h1>
-        <RouteLink path={pathNew} class="page-title-action">Add New</RouteLink>
+        <a class="page-title-action"
+           href="#"
+           onClick={e => { e.preventDefault(); this.createTemplate() }}
+        >Add New</a>
 
         <p class="search-box" style={{padding: '10px'}}>
           <label class="screen-reader-text" for="post-search-input">Search Templates:</label>
@@ -234,6 +283,7 @@
           perPage={20}
           totalPages={this.totalPages}
           currentPage={this.filter.paged}
+          ref="table"
           scopedSlots={
             cells
           }
@@ -244,7 +294,7 @@
               <div class="flex-row">
                 <div class="flex-col">
                   <div class="wpra-bottom-panel__title">Bulk Actions</div>
-                  <a href="#">Trash</a>
+                  <a href="#" onClick={(e) => {e.preventDefault(); this.bulkDelete()}}>Trash</a>
                 </div>
               </div>
             </BottomPanel> : null

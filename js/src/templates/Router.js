@@ -101,7 +101,6 @@ export default class Router {
 
   parseLocation (location) {
     this.updateParams(getJsonFromUrl(location.search))
-    console.info('set params', this.params, getJsonFromUrl(location.search))
     return location.pathname + location.search
   }
 
@@ -121,8 +120,10 @@ export default class Router {
       null,
       this.buildRoute(route)
     )
-    this.onNavigate({
-      params: this.params
+    this.app.$nextTick(() => {
+      this.onNavigate({
+        params: this.params
+      })
     })
   }
 }
