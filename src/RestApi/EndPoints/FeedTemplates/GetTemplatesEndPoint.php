@@ -2,8 +2,10 @@
 
 namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
+use LimitIterator;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
+use Traversable;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -42,27 +44,95 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
      */
     protected function handle(WP_REST_Request $request)
     {
-        $rId = isset($request['id']) ? ($request['id']) : null;
-        $fId = filter_var($rId, FILTER_SANITIZE_STRING);
-
-        $rSearch = isset($request['s']) ? $request['s'] : null;
-        $fSearch = filter_var($rSearch, FILTER_SANITIZE_STRING);
-
-        $data = $this->getDataSet($fId, $fSearch);
+        $data = $this->getResponseData($request);
 
         return new WP_REST_Response($data);
     }
 
-    protected function getDataSet($id, $search)
+    /**
+     * Retrieves the response data.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return array|mixed
+     */
+    protected function getResponseData(WP_REST_Request $request)
     {
+        $id = filter_var($request['id'], FILTER_SANITIZE_STRING);
+
         if (!empty($id)) {
             return $this->collection[$id];
         }
 
+        $filtered = $this->filterCollection($request, $this->collection);
+        $itemCount = $filtered->getCount();
+        $paginated = $this->paginateCollection($request, $filtered);
+
+        return [
+            'items' => $paginated,
+            'count' => $itemCount,
+        ];
+    }
+
+    /**
+     * Applies filters to the collection based on the request.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_REST_Request     $request    The request.
+     * @param CollectionInterface $collection The collection to filter.
+     *
+     * @return CollectionInterface The filtered collection.
+     */
+    protected function filterCollection(WP_REST_Request $request, CollectionInterface $collection)
+    {
+        $filter = [];
+
+        $search = filter_var($request['s'], FILTER_SANITIZE_STRING);
+        $idSet = filter_var($request['set'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
+        $type = filter_var($request['type'], FILTER_SANITIZE_STRING);
+
         if (!empty($search)) {
-            return $this->collection->search($search);
+            $filter['s'] = $search;
         }
 
-        return $this->collection;
+        if (!empty($idSet)) {
+            $filter['id'] = $idSet;
+        }
+
+        if (!empty($type)) {
+            $filter['type'] = $type;
+        }
+
+        return empty($filter)
+            ? $collection
+            : $collection->filter($filter);
+    }
+
+    /**
+     * Paginates the collection.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_REST_Request     $request    The request.
+     * @param CollectionInterface $collection The collection to paginate.
+     *
+     * @return Traversable The pagination collection iterable.
+     */
+    protected function paginateCollection(WP_REST_Request $request, CollectionInterface $collection)
+    {
+        $collection = $this->filterCollection($request, $collection);
+
+        $num = filter_var($request['num'], FILTER_VALIDATE_INT);
+        $page = filter_var($request['page'], FILTER_VALIDATE_INT);
+
+        $num = empty($num) ? 20 : $num;
+        $page = empty($page) ? 1 : $page;
+
+        $offset = $num * ($page - 1);
+
+        return new LimitIterator($collection, $offset, $num);
     }
 }
