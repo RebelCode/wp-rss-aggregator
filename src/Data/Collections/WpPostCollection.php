@@ -7,7 +7,6 @@ use ArrayIterator;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
-use Exception;
 use InvalidArgumentException;
 use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AbstractDataSet;
@@ -63,28 +62,28 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     protected $lastInsertedId;
 
     /**
-     * Optional search term or null to use the full posts collection.
+     * Optional filter to restrict the collection query.
      *
      * @since [*next-version*]
      *
-     * @var string|null
+     * @var array|null
      */
-    protected $search;
+    protected $filter;
 
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param string      $postType  The post type.
-     * @param array       $metaQuery The meta query.
-     * @param string|null $search    Optional search term or null to use the full posts collection.
+     * @param string     $postType  The post type.
+     * @param array      $metaQuery The meta query.
+     * @param array|null $filter    Optional filter to restrict the collection query.
      */
-    public function __construct($postType, $metaQuery = [], $search = null)
+    public function __construct($postType, $metaQuery = [], $filter = null)
     {
         $this->postType = $postType;
         $this->metaQuery = $metaQuery;
-        $this->search = $search;
+        $this->filter = $filter;
     }
 
     /**
@@ -92,13 +91,9 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
      *
      * @since [*next-version*]
      */
-    public function search($search)
+    public function offsetGet($key)
     {
-        if (!is_string($search)) {
-            throw new InvalidArgumentException('Search term is not a string');
-        }
-
-        return new static($this->postType, $this->metaQuery, $search);
+        return $this->get($key);
     }
 
     /**
@@ -109,7 +104,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     protected function get($key)
     {
         if ($key === null && $this->lastInsertedId !== null) {
-            return $this->get($this->lastInsertedId);
+            return $this->offsetGet($this->lastInsertedId);
         }
 
         $posts = $this->queryPosts($key);
@@ -124,25 +119,6 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         $result = $this->createModel($post);
 
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * Overridden to remove the existence check to prevent double-queries and to allow retrieval with a null `$key`,
-     * since existence checking with a null `$key` always returns false.
-     *
-     * @since [*next-version*]
-     */
-    public function offsetGet($key)
-    {
-        try {
-            return $this->get($key);
-        } catch (Exception $exception) {
-            throw new RuntimeException(
-                sprintf('An error occurred while reading the value for the "%s" key', $key), null, $exception
-            );
-        }
     }
 
     /**
@@ -169,50 +145,12 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     protected function set($key, $data)
     {
         if ($key === null) {
-            $this->create($data);
+            $this->createPost($data);
 
             return;
         }
 
-        $this->update($key, $data);
-    }
-
-    /**
-     * Creates a new post using the given data.
-     *
-     * @since [*next-version*]
-     *
-     * @param array $data The data to create the post with.
-     */
-    protected function create($data)
-    {
-        $post = $this->getNewPostData($data);
-        $result = wp_insert_post($post, true);
-
-        if ($result instanceof WP_Error) {
-            throw new RuntimeException($result->get_error_message(), $result->get_error_code());
-        }
-
-        $this->lastInsertedId = $result;
-        $this->update($result, $data);
-    }
-
-    /**
-     * Updates a post.
-     *
-     * @since [*next-version*]
-     *
-     * @param int|string $key  The post's key (ID or slug).
-     * @param array      $data The data to update the post with.
-     */
-    protected function update($key, $data)
-    {
-        $post = $this->get($key);
-        $data = $this->getUpdatePostData($key, $data);
-
-        foreach ($data as $k => $v) {
-            $post[$k] = $v;
-        }
+        $this->updatePost($key, $data);
     }
 
     /**
@@ -230,9 +168,13 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
      *
      * @since [*next-version*]
      */
-    protected function getIterator()
+    public function filter($filter)
     {
-        return new ArrayIterator($this->queryPosts(null, $this->search));
+        if (!is_array($filter)) {
+            throw new InvalidArgumentException('Collection filter argument is not an array');
+        }
+
+        return $this->createSelfWithFilter($filter);
     }
 
     /**
@@ -240,58 +182,59 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
      *
      * @since [*next-version*]
      */
-    public function current()
+    public function getCount()
     {
-        return $this->createModel(parent::current());
+        return count($this->queryPosts(null));
     }
 
     /**
-     * Queries the posts.
+     * {@inheritdoc}
      *
      * @since [*next-version*]
-     *
-     * @param int|string|null $key    Optional ID or slug which, if not null, narrows down the query to only that post.
-     * @param string|null     $search Optional search string, or null to not search.
-     *
-     * @return WP_Post[] An array of posts objects.
      */
-    protected function queryPosts($key = null, $search = null)
+    public function clear()
     {
-        $queryArgs = [
-            'post_type' => $this->postType,
-            'suppress_filters' => true,
-            'cache_results' => false,
-            'posts_per_page' => -1,
-            'meta_query' => $this->metaQuery,
-        ];
-
-        if ($key !== null && is_numeric($key)) {
-            $queryArgs['p'] = $key;
+        foreach ($this->getIterator() as $post) {
+            $this->delete($post->ID);
         }
-
-        if ($key !== null && is_string($key) && !is_numeric($key)) {
-            $queryArgs['name'] = $key;
-        }
-
-        if (is_string($search) && strlen($search) > 0) {
-            $queryArgs['s'] = $search;
-        }
-
-        return get_posts($queryArgs);
     }
 
     /**
-     * Creates the resulting dataset model.
+     * Creates a new post using the given data.
      *
      * @since [*next-version*]
      *
-     * @param WP_Post $post The post.
-     *
-     * @return DataSetInterface The dataset model.
+     * @param array $data The data to create the post with.
      */
-    protected function createModel(WP_Post $post)
+    protected function createPost($data)
     {
-        return new WpPostDataSet($post);
+        $post = $this->getNewPostData($data);
+        $result = wp_insert_post($post, true);
+
+        if ($result instanceof WP_Error) {
+            throw new RuntimeException($result->get_error_message(), $result->get_error_code());
+        }
+
+        $this->lastInsertedId = $result;
+        $this->updatePost($result, $data);
+    }
+
+    /**
+     * Updates a post.
+     *
+     * @since [*next-version*]
+     *
+     * @param int|string $key  The post's key (ID or slug).
+     * @param array      $data The data to update the post with.
+     */
+    protected function updatePost($key, $data)
+    {
+        $post = $this->get($key);
+        $data = $this->getUpdatePostData($key, $data);
+
+        foreach ($data as $k => $v) {
+            $post[$k] = $v;
+        }
     }
 
     /**
@@ -360,5 +303,131 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         return $subject;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function getIterator()
+    {
+        return new ArrayIterator($this->queryPosts(null));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function recursiveUnpackIterators()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function createIterationValue($value)
+    {
+        return $this->createModel($value);
+    }
+
+    /**
+     * Creates the resulting dataset model.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_Post $post The post.
+     *
+     * @return DataSetInterface The dataset model.
+     */
+    protected function createModel(WP_Post $post)
+    {
+        return new WpPostDataSet($post);
+    }
+
+    /**
+     * Queries the posts.
+     *
+     * @since [*next-version*]
+     *
+     * @param int|string|null $key Optional ID or slug which, if not null, narrows down the query to only that post.
+     *
+     * @return WP_Post[] An array of posts objects.
+     */
+    protected function queryPosts($key = null)
+    {
+        $queryArgs = [
+            'post_type' => $this->postType,
+            'suppress_filters' => true,
+            'cache_results' => false,
+            'posts_per_page' => -1,
+            'meta_query' => $this->metaQuery,
+        ];
+
+        if ($key !== null && is_numeric($key)) {
+            $queryArgs['p'] = $key;
+        }
+
+        if ($key !== null && is_string($key) && !is_numeric($key)) {
+            $queryArgs['name'] = $key;
+        }
+
+        $filter = is_array($this->filter) ? $this->filter : [];
+
+        foreach ($filter as $fKey => $fVal) {
+            $handled = $this->handleFilter($queryArgs, $fKey, $fVal);
+
+            if (!$handled) {
+                $queryArgs[$fKey] = $fVal;
+            }
+        }
+
+        return get_posts($queryArgs);
+    }
+
+    /**
+     * Handles the processing of a filter.
+     *
+     * @since [*next-version*]
+     *
+     * @param array  $queryArgs The query arguments to modify, passed by reference.
+     * @param string $key       The filter key.
+     * @param mixed  $value     The filter value.
+     *
+     * @return bool True if the filter was handled, false if it wasn't.
+     */
+    protected function handleFilter(&$queryArgs, $key, $value)
+    {
+        if ($key === 'id') {
+            $queryArgs['post__in'] = is_array($value) ? $value : [$value];
+
+            return true;
+        }
+
+        if ($key === 's') {
+            $queryArgs['s'] = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Creates a new collection of this type with an added filter.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $filter The filter for restricting the collection query.
+     *
+     * @return CollectionInterface
+     */
+    protected function createSelfWithFilter($filter)
+    {
+        return new static($this->postType, $this->metaQuery, $filter);
     }
 }

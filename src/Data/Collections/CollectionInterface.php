@@ -14,13 +14,30 @@ use Traversable;
 interface CollectionInterface extends DataSetInterface
 {
     /**
-     * Searches the dataset for matching entries.
+     * Filters the contents of the dataset for entries that match a given filter.
      *
      * @since [*next-version*]
      *
-     * @param mixed $search The search terms, arguments or options.
+     * @param array|stdClass|Traversable $filters A list of filters as key-value pairs, where the key represents the
+     *                                            filter identifier and the value represents the value to filter by.
      *
-     * @return DataSetInterface[]|stdClass|Traversable The search results.
+     * @return CollectionInterface The new collection instance.
      */
-    public function search($search);
+    public function filter($filters);
+
+    /**
+     * Retrieves the total number of entries in the collection.
+     *
+     * @since [*next-version*]
+     *
+     * @return int An integer number of entries.
+     */
+    public function getCount();
+
+    /**
+     * Clears the contents of the collection by deleting all the entries.
+     *
+     * @since [*next-version*]
+     */
+    public function clear();
 }

@@ -201,7 +201,7 @@ class MergedDataSet extends AbstractDataSet
         $set = $this->getChildForKey($key);
         $val = $set->offsetGet($key);
 
-        return $this->yieldValue($val);
+        return $this->yieldIterationValue($val);
     }
 
     /**

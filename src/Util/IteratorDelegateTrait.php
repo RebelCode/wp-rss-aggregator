@@ -52,12 +52,26 @@ trait IteratorDelegateTrait
      *
      * @return mixed
      */
-    protected function yieldValue($value)
+    protected function yieldIterationValue($value)
     {
         if ($this->recursiveUnpackIterators() && $value instanceof Traversable) {
             return iterator_to_array($value);
         }
 
+        return $this->createIterationValue($value);
+    }
+
+    /**
+     * Creates an iteration value.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed value The original iteration value.
+     *
+     * @return mixed The new iteration value.
+     */
+    protected function createIterationValue($value)
+    {
         return $value;
     }
 
@@ -109,7 +123,7 @@ trait IteratorDelegateTrait
      */
     public function current()
     {
-        return $this->yieldValue($this->_iterator->current());
+        return $this->yieldIterationValue($this->_iterator->current());
     }
 
     /**
