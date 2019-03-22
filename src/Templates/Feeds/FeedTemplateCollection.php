@@ -28,13 +28,13 @@ class FeedTemplateCollection extends WpPostCollection
      *
      * @since [*next-version*]
      *
-     * @param string      $postType The name of the post type.
-     * @param string      $defType  The default template's type.
-     * @param string|null $search   Optional search term or null to use the full posts collection.
+     * @param string     $postType The name of the post type.
+     * @param string     $defType  The default template's type.
+     * @param array|null $filter   Optional filter to restrict the collection query.
      */
-    public function __construct($postType, $defType, $search = null)
+    public function __construct($postType, $defType, $filter = null)
     {
-        parent::__construct($postType, [], $search);
+        parent::__construct($postType, [], $filter);
 
         $this->defType = $defType;
     }
@@ -69,5 +69,42 @@ class FeedTemplateCollection extends WpPostCollection
         $post['post_status'] = 'publish';
 
         return $post;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function handleFilter(&$queryArgs, $key, $value)
+    {
+        $r = parent::handleFilter($queryArgs, $key, $value);
+
+        if ($key === 'type') {
+            $queryArgs['meta_query'][] = [
+                'key' => 'wprss_template_type',
+                'value' => $value,
+            ];
+            if ($value === 'list') {
+                $queryArgs['meta_query'][] = [
+                    'key' => 'wprss_template_type',
+                    'value' => $this->defType,
+                ];
+            }
+
+            return true;
+        }
+
+        return $r;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function createSelfWithFilter($filter)
+    {
+        return new static($this->postType, $this->defType, $filter);
     }
 }
