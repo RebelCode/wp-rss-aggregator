@@ -16,6 +16,9 @@ export default function ({ store, router }) {
       console.info('router application', this, this.$store)
       window.addEventListener('popstate', () => {
         this.currentRoute = router.parseLocation(window.location)
+        router.onNavigate({
+          params: router.params
+        })
       })
     },
     methods: {

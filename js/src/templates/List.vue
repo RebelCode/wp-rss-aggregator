@@ -26,8 +26,8 @@
         checked: [],
 
         filter: {
-          type: '',
-          s: ''
+          type: this.router.params.type ? this.router.params.type : '',
+          s: this.router.params.s ? this.router.params.s : ''
         },
 
         baseUrl: WpraTemplates.base_url,
@@ -40,6 +40,13 @@
     ],
     mounted () {
       this.fetchList()
+
+      this.router.onRouteNavigate(({ params }) => {
+        Object.keys(this.filter).forEach(key => {
+          this.filter[key] = params[key] || ''
+        })
+        this.fetchList()
+      })
     },
     computed: {
       list: {
@@ -54,13 +61,11 @@
     methods: {
       fetchList () {
         this.loading = true
-        const params = this.filter.s ? {
-          s: this.filter.s
-        } : {}
+        const params = this.getParams()
         return this.http.get(this.baseUrl, {
           params
         }).then((response) => {
-          this.list = response.data
+          this.list = response.data.items
         }).finally(() => {
           this.loading = false
         })
@@ -81,6 +86,27 @@
 
       setChecked (values) {
         this.checked = values
+      },
+
+      getParams () {
+        return Object.keys(this.filter).filter(key => {
+          return !!this.filter[key] && this.filter[key] !== 'all'
+        }).reduce((acc, key) => {
+          acc[key] = this.filter[key]
+          return acc
+        }, {})
+      },
+
+      setFilter (name, value) {
+        this.filter[name] = value
+      },
+
+      submitFilter () {
+        console.warn('submitting params', {
+          params: this.getParams()
+        })
+        this.router.mergeParams(this.getParams())
+        this.fetchList()
       }
     },
     render () {
@@ -147,7 +173,7 @@
                    style={{margin: 0}}
                    options={templateTypes}
                    value={this.filter.type}
-                   onInput={ (value) => { this.filter.type = value; this.fetchList() } }
+                   onInput={ (value) => { this.filter.type = value; this.submitFilter() } }
             />
           ]
         }
@@ -171,10 +197,10 @@
                  name="s"
                  value={this.filter.s}
                  onInput={ e => this.filter.s = e.target.value }
-                 onKeyup:enter={this.fetchList}
+                 onKeyup:enter={this.submitFilter}
           />
           <input type="submit" id="search-submit" class="button" value="Search Templates"
-            onClick={this.fetchList}
+            onClick={this.submitFilter}
           />
         </p>
 

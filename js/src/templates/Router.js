@@ -1,3 +1,5 @@
+import jsonClone from './jsonClone'
+
 const getJsonFromUrl = (url) => {
   if (!url) url = location.href
   var question = url.indexOf('?')
@@ -31,6 +33,8 @@ export default class Router {
   constructor (routes, options) {
     this.routes = routes
     this.options = options
+    this.onNavigate = (() => {})
+    this.baseParams = options.baseParams || ['page', 'action', 'id']
   }
 
   get params () {
@@ -39,7 +43,7 @@ export default class Router {
 
   setApp (app) {
     this.app = app
-    this.app.afterNavigate = this.options.afterNavigating ? this.options.afterNavigating : () => {}
+    this.app.afterNavigate = this.options.afterNavigating || (() => {})
   }
 
   findRoute (location) {
@@ -49,8 +53,31 @@ export default class Router {
   }
 
   updateParams (params) {
-    console.warn('params set to', params)
     this.app.$set(this.app, 'params', params)
+  }
+
+  mergeParams (paramsPart) {
+    let currentParams = Object.keys(this.params).filter(key => {
+      return this.baseParams.indexOf(key) !== -1 || paramsPart.hasOwnProperty(key)
+    }).reduce((acc, key) => {
+      acc[key] = this.params[key]
+      return acc
+    }, {})
+
+    let params = Object.assign({}, currentParams, paramsPart)
+
+    this.updateParams(params)
+
+    window.history.pushState(
+      null,
+      null,
+      this.routeFromParams()
+    )
+  }
+
+  routeFromParams () {
+    const hasParams = !!Object.keys(this.params).length
+    return location.pathname + (hasParams ? '?' + this.buildParams(this.params) : '')
   }
 
   buildRoute (route) {
@@ -78,6 +105,10 @@ export default class Router {
     return location.pathname + location.search
   }
 
+  onRouteNavigate (callback) {
+    this.onNavigate = callback
+  }
+
   navigate (route) {
     if (this.app) {
       this.app.currentRoute = this.buildRoute(route)
@@ -90,5 +121,8 @@ export default class Router {
       null,
       this.buildRoute(route)
     )
+    this.onNavigate({
+      params: this.params
+    })
   }
 }
