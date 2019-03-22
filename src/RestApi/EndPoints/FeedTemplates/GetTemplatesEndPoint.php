@@ -2,9 +2,9 @@
 
 namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
-use LimitIterator;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
+use RebelCode\Wpra\Core\Util\PaginatedIterator;
 use Traversable;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -131,8 +131,6 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
         $num = empty($num) ? 20 : $num;
         $page = empty($page) ? 1 : $page;
 
-        $offset = $num * ($page - 1);
-
-        return new LimitIterator($collection, $offset, $num);
+        return new PaginatedIterator($collection, $page, $num);
     }
 }
