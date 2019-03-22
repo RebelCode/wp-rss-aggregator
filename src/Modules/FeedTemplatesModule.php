@@ -3,13 +3,16 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\CreateDefaultFeedTemplateHandler;
+use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\HidePublicTemplateContentHandler;
+use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\PreviewTemplateRedirectHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderAdminTemplatesPageHandler;
+use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderTemplateContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
+use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 
@@ -150,10 +153,10 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/cpt_args' => function (ContainerInterface $c) {
                 return [
                     'exclude_from_search' => true,
-                    'publicly_queryable' => false,
+                    'publicly_queryable' => true,
                     'show_in_nav_menus' => false,
                     'show_in_admin_bar' => false,
-                    'public' => true,
+                    'has_archive' => false,
                     'show_ui' => false,
                     'query_var' => 'feed_template',
                     'menu_position' => 100,
@@ -210,6 +213,55 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
                 return new RenderAdminTemplatesPageHandler();
+            },
+            /*
+             * The handler that renders template content.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/render_content_handler' => function (ContainerInterface $c) {
+                return new RenderTemplateContentHandler(
+                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/master_template')
+                );
+            },
+            /*
+             * The handler that hides template content from the public-facing side.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/hide_public_content_handler' => function (ContainerInterface $c) {
+                return new HidePublicTemplateContentHandler(
+                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/public_template_content_nonce')
+                );
+            },
+            /*
+             * The name of the nonce that allows template content to be shown on the public-facing side.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/public_template_content_nonce' => function (ContainerInterface $c) {
+                return 'wpra_template_preview';
+            },
+            /*
+             * The handler that listens to requests for previewing templates.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/preview_template_request_handler' => function (ContainerInterface $c) {
+                return new PreviewTemplateRedirectHandler(
+                    $c->get('wpra/templates/feeds/preview_template_request_param'),
+                    $c->get('wpra/templates/feeds/public_template_content_nonce')
+                );
+            },
+            /*
+             * The name of the GET parameter to detect for previewing templates.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/preview_template_request_param' => function (ContainerInterface $c) {
+                return 'wpra_preview_template';
             },
         ];
     }
@@ -293,5 +345,14 @@ class FeedTemplatesModule implements ModuleInterface
         // This ensures that there is always at least one template available, by constructing the core list template
         // from the old general display settings.
         add_action('init', $c->get('wpra/templates/feeds/create_default_template_handler'));
+
+        // Filters the front-end content for templates to render them
+        add_action('the_content', $c->get('wpra/templates/feeds/render_content_handler'));
+
+        // Hooks in the handler that hides template content from the front-end by requiring a nonce
+        add_action('wp_head', $c->get('wpra/templates/feeds/hide_public_content_handler'));
+
+        // Hooks in the handler that listens to template preview requests
+        add_action('init', $c->get('wpra/templates/feeds/preview_template_request_handler'));
     }
 }
