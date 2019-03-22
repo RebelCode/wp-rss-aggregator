@@ -26,11 +26,14 @@
         checked: [],
 
         filter: {
-          type: this.router.params.type ? this.router.params.type : '',
-          s: this.router.params.s ? this.router.params.s : ''
+          paged: this.router.params.paged || 1,
+          type: this.router.params.type || '',
+          s: this.router.params.s || '',
         },
 
         baseUrl: WpraTemplates.base_url,
+
+        total: 0,
       }
     },
     inject: [
@@ -45,10 +48,16 @@
         Object.keys(this.filter).forEach(key => {
           this.filter[key] = params[key] || ''
         })
+        if (!this.filter.paged) {
+          this.filter.paged = 1
+        }
         this.fetchList()
       })
     },
     computed: {
+      totalPages () {
+        return Math.ceil(this.total / 20)
+      },
       list: {
         get () {
           return this.$store.state.templates.items
@@ -61,11 +70,20 @@
     methods: {
       fetchList () {
         this.loading = true
-        const params = this.getParams()
+
+        let params = this.getParams()
+
+        let paged = parseInt(params.paged)
+        delete params.paged
+        if (!!paged && paged !== 1) {
+          params['page'] = paged
+        }
+
         return this.http.get(this.baseUrl, {
           params
         }).then((response) => {
           this.list = response.data.items
+          this.total = response.data.count
         }).finally(() => {
           this.loading = false
         })
@@ -208,9 +226,14 @@
 
         <VueTable
           onChecked={this.setChecked}
+          onPagination={page => {this.filter.paged = page; this.submitFilter()}}
           columns={this.columns}
           rows={this.list}
           loading={this.loading}
+          totalItems={this.total}
+          perPage={20}
+          totalPages={this.totalPages}
+          currentPage={this.filter.paged}
           scopedSlots={
             cells
           }

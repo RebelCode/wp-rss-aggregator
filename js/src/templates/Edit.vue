@@ -8,6 +8,7 @@
   import Button from './Button'
   import deepmerge from './deepmerge'
   import DataChangesAware from './DataChangesAware'
+  import jsonClone from './jsonClone'
 
   export default {
     mixins: [ DataChangesAware ],
@@ -19,8 +20,8 @@
             acc[key] = WpraTemplates.options.type[key]
             return acc
           }, {}),
-        model: WpraTemplates.model_schema,
-        validation: WpraTemplates.model_schema,
+        model: jsonClone(WpraTemplates.model_schema),
+        validation: jsonClone(WpraTemplates.model_schema),
         baseUrl: WpraTemplates.base_url,
         isSaving: false,
         isLoading: false,
@@ -54,6 +55,7 @@
         loadItem().then(item => {
           this.isLoading = false
           if (!item) {
+            this.$set(this, 'model', jsonClone(WpraTemplates.model_schema))
             this.rememberModel()
             return
           }
