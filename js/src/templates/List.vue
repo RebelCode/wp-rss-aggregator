@@ -66,6 +66,19 @@
         })
       },
 
+      deleteTemplate (id) {
+        this.loading = true
+        return this.http.delete(`${this.baseUrl}/${id}`).then(() => {
+          return this.fetchList()
+        }).then(() => {
+          this.loading = false
+        })
+      },
+
+      duplicateTemplate (row) {
+
+      },
+
       setChecked (values) {
         this.checked = values
       }
@@ -82,19 +95,32 @@
       }
 
       let cells = this.hooks.apply('wpra-templates-list-cells', this, {
-        name: function ({ row }) {
+        name: ({ row }) => {
           return [
             <div><strong>{ row.name }</strong> <small>ID: { row.id }</small></div>,
-            <div class="row-actions">
-              <span class="edit">
-                <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
+            <div class="row-actions">{
+                (row.type !== '__built_in')
+                  ?
+                  <span class="edit">
+                    <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
+                  </span>
+                  :
+                  null
+              }
+              <span class="inline" style={{paddingLeft: row.type !== '__built_in' ? '4px' : 0}}
+                onClick={this.duplicateTemplate(row)}
+              >
+                <a href="#">Duplicate</a> {row.type !== '__built_in' ? '|' : ''}
               </span>
-              <span class="inline" style={{paddingLeft: '4px'}}>
-                <a href="#">Duplicate</a> |
-              </span>
-              <span class="trash" style={{paddingLeft: '4px'}}>
-                <a href="#" class="submitdelete" aria-label="Move to the Trash">Trash</a>
-              </span>
+              {
+                (row.type !== '__built_in')
+                  ?
+                    <span class="trash" style={{paddingLeft: '4px'}} onClick={this.deleteTemplate(row.id)}>
+                      <a href="#" class="submitdelete" aria-label="Delete Item">Delete</a>
+                    </span>
+                  :
+                  null
+              }
             </div>
           ]
         },

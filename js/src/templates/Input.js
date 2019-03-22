@@ -13,11 +13,21 @@ export default {
   },
   methods: {
     inputNode () {
+      if (this.type === 'checkbox') {
+        return <input type="checkbox"
+                      checked={!!this.value}
+                      onChange={() => this.$emit('input', !this.value)}
+                      placeholder={this.placeholder}
+                      {...{attrs: this.$attrs}}
+        />
+      }
+
       if (this.type !== 'select') {
         return <input type={this.type}
                       value={this.value}
                       onInput={(e) => this.$emit('input', e.target.value)}
                       placeholder={this.placeholder}
+                      {...{attrs: this.$attrs}}
                />
       }
       return this.selectNode()
@@ -27,7 +37,10 @@ export default {
       let options = Object.keys(this.options)
         .map(key => <option value={key} selected={ this.value === key }>{ this.options[key] }</option>)
 
-      return <select onChange={(e) => this.$emit('input', e.target.value)}>{ options }</select>
+      return <select
+        {...{attrs: this.$attrs}}
+        onChange={(e) => this.$emit('input', e.target.value)}
+      >{ options }</select>
     },
   },
   render () {

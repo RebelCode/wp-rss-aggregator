@@ -7,8 +7,10 @@
   import Input from './Input'
   import Button from './Button'
   import deepmerge from './deepmerge'
+  import DataChangesAware from './DataChangesAware'
 
   export default {
+    mixins: [ DataChangesAware ],
     data () {
       return {
         typeOptions: Object.keys(WpraTemplates.options.type)
@@ -33,7 +35,6 @@
       this.resolveEditingItem()
     },
     methods: {
-      
       resolveEditingItem () {
         this.isLoading = true
         const loadItem = () => {
@@ -53,10 +54,12 @@
         loadItem().then(item => {
           this.isLoading = false
           if (!item) {
+            this.rememberModel()
             return
           }
           item = Object.assign({}, item)
           this.model = deepmerge(this.model, item)
+          this.rememberModel()
         })
       },
       save () {
@@ -64,6 +67,7 @@
         this.isSaving = true
         this.runRequest().then(response => {
           this.model = deepmerge(this.model, response.data)
+          this.rememberModel()
           if (!isNew) {
             return
           }
@@ -114,19 +118,22 @@
           {
             this.isLoading ? <div class="loading-container"></div> : <Layout class="metabox-holder columns-2">
               <Sidebar>
-                <Postbox id="template-create" title="Create" submit={true}>
+                <Postbox id="template-create"
+                         title={this.model.id ? 'Update Template' : 'Create Template'}
+                         submit={true}
+                >
                   <div class="submitbox" id="submitpost">
                     <div id="minor-publishing"></div>
                     <div id="major-publishing-actions">
                       <div id="delete-action">
-                        <a class="submitdelete deletion"
-                           href="http://scotchbox.local/wp/wp-admin/post.php?post=1593&amp;action=trash&amp;_wpnonce=fceeffe9f0">Move
-                          to Trash</a>
+                        {
+                          this.isChanged() ? <a href="#" onClick={(e) => {e.preventDefault(); this.cancelChanges()}}>
+                            Cancel Changes
+                          </a> : null
+                        }
                       </div>
 
                       <div id="publishing-action">
-                        <span class="spinner"></span>
-                        <input name="original_publish" type="hidden" id="original_publish" value="Publish"/>
                         <Button class="button-primary button-large"
                                 loading={this.isSaving}
                                 nativeOnClick={this.save}
@@ -166,12 +173,14 @@
                          label={'Template Name'}
                          value={this.model.name}
                          onInput={(e) => this.model.name = e}
+                         disabled={this.model.type === '__built_in'}
                   />
                   <Input type="select"
                          label={'Template Type'}
                          value={this.model.type}
                          options={this.typeOptions}
                          onInput={(e) => this.model.type = e}
+                         disabled={this.model.type === '__built_in'}
                   />
                 </Postbox>
                 <Postbox id="template-options" title="Template Options">
