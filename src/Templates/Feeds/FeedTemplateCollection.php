@@ -81,16 +81,21 @@ class FeedTemplateCollection extends WpPostCollection
         $r = parent::handleFilter($queryArgs, $key, $value);
 
         if ($key === 'type') {
-            $queryArgs['meta_query'][] = [
-                'key' => 'wprss_template_type',
-                'value' => $value,
+            $subQuery =  [
+                'relation' => 'or',
+                [
+                    'key' => 'wprss_template_type',
+                    'value' => $value,
+                ]
             ];
             if ($value === 'list') {
-                $queryArgs['meta_query'][] = [
+                $subQuery[] = [
                     'key' => 'wprss_template_type',
                     'value' => $this->defType,
                 ];
             }
+
+            $queryArgs['meta_query'][] = $subQuery;
 
             return true;
         }
