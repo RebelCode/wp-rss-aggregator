@@ -13,28 +13,39 @@ use LimitIterator;
 class PaginatedIterator extends LimitIterator
 {
     /**
-     * The current iteration index.
+     * The number of keys that have been yielded during an iteration.
      *
      * @since [*next-version*]
      */
-    protected $iterIndex;
+    protected $keyCount;
+
+    /**
+     * Whether or not to preserve keys.
+     *
+     * @since [*next-version*]
+     *
+     * @var bool
+     */
+    protected $preserveKeys;
 
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param Iterator $iterator The inner iterator.
-     * @param int      $page     The page number.
-     * @param int      $num      The number of items per page.
+     * @param Iterator $iterator     The inner iterator.
+     * @param int      $page         The page number.
+     * @param int      $num          The number of items per page.
+     * @param bool     $preserveKeys Whether or not to preserve keys.
      */
-    public function __construct(Iterator $iterator, $page, $num)
+    public function __construct(Iterator $iterator, $page, $num, $preserveKeys = false)
     {
         $num = max(1, $num);
         $page = max(1, $page);
         $offset = $num * ($page - 1);
-
         parent::__construct($iterator, $offset, $num);
+
+        $this->preserveKeys = $preserveKeys;
     }
 
     /**
@@ -46,7 +57,7 @@ class PaginatedIterator extends LimitIterator
     {
         parent::rewind();
 
-        $this->iterIndex = 0;
+        $this->keyCount = 0;
     }
 
     /**
@@ -56,6 +67,12 @@ class PaginatedIterator extends LimitIterator
      */
     public function key()
     {
-        return $this->iterIndex++;
+        $key = ($this->preserveKeys)
+            ? parent::key()
+            : $this->keyCount;
+
+        $this->keyCount++;
+
+        return $key;
     }
 }
