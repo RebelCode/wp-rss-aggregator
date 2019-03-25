@@ -164,18 +164,17 @@ class MasterFeedsTemplate implements TemplateInterface
         $type = isset($model['type']) ? $model['type'] : '';
         $template = $this->getTemplateType($type);
 
-        $fullCtx = $arrCtx;
         // Filter the items and count them
         $items = $this->feedItemCollection->filter($arrCtx['filters']);
         $count = $items->getCount();
         // Paginate the items
         $items = $items->filter($arrCtx['pagination']);
-        // Add the items and the count to the context
+
+        // Prepare the full context
+        $fullCtx = $arrCtx;
         $fullCtx['items'] = $items;
         $fullCtx['item_count'] = $count;
-
-        // Prepare the full context dataset
-        $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
+        $fullCtx['model'] = $model;
 
         return $template->render($fullCtx);
     }

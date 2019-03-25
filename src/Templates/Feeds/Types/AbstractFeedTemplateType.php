@@ -144,19 +144,18 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     protected function prepareContext($ctx)
     {
-        $optCtx = isset($ctx['options']) ? $ctx['options'] : [];
-
+        $model = $ctx['model'];
+        $optCtx = isset($model['options']) ? $model['options'] : [];
         $opts = $this->parseArgsWithSchema($optCtx, $this->getOptions());
 
-        return [
-            'template' => [
-                'type' => $this->getKey(),
-                'path' => $this->getTemplatePath(),
-                'dir' => $this->getTemplateDir(),
-            ],
-            'items' => isset($ctx['items']) ? $ctx['items'] : [],
-            'options' => $this->createContextDataSet($opts),
+        $ctx['options'] = $this->createContextDataSet($opts);
+        $ctx['self'] = [
+            'type' => $this->getKey(),
+            'path' => $this->getTemplatePath(),
+            'dir' => $this->getTemplateDir(),
         ];
+
+        return $ctx;
     }
 
     /**
