@@ -10,6 +10,7 @@ use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
@@ -75,23 +76,25 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @var DataSetInterface
+     * @var CollectionInterface
      */
-    protected $collection;
+    protected $templateCollection;
 
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param string           $default    The name of the template to use by default.
-     * @param DataSetInterface $collection The collection of templates.
+     * @param string              $default            The name of the template to use by default.
+     * @param CollectionInterface $templateCollection The collection of templates.
      */
-    public function __construct($default, DataSetInterface $collection)
-    {
+    public function __construct(
+        $default,
+        CollectionInterface $templateCollection,
+    ) {
         $this->types = [];
         $this->default = $default;
-        $this->collection = $collection;
+        $this->templateCollection = $templateCollection;
     }
 
     /**
@@ -132,7 +135,7 @@ class MasterFeedsTemplate implements TemplateInterface
         try {
             // Get the template model
             $tKey = $arrCtx['template'];
-            $model = $this->collection[$tKey];
+            $model = $this->templateCollection[$tKey];
         } catch (Exception $exception) {
             $model = null;
         }
