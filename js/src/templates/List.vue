@@ -42,19 +42,6 @@
       'http',
       'router',
     ],
-    mounted () {
-      if (!this.$store.state.templates.isInitialized) {
-        this.fetchList()
-      }
-
-      this.router.onRouteNavigate(({ params }) => {
-        Object.keys(this.filter).forEach(key => {
-          this.filter[key] = params[key] || ''
-        })
-        this.filter.paged = parseInt(this.filter.paged || 1)
-        this.fetchList()
-      })
-    },
     computed: {
       totalPages () {
         return Math.ceil(this.total / 20)
@@ -69,6 +56,14 @@
       }
     },
     methods: {
+      navigated () {
+        Object.keys(this.filter).forEach(key => {
+          this.filter[key] = this.router.params[key] || ''
+        })
+        this.filter.paged = parseInt(this.filter.paged || 1)
+        this.fetchList()
+      },
+
       fetchList () {
         this.loading = true
 
@@ -170,7 +165,7 @@
           params: this.getParams()
         })
         this.router.mergeParams(this.getParams())
-        this.fetchList()
+        // this.fetchList()
       }
     },
     render () {

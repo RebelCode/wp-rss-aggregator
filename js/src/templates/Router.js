@@ -33,7 +33,6 @@ export default class Router {
   constructor (routes, options) {
     this.routes = routes
     this.options = options
-    this.onNavigate = (() => {})
     this.baseParams = options.baseParams || ['page', 'action', 'id']
   }
 
@@ -73,6 +72,8 @@ export default class Router {
       null,
       this.routeFromParams()
     )
+
+    this.app.navigated()
   }
 
   routeFromParams () {
@@ -101,29 +102,21 @@ export default class Router {
 
   parseLocation (location) {
     this.updateParams(getJsonFromUrl(location.search))
+    console.info('ROUTE PARSE LOCATION PARAMS', getJsonFromUrl(location.search))
     return location.pathname + location.search
-  }
-
-  onRouteNavigate (callback) {
-    this.onNavigate = callback
   }
 
   navigate (route) {
     if (this.app) {
       this.app.currentRoute = this.buildRoute(route)
     }
-    if (route.params) {
-      this.updateParams(route.params)
-    }
+    this.updateParams(Object.assign({}, route.params || {}, getJsonFromUrl(this.buildRoute(route))))
     window.history.pushState(
       null,
       null,
       this.buildRoute(route)
     )
-    this.app.$nextTick(() => {
-      this.onNavigate({
-        params: this.params
-      })
-    })
+
+    this.app.navigated()
   }
 }

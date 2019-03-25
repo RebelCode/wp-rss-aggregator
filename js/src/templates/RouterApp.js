@@ -11,14 +11,12 @@ export default function ({ store, router }) {
     created () {
       router.setApp(this)
       this.currentRoute = router.parseLocation(window.location)
+      this.navigated()
     },
     mounted () {
-      console.info('router application', this, this.$store)
       window.addEventListener('popstate', () => {
         this.currentRoute = router.parseLocation(window.location)
-        router.onNavigate({
-          params: router.params
-        })
+        this.navigated()
       })
     },
     methods: {
@@ -26,9 +24,22 @@ export default function ({ store, router }) {
         const matchingView = router.findRoute(this.currentRoute)
         return matchingView.component
       },
+      navigated () {
+        this.$nextTick(() => {
+          const main = this.$refs.main
+          if (!main || !main.navigated) {
+            return
+          }
+          main.navigated({
+            route: router.findRoute(this.currentRoute),
+          })
+        })
+      }
     },
     render (h) {
-      const content = h(this.ViewComponent())
+      const content = h(this.ViewComponent(), {
+        ref: 'main'
+      })
       this.afterNavigate()
       return content
     }
