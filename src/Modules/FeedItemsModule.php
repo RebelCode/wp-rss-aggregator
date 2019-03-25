@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Feeds\FeedItemCollection;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 
 /**
@@ -86,6 +87,14 @@ class FeedItemsModule implements ModuleInterface
                     $c->get('wpra/feeds/items/cpt_name'),
                     $c->get('wpra/feeds/items/cpt_args')
                 );
+            },
+            /*
+             * The collection for feed items.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/items/collection' => function (ContainerInterface $c) {
+                return new FeedItemCollection($c->get('wpra/feeds/items/cpt_name'));
             },
         ];
     }
