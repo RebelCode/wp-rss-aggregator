@@ -164,8 +164,15 @@ class MasterFeedsTemplate implements TemplateInterface
         $type = isset($model['type']) ? $model['type'] : '';
         $template = $this->getTemplateType($type);
 
-        // Add the items to be rendered to the context
-        $arrCtx['items'] = $this->feedItemCollection->filter($arrCtx['filters']);
+        $fullCtx = $arrCtx;
+        // Filter the items and count them
+        $items = $this->feedItemCollection->filter($arrCtx['filters']);
+        $count = $items->getCount();
+        // Paginate the items
+        $items = $items->filter($arrCtx['pagination']);
+        // Add the items and the count to the context
+        $fullCtx['items'] = $items;
+        $fullCtx['item_count'] = $count;
 
         // Prepare the full context dataset
         $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
@@ -214,13 +221,13 @@ class MasterFeedsTemplate implements TemplateInterface
                 },
             ],
             'limit' => [
-                'key' => 'filters/num_items',
+                'key' => 'pagination/num_items',
                 'default' => wprss_get_general_setting('feed_limit'),
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
             ],
             'page' => [
-                'key' => 'filters/page',
+                'key' => 'pagination/page',
                 'default' => 1,
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
