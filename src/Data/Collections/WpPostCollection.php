@@ -174,7 +174,14 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
             throw new InvalidArgumentException('Collection filter argument is not an array');
         }
 
-        return $this->createSelfWithFilter($filter);
+        if (empty($filter)) {
+            return $this;
+        }
+
+        $currFilter = empty($this->filter) ? [] : $this->filter;
+        $newFilter = array_merge($currFilter, $filter);
+
+        return $this->createSelfWithFilter($newFilter);
     }
 
     /**
