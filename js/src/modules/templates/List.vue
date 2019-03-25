@@ -22,7 +22,7 @@
           }
         },
 
-        filters: WpraTemplates.options.filter_types,
+        filters: WpraTemplates.options.type,
 
         checked: [],
 
