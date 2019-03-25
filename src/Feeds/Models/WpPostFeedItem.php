@@ -9,7 +9,6 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\PrefixingDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
-use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedSource;
 use WP_Post;
 
 /**
