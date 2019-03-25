@@ -26,9 +26,9 @@ function makePlugins (plugins) {
 let config = {
   context: __dirname,
   entry: {
-    intro: './js/src/intro/index.js',
-    plugins: './js/src/plugins/index.js',
-    templates: './js/src/templates/index.js',
+    intro: './js/src/modules/intro/index.js',
+    plugins: './js/src/modules/plugins/index.js',
+    templates: './js/src/modules/templates/index.js',
     update: './css/src/update/index.scss',
   },
   output: {
@@ -70,6 +70,8 @@ let config = {
       'vue$': 'vue/dist/vue.esm.js',
       '@rebelcode/std-lib': '@rebelcode/std-lib/dist/std-lib.umd.js',
       'vue-wp-list-table': path.resolve(__dirname, '../../../../../vue-wp-list-table-component/'),
+      app: path.resolve(__dirname, 'js/src'),
+      css: path.resolve(__dirname, 'css'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },

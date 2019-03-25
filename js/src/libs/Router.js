@@ -1,5 +1,3 @@
-import jsonClone from './jsonClone'
-
 const getJsonFromUrl = (url) => {
   if (!url) url = location.href
   var question = url.indexOf('?')
@@ -110,7 +108,9 @@ export default class Router {
     if (this.app) {
       this.app.currentRoute = this.buildRoute(route)
     }
+
     this.updateParams(Object.assign({}, route.params || {}, getJsonFromUrl(this.buildRoute(route))))
+
     window.history.pushState(
       null,
       null,

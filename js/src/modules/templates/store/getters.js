@@ -1,4 +1,4 @@
-import collect from '../Collection'
+import collect from 'app/utils/Collection'
 
 export default {
   item: state => id => {

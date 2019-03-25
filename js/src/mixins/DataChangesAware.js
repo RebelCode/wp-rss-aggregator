@@ -1,4 +1,4 @@
-import jsonClone from './jsonClone'
+import jsonClone from 'app/utils/jsonClone'
 import equal from 'fast-deep-equal'
 
 /**

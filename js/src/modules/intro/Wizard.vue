@@ -202,9 +202,9 @@
 </template>
 
 <script>
-  import Expander from './Expander'
-  import { post } from './fetch'
-  import { copyToClipboard } from './copy'
+  import Expander from 'app/components/Expander'
+  import { post } from 'app/utils/fetch'
+  import { copyToClipboard } from 'app/utils/copy'
 
   const _ = (str) => str
 

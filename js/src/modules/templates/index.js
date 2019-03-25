@@ -1,10 +1,9 @@
-require('./../../../css/src/templates/index.scss')
+require('css/src/templates/index.scss')
+
 import * as UiFramework from '@rebelcode/ui-framework'
 import Bottle from 'bottlejs'
 import TemplatesApplication  from './app'
 import Vue from 'vue'
-
-console.info({UiFramework})
 
 const { Container, Core, Services } = UiFramework
 

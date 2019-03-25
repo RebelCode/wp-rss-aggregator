@@ -1,4 +1,4 @@
-require('./../../../css/src/plugins/index.scss')
+require('css/src/plugins/index.scss')
 
 import Vue from 'vue'
 import PluginDisablePoll from './PluginDisablePoll'

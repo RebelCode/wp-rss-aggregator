@@ -1,4 +1,4 @@
-require('./../../../css/src/intro/steps.scss')
+require('css/src/intro/steps.scss')
 
 import Vue from 'vue'
 import Wizard from './Wizard'

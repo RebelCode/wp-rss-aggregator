@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 import List from './List'
 import Edit from './Edit'
 
-import makeRouterApp from './RouterApp.js'
-import Router from './Router'
+import makeRouterApp from 'app/components/RouterApp'
+import Router from 'app/libs/Router'
 import templates from './store'
 
 /**

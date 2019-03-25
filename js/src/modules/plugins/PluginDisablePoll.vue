@@ -37,8 +37,8 @@
 </template>
 
 <script>
-  import Modal from './Modal'
-  import SerializedForm from './SerializedForm'
+  import Modal from 'app/components/Modal'
+  import SerializedForm from 'app/components/SerializedForm'
   import axios from 'axios'
 
   /**

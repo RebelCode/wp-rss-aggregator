@@ -1,14 +1,14 @@
 <script>
-  import Postbox from './Postbox'
-  import Main from './Main'
-  import Sidebar from './Sidebar'
-  import Layout from './Layout'
-  import RouteLink from './RouteLink'
-  import Input from './Input'
-  import Button from './Button'
-  import deepmerge from './deepmerge'
-  import DataChangesAware from './DataChangesAware'
-  import jsonClone from './jsonClone'
+  import Postbox from 'app/components/Postbox'
+  import Main from 'app/components/Main'
+  import Sidebar from 'app/components/Sidebar'
+  import Layout from 'app/components/Layout'
+  import RouteLink from 'app/components/RouteLink'
+  import Input from 'app/components/Input'
+  import Button from 'app/components/Button'
+  import deepmerge from 'app/utils/deepmerge'
+  import DataChangesAware from 'app/mixins/DataChangesAware'
+  import jsonClone from 'app/utils/jsonClone'
 
   export default {
     mixins: [ DataChangesAware ],

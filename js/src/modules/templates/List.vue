@@ -1,9 +1,9 @@
 <script>
   import VueTable from 'vue-wp-list-table/dist/vue-wp-list-table.common'
-  import RouteLink from './RouteLink'
-  import Input from './Input'
-  import BottomPanel from './BottomPanel'
-  import jsonClone from './jsonClone'
+  import RouteLink from 'app/components/RouteLink'
+  import Input from 'app/components/Input'
+  import BottomPanel from 'app/components/BottomPanel'
+  import jsonClone from 'app/utils/jsonClone'
 
   export default {
     data () {
@@ -71,7 +71,7 @@
 
         let paged = parseInt(params.paged)
         delete params.paged
-        if (!!paged || paged !== 1) {
+        if (!!paged && paged !== 1) {
           params['page'] = paged
         }
 
@@ -161,11 +161,7 @@
       },
 
       submitFilter () {
-        console.warn('submitting params', {
-          params: this.getParams()
-        })
         this.router.mergeParams(this.getParams())
-        // this.fetchList()
       }
     },
     render () {
