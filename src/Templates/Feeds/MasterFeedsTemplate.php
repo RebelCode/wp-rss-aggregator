@@ -81,20 +81,32 @@ class MasterFeedsTemplate implements TemplateInterface
     protected $templateCollection;
 
     /**
+     * The collection of templates.
+     *
+     * @since [*next-version*]
+     *
+     * @var CollectionInterface
+     */
+    protected $feedItemCollection;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
      * @param string              $default            The name of the template to use by default.
      * @param CollectionInterface $templateCollection The collection of templates.
+     * @param CollectionInterface $feedItemCollection The collection of feed items.
      */
     public function __construct(
         $default,
         CollectionInterface $templateCollection,
+        CollectionInterface $feedItemCollection
     ) {
         $this->types = [];
         $this->default = $default;
         $this->templateCollection = $templateCollection;
+        $this->feedItemCollection = $feedItemCollection;
     }
 
     /**
@@ -129,6 +141,7 @@ class MasterFeedsTemplate implements TemplateInterface
         if ($arrCtx['legacy'] || (!isset($args['templates']) && $this->fallBackToLegacySystem())) {
             ob_start();
             wprss_display_feed_items();
+
             return ob_get_clean();
         }
 
@@ -152,34 +165,12 @@ class MasterFeedsTemplate implements TemplateInterface
         $template = $this->getTemplateType($type);
 
         // Add the items to be rendered to the context
-        $arrCtx['items'] = $this->getFeedItemsToRender($arrCtx);
+        $arrCtx['items'] = $this->feedItemCollection->filter($arrCtx['filters']);
 
         // Prepare the full context dataset
         $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
 
         return $template->render($fullCtx);
-    }
-
-    /**
-     * Retrieves the list of feed items to render.
-     *
-     * @see   DataSetInterface
-     *
-     * @since [*next-version*]
-     *
-     * @param array $ctx The render context.
-     *
-     * @return DataSetInterface[]|stdClass|Traversable A list of feed item instances.
-     */
-    protected function getFeedItemsToRender(array $ctx)
-    {
-        return new FeedItemsQueryIterator(
-            $ctx['query_sources'],
-            $ctx['query_exclude'],
-            $ctx['query_max_num'],
-            $ctx['query_page'],
-            $ctx['query_factory']
-        );
     }
 
     /**
@@ -202,49 +193,37 @@ class MasterFeedsTemplate implements TemplateInterface
                 'default' => false,
                 'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
-            'limit' => [
-                'key' => 'query_max_num',
-                'default' => wprss_get_general_setting('feed_limit'),
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-            ],
             'source' => [
-                'key' => 'query_sources',
+                'key' => 'filters/sources',
                 'default' => [],
                 'filter' => function ($value) {
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
             'sources' => [
-                'key' => 'query_sources',
-                'default' => [],
-                'filter' => function ($value) {
+                'key' => 'filters/sources',
+                'filter' => function ($value, $args) {
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
             'exclude' => [
-                'key' => 'query_exclude',
+                'key' => 'filters/exclude',
                 'default' => [],
                 'filter' => function ($value) {
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
-            'page' => [
-                'key' => 'query_page',
-                'default' => 1,
+            'limit' => [
+                'key' => 'filters/num_items',
+                'default' => wprss_get_general_setting('feed_limit'),
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
             ],
-            'factory' => [
-                'key' => 'query_factory',
-                'default' => null,
-                'filter' => function ($value) {
-                    if (!is_callable($value)) {
-                        throw new InvalidArgumentException();
-                    }
-
-                    return $value;
-                },
+            'page' => [
+                'key' => 'filters/page',
+                'default' => 1,
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => ['min_range' => 1],
             ],
         ];
     }
