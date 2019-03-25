@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 
+use ArrayAccess;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
@@ -84,7 +85,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     public function render($ctx = null)
     {
-        $argCtx = ($ctx === null) ? [] : $this->_normalizeArray($ctx);
+        $argCtx = ($ctx === null) ? [] : $ctx;
         $prepCtx = $this->prepareContext($argCtx);
 
         try {
@@ -137,11 +138,11 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      *
      * @since [*next-version*]
      *
-     * @param array $ctx The render context.
+     * @param array|ArrayAccess $ctx The render context.
      *
      * @return array The prepared the context.
      */
-    protected function prepareContext(array $ctx)
+    protected function prepareContext($ctx)
     {
         $optCtx = isset($ctx['options']) ? $ctx['options'] : [];
 
