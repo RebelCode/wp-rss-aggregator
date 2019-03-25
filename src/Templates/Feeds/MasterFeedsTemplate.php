@@ -173,8 +173,8 @@ class MasterFeedsTemplate implements TemplateInterface
         // Prepare the full context
         $fullCtx = $arrCtx;
         $fullCtx['items'] = $items;
-        $fullCtx['item_count'] = $count;
         $fullCtx['model'] = $model;
+        $fullCtx['pagination']['total'] = $count;
 
         return $template->render($fullCtx);
     }
