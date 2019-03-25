@@ -421,6 +421,18 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
             return true;
         }
 
+        if ($key === 'paginate') {
+            $queryArgs['posts_per_page'] = $value;
+
+            return true;
+        }
+
+        if ($key === 'page') {
+            $queryArgs['paged'] = $value;
+
+            return true;
+        }
+
         return false;
     }
 
