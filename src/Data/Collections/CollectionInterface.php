@@ -16,6 +16,10 @@ interface CollectionInterface extends DataSetInterface
     /**
      * Filters the contents of the dataset for entries that match a given filter.
      *
+     * Collection filtering is guaranteed to be idempotent. Collections may implement this method to return collections
+     * that may be filtered further. If this is case, it should be assumed that the filters given to a collection are
+     * used in an AND relationship with any filters currently assigned to the current collection instance.
+     *
      * @since [*next-version*]
      *
      * @param array|stdClass|Traversable $filters A list of filters as key-value pairs, where the key represents the
