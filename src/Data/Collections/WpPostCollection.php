@@ -421,7 +421,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
             return true;
         }
 
-        if ($key === 'paginate') {
+        if ($key === 'num_items') {
             $queryArgs['posts_per_page'] = $value;
 
             return true;
