@@ -30,7 +30,8 @@
     inject: [
       'hooks',
       'http',
-      'router'
+      'router',
+      'notification',
     ],
     mounted () {
       this.resolveEditingItem()
@@ -83,6 +84,7 @@
             }
           })
         }).finally(() => {
+          this.notification.show('Template saved!')
           this.isSaving = false
         })
       },

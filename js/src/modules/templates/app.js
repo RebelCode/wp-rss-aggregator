@@ -1,4 +1,5 @@
 import axios from 'axios'
+import toasted from 'vue-toasted'
 import Vuex from 'vuex'
 import List from './List'
 import Edit from './Edit'
@@ -6,6 +7,7 @@ import Edit from './Edit'
 import makeRouterApp from 'app/components/RouterApp'
 import Router from 'app/libs/Router'
 import templates from './store'
+import NotificationCenter from 'app/libs/NotificationCenter'
 
 /**
  * Main application's container.
@@ -44,6 +46,14 @@ export default {
     services['vuex'] = ({ vue }) => {
       vue.use(Vuex)
       return Vuex
+    }
+
+    services['notification'] = ({ vue }) => {
+      vue.use(toasted, {
+        position: 'top-center',
+        duration: 4000
+      })
+      return new NotificationCenter(vue.toasted.show, vue.toasted.error)
     }
 
     services['store'] = ({ vuex }) => {
