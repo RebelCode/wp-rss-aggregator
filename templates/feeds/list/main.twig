@@ -1,5 +1,5 @@
 <div class="wp-rss-aggregator {{ options.html_classes }}" data-page="{{ options.pagination_page }}">
     {{ options.before_list|raw }}
-    {{ include(template.dir ~ 'feed-list.twig') }}
+    {{ include(self.dir ~ 'feed-list.twig') }}
     {{ options.after_list|raw }}
 </div>
