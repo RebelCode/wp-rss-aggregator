@@ -5,8 +5,10 @@
 {% endif %}
 
 {# Show the title #}
-{{ item_title | wpralink(item.url, options.title_is_link) }}
-{{ options.title_after }}
+<div class="wpra-item-link">
+    {{ item_title | wpralink(item.url, options.title_is_link) }}
+    {{ options.title_after }}
+</div>
 
 {# Prepare date HTML class and formatted strinng #}
 {% set date_str = item.date|date(options.date_format) %}

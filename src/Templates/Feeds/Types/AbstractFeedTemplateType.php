@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 
+use ArrayAccess;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
@@ -84,8 +85,10 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     public function render($ctx = null)
     {
-        $argCtx = ($ctx === null) ? [] : $this->_normalizeArray($ctx);
+        $argCtx = ($ctx === null) ? [] : $ctx;
         $prepCtx = $this->prepareContext($argCtx);
+
+        $this->enqueueAssets();
 
         try {
             return $this->getTemplate()->render($prepCtx);
@@ -137,25 +140,24 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      *
      * @since [*next-version*]
      *
-     * @param array $ctx The render context.
+     * @param array|ArrayAccess $ctx The render context.
      *
      * @return array The prepared the context.
      */
-    protected function prepareContext(array $ctx)
+    protected function prepareContext($ctx)
     {
-        $optCtx = isset($ctx['options']) ? $ctx['options'] : [];
-
+        $model = $ctx['model'];
+        $optCtx = isset($model['options']) ? $model['options'] : [];
         $opts = $this->parseArgsWithSchema($optCtx, $this->getOptions());
 
-        return [
-            'template' => [
-                'type' => $this->getKey(),
-                'path' => $this->getTemplatePath(),
-                'dir' => $this->getTemplateDir(),
-            ],
-            'items' => isset($ctx['items']) ? $ctx['items'] : [],
-            'options' => $this->createContextDataSet($opts),
+        $ctx['options'] = $this->createContextDataSet($opts);
+        $ctx['self'] = [
+            'type' => $this->getKey(),
+            'path' => $this->getTemplatePath(),
+            'dir' => $this->getTemplateDir(),
         ];
+
+        return $ctx;
     }
 
     /**
@@ -182,4 +184,11 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      * @return array
      */
     abstract protected function getOptions();
+
+    /**
+     * Enqueues the assets required by this template type.
+     *
+     * @since [*next-version*]
+     */
+    abstract protected function enqueueAssets();
 }

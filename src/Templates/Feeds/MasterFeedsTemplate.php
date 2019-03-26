@@ -10,6 +10,7 @@ use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
@@ -75,23 +76,37 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      *
-     * @var DataSetInterface
+     * @var CollectionInterface
      */
-    protected $collection;
+    protected $templateCollection;
+
+    /**
+     * The collection of templates.
+     *
+     * @since [*next-version*]
+     *
+     * @var CollectionInterface
+     */
+    protected $feedItemCollection;
 
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param string           $default    The name of the template to use by default.
-     * @param DataSetInterface $collection The collection of templates.
+     * @param string              $default            The name of the template to use by default.
+     * @param CollectionInterface $templateCollection The collection of templates.
+     * @param CollectionInterface $feedItemCollection The collection of feed items.
      */
-    public function __construct($default, DataSetInterface $collection)
-    {
+    public function __construct(
+        $default,
+        CollectionInterface $templateCollection,
+        CollectionInterface $feedItemCollection
+    ) {
         $this->types = [];
         $this->default = $default;
-        $this->collection = $collection;
+        $this->templateCollection = $templateCollection;
+        $this->feedItemCollection = $feedItemCollection;
     }
 
     /**
@@ -126,13 +141,14 @@ class MasterFeedsTemplate implements TemplateInterface
         if ($arrCtx['legacy'] || (!isset($args['templates']) && $this->fallBackToLegacySystem())) {
             ob_start();
             wprss_display_feed_items();
+
             return ob_get_clean();
         }
 
         try {
             // Get the template model
             $tKey = $arrCtx['template'];
-            $model = $this->collection[$tKey];
+            $model = $this->templateCollection[$tKey];
         } catch (Exception $exception) {
             $model = null;
         }
@@ -148,35 +164,19 @@ class MasterFeedsTemplate implements TemplateInterface
         $type = isset($model['type']) ? $model['type'] : '';
         $template = $this->getTemplateType($type);
 
-        // Add the items to be rendered to the context
-        $arrCtx['items'] = $this->getFeedItemsToRender($arrCtx);
+        // Filter the items and count them
+        $items = $this->feedItemCollection->filter($arrCtx['filters']);
+        $count = $items->getCount();
+        // Paginate the items
+        $items = $items->filter($arrCtx['pagination']);
 
-        // Prepare the full context dataset
-        $fullCtx = new MergedDataSet(new ArrayDataSet($arrCtx), $model);
+        // Prepare the full context
+        $fullCtx = $arrCtx;
+        $fullCtx['items'] = $items;
+        $fullCtx['model'] = $model;
+        $fullCtx['pagination']['total'] = $count;
 
         return $template->render($fullCtx);
-    }
-
-    /**
-     * Retrieves the list of feed items to render.
-     *
-     * @see   DataSetInterface
-     *
-     * @since [*next-version*]
-     *
-     * @param array $ctx The render context.
-     *
-     * @return DataSetInterface[]|stdClass|Traversable A list of feed item instances.
-     */
-    protected function getFeedItemsToRender(array $ctx)
-    {
-        return new FeedItemsQueryIterator(
-            $ctx['query_sources'],
-            $ctx['query_exclude'],
-            $ctx['query_max_num'],
-            $ctx['query_page'],
-            $ctx['query_factory']
-        );
     }
 
     /**
@@ -199,49 +199,37 @@ class MasterFeedsTemplate implements TemplateInterface
                 'default' => false,
                 'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
-            'limit' => [
-                'key' => 'query_max_num',
-                'default' => wprss_get_general_setting('feed_limit'),
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-            ],
             'source' => [
-                'key' => 'query_sources',
+                'key' => 'filters/sources',
                 'default' => [],
                 'filter' => function ($value) {
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
             'sources' => [
-                'key' => 'query_sources',
-                'default' => [],
-                'filter' => function ($value) {
+                'key' => 'filters/sources',
+                'filter' => function ($value, $args) {
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
             'exclude' => [
-                'key' => 'query_exclude',
+                'key' => 'filters/exclude',
                 'default' => [],
                 'filter' => function ($value) {
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
-            'page' => [
-                'key' => 'query_page',
-                'default' => 1,
+            'limit' => [
+                'key' => 'pagination/num_items',
+                'default' => wprss_get_general_setting('feed_limit'),
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
             ],
-            'factory' => [
-                'key' => 'query_factory',
-                'default' => null,
-                'filter' => function ($value) {
-                    if (!is_callable($value)) {
-                        throw new InvalidArgumentException();
-                    }
-
-                    return $value;
-                },
+            'page' => [
+                'key' => 'pagination/page',
+                'default' => 1,
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => ['min_range' => 1],
             ],
         ];
     }

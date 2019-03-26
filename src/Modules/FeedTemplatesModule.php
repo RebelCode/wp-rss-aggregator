@@ -47,7 +47,8 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/master_template' => function (ContainerInterface $c) {
                 return new MasterFeedsTemplate(
                     $c->get('wpra/templates/feeds/default_template'),
-                    $c->get('wpra/templates/feeds/collection')
+                    $c->get('wpra/templates/feeds/collection'),
+                    $c->get('wpra/feeds/items/collection')
                 );
             },
             /*

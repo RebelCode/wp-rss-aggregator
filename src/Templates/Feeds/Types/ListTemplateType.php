@@ -34,6 +34,21 @@ class ListTemplateType extends AbstractFeedTemplateType
      *
      * @since [*next-version*]
      */
+    protected function enqueueAssets()
+    {
+        $general_settings = get_option('wprss_settings_general');
+
+        if (empty($general_settings['styles_disable'])) {
+            wp_enqueue_style('colorbox', WPRSS_CSS . 'colorbox.css', [], '1.4.33');
+            wp_enqueue_style('wpra-list-template-styles', WPRSS_CSS . 'templates/list/styles.css', [], WPRSS_VERSION);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
     protected function getOptions()
     {
         return [
