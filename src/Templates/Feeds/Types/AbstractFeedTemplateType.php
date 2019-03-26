@@ -88,6 +88,8 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
         $argCtx = ($ctx === null) ? [] : $ctx;
         $prepCtx = $this->prepareContext($argCtx);
 
+        $this->enqueueAssets();
+
         try {
             return $this->getTemplate()->render($prepCtx);
         } catch (Exception $ex) {
@@ -182,4 +184,11 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      * @return array
      */
     abstract protected function getOptions();
+
+    /**
+     * Enqueues the assets required by this template type.
+     *
+     * @since [*next-version*]
+     */
+    abstract protected function enqueueAssets();
 }
