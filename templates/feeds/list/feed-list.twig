@@ -1,8 +1,8 @@
-<ul>
+<ul class="wpra-item-list">
     {% set hasItems = false %}
     {% for item in items %}
         {% set hasItems = true %}
-        <li>
+        <li class="wpra-item">
             {{ options.before_item|raw }}
             {{ include(self.dir ~ 'feed-item.twig') }}
             {{ options.after_item|raw }}
