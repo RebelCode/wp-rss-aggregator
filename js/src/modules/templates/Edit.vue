@@ -36,6 +36,11 @@
     mounted () {
       this.resolveEditingItem()
     },
+    computed: {
+      previewUrl () {
+        return `${WpraGlobal.admin_base_url}?wpra_preview_template=${this.router.params.id}`
+      }
+    },
     methods: {
       resolveEditingItem () {
         let modelDefault = deepmerge(jsonClone(WpraTemplates.model_schema), this.$store.state.templates.preset)
@@ -106,6 +111,24 @@
       let back = {
         name: 'templates'
       }
+
+      let minorActions = null
+
+      if (this.router.params.id) {
+        minorActions = <div id="" style={{padding: '6px 0'}}>
+          <div class="misc-pub-section misc-pub-visibility" id="visibility">
+            <a href={this.previewUrl}
+               class="edit-visibility"
+               role="button"
+               target="_blank"
+               style={{marginLeft: '4px'}}
+            >
+              <span aria-hidden="true">Preview On Your Site</span>
+            </a>
+          </div>
+        </div>
+      }
+
       let content = <div>
           <div class="page-title">
             <RouteLink class="back-button" path={back}>
@@ -129,7 +152,8 @@
                          submit={true}
                 >
                   <div class="submitbox" id="submitpost">
-                    <div id="minor-publishing"></div>
+                    { minorActions }
+
                     <div id="major-publishing-actions">
                       <div id="delete-action">
                         {

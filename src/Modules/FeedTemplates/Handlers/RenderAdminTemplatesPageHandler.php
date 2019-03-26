@@ -46,6 +46,7 @@ class RenderAdminTemplatesPageHandler
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
         wp_localize_script('wpra-templates', 'WpraGlobal', [
+            'admin_base_url' => admin_url(),
             'templates_url_base' => str_replace($url, '', menu_page_url('wpra_feed_templates', false)),
             'nonce' => wp_create_nonce('wp_rest'),
         ]);

@@ -133,6 +133,10 @@
         })
       },
 
+      getPreviewLink (row) {
+        return `${WpraGlobal.admin_base_url}?wpra_preview_template=${row.id}`
+      },
+
       createTemplate () {
         this.$store.commit('templates/updatePreset', {})
         this.router.navigate({
@@ -210,10 +214,12 @@
             <div>{ this.filters[row.type] }</div>
           ]
         },
-        previewTemplate: function ({ row }) {
+        previewTemplate: ({ row }) => {
           return [
             <div>
-              <span class="dashicons dashicons-desktop"></span>
+              <a href={this.getPreviewLink(row)} target="_blank">
+                <span class="dashicons dashicons-desktop"></span>
+              </a>
             </div>
           ]
         },
