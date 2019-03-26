@@ -468,8 +468,8 @@
             $id = $_POST['id'];
             $response->setAjaxData($kFeedSourceId, $id);
 
-            if (!current_user_can('edit_feed_sources')) {
-                throw new Exception($wprss->__(array('Could not schedule fetch for source #%1$s: user must have sufficient priviledges', $id)));
+            if (!current_user_can('edit_feeds')) {
+                throw new Exception($wprss->__(array('Could not schedule fetch for source #%1$s: user must have sufficient privileges', $id)));
             }
 
             // Verify admin referer
