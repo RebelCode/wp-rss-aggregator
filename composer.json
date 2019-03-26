@@ -9,6 +9,7 @@
             "email": "dev@rebelcode.com"
         }
     ],
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
         "php": "^5.4 | ^7.0",
@@ -25,7 +26,8 @@
         "dhii/output-renderer-base": "^0.1-alpha1",
         "dhii/normalization-helper-base": "^0.1-alpha4",
         "dhii/validation-base": "^0.2",
-        "dhii/exception": "^0.1-alpha5"
+        "dhii/exception": "^0.1-alpha5",
+        "rebelcode/composer-cleanup-plugin": "^0.1"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^4.4 | ^5.0",
