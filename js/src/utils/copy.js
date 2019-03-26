@@ -6,9 +6,13 @@
  * @param text
  */
 
-const fallbackCopyToClipboard = function (text) {
+const fallbackCopyToClipboard = function (text, scrollContainer = null) {
+  scrollContainer = scrollContainer || document.body.parentElement
   var textArea = document.createElement('textarea')
   textArea.value = text
+
+  var currentScrollTop = scrollContainer.scrollTop
+
   document.body.appendChild(textArea)
   textArea.focus()
   textArea.select()
@@ -22,11 +26,13 @@ const fallbackCopyToClipboard = function (text) {
   }
 
   document.body.removeChild(textArea)
+
+  scrollContainer.scrollTop = currentScrollTop
 }
 
-export function copyToClipboard (text) {
+export function copyToClipboard (text, scrollContainer = null) {
   if (!navigator.clipboard) {
-    fallbackCopyToClipboard(text)
+    fallbackCopyToClipboard(text, scrollContainer)
     return
   }
   navigator.clipboard.writeText(text).then(function () {

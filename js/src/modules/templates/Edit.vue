@@ -9,6 +9,7 @@
   import deepmerge from 'app/utils/deepmerge'
   import DataChangesAware from 'app/mixins/DataChangesAware'
   import jsonClone from 'app/utils/jsonClone'
+  import { copyToClipboard } from 'app/utils/copy'
 
   export default {
     mixins: [ DataChangesAware ],
@@ -106,13 +107,21 @@
             return acc
           }, {})
       },
+      getShortcode () {
+        return `[wp-rss-aggregator template="${this.model.slug}"]`
+      },
+      copyShortcode () {
+        copyToClipboard(this.getShortcode())
+        this.notification.show('Shortcode is copied to clipboard!')
+      },
     },
     render () {
       let back = {
         name: 'templates'
       }
 
-      let minorActions = null
+      let minorActions = null,
+        shortcode = null
 
       if (this.router.params.id) {
         minorActions = <div id="" style={{padding: '6px 0'}}>
@@ -129,6 +138,18 @@
         </div>
       }
 
+      if (this.model.id) {
+        shortcode = <div class="wpra-shortcode-copy" title={'Copy chortcode'} onClick={this.copyShortcode}>
+            <div class="wpra-shortcode-copy__content">
+              <strong>Shortcode: </strong>
+              { ` ${this.getShortcode()}` }
+            </div>
+            <div class="wpra-shortcode-copy__icon">
+              <span class="dashicons dashicons-admin-page"></span>
+            </div>
+        </div>
+      }
+
       let content = <div>
           <div class="page-title">
             <RouteLink class="back-button" path={back}>
@@ -136,12 +157,8 @@
             </RouteLink>
             <h1 class="wp-heading-inline">
               {this.router.params.id ? 'Edit Template' : 'New Template'}
-              {
-                this.router.params.id ? <span style={{opacity: '.5', marginLeft: '12px', display: 'inline-block'}}>
-                    #{ this.router.params.id }
-                  </span> : null
-              }
             </h1>
+            { shortcode }
           </div>
         <div id="poststuff">
           {
