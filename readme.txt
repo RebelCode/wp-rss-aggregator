@@ -268,6 +268,9 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 
 == Changelog ==
 
+= 4.12.2 (2019-03-26) =
+* Fixed an admin capability bug that disallowed admin users from fetching feed items.
+
 = 4.12.1 (2019-02-27) =
 * Added a modal with an optional poll when the plugin is deactivated.
 * Improved the core plugin's on-boarding process for brand new users.
