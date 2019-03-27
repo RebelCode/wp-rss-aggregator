@@ -67,8 +67,7 @@ class ListTemplateType extends AbstractFeedTemplateType
                 'flags' => [],
                 'default' => true,
             ],
-            'pagination' => [
-                'key' => 'pagination_enabled',
+            'pagination_enabled' => [
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => true,
             ],

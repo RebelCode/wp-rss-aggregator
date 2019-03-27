@@ -8,6 +8,9 @@
             {{ options.after_item|raw }}
         </li>
     {% endfor %}
+    {% if hasItems and options.pagination_enabled and pagination.total > pagination.num_items %}
+        {{ include(self.dir ~ options.pagination_type ~ '-pagination.twig') }}
+    {% endif %}
     {% if not hasItems %}
         <p>{% trans "No feed items found." %}</p>
     {% endif %}

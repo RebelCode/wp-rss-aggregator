@@ -222,7 +222,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'items_max_num' => 15,
                         'title_max_length' => 0,
                         'title_is_link' => true,
-                        'pagination' => true,
+                        'pagination_enabled' => true,
                         'pagination_type' => 'default',
                         'source_enabled' => true,
                         'source_prefix' => __('Source:', WPRSS_TEXT_DOMAIN),

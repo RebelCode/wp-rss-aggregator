@@ -57,7 +57,7 @@ class RenderAdminTemplatesPageHandler
             'base_url' => rest_url('/wpra/v1/templates'),
         ]);
 
-        echo wprss_render_template('admin-templates-page.twig', array(
+        echo wprss_render_template('admin/templates-page.twig', array(
             'title' => 'Templates',
             'subtitle' => 'Follow these introductory steps to get started with WP RSS Aggregator.',
         ));
