@@ -293,8 +293,8 @@
 
                   <Input type="checkbox"
                          label={'Pagination'}
-                         value={this.model.options.pagination}
-                         onInput={(e) => this.model.options.pagination = e}
+                         value={this.model.options.pagination_enabled}
+                         onInput={(e) => this.model.options.pagination_enabled = e}
                   />
                   <Input type="select"
                          label={'Pagination style'}
