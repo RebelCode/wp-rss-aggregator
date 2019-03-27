@@ -54,14 +54,11 @@ class RenderTemplateEndPoint extends AbstractRestApiEndPoint
      */
     protected function handle(WP_REST_Request $request)
     {
-        $args = $request->get_query_params();
+        $args = $request->get_params();
 
         // Decode HTML entities in the arguments
         $args = is_array($args) ? $args : [];
         $args = array_map('html_entity_decode', $args);
-
-        // Do not render pagination links for template rendered via endpoint.
-        $args['pagination_visible'] = false;
 
         // Render the template
         $result = $this->template->render($args);

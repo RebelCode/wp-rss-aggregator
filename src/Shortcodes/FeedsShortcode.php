@@ -57,6 +57,9 @@ class FeedsShortcode
         wp_enqueue_script('jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', ['jquery']);
         wp_enqueue_script('wprss_custom', WPRSS_JS . 'custom.js', ['jquery', 'jquery.colorbox-min']);
 
+        wp_enqueue_script('wpra-manifest', WPRSS_JS . 'wpra-manifest.min.js', ['jquery']);
+        wp_enqueue_script('wpra-pagination', WPRSS_JS . 'pagination.min.js', ['wpra-manifest']);
+
         // Decode HTML entities in the arguments
         $args = is_array($args) ? $args : [];
         $args = array_map('html_entity_decode', $args);

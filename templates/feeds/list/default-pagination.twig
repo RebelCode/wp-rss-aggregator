@@ -1,16 +1,16 @@
-{% set isOlderVisible = pagination.page > 1 %}
-{% set isNewerVisible = pagination.page < pagination.total_pages %}
+{% set isOlderVisible = pagination.page < pagination.total_pages %}
+{% set isNewerVisible = pagination.page > 1 %}
 <div class="nav-links">
     {% if isOlderVisible %}
         <div class="nav-previous alignleft">
-            <a href="#" data-wpra-shortcode="shortcode" data-wpra-page="{{ pagination.page - 1 }}">
+            <a href="#" data-wpra-shortcode="shortcode" data-wpra-page="{{ pagination.page + 1 }}">
                 {% trans "Older posts" %}
             </a>
         </div>
     {% endif %}
     {% if isNewerVisible %}
-        <div class="nav-next {{ isOlderVisible ? 'alignright' : 'alignleft' }}">
-            <a href="#" data-wpra-shortcode="shortcode" data-wpra-page="{{ pagination.page + 1 }}">
+        <div class="nav-next {{ isNewerVisible ? 'alignright' : 'alignleft' }}">
+            <a href="#" data-wpra-shortcode="shortcode" data-wpra-page="{{ pagination.page - 1 }}">
                 {% trans "Newer posts" %}
             </a>
         </div>
