@@ -29,6 +29,7 @@ let config = {
     intro: './js/src/modules/intro/index.js',
     plugins: './js/src/modules/plugins/index.js',
     templates: './js/src/modules/templates/index.js',
+    pagination: './js/src/modules/pagination/index.js',
     update: './css/src/update/index.scss',
   },
   output: {
