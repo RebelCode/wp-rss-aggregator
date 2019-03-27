@@ -386,6 +386,12 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/rest_api/v1/templates/delete_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
+                $manager->addEndPoint(
+                    '/templates/render(?:/(?P<id>[^/]+))?',
+                    ['GET'],
+                    $c->get('wpra/rest_api/v1/templates/render_endpoint'),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
 
                 return $manager;
             },

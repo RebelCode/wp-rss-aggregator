@@ -8,7 +8,7 @@
             {{ options.after_item|raw }}
         </li>
     {% endfor %}
-    {% if hasItems and options.pagination_enabled and pagination.total > pagination.num_items %}
+    {% if hasItems and pagination_visible and options.pagination_enabled and pagination.total > pagination.num_items %}
         {{ include(self.dir ~ options.pagination_type ~ '-pagination.twig') }}
     {% endif %}
     {% if not hasItems %}

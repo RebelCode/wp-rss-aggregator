@@ -180,6 +180,9 @@ class MasterFeedsTemplate implements TemplateInterface
         $fullCtx['pagination']['total'] = $count;
         $fullCtx['pagination']['total_pages'] = $perPage ? ceil($count / $perPage) : 0;
 
+        // Whether to show pagination links.
+        $fullCtx['pagination_visible'] = isset($fullCtx['pagination_visible']) ? $fullCtx['pagination_visible'] : true;
+
         return $template->render($fullCtx);
     }
 
