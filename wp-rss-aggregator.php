@@ -50,6 +50,7 @@ use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
+use RebelCode\Wpra\Core\Modules\WpModule;
 use RebelCode\Wpra\Core\Plugin;
 
 /**
@@ -373,6 +374,7 @@ function wpra_modules()
 {
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
+        'wp' => new WpModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
         'blacklist' => new FeedBlacklistModule(),
