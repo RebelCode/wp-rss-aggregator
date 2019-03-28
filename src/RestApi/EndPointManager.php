@@ -97,7 +97,7 @@ class EndPointManager
      */
     protected function getPermissionCallback(ValidatorInterface $authValidator = null)
     {
-        if ($authValidator) {
+        if ($authValidator === null) {
             return null;
         }
 
