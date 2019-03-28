@@ -1,4 +1,7 @@
-<div class="wp-rss-aggregator wpra-list-template {{ options.html_classes }}" data-page="{{ pagination.page }}">
+<div class="wp-rss-aggregator wpra-list-template {{ options.html_classes }}"
+     data-page="{{ pagination.page }}"
+     data-wpra-template="{{ model.slug }}"
+>
     {{ options.before_list|raw }}
     {{ include(self.dir ~ 'feed-list.twig') }}
     {% if options.pagination_enabled and pagination.total > pagination.num_items %}
