@@ -1,11 +1,32 @@
+require('css/src/pagination/index.scss')
+
 jQuery(document).ready(($) => {
-  const fetch = function ($targetEl, page) {
-    $.ajax()
+  const fetchList = function ($targetEl, params) {
+    $targetEl.addClass('wpra-loading')
+
+    $([document.documentElement, document.body]).animate({
+      scrollTop: $targetEl.offset().top - 50
+    }, 500);
+
+    $.ajax(`http://scotchbox.local/index.php?rest_route=/wpra/v1/templates/render/${params.template}`, {
+      data: {
+        page: params.page
+      }
+    }).done((data) => {
+      $targetEl.replaceWith(data.html)
+    })
   }
+
   const handleClick = function ($link) {
-    const targetPage = $link.data('wpra-page')
-    const targetEl = $()
-    console.warn('paginate to ', targetPage)
+    const $targetEl = $link.closest('[data-wpra-template]')
+
+    const page = $link.data('wpra-page')
+    const template = $targetEl.data('wpra-template')
+
+    fetchList($targetEl, {
+      page,
+      template,
+    })
   }
 
   $('body').on('click', 'a[data-wpra-page]', function (e) {
