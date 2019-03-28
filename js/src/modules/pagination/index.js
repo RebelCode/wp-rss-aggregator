@@ -8,9 +8,9 @@ jQuery(document).ready(($) => {
       scrollTop: $targetEl.offset().top - 50
     }, 500);
 
-    $.ajax(`http://scotchbox.local/index.php?rest_route=/wpra/v1/templates/render/${params.template}`, {
+    $.ajax(`${WpraPagination.baseUri}${params.template}`, {
       data: {
-        page: params.page
+        page: params.page,
       }
     }).done((data) => {
       $targetEl.replaceWith(data.html)

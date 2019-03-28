@@ -62,6 +62,10 @@ class FeedsShortcode
         wp_enqueue_script('wpra-pagination', WPRSS_JS . 'pagination.min.js', ['wpra-manifest']);
         wp_enqueue_style('wpra-pagination', WPRSS_CSS . 'pagination.min.css');
 
+        wp_localize_script('wpra-pagination', 'WpraPagination', [
+            'baseUri' => rest_url('/wpra/v1/templates/render/'),
+        ]);
+
         // Decode HTML entities in the arguments
         $args = is_array($args) ? $args : [];
         $args = array_map('html_entity_decode', $args);

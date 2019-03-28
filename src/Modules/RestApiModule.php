@@ -3,7 +3,6 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\RestApi\Auth\AuthNonce;
 use RebelCode\Wpra\Core\RestApi\Auth\AuthUserIsAdmin;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\CreateUpdateTemplateEndPoint;
@@ -50,15 +49,6 @@ class RestApiModule implements ModuleInterface
              */
             'wpra/rest_api/v1/auth/user_is_admin' => function (ContainerInterface $c) {
                 return new AuthUserIsAdmin();
-            },
-
-            /*
-             * The authorization callback function to checking if the request user is a logged-in admin.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/auth/nonce' => function (ContainerInterface $c) {
-                return new AuthNonce('wp_rest', 'nonce');
             },
 
             /*

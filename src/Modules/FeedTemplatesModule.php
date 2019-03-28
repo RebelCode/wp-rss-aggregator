@@ -389,8 +389,7 @@ class FeedTemplatesModule implements ModuleInterface
                 $manager->addEndPoint(
                     '/templates/render(?:/(?P<template>[^/]+))?',
                     ['GET'],
-                    $c->get('wpra/rest_api/v1/templates/render_endpoint'),
-                    $c->get('wpra/rest_api/v1/auth/nonce')
+                    $c->get('wpra/rest_api/v1/templates/render_endpoint')
                 );
 
                 return $manager;
