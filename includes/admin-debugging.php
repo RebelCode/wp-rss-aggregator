@@ -186,7 +186,7 @@ use Psr\Log\LogLevel;
      * Renders the Error Log.
      */
     function wprss_debug_render_error_log() {
-        $logs = wprss_get_logger()->getLogs(100, 1);
+        $logs = wpra_get_logger()->getLogs(100, 1);
         ?>
 
         <h3><?= __( 'Error Log', WPRSS_TEXT_DOMAIN ); ?></h3>

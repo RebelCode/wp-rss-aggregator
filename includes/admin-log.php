@@ -22,7 +22,7 @@ define('WPRSS_LOG_LEVEL_DEFAULT', WPRSS_LOG_LEVEL_NONE);
  *
  * @return LoggerInterface|ClearableLoggerInterface|LogReaderInterface
  */
-function wprss_get_logger()
+function wpra_get_logger()
 {
     return wpra_container()->get('wpra/logs/logger');
 }
@@ -45,7 +45,7 @@ function wprss_get_logger()
  */
 function wprss_log_read($length = null, $start = null)
 {
-    $logs = wprss_get_logger()->getLogs($length, $start);
+    $logs = wpra_get_logger()->getLogs($length, $start);
 
     $output = '';
     foreach ($logs as $log) {
@@ -72,7 +72,7 @@ function wprss_get_log()
  */
 function wprss_clear_log()
 {
-    wprss_get_logger()->clearLogs();
+    wpra_get_logger()->clearLogs();
 }
 
 /**
@@ -94,7 +94,7 @@ function wprss_reset_log()
  */
 function wprss_log($message, $src = null, $log_level = LogLevel::ERROR)
 {
-    wprss_get_logger()->log($log_level, $message);
+    wpra_get_logger()->log($log_level, $message);
 
     return;
 }
