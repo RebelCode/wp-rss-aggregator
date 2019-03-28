@@ -384,20 +384,6 @@ class PluginAbstract extends Core\Model\ModelAbstract implements PluginInterface
      */
     public function log($level, $message, array $context = array())
     {
-        $isFormattable = is_array($message) && isset($message[0]) && is_string($message[0]);
-        if (is_object($message) || empty($message) || (!is_string($message) && !$isFormattable)) {
-            return $this->logObject($level, $message, $context);
-        }
-
-        if ($logger = $this->getLogger()) {
-            try {
-                $message = $this->__($message);
-            } catch (\InvalidArgumentException $e) {
-                return $this->logObject($level, $message, $context);
-            }
-            return $logger->log($level, $message, $context);
-        }
-
         return false;
     }
 

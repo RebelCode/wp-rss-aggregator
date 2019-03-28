@@ -22,7 +22,6 @@ interface ModelInterface
      * Logs a message
      *
      * @since 4.8.1
-     * @see LoggerAbstract
      * @return bool True if log entry was processed; false otherwise.
      */
     public function log($level, $message, array $context = array());
