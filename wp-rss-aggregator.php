@@ -287,7 +287,7 @@ require_once ( WPRSS_INC . 'admin-editor.php' );
 require_once ( WPRSS_INC . 'admin-heartbeat.php' );
 
 // Load the statistics functions file
-require_once ( WPRSS_INC . 'admin-statistics.php' );
+// require_once ( WPRSS_INC . 'admin-statistics.php' );
 
 // Load the logging functions file
 require_once ( WPRSS_INC . 'admin-log.php' );
