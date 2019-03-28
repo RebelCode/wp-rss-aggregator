@@ -271,6 +271,116 @@ form.wprss-error-log-action input[type="submit"]:active {
     vertical-align: baseline;
 }
 
+/* The debug log "error" filter text color when there are errors */
+div.wpra-log a.wpra-toggle-logs[data-level="error"]:not(.wpra-log-filter-disabled) {
+    color: #d40000;
+}
+/* The debug log "warning" filter text color when there are warnings */
+div.wpra-log a.wpra-toggle-logs[data-level="warning"]:not(.wpra-log-filter-disabled) {
+    color: #d45500;
+}
+/* The debug log "notice" filter text color when there are notices */
+div.wpra-log a.wpra-toggle-logs[data-level="notice"]:not(.wpra-log-filter-disabled) {
+    color: #d48a00;
+}
+/* The debug log "info" filter text color when there are info logs */
+div.wpra-log a.wpra-toggle-logs[data-level="info"]:not(.wpra-log-filter-disabled) {
+    color: #009cd6;
+}
+/* The debug log "debug" filter text color when there are debug logs */
+div.wpra-log a.wpra-toggle-logs[data-level="debug"]:not(.wpra-log-filter-disabled) {
+    color: #8242d4;
+}
+div.wpra-log a.wpra-toggle-logs.wpra-log-filter-disabled {
+    color: grey !important;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+/* The debug log */
+div.wpra-log-container {
+    max-height: 600px;
+    border: 1px solid #d1d1d1;
+    padding: 5px;
+    overflow: auto;
+    background: #222833;
+}
+
+/* The debug log & empty log notice */
+div.wpra-log-container,
+.notice.wpra-empty-log-notice {
+    display: block;
+    width: 800px;
+    box-sizing: border-box;
+}
+
+/* The log table */
+div.wpra-log-container > table {
+    font-family: monospace;
+    min-width: 100%;
+    border: 0;
+    border-collapse: collapse;
+}
+/* Alternating log table row background colors */
+div.wpra-log-container > table > tbody > tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.2);
+}
+/* Log table: cell formatting */
+div.wpra-log-container > table > tbody > tr > td {
+    color: #cbcdda;
+    vertical-align: baseline;
+    padding: 1px 10px;
+    border-bottom: 1px solid transparent;
+}
+
+/* Log table: level borders */
+div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
+    border-radius: 6px 0 0 6px;
+}
+/* Log table: message borders */
+div.wpra-log-container > table > tbody > tr > td.wpra-log-message {
+    border-radius: 0 6px 6px 0;
+}
+
+/* Log table: date and level cells do not wrap */
+div.wpra-log-container > table > tbody > tr > td.wpra-log-date,
+div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
+    white-space: nowrap;
+    overflow: hidden;
+}
+div.wpra-log-container > table > tbody > tr > td.wpra-log-date {
+    width: 150px;
+}
+div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
+    text-align: center;
+    width: 80px;
+}
+
+/* Log table: styling for DEBUG log messages */
+div.wpra-log-container > table > tbody > tr.wpra-log-debug > td:not(.wpra-log-date) {
+    color: #b695e6;
+}
+/* Log table: styling for INFO log messages */
+div.wpra-log-container > table > tbody > tr.wpra-log-info > td:not(.wpra-log-date) {
+    color: #38eaff;
+}
+/* Log table: styling for NOTICE log messages */
+div.wpra-log-container > table > tbody > tr.wpra-log-notice > td:not(.wpra-log-date) {
+    color: #ffea00;
+}
+/* Log table: styling for WARNING log messages */
+div.wpra-log-container > table > tbody > tr.wpra-log-warning > td:not(.wpra-log-date) {
+    color: #000;
+    background-color: #ffea00;
+    font-weight: bold;
+}
+/* Log table: styling for ERROR log messages */
+div.wpra-log-container > table > tbody > tr.wpra-log-error > td:not(.wpra-log-date) {
+    color: white;
+    background-color: #b90000;
+    font-weight: bold;
+}
+
 @media screen and (min-width: 782px) {
     #custom_feed_title {
         width: 400px;

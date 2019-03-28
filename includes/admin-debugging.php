@@ -2,8 +2,9 @@
 
 use Interop\Container\Exception\NotFoundException as ServiceNotFoundException;
 use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
+use Psr\Log\LogLevel;
 
-    /**
+/**
      * Plugin debugging
      *
      * @package    WPRSSAggregator
@@ -185,11 +186,40 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
      * Renders the Error Log.
      */
     function wprss_debug_render_error_log() {
+        $logs = wpra_get_logger()->getLogs(100, 1);
         ?>
-        <h3><?php _e( 'Error Log', WPRSS_TEXT_DOMAIN ); ?></h3>
 
-        <textarea readonly="readonly" id="wprss-error-log-textarea"><?php echo wprss_get_log(); ?></textarea>
-        <?php
+        <h3><?= __( 'Error Log', WPRSS_TEXT_DOMAIN ); ?></h3>
+
+        <?php if (count($logs) === 0) : ?>
+            <section class="notice notice-success notice-inline wpra-empty-log-notice">
+                <p><?= __('The error log is empty. Hooray 🎉', 'wprss'); ?></p>
+            </section>
+        <?php else: ?>
+        <div class="wpra-log">
+            <p>
+                <a href="#" class="wpra-toggle-logs" data-level=""><?= __('All', 'wprss') ?></a> |
+                <a href="#" class="wpra-toggle-logs" data-level="error"><?= __('Errors', 'wprss') ?></a> |
+                <a href="#" class="wpra-toggle-logs" data-level="warning"><?= __('Warnings', 'wprss') ?></a> |
+                <a href="#" class="wpra-toggle-logs" data-level="notice"><?= __('Notice', 'wprss') ?></a> |
+                <a href="#" class="wpra-toggle-logs" data-level="info"><?= __('Info', 'wprss') ?></a> |
+                <a href="#" class="wpra-toggle-logs" data-level="debug"><?= __('Debug', 'wprss') ?></a>
+            </p>
+            <div class="wpra-log-container">
+                <table>
+                    <tbody>
+                        <?php foreach ($logs as $log) : ?>
+                            <tr class="wpra-log-<?= $log['level'] ?>">
+                                <td class="wpra-log-date"><?= $log['date'] ?></td>
+                                <td class="wpra-log-level"><?= ucfirst($log['level']) ?></td>
+                                <td class="wpra-log-message"><?= $log['message'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif;
     }
 
     /**

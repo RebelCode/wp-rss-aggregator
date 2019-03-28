@@ -46,10 +46,12 @@ use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
 use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
+use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
+use RebelCode\Wpra\Core\Modules\WpModule;
 use RebelCode\Wpra\Core\Plugin;
 
 /**
@@ -58,13 +60,13 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.12.2', true );
+    define( 'WPRSS_VERSION', '4.12.2' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
-    define( 'WPRSS_WP_MIN_VERSION', '4.0', true );
+    define( 'WPRSS_WP_MIN_VERSION', '4.0' );
 
 if( !defined( 'WPRSS_MIN_PHP_VERSION' ) )
-    define( 'WPRSS_MIN_PHP_VERSION', '5.3.9', true );
+    define( 'WPRSS_MIN_PHP_VERSION', '5.3.9' );
 
 // Set the database version number of the plugin.
 if( !defined( 'WPRSS_DB_VERSION' ) )
@@ -72,11 +74,11 @@ if( !defined( 'WPRSS_DB_VERSION' ) )
 
 // Set the plugin prefix
 if( !defined( 'WPRSS_PREFIX' ) )
-    define( 'WPRSS_PREFIX', 'wprss', true );
+    define( 'WPRSS_PREFIX', 'wprss' );
 
 // Set the plugin prefix
 if( !defined( 'WPRSS_FILE_CONSTANT' ) )
-    define( 'WPRSS_FILE_CONSTANT', __FILE__, true );
+    define( 'WPRSS_FILE_CONSTANT', __FILE__ );
 
 // Set constant path to the plugin directory.
 if( !defined( 'WPRSS_DIR' ) )
@@ -88,35 +90,35 @@ if( !defined( 'WPRSS_URI' ) )
 
 // Set the constant path to the plugin's javascript directory.
 if( !defined( 'WPRSS_JS' ) )
-    define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ), true );
+    define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ) );
 
 // Set the constant path to the plugin's CSS directory.
 if( !defined( 'WPRSS_CSS' ) )
-    define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ), true );
+    define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ) );
 
 // Set the constant path to the plugin's images directory.
 if( !defined( 'WPRSS_IMG' ) )
-    define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'images' ), true );
+    define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'images' ) );
 
 // Set the constant path to the plugin's includes directory.
 if( !defined( 'WPRSS_INC' ) )
-    define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ), true );
+    define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ) );
 
 if( !defined( 'WPRSS_LANG' ) )
-    define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ), true );
+    define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ) );
 
 if( !defined( 'WPRSS_TEMPLATES' ) )
-    define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ), true );
+    define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ) );
 
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
-    define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log', true );
+    define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log' );
 
 if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
-    define( 'WPRSS_LOG_FILE_EXT', '.txt', true );
+    define( 'WPRSS_LOG_FILE_EXT', '.txt' );
 
 if ( !defined('WPRSS_SL_STORE_URL') ) {
-    define( 'WPRSS_SL_STORE_URL', 'https://www.wprssaggregator.com', TRUE );
+    define( 'WPRSS_SL_STORE_URL', 'https://www.wprssaggregator.com' );
 }
 
 if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
@@ -125,11 +127,11 @@ if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
 
 // Maximum time for the feed source to be fetched
 if ( !defined( 'WPRSS_FEED_FETCH_TIME_LIMIT' ) ) {
-    define( 'WPRSS_FEED_FETCH_TIME_LIMIT', 30, TRUE );
+    define( 'WPRSS_FEED_FETCH_TIME_LIMIT', 30 );
 }
 // Maximum time for a single feed item to import
 if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
-    define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15, TRUE );
+    define( 'WPRSS_ITEM_IMPORT_TIME_LIMIT', 15 );
 }
 // Where to take the diagnostic tests from
 if ( !defined( 'WPRACORE_DIAG_TESTS_DIR' ) ) {
@@ -285,7 +287,7 @@ require_once ( WPRSS_INC . 'admin-editor.php' );
 require_once ( WPRSS_INC . 'admin-heartbeat.php' );
 
 // Load the statistics functions file
-require_once ( WPRSS_INC . 'admin-statistics.php' );
+// require_once ( WPRSS_INC . 'admin-statistics.php' );
 
 // Load the logging functions file
 require_once ( WPRSS_INC . 'admin-log.php' );
@@ -373,6 +375,8 @@ function wpra_modules()
 {
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
+        'wordpress' => new WpModule(),
+        'logging' => new LoggerModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
         'blacklist' => new FeedBlacklistModule(),

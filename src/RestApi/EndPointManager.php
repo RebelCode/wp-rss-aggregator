@@ -91,12 +91,16 @@ class EndPointManager
      *
      * @since [*next-version*]
      *
-     * @param ValidatorInterface $authValidator The validator instance.
+     * @param ValidatorInterface|null $authValidator The validator instance, if any.
      *
      * @return callable The callback.
      */
-    protected function getPermissionCallback(ValidatorInterface $authValidator)
+    protected function getPermissionCallback(ValidatorInterface $authValidator = null)
     {
+        if ($authValidator) {
+            return null;
+        }
+
         return function (WP_REST_Request $request) use ($authValidator) {
             try {
                 $authValidator->validate($request);

@@ -360,4 +360,42 @@ if ( !String.prototype.trim ) {
             $el.find('.add-on').height( h );                    
         });                
     });            
-})(jQuery); 
+})(jQuery);
+
+// For the debug log
+(function($) {
+    $(document).ready(function(){
+        // For each WPRA log on the page
+        $('.wpra-log').each(function () {
+            var logDivEl = $(this);
+
+            // For each level-toggle link
+            logDivEl.find('a.wpra-toggle-logs').each(function () {
+                var linkEl = $(this);
+                // Get its level
+                var level = linkEl.data('level');
+
+                // Add the number of logs with that level to the link text
+                var countSelector = (level.length > 0)
+                    ? 'table tbody tr.wpra-log-' + level
+                    : 'table tbody tr';
+                var count = logDivEl.find(countSelector).length;
+                linkEl.text(linkEl.text() + ' (' + count + ')');
+
+                if (count == 0) {
+                    linkEl.addClass('wpra-log-filter-disabled');
+                } else {
+                    // Add click event to filter the logs
+                    linkEl.bind('click', function () {
+                        console.log('DA FAK', level);
+                        logDivEl.find('table tbody tr').show();
+
+                        if (level.length > 0) {
+                            logDivEl.find('table tbody tr:not(.wpra-log-' + level + ')').toggle();
+                        }
+                    });
+                }
+            });
+        });
+    });
+})(jQuery);

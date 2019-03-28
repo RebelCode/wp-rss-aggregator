@@ -808,7 +808,9 @@
      */
     function wprss_get_schedules() {
         $schedules = wp_get_schedules();
-        uasort( $schedules, create_function( '$a,$b', 'return $a["interval"]-$b["interval"];' ) );
+        uasort( $schedules, function($a, $b) {
+            return $a['interval'] - $b['interval'];
+        } );
         return $schedules;
     }
 

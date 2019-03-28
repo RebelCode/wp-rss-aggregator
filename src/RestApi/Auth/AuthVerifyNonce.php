@@ -9,7 +9,7 @@ use WP_REST_Request;
  *
  * @since [*next-version*]
  */
-class AuthNonce extends AbstractAuthValidator
+class AuthVerifyNonce extends AbstractAuthValidator
 {
     /**
      * The name of the nonce to validate.
