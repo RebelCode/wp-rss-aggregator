@@ -270,31 +270,65 @@ form.wprss-error-log-action {
 form.wprss-error-log-action input[type="submit"]:active {
     vertical-align: baseline;
 }
+/* The debug log root element */
+div.wpra-log {
+    display: none;
+}
+
+/* The "Filters" label */
+div.wpra-log > p > strong:first-child {
+    text-decoration: underline;
+    margin-right: 10px;
+}
+
+/* The debug log filters separator */
+div.wpra-log .wpra-toggle-logs:not(:last-child)::after {
+    content: ' | ';
+    color: #3c3c3c;
+    pointer-events: none;
+}
+/* The debug log filters */
+div.wpra-log .wpra-toggle-logs a {
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 0 transparent;
+}
+/* The debug log filters when not selected */
+div.wpra-log .wpra-toggle-logs:not(.wpra-selected):not(.wpra-log-filter-disabled) a {
+    color: #626262;
+}
+/* The debug log filters when selected */
+div.wpra-log .wpra-toggle-logs.wpra-selected:not(.wpra-log-filter-disabled) a {
+    font-weight: bold;
+}
 
 /* The debug log "error" filter text color when there are errors */
-div.wpra-log a.wpra-toggle-logs[data-level="error"]:not(.wpra-log-filter-disabled) {
+div.wpra-log .wpra-toggle-logs.wpra-selected[data-level="error"]:not(.wpra-log-filter-disabled) a {
     color: #d40000;
 }
 /* The debug log "warning" filter text color when there are warnings */
-div.wpra-log a.wpra-toggle-logs[data-level="warning"]:not(.wpra-log-filter-disabled) {
+div.wpra-log .wpra-toggle-logs.wpra-selected[data-level="warning"]:not(.wpra-log-filter-disabled) a {
     color: #d45500;
 }
 /* The debug log "notice" filter text color when there are notices */
-div.wpra-log a.wpra-toggle-logs[data-level="notice"]:not(.wpra-log-filter-disabled) {
+div.wpra-log .wpra-toggle-logs.wpra-selected[data-level="notice"]:not(.wpra-log-filter-disabled) a {
     color: #d48a00;
 }
 /* The debug log "info" filter text color when there are info logs */
-div.wpra-log a.wpra-toggle-logs[data-level="info"]:not(.wpra-log-filter-disabled) {
+div.wpra-log .wpra-toggle-logs.wpra-selected[data-level="info"]:not(.wpra-log-filter-disabled) a {
     color: #009cd6;
 }
 /* The debug log "debug" filter text color when there are debug logs */
-div.wpra-log a.wpra-toggle-logs[data-level="debug"]:not(.wpra-log-filter-disabled) {
+div.wpra-log .wpra-toggle-logs.wpra-selected[data-level="debug"]:not(.wpra-log-filter-disabled) a {
     color: #8242d4;
 }
-div.wpra-log a.wpra-toggle-logs.wpra-log-filter-disabled {
-    color: grey !important;
+
+/* Disabled debug log filters */
+div.wpra-log .wpra-toggle-logs.wpra-log-filter-disabled a {
+    color: #8b8b8b !important;
+    font-style: italic;
     text-decoration: none;
-    pointer-events: none;
+    cursor: not-allowed;
 }
 
 /* The debug log */
@@ -321,9 +355,9 @@ div.wpra-log-container > table {
     border: 0;
     border-collapse: collapse;
 }
-/* Alternating log table row background colors */
-div.wpra-log-container > table > tbody > tr:nth-child(even) {
-    background: rgba(0, 0, 0, 0.2);
+/* Log table: row formatting */
+div.wpra-log-container > table > tbody > tr {
+
 }
 /* Log table: cell formatting */
 div.wpra-log-container > table > tbody > tr > td {
@@ -331,15 +365,6 @@ div.wpra-log-container > table > tbody > tr > td {
     vertical-align: baseline;
     padding: 1px 10px;
     border-bottom: 1px solid transparent;
-}
-
-/* Log table: level borders */
-div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
-    border-radius: 6px 0 0 6px;
-}
-/* Log table: message borders */
-div.wpra-log-container > table > tbody > tr > td.wpra-log-message {
-    border-radius: 0 6px 6px 0;
 }
 
 /* Log table: date and level cells do not wrap */
@@ -369,13 +394,13 @@ div.wpra-log-container > table > tbody > tr.wpra-log-notice > td:not(.wpra-log-d
     color: #ffea00;
 }
 /* Log table: styling for WARNING log messages */
-div.wpra-log-container > table > tbody > tr.wpra-log-warning > td:not(.wpra-log-date) {
+div.wpra-log-container > table > tbody > tr.wpra-log-warning > td {
     color: #000;
     background-color: #ffea00;
     font-weight: bold;
 }
 /* Log table: styling for ERROR log messages */
-div.wpra-log-container > table > tbody > tr.wpra-log-error > td:not(.wpra-log-date) {
+div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
     color: white;
     background-color: #b90000;
     font-weight: bold;
