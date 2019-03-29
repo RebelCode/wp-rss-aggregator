@@ -138,7 +138,7 @@
 					    $logger->notice('{0}: Item "{1}" is blacklisted', [$feed_name, $item_title]);
 					}
 					if ( $permalink_exists ) {
-                        $logger->notice('{0}: Item "{1}" is already imported', [$feed_name, $item_title]);
+                        $logger->notice('{0}: Item "{1}" already exists in the database', [$feed_name, $item_title]);
 					}
 					if ( $title_exists ) {
                         $logger->notice('{0}: An item with the title "{1}" already exists', [$feed_name, $item_title]);
