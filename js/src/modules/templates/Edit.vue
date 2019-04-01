@@ -208,7 +208,7 @@
                          onInput={(e) => this.model.options.links_behavior = e}
                   />
                 </Postbox>
-                <Postbox id="template-custom-css" title="Custom CSS class">
+                <Postbox id="template-custom-css" title="Custom CSS Class">
                   <Input type="text"
                          placeholder={'Enter custom CSS class name'}
                          value={this.model.options.custom_css_classname}
@@ -219,13 +219,13 @@
               <Main>
                 <Postbox id="template-details" title="Template Details">
                   <Input type="text"
-                         label={'Template Name'}
+                         label={'Template name'}
                          value={this.model.name}
                          onInput={(e) => this.model.name = e}
                          disabled={this.model.type === '__built_in'}
                   />
                   <Input type="select"
-                         label={'Template Type'}
+                         label={'Template type'}
                          value={this.model.type}
                          options={this.typeOptions}
                          onInput={(e) => this.model.type = e}
