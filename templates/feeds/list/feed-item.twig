@@ -6,7 +6,7 @@
 
 {# Show the title #}
 <div class="wpra-item-link">
-    {{ item_title | wpralink(item.permalink, options.title_is_link) }}
+    {{ item_title | wpralink(item.permalink, options.title_is_link, options) }}
     {{ options.title_after }}
 </div>
 
@@ -23,7 +23,7 @@
     {% if options.source_enabled %}
         <span class="feed-source">
             {{ options.source_prefix }}
-            {{ item.source.title | wpralink(item.source.site_url, options.source_is_link) }}
+            {{ item.source.title | wpralink(item.source.site_url, options.source_is_link, options) }}
         </span>
     {% endif %}
 
