@@ -146,24 +146,21 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     protected function getDbOptionsMask()
     {
         return [
-            'template_type' => true,
-            'pagination_enabled' => true,
-            'author_prefix' => true,
-            'items_max_num' => true,
-            'title_max_length' => true,
-            'title_is_link' => true,
-            'pagination_type' => true,
-            'source_enabled' => true,
-            'source_prefix' => true,
-            'source_is_link' => true,
-            'author_enabled' => true,
-            'date_enabled' => true,
-            'date_prefix' => true,
+            'feed_limit' => true,
+            'title_limit' => true,
+            'title_link' => true,
+            'pagination' => true,
+            'source_enable' => true,
+            'source_link' => true,
+            'text_preceding_source' => true,
+            'authors_enable' => true,
+            'date_enable' => true,
+            'text_preceding_date' => true,
             'date_format' => true,
-            'date_use_time_ago' => true,
-            'links_open_behavior' => true,
-            'links_rel_nofollow' => true,
-            'links_video_embed_page' => true,
+            'time_ago_format_enable' => true,
+            'open_dd' => true,
+            'follow_dd' => true,
+            'video_link' => true,
         ];
     }
 }
