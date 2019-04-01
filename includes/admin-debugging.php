@@ -195,7 +195,7 @@ use Psr\Log\LogLevel;
 
         <?php if (count($logs) === 0) : ?>
             <section class="notice notice-success notice-inline wpra-empty-log-notice">
-                <p><?= __('The error log is empty. Hooray 🎉', 'wprss'); ?></p>
+                <p><?= __('The log is empty', 'wprss'); ?></p>
             </section>
         <?php else: ?>
         <div class="wpra-log">
