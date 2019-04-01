@@ -1,16 +1,19 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Shortcodes;
+namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
 use Dhii\Output\TemplateInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
+use WP_REST_Request;
+use WP_REST_Response;
 
 /**
- * The feeds shortcode handler.
+ * The REST API endpoint for rendering templates.
  *
  * @since [*next-version*]
  */
-class FeedsShortcode
+class RenderTemplateEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The settings dataset.
@@ -45,21 +48,24 @@ class FeedsShortcode
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @since [*next-version*]
-     *
-     * @param array $args The shortcode arguments.
-     *
-     * @return string The rendered shortcode result.
      */
-    public function __invoke($args = [])
+    protected function handle(WP_REST_Request $request)
     {
+        $args = $request->get_params();
+
         // Decode HTML entities in the arguments
         $args = is_array($args) ? $args : [];
         $args = array_map('html_entity_decode', $args);
+
         // Render the template
         $result = $this->template->render($args);
 
         // Filter the result and return it
-        return apply_filters('wprss_shortcode_output', $result);
+        return new WP_REST_Response([
+            'html' => apply_filters('wprss_shortcode_output', $result)
+        ]);
     }
 }

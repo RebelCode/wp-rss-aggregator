@@ -208,12 +208,77 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * The feeds template model structure.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/model_schema' => function (ContainerInterface $c) {
+                return [
+                    'id' => '',
+                    'name' => '',
+                    'slug' => '',
+                    'type' => 'list',
+                    'options' => [
+                        'items_max_num' => 15,
+                        'title_max_length' => 0,
+                        'title_is_link' => true,
+                        'pagination_enabled' => true,
+                        'pagination_type' => 'default',
+                        'source_enabled' => true,
+                        'source_prefix' => __('Source:', WPRSS_TEXT_DOMAIN),
+                        'source_is_link' => true,
+                        'author_enabled' => false,
+                        'author_prefix' =>  __('By', WPRSS_TEXT_DOMAIN),
+                        'date_enabled' => true,
+                        'date_prefix' => __('Published on:', WPRSS_TEXT_DOMAIN),
+                        'date_format' => 'Y-m-d',
+                        'date_use_time_ago' => false,
+                        'links_behavior' => 'blank',
+                        'links_nofollow' => false,
+                        'links_video_embed_page' => false,
+                        'bullets_enabled' => true,
+                        'bullet_type' => 'default',
+                        'custom_css_classname' => '',
+                    ]
+                ];
+            },
+            /*
+             * Feed template's fields options.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/template_options' => function (ContainerInterface $c) {
+                return [
+                    'type' => [
+                        '__built_in' => __('List', WPRSS_TEXT_DOMAIN),
+                        'list' => __('List', WPRSS_TEXT_DOMAIN),
+                        'grid' => __('Grid', WPRSS_TEXT_DOMAIN),
+                    ],
+                    'links_behavior' => [
+                        'self' => __('Self', WPRSS_TEXT_DOMAIN),
+                        'blank' => __('Open in a new tab', WPRSS_TEXT_DOMAIN),
+                        'lightbox' => __('Open in a lightbox', WPRSS_TEXT_DOMAIN)
+                    ],
+                    'pagination_type' => [
+                        'default' => __('Default', WPRSS_TEXT_DOMAIN),
+                        'numbered' => __('Numbered', WPRSS_TEXT_DOMAIN),
+                    ],
+                    'bullet_type' => [
+                        'default' => __('Bullets', WPRSS_TEXT_DOMAIN),
+                        'numbers' => __('Numbers', WPRSS_TEXT_DOMAIN),
+                    ],
+                ];
+            },
+            /*
              * The handler that renders the admin feeds templates page.
              *
              * @since [*next-version*]
              */
             'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
-                return new RenderAdminTemplatesPageHandler();
+                return new RenderAdminTemplatesPageHandler(
+                    $c->get('wpra/templates/feeds/model_schema'),
+                    $c->get('wpra/templates/feeds/template_options')
+                );
             },
             /*
              * The handler that renders template content.
@@ -320,6 +385,11 @@ class FeedTemplatesModule implements ModuleInterface
                     ['DELETE'],
                     $c->get('wpra/rest_api/v1/templates/delete_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+                $manager->addEndPoint(
+                    '/templates/render(?:/(?P<template>[^/]+))?',
+                    ['GET'],
+                    $c->get('wpra/rest_api/v1/templates/render_endpoint')
                 );
 
                 return $manager;

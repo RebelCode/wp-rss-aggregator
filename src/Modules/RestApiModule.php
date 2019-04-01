@@ -9,6 +9,7 @@ use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\CreateUpdateTemplateEndP
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\DeleteTemplateEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\GetTemplatesEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\PatchTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\RenderTemplateEndPoint;
 
 /**
  * The REST API module for WP RSS Aggregator.
@@ -89,6 +90,17 @@ class RestApiModule implements ModuleInterface
              */
             'wpra/rest_api/v1/templates/delete_endpoint' => function (ContainerInterface $c) {
                 return new DeleteTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
+            },
+            /*
+             * The templates rendering endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/rest_api/v1/templates/render_endpoint' => function (ContainerInterface $c) {
+                return new RenderTemplateEndPoint(
+                    $c->get('wpra/settings/dataset'),
+                    $c->get('wpra/templates/feeds/master_template')
+                );
             },
         ];
     }

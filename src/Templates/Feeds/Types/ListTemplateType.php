@@ -38,9 +38,21 @@ class ListTemplateType extends AbstractFeedTemplateType
     {
         $general_settings = get_option('wprss_settings_general');
 
+        // Enqueue scripts
+        wp_enqueue_script('jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', ['jquery']);
+        wp_enqueue_script('wprss_custom', WPRSS_JS . 'custom.js', ['jquery', 'jquery.colorbox-min']);
+
+        wp_enqueue_script('wpra-manifest', WPRSS_JS . 'wpra-manifest.min.js', ['jquery']);
+        wp_enqueue_script('wpra-pagination', WPRSS_JS . 'pagination.min.js', ['wpra-manifest']);
+
+        wp_localize_script('wpra-pagination', 'WpraPagination', [
+            'baseUri' => rest_url('/wpra/v1/templates/render/'),
+        ]);
+
         if (empty($general_settings['styles_disable'])) {
             wp_enqueue_style('colorbox', WPRSS_CSS . 'colorbox.css', [], '1.4.33');
             wp_enqueue_style('wpra-list-template-styles', WPRSS_CSS . 'templates/list/styles.css', [], WPRSS_VERSION);
+            wp_enqueue_style('wpra-pagination', WPRSS_CSS . 'pagination.min.css');
         }
     }
 
@@ -67,8 +79,7 @@ class ListTemplateType extends AbstractFeedTemplateType
                 'flags' => [],
                 'default' => true,
             ],
-            'pagination' => [
-                'key' => 'pagination_enabled',
+            'pagination_enabled' => [
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => true,
             ],
@@ -127,6 +138,10 @@ class ListTemplateType extends AbstractFeedTemplateType
             'links_video_embed_page' => [
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
+            ],
+            'custom_css_classname' => [
+                'filter' => FILTER_DEFAULT,
+                'default' => '',
             ],
         ];
     }

@@ -174,7 +174,11 @@ class MasterFeedsTemplate implements TemplateInterface
         $fullCtx = $arrCtx;
         $fullCtx['items'] = $items;
         $fullCtx['model'] = $model;
+
+        $perPage = isset($fullCtx['pagination']['num_items']) ? $fullCtx['pagination']['num_items'] : 0;
+
         $fullCtx['pagination']['total'] = $count;
+        $fullCtx['pagination']['total_pages'] = $perPage ? ceil($count / $perPage) : 0;
 
         return $template->render($fullCtx);
     }
