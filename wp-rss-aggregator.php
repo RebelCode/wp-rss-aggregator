@@ -286,9 +286,6 @@ require_once ( WPRSS_INC . 'admin-editor.php' );
 /* Load the admin heartbeat functions */
 require_once ( WPRSS_INC . 'admin-heartbeat.php' );
 
-// Load the statistics functions file
-// require_once ( WPRSS_INC . 'admin-statistics.php' );
-
 // Load the logging functions file
 require_once ( WPRSS_INC . 'admin-log.php' );
 
