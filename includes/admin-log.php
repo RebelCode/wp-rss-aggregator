@@ -49,7 +49,7 @@ function wprss_log_read($length = null, $start = null)
 
     $output = '';
     foreach ($logs as $log) {
-        $output .= sprintf('[%s] %s: %s', $log->date, $log->level, $log->message) . PHP_EOL;
+        $output .= sprintf('[%s] %s: %s', $log['date'], $log['level'], $log['message']) . PHP_EOL;
     }
 
     return $output;
