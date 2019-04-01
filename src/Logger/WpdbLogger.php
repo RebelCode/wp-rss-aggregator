@@ -145,7 +145,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
 
         $table = $table->filter([
             TableInterface::FILTER_ORDER_BY => $this->columns[static::LOG_DATE],
-            TableInterface::FILTER_ORDER => 'ASC',
+            TableInterface::FILTER_ORDER => 'DESC',
         ]);
 
         $logs = [];
@@ -157,7 +157,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
             $logs[] = $log;
         }
 
-        return $logs;
+        return array_reverse($logs);
     }
 
     /**
