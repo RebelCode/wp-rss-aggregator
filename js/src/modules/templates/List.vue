@@ -184,7 +184,7 @@
           return [
             <div><strong>{ row.name }</strong> <small>ID: { row.id }</small></div>,
             <div class="row-actions">{
-                (row.type !== '__built_in')
+                (row.type !== '__built_ins')
                   ?
                   <span class="edit">
                     <RouteLink path={editPath(row.id)}>Edit</RouteLink> |

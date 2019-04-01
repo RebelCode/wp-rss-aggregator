@@ -90,7 +90,9 @@
             }
           })
         }).finally(() => {
-          this.notification.show('Template saved!')
+          this.notification.show('Template saved!', {
+            type: 'success'
+          })
           this.isSaving = false
         })
       },
@@ -101,7 +103,7 @@
       },
       prepareModel () {
         return Object.keys(this.model)
-          .filter(key => key !== 'id')
+          .filter(key => !['rest_route'].includes(key))
           .reduce((acc, key) => {
             acc[key] = this.model[key]
             return acc
@@ -174,7 +176,7 @@
                     <div id="major-publishing-actions">
                       <div id="delete-action">
                         {
-                          this.isChanged() ? <a href="#" onClick={(e) => {e.preventDefault(); this.cancelChanges()}}>
+                          this.isChanged() ? <a href="#" class="submitdelete" onClick={(e) => {e.preventDefault(); this.cancelChanges()}}>
                             Cancel Changes
                           </a> : null
                         }

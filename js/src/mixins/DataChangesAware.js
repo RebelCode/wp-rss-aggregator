@@ -38,6 +38,9 @@ export default {
      * Cancel any changes on main model object.
      */
     cancelChanges () {
+      if (!confirm('Are you sure you want to cancel changes? This action cannot be reverted.')) {
+        return
+      }
       this.$set(this, 'model', jsonClone(this.changes.model))
     },
   }
