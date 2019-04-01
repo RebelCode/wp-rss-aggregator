@@ -139,6 +139,10 @@ class ListTemplateType extends AbstractFeedTemplateType
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
             ],
+            'custom_css_classname' => [
+                'filter' => FILTER_DEFAULT,
+                'default' => '',
+            ],
         ];
     }
 }

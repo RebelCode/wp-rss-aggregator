@@ -2,7 +2,7 @@
     {% set hasItems = false %}
     {% for item in items %}
         {% set hasItems = true %}
-        <li class="wpra-item">
+        <li class="wpra-item {{ options.custom_css_classname }}">
             {{ options.before_item|raw }}
             {{ include(self.dir ~ 'feed-item.twig') }}
             {{ options.after_item|raw }}
