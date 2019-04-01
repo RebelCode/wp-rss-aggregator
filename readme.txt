@@ -270,6 +270,7 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 
 = 4.12.3 (2019-04-01) =
 * Fixed an issue with Feed to Post not being able to show feed items in the shortcode.
+* Fixed deprecation notices on PHP 7.3.
 
 = 4.12.2 (2019-03-26) =
 * Fixed an admin capability bug that disallowed admin users from fetching feed items.
