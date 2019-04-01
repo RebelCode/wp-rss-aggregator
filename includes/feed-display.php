@@ -48,7 +48,7 @@
      */
     function wprss_render_feed_item( $ID = NULL, $default = '', $args = array() ) {
         $ID = ( $ID === NULL )? get_the_ID() : $ID;
-        if ( get_post_type( $ID ) !== 'wprss_feed_item' || is_feed() ) return $default;
+        if ( is_feed() ) return $default;
 
         // Prepare the options
         $general_settings = get_option( 'wprss_settings_general' );
