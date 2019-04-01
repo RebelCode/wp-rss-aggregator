@@ -183,16 +183,11 @@
         name: ({ row }) => {
           return [
             <div><strong>{ row.name }</strong> <small>ID: { row.id }</small></div>,
-            <div class="row-actions">{
-                (row.type !== '__built_ins')
-                  ?
-                  <span class="edit">
-                    <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
-                  </span>
-                  :
-                  null
-              }
-              <span class="inline" style={{paddingLeft: row.type !== '__built_in' ? '4px' : 0}}>
+            <div class="row-actions">
+              <span className="edit">
+                <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
+              </span>
+              <span class="inline" style={{paddingLeft: '4px'}}>
                 <a href="#"
                    onClick={(e) => {e.preventDefault(); this.duplicateTemplate(row)}}
                 >Duplicate</a> {row.type !== '__built_in' ? '|' : ''}
