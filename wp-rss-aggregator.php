@@ -40,6 +40,7 @@
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
 use RebelCode\Wpra\Core\Modules\CoreModule;
+use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedItemsModule;
 use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
@@ -220,9 +221,6 @@ require_once ( WPRSS_INC . 'feed-states.php' );
 /* Load the feed display functions file */
 require_once ( WPRSS_INC . 'legacy-feed-display.php' );
 
-/* Load the custom feed file */
-require_once ( WPRSS_INC . 'custom-feed.php' );
-
 /* Load the custom post type feeds file */
 require_once ( WPRSS_INC . 'cpt-feeds.php' );
 
@@ -383,6 +381,7 @@ function wpra_modules()
         'templates' => new FeedTemplatesModule(),
         'twig' => new TwigModule(),
         'rest_api' => new RestApiModule(),
+        'custom_feed' => new CustomFeedModule(),
     ]);
 }
 
