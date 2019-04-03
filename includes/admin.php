@@ -95,10 +95,17 @@
      * Change title on wprss_feed post type screen
      *
      * @since  2.0
-     * @return void
+     *
+     * @param string $original The original title placeholder.
+     *
+     * @return string
      */
-    function wprss_change_title_text() {
-        return __( 'Name this feed (e.g. WP Mayor)', WPRSS_TEXT_DOMAIN );
+    function wprss_change_title_text($original) {
+        if (get_post_type() === 'wprss_feed') {
+            return __('Name this feed (e.g. WP Mayor)', WPRSS_TEXT_DOMAIN);
+        }
+
+        return $original;
     }
 
 
