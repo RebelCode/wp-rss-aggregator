@@ -70,7 +70,6 @@ let config = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@rebelcode/std-lib': '@rebelcode/std-lib/dist/std-lib.umd.js',
-      'vue-wp-list-table': path.resolve(__dirname, '../../../../../vue-wp-list-table-component/'),
       app: path.resolve(__dirname, 'js/src'),
       css: path.resolve(__dirname, 'css'),
     },

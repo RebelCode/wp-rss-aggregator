@@ -1,5 +1,5 @@
 <script>
-  import VueTable from 'vue-wp-list-table/dist/vue-wp-list-table.common'
+  import VueTable from 'vue-wp-list-table/vue-wp-list-table.common'
   import RouteLink from 'app/components/RouteLink'
   import Input from 'app/components/Input'
   import BottomPanel from 'app/components/BottomPanel'
