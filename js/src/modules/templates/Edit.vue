@@ -249,72 +249,85 @@
                          label={'Show publish date'}
                          value={this.model.options.date_enabled}
                          onInput={(e) => this.model.options.date_enabled = e}
+                         style={{paddingTop: '20px', fontWeight: 500}}
                   />
                   <Input type="text"
                          label={'Text preceeding date'}
                          value={this.model.options.date_prefix}
                          onInput={(e) => this.model.options.date_prefix = e}
+                         disabled={!this.model.options.date_enabled}
                   />
                   <Input type="text"
                          label={'Date format'}
                          value={this.model.options.date_format}
                          onInput={(e) => this.model.options.date_format = e}
+                         disabled={!this.model.options.date_enabled}
                   />
                   <Input type="checkbox"
                          label={'Use "time ago" format'}
                          value={this.model.options.date_use_time_ago}
                          onInput={(e) => this.model.options.date_use_time_ago = e}
+                         disabled={!this.model.options.date_enabled}
                   />
 
                   <Input type="checkbox"
                          label={'Show source name'}
                          value={this.model.options.source_enabled}
                          onInput={(e) => this.model.options.source_enabled = e}
+                         style={{paddingTop: '20px', fontWeight: 500}}
                   />
                   <Input type="text"
                          label={'Source prefix'}
                          value={this.model.options.source_prefix}
                          onInput={(e) => this.model.options.source_prefix = e}
+                         disabled={!this.model.options.source_enabled}
                   />
                   <Input type="checkbox"
                          label={'Link source name'}
                          value={this.model.options.source_is_link}
                          onInput={(e) => this.model.options.source_is_link = e}
+                         disabled={!this.model.options.source_enabled}
                   />
 
                   <Input type="checkbox"
                          label={'Show author name'}
                          value={this.model.options.author_enabled}
                          onInput={(e) => this.model.options.author_enabled = e}
+                         style={{paddingTop: '20px', fontWeight: 500}}
                   />
                   <Input type="text"
                          label={'Text preceeding author name'}
                          value={this.model.options.author_prefix}
                          onInput={(e) => this.model.options.author_prefix = e}
+                         disabled={!this.model.options.author_enabled}
                   />
 
                   <Input type="checkbox"
                          label={'Pagination'}
                          value={this.model.options.pagination_enabled}
                          onInput={(e) => this.model.options.pagination_enabled = e}
+                         style={{paddingTop: '20px', fontWeight: 500}}
                   />
                   <Input type="select"
                          label={'Pagination style'}
                          options={WpraTemplates.options.pagination_type}
                          value={this.model.options.pagination_type}
                          onInput={(e) => this.model.options.pagination_type = e}
+                         disabled={!this.model.options.pagination_enabled}
                   />
 
                   <Input type="checkbox"
                          label={'Show bullets'}
                          value={this.model.options.bullets_enabled}
                          onInput={(e) => this.model.options.bullets_enabled = e}
+                         style={{paddingTop: '20px', fontWeight: 500}}
                   />
                   <Input type="select"
                          label={'Bullet style'}
                          options={WpraTemplates.options.bullet_type}
                          value={this.model.options.bullet_type}
                          onInput={(e) => this.model.options.bullet_type = e}
+                         disabled={!this.model.options.bullets_enabled}
                   />
                 </Postbox>
               </Main>
