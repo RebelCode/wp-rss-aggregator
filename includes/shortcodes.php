@@ -25,7 +25,12 @@
         ob_start(); // start an output buffer to output of the following function
         wprss_display_feed_items( $atts ); 
         $feed_items = ob_get_clean(); // save the current buffer and clear it
-        
+
+        // Remove Feed to Post's shortcode override. This is a temporary solution and will be replaced as on 4.13
+        if (class_exists('WPRSS_FTP')) {
+            remove_filter('wprss_shortcode_output', array(WPRSS_FTP::get_instance(), 'override_shortcode'));
+        }
+
         return apply_filters( 'wprss_shortcode_output', $feed_items );
     }
     
