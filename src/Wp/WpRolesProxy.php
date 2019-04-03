@@ -24,32 +24,124 @@ class WpRolesProxy extends WP_Roles
     {
     }
 
-    public function __get($name)
+    /**
+     * Proxies a method call to the original {@link WP_Roles} instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $method    The name of the method.
+     * @param array  $arguments The method call arguments.
+     *
+     * @return mixed
+     */
+    protected function proxy($method, $arguments)
     {
         global $wp_roles;
 
         if (is_object($wp_roles)) {
-            return $wp_roles->$name;
+            return call_user_func_array([$wp_roles, $method], $arguments);
         }
 
         return null;
     }
 
-    public function __set($name, $value)
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function add_role($role, $display_name, $capabilities = [])
     {
-        global $wp_roles;
-
-        if (is_object($wp_roles)) {
-            $wp_roles->$name = $value;
-        }
+        return $this->proxy(__FUNCTION__, func_get_args());
     }
 
-    public function __call($name, $arguments)
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function remove_role($role)
     {
-        global $wp_roles;
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
 
-        if (is_object($wp_roles)) {
-            call_user_func_array([$wp_roles, $name], $arguments);
-        }
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function add_cap($role, $cap, $grant = true)
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function remove_cap($role, $cap)
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function get_role($role)
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function get_names()
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function is_role($role)
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function init_roles()
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function for_site($site_id = null)
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function get_site_id()
+    {
+        return $this->proxy(__FUNCTION__, func_get_args());
     }
 }
