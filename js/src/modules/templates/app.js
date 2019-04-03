@@ -50,8 +50,9 @@ export default {
 
     services['notification'] = ({ vue }) => {
       vue.use(toasted, {
-        position: 'top-right',
-        duration: 4000
+        position: 'top-center',
+        duration: 4000,
+        iconPack: 'callback'
       })
       return new NotificationCenter(vue.toasted.show, vue.toasted.error)
     }

@@ -91,7 +91,11 @@
           })
         }).finally(() => {
           this.notification.show('Template saved!', {
-            type: 'success'
+            type: 'success',
+            icon (el) {
+              el.classList.add('dashicons', 'dashicons-yes')
+              return el
+            },
           })
           this.isSaving = false
         })
@@ -112,9 +116,21 @@
       getShortcode () {
         return `[wp-rss-aggregator template="${this.model.slug}"]`
       },
-      copyShortcode () {
+      copyShortcode (e) {
         copyToClipboard(this.getShortcode())
-        this.notification.show('Shortcode is copied to clipboard!')
+
+        const text = e.target.innerText
+
+        e.target.style.width = e.target.getBoundingClientRect().width + 'px'
+        e.target.disabled = true
+        e.target.innerText = 'Copied!'
+
+
+        setTimeout(() => {
+          e.target.style.width = null
+          e.target.innerText = text
+          e.target.disabled = false
+        }, 5000)
       },
     },
     render () {
@@ -141,13 +157,13 @@
       }
 
       if (this.model.id) {
-        shortcode = <div class="wpra-shortcode-copy" title={'Copy chortcode'} onClick={this.copyShortcode}>
+        shortcode = <div class="wpra-shortcode-copy" title={'Copy chortcode'}>
             <div class="wpra-shortcode-copy__content">
               <strong>Shortcode: </strong>
               { ` ${this.getShortcode()}` }
             </div>
             <div class="wpra-shortcode-copy__icon">
-              <span class="dashicons dashicons-admin-page"></span>
+                <button class="button" onClick={this.copyShortcode}>Copy Shortcode</button>
             </div>
         </div>
       }
@@ -156,6 +172,7 @@
           <div class="page-title">
             <RouteLink class="back-button" path={back}>
               <span class="dashicons dashicons-arrow-left-alt"></span>
+              Templates
             </RouteLink>
             <h1 class="wp-heading-inline">
               {this.router.params.id ? 'Edit Template' : 'New Template'}
@@ -249,7 +266,7 @@
                          label={'Show publish date'}
                          value={this.model.options.date_enabled}
                          onInput={(e) => this.model.options.date_enabled = e}
-                         style={{paddingTop: '20px', fontWeight: 500}}
+                         style={{paddingTop: '20px', fontWeight: 'bold'}}
                   />
                   <Input type="text"
                          label={'Text preceeding date'}
@@ -274,7 +291,7 @@
                          label={'Show source name'}
                          value={this.model.options.source_enabled}
                          onInput={(e) => this.model.options.source_enabled = e}
-                         style={{paddingTop: '20px', fontWeight: 500}}
+                         style={{paddingTop: '20px', fontWeight: 'bold'}}
                   />
                   <Input type="text"
                          label={'Source prefix'}
@@ -293,7 +310,7 @@
                          label={'Show author name'}
                          value={this.model.options.author_enabled}
                          onInput={(e) => this.model.options.author_enabled = e}
-                         style={{paddingTop: '20px', fontWeight: 500}}
+                         style={{paddingTop: '20px', fontWeight: 'bold'}}
                   />
                   <Input type="text"
                          label={'Text preceeding author name'}
@@ -306,7 +323,7 @@
                          label={'Pagination'}
                          value={this.model.options.pagination_enabled}
                          onInput={(e) => this.model.options.pagination_enabled = e}
-                         style={{paddingTop: '20px', fontWeight: 500}}
+                         style={{paddingTop: '20px', fontWeight: 'bold'}}
                   />
                   <Input type="select"
                          label={'Pagination style'}
@@ -320,7 +337,7 @@
                          label={'Show bullets'}
                          value={this.model.options.bullets_enabled}
                          onInput={(e) => this.model.options.bullets_enabled = e}
-                         style={{paddingTop: '20px', fontWeight: 500}}
+                         style={{paddingTop: '20px', fontWeight: 'bold'}}
                   />
                   <Input type="select"
                          label={'Bullet style'}

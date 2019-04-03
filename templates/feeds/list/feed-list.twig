@@ -1,4 +1,4 @@
-<ul class="wpra-item-list">
+<ul class="wpra-item-list {{ options.bullets_enabled ? 'wpra-item-list--bullets wpra-item-list--' ~ options.bullet_type : '' }}">
     {% set hasItems = false %}
     {% for item in items %}
         {% set hasItems = true %}

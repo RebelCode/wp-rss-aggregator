@@ -143,6 +143,15 @@ class ListTemplateType extends AbstractFeedTemplateType
                 'filter' => FILTER_DEFAULT,
                 'default' => '',
             ],
+            'bullets_enabled' => [
+                'filter' => FILTER_VALIDATE_BOOLEAN,
+                'default' => true,
+            ],
+            'bullet_type' => [
+                'filter' => 'enum',
+                'options' => ['default', 'numbers'],
+                'default' => 'default',
+            ],
         ];
     }
 }
