@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.12.2
+ * Version: 4.12.3
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -13,11 +13,7 @@
  */
 
 /**
- * @package     WPRSSAggregator
- * @version     4.12.2
- * @since       1.0
- * @author      RebelCode
- * @copyright   Copyright (c) 2012-2018, RebelCode Ltd.
+ * @copyright   Copyright (c) 2012-2019, RebelCode Ltd.
  * @link        https://www.wprssaggregator.com/
  * @license     http://www.gnu.org/licenses/gpl.html
  *
@@ -40,6 +36,7 @@
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
 use RebelCode\Wpra\Core\Modules\CoreModule;
+use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedItemsModule;
 use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
@@ -60,7 +57,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.12.2' );
+    define( 'WPRSS_VERSION', '4.12.3' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.0' );
@@ -220,9 +217,6 @@ require_once ( WPRSS_INC . 'feed-states.php' );
 /* Load the feed display functions file */
 require_once ( WPRSS_INC . 'legacy-feed-display.php' );
 
-/* Load the custom feed file */
-require_once ( WPRSS_INC . 'custom-feed.php' );
-
 /* Load the custom post type feeds file */
 require_once ( WPRSS_INC . 'cpt-feeds.php' );
 
@@ -285,9 +279,6 @@ require_once ( WPRSS_INC . 'admin-editor.php' );
 
 /* Load the admin heartbeat functions */
 require_once ( WPRSS_INC . 'admin-heartbeat.php' );
-
-// Load the statistics functions file
-// require_once ( WPRSS_INC . 'admin-statistics.php' );
 
 // Load the logging functions file
 require_once ( WPRSS_INC . 'admin-log.php' );
@@ -376,16 +367,17 @@ function wpra_modules()
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
         'wordpress' => new WpModule(),
-        'logging' => new LoggerModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
-        'blacklist' => new FeedBlacklistModule(),
-        'i18n' => new I18nModule(),
-        'settings' => new SettingsModule(),
-        'shortcode' => new FeedShortcodeModule(),
-        'templates' => new FeedTemplatesModule(),
-        'twig' => new TwigModule(),
+        'feed_blacklist' => new FeedBlacklistModule(),
+        'feed_templates' => new FeedTemplatesModule(),
+        'feed_shortcode' => new FeedShortcodeModule(),
+        'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
+        'settings' => new SettingsModule(),
+        'logging' => new LoggerModule(),
+        'i18n' => new I18nModule(),
+        'twig' => new TwigModule(),
     ]);
 }
 

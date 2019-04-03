@@ -40,7 +40,7 @@ class LoggerModule implements ModuleInterface
              */
             'wpra/logs/log_table' => function (ContainerInterface $c) {
                 return new WpdbTable(
-                    $c->get('wpdb'),
+                    $c->get('wp/db'),
                     $c->get('wpra/logs/log_table_name'),
                     $c->get('wpra/logs/log_table_schema'),
                     $c->get('wpra/logs/log_table_primary_key')

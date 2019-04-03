@@ -9,6 +9,7 @@ use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\HidePublicTemplateContent
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\PreviewTemplateRedirectHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderTemplateContentHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
@@ -66,7 +67,7 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/collection' => function (ContainerInterface $c) {
                 return new FeedTemplateCollection(
-                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/cpt/name'),
                     $c->get('wpra/templates/feeds/default_template_type')
                 );
             },
@@ -114,7 +115,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/cpt_name' => function (ContainerInterface $c) {
+            'wpra/templates/feeds/cpt/name' => function (ContainerInterface $c) {
                 return 'wprss_feed_template';
             },
             /*
@@ -122,7 +123,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/cpt_labels' => function (ContainerInterface $c) {
+            'wpra/templates/feeds/cpt/labels' => function (ContainerInterface $c) {
                 return [
                     'name' => __('Templates', WPRSS_TEXT_DOMAIN),
                     'singular_name' => __('Template', WPRSS_TEXT_DOMAIN),
@@ -143,15 +144,24 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/cpt_capability' => function () {
-                return 'feed';
+            'wpra/templates/feeds/cpt/capability' => function () {
+                return 'feed_template';
+            },
+            /*
+             * The user roles that have the feed templates CPT capabilities.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/cpt/capability_roles' => function (ContainerInterface $c) {
+                // Identical to feed sources
+                return $c->get('wpra/feeds/sources/cpt/capability_roles');
             },
             /*
              * The full arguments for the feeds template CPT.
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/cpt_args' => function (ContainerInterface $c) {
+            'wpra/templates/feeds/cpt/args' => function (ContainerInterface $c) {
                 return [
                     'exclude_from_search' => true,
                     'publicly_queryable' => true,
@@ -166,31 +176,11 @@ class FeedTemplatesModule implements ModuleInterface
                         'slug' => 'feed-templates',
                         'with_front' => false,
                     ],
-                    'capability_type' => $c->get('wpra/templates/feeds/cpt_capability'),
+                    'capability_type' => $c->get('wpra/templates/feeds/cpt/capability'),
                     'map_meta_cap' => true,
                     'supports' => ['title'],
-                    'labels' => $c->get('wpra/templates/feeds/cpt_labels'),
+                    'labels' => $c->get('wpra/templates/feeds/cpt/labels'),
                 ];
-            },
-            /*
-             * The handler that registers the feeds template CPT.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/templates/feeds/register_cpt_handler' => function (ContainerInterface $c) {
-                return new RegisterCptHandler(
-                    $c->get('wpra/templates/feeds/cpt_name'),
-                    $c->get('wpra/templates/feeds/cpt_args')
-                );
-            },
-
-            /*
-             * The handler that registers the feeds template submenu page.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/templates/feeds/register_submenu_handler' => function (ContainerInterface $c) {
-                return new RegisterSubMenuPageHandler($c->get('wpra/templates/feeds/submenu_info'));
             },
             /*
              * The admin feeds templates page information.
@@ -270,6 +260,37 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * The handler that registers the feeds template CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/register_cpt_handler' => function (ContainerInterface $c) {
+                return new RegisterCptHandler(
+                    $c->get('wpra/templates/feeds/cpt/name'),
+                    $c->get('wpra/templates/feeds/cpt/args')
+                );
+            },
+            /*
+             * The handler that registers the feeds template submenu page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/register_submenu_handler' => function (ContainerInterface $c) {
+                return new RegisterSubMenuPageHandler($c->get('wpra/templates/feeds/submenu_info'));
+            },
+            /*
+             * The handler that adds the feed templates CPT capabilities to the appropriate user roles.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/add_cpt_capabilities_handler' => function (ContainerInterface $c) {
+                return new AddCptMetaCapsHandler(
+                    $c->get('wp/roles'),
+                    $c->get('wpra/templates/feeds/cpt/capability_roles'),
+                    $c->get('wpra/templates/feeds/cpt/capability')
+                );
+            },
+            /*
              * The handler that renders the admin feeds templates page.
              *
              * @since [*next-version*]
@@ -285,9 +306,9 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/render_content_handler' => function (ContainerInterface $c) {
+            'wpra/templates/feeds/handlers/render_content' => function (ContainerInterface $c) {
                 return new RenderTemplateContentHandler(
-                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/cpt/name'),
                     $c->get('wpra/templates/feeds/master_template')
                 );
             },
@@ -296,9 +317,9 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/hide_public_content_handler' => function (ContainerInterface $c) {
+            'wpra/templates/feeds/handlers/hide_public_content' => function (ContainerInterface $c) {
                 return new HidePublicTemplateContentHandler(
-                    $c->get('wpra/templates/feeds/cpt_name'),
+                    $c->get('wpra/templates/feeds/cpt/name'),
                     $c->get('wpra/templates/feeds/public_template_content_nonce')
                 );
             },
@@ -315,7 +336,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/templates/feeds/preview_template_request_handler' => function (ContainerInterface $c) {
+            'wpra/templates/feeds/handlers/preview_template_request' => function (ContainerInterface $c) {
                 return new PreviewTemplateRedirectHandler(
                     $c->get('wpra/templates/feeds/preview_template_request_param'),
                     $c->get('wpra/templates/feeds/public_template_content_nonce')
@@ -406,6 +427,8 @@ class FeedTemplatesModule implements ModuleInterface
     {
         // Register the CPT
         add_action('init', $c->get('wpra/templates/feeds/register_cpt_handler'));
+        // Add the capabilities
+        add_action('admin_init', $c->get('wpra/templates/feeds/add_cpt_capabilities_handler'));
         // Register the admin submenu
         add_action('admin_menu', $c->get('wpra/templates/feeds/register_submenu_handler'));
 
@@ -418,12 +441,12 @@ class FeedTemplatesModule implements ModuleInterface
         add_action('init', $c->get('wpra/templates/feeds/create_default_template_handler'));
 
         // Filters the front-end content for templates to render them
-        add_action('the_content', $c->get('wpra/templates/feeds/render_content_handler'));
+        add_action('the_content', $c->get('wpra/templates/feeds/handlers/render_content'));
 
         // Hooks in the handler that hides template content from the front-end by requiring a nonce
-        add_action('wp_head', $c->get('wpra/templates/feeds/hide_public_content_handler'));
+        add_action('wp_head', $c->get('wpra/templates/feeds/handlers/hide_public_content'));
 
         // Hooks in the handler that listens to template preview requests
-        add_action('init', $c->get('wpra/templates/feeds/preview_template_request_handler'));
+        add_action('init', $c->get('wpra/templates/feeds/handlers/preview_template_request'));
     }
 }

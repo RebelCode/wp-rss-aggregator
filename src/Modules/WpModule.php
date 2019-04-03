@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Wp\WpRolesProxy;
 
 /**
  * A module that provides various WordPress components as services.
@@ -24,10 +25,18 @@ class WpModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpdb' => function (ContainerInterface $c) {
+            'wp/db' => function () {
                 global $wpdb;
 
                 return $wpdb;
+            },
+            /*
+             * The WordPress user roles manager instance.
+             *
+             * @since [*next-version*]
+             */
+            'wp/roles' => function () {
+                return new WpRolesProxy();
             }
         ];
     }
