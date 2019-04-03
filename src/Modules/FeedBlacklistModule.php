@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 
 /**
@@ -25,7 +26,7 @@ class FeedBlacklistModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/blacklist/cpt_name' => function () {
+            'wpra/feeds/blacklist/cpt/name' => function () {
                 return 'wprss_blacklist';
             },
             /*
@@ -33,7 +34,7 @@ class FeedBlacklistModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/blacklist/cpt_labels' => function () {
+            'wpra/feeds/blacklist/cpt/labels' => function () {
                 return [
                     'name' => __('Blacklisted items', 'wprss'),
                     'singular_name' => __('Blacklisted item', 'wprss'),
@@ -53,24 +54,33 @@ class FeedBlacklistModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/blacklist/cpt_capability' => function () {
+            'wpra/feeds/blacklist/cpt/capability' => function () {
                 return 'feed_blacklist';
+            },
+            /*
+             * The user roles that have the feed item blacklist CPT capabilities.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/blacklist/cpt/capability_roles' => function (ContainerInterface $c) {
+                // Identical to feed sources
+                return $c->get('wpra/feeds/sources/cpt/capability_roles');
             },
             /*
              * The full arguments for the feed item blacklist CPT.
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/blacklist/cpt_args' => function (ContainerInterface $c) {
+            'wpra/feeds/blacklist/cpt/args' => function (ContainerInterface $c) {
                 return [
                     'public' => false,
                     'exclude_from_search' => true,
                     'show_ui' => true,
                     'show_in_menu' => 'edit.php?post_type=wprss_feed',
-                    'capability_type' => $c->get('wpra/feeds/blacklist/cpt_capability'),
+                    'capability_type' => $c->get('wpra/feeds/blacklist/cpt/capability'),
                     'map_meta_cap' => true,
                     'supports' => ['title'],
-                    'labels' => $c->get('wpra/feeds/blacklist/cpt_labels'),
+                    'labels' => $c->get('wpra/feeds/blacklist/cpt/labels'),
                 ];
             },
             /*
@@ -78,10 +88,22 @@ class FeedBlacklistModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/blacklist/register_cpt_handler' => function (ContainerInterface $c) {
+            'wpra/feeds/blacklist/handlers/register_cpt' => function (ContainerInterface $c) {
                 return new RegisterCptHandler(
-                    $c->get('wpra/feeds/blacklist/cpt_name'),
-                    $c->get('wpra/feeds/blacklist/cpt_args')
+                    $c->get('wpra/feeds/blacklist/cpt/name'),
+                    $c->get('wpra/feeds/blacklist/cpt/args')
+                );
+            },
+            /*
+             * The handler that adds the feed items CPT capabilities to the appropriate user roles.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/blacklist/handlers/add_cpt_capabilities' => function (ContainerInterface $c) {
+                return new AddCptMetaCapsHandler(
+                    $c->get('wp/roles'),
+                    $c->get('wpra/feeds/blacklist/cpt/capability_roles'),
+                    $c->get('wpra/feeds/blacklist/cpt/capability')
                 );
             },
         ];
@@ -104,6 +126,7 @@ class FeedBlacklistModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        add_action('init', $c->get('wpra/feeds/blacklist/register_cpt_handler'), 11);
+        add_action('init', $c->get('wpra/feeds/blacklist/handlers/register_cpt'), 11);
+        add_action('admin_init', $c->get('wpra/feeds/blacklist/handlers/add_cpt_capabilities'));
     }
 }

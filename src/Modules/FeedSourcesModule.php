@@ -4,6 +4,9 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\FeedSources\RenderFeedSourceContentHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\AddCapabilitiesHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 
 /**
@@ -26,7 +29,7 @@ class FeedSourcesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/sources/cpt_name' => function () {
+            'wpra/feeds/sources/cpt/name' => function () {
                 return 'wprss_feed';
             },
             /*
@@ -34,7 +37,7 @@ class FeedSourcesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/sources/cpt_labels' => function () {
+            'wpra/feeds/sources/cpt/labels' => function () {
                 return [
                     'name' => __('Feed Sources', 'wprss'),
                     'singular_name' => __('Feed Source', 'wprss'),
@@ -55,15 +58,15 @@ class FeedSourcesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/sources/cpt_capability' => function () {
-                return 'feed';
+            'wpra/feeds/sources/cpt/capability' => function () {
+                return 'feed_source';
             },
             /*
              * The full arguments for the feed sources CPT.
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/sources/cpt_args' => function (ContainerInterface $c) {
+            'wpra/feeds/sources/cpt/args' => function (ContainerInterface $c) {
                 return [
                     'exclude_from_search' => true,
                     'publicly_queryable' => false,
@@ -78,22 +81,47 @@ class FeedSourcesModule implements ModuleInterface
                         'slug' => 'feeds',
                         'with_front' => false,
                     ],
-                    'capability_type' => $c->get('wpra/feeds/sources/cpt_capability'),
+                    'capability_type' => $c->get('wpra/feeds/sources/cpt/capability'),
                     'map_meta_cap' => true,
                     'supports' => ['title'],
-                    'labels' => $c->get('wpra/feeds/sources/cpt_labels'),
+                    'labels' => $c->get('wpra/feeds/sources/cpt/labels'),
                     'menu_icon' => 'dashicons-rss',
                 ];
+            },
+            /*
+             * The user roles that have the feed sources CPT capabilities.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/cpt/capability_roles' => function () {
+                return ['administrator', 'editor'];
+            },
+            /*
+             * The capability for the feed sources CPT admin menu.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/menu/capability' => function () {
+                return 'manage_feed_settings';
+            },
+            /*
+             * The user roles that have the feed sources CPT admin menu capabilities.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/menu/capability_roles' => function (ContainerInterface $c) {
+                // Identical to CPT roles
+                return $c->get('wpra/feeds/sources/cpt/capability_roles');
             },
             /*
              * The handler that registers the feed sources CPT.
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/sources/register_cpt_handler' => function (ContainerInterface $c) {
+            'wpra/feeds/sources/handlers/register_cpt' => function (ContainerInterface $c) {
                 return new RegisterCptHandler(
-                    $c->get('wpra/feeds/sources/cpt_name'),
-                    $c->get('wpra/feeds/sources/cpt_args')
+                    $c->get('wpra/feeds/sources/cpt/name'),
+                    $c->get('wpra/feeds/sources/cpt/args')
                 );
             },
             /*
@@ -101,9 +129,44 @@ class FeedSourcesModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/feeds/sources/render_content_handler' => function (ContainerInterface $c) {
+            'wpra/feeds/sources/handlers/render_content' => function (ContainerInterface $c) {
                 return new RenderFeedSourceContentHandler($c->get('wpra/templates/feeds/master_template'));
             },
+            /*
+             * The handler that adds the capability that allows users to see and access the admin menu.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/handlers/add_menu_capabilities' => function (ContainerInterface $c) {
+                return new AddCapabilitiesHandler(
+                    $c->get('wp/roles'),
+                    $c->get('wpra/feeds/sources/menu/capability_roles'),
+                    [$c->get('wpra/feeds/sources/menu/capability')]
+                );
+            },
+            /*
+             * The handler that adds the CPT's capabilities to the appropriate user roles.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/handlers/add_cpt_capabilities' => function (ContainerInterface $c) {
+                return new AddCptMetaCapsHandler(
+                    $c->get('wp/roles'),
+                    $c->get('wpra/feeds/sources/cpt/capability_roles'),
+                    $c->get('wpra/feeds/sources/cpt/capability')
+                );
+            },
+            /*
+             * The full handler for adding all capabilities related to the feed sources CPT.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/add_capabilities_handler' => function (ContainerInterface $c) {
+                return new MultiHandler([
+                    $c->get('wpra/feeds/sources/handlers/add_menu_capabilities'),
+                    $c->get('wpra/feeds/sources/handlers/add_cpt_capabilities'),
+                ]);
+            }
         ];
     }
 
@@ -124,7 +187,8 @@ class FeedSourcesModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        add_action('init', $c->get('wpra/feeds/sources/register_cpt_handler'));
-        add_filter('the_content', $c->get('wpra/feeds/sources/render_content_handler'));
+        add_action('init', $c->get('wpra/feeds/sources/handlers/register_cpt'));
+        add_filter('the_content', $c->get('wpra/feeds/sources/handlers/render_content'));
+        add_action('admin_init', $c->get('wpra/feeds/sources/add_capabilities_handler'));
     }
 }
