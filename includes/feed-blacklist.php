@@ -192,7 +192,7 @@ function wprss_blacklist_row_actions( $actions ) {
 		// Get the permalink. If does not exist, then it is not an imported item.
 		$permalink = get_post_meta( $ID, 'wprss_item_permalink', TRUE );
 		if ( $permalink === '' ) {
-			$actions;
+			return $actions;
 		}
 
 		// The post type on the current screen
