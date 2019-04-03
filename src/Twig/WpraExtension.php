@@ -34,8 +34,31 @@ class WpraExtension extends AbstractExtension
     protected function getWpraLinkFilter()
     {
         $name = 'wpralink';
-        $callback = function ($text, $url, $flag) {
-            return wprss_link_display($url, $text, $flag);
+        $callback = function ($text, $url, $flag, $options) {
+            if (!$flag) {
+                return $text;
+            }
+
+            $openBehavior = isset($options['links_open_behavior'])
+                ? $options['links_open_behavior']
+                : '';
+            $relNoFollow = isset($options['links_rel_nofollow'])
+                ? $options['links_rel_nofollow']
+                : '';
+
+            $hrefAttr = sprintf('href="%s"', esc_attr($url));
+            $relAttr = ($relNoFollow == 'no_follow')
+                ? 'rel="nofollow"'
+                : '';
+
+            $targetAttr = '';
+            if ($openBehavior === 'blank') {
+                $targetAttr = 'target="_blank"';
+            } elseif ($openBehavior === 'lightbox') {
+                $targetAttr = 'class="colorbox"';
+            }
+
+            return sprintf('<a %s %s %s>%s</a>', $hrefAttr, $targetAttr, $relAttr, $text);
         };
         $options = [
             'is_safe' => ['html'],
