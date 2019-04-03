@@ -13,11 +13,7 @@
  */
 
 /**
- * @package     WPRSSAggregator
- * @version     4.12.3
- * @since       1.0
- * @author      RebelCode
- * @copyright   Copyright (c) 2012-2018, RebelCode Ltd.
+ * @copyright   Copyright (c) 2012-2019, RebelCode Ltd.
  * @link        https://www.wprssaggregator.com/
  * @license     http://www.gnu.org/licenses/gpl.html
  *
