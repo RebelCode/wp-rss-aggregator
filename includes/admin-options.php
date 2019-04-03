@@ -53,7 +53,7 @@
             'wprss_settings_sections_array',
             array(
                 'general'  =>  __( 'General plugin settings', WPRSS_TEXT_DOMAIN ),
-                'custom_feed'  =>  __( 'Custom Feed settings', WPRSS_TEXT_DOMAIN ),
+                'custom_feed'  =>  __( 'Create a Custom RSS Feed', WPRSS_TEXT_DOMAIN ),
                 'styles'   =>  __( 'Styles', WPRSS_TEXT_DOMAIN ),
             )
         );
