@@ -37,7 +37,7 @@
      */
     function wprss_render_feed_item( $ID = NULL, $default = '', $args = array() ) {
         $ID = ( $ID === NULL )? get_the_ID() : $ID;
-        if ( get_post_type( $ID ) !== 'wprss_feed_item' || is_feed() ) return $default;
+        if ( is_feed() ) return $default;
 
         // Prepare the options
         $general_settings = get_option( 'wprss_settings_general' );
@@ -250,12 +250,18 @@
         }
 
 		$feed_items_args = array(
-			'post_type'        => 'wprss_feed_item',
+		    'post_type'        => get_post_types(),
             'posts_per_page'   => $posts_per_page,
 			'orderby'          => 'date',
 			'order'            => 'DESC',
             'paged'            => $paged,
-            'suppress_filters' => true
+            'suppress_filters' => true,
+            'meta_query' => array(
+                array(
+                    'key' => 'wprss_feed_id',
+                    'compare' => 'EXISTS',
+                )
+            )
 		);
 
         if ( isset($settings['pagination']) ) {
