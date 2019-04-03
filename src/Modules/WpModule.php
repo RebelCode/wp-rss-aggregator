@@ -28,6 +28,16 @@ class WpModule implements ModuleInterface
                 global $wpdb;
 
                 return $wpdb;
+            },
+            /*
+             * The WordPress user roles manager instance.
+             *
+             * @since [*next-version*]
+             */
+            'wp/roles' => function () {
+                global $wp_roles;
+
+                return $wp_roles;
             }
         ];
     }
