@@ -32,8 +32,6 @@ add_action( 'manage_wprss_blacklist_posts_custom_column' , 'wprss_blacklist_tabl
 add_filter('bulk_actions-edit-wprss_blacklist','wprss_blacklist_bulk_actions', 5, 1 );
 // Adds the metabox to the blacklist new/edit page
 add_action('add_meta_boxes_wprss_blacklist', 'wprss_blacklist_add_meta_boxes');
-// Handler that runs when a blacklist item is saved
-add_action('save_post', 'wprss_blacklist_on_save');
 
 // Disables auto saving
 add_action( 'admin_enqueue_scripts', function () {
@@ -342,31 +340,4 @@ function wprss_blacklist_add_meta_boxes()
         },
         'wprss_blacklist'
     );
-}
-
-/**
- * Handler that saves Blacklist meta data.
- *
- * @since [*next-version*]
- */
-function wprss_blacklist_on_save($postId) {
-    static $enabled = true;
-    if (!$enabled) {
-        return;
-    }
-
-    $post = get_post($postId);
-    if ($post->post_type !== 'wprss_blacklist') {
-        return;
-    }
-
-    $permalink = filter_input(INPUT_POST, 'wprss_permalink', FILTER_VALIDATE_URL);
-    $permalink = (empty($permalink)) ? '' : $permalink;
-    update_post_meta($postId, 'wprss_permalink', $permalink);
-
-    // Make sure blacklist items are never draft
-    if ($post->post_status === 'draft') {
-        $enabled = false;
-        wp_update_post(['ID' => $postId, 'post_status' => 'publish']);
-    }
 }
