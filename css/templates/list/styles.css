@@ -29,6 +29,17 @@ div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > 
 	content: ' | ';
 }
 
+/* Bullet types */
+ul.wpra-item-list {
+	list-style: none;
+}
+ul.wpra-item-list--bullets.wpra-item-list--default {
+	list-style-type: disc;
+}
+ul.wpra-item-list--bullets.wpra-item-list--numbers {
+	list-style: decimal;
+}
+
 /**
  * Old styles
  */

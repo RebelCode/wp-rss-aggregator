@@ -1,6 +1,7 @@
 export default {
   props: {
     path: {},
+    gate: {}
   },
   inject: [
     'router'
@@ -10,8 +11,13 @@ export default {
       return this.router.buildRoute(this.path)
     },
     navigate (e) {
+      const allowed = !this.gate || this.gate()
+
       e.preventDefault()
-      this.router.navigate(this.path)
+
+      if (allowed) {
+        this.router.navigate(this.path)
+      }
     }
   },
   render () {

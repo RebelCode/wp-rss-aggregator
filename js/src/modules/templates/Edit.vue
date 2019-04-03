@@ -116,6 +116,9 @@
       getShortcode () {
         return `[wp-rss-aggregator template="${this.model.slug}"]`
       },
+      preventLoosingNotSavedData () {
+        return !this.isChanged() || confirm('Are you sure you want to go back? All unsaved changes will be lost.')
+      },
       copyShortcode (e) {
         copyToClipboard(this.getShortcode())
 
@@ -170,7 +173,7 @@
 
       let content = <div>
           <div class="page-title">
-            <RouteLink class="back-button" path={back}>
+            <RouteLink class="back-button" path={back} gate={this.preventLoosingNotSavedData}>
               <span class="dashicons dashicons-arrow-left-alt"></span>
               Templates
             </RouteLink>
