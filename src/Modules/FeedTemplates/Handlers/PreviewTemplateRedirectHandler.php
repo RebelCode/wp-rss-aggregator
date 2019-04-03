@@ -28,17 +28,29 @@ class PreviewTemplateRedirectHandler
     protected $nonce;
 
     /**
+     * The feed templates CPT capability type.
+     *
+     * @since [*next-version*]
+     *
+     * @var string
+     */
+    protected $capability;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param string $getArg The name of the GET parameter to detect.
-     * @param string $nonce The name of the nonce to that allows template content to be shown on the public-facing side.
+     * @param string $getArg     The name of the GET parameter to detect.
+     * @param string $nonce      The name of the nonce to that allows template content to be shown on the public-facing
+     *                           side of the site.
+     * @param string $capability The feed templates CPT capability type.
      */
-    public function __construct($getArg, $nonce)
+    public function __construct($getArg, $nonce, $capability)
     {
         $this->getParam = $getArg;
         $this->nonce = $nonce;
+        $this->capability = $capability;
     }
 
     /**
@@ -57,7 +69,9 @@ class PreviewTemplateRedirectHandler
             return;
         }
 
-        if (!current_user_can('read_feed_template')) {
+        $capability = sprintf('read_%s', $this->capability);
+
+        if (!current_user_can($capability, $previewId)) {
             wp_die(__('You do not have sufficient privileges!', 'wprss'));
             exit;
         }

@@ -339,7 +339,8 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/handlers/preview_template_request' => function (ContainerInterface $c) {
                 return new PreviewTemplateRedirectHandler(
                     $c->get('wpra/templates/feeds/preview_template_request_param'),
-                    $c->get('wpra/templates/feeds/public_template_content_nonce')
+                    $c->get('wpra/templates/feeds/public_template_content_nonce'),
+                    $c->get('wpra/templates/feeds/cpt/capability')
                 );
             },
             /*
