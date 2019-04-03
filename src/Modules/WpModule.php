@@ -24,7 +24,7 @@ class WpModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpdb' => function (ContainerInterface $c) {
+            'wp/db' => function () {
                 global $wpdb;
 
                 return $wpdb;
