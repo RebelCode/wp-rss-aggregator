@@ -39,7 +39,7 @@ class FeedBlacklistModule implements ModuleInterface
                     'name' => __('Blacklisted items', 'wprss'),
                     'singular_name' => __('Blacklisted item', 'wprss'),
                     'add_new' => __('Blacklist an item', 'wprss'),
-                    'all_items' => __('Blacklist', 'wprss'),
+                    'all_items' => __('Blacklisted items', 'wprss'),
                     'add_new_item' => __('Blacklist an item', 'wprss'),
                     'edit_item' => __('Edit blacklisted item', 'wprss'),
                     'new_item' => __('Blacklist an item', 'wprss'),

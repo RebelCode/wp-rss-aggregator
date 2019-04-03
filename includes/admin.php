@@ -45,11 +45,10 @@
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', WPRSS_TEXT_DOMAIN ), __( 'Help & Support', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );
     }, 60);
 
-    // Uncomment to hide the "Add New" link from menu
+    // Hides the "Add New" submenu
     add_action('admin_menu', function () {
-        // global $submenu;
-        // unset( $submenu['edit.php?post_type=wprss_feed'][10] );
-        // create submenu items
+        global $submenu;
+        unset( $submenu['edit.php?post_type=wprss_feed'][10] );
     });
 
     add_filter('admin_body_class', 'wprss_base_admin_body_class');
