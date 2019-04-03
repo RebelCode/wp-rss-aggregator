@@ -367,17 +367,17 @@ function wpra_modules()
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
         'wordpress' => new WpModule(),
-        'logging' => new LoggerModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
-        'blacklist' => new FeedBlacklistModule(),
-        'i18n' => new I18nModule(),
-        'settings' => new SettingsModule(),
-        'shortcode' => new FeedShortcodeModule(),
-        'templates' => new FeedTemplatesModule(),
-        'twig' => new TwigModule(),
-        'rest_api' => new RestApiModule(),
+        'feed_blacklist' => new FeedBlacklistModule(),
+        'feed_templates' => new FeedTemplatesModule(),
+        'feed_shortcode' => new FeedShortcodeModule(),
         'custom_feed' => new CustomFeedModule(),
+        'rest_api' => new RestApiModule(),
+        'settings' => new SettingsModule(),
+        'logging' => new LoggerModule(),
+        'i18n' => new I18nModule(),
+        'twig' => new TwigModule(),
     ]);
 }
 
