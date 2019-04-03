@@ -360,4 +360,150 @@ if ( !String.prototype.trim ) {
             $el.find('.add-on').height( h );                    
         });                
     });            
-})(jQuery); 
+})(jQuery);
+
+// The WPRA debug log
+(function($, undefined) {
+    /**
+     * Creates a new WPRA log instance.
+     *
+     * @param el The jQuery element.
+     */
+    function WpraLogViewer(el)
+    {
+        this.el = el;
+        this.filterEls = el.find('.wpra-toggle-logs');
+        this.logEls = el.find('table tbody tr');
+        this.filters = {};
+
+        this.resetFilters();
+        this.init();
+        this.update();
+        this.el.show();
+    }
+
+    /**
+     * Initializes the instance.
+     */
+    WpraLogViewer.prototype.init = function () {
+        var self = this;
+        // Init and bind events to the filter elements
+        this.filterEls.each(function () {
+            var filterEl = $(this);
+            var linkEl = filterEl.find('> a');
+            var level = filterEl.data('level');
+            var selected = filterEl.hasClass('wpra-selected');
+            var count = self.getLogCount(level);
+
+            // Add the number of logs to the text of the filter element
+            linkEl.text(linkEl.text() + ' (' + count + ')')
+
+            // If there are no logs for this filter, disable it
+            if (count == 0) {
+                filterEl.addClass('wpra-log-filter-disabled');
+                return;
+            }
+
+            // Bind the click event
+            linkEl.click(function () {
+                self.filters[level] = !self.filters[level];
+                self.update();
+            });
+        });
+    }
+
+    /**
+     * Updates the entire element.
+     */
+    WpraLogViewer.prototype.update = function () {
+        this.updateFilters();
+        this.updateLogs();
+    };
+
+    /**
+     * Updates the logs.
+     */
+    WpraLogViewer.prototype.updateLogs = function () {
+        // Show all logs
+        this.logEls.show();
+
+        // If the "all" filter is enabled, do nothing else
+        if (this.filters.all) {
+            return;
+        }
+
+        // Hide logs whose filter is disabled
+        for (var level in this.filters) {
+            if (!this.filters[level]) {
+                this.el.find('table tbody tr.wpra-log-' + level).hide();
+            }
+        }
+    };
+
+    /**
+     * Updates the filters.
+     */
+    WpraLogViewer.prototype.updateFilters = function () {
+        // Whether or not the filters are all selected (except for the "all" filter)
+        var allFiltersSelected = true;
+
+        var self = this;
+        this.filterEls.each(function () {
+            var filterEl = $(this);
+            var level = filterEl.data('level');
+
+            // Ignore the "all" filter and disabled filters
+            if (level === 'all' || filterEl.hasClass('wpra-log-filter-disabled')) {
+                return;
+            }
+
+            // The filter is marked selected if: its explicitly true in the `filters` map
+            // or the "all" filter is selected
+            var selected = self.filters[level] || self.filters.all;
+            // Update the elements "selected" class
+            filterEl.toggleClass('wpra-selected', selected);
+            // AND the flag so that if at least one filter is not selected, "allFiltersSelected" is false
+            allFiltersSelected = allFiltersSelected && selected;
+        });
+
+        // Toggle the "all" filter link's class based on whether all filters are selected
+        this.filterEls.filter('[data-level="all"]').toggleClass('wpra-selected', allFiltersSelected);
+    },
+
+    /**
+     * Counts the logs for a given log level.
+     *
+     * @param level The log level to count.
+     */
+    WpraLogViewer.prototype.getLogCount = function (level) {
+        var countEls = this.logEls;
+
+        if (level !== 'all') {
+            countEls = countEls.filter('.wpra-log-' + level);
+        }
+
+        return countEls.length;
+    };
+
+    /**
+     * Resets the filters.
+     */
+    WpraLogViewer.prototype.resetFilters = function () {
+        this.filters = {
+            all: false,
+            info: true,
+            error: true,
+            warning: false,
+            notice: false,
+            debug: false,
+        };
+    };
+
+    $(document).ready(function() {
+        window.WpraLogViewers = [];
+        // Init each WPRA log on the page
+        $('.wpra-log').each(function () {
+            WpraLogViewers.push(new WpraLogViewer($(this)));
+        });
+    });
+})(jQuery);

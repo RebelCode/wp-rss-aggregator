@@ -135,7 +135,7 @@ abstract class ComponentAbstract extends Core\Model\ModelAbstract implements Com
      */
     public function log($level, $message, array $context = array())
     {
-        return $this->getPlugin()->log($level, $message, $context);
+        return false;
     }
 
     /**

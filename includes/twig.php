@@ -1,5 +1,8 @@
 <?php
 
+use RebelCode\Wpra\Core\Templates\TwigTemplate;
+use Twig\Environment;
+
 if (defined('WPRSS_TWIG_MIN_PHP_VERSION')) {
     return;
 }
@@ -24,24 +27,11 @@ function wprss_can_use_twig()
  *
  * @since 4.12
  *
- * @return Twig_Environment The twig instance.
+ * @return Environment The twig instance.
  */
 function wprss_twig()
 {
-    static $twig = null;
-
-    if ($twig === null) {
-        $options = array();
-
-        if (!defined('WP_DEBUG') || !WP_DEBUG) {
-            $options['cache'] = get_temp_dir() . 'wprss/twig-cache';
-        }
-
-        $loader = new Twig_Loader_Filesystem(WPRSS_TEMPLATES);
-        $twig = new Twig_Environment($loader, $options);
-    }
-
-    return $twig;
+    return wpra_get('twig');
 }
 
 /**
@@ -49,16 +39,13 @@ function wprss_twig()
  *
  * @since 4.12
  *
- * @param string $template The tmeplate name.
+ * @param string $template The template name.
  *
- * @return Twig_TemplateWrapper
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
+ * @return TwigTemplate
  */
 function wprss_load_template($template)
 {
-    return wprss_twig()->load($template);
+    return wpra_get('twig/collection')[$template];
 }
 
 /**
@@ -70,11 +57,8 @@ function wprss_load_template($template)
  * @param array  $context  The template context.
  *
  * @return string
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
  */
-function wprss_render_template($template, $context = array())
+function wprss_render_template($template, $context = [])
 {
-    return wprss_twig()->load($template)->render($context);
+    return wprss_load_template($template)->render($context);
 }

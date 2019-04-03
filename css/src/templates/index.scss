@@ -1,0 +1,86 @@
+@import "bottom-panel";
+@import "loading";
+@import "notifications";
+@import "grid";
+
+.wpra-shortcode-copy {
+  font-size: 13px;
+  background-color: #fff;
+  margin-left: auto;
+  padding: 9px 14px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+
+  border-left: 4px solid #0085ba;
+
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    padding-left: 16px;
+    //opacity: .5;
+  }
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  padding: 9px 0 4px 0;
+
+  a {
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  h1 {
+    margin-left: 6px;
+    padding: 0;
+  }
+}
+
+.back-button {
+  opacity: .75;
+  text-decoration: none;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  margin-right: 4px;
+  border-right: 1px solid #b4b4b4;
+
+  .dashicons {
+    margin-right: 8px;
+  }
+}
+
+.form-input {
+  display: flex;
+  margin: .75rem 0;
+  &--vertical {
+    flex-direction: column;
+    .form-input__label {
+      padding-right: 0;
+      padding-bottom: 4px;
+      flex-basis: 100%;
+    }
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &__label {
+    padding-right: 12px;
+    flex-basis: 260px;
+    &-description {
+      padding-top: 2px;
+      opacity: .6;
+      font-size: 12px;
+    }
+  }
+  &__field {
+    flex-grow: 1;
+    input:not([type="checkbox"]), textarea, select {
+      width: 100%;
+      max-width: 325px;
+    }
+  }
+}

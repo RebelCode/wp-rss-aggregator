@@ -1,0 +1,14 @@
+<ul class="wpra-item-list {{ options.bullets_enabled ? 'wpra-item-list--bullets wpra-item-list--' ~ options.bullet_type : '' }}">
+    {% set hasItems = false %}
+    {% for item in items %}
+        {% set hasItems = true %}
+        <li class="wpra-item {{ options.custom_css_classname }}">
+            {{ options.before_item|raw }}
+            {{ include(self.dir ~ 'feed-item.twig') }}
+            {{ options.after_item|raw }}
+        </li>
+    {% endfor %}
+    {% if not hasItems %}
+        <p>{% trans "No feed items found." %}</p>
+    {% endif %}
+</ul>

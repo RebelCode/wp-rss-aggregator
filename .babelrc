@@ -5,6 +5,8 @@
     "stage-2"
   ],
   "plugins": [
-    "babel-plugin-transform-class-properties"
+    "jsx-event-modifiers",
+    "babel-plugin-transform-class-properties",
+    "transform-vue-jsx"
   ]
 }

@@ -25,24 +25,31 @@
     <?php }
 
 
-    add_action( 'admin_menu', 'wprss_register_menu_pages' );
-    /**
-     * Register menu and submenus
-     * @since 2.0
-     */
-
-    // Add the admin options pages as submenus to the Feed CPT
-    function wprss_register_menu_pages() {
-        global $submenu;
-        // Uncomment line below to hide "Add New" link from menu
-        // unset( $submenu['edit.php?post_type=wprss_feed'][10] );
-        // create submenu items
+    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', WPRSS_TEXT_DOMAIN ), __( 'Import & Export', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );
+    }, 20);
+
+    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ), __( 'Settings', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );
+    }, 30);
+
+    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', WPRSS_TEXT_DOMAIN ), __( 'Debugging', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );
+    }, 40);
+
+    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'More Features', WPRSS_TEXT_DOMAIN ), __( 'More Features', WPRSS_TEXT_DOMAIN ) . '<span class="dashicons dashicons-star-filled wprss-more-features-glyph"></span>', apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-addons', 'wprss_addons_page_display' );
+    }, 50);
+
+    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', WPRSS_TEXT_DOMAIN ), __( 'Help & Support', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );
-    }
+    }, 60);
+
+    // Hides the "Add New" submenu
+    add_action('admin_menu', function () {
+        global $submenu;
+        unset( $submenu['edit.php?post_type=wprss_feed'][10] );
+    });
 
     add_filter('admin_body_class', 'wprss_base_admin_body_class');
     /**
