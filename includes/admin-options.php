@@ -98,7 +98,7 @@
                         'callback'  =>  'wprss_settings_custom_feed_url_callback'
                     ),
                     'custom-feed-title' => array(
-                        'label'     =>  __( 'Custom feed Title', WPRSS_TEXT_DOMAIN ),
+                        'label'     =>  __( 'Custom feed title', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_settings_custom_feed_title_callback'
                     ),
                     'custom-feed-limit' => array(
