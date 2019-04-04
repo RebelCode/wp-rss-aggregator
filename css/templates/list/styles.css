@@ -33,6 +33,9 @@ div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > 
 ul.wpra-item-list {
 	list-style: none;
 }
+ul.wpra-item-list:not(.wpra-item-list--bullets) li {
+	margin-left: 0;
+}
 ul.wpra-item-list--bullets.wpra-item-list--default {
 	list-style-type: disc;
 }

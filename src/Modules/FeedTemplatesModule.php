@@ -245,7 +245,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'grid' => __('Grid', WPRSS_TEXT_DOMAIN),
                     ],
                     'links_behavior' => [
-                        'self' => __('Self', WPRSS_TEXT_DOMAIN),
+                        'self' => __('Same Tab/Window', WPRSS_TEXT_DOMAIN),
                         'blank' => __('Open in a new tab', WPRSS_TEXT_DOMAIN),
                         'lightbox' => __('Open in a lightbox', WPRSS_TEXT_DOMAIN)
                     ],
