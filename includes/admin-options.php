@@ -93,6 +93,7 @@
                         'callback'  =>  'wprss_setting_unique_titles'
                     ),
                 ),
+
                 'custom_feed' => array(
                     'custom-feed-url' => array(
                         'label'     =>  __( 'Custom feed URL', WPRSS_TEXT_DOMAIN ),
@@ -104,7 +105,7 @@
                     ),
                     'custom-feed-limit' => array(
                         'label'     =>  __( 'Custom feed limit', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_setings_custom_feed_limit_callback'
+                        'callback'  =>  'wprss_settings_custom_feed_limit_callback'
                     ),
                 ),
 
@@ -328,7 +329,7 @@
      * @since [*next-version*]
      */
     function wprss_settings_custom_feed_callback() {
-        echo wpautop( __( 'These are options that relate to the custom RSS feed.', WPRSS_TEXT_DOMAIN ) );
+        echo wpautop( __( 'WP RSS Aggregator enables you to create a custom RSS feed that will include all imported feed items. Use the options below to set it up.', WPRSS_TEXT_DOMAIN ) );
     }
 
     /**
@@ -750,7 +751,7 @@
      * Sets the custom feed limit
      * @since 3.3
      */
-    function wprss_setings_custom_feed_limit_callback( $field ) {
+    function wprss_settings_custom_feed_limit_callback( $field ) {
         $custom_feed_limit = wprss_get_general_setting( 'custom_feed_limit' );
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[custom_feed_limit]" placeholder="<?php _e( 'Default', WPRSS_TEXT_DOMAIN ) ?>" min="0" class="wprss-number-roller" type="number" value="<?php echo $custom_feed_limit ?>" />
