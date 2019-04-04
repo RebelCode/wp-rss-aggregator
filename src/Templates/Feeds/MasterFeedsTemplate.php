@@ -9,16 +9,11 @@ use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
-use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use Psr\Log\LoggerInterface;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
-use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Query\FeedItemsQueryIterator;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
-use stdClass;
-use Traversable;
 
 /**
  * An implementation of a standard Dhii template that, depending on context, delegates rendering to a WP RSS
@@ -90,6 +85,15 @@ class MasterFeedsTemplate implements TemplateInterface
     protected $feedItemCollection;
 
     /**
+     * The logger instance to use for recording errors.
+     *
+     * @since [*next-version*]
+     *
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
@@ -97,16 +101,19 @@ class MasterFeedsTemplate implements TemplateInterface
      * @param string              $default            The name of the template to use by default.
      * @param CollectionInterface $templateCollection The collection of templates.
      * @param CollectionInterface $feedItemCollection The collection of feed items.
+     * @param LoggerInterface     $logger             The logger instance to use for recording errors.
      */
     public function __construct(
         $default,
         CollectionInterface $templateCollection,
-        CollectionInterface $feedItemCollection
+        CollectionInterface $feedItemCollection,
+        LoggerInterface $logger
     ) {
         $this->types = [];
         $this->default = $default;
         $this->templateCollection = $templateCollection;
         $this->feedItemCollection = $feedItemCollection;
+        $this->logger = $logger;
     }
 
     /**
@@ -145,18 +152,17 @@ class MasterFeedsTemplate implements TemplateInterface
             return ob_get_clean();
         }
 
+        $tKey = $arrCtx['template'];
+
         try {
             // Get the template model
-            $tKey = $arrCtx['template'];
             $model = $this->templateCollection[$tKey];
         } catch (Exception $exception) {
-            $model = null;
-        }
+            $model = $this->templateCollection[$this->default];
 
-        if ($model === null) {
-            throw $this->_createTemplateRenderException(
-                sprintf(__('Template "%s" does not exist', WPRSS_TEXT_DOMAIN), $tKey),
-                null, null, $this, $ctx
+            $this->logger->warning(
+                __('Template "{0}" does not exist or could not be loaded. The "{1}" template was used is instead.'),
+                [$tKey, $this->default]
             );
         }
 
