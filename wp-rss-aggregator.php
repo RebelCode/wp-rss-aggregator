@@ -229,6 +229,9 @@ require_once ( WPRSS_INC . 'admin.php' );
 /* Load the admin options functions file. */
 require_once ( WPRSS_INC . 'admin-options.php' );
 
+/* Load the legacy admin options functions file. */
+require_once ( WPRSS_INC . 'admin-options-legacy.php' );
+
 /* Load the settings import/export file */
 require_once ( WPRSS_INC . 'admin-import-export.php' );
 

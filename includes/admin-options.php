@@ -108,13 +108,13 @@
                         'callback'  =>  'wprss_settings_custom_feed_limit_callback'
                     ),
                 ),
+            )
+        );
 
-                'styles'    =>  array(
-                    'styles-disable' => array(
-                        'label'     =>  __( 'Disable Styles', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_setting_styles_disable_callback'
-                    )
-                )
+        $settings['styles']  = array(
+            'styles-disable' => array(
+                'label'     =>  __( 'Disable Styles', WPRSS_TEXT_DOMAIN ),
+                'callback'  =>  'wprss_setting_styles_disable_callback'
             )
         );
 
@@ -348,274 +348,6 @@
      */
     function wprss_settings_styles_callback() {
         echo wpautop( __( 'If you would like to disable all styles used in this plugin, tick the checkbox.', WPRSS_TEXT_DOMAIN ) );
-    }
-
-
-    /** 
-     * Follow or No Follow dropdown
-     * @since 1.1
-     */
-    function wprss_setting_follow_dd_callback( $field ) {
-        $follow_dd = wprss_get_general_setting( 'follow_dd' );
-
-        $checked = ( $follow_dd === 'no_follow' );
-        $checked_attr = ( $checked )? 'checked="checked"' : '';
-		?>
-        <input type="hidden" name="wprss_settings_general[follow_dd]" value="follow" />
-        <input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[follow_dd]" value="no_follow" <?php echo $checked_attr ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-	
-	/**
-	 * Use original video link, or embedded video links dropwdown
-	 * @since 3.4
-	 */
-	function wprss_setting_video_links_callback( $field ) {
-		$video_link = wprss_get_general_setting('video_link');
-		$items = array(
-			'false' => __( 'Original page link', WPRSS_TEXT_DOMAIN ),
-			'true' => __( 'Embedded video player link', WPRSS_TEXT_DOMAIN )
-		);
-		?>
-		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[video_link]">
-		<?php
-		foreach ( $items as $boolean => $text ) {
-			$selected = ( $video_link === $boolean )? 'selected="selected"' : '';
-			?><option value="<?php echo $boolean ?>" <?php echo $selected ?>><?php echo $text ?></option><?php
-        }
-		?>
-		</select>
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-		<p>
-            <span class="description">
-                <?php _e( 'This will not affect already imported feed items.', WPRSS_TEXT_DOMAIN ) ?>
-            </span>
-        </p>
-		<?php
-	}
-	
-
-    /** 
-     * Link open setting dropdown
-     * @since 1.1
-     */
-    function wprss_setting_open_dd_callback( $field ) {
-        $open_dd = wprss_get_general_setting('open_dd');
-
-        $items = array( 
-            'lightbox'   => __( 'Lightbox', WPRSS_TEXT_DOMAIN ),
-            'blank' => __( 'New window', WPRSS_TEXT_DOMAIN ),
-            'self'       => __( 'Self', WPRSS_TEXT_DOMAIN )
-        );
-        ?>
-		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[open_dd]">
-		<?php
-        foreach( $items as $key => $item ) {
-            $selected = ( $open_dd == $key ) ? 'selected="selected"' : '';
-            ?><option value="<?php echo $key ?>" <?php echo $selected ?>><?php echo $item ?></option><?php
-        }
-        ?>
-		</select>
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-
-    /** 
-     * Set limit for feeds on frontend
-     * @since 2.0
-     */
-    function wprss_setting_feed_limit_callback( $field ) {
-        $feed_limit = wprss_get_general_setting( 'feed_limit' );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[feed_limit]" type="text" value="<?php echo $feed_limit ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-
-    /** 
-     * Set date format 
-     * @since 3.0
-     */
-    function wprss_setting_date_format_callback( $field ) {
-        $date_format = wprss_get_general_setting( 'date_format' );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[date_format]" type="text" value="<?php echo $date_format ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <p>
-            <a href="https://codex.wordpress.org/Formatting_Date_and_Time">
-                <?php _e( 'PHP Date Format Reference', WPRSS_TEXT_DOMAIN ); ?>
-            </a>
-        </p>
-		<?php
-    }
-
-
-
-    /** 
-     * Enable linked title
-     * @since 3.0
-     */
-    function wprss_setting_title_link_callback( $field ) {
-        $title_link = wprss_get_general_setting( 'title_link' );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[title_link]" type="checkbox" value="1" <?php echo checked( 1, $title_link, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-
-
-    /** 
-     * Set the title length limit
-     * @since 3.0
-     */
-    function wprss_setting_title_length_callback( $field ) {
-        $title_limit = wprss_get_general_setting( 'title_limit' );
-		?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[title_limit]" type="number" class="wprss-number-roller" min="0" value="<?php echo $title_limit ?>" placeholder="<?php _e( 'No limit', WPRSS_TEXT_DOMAIN ) ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-
-    /** 
-     * Enable source
-     * @since 3.0
-     */
-    function wprss_setting_source_enable_callback( $field ) {
-        $source_enable = wprss_get_general_setting( 'source_enable' );
-		?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[source_enable]" type="checkbox" value="1" <?php echo checked( 1, $source_enable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-    /** 
-     * Enable linked title
-     * @since 3.0
-     */
-    function wprss_setting_source_link_callback( $field ) {
-        $source_link = wprss_get_general_setting( 'source_link' );
-		?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[source_link]" type="checkbox" value="1" <?php echo checked( 1, $source_link, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-    /**
-     * Renders a <select> HTML tag from its parameters.
-     *
-     * @since 4.10
-     * @return string The HTML of a <select> tag.
-     */
-    function wprss_settings_render_select($id, $name, $items, $selected = null, $attributes = array())
-    {
-        ob_start();
-        $attributes = array_merge($attributes, array(
-            'id'            => $id,
-            'name'          => $name,
-        ));
-
-        $attributePairs = $attributes;
-        array_walk($attributePairs, function(&$v, $k) { $v = sprintf('%1$s="%2$s"', $k, $v); });
-        $attributesString = implode(' ', $attributePairs);
-        ?>
-        <select <?php echo $attributesString ?>>
-		<?php
-        foreach( $items as $_key => $_item ) {
-            $_key = (string) $_key;
-            $_item = (string) $_item;
-            $isSelected = $selected == $_key;
-            ?><option value="<?php echo $_key ?>"<?php if ($isSelected): ?> selected="selected"<?php endif ?>><?php echo htmlspecialchars($_item) ?></option><?php
-        }
-        ?>
-        </select>
-        <?php
-        $html = ob_get_clean();
-        return $html;
-    }
-
-    /**
-     * Gets options that should go in a dropdown which represents a
-     * feed-source-specific boolean setting.
-     *
-     * @since 4.10
-     * @return array An array with options.
-     */
-    function wprss_settings_get_feed_source_boolean_options()
-    {
-        return array(
-            1           => __('On', WPRSS_TEXT_DOMAIN),
-            0           => __('Off', WPRSS_TEXT_DOMAIN),
-            -1          => __('Default', WPRSS_TEXT_DOMAIN),
-        );
-    }
-
-
-    /** 
-     * Set text preceding source
-     * @since 3.0
-     */
-    function wprss_setting_text_preceding_source_callback( $field ) {
-        $text_preceding_source = wprss_get_general_setting( 'text_preceding_source' );
-		?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[text_preceding_source]" type="text" value="<?php echo $text_preceding_source ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-    /** 
-     * Enable date
-     * @since 3.0
-     */
-    function wprss_setting_date_enable_callback( $field ) {
-        $date_enable = wprss_get_general_setting( 'date_enable' );
-		?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[date_enable]" type="checkbox" value="1" <?php echo checked( 1, $date_enable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }    
-
-    /** 
-     * Set text preceding date
-     * @since 3.0
-     */
-    function wprss_setting_text_preceding_date_callback( $field ) {
-        $text_preceding_date = wprss_get_general_setting( 'text_preceding_date' );
-		?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[text_preceding_date]" type="text" value="<?php echo $text_preceding_date ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-
-    /** 
-     * Shows the feed item authors option
-     *
-     * @since 4.2.4
-     */
-    function wprss_setting_authors_enable_callback( $field ) {
-        $authors_enable = wprss_get_general_setting( 'authors_enable' );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[authors_enable]" type="checkbox" value="1" <?php echo checked( 1, $authors_enable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
-    }
-
-
-	/** 
-     * Pagination Type
-     * 
-     * @since 4.2.3
-     */
-    function wprss_setting_pagination_type_callback( $field ) {
-        $pagination = wprss_get_general_setting( 'pagination' );
-		$options = array(
-			'default'	=>	__( '"Older posts" and "Newer posts" links', WPRSS_TEXT_DOMAIN ),
-			'numbered'	=>	__( 'Page numbers with "Next" and "Previous" page links', WPRSS_TEXT_DOMAIN ),
-		);
-        ?>
-		<select id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[pagination]">
-		<?php
-		foreach( $options as $value => $text ) {
-			$selected = ( $value === $pagination )? 'selected="selected"' : '';
-			?><option value="<?php echo $value ?>" <?php echo $selected ?>><?php echo $text ?></option><?php
-		}
-		?>
-		</select>
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -872,16 +604,100 @@
     }
 
     /**
-     * Time ago format checkbox
-     * @since 4.2
+     * Gets options that should go in a dropdown which represents a
+     * feed-source-specific boolean setting.
+     *
+     * @since 4.10
+     * @return array An array with options.
      */
-    function wprss_setting_time_ago_format_enable_callback( $field ) {
-        $time_ago_format = wprss_get_general_setting( 'time_ago_format_enable' );
-        ?>
-		<input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[time_ago_format_enable]" value="1" <?php echo checked( 1, $time_ago_format, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    function wprss_settings_get_feed_source_boolean_options()
+    {
+        return array(
+            1           => __('On', WPRSS_TEXT_DOMAIN),
+            0           => __('Off', WPRSS_TEXT_DOMAIN),
+            -1          => __('Default', WPRSS_TEXT_DOMAIN),
+        );
     }
 
+    /**
+     * Renders a <select> HTML tag from its parameters.
+     *
+     * @since 4.10
+     * @return string The HTML of a <select> tag.
+     */
+    function wprss_settings_render_select($id, $name, $items, $selected = null, $attributes = [])
+    {
+        ob_start();
+        $attributes = array_merge($attributes, [
+            'id' => $id,
+            'name' => $name,
+        ]);
+
+        $attributePairs = $attributes;
+        array_walk($attributePairs, function (&$v, $k) {
+            $v = sprintf('%1$s="%2$s"', $k, $v);
+        });
+        $attributesString = implode(' ', $attributePairs);
+        ?>
+        <select <?php echo $attributesString ?>>
+            <?php
+            foreach ($items as $_key => $_item) {
+                $_key = (string) $_key;
+                $_item = (string) $_item;
+                $isSelected = $selected == $_key;
+                ?>
+                <option value="<?php echo $_key ?>"<?php if ($isSelected): ?> selected="selected"<?php endif ?>><?php echo htmlspecialchars($_item) ?></option><?php
+            }
+            ?>
+        </select>
+        <?php
+        $html = ob_get_clean();
+
+        return $html;
+    }
+
+    /**
+     * Renders an <input> HTML tag from its parameters.
+     *
+     * @since [*next-version*]
+     * @return string The HTML of an <input> tag.
+     */
+    function wprss_settings_render_input($id, $name, $value, $type ='text', $attributes = [])
+    {
+        $attributes = array_merge($attributes, [
+            'id' => $id,
+            'name' => $name,
+            'type' => $type,
+            'value' => esc_attr($value)
+        ]);
+
+        $attributePairs = $attributes;
+
+        array_walk($attributePairs, function (&$v, $k) {
+            $v = sprintf('%1$s="%2$s"', $k, $v);
+        });
+
+        $attributesString = implode(' ', $attributePairs);
+
+        return sprintf('<input %s />', $attributesString);
+    }
+
+    /**
+     * Renders an <input> checkbox HTML tag from its parameters.
+     *
+     * @since [*next-version*]
+     * @return string The HTML of an <input> checkbox tag.
+     */
+    function wprss_settings_render_checkbox($id, $name, $value, $checked = false)
+    {
+        $attributes = [];
+
+        if ($checked) {
+            $attributes['checked'] = 'checked';
+        }
+
+        return wprss_settings_render_input($id, $name, $value, 'checkbox', $attributes);
+    }
 
     /**
      * Pretty-prints the difference in two times.
