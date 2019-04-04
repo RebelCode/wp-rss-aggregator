@@ -52,8 +52,9 @@
         $sections = apply_filters(
             'wprss_settings_sections_array',
             array(
-                'general'  =>  __( 'General plugin settings', WPRSS_TEXT_DOMAIN ),
+                'general'  =>  __( 'General Plugin Settings', WPRSS_TEXT_DOMAIN ),
                 'custom_feed'  =>  __( 'Create a Custom RSS Feed', WPRSS_TEXT_DOMAIN ),
+                'advanced' =>  __( 'Advanced Settings', WPRSS_TEXT_DOMAIN ),
                 'styles'   =>  __( 'Styles', WPRSS_TEXT_DOMAIN ),
             )
         );
@@ -330,6 +331,14 @@
         echo wpautop( __( 'These are options that relate to the custom RSS feed.', WPRSS_TEXT_DOMAIN ) );
     }
 
+    /**
+     * Advanced settings section header
+     *
+     * @since [*next-version*]
+     */
+    function wprss_settings_advanced_callback() {
+        echo wpautop( __( 'Only change these options if you know what you are doing!', WPRSS_TEXT_DOMAIN ) );
+    }
 
     /** 
      * General settings styles section header

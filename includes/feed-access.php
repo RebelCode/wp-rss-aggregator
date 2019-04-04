@@ -197,13 +197,13 @@ class WPRSS_Feed_Access
 	 * @return array The new settings array.
 	 */
 	public function add_settings( $settings ) {
-		$settings['general'][ self::SETTING_KEY_CERTIFICATE_PATH ] = array(
-			'label'			=> __( 'Certificate Path', WPRSS_TEXT_DOMAIN ),
+		$settings['advanced'][ self::SETTING_KEY_CERTIFICATE_PATH ] = array(
+			'label'			=> __( 'Certificate path', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_certificate_path_setting' )
 		);
         /** @since 4.8.2 */
-		$settings['general'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
-			'label'			=> __( 'Feed Request Useragent', WPRSS_TEXT_DOMAIN ),
+		$settings['advanced'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
+			'label'			=> __( 'Feed request useragent', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
 		);
 
