@@ -431,8 +431,12 @@ class FeedTemplatesModule implements ModuleInterface
         add_action('init', $c->get('wpra/templates/feeds/register_cpt_handler'));
         // Add the capabilities
         add_action('admin_init', $c->get('wpra/templates/feeds/add_cpt_capabilities_handler'));
-        // Register the admin submenu
-        add_action('admin_menu', $c->get('wpra/templates/feeds/register_submenu_handler'));
+        // Register the admin submenu, unless E&T is active
+        add_action('plugins_loaded', function () use ($c) {
+            if (!defined('WPRSS_ET_VERSION')) {
+                add_action('admin_menu', $c->get('wpra/templates/feeds/register_submenu_handler'));
+            }
+        });
 
         // Hooks in the handler for server-side feed item rendering
         add_action('wp_ajax_wprss_render', [$this, 'serverSideRenderFeeds']);
