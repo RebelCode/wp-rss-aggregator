@@ -55,7 +55,7 @@ class CreateUpdateTemplateEndPoint extends AbstractRestApiEndPoint
     protected function handle(WP_REST_Request $request)
     {
         $id = (isset($request['id']))
-            ? filter_var($request['id'], FILTER_SANITIZE_STRING)
+            ? filter_var($request['id'], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE)
             : null;
 
         if (empty($id) && $this->idempotent) {

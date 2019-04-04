@@ -74,6 +74,23 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
+     * Overridden to ensure that the slug updates with the title and that the status is still "publish".
+     *
+     * @since [*next-version*]
+     */
+    protected function getUpdatePostData($key, $data)
+    {
+        $post = parent::getUpdatePostData($key, $data);
+        // Clear the slug so WordPress re-generates it
+        $post['post_name'] = '';
+        $post['post_status'] = 'publish';
+
+        return $post;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @since [*next-version*]
      */
     protected function handleFilter(&$queryArgs, $key, $value)
