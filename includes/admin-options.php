@@ -329,7 +329,7 @@
      * @since [*next-version*]
      */
     function wprss_settings_custom_feed_callback() {
-        echo wpautop( __( 'WP RSS Aggregator enables you to create a custom RSS feed that will include all imported feed items. Use the options below to set it up.', WPRSS_TEXT_DOMAIN ) );
+        echo wpautop( __( 'WP RSS Aggregator creates a custom RSS feed for you that includes any items imported by the plugin. Use the below options to set it up.', WPRSS_TEXT_DOMAIN ) );
     }
 
     /**
