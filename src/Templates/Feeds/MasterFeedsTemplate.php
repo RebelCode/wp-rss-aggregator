@@ -99,33 +99,23 @@ class MasterFeedsTemplate implements TemplateInterface
      * @since [*next-version*]
      *
      * @param string              $default            The name of the template to use by default.
+     * @param array               $templateTypes      The available template types.
      * @param CollectionInterface $templateCollection The collection of templates.
      * @param CollectionInterface $feedItemCollection The collection of feed items.
      * @param LoggerInterface     $logger             The logger instance to use for recording errors.
      */
     public function __construct(
         $default,
+        $templateTypes,
         CollectionInterface $templateCollection,
         CollectionInterface $feedItemCollection,
         LoggerInterface $logger
     ) {
-        $this->types = [];
+        $this->types = $templateTypes;
         $this->default = $default;
         $this->templateCollection = $templateCollection;
         $this->feedItemCollection = $feedItemCollection;
         $this->logger = $logger;
-    }
-
-    /**
-     * Registers a new feed template type.
-     *
-     * @since [*next-version*]
-     *
-     * @param FeedTemplateTypeInterface $templateType The feed template type instance.
-     */
-    public function addTemplateType(FeedTemplateTypeInterface $templateType)
-    {
-        $this->types[$templateType->getKey()] = $templateType;
     }
 
     /**

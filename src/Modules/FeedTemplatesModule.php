@@ -48,10 +48,19 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/master_template' => function (ContainerInterface $c) {
                 return new MasterFeedsTemplate(
                     $c->get('wpra/templates/feeds/default_template'),
+                    $c->get('wpra/templates/feeds/template_types'),
                     $c->get('wpra/templates/feeds/collection'),
                     $c->get('wpra/feeds/items/collection'),
                     $c->get('wpra/logs/logger')
                 );
+            },
+            /*
+             * The available template types.
+             */
+            'wpra/templates/feeds/template_types' => function (ContainerInterface $c) {
+                return [
+                    'list' => $c->get('wpra/templates/feeds/list_template_type')
+                ];
             },
             /*
              * The list template type.
@@ -363,16 +372,6 @@ class FeedTemplatesModule implements ModuleInterface
     public function getExtensions()
     {
         return [
-            /*
-             * Registers the core template types.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/templates/feeds/master_template' => function (ContainerInterface $c, MasterFeedsTemplate $master) {
-                $master->addTemplateType($c->get('wpra/templates/feeds/list_template_type'));
-
-                return $master;
-            },
             /*
              * Extends the REST API by adding the template endpoints to the endpoint manager.
              *
