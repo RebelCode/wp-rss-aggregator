@@ -68,10 +68,21 @@
 
 	add_action( 'wp_ajax_wprss_editor_dialog', 'wprss_return_dialog_contents' );
 	/**
-	 *
-	 *
+	 * Renders the TinyMCE button dialog contents.
 	 */
 	function wprss_return_dialog_contents() {
+		$templates_collection = wpra_get('templates/feeds/collection');
+		$templates_options = [];
+		foreach ($templates_collection as $template) {
+		    $template_name = $template['name'];
+		    $template_slug = ($template['type'] === '__built_in')
+                ? ''
+                : $template['slug'];
+
+		    $templates_options[$template_slug] = $template_name;
+        }
+		$templates_select = wprss_settings_render_select('wprss-dialog-templates', '', $templates_options);
+
 		$feed_sources = get_posts( array(
 			'post_type'			=> 'wprss_feed',
 			'post_status'		=> 'publish',
@@ -92,7 +103,13 @@
 		?>
 		<table cellspacing="20">
 			<tbody>
-
+                <tr>
+                    <td id="wprss-dialog-templates-label"><?php _e( 'Template', WPRSS_TEXT_DOMAIN ) ?></td>
+                    <td>
+                        <p><?php _e( 'Choose the template to use:', WPRSS_TEXT_DOMAIN ) ?></p>
+                        <?php echo $templates_select; ?>
+                    </td>
+                </tr>
 				<tr>
 					<td id="wprss-dialog-all-sources-label"><?php _e( 'Feed Sources', WPRSS_TEXT_DOMAIN ) ?></td>
 					<td>

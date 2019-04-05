@@ -5,7 +5,14 @@ var wprss_dialog_submit = null;
 jQuery( document ).ready( function($) {
 
 	wprss_dialog_submit = function() {
-		all = $('#wprss-dialog-all-sources').is(':checked');
+		var shortcode = '[wp-rss-aggregator';
+
+		var all = $('#wprss-dialog-all-sources').is(':checked');
+
+		var selected_template = $('#wprss-dialog-templates').val();
+		if (selected_template.length > 0) {
+			shortcode += ' template="' + selected_template + '"';
+		}
 
 		sources = [];
 		$('#wprss-dialog-feed-source-list :selected').each( function( i, selected ){
@@ -21,17 +28,20 @@ jQuery( document ).ready( function($) {
 
 		limit = $('#wprss-dialog-feed-limit').val();
 
-		shortcode = '[wp-rss-aggregator';
 		if ( all ) {
-			if ( excludes.length > 0 )
-				shortcode += ' exclude="' + excludes + '"'
+			if ( excludes.length > 0 ) {
+				shortcode += ' exclude="' + excludes + '"';
+			}
 		} else {
-			if ( sources.length > 0 )
-				shortcode += ' source="' + sources + '"'
+			if ( sources.length > 0 ) {
+				shortcode += ' source="' + sources + '"';
+			}
 		}
 
-		if ( limit !== '' && limit !== '0' )
+		if ( limit !== '' && limit !== '0' ) {
 			shortcode += ' limit="' + limit + '"';
+		}
+
 		shortcode += ']';
 
 		WPRSS_ED.execCommand('mceInsertContent', false, shortcode);
