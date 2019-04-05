@@ -4,6 +4,7 @@ import Input from 'app/components/Input'
 import BottomPanel from 'app/components/BottomPanel'
 import jsonClone from 'app/utils/jsonClone'
 import { copyToClipboard } from 'app/utils/copy'
+import collect from 'app/utils/Collection'
 
 export default {
   data () {
@@ -148,7 +149,9 @@ export default {
     },
 
     setChecked (values) {
-      this.checked = values
+      this.checked = values.filter(id => {
+        return collect(this.list).find(id, {}).type !== '__built_in'
+      })
     },
 
     getParams () {
@@ -187,6 +190,10 @@ export default {
         e.target.innerText = text
       }, 5000)
     },
+
+    getRowClass (row) {
+      return row.type === '__built_in' ? 'built-in' : ''
+    }
   },
   render () {
     const editPath = (id) => {
@@ -202,7 +209,18 @@ export default {
     let cells = this.hooks.apply('wpra-templates-list-cells', this, {
       name: ({row}) => {
         return [
-          <div><strong>{row.name}</strong><small style={{paddingLeft: '4px'}}>ID: {row.id}</small></div>,
+          <div>
+            <strong>{row.name}</strong>
+            <small style={{paddingLeft: '4px', opacity: '0.6'}}>{row.slug}</small>
+            {
+              (row.type === '__built_in') ?
+                <span style={{opacity: '0.6', display: 'block'}}>
+                  This is default feed template. Create your own copy by duplicating it 🙌
+                </span>
+                :
+                null
+            }
+          </div>,
           <div class="row-actions">
               <span class="edit">
                 <a href="#" onClick={(e) => this.copyShortcode(e, row)}>Copy shortcode</a> |
@@ -308,6 +326,7 @@ export default {
         currentPage={this.filter.paged}
         ref="table"
         notFound="No templates found."
+        rowClass={this.getRowClass}
         scopedSlots={
           cells
         }

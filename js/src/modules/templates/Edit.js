@@ -252,6 +252,14 @@ export default {
                        onInput={(e) => this.model.type = e}
                        disabled={this.model.type === '__built_in'}
                 />
+                {
+                  (this.model.type === '__built_in') ?
+                    <span style={{opacity: '0.6', display: 'block'}}>
+                      This is default feed template. Create your own copy by duplicating it 🙌
+                    </span>
+                    :
+                    null
+                }
               </Postbox>
               <Postbox id="template-options" title="Template Options">
                 <Input type="checkbox"
