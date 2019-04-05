@@ -214,6 +214,8 @@
 		wprss_flag_feed_as_idle( $feed_ID );
 
 		$logger->info('{0}: Imported completed', [$feed_name]);
+
+        $wprss_importing_feed = null;
 	}
 
 
@@ -706,25 +708,35 @@
 	 * @since 4.6.6
 	 */
 	function wprss_detect_exec_timeout() {
-		// Get last error
-		if ( $error = error_get_last() ){
-			// Check if it is an E_ERROR and if it is a max exec time limit error
-			if ( $error['type'] === E_ERROR && stripos( $error['message'], 'maximum execution' ) === 0 ) {
-				// If the importing process was running
-				if ( array_key_exists( 'wprss_importing_feed', $GLOBALS ) && $GLOBALS['wprss_importing_feed'] !== NULL ) {
-					// Get the ID of the feed that was importing
-					$feed_ID = $GLOBALS['wprss_importing_feed'];
-					// Perform clean up
-					wprss_flag_feed_as_idle( $feed_ID );
-					$msg = sprintf( __( 'The PHP script timed out while importing an item from this feed, after %d seconds.', WPRSS_TEXT_DOMAIN ), wprss_get_item_import_time_limit() );
-					update_post_meta( $feed_ID, 'wprss_error_last_import', $msg );
-					// Log the error
-                    wpra_get_logger()->error('The PHP script timed out while importing feed "{0}"', [
-                        get_the_title($feed_ID)
-                    ]);
-				}
-			}
-		}
+        global $wprss_importing_feed;
+        $feed_ID = (isset($wprss_importing_feed) && !empty($wprss_importing_feed))
+            ? $wprss_importing_feed
+            : null;
+
+        if ($feed_ID === null) {
+            return;
+        }
+
+        // Remove the "importing" flag from the feed source
+        wprss_flag_feed_as_idle($feed_ID);
+
+        // If no error, stop
+        $error = error_get_last();
+        if (empty($error)) {
+            return;
+        }
+
+        $msg = sprintf(
+            __('The importing process failed after %d seconds with the message: "%s"', 'wprss'),
+            wprss_get_item_import_time_limit(),
+            $error['message']
+        );
+        // Save the error in the feed source's meta and the plugin log
+        update_post_meta($feed_ID, 'wprss_error_last_import', $msg);
+        wpra_get_logger()->error('{feed} {msg}', [
+            'feed' => get_the_title($feed_ID),
+            'msg' => $msg
+        ]);
 	}
 
     /**
