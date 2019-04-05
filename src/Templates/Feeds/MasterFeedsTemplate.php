@@ -147,7 +147,7 @@ class MasterFeedsTemplate implements TemplateInterface
         // If using legacy rendering, simply call the old render function
         if ($arrCtx['legacy'] || (!isset($args['templates']) && $this->fallBackToLegacySystem())) {
             ob_start();
-            wprss_display_feed_items();
+            wprss_display_feed_items($arrCtx);
 
             return ob_get_clean();
         }
