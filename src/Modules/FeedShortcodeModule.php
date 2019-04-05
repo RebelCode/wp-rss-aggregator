@@ -53,6 +53,11 @@ class FeedShortcodeModule implements ModuleInterface
             'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
                 return new FeedsShortcode($c->get('wpra/shortcode/feeds/template'));
             },
+            /*
+             * The handler that registers the shortcode.
+             *
+             * @since [*next-version*]
+             */
             'wpra/shortcode/feeds/handlers/register' => function (ContainerInterface $c) {
                 return new RegisterShortcodeHandler(
                     $c->get('wpra/shortcode/feeds/names'),
