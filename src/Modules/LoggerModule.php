@@ -36,9 +36,14 @@ class LoggerModule implements ModuleInterface
             /*
              * The table where logs are stored.
              *
+             * Resolves to a null table if WordPress' database adapter is not available.
+             *
              * @since [*next-version*]
              */
             'wpra/logs/log_table' => function (ContainerInterface $c) {
+                if (!$c->has('wp/db')) {
+                    return new NullTable();
+                }
                 return new WpdbTable(
                     $c->get('wp/db'),
                     $c->get('wpra/logs/log_table_name'),
