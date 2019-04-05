@@ -3,6 +3,7 @@ import RouteLink from 'app/components/RouteLink'
 import Input from 'app/components/Input'
 import BottomPanel from 'app/components/BottomPanel'
 import jsonClone from 'app/utils/jsonClone'
+import { copyToClipboard } from 'app/utils/copy'
 
 export default {
   data () {
@@ -165,7 +166,27 @@ export default {
 
     submitFilter () {
       this.router.mergeParams(this.getParams())
-    }
+    },
+
+    getShortcode (template) {
+      return `[wp-rss-aggregator template="${template.slug}"]`
+    },
+
+    copyShortcode (e, template) {
+      e.preventDefault()
+
+      copyToClipboard(this.getShortcode(template))
+
+      const text = e.target.innerText
+
+      e.target.classList.add('disabled')
+      e.target.innerText = 'Copied!'
+
+      setTimeout(() => {
+        e.target.classList.remove('disabled')
+        e.target.innerText = text
+      }, 5000)
+    },
   },
   render () {
     const editPath = (id) => {
@@ -183,7 +204,10 @@ export default {
         return [
           <div><strong>{row.name}</strong><small style={{paddingLeft: '4px'}}>ID: {row.id}</small></div>,
           <div class="row-actions">
-              <span className="edit">
+              <span class="edit">
+                <a href="#" onClick={(e) => this.copyShortcode(e, row)}>Copy shortcode</a> |
+              </span>
+              <span className="edit" style={{paddingLeft: '4px'}}>
                 <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
               </span>
             <span class="inline" style={{paddingLeft: '4px'}}>

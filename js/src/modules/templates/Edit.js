@@ -106,7 +106,7 @@ export default {
     },
     prepareModel () {
       return Object.keys(this.model)
-        .filter(key => !['rest_route'].includes(key))
+        .filter(key => !['rest_route', 'slug', 'id'].includes(key))
         .reduce((acc, key) => {
           acc[key] = this.model[key]
           return acc
