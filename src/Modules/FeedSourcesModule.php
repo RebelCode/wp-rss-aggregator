@@ -7,7 +7,9 @@ use RebelCode\Wpra\Core\Modules\FeedSources\RenderFeedSourceContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCapabilitiesHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\MultiHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Templates\NullTemplate;
 
 /**
  * The feed sources module for WP RSS Aggregator.
@@ -125,12 +127,24 @@ class FeedSourcesModule implements ModuleInterface
                 );
             },
             /*
+             * The template used to render feed source content.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/content_template' => function (ContainerInterface $c) {
+                if ($c->has('wpra/display/feeds/template')) {
+                    return $c->get('wpra/display/feeds/template');
+                }
+
+                return new NullTemplate();
+            },
+            /*
              * The handler that renders a feed source's content on the front-end.
              *
              * @since [*next-version*]
              */
             'wpra/feeds/sources/handlers/render_content' => function (ContainerInterface $c) {
-                return new RenderFeedSourceContentHandler($c->get('wpra/templates/feeds/master_template'));
+                return new RenderFeedSourceContentHandler($c->get('wpra/feeds/sources/content_template'));
             },
             /*
              * The handler that adds the capability that allows users to see and access the admin menu.
@@ -138,6 +152,10 @@ class FeedSourcesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/feeds/sources/handlers/add_menu_capabilities' => function (ContainerInterface $c) {
+                if (!$c->has('wp/roles')) {
+                    return new NullHandler();
+                }
+
                 return new AddCapabilitiesHandler(
                     $c->get('wp/roles'),
                     $c->get('wpra/feeds/sources/menu/capability_roles'),
@@ -166,7 +184,7 @@ class FeedSourcesModule implements ModuleInterface
                     $c->get('wpra/feeds/sources/handlers/add_menu_capabilities'),
                     $c->get('wpra/feeds/sources/handlers/add_cpt_capabilities'),
                 ]);
-            }
+            },
         ];
     }
 

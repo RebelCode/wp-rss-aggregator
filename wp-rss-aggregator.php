@@ -37,6 +37,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
+use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedItemsModule;
 use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
@@ -373,8 +374,9 @@ function wpra_modules()
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
         'feed_blacklist' => new FeedBlacklistModule(),
-        'feed_templates' => new FeedTemplatesModule(),
+        'feed_display' => new FeedDisplayModule(),
         'feed_shortcode' => new FeedShortcodeModule(),
+        'feed_templates' => new FeedTemplatesModule(),
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),

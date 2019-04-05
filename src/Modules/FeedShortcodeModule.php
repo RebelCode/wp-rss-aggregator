@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterShortcodeHandler;
 use RebelCode\Wpra\Core\Shortcodes\FeedsShortcode;
+use RebelCode\Wpra\Core\Templates\NullTemplate;
 
 /**
  * The feeds shortcode for WP RSS Aggregator.
@@ -22,16 +23,6 @@ class FeedShortcodeModule implements ModuleInterface
     {
         return [
             /*
-             * The shortcode handler.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
-                return new FeedsShortcode(
-                    $c->get('wpra/templates/feeds/master_template')
-                );
-            },
-            /*
              * The shortcode names.
              *
              * @since [*next-version*]
@@ -42,8 +33,28 @@ class FeedShortcodeModule implements ModuleInterface
                     'wp-rss-aggregator',
                 ];
             },
+            /*
+             * The template used by the shortcode.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/shortcode/feeds/template' => function (ContainerInterface $c) {
+                if (!$c->has('wpra/display/feeds/template')) {
+                    return new NullTemplate();
+                }
+
+                return $c->get('wpra/display/feeds/template');
+            },
+            /*
+             * The shortcode handler.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
+                return new FeedsShortcode($c->get('wpra/shortcode/feeds/template'));
+            },
             'wpra/shortcode/feeds/handlers/register' => function (ContainerInterface $c) {
-                new RegisterShortcodeHandler(
+                return new RegisterShortcodeHandler(
                     $c->get('wpra/shortcode/feeds/names'),
                     $c->get('wpra/shortcode/feeds/handler')
                 );

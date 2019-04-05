@@ -373,6 +373,14 @@ class FeedTemplatesModule implements ModuleInterface
     {
         return [
             /*
+             * Overrides the core display template with the master template.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/display/feeds/template' => function (ContainerInterface $c) {
+                return $c->get('wpra/templates/feeds/master_template');
+            },
+            /*
              * Extends the REST API by adding the template endpoints to the endpoint manager.
              *
              * @since [*next-version*]
