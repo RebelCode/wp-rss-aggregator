@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Shortcodes;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedShortcode;
 
 use Dhii\Output\TemplateInterface;
 
@@ -9,7 +9,7 @@ use Dhii\Output\TemplateInterface;
  *
  * @since [*next-version*]
  */
-class FeedsShortcode
+class FeedsShortcodeHandler
 {
     /**
      * The template to render.
