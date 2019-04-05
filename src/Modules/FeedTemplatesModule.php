@@ -3,6 +3,8 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\NullLogger;
+use RebelCode\Wpra\Core\Data\Collections\NullCollection;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\CreateDefaultFeedTemplateHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\HidePublicTemplateContentHandler;
@@ -10,9 +12,9 @@ use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\PreviewTemplateRedirectHa
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers\RenderTemplateContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
-use RebelCode\Wpra\Core\RestApi\EndPointManager;
 use RebelCode\Wpra\Core\RestApi\EndPoints\EndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\CreateUpdateTemplateEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\DeleteTemplateEndPoint;
@@ -56,8 +58,8 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/templates/feeds/default_template'),
                     $c->get('wpra/templates/feeds/template_types'),
                     $c->get('wpra/templates/feeds/collection'),
-                    $c->get('wpra/feeds/items/collection'),
-                    $c->get('wpra/logs/logger')
+                    $c->get('wpra/templates/feeds/feed_item_collection'),
+                    $c->get('wpra/templates/feeds/master_template_logger')
                 );
             },
             /*
@@ -65,8 +67,50 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/template_types' => function (ContainerInterface $c) {
                 return [
-                    'list' => $c->get('wpra/templates/feeds/list_template_type')
+                    'list' => $c->get('wpra/templates/feeds/list_template_type'),
                 ];
+            },
+            /*
+             * The feed item collection to use with the master template.
+             *
+             * Uses the collection from the feed items module, if available.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/feed_item_collection' => function (ContainerInterface $c) {
+                if (!$c->has('wpra/feeds/items/collection')) {
+                    return new NullCollection();
+                }
+
+                return $c->get('wpra/feeds/items/collection');
+            },
+            /*
+             * The logger to use for the master template.
+             *
+             * Uses the core plugin's loader, if available.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/master_template_logger' => function (ContainerInterface $c) {
+                if ($c->has('wpra/logging/logger')) {
+                    return new NullLogger();
+                }
+
+                return $c->get('wpra/logging/logger');
+            },
+            /*
+             * The collection of file templates.
+             *
+             * Uses the core plugin's Twig template collection, if available.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/file_template_collection' => function (ContainerInterface $c) {
+                if (!$c->has('wpra/twig/collection')) {
+                    return new NullCollection();
+                }
+
+                return $c->get('wpra/twig/collection');
             },
             /*
              * The list template type.
@@ -74,7 +118,7 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/templates/feeds/list_template_type' => function (ContainerInterface $c) {
-                return new ListTemplateType($c->get('wpra/twig/collection'));
+                return new ListTemplateType($c->get('wpra/templates/feeds/file_template_collection'));
             },
             /*
              * The collection of feed templates.
@@ -166,10 +210,15 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The user roles that have the feed templates CPT capabilities.
              *
+             * Equal to the feed sources' CPT capability roles, if available.
+             *
              * @since [*next-version*]
              */
             'wpra/templates/feeds/cpt/capability_roles' => function (ContainerInterface $c) {
-                // Identical to feed sources
+                if (!$c->has('wpra/feeds/sources/cpt/capability_roles')) {
+                    return ['administrator'];
+                }
+
                 return $c->get('wpra/feeds/sources/cpt/capability_roles');
             },
             /*
@@ -349,9 +398,15 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that adds the feed templates CPT capabilities to the appropriate user roles.
              *
+             * Resolves to a null handler if the WordPress role manager is not available.
+             *
              * @since [*next-version*]
              */
             'wpra/templates/feeds/add_cpt_capabilities_handler' => function (ContainerInterface $c) {
+                if (!$c->has('wp/roles')) {
+                    return new NullHandler();
+                }
+
                 return new AddCptMetaCapsHandler(
                     $c->get('wp/roles'),
                     $c->get('wpra/templates/feeds/cpt/capability_roles'),
