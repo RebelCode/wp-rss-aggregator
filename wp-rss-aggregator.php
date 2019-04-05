@@ -37,6 +37,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
+use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedItemsModule;
 use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
@@ -229,6 +230,9 @@ require_once ( WPRSS_INC . 'admin.php' );
 /* Load the admin options functions file. */
 require_once ( WPRSS_INC . 'admin-options.php' );
 
+/* Load the legacy admin options functions file. */
+require_once ( WPRSS_INC . 'admin-options-legacy.php' );
+
 /* Load the settings import/export file */
 require_once ( WPRSS_INC . 'admin-import-export.php' );
 
@@ -370,8 +374,9 @@ function wpra_modules()
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
         'feed_blacklist' => new FeedBlacklistModule(),
-        'feed_templates' => new FeedTemplatesModule(),
+        'feed_display' => new FeedDisplayModule(),
         'feed_shortcode' => new FeedShortcodeModule(),
+        'feed_templates' => new FeedTemplatesModule(),
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),
@@ -467,141 +472,6 @@ add_action('after_plugin_row', function($plugin_file) {
     $td = sprintf('<td colspan="3" class="plugin-update colspanchange">%s</td>', $notice);
     printf('<tr class="plugin-update-tr active">%s</tr>', $td);
 }, 5, 2);
-
-add_filter( 'wprss_admin_pointers', 'wprss_check_tracking_notice' );
-/**
- * Сhecks the tracking option and if not set, shows a pointer with opt in and out options.
- *
- * @since 3.6
- */
-function wprss_check_tracking_notice( $pointers ){
-    $settings = get_option( 'wprss_settings_general', array( 'tracking' => '' ) );
-    $wprss_tracking = ( isset( $settings['tracking'] ) )? $settings['tracking'] : '';
-
-    if ( $wprss_tracking === '' ) {
-        $tracking_pointer = array(
-            'wprss_tracking_pointer'    =>  array(
-
-                'target'            =>  '#wpadminbar',
-                'options'           =>  array(
-                    'content'           =>  '<h3>' . sprintf( __( 'Help improve %1$s', WPRSS_TEXT_DOMAIN ), WPRSS_CORE_PLUGIN_NAME ) . '</h3>' . '<p>' . sprintf( __( 'You\'ve just installed %1$s. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', WPRSS_TEXT_DOMAIN ), WPRSS_CORE_PLUGIN_NAME ) . '</p>',
-                    'position'          =>  array(
-                        'edge'              =>  'top',
-                        'align'             =>  'center',
-                    ),
-                    'active'            =>  TRUE,
-                    'btns'              =>  array(
-                        'wprss-tracking-opt-out'    =>  __( 'Do not allow tracking', WPRSS_TEXT_DOMAIN ),
-                        'wprss-tracking-opt-in'    =>  __( 'Allow tracking', WPRSS_TEXT_DOMAIN ),
-                    )
-                )
-            )
-
-        );
-        return array_merge( $pointers, $tracking_pointer );
-    }
-    else return $pointers;
-}
-
-
-add_action( 'admin_enqueue_scripts', 'wprss_prepare_pointers', 1000 );
-/**
- * Prepare the admin pointers
- *
- * @since 3.6
- */
-function wprss_prepare_pointers() {
-    // If the user is not an admin, do not show the pointer
-    if ( !current_user_can( 'manage_options' ) )
-        return;
-
-    $screen = get_current_screen();
-    $screen_id = $screen->id;
-
-    // Get pointers
-    $pointers = apply_filters( 'wprss_admin_pointers', array() );
-
-    if ( ! $pointers || ! is_array( $pointers ) )
-        return;
-
-    $dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-    $valid_pointers = array();
-
-    // Check pointers and remove dismissed ones.
-    foreach ( $pointers as $pointer_id => $pointer ) {
-        // Sanity check
-        if ( in_array( $pointer_id, $dismissed ) || empty( $pointer )  || empty( $pointer_id ) || empty( $pointer['target'] ) || empty( $pointer['options'] ) )
-            continue;
-        $pointer['pointer_id'] = $pointer_id;
-        // Add the pointer to $valid_pointers array
-        $valid_pointers['pointers'][] =  $pointer;
-    }
-
-    // No valid pointers? Stop here.
-    if ( empty( $valid_pointers ) )
-        return;
-
-    // Add pointers style to queue.
-    wp_enqueue_style( 'wp-pointer' );
-
-    // Add pointers script to queue. Add custom script.
-    wp_enqueue_script( 'wprss-pointers', WPRSS_JS . 'pointers.js', array( 'wp-pointer' ) );
-
-    // Add pointer options to script.
-    wp_localize_script( 'wprss-pointers', 'wprssPointers', $valid_pointers );
-
-    add_action( 'admin_print_footer_scripts', 'wprss_footer_pointer_scripts' );
-}
-
-
-/**
- * Print the scripts for the admin pointers
- *
- * @since 3.6
- */
-function wprss_footer_pointer_scripts() {
-    ?>
-    <script type="text/javascript">
-
-        jQuery(document).ready( function($) {
-
-            for( var i in wprssPointers.pointers ) {
-                var pointer = wprssPointers.pointers[i],
-                    options = $.extend( pointer.options, {
-                        content: pointer.options.content,
-                        position: pointer.options.position,
-                        close: function() {
-                            $.post( ajaxurl, {
-                                pointer: pointer.pointer_id,
-                                action: 'dismiss-wp-pointer'
-                            });
-                        },
-                        buttons: function( event, t ){
-                            var btns = jQuery('<div></div>');
-                            for( var i in pointer.options.btns ) {
-                                var btn = jQuery('<a>').attr('id', i).css('margin-left','5px').text( pointer.options.btns[i] );
-                                btn.bind('click.pointer', function () {
-                                    t.element.pointer('close');
-                                });
-                                btns.append( btn );
-                            }
-                            return btns;
-                        }
-                    }
-                );
-
-                $(pointer.target).pointer( options ).pointer('open');
-            }
-
-            $('#wprss-tracking-opt-in').addClass('button-primary').click( function(){ wprssTrackingOptAJAX(1); } );
-            $('#wprss-tracking-opt-out').addClass('button-secondary').click( function(){ wprssTrackingOptAJAX(0); } );
-
-        });
-
-    </script>
-
-    <?php
-}
 
 
 function wprss_wp_min_version_satisfied() {

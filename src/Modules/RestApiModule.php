@@ -35,12 +35,23 @@ class RestApiModule implements ModuleInterface
                 return 'wpra/v1';
             },
             /*
-             * The endpoint manager.
+             * The REST API endpoint manager.
              *
              * @since [*next-version*]
              */
             'wpra/rest_api/v1/endpoint_manager' => function (ContainerInterface $c) {
-                return new EndPointManager($c->get('wpra/rest_api/v1/namespace'));
+                return new EndPointManager(
+                    $c->get('wpra/rest_api/v1/namespace'),
+                    $c->get('wpra/rest_api/v1/endpoints')
+                );
+            },
+            /*
+             * The REST API endpoints.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c) {
+                return [];
             },
             /*
              * The authorization callback function to checking if the request user is a logged-in admin.
@@ -49,58 +60,6 @@ class RestApiModule implements ModuleInterface
              */
             'wpra/rest_api/v1/auth/user_is_admin' => function (ContainerInterface $c) {
                 return new AuthUserIsAdmin();
-            },
-
-            /*
-             * The templates GET endpoint for the REST API.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/templates/get_endpoint' => function (ContainerInterface $c) {
-                return new GetTemplatesEndPoint($c->get('wpra/templates/feeds/collection'));
-            },
-            /*
-             * The templates PATCH endpoint for the REST API.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/templates/patch_endpoint' => function (ContainerInterface $c) {
-                return new PatchTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
-            },
-            /*
-             * The templates POST endpoint for the REST API.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/templates/post_endpoint' => function (ContainerInterface $c) {
-                return new CreateUpdateTemplateEndPoint($c->get('wpra/templates/feeds/collection'), false);
-            },
-            /*
-             * The templates PUT endpoint for the REST API.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/templates/put_endpoint' => function (ContainerInterface $c) {
-                return new CreateUpdateTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
-            },
-            /*
-             * The templates deletion endpoint for the REST API.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/templates/delete_endpoint' => function (ContainerInterface $c) {
-                return new DeleteTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
-            },
-            /*
-             * The templates rendering endpoint for the REST API.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/rest_api/v1/templates/render_endpoint' => function (ContainerInterface $c) {
-                return new RenderTemplateEndPoint(
-                    $c->get('wpra/settings/dataset'),
-                    $c->get('wpra/templates/feeds/master_template')
-                );
             },
         ];
     }

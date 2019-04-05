@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
 use stdClass;
 use Traversable;

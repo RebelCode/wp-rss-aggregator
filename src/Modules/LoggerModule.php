@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Database\NullTable;
 use RebelCode\Wpra\Core\Database\WpdbTable;
 use RebelCode\Wpra\Core\Logger\WpdbLogger;
 
@@ -26,24 +27,30 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logs/logger' => function (ContainerInterface $c) {
+            'wpra/logging/logger' => function (ContainerInterface $c) {
                 return new WpdbLogger(
-                    $c->get('wpra/logs/log_table'),
-                    $c->get('wpra/logs/log_table_columns'),
-                    $c->get('wpra/logs/log_table_extra')
+                    $c->get('wpra/logging/log_table'),
+                    $c->get('wpra/logging/log_table_columns'),
+                    $c->get('wpra/logging/log_table_extra')
                 );
             },
             /*
              * The table where logs are stored.
              *
+             * Resolves to a null table if WordPress' database adapter is not available.
+             *
              * @since [*next-version*]
              */
-            'wpra/logs/log_table' => function (ContainerInterface $c) {
+            'wpra/logging/log_table' => function (ContainerInterface $c) {
+                if (!$c->has('wp/db')) {
+                    return new NullTable();
+                }
+
                 return new WpdbTable(
                     $c->get('wp/db'),
-                    $c->get('wpra/logs/log_table_name'),
-                    $c->get('wpra/logs/log_table_schema'),
-                    $c->get('wpra/logs/log_table_primary_key')
+                    $c->get('wpra/logging/log_table_name'),
+                    $c->get('wpra/logging/log_table_schema'),
+                    $c->get('wpra/logging/log_table_primary_key')
                 );
             },
             /*
@@ -51,7 +58,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logs/log_table_name' => function (ContainerInterface $c) {
+            'wpra/logging/log_table_name' => function (ContainerInterface $c) {
                 return 'wprss_logs';
             },
             /*
@@ -59,7 +66,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logs/log_table_schema' => function () {
+            'wpra/logging/log_table_schema' => function () {
                 return [
                     'id' => 'BIGINT NOT NULL AUTO_INCREMENT',
                     'date' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
@@ -73,7 +80,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logs/log_table_columns' => function () {
+            'wpra/logging/log_table_columns' => function () {
                 return [
                     WpdbLogger::LOG_ID => 'id',
                     WpdbLogger::LOG_DATE => 'date',
@@ -87,7 +94,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logs/log_table_primary_key' => function () {
+            'wpra/logging/log_table_primary_key' => function () {
                 return 'id';
             },
             /*
@@ -95,7 +102,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logs/log_table_extra' => function () {
+            'wpra/logging/log_table_extra' => function () {
                 return [
                     'feed_id' => '',
                 ];

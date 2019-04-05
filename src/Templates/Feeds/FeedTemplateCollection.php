@@ -74,6 +74,49 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
+     * Overridden to ensure that the slug updates with the title and that the status is still "publish".
+     *
+     * @since [*next-version*]
+     */
+    protected function getUpdatePostData($key, $data)
+    {
+        $post = parent::getUpdatePostData($key, $data);
+        // Clear the slug so WordPress re-generates it
+        $post['post_name'] = '';
+        $post['post_status'] = 'publish';
+
+        return $post;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Overridden to sort the templates by title, with builtin templates served at the very top of the list.
+     *
+     * @since [*next-version*]
+     */
+    protected function queryPosts($key = null)
+    {
+        $posts = parent::queryPosts($key);
+
+        usort($posts, function (WP_Post $a, WP_Post $b) {
+            if ($a->wprss_template_type === '__built_in') {
+                return -1;
+            }
+
+            if ($b->wprss_template_type === '__built_in') {
+                return 1;
+            }
+
+            return strcmp($a->post_title, $b->post_title);
+        });
+
+        return $posts;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @since [*next-version*]
      */
     protected function handleFilter(&$queryArgs, $key, $value)

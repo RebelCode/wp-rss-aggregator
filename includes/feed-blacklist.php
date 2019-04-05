@@ -14,7 +14,6 @@
  * @since 4.4
  */
 
-
 // Check if the 'blacklist' GET param is set
 add_action( 'admin_init', 'wprss_check_if_blacklist_item' );
 // Checks if the transient is set to show the notice
@@ -32,8 +31,6 @@ add_action( 'manage_wprss_blacklist_posts_custom_column' , 'wprss_blacklist_tabl
 add_filter('bulk_actions-edit-wprss_blacklist','wprss_blacklist_bulk_actions', 5, 1 );
 // Adds the metabox to the blacklist new/edit page
 add_action('add_meta_boxes_wprss_blacklist', 'wprss_blacklist_add_meta_boxes');
-// Handler that runs when a blacklist item is saved
-add_action('save_post', 'wprss_blacklist_on_save');
 
 // Disables auto saving
 add_action( 'admin_enqueue_scripts', function () {
@@ -61,7 +58,6 @@ function wprss_get_blacklist() {
 	return $blacklist_option;
 }
 
-
 /**
  * Creates a blacklist entry for the given feed item.
  *
@@ -77,7 +73,7 @@ function wprss_blacklist_item( $ID ) {
 	$item_permalink = get_post_meta( $ID, 'wprss_item_permalink', TRUE );
 	// If not an imported item, stop
 	if ( $item_permalink === '' ) {
-		wprss_log_obj( 'An item being blacklisted was ignored for not being an imported item', $ID, null, WPRSS_LOG_LEVEL_INFO );
+	    wpra_get_logger()->warning('Feed item with ID {0} was not blacklisted because its URL was empty', [$ID]);
 		return;
 	}
 	// Prepare the data for blacklisting
@@ -101,7 +97,6 @@ function wprss_blacklist_item( $ID ) {
 	update_post_meta( $id, 'wprss_permalink', $permalink );
 }
 
-
 /**
  * Determines whether the given item is blacklist.
  *
@@ -110,20 +105,23 @@ function wprss_blacklist_item( $ID ) {
  * @return bool TRUE if the permalink is found, FALSE otherwise.
  */
 function wprss_is_blacklisted( $permalink ) {
+    if (empty($permalink)) {
+        return false;
+    }
+
 	// Query the blacklist entries, for an item with the given permalink
 	$query = new WP_Query(array(
 		'post_type'		=>	'wprss_blacklist',
 		'meta_key'		=>	'wprss_permalink',
 		'meta_value'	=>	$permalink
 	));
+
 	// Return TRUE if the query returned a result, FALSE otherwise
 	return $query->have_posts();
 }
 
-
 /**
- * Check if the 'blacklist' GET param is set, and prepare to blacklist
- * the item.
+ * Check if the 'blacklist' GET param is set, and prepare to blacklist the item.
  *
  * @since 4.4
  */
@@ -157,7 +155,6 @@ function wprss_check_if_blacklist_item() {
 	exit();
 }
 
-
 /**
  * Checks if the transient for the blacklist notice is set, and shows the notice
  * if it is set.
@@ -173,7 +170,6 @@ function wprss_check_notice_transient() {
         wprss()->getAdminAjaxNotices()->addNotice('blacklist_item_success');
 	}
 }
-
 
 /**
  * Adds the row actions to the targetted post type.
@@ -196,7 +192,7 @@ function wprss_blacklist_row_actions( $actions ) {
 		// Get the permalink. If does not exist, then it is not an imported item.
 		$permalink = get_post_meta( $ID, 'wprss_item_permalink', TRUE );
 		if ( $permalink === '' ) {
-			$actions;
+			return $actions;
 		}
 
 		// The post type on the current screen
@@ -231,14 +227,13 @@ function wprss_blacklist_row_actions( $actions ) {
 		$remove_url = wp_nonce_url( 'post.php?wprss-blacklist-remove='.get_the_ID(), 'blacklist-remove-' . get_the_ID(), 'wprss_blacklist_trash' );
 		$actions = array(
 		    'edit' => $actions['edit'],
-			'trash'	=>	'<a href="'.$remove_url.'">' . __( 'Remove from blacklist', WPRSS_TEXT_DOMAIN ) . '</a>'
+			'trash'	=>	'<a href="'.$remove_url.'">' . __( 'Remove From Blacklist', WPRSS_TEXT_DOMAIN ) . '</a>'
 		);
 	}
 
 	// Return the actions
 	return $actions;
 }
-
 
 /**
  * Checks for the GET parameter wprss-blacklist-remove, and if present,
@@ -280,7 +275,6 @@ function wprss_check_if_blacklist_delete() {
 	exit;
 }
 
-
 /**
  * Returns the custom columns for the blacklist post type
  *
@@ -292,10 +286,9 @@ function wprss_blacklist_columns( $cols ) {
 	return array(
 		'cb'		=>	$cols['cb'],
 		'title'		=>	__( 'Title' ),
-		'permalink'	=>	__( 'Permalink' )
+		'permalink'	=>	__( 'URL' )
 	);
 }
-
 
 /**
  * Prints the cell data in the table for each blacklist entry
@@ -312,7 +305,6 @@ function wprss_blacklist_table_contents( $column, $ID ) {
 			break;
 	}
 }
-
 
 /**
  * Removes the bulk actions for the Blacklist post type
@@ -342,31 +334,4 @@ function wprss_blacklist_add_meta_boxes()
         },
         'wprss_blacklist'
     );
-}
-
-/**
- * Handler that saves Blacklist meta data.
- *
- * @since [*next-version*]
- */
-function wprss_blacklist_on_save($postId) {
-    static $enabled = true;
-    if (!$enabled) {
-        return;
-    }
-
-    $post = get_post($postId);
-    if ($post->post_type !== 'wprss_blacklist') {
-        return;
-    }
-
-    $permalink = filter_input(INPUT_POST, 'wprss_permalink', FILTER_VALIDATE_URL);
-    $permalink = (empty($permalink)) ? '' : $permalink;
-    update_post_meta($postId, 'wprss_permalink', $permalink);
-
-    // Make sure blacklist items are never draft
-    if ($post->post_status === 'draft') {
-        $enabled = false;
-        wp_update_post(['ID' => $postId, 'post_status' => 'publish']);
-    }
 }

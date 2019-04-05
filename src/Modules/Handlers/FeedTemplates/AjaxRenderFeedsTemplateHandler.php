@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
 use Dhii\Output\TemplateInterface;
 
@@ -46,7 +46,7 @@ class AjaxRenderFeedsTemplateHandler
         $args = is_array($args) ? $args : [];
 
         echo json_encode([
-            'render' => $this->template->render($args)
+            'render' => $this->template->render($args),
         ]);
 
         die;

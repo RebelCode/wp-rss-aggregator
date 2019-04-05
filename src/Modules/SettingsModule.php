@@ -22,15 +22,25 @@ class SettingsModule implements ModuleInterface
     public function getFactories()
     {
         return [
-            'wpra/settings/option_name' => function (ContainerInterface $c) {
+            /*
+             * The name of the option for the general settings.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/settings/general/option_name' => function (ContainerInterface $c) {
                 return 'wprss_settings_general';
             },
-            'wpra/settings/dataset' => function (ContainerInterface $c) {
+            /*
+             * The dataset for the plugin's general settings.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/settings/general/dataset' => function (ContainerInterface $c) {
                 return new MergedDataSet(
-                    new WpArrayOptionDataSet($c->get('wpra/settings/option_name')),
+                    new WpArrayOptionDataSet($c->get('wpra/settings/general/option_name')),
                     new ArrayDataSet(wprss_get_default_settings_general())
                 );
-            }
+            },
         ];
     }
 

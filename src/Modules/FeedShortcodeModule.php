@@ -3,7 +3,9 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Modules\Handlers\RegisterShortcodeHandler;
 use RebelCode\Wpra\Core\Shortcodes\FeedsShortcode;
+use RebelCode\Wpra\Core\Templates\NullTemplate;
 
 /**
  * The feeds shortcode for WP RSS Aggregator.
@@ -21,17 +23,6 @@ class FeedShortcodeModule implements ModuleInterface
     {
         return [
             /*
-             * The shortcode handler.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
-                return new FeedsShortcode(
-                    $c->get('wpra/settings/dataset'),
-                    $c->get('wpra/templates/feeds/master_template')
-                );
-            },
-            /*
              * The shortcode names.
              *
              * @since [*next-version*]
@@ -39,9 +30,40 @@ class FeedShortcodeModule implements ModuleInterface
             'wpra/shortcode/feeds/names' => function (ContainerInterface $c) {
                 return [
                     'wp_rss_aggregator',
-                    'wp-rss-aggregator'
+                    'wp-rss-aggregator',
                 ];
-            }
+            },
+            /*
+             * The template used by the shortcode.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/shortcode/feeds/template' => function (ContainerInterface $c) {
+                if (!$c->has('wpra/display/feeds/template')) {
+                    return new NullTemplate();
+                }
+
+                return $c->get('wpra/display/feeds/template');
+            },
+            /*
+             * The shortcode handler.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
+                return new FeedsShortcode($c->get('wpra/shortcode/feeds/template'));
+            },
+            /*
+             * The handler that registers the shortcode.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/shortcode/feeds/handlers/register' => function (ContainerInterface $c) {
+                return new RegisterShortcodeHandler(
+                    $c->get('wpra/shortcode/feeds/names'),
+                    $c->get('wpra/shortcode/feeds/handler')
+                );
+            },
         ];
     }
 
@@ -62,22 +84,6 @@ class FeedShortcodeModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        $this->registerShortcode($c);
-    }
-
-    /**
-     * Registers the shortcode with WordPress.
-     *
-     * @since [*next-version*]
-     *
-     * @param ContainerInterface $c The container.
-     */
-    protected function registerShortcode(ContainerInterface $c)
-    {
-        $handler = $c->get('wpra/shortcode/feeds/handler');
-
-        foreach ($c->get('wpra/shortcode/feeds/names') as $name) {
-            add_shortcode($name, $handler);
-        }
+        add_action('plugins_loaded', $c->get('wpra/shortcode/feeds/handlers/register'));
     }
 }

@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Feeds\FeedItemCollection;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 
 /**
@@ -57,10 +58,15 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The user roles that have the feed items CPT capabilities.
              *
+             * Resolves to the feed sources CPT capability roles, if available.
+             *
              * @since [*next-version*]
              */
             'wpra/feeds/items/cpt/capability_roles' => function (ContainerInterface $c) {
-                // Identical to feed sources
+                if (!$c->has('wpra/feeds/sources/cpt/capability_roles')) {
+                    return ['administrator'];
+                }
+
                 return $c->get('wpra/feeds/sources/cpt/capability_roles');
             },
             /*
@@ -74,14 +80,11 @@ class FeedItemsModule implements ModuleInterface
                     'publicly_queryable' => false,
                     'show_in_nav_menus' => false,
                     'show_in_admin_bar' => false,
-                    'public' => true,
+                    'public' => false,
                     'show_ui' => true,
-                    'query_var' => 'feed_item',
+                    'query_var' => false,
                     'show_in_menu' => 'edit.php?post_type=wprss_feed',
-                    'rewrite' => [
-                        'slug' => 'feed-items',
-                        'with_front' => false,
-                    ],
+                    'rewrite' => false,
                     'capability_type' => $c->get('wpra/feeds/items/cpt/capability'),
                     'map_meta_cap' => true,
                     'labels' => $c->get('wpra/feeds/items/cpt/labels'),
@@ -109,9 +112,15 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The handler that adds the feed items CPT capabilities to the appropriate user roles.
              *
+             * Resolves to a null handler if the WordPress role manager is not available.
+             *
              * @since [*next-version*]
              */
             'wpra/feeds/items/handlers/add_cpt_capabilities' => function (ContainerInterface $c) {
+                if (!$c->has('wp/roles')) {
+                    return new NullHandler();
+                }
+
                 return new AddCptMetaCapsHandler(
                     $c->get('wp/roles'),
                     $c->get('wpra/feeds/items/cpt/capability_roles'),
