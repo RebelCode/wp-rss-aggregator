@@ -78,11 +78,11 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/templates/feeds/feed_item_collection' => function (ContainerInterface $c) {
-                if (!$c->has('wpra/feeds/items/collection')) {
+                if (!$c->has('wpra/importer/items/collection')) {
                     return new NullCollection();
                 }
 
-                return $c->get('wpra/feeds/items/collection');
+                return $c->get('wpra/importer/items/collection');
             },
             /*
              * The logger to use for the master template.
