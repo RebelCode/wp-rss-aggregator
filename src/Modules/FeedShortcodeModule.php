@@ -28,7 +28,6 @@ class FeedShortcodeModule implements ModuleInterface
              */
             'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
                 return new FeedsShortcode(
-                    $c->get('wpra/settings/dataset'),
                     $c->get('wpra/templates/feeds/master_template')
                 );
             },

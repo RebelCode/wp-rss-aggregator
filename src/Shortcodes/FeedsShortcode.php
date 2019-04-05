@@ -3,7 +3,6 @@
 namespace RebelCode\Wpra\Core\Shortcodes;
 
 use Dhii\Output\TemplateInterface;
-use RebelCode\Wpra\Core\Data\DataSetInterface;
 
 /**
  * The feeds shortcode handler.
@@ -12,15 +11,6 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
  */
 class FeedsShortcode
 {
-    /**
-     * The settings dataset.
-     *
-     * @since [*next-version*]
-     *
-     * @var DataSetInterface
-     */
-    protected $settings;
-
     /**
      * The template to render.
      *
@@ -35,12 +25,10 @@ class FeedsShortcode
      *
      * @since [*next-version*]
      *
-     * @param DataSetInterface  $settings The settings dataset.
      * @param TemplateInterface $template The template to render.
      */
-    public function __construct(DataSetInterface $settings, TemplateInterface $template)
+    public function __construct(TemplateInterface $template)
     {
-        $this->settings = $settings;
         $this->template = $template;
     }
 
