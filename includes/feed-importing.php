@@ -596,10 +596,12 @@
 				}
 			}
 
-            $logger->info('{0}: Item "{1}" saved successfully', [
-                $feed_name,
-                $item->get_title()
-            ]);
+			if (is_object($item) && !is_wp_error($item)) {
+                $logger->info('{0}: Item "{1}" saved successfully', [
+                    $feed_name,
+                    $item->get_title()
+                ]);
+            }
 		}
 
 		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
