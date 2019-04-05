@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
 /**
  * The handler that detects a preview template request and redirects to the template's front-facing page.

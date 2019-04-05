@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
 use Dhii\Output\TemplateInterface;
 
@@ -35,7 +35,7 @@ class RenderTemplateContentHandler
      *
      * @since [*next-version*]
      *
-     * @param string            $cpt The name of the templates CPT.
+     * @param string            $cpt      The name of the templates CPT.
      * @param TemplateInterface $template The master template to use for rendering.
      */
     public function __construct($cpt, TemplateInterface $template)
@@ -58,7 +58,7 @@ class RenderTemplateContentHandler
         }
 
         return $this->template->render([
-            'template' => $post->post_name
+            'template' => $post->post_name,
         ]);
     }
 }

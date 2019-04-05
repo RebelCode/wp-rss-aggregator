@@ -3,9 +3,9 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Modules\FeedSources\RenderFeedSourceContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCapabilitiesHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\FeedSources\RenderFeedSourceContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;

@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\FeedTemplates\Handlers;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
 /**
  * The handler that hides template content from the public-facing side unless a nonce is given.

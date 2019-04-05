@@ -1,9 +1,14 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\FeedSources;
+namespace RebelCode\Wpra\Core\Modules\Handlers\FeedSources;
 
 use Dhii\Output\TemplateInterface;
 
+/**
+ * The handler that renders a feed source's content.
+ *
+ * @since [*next-version*]
+ */
 class RenderFeedSourceContentHandler
 {
     /**
