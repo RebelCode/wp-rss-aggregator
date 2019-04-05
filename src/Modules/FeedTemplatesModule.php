@@ -323,7 +323,6 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/rest_api/v1/render_endpoint' => function (ContainerInterface $c) {
                 return new RenderTemplateEndPoint(
-                    $c->get('wpra/settings/dataset'),
                     $c->get('wpra/display/feeds/template')
                 );
             },
