@@ -44,6 +44,7 @@ use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
 use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
+use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
@@ -371,6 +372,7 @@ function wpra_modules()
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
         'wordpress' => new WpModule(),
+        'importer' => new ImporterModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
         'feed_blacklist' => new FeedBlacklistModule(),
