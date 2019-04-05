@@ -13,6 +13,12 @@ use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
 use RebelCode\Wpra\Core\RestApi\EndPointManager;
+use RebelCode\Wpra\Core\RestApi\EndPoints\EndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\CreateUpdateTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\DeleteTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\GetTemplatesEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\PatchTemplateEndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\RenderTemplateEndPoint;
 use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
@@ -269,6 +275,59 @@ class FeedTemplatesModule implements ModuleInterface
                     ],
                 ];
             },
+
+            /*
+             * The templates GET endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/rest_api/v1/get_endpoint' => function (ContainerInterface $c) {
+                return new GetTemplatesEndPoint($c->get('wpra/templates/feeds/collection'));
+            },
+            /*
+             * The templates PATCH endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/rest_api/v1/patch_endpoint' => function (ContainerInterface $c) {
+                return new PatchTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
+            },
+            /*
+             * The templates POST endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/rest_api/v1/post_endpoint' => function (ContainerInterface $c) {
+                return new CreateUpdateTemplateEndPoint($c->get('wpra/templates/feeds/collection'), false);
+            },
+            /*
+             * The templates PUT endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/rest_api/v1/put_endpoint' => function (ContainerInterface $c) {
+                return new CreateUpdateTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
+            },
+            /*
+             * The templates deletion endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/rest_api/v1/delete_endpoint' => function (ContainerInterface $c) {
+                return new DeleteTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
+            },
+            /*
+             * The templates rendering endpoint for the REST API.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/rest_api/v1/render_endpoint' => function (ContainerInterface $c) {
+                return new RenderTemplateEndPoint(
+                    $c->get('wpra/settings/dataset'),
+                    $c->get('wpra/display/feeds/template')
+                );
+            },
+
             /*
              * The handler that registers the feeds template CPT.
              *
@@ -381,48 +440,48 @@ class FeedTemplatesModule implements ModuleInterface
                 return $c->get('wpra/templates/feeds/master_template');
             },
             /*
-             * Extends the REST API by adding the template endpoints to the endpoint manager.
+             * Extends the list of REST API endpoints with the template endpoints.
              *
              * @since [*next-version*]
              */
-            'wpra/rest_api/v1/endpoint_manager' => function (ContainerInterface $c, EndPointManager $manager) {
-                $manager->addEndPoint(
+            'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c, $endPoints) {
+                $endPoints['get_templates'] = new EndPoint(
                     '/templates(?:/(?P<id>[^/]+))?',
                     ['GET'],
-                    $c->get('wpra/rest_api/v1/templates/get_endpoint'),
+                    $c->get('wpra/templates/feeds/rest_api/v1/get_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
-                $manager->addEndPoint(
+                $endPoints['patch_templates'] = new EndPoint(
                     '/templates(?:/(?P<id>[^/]+))?',
                     ['PATCH'],
-                    $c->get('wpra/rest_api/v1/templates/patch_endpoint'),
+                    $c->get('wpra/templates/feeds/rest_api/v1/patch_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
-                $manager->addEndPoint(
+                $endPoints['put_templates'] = new EndPoint(
                     '/templates(?:/(?P<id>[^/]+))?',
                     ['PUT'],
-                    $c->get('wpra/rest_api/v1/templates/put_endpoint'),
+                    $c->get('wpra/templates/feeds/rest_api/v1/put_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
-                $manager->addEndPoint(
+                $endPoints['post_templates'] = new EndPoint(
                     '/templates(?:/(?P<id>[^/]+))?',
                     ['POST'],
-                    $c->get('wpra/rest_api/v1/templates/post_endpoint'),
+                    $c->get('wpra/templates/feeds/rest_api/v1/post_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
-                $manager->addEndPoint(
+                $endPoints['delete_templates'] = new EndPoint(
                     '/templates(?:/(?P<id>[^/]+))?',
                     ['DELETE'],
-                    $c->get('wpra/rest_api/v1/templates/delete_endpoint'),
+                    $c->get('wpra/templates/feeds/rest_api/v1/delete_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
-                $manager->addEndPoint(
+                $endPoints['render_templates'] = new EndPoint(
                     '/templates/render(?:/(?P<template>[^/]+))?',
                     ['GET'],
-                    $c->get('wpra/rest_api/v1/templates/render_endpoint')
+                    $c->get('wpra/templates/feeds/rest_api/v1/render_endpoint')
                 );
 
-                return $manager;
+                return $endPoints;
             },
         ];
     }
