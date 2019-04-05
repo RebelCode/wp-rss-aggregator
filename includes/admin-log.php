@@ -24,7 +24,7 @@ define('WPRSS_LOG_LEVEL_DEFAULT', WPRSS_LOG_LEVEL_NONE);
  */
 function wpra_get_logger()
 {
-    return wpra_container()->get('wpra/logs/logger');
+    return wpra_container()->get('wpra/logging/logger');
 }
 
 /**
