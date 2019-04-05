@@ -91,7 +91,7 @@
 			},
 			success: function(data, status, jqXHR){
 				updateFeedSourceTable(data);
-				setTimeout(wprssFeedSourceTableAjax, 5000);
+				setTimeout(wprssFeedSourceTableAjax, 1000);
 			},
 			dataType: 'json'
 		});
