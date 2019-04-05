@@ -367,13 +367,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
      */
     protected function queryPosts($key = null)
     {
-        $queryArgs = [
-            'post_type' => $this->postType,
-            'suppress_filters' => true,
-            'cache_results' => false,
-            'posts_per_page' => -1,
-            'meta_query' => $this->metaQuery,
-        ];
+        $queryArgs = $this->getBasePostQueryArgs();
 
         if ($key !== null && is_numeric($key)) {
             $queryArgs['p'] = $key;
@@ -394,6 +388,24 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         return get_posts($queryArgs);
+    }
+
+    /**
+     * Retrieves the base (bare minimum) post query args.
+     *
+     * @since [*next-version*]
+     *
+     * @return array
+     */
+    protected function getBasePostQueryArgs()
+    {
+        return [
+            'post_type' => $this->postType,
+            'suppress_filters' => true,
+            'cache_results' => false,
+            'posts_per_page' => -1,
+            'meta_query' => $this->metaQuery,
+        ];
     }
 
     /**
