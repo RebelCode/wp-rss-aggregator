@@ -234,7 +234,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'source_prefix' => __('Source:', WPRSS_TEXT_DOMAIN),
                         'source_is_link' => true,
                         'author_enabled' => false,
-                        'author_prefix' =>  __('By', WPRSS_TEXT_DOMAIN),
+                        'author_prefix' => __('By', WPRSS_TEXT_DOMAIN),
                         'date_enabled' => true,
                         'date_prefix' => __('Published on:', WPRSS_TEXT_DOMAIN),
                         'date_format' => 'Y-m-d',
@@ -245,7 +245,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'bullets_enabled' => true,
                         'bullet_type' => 'default',
                         'custom_css_classname' => '',
-                    ]
+                    ],
                 ];
             },
             /*
@@ -263,7 +263,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'links_behavior' => [
                         'self' => __('Self', WPRSS_TEXT_DOMAIN),
                         'blank' => __('Open in a new tab', WPRSS_TEXT_DOMAIN),
-                        'lightbox' => __('Open in a lightbox', WPRSS_TEXT_DOMAIN)
+                        'lightbox' => __('Open in a lightbox', WPRSS_TEXT_DOMAIN),
                     ],
                     'pagination_type' => [
                         'default' => __('Default', WPRSS_TEXT_DOMAIN),
