@@ -3,11 +3,11 @@
 namespace RebelCode\Wpra\Core\Modules\Handlers;
 
 /**
- * A handler for Guttenberg block registration.
+ * A handler for Gutenberg block registration.
  *
  * @since [*next-version*]
  */
-class RegisterGuttenbergBlockHandler
+class RegisterGutenbergBlockHandler
 {
     /**
      * The name of the block.
@@ -19,7 +19,7 @@ class RegisterGuttenbergBlockHandler
     protected $name;
 
     /**
-     * Guttenberg block's configuration.
+     * Gutenberg block's configuration.
      *
      * @since [*next-version*]
      *
@@ -33,7 +33,7 @@ class RegisterGuttenbergBlockHandler
      * @since [*next-version*]
      *
      * @param string $name The name of the block.
-     * @param array  $config Guttenberg block's configuration.
+     * @param array  $config Gutenberg block's configuration.
      */
     public function __construct($name, $config)
     {
@@ -49,7 +49,7 @@ class RegisterGuttenbergBlockHandler
     public function __invoke()
     {
         /*
-         * Register the block only when Guttenberg editor is enabled.
+         * Register the block only when Gutenberg editor is enabled.
          */
         if (!function_exists('register_block_type')) {
             return;

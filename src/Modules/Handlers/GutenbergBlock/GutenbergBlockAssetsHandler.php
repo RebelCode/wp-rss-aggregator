@@ -1,15 +1,15 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\Handlers\GuttenbergBlock;
+namespace RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock;
 
 use RebelCode\Wpra\Core\Data\AbstractDataSet;
 
 /**
- * Class for registering assets for guttenberg block.
+ * Class for registering assets for gutenberg block.
  *
  * @since [*next-version*]
  */
-class GuttenbergBlockAssetsHandler
+class GutenbergBlockAssetsHandler
 {
     /**
      * Templates collection.
@@ -21,7 +21,7 @@ class GuttenbergBlockAssetsHandler
     protected $templates;
 
     /**
-     * GuttenbergBlockAssetsHandler constructor.
+     * GutenbergBlockAssetsHandler constructor.
      *
      * @param AbstractDataSet $templates Templates collection.
      */
@@ -37,14 +37,14 @@ class GuttenbergBlockAssetsHandler
      */
     public function __invoke()
     {
-        wp_enqueue_script('wpra-shortcode', WPRSS_JS . 'guttenberg-block.min.js', [
+        wp_enqueue_script('wpra-shortcode', WPRSS_JS . 'gutenberg-block.min.js', [
             'wp-blocks',
             'wp-i18n',
             'wp-element',
             'wp-editor',
         ]);
 
-        wp_enqueue_style('wpra-shortcode', WPRSS_CSS . 'guttenberg-block.min.css', [
+        wp_enqueue_style('wpra-shortcode', WPRSS_CSS . 'gutenberg-block.min.css', [
             'wp-blocks',
         ]);
 
