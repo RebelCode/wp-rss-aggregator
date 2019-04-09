@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(120, 40, 0, 0.36);
     z-index: 1000;
 }
 
@@ -17,13 +17,13 @@
 	left: 0;
 	right: 0;
 	width: 500px;
-	height: 550px;
+	height: 540px;
 	margin: auto;
 	border: 0;
 }
 
 .wprss-dialog-header {
-	background: #de3c19;
+	background: #ff792b;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -39,31 +39,29 @@
 .wprss-dialog-header h1 {
 	color: #fff;
 	font-size: 16px;
-	font-weight: normal;
 	margin: 0 15px 0;
 	line-height: 1.5em;
 	display: inline-block;
 }
 
 .wprss-dialog-header .close-btn {
-	display: inline-block;
+	position: absolute;
+	top: 8px;
+	right: 15px;
 	color: #fff;
-	font-size: 16px;
-	font-weight: bold;
+	font-size: 12px;
 	cursor: pointer;
-	line-height: 1.5em;
-	padding: 0 8px 3px;
-	margin-right: 10px;
-	float: right;
+	line-height: 2em;
+	padding: 3px 8px;
 	border-radius: 3px;
 }
 .wprss-dialog-header .close-btn:hover {
-	background: rgba(255, 255, 255, 0.2);
+	background: rgba(173, 83, 28, 0.49);
 }
 
 .wprss-dialog-inside {
 	position: absolute;
-	top: 30px;
+	top: 44px;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -82,19 +80,25 @@
 	-moz-box-sizing: border-box;
 }
 
-.wprss-dialog-inside table tr td:first-child {
-	font-weight: bold;
+.wprss-dialog-inside table p {
+	margin: 0 0 5px;
 }
 
+.wprss-dialog-inside table tr td {
+	vertical-align: baseline;
+	line-height: 1.5em;
+}
 
-#wprss-dialog-sources-container {
-	margin-top: 10px;
+.wprss-dialog-inside table tr td:first-child {
+	min-width: 85px;
+	font-weight: bold;
 }
 
 #wprss-dialog-feed-source-list,
 #wprss-dialog-exclude-list {
 	min-width: 100px;
 	min-height: 100px;
+	max-height: 100px;
 }
 
 #wprss-dialog-exclude-row td p:first-child {
@@ -109,4 +113,21 @@
 	font-size: 0.85em;
 	text-decoration: none;
 	margin-left: 3px;
+}
+
+#wprss-dialog-submit {
+	padding: 7px 14px;
+	color: #ff792b;
+	font-weight: bold;
+	background: #fff;
+	border: 3px solid #ff792b;
+	border-radius: 4px;
+	box-shadow: 0 0 transparent;
+	outline: 0;
+	cursor: pointer;
+	transition: 0.15s;
+}
+#wprss-dialog-submit:hover {
+	background: #ff792b;
+	color: #fff;
 }

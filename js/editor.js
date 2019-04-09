@@ -67,8 +67,8 @@ jQuery( document ).ready( function($) {
 			overlay = $('<div id="wprss-overlay"></div>');
 			dialog = $('<div id="wprss-editor-dialog" class="postbox"></div>');
 
-			dialog_head = $('<div class="wprss-dialog-header"> <h1>WPRSS Aggregator Shortcode</h1> </div>');
-			dialog_head_close = $('<span class="close-btn"></span>').html('&times;').appendTo( dialog_head );
+			dialog_head = $('<div class="wprss-dialog-header"> <h1>WP RSS Aggregator Shortcode</h1> </div>');
+			dialog_head_close = $('<span class="close-btn">Close</span>').appendTo( dialog_head );
 			dialog_inside = $('<div class="wprss-dialog-inside"></div>');
 			dialog.append( dialog_head );
 			dialog.append( dialog_inside );
@@ -116,7 +116,7 @@ jQuery( document ).ready( function($) {
 		init : function( ed, url ) {
 			// Add the button
 			ed.addButton( WPRSS_TMCE_PLUGIN_ID, {
-				title : 'WPRSS Aggregator shortcode',
+				title : 'WP RSS Aggregator shortcode',
 				image : url + '/../images/icon-adminpage32.png',
 				onclick : function() {
 					idPattern = /(?:(?:[^v]+)+v.)?([^&=]{11})(?=&|$)/;
@@ -136,11 +136,11 @@ jQuery( document ).ready( function($) {
 		},
 		getInfo : function() {
 			return {
-				longname : "WPRSS Aggregator Shortcode",
-				author : 'John Galea',
-				authorurl : 'http://profiles.wordpress.org/jeangalea/',
+				longname : "WP RSS Aggregator Shortcode",
+				author : 'RebelCode',
+				authorurl : 'http://www.wprssaggregator.com/',
 				infourl : 'http://www.wprssaggregator.com/',
-				version : "1.0"
+				version : "1.1"
 			};
 		}
 	});
