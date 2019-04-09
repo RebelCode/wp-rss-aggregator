@@ -141,7 +141,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             onChange={(template) => {
               props.setAttributes({template: template || ''})
             }}
-            options={WRPA_BLOCK.templates}
+            options={WPRA_BLOCK.templates}
           />
           <TextControl
             label={__('Feed Limit')}

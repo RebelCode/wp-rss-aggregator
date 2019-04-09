@@ -56,7 +56,7 @@ class GutenbergBlockAssetsHandler
             ];
         }
 
-        wp_localize_script('wpra-shortcode', 'WRPA_BLOCK', [
+        wp_localize_script('wpra-shortcode', 'WPRA_BLOCK', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'templates' => $templates,
         ]);

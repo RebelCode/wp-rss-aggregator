@@ -19,7 +19,7 @@ export default class MultipleSelectControl extends Component {
   componentDidMount () {
     this.setState({loading: true})
 
-    jQuery.post(WRPA_BLOCK.ajax_url, {
+    jQuery.post(WPRA_BLOCK.ajax_url, {
       action: 'wprss_fetch_items',
     }, (data) => {
       data = JSON.parse(data)
