@@ -229,9 +229,10 @@ export default {
                        onInput={(e) => this.model.options.links_behavior = e}
                 />
               </Postbox>
-              <Postbox id="template-custom-css" title="Custom CSS Class">
+              <Postbox id="template-custom-css" title="Custom Style">
                 <Input type="text"
-                       placeholder={'Enter custom CSS class name'}
+                       class="form-input--vertical"
+                       label={'Custom CSS class name'}
                        value={this.model.options.custom_css_classname}
                        onInput={(e) => this.model.options.custom_css_classname = e}
                 />
@@ -264,7 +265,6 @@ export default {
               <Postbox id="template-options" title="Template Options">
                 <Input type="checkbox"
                        label={'Link title to original article'}
-                       description="Whether we should use a title as a link to the original article."
                        value={this.model.options.title_is_link}
                        onInput={(e) => this.model.options.title_is_link = e}
                 />
@@ -281,7 +281,7 @@ export default {
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
                 />
                 <Input type="text"
-                       label={'Text preceeding date'}
+                       label={'Date prefix'}
                        value={this.model.options.date_prefix}
                        onInput={(e) => this.model.options.date_prefix = e}
                        disabled={!this.model.options.date_enabled}
@@ -294,6 +294,7 @@ export default {
                 />
                 <Input type="checkbox"
                        label={'Use "time ago" format'}
+                       description={'Example: 20 minutes ago'}
                        value={this.model.options.date_use_time_ago}
                        onInput={(e) => this.model.options.date_use_time_ago = e}
                        disabled={!this.model.options.date_enabled}
@@ -325,7 +326,7 @@ export default {
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
                 />
                 <Input type="text"
-                       label={'Text preceeding author name'}
+                       label={'Author prefix'}
                        value={this.model.options.author_prefix}
                        onInput={(e) => this.model.options.author_prefix = e}
                        disabled={!this.model.options.author_enabled}
