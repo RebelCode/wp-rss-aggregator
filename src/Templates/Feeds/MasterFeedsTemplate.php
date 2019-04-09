@@ -10,7 +10,9 @@ use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
@@ -168,13 +170,20 @@ class MasterFeedsTemplate implements TemplateInterface
 
         // Prepare the full context
         $fullCtx = $arrCtx;
+        // Add the feed items and the template model to the context
         $fullCtx['items'] = $items;
-        $fullCtx['model'] = $model;
+        $fullCtx['model'] = iterator_to_array($model);
 
+        // Add total count of items and number of pages to context
         $perPage = isset($fullCtx['pagination']['num_items']) ? $fullCtx['pagination']['num_items'] : 0;
-
         $fullCtx['pagination']['total'] = $count;
         $fullCtx['pagination']['total_pages'] = $perPage ? ceil($count / $perPage) : 0;
+
+        // Override the template's pagination if given as an arg to the master template
+        if (isset($arrCtx['pagination']['enabled'])) {
+            $fullCtx['model']['options']['pagination_enabled'] = $fullCtx['pagination']['enabled'];
+            unset($fullCtx['pagination']['enabled']);
+        }
 
         return $template->render($fullCtx);
     }
@@ -230,6 +239,10 @@ class MasterFeedsTemplate implements TemplateInterface
                 'default' => 1,
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
+            ],
+            'pagination' => [
+                'key' => 'pagination/enabled',
+                'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
         ];
     }
