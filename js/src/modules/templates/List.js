@@ -215,7 +215,7 @@ export default {
             {
               (row.type === '__built_in') ?
                 <span style={{opacity: '0.6', display: 'block'}}>
-                  This is default feed template. Create your own copy by duplicating it 🙌
+                  This is the default feed template. To create your own, either duplicate it or click "Add New" above.
                 </span>
                 :
                 null
@@ -223,7 +223,7 @@ export default {
           </div>,
           <div class="row-actions">
               <span class="edit">
-                <a href="#" onClick={(e) => this.copyShortcode(e, row)}>Copy shortcode</a> |
+                <a href="#" onClick={(e) => this.copyShortcode(e, row)}>Copy Shortcode</a> |
               </span>
               <span className="edit" style={{paddingLeft: '4px'}}>
                 <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
@@ -259,8 +259,11 @@ export default {
       previewTemplate: ({row}) => {
         return [
           <div>
-            <a href={this.getPreviewLink(row)} target="_blank">
-              <span class="dashicons dashicons-desktop"></span>
+            <a href={this.getPreviewLink(row)}
+               target="_blank"
+               class="wpra-preview-link"
+            >
+              Preview <span class="dashicons dashicons-external"></span>
             </a>
           </div>
         ]

@@ -256,7 +256,7 @@ export default {
                 {
                   (this.model.type === '__built_in') ?
                     <span style={{opacity: '0.6', display: 'block'}}>
-                      This is default feed template. Create your own copy by duplicating it 🙌
+                      This is the default feed template. To create your own, either duplicate it or click "Add New" above.
                     </span>
                     :
                     null
