@@ -12,6 +12,7 @@ import {
   Spinner,
   Placeholder,
   FormTokenField,
+  SelectControl,
 } from '@wordpress/components'
 import MultipleSelectControl from './components/MultipleSelectControl'
 
@@ -46,6 +47,10 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
     isAll: {
       type: 'boolean',
       default: true
+    },
+    template: {
+      type: 'string',
+      default: ''
     },
     pagination: {
       type: 'boolean',
@@ -130,6 +135,14 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
           title={__('Display Options')}
           initialOpen={false}
         >
+          <SelectControl
+            label={ __( 'Select Template' ) }
+            value={ props.attributes.template }
+            onChange={(template) => {
+              props.setAttributes({template: template || ''})
+            }}
+            options={WRPA_BLOCK.templates}
+          />
           <TextControl
             label={__('Feed Limit')}
             help={__('Number of feed items to display')}
