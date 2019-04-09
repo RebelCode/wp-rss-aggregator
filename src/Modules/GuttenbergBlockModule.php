@@ -42,6 +42,10 @@ class GuttenbergBlockModule implements ModuleInterface
                         'type' => 'boolean',
                         'default' => true,
                     ],
+                    'template' => [
+                        'type' => 'string',
+                        'default' => '',
+                    ],
                     'pagination' => [
                         'type' => 'boolean',
                         'default' => true,
@@ -91,7 +95,9 @@ class GuttenbergBlockModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/guttenberg_block/handlers/assets' => function (ContainerInterface $c) {
-                return new GuttenbergBlockAssetsHandler();
+                return new GuttenbergBlockAssetsHandler(
+                    $c->get('wpra/templates/feeds/collection')
+                );
             },
 
             /*
