@@ -116,7 +116,7 @@ export default {
       return `[wp-rss-aggregator template="${this.model.slug}"]`
     },
     preventLoosingNotSavedData () {
-      return !this.isChanged() || confirm('Are you sure you want to go back? All unsaved changes will be lost.')
+      return !this.isChanged() || confirm('Are you sure you want to cancel your changes for this template? This action cannot be reverted and all changes made since your last save will be lost.')
     },
     copyShortcode (e) {
       copyToClipboard(this.getShortcode())
@@ -151,7 +151,7 @@ export default {
              target="_blank"
              style={{marginLeft: '4px'}}
           >
-            <span aria-hidden="true">Preview On Your Site</span>
+            <span aria-hidden="true">Open preview</span>
           </a>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default {
       shortcode = <div class="wpra-shortcode-copy" title={'Copy chortcode'}>
         <div class="wpra-shortcode-copy__content">
           <strong>Shortcode: </strong>
-          {` ${this.getShortcode()}`}
+          <code>{ this.getShortcode() }</code>
         </div>
         <div class="wpra-shortcode-copy__icon">
           <button class="button" onClick={this.copyShortcode}>Copy Shortcode</button>
@@ -176,7 +176,7 @@ export default {
           Templates
         </RouteLink>
         <h1 class="wp-heading-inline">
-          {this.router.params.id ? 'Edit Template' : 'New Template'}
+          {this.router.params.id ? (this.changes.model.name || this.changes.model.slug) : 'Create a New Template'}
         </h1>
         {shortcode}
       </div>
@@ -216,6 +216,9 @@ export default {
                 </div>
               </Postbox>
               <Postbox id="template-link-preferences" title="Link Preferences">
+                <p style={{opacity: .65}}>
+                  These options apply to all links within this template.
+                </p>
                 <Input type="checkbox"
                        label={'Set links as nofollow'}
                        value={this.model.options.links_nofollow}
