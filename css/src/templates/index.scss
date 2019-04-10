@@ -57,6 +57,7 @@
   display: flex;
   margin: .75rem 0;
   &--disabled {
+    pointer-events: none;
     .form-input__label {
       opacity: .5;
       user-select: none;
