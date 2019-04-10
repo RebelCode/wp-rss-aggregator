@@ -56,6 +56,12 @@
 .form-input {
   display: flex;
   margin: .75rem 0;
+  &--disabled {
+    .form-input__label {
+      opacity: .5;
+      user-select: none;
+    }
+  }
   &--vertical {
     flex-direction: column;
     .form-input__label {
