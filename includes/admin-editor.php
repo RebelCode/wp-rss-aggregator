@@ -114,7 +114,7 @@
             ['multiple' => 'multiple', 'class' => 'widefat']
         );
 
-		$feed_sources_both_select = '<p>' . __( 'To select more than one feed source, click and drag without your mouse pointer or click individual feed sources while holding down the Ctrl (Windows) or Command (Mac) key.' , WPRSS_TEXT_DOMAIN ) . '</p>';
+		$feed_sources_both_select = '<p>' . __( 'To select more than one feed source, click and drag with your mouse pointer or click individual feed sources while holding down the Ctrl (Windows) or Command (Mac) key.' , WPRSS_TEXT_DOMAIN ) . '</p>';
 		$feed_sources_select .= $feed_sources_both_select;
 		$feed_sources_exclude_select .= $feed_sources_both_select;
 
