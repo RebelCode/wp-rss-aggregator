@@ -252,6 +252,30 @@
         return NULL;
 	}
 
+//add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10, 2) ;
+
+/**
+ * Allow debugging of wp_cron jobs
+ *
+ * @param array $cron_request_array
+ * @param string $doing_wp_cron
+ *
+ * @return array $cron_request_array with the current XDEBUG_SESSION cookie added if set
+ */
+function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
+{
+    if (empty ($_COOKIE['XDEBUG_SESSION'])) {
+        return ($cron_request_array) ;
+    }
+
+    if (empty ($cron_request_array['args']['cookies'])) {
+        $cron_request_array['args']['cookies'] = array () ;
+    }
+    $cron_request_array['args']['cookies']['XDEBUG_SESSION'] = $_COOKIE['XDEBUG_SESSION'] ;
+
+    return ($cron_request_array) ;
+}
+
 	/**
 	 * A clone of the function 'fetch_feed' in wp-includes/feed.php [line #529]
 	 *
@@ -272,7 +296,7 @@
         // If a feed source was passed
         if ($source !== null || $param_force_feed) {
             // Get the force feed option for the feed source
-            $force_feed = get_post_meta($source, 'wprss_force_feed', null);
+            $force_feed = get_post_meta($source, 'wprss_force_feed', true);
             // If turned on, force the feed
             if ($force_feed == 'true' || $param_force_feed) {
                 $feed->force_feed(true);
