@@ -20,8 +20,11 @@ export default {
           acc[key] = WpraTemplates.options.type[key]
           return acc
         }, {}),
+
       model: jsonClone(WpraTemplates.model_schema),
       validation: jsonClone(WpraTemplates.model_schema),
+      tooltips: jsonClone(WpraTemplates.model_tooltips),
+
       baseUrl: WpraTemplates.base_url,
       isSaving: false,
       isLoading: false,
@@ -223,6 +226,8 @@ export default {
                        label={'Set links as nofollow'}
                        value={this.model.options.links_nofollow}
                        onInput={(e) => this.model.options.links_nofollow = e}
+                       title={this.tooltips.options.links_nofollow}
+                       labelTitle={true}
                 />
                 <Input type="select"
                        label={'Open links behaviour'}
@@ -230,6 +235,8 @@ export default {
                        value={this.model.options.links_behavior}
                        options={WpraTemplates.options.links_behavior}
                        onInput={(e) => this.model.options.links_behavior = e}
+                       title={this.tooltips.options.links_behavior}
+                       labelTitle={true}
                 />
               </Postbox>
               <Postbox id="template-custom-css" title="Custom Style">
@@ -238,6 +245,7 @@ export default {
                        label={'Custom CSS class name'}
                        value={this.model.options.custom_css_classname}
                        onInput={(e) => this.model.options.custom_css_classname = e}
+                       title={this.tooltips.options.custom_css_classname}
                 />
               </Postbox>
             </Sidebar>
@@ -270,11 +278,13 @@ export default {
                        label={'Link title to original article'}
                        value={this.model.options.title_is_link}
                        onInput={(e) => this.model.options.title_is_link = e}
+                       title={this.tooltips.options.title_is_link}
                 />
                 <Input type="number"
                        label={'Title maximum length'}
                        value={this.model.options.title_max_length}
                        onInput={(e) => this.model.options.title_max_length = e}
+                       title={this.tooltips.options.title_max_length}
                 />
 
                 <Input type="checkbox"
@@ -282,18 +292,21 @@ export default {
                        value={this.model.options.date_enabled}
                        onInput={(e) => this.model.options.date_enabled = e}
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
+                       title={this.tooltips.options.date_enabled}
                 />
                 <Input type="text"
                        label={'Date prefix'}
                        value={this.model.options.date_prefix}
                        onInput={(e) => this.model.options.date_prefix = e}
                        disabled={!this.model.options.date_enabled}
+                       title={this.tooltips.options.date_prefix}
                 />
                 <Input type="text"
                        label={'Date format'}
                        value={this.model.options.date_format}
                        onInput={(e) => this.model.options.date_format = e}
                        disabled={this.model.options.date_use_time_ago || !this.model.options.date_enabled}
+                       title={this.tooltips.options.date_format}
                 />
                 <Input type="checkbox"
                        label={'Use "time ago" format'}
@@ -301,6 +314,7 @@ export default {
                        value={this.model.options.date_use_time_ago}
                        onInput={(e) => this.model.options.date_use_time_ago = e}
                        disabled={!this.model.options.date_enabled}
+                       title={this.tooltips.options.date_use_time_ago}
                 />
 
                 <Input type="checkbox"
@@ -308,18 +322,21 @@ export default {
                        value={this.model.options.source_enabled}
                        onInput={(e) => this.model.options.source_enabled = e}
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
+                       title={this.tooltips.options.source_enabled}
                 />
                 <Input type="text"
                        label={'Source prefix'}
                        value={this.model.options.source_prefix}
                        onInput={(e) => this.model.options.source_prefix = e}
                        disabled={!this.model.options.source_enabled}
+                       title={this.tooltips.options.source_prefix}
                 />
                 <Input type="checkbox"
                        label={'Link source name'}
                        value={this.model.options.source_is_link}
                        onInput={(e) => this.model.options.source_is_link = e}
                        disabled={!this.model.options.source_enabled}
+                       title={this.tooltips.options.source_is_link}
                 />
 
                 <Input type="checkbox"
@@ -327,12 +344,14 @@ export default {
                        value={this.model.options.author_enabled}
                        onInput={(e) => this.model.options.author_enabled = e}
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
+                       title={this.tooltips.options.author_enabled}
                 />
                 <Input type="text"
                        label={'Author prefix'}
                        value={this.model.options.author_prefix}
                        onInput={(e) => this.model.options.author_prefix = e}
                        disabled={!this.model.options.author_enabled}
+                       title={this.tooltips.options.author_prefix}
                 />
 
                 <Input type="checkbox"
@@ -340,6 +359,7 @@ export default {
                        value={this.model.options.pagination_enabled}
                        onInput={(e) => this.model.options.pagination_enabled = e}
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
+                       title={this.tooltips.options.pagination_enabled}
                 />
                 <Input type="select"
                        label={'Pagination style'}
@@ -347,6 +367,7 @@ export default {
                        value={this.model.options.pagination_type}
                        onInput={(e) => this.model.options.pagination_type = e}
                        disabled={!this.model.options.pagination_enabled}
+                       title={this.tooltips.options.pagination_type}
                 />
 
                 <Input type="checkbox"
@@ -354,6 +375,7 @@ export default {
                        value={this.model.options.bullets_enabled}
                        onInput={(e) => this.model.options.bullets_enabled = e}
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
+                       title={this.tooltips.options.bullets_enabled}
                 />
                 <Input type="select"
                        label={'Bullet style'}
@@ -361,6 +383,7 @@ export default {
                        value={this.model.options.bullet_type}
                        onInput={(e) => this.model.options.bullet_type = e}
                        disabled={!this.model.options.bullets_enabled}
+                       title={this.tooltips.options.bullet_type}
                 />
               </Postbox>
             </Main>

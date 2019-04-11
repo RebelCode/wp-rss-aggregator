@@ -1,5 +1,7 @@
 import axios from 'axios'
 import toasted from 'vue-toasted'
+import VueTippy from 'vue-tippy'
+
 import Vuex from 'vuex'
 import List from './List'
 import Edit from './Edit'
@@ -82,6 +84,15 @@ export default {
     return services
   },
   run ({ container }) {
-    // run.
+    /*
+     * Enable tippy.js tooltips.
+     */
+    container.vue.use(VueTippy, {
+      theme: 'light',
+      animation: 'fade',
+      arrow: true,
+      arrowTransform: 'scale(0)',
+      placement: 'right'
+    })
   },
 }

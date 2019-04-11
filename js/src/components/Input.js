@@ -5,6 +5,8 @@ export default {
     type: {},
     value: {},
     placeholder: {},
+    title: {},
+    labelTitle: {},
     options: {
       default () {
         return {}
@@ -44,15 +46,39 @@ export default {
     },
   },
   render () {
+    let directives = []
+
+    if (this.title) {
+      directives.push({
+        name: 'tippy',
+      })
+    }
+
     return <div class={{'form-input': true, 'form-input--disabled': this.$attrs.disabled || false}}>
       { this.label ? (
         <label class="form-input__label">
-          <div>{this.label}</div>
+          <div>
+            {this.label}
+            {
+              this.title && this.labelTitle ? (
+                <div class="form-input__tip" {...{directives}} title={this.title}>
+                  <span class="dashicons dashicons-info"></span>
+                </div>
+              ) : null
+            }
+          </div>
           {this.description ? <div class="form-input__label-description">{this.description}</div> : ''}
         </label>
       ) : null }
       <div class="form-input__field">
         { this.inputNode() }
+        {
+          this.title && !this.labelTitle ? (
+            <div class="form-input__tip" {...{directives}} title={this.title}>
+              <span class="dashicons dashicons-info"></span>
+            </div>
+          ) : null
+        }
       </div>
     </div>
   }
