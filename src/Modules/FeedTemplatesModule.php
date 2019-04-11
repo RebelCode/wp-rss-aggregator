@@ -298,6 +298,39 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * Tooltips for feed template model fields.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/model_tooltips' => function (ContainerInterface $c) {
+                return [
+                    'name' => false,
+                    'type' => false,
+                    'options' => [
+                        'items_max_num' => false,
+                        'title_max_length' => __('Set the maximum number of characters to show for feed item titles.<hr/><em>Leave empty for no limit.</em>', WPRSS_TEXT_DOMAIN),
+                        'title_is_link' => __('Check this box to make the feed item titles link to the original article.', WPRSS_TEXT_DOMAIN),
+                        'pagination_enabled' => false,
+                        'pagination_type' =>  __('The type of pagination to use when showing feed items on multiple pages. The first shows two links, "Older" and "Newer", which allow you to navigate through the pages. The second shows links for all the pages, together with links for the next and previous pages.', WPRSS_TEXT_DOMAIN),
+                        'source_enabled' => __('Enable this option to show the feed source name for each feed item.', WPRSS_TEXT_DOMAIN),
+                        'source_prefix' => __('Enter the text that you want to show before the source name. A space is automatically added between this text and the feed source name.', WPRSS_TEXT_DOMAIN),
+                        'source_is_link' => __('Enable this option to link the feed source name to the RSS feed\'s source site.', WPRSS_TEXT_DOMAIN),
+                        'author_enabled' => __('Check this box to show the author for each feed item, if it is available.', WPRSS_TEXT_DOMAIN),
+                        'author_prefix' => false,
+                        'date_enabled' => __('Enable this to show the feed item\'s date.', WPRSS_TEXT_DOMAIN),
+                        'date_prefix' => __('Enter the text that you want to show before the feed item date. A space is automatically added between this text and the date.', WPRSS_TEXT_DOMAIN),
+                        'date_format' => __('The format to use for the feed item dates, as a PHP date format.', WPRSS_TEXT_DOMAIN),
+                        'date_use_time_ago' => __('Enable this option to show the elapsed time from the feed item\'s date and time to the present time. <em>Eg. 2 hours ago</em>', WPRSS_TEXT_DOMAIN),
+                        'links_behavior' => __('Choose how you want links to be opened. This applies to the feed item title and the source link.', WPRSS_TEXT_DOMAIN),
+                        'links_nofollow' => __('Enable this option to set all links displayed as "NoFollow".<hr/>"Nofollow" provides a way to tell search engines to <em>not</em> follow certain links, such as links to feed items in this case.', WPRSS_TEXT_DOMAIN),
+                        'links_video_embed_page' => __('For feed items from YouTube, Vimeo or Dailymotion, you can choose whether you want to have the items link to the original page link, or a link to the embedded video player only.', WPRSS_TEXT_DOMAIN),
+                        'bullets_enabled' => false,
+                        'bullet_type' => false,
+                        'custom_css_classname' => false,
+                    ],
+                ];
+            },
+            /*
              * Feed template's fields options.
              *
              * @since [*next-version*]
@@ -324,7 +357,6 @@ class FeedTemplatesModule implements ModuleInterface
                     ],
                 ];
             },
-
             /*
              * The templates GET endpoint for the REST API.
              *
@@ -421,6 +453,7 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
                 return new RenderAdminTemplatesPageHandler(
                     $c->get('wpra/templates/feeds/model_schema'),
+                    $c->get('wpra/templates/feeds/model_tooltips'),
                     $c->get('wpra/templates/feeds/template_options')
                 );
             },
