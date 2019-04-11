@@ -307,7 +307,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'name' => false,
                     'type' => false,
                     'options' => [
-                        'items_max_num' => false,
+                        'items_max_num' => __('The maximum number of feed items to display when using the shortcode. This enables pagination if set to a number smaller than the number of items to be displayed.', WPRSS_TEXT_DOMAIN),
                         'title_max_length' => __('Set the maximum number of characters to show for feed item titles.<hr/><em>Leave empty for no limit.</em>', WPRSS_TEXT_DOMAIN),
                         'title_is_link' => __('Check this box to make the feed item titles link to the original article.', WPRSS_TEXT_DOMAIN),
                         'pagination_enabled' => false,
@@ -354,6 +354,10 @@ class FeedTemplatesModule implements ModuleInterface
                     'bullet_type' => [
                         'default' => __('Bullets', WPRSS_TEXT_DOMAIN),
                         'numbers' => __('Numbers', WPRSS_TEXT_DOMAIN),
+                    ],
+                    'links_video_embed_page' => [
+                        'false' => __('Original page link', WPRSS_TEXT_DOMAIN),
+                        'true' => __('Embedded video player link', WPRSS_TEXT_DOMAIN),
                     ],
                 ];
             },

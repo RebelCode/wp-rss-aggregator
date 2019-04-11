@@ -238,6 +238,16 @@ export default {
                        title={this.tooltips.options.links_behavior}
                        labelTitle={true}
                 />
+                <Input type="select"
+                       label={'Video embed link type'}
+                       description={'This will not affect already imported feed items.'}
+                       class="form-input--vertical"
+                       value={this.model.options.links_video_embed_page}
+                       options={WpraTemplates.options.links_video_embed_page}
+                       onInput={(e) => this.model.options.links_video_embed_page = e}
+                       title={this.tooltips.options.links_video_embed_page}
+                       labelTitle={true}
+                />
               </Postbox>
               <Postbox id="template-custom-css" title="Custom Style">
                 <Input type="text"
@@ -285,6 +295,12 @@ export default {
                        value={this.model.options.title_max_length}
                        onInput={(e) => this.model.options.title_max_length = e}
                        title={this.tooltips.options.title_max_length}
+                />
+                <Input type="number"
+                       label={'Number of items'}
+                       value={this.model.options.items_max_num}
+                       onInput={(e) => this.model.options.items_max_num = e}
+                       title={this.tooltips.options.items_max_num}
                 />
 
                 <Input type="checkbox"
