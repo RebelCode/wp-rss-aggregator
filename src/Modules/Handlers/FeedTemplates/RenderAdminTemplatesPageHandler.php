@@ -17,6 +17,13 @@ class RenderAdminTemplatesPageHandler
     protected $modelSchema;
 
     /**
+     * Tooltips for feed template model fields.
+     *
+     * @var array
+     */
+    protected $modelTooltips;
+
+    /**
      * Feed template's fields options.
      *
      * @var array
@@ -27,11 +34,13 @@ class RenderAdminTemplatesPageHandler
      * RenderAdminTemplatesPageHandler constructor.
      *
      * @param array $modelSchema     The feeds template model structure.
+     * @param array $modelTooltips   Tooltips for feed template model fields.
      * @param array $templateOptions Feed template's fields options.
      */
-    public function __construct($modelSchema, $templateOptions)
+    public function __construct($modelSchema, $modelTooltips, $templateOptions)
     {
         $this->modelSchema = $modelSchema;
+        $this->modelTooltips = $modelTooltips;
         $this->templateOptions = $templateOptions;
     }
 
@@ -53,6 +62,7 @@ class RenderAdminTemplatesPageHandler
 
         wp_localize_script('wpra-templates', 'WpraTemplates', [
             'model_schema' => $this->modelSchema,
+            'model_tooltips' => $this->modelTooltips,
             'options' => $this->templateOptions,
             'base_url' => rest_url('/wpra/v1/templates'),
         ]);

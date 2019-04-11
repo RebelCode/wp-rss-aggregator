@@ -53,6 +53,18 @@
   }
 }
 
+.tippy-tooltip.light-theme {
+  font-size: 13px !important;
+  font-family: unset !important;
+  text-align: left !important;
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: #efefef;
+  }
+}
+
 .form-input {
   display: flex;
   margin: .75rem 0;
@@ -73,6 +85,19 @@
   }
   &:last-child {
     margin-bottom: 0;
+  }
+  &__tip {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 4px;
+    opacity: .4;
+    vertical-align: middle;
+    &:hover {
+      opacity: .85;
+    }
+    .dashicons {
+      font-size: 16px;
+    }
   }
   &__label {
     padding-right: 12px;
