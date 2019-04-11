@@ -275,7 +275,7 @@
             $force_feed = get_post_meta($source, 'wprss_force_feed', null);
             // If turned on, force the feed
             if ($force_feed == 'true' || $param_force_feed) {
-                $feed->force_feed(null);
+                $feed->force_feed(true);
             }
         }
 
