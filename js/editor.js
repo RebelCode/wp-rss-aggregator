@@ -5,6 +5,8 @@ var wprss_dialog_submit = null;
 jQuery( document ).ready( function($) {
 
 	wprss_dialog_submit = function() {
+		this.focus();
+
 		var shortcode = '[wp-rss-aggregator';
 
 		var all = $('#wprss-dialog-all-sources').is(':checked');
@@ -28,6 +30,10 @@ jQuery( document ).ready( function($) {
 
 		limit = $('#wprss-dialog-feed-limit').val();
 
+		pagination = $('#wprss-dialog-pagination:checked').length > 0;
+
+		page = $('#wprss-dialog-start-page').val();
+
 		if ( all ) {
 			if ( excludes.length > 0 ) {
 				shortcode += ' exclude="' + excludes + '"';
@@ -40,6 +46,14 @@ jQuery( document ).ready( function($) {
 
 		if ( limit !== '' && limit !== '0' ) {
 			shortcode += ' limit="' + limit + '"';
+		}
+
+		shortcode += ' pagination="';
+		shortcode += ( pagination ) ? 'on' : 'off';
+		shortcode += '"';
+
+		if ( page !== '' && parseInt(page) > 1 ) {
+			shortcode += ' page="' + page + '"';
 		}
 
 		shortcode += ']';

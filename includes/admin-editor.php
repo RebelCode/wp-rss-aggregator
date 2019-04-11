@@ -189,6 +189,28 @@
                     </td>
 				</tr>
 
+                <tr>
+                    <td><?php _e( 'Pagination', WPRSS_TEXT_DOMAIN ) ?></td>
+                    <td>
+                        <label>
+                            <input id="wprss-dialog-pagination" type="checkbox" />
+                            <span>Tick to enable pagination</span>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><?php _e( 'Starting page', WPRSS_TEXT_DOMAIN ) ?></td>
+                    <td>
+                        <input id="wprss-dialog-start-page"
+                               type="number"
+                               class="wprss-number-roller widefat"
+                               placeholder="<?php _e( 'Page number', WPRSS_TEXT_DOMAIN ) ?>"
+                               min="1"
+                        />
+                    </td>
+                </tr>
+
 				<?php do_action( 'wprss_return_dialog_contents' ); ?>
 
 				<tr>
