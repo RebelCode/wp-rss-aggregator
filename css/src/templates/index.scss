@@ -56,6 +56,13 @@
 .form-input {
   display: flex;
   margin: .75rem 0;
+  &--disabled {
+    pointer-events: none;
+    .form-input__label {
+      opacity: .5;
+      user-select: none;
+    }
+  }
   &--vertical {
     flex-direction: column;
     .form-input__label {
@@ -90,5 +97,15 @@
 
   [type="checkbox"] {
     display: none;
+  }
+}
+
+.wpra-preview-link {
+  vertical-align: middle;
+
+  span.dashicons {
+    opacity: .75;
+    font-size: 16px;
+    vertical-align: middle;
   }
 }

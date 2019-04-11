@@ -116,7 +116,7 @@ export default {
       return `[wp-rss-aggregator template="${this.model.slug}"]`
     },
     preventLoosingNotSavedData () {
-      return !this.isChanged() || confirm('Are you sure you want to go back? All unsaved changes will be lost.')
+      return !this.isChanged() || confirm('Are you sure you want to cancel your changes for this template? This action cannot be reverted and all changes made since your last save will be lost.')
     },
     copyShortcode (e) {
       copyToClipboard(this.getShortcode())
@@ -151,7 +151,7 @@ export default {
              target="_blank"
              style={{marginLeft: '4px'}}
           >
-            <span aria-hidden="true">Preview On Your Site</span>
+            <span aria-hidden="true">Open preview</span>
           </a>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default {
       shortcode = <div class="wpra-shortcode-copy" title={'Copy chortcode'}>
         <div class="wpra-shortcode-copy__content">
           <strong>Shortcode: </strong>
-          {` ${this.getShortcode()}`}
+          <code>{ this.getShortcode() }</code>
         </div>
         <div class="wpra-shortcode-copy__icon">
           <button class="button" onClick={this.copyShortcode}>Copy Shortcode</button>
@@ -176,7 +176,7 @@ export default {
           Templates
         </RouteLink>
         <h1 class="wp-heading-inline">
-          {this.router.params.id ? 'Edit Template' : 'New Template'}
+          {this.router.params.id ? (this.changes.model.name || this.changes.model.slug) : 'Create a New Template'}
         </h1>
         {shortcode}
       </div>
@@ -216,6 +216,9 @@ export default {
                 </div>
               </Postbox>
               <Postbox id="template-link-preferences" title="Link Preferences">
+                <p style={{opacity: .65}}>
+                  These options apply to all links within this template.
+                </p>
                 <Input type="checkbox"
                        label={'Set links as nofollow'}
                        value={this.model.options.links_nofollow}
@@ -229,9 +232,10 @@ export default {
                        onInput={(e) => this.model.options.links_behavior = e}
                 />
               </Postbox>
-              <Postbox id="template-custom-css" title="Custom CSS Class">
+              <Postbox id="template-custom-css" title="Custom Style">
                 <Input type="text"
-                       placeholder={'Enter custom CSS class name'}
+                       class="form-input--vertical"
+                       label={'Custom CSS class name'}
                        value={this.model.options.custom_css_classname}
                        onInput={(e) => this.model.options.custom_css_classname = e}
                 />
@@ -255,7 +259,7 @@ export default {
                 {
                   (this.model.type === '__built_in') ?
                     <span style={{opacity: '0.6', display: 'block'}}>
-                      This is default feed template. Create your own copy by duplicating it 🙌
+                      This is the default feed template. To create your own, either duplicate it or click "Add New" above.
                     </span>
                     :
                     null
@@ -264,7 +268,6 @@ export default {
               <Postbox id="template-options" title="Template Options">
                 <Input type="checkbox"
                        label={'Link title to original article'}
-                       description="Whether we should use a title as a link to the original article."
                        value={this.model.options.title_is_link}
                        onInput={(e) => this.model.options.title_is_link = e}
                 />
@@ -281,7 +284,7 @@ export default {
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
                 />
                 <Input type="text"
-                       label={'Text preceeding date'}
+                       label={'Date prefix'}
                        value={this.model.options.date_prefix}
                        onInput={(e) => this.model.options.date_prefix = e}
                        disabled={!this.model.options.date_enabled}
@@ -294,6 +297,7 @@ export default {
                 />
                 <Input type="checkbox"
                        label={'Use "time ago" format'}
+                       description={'Example: 20 minutes ago'}
                        value={this.model.options.date_use_time_ago}
                        onInput={(e) => this.model.options.date_use_time_ago = e}
                        disabled={!this.model.options.date_enabled}
@@ -325,7 +329,7 @@ export default {
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
                 />
                 <Input type="text"
-                       label={'Text preceeding author name'}
+                       label={'Author prefix'}
                        value={this.model.options.author_prefix}
                        onInput={(e) => this.model.options.author_prefix = e}
                        disabled={!this.model.options.author_enabled}

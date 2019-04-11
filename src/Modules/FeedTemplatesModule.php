@@ -310,12 +310,12 @@ class FeedTemplatesModule implements ModuleInterface
                         'grid' => __('Grid', WPRSS_TEXT_DOMAIN),
                     ],
                     'links_behavior' => [
-                        'self' => __('Same Tab/Window', WPRSS_TEXT_DOMAIN),
+                        'self' => __('Open in same tab/window', WPRSS_TEXT_DOMAIN),
                         'blank' => __('Open in a new tab', WPRSS_TEXT_DOMAIN),
                         'lightbox' => __('Open in a lightbox', WPRSS_TEXT_DOMAIN),
                     ],
                     'pagination_type' => [
-                        'default' => __('Default', WPRSS_TEXT_DOMAIN),
+                        'default' => __('Older/Newer', WPRSS_TEXT_DOMAIN),
                         'numbered' => __('Numbered', WPRSS_TEXT_DOMAIN),
                     ],
                     'bullet_type' => [

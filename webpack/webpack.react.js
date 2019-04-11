@@ -3,7 +3,6 @@ var webpack = require('webpack')
 var path = require('path')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 /**
  * Internal dependencies
@@ -71,7 +70,7 @@ const externals = [
 let config = {
   context: __dirname + '/../',
   entry: {
-    'guttenberg-block': './js/src/modules/guttenberg-block/index.js',
+    'gutenberg-block': './js/src/modules/gutenberg-block/index.js',
   },
   output: {
     path: __dirname + '/../js',

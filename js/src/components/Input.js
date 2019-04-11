@@ -44,7 +44,7 @@ export default {
     },
   },
   render () {
-    return <div class="form-input">
+    return <div class={{'form-input': true, 'form-input--disabled': this.$attrs.disabled || false}}>
       { this.label ? (
         <label class="form-input__label">
           <div>{this.label}</div>

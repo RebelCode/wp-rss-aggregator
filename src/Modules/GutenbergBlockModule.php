@@ -3,16 +3,16 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Modules\Handlers\GuttenbergBlock\FetchFeedSourcesHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\GuttenbergBlock\GuttenbergBlockAssetsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterGuttenbergBlockHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\FetchFeedSourcesHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\GutenbergBlockAssetsHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\RegisterGutenbergBlockHandler;
 
 /**
- * The Guttenberg block for WP RSS Aggregator.
+ * The Gutenberg block for WP RSS Aggregator.
  *
  * @since [*next-version*]
  */
-class GuttenbergBlockModule implements ModuleInterface
+class GutenbergBlockModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
@@ -23,20 +23,20 @@ class GuttenbergBlockModule implements ModuleInterface
     {
         return [
             /*
-             * The Guttenberg block name.
+             * The Gutenberg block name.
              *
              * @since [*next-version*]
              */
-            'wpra/guttenberg_block/name' => function (ContainerInterface $c) {
+            'wpra/gutenberg_block/name' => function (ContainerInterface $c) {
                 return 'wpra-shortcode/wpra-shortcode';
             },
 
             /*
-             * Available Guttenberg block attributes.
+             * Available Gutenberg block attributes.
              *
              * @since [*next-version*]
              */
-            'wpra/guttenberg_block/attributes' => function (ContainerInterface $c) {
+            'wpra/gutenberg_block/attributes' => function (ContainerInterface $c) {
                 return [
                     'isAll' => [
                         'type' => 'boolean',
@@ -66,46 +66,46 @@ class GuttenbergBlockModule implements ModuleInterface
             },
 
             /*
-             * The Guttenberg block configuration.
+             * The Gutenberg block configuration.
              *
              * @since [*next-version*]
              */
-            'wpra/guttenberg_block/config' => function (ContainerInterface $c) {
+            'wpra/gutenberg_block/config' => function (ContainerInterface $c) {
                 return [
-                    'attributes' => $c->get('wpra/guttenberg_block/attributes'),
+                    'attributes' => $c->get('wpra/gutenberg_block/attributes'),
                     'render_callback' => $c->get('wpra/shortcode/feeds/handler')
                 ];
             },
 
             /*
-             * The Guttenberg block configuration.
+             * The Gutenberg block configuration.
              *
              * @since [*next-version*]
              */
-            'wpra/guttenberg_block/handlers/register' => function (ContainerInterface $c) {
-                return new RegisterGuttenbergBlockHandler(
-                    $c->get('wpra/guttenberg_block/name'),
-                    $c->get('wpra/guttenberg_block/config')
+            'wpra/gutenberg_block/handlers/register' => function (ContainerInterface $c) {
+                return new RegisterGutenbergBlockHandler(
+                    $c->get('wpra/gutenberg_block/name'),
+                    $c->get('wpra/gutenberg_block/config')
                 );
             },
 
             /*
-             * The Guttenberg block assets handler.
+             * The Gutenberg block assets handler.
              *
              * @since [*next-version*]
              */
-            'wpra/guttenberg_block/handlers/assets' => function (ContainerInterface $c) {
-                return new GuttenbergBlockAssetsHandler(
+            'wpra/gutenberg_block/handlers/assets' => function (ContainerInterface $c) {
+                return new GutenbergBlockAssetsHandler(
                     $c->get('wpra/templates/feeds/collection')
                 );
             },
 
             /*
-             * The handler for retrieving feed sources in Guttenberg block.
+             * The handler for retrieving feed sources in Gutenberg block.
              *
              * @since [*next-version*]
              */
-            'wpra/guttenberg_block/handlers/fetch_feed_sources' => function (ContainerInterface $c) {
+            'wpra/gutenberg_block/handlers/fetch_feed_sources' => function (ContainerInterface $c) {
                 return new FetchFeedSourcesHandler();
             },
         ];
@@ -128,10 +128,10 @@ class GuttenbergBlockModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        add_action('plugins_loaded', $c->get('wpra/guttenberg_block/handlers/register'));
+        add_action('plugins_loaded', $c->get('wpra/gutenberg_block/handlers/register'));
 
-        add_action('enqueue_block_editor_assets', $c->get('wpra/guttenberg_block/handlers/assets'));
+        add_action('enqueue_block_editor_assets', $c->get('wpra/gutenberg_block/handlers/assets'));
 
-        add_action('wp_ajax_wprss_fetch_items', $c->get('wpra/guttenberg_block/handlers/fetch_feed_sources'));
+        add_action('wp_ajax_wprss_fetch_items', $c->get('wpra/gutenberg_block/handlers/fetch_feed_sources'));
     }
 }

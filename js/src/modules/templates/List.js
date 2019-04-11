@@ -171,26 +171,6 @@ export default {
       this.router.mergeParams(this.getParams())
     },
 
-    getShortcode (template) {
-      return `[wp-rss-aggregator template="${template.slug}"]`
-    },
-
-    copyShortcode (e, template) {
-      e.preventDefault()
-
-      copyToClipboard(this.getShortcode(template))
-
-      const text = e.target.innerText
-
-      e.target.classList.add('disabled')
-      e.target.innerText = 'Copied!'
-
-      setTimeout(() => {
-        e.target.classList.remove('disabled')
-        e.target.innerText = text
-      }, 5000)
-    },
-
     getRowClass (row) {
       return row.type === '__built_in' ? 'built-in' : ''
     }
@@ -210,22 +190,19 @@ export default {
       name: ({row}) => {
         return [
           <div>
-            <strong>{row.name}</strong>
+            <strong><RouteLink path={editPath(row.id)}>{row.name}</RouteLink></strong>
             <small style={{paddingLeft: '4px', opacity: '0.6'}}>{row.slug}</small>
             {
               (row.type === '__built_in') ?
                 <span style={{opacity: '0.6', display: 'block'}}>
-                  This is default feed template. Create your own copy by duplicating it 🙌
+                  This is the default feed template. To create your own, either duplicate it or click "Add New" above.
                 </span>
                 :
                 null
             }
           </div>,
           <div class="row-actions">
-              <span class="edit">
-                <a href="#" onClick={(e) => this.copyShortcode(e, row)}>Copy shortcode</a> |
-              </span>
-              <span className="edit" style={{paddingLeft: '4px'}}>
+              <span className="edit">
                 <RouteLink path={editPath(row.id)}>Edit</RouteLink> |
               </span>
             <span class="inline" style={{paddingLeft: '4px'}}>
@@ -259,8 +236,11 @@ export default {
       previewTemplate: ({row}) => {
         return [
           <div>
-            <a href={this.getPreviewLink(row)} target="_blank">
-              <span class="dashicons dashicons-desktop"></span>
+            <a href={this.getPreviewLink(row)}
+               target="_blank"
+               class="wpra-preview-link"
+            >
+              Open preview <span class="dashicons dashicons-external"></span>
             </a>
           </div>
         ]

@@ -1,9 +1,9 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\Handlers\GuttenbergBlock;
+namespace RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock;
 
 /**
- * Class for retrieving feed sources in Guttenberg block.
+ * Class for retrieving feed sources in Gutenberg block.
  *
  * @since [*next-version*]
  */
