@@ -57,7 +57,7 @@ class RenderAdminTemplatesPageHandler
         wp_localize_script('wpra-templates', 'WpraGlobal', [
             'admin_base_url' => admin_url(),
             'templates_url_base' => str_replace($url, '', menu_page_url('wpra_feed_templates', false)),
-            'is_existing_user' => wprss_is_new_user(),
+            'is_existing_user' => !wprss_is_new_user(),
             'nonce' => wp_create_nonce('wp_rest'),
         ]);
 
