@@ -6,7 +6,6 @@ export default {
     value: {},
     placeholder: {},
     title: {},
-    labelTitle: {},
     options: {
       default () {
         return {}
@@ -60,7 +59,7 @@ export default {
           <div>
             {this.label}
             {
-              this.title && this.labelTitle ? (
+              this.title ? (
                 <div class="form-input__tip" {...{directives}} title={this.title}>
                   <span class="dashicons dashicons-info"></span>
                 </div>
@@ -72,13 +71,6 @@ export default {
       ) : null }
       <div class="form-input__field">
         { this.inputNode() }
-        {
-          this.title && !this.labelTitle ? (
-            <div class="form-input__tip" {...{directives}} title={this.title}>
-              <span class="dashicons dashicons-info"></span>
-            </div>
-          ) : null
-        }
       </div>
     </div>
   }

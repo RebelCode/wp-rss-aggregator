@@ -240,7 +240,6 @@ export default {
                        value={this.model.options.links_nofollow}
                        onInput={(e) => this.model.options.links_nofollow = e}
                        title={this.tooltips.options.links_nofollow}
-                       labelTitle={true}
                 />
                 <Input type="select"
                        label={'Open links behaviour'}
@@ -249,7 +248,6 @@ export default {
                        options={WpraTemplates.options.links_behavior}
                        onInput={(e) => this.model.options.links_behavior = e}
                        title={this.tooltips.options.links_behavior}
-                       labelTitle={true}
                 />
                 <Input type="select"
                        label={'Video embed link type'}
@@ -259,7 +257,6 @@ export default {
                        options={WpraTemplates.options.links_video_embed_page}
                        onInput={(e) => this.model.options.links_video_embed_page = e}
                        title={this.tooltips.options.links_video_embed_page}
-                       labelTitle={true}
                 />
               </Postbox>
               <Postbox id="template-custom-css" title="Custom Style">
