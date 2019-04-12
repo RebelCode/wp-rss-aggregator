@@ -10,9 +10,7 @@ use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
-use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
@@ -49,6 +47,20 @@ class MasterFeedsTemplate implements TemplateInterface
 
     /* @since [*next-version*] */
     use StringTranslatingTrait;
+
+    /**
+     * The key from where to read template options.
+     *
+     * @since [*next-version*]
+     */
+    const TEMPLATE_OPTIONS_KEY = 'options';
+
+    /**
+     * The key to which to write non-schema context options.
+     *
+     * @since [*next-version*]
+     */
+    const CTX_OPTIONS_KEY = 'options';
 
     /**
      * The ID of the template to use by default.
@@ -128,33 +140,34 @@ class MasterFeedsTemplate implements TemplateInterface
     public function render($ctx = null)
     {
         try {
-            $argCtx = $this->_normalizeArray($ctx);
+            $normCtx = $this->_normalizeArray($ctx);
         } catch (InvalidArgumentException $exception) {
-            $argCtx = [];
+            $normCtx = [];
         }
 
-        // Parse the context
-        $arrCtx = $this->parseArgsWithSchema($argCtx, $this->getContextSchema());
+        // Parse the context, putting all non-schema data in an "options" key
+        $pCtx = $this->parseArgsWithSchema($normCtx, $this->getContextSchema(), '/', static::CTX_OPTIONS_KEY);
 
-        // If using legacy rendering, simply call the old render function
-        if ($arrCtx['legacy'] || (!isset($args['templates']) && $this->fallBackToLegacySystem())) {
+        // If explicitly using legacy rendering, or no template was given and should fallback to legacy rendering,
+        // call the old WPRA render function
+        if ($pCtx['legacy'] || (!isset($pCtx['template']) && $this->fallBackToLegacySystem())) {
             ob_start();
-            wprss_display_feed_items($arrCtx);
+            wprss_display_feed_items($normCtx);
 
             return ob_get_clean();
         }
 
-        $tKey = $arrCtx['template'];
+        $key = $pCtx['template'];
 
         try {
             // Get the template model
-            $model = $this->templateCollection[$tKey];
+            $model = $this->templateCollection[$key];
         } catch (Exception $exception) {
             $model = $this->templateCollection[$this->default];
 
             $this->logger->warning(
                 __('Template "{0}" does not exist or could not be loaded. The "{1}" template was used is instead.'),
-                [$tKey, $this->default]
+                [$key, $this->default]
             );
         }
 
@@ -162,30 +175,16 @@ class MasterFeedsTemplate implements TemplateInterface
         $type = isset($model['type']) ? $model['type'] : '';
         $template = $this->getTemplateType($type);
 
-        // Filter the items and count them
-        $items = $this->feedItemCollection->filter($arrCtx['filters']);
-        $count = $items->getCount();
-        // Paginate the items
-        $items = $items->filter($arrCtx['pagination']);
+        // Prepare the template model and the ctx options
+        $mdlOptions = $model[static::TEMPLATE_OPTIONS_KEY];
+        $ctxOptions = $pCtx[static::CTX_OPTIONS_KEY];
+        // Merge them such that ctx options may override the template's options
+        $options = array_merge_recursive(
+            $this->_normalizeArray($mdlOptions),
+            $this->_normalizeArray($ctxOptions)
+        );
 
-        // Prepare the full context
-        $fullCtx = $arrCtx;
-        // Add the feed items and the template model to the context
-        $fullCtx['items'] = $items;
-        $fullCtx['model'] = iterator_to_array($model);
-
-        // Add total count of items and number of pages to context
-        $perPage = isset($fullCtx['pagination']['num_items']) ? $fullCtx['pagination']['num_items'] : 0;
-        $fullCtx['pagination']['total'] = $count;
-        $fullCtx['pagination']['total_pages'] = $perPage ? ceil($count / $perPage) : 0;
-
-        // Override the template's pagination if given as an arg to the master template
-        if (isset($arrCtx['pagination']['enabled'])) {
-            $fullCtx['model']['options']['pagination_enabled'] = $fullCtx['pagination']['enabled'];
-            unset($fullCtx['pagination']['enabled']);
-        }
-
-        return $template->render($fullCtx);
+        return $template->render($options);
     }
 
     /**
@@ -206,42 +205,6 @@ class MasterFeedsTemplate implements TemplateInterface
             ],
             'legacy' => [
                 'default' => false,
-                'filter' => FILTER_VALIDATE_BOOLEAN,
-            ],
-            'source' => [
-                'key' => 'filters/sources',
-                'default' => [],
-                'filter' => function ($value) {
-                    return $this->sanitizeIdCommaList($value);
-                },
-            ],
-            'sources' => [
-                'key' => 'filters/sources',
-                'filter' => function ($value, $args) {
-                    return $this->sanitizeIdCommaList($value);
-                },
-            ],
-            'exclude' => [
-                'key' => 'filters/exclude',
-                'default' => [],
-                'filter' => function ($value) {
-                    return $this->sanitizeIdCommaList($value);
-                },
-            ],
-            'limit' => [
-                'key' => 'pagination/num_items',
-                'default' => wprss_get_general_setting('feed_limit'),
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-            ],
-            'page' => [
-                'key' => 'pagination/page',
-                'default' => 1,
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-            ],
-            'pagination' => [
-                'key' => 'pagination/enabled',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
         ];
