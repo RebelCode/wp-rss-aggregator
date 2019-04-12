@@ -5,6 +5,7 @@ import Layout from 'app/components/Layout'
 import RouteLink from 'app/components/RouteLink'
 import Input from 'app/components/Input'
 import Button from 'app/components/Button'
+import NoticeBlock from 'app/components/NoticeBlock'
 import deepmerge from 'app/utils/deepmerge'
 import DataChangesAware from 'app/mixins/DataChangesAware'
 import jsonClone from 'app/utils/jsonClone'
@@ -143,7 +144,8 @@ export default {
     }
 
     let minorActions = null,
-      shortcode = null
+      shortcode = null,
+      noticeBlock = null
 
     if (this.router.params.id) {
       minorActions = <div id="" style={{padding: '6px 0'}}>
@@ -170,6 +172,17 @@ export default {
           <button class="button" onClick={this.copyShortcode}>Copy Shortcode</button>
         </div>
       </div>
+
+      noticeBlock = <NoticeBlock
+          class={'postbox'}
+          id={'templates-usage'}
+          title={'Learn how to use this template'}
+          body={'Templates are used to display the feed items you import using WP RSS Aggregator. To display feed items using this template, you can do either of the following:<br>' +
+          '<ul><li>- Copy this shortcode and paste it anywhere on your site.</li>' +
+          '<li>- Use the WP RSS Aggregator TinyMCE shortcode button (when using the Classic Editor)</li>' +
+          '<li>- Use the WP RSS Aggregator block (when using WordPress 5.0+ with the new Gutenberg editor).</li></ul>'}
+          learnMore={'https://google.com.ua/'}
+        />
     }
 
     let content = <div>
@@ -260,6 +273,7 @@ export default {
               </Postbox>
             </Sidebar>
             <Main>
+              {noticeBlock}
               <Postbox id="template-details" title="Template Details">
                 <Input type="text"
                        label={'Template name'}
