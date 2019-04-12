@@ -1,6 +1,6 @@
 <div class="wp-rss-aggregator wpra-list-template {{ options.html_classes }}"
      data-page="{{ pagination.page }}"
-     data-wpra-template="{{ self.slug }}"
+     data-template-options="{{ options|json_encode|base64_encode|e('html_attr') }}"
 >
     {{ options.before_list|raw }}
     {{ include(self.dir ~ 'feed-list.twig') }}

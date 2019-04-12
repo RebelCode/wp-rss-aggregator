@@ -27,7 +27,7 @@ use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
  *
  * @since [*next-version*]
  */
-abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType implements FeedTemplateTypeInterface
+abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
 {
     /* @since [*next-version*] */
     use ParseArgsWithSchemaCapableTrait;
@@ -129,6 +129,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType imp
         // Calculate the total number of pages and items per page
         $perPage = empty($stdOpts['pagination']['num_items']) ? 0 : $stdOpts['pagination']['num_items'];
         $numPages = $perPage ? ceil($count / $perPage) : 0;
+        $page = empty($stdOpts['pagination']['page']) ? 1 : $stdOpts['pagination']['page'];
 
         // Parse the template-type's own options
         $ttOpts = $this->parseArgsWithSchema($ctx, $this->getOptions());
@@ -137,6 +138,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType imp
             'items' => $items,
             'options' => $ttOpts,
             'pagination' => [
+                'page' => $page,
                 'total_num_items' => $count,
                 'items_per_page' => $perPage,
                 'num_pages' => $numPages,
