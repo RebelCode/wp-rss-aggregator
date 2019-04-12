@@ -281,6 +281,7 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 * Changed: Updated the TinyMCE dialog options.
 * Changed: Updated administrator and editor role capabilities, fixing various permission bugs in the process.
 * Changed: Updated a lot of setting descriptions and tooltips.
+* Changed: The help beacon is now enabled by default.
 * Fixed: Import errors no longer "freeze" feed sources in an infinite importing state.
 * Fixed: Some import errors would not be logged due to script timeout or execution errors.
 * Fixed: Feed to Post was not able to show feed items in the shortcode.
