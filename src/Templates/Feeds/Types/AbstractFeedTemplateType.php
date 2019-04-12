@@ -9,20 +9,14 @@ use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
-use RebelCode\Wpra\Core\Data\ArrayDataSet;
-use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 
 /**
- * Abstract implementation of a standard WP RSS Aggregator feed template type.
+ * Abstract implementation of a feed template type.
  *
- * By default, this implementation loads twig template files according to the pattern `feeds/<key>/main.twig`, where
- * `<key>` is the key of the template. This can be changed by overriding the {@link getTemplatePath} method.
- *
- * Twig template files will have access to an "options" variable which contains the template's options, an "items"
- * variable which contains the items to be rendered and a "template" variable containing information about the template.
- * The "template.dir" variable may be useful for requiring other template files located in the same directory as the
- * main template file.
+ * This partial implementation lacks two main components:
+ * - Asset enqueueing
+ * - The actual {@link TemplateInterface} to render.
  *
  * @since [*next-version*]
  */
@@ -30,9 +24,6 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 {
     /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
-
-    /* @since [*next-version*] */
-    use ParseArgsWithSchemaCapableTrait;
 
     /* @since [*next-version*] */
     use CreateInvalidArgumentExceptionCapableTrait;
@@ -44,38 +35,24 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     use StringTranslatingTrait;
 
     /**
-     * The name of the root templates directory.
-     *
-     * @since [*next-version*]
-     */
-    const ROOT_DIR_NAME = 'feeds';
-
-    /**
-     * The name of the main template file to load.
-     *
-     * @since [*next-version*]
-     */
-    const MAIN_FILE_NAME = 'main.twig';
-
-    /**
-     * The templates collection.
+     * The feed items collection.
      *
      * @since [*next-version*]
      *
-     * @var DataSetInterface
+     * @var CollectionInterface
      */
-    protected $collection;
+    protected $feedItems;
 
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param DataSetInterface $collection The templates collection.
+     * @param CollectionInterface $feedItems The feed items collection.
      */
-    public function __construct(DataSetInterface $collection)
+    public function __construct(CollectionInterface $feedItems)
     {
-        $this->collection = $collection;
+        $this->feedItems = $feedItems;
     }
 
     /**
@@ -85,7 +62,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     public function render($ctx = null)
     {
-        $argCtx = ($ctx === null) ? [] : $ctx;
+        $argCtx = ($ctx === null) ? [] : $this->_normalizeArray($ctx);
         $prepCtx = $this->prepareContext($argCtx);
 
         $this->enqueueAssets();
@@ -100,42 +77,6 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     }
 
     /**
-     * Retrieves the template to render.
-     *
-     * @since [*next-version*]
-     *
-     * @return TemplateInterface The template instance.
-     */
-    protected function getTemplate()
-    {
-        return $this->collection[$this->getTemplatePath()];
-    }
-
-    /**
-     * Retrieves the path to the template directory.
-     *
-     * @since [*next-version*]
-     *
-     * @return string The path to the template directory, relative to a registered WPRA template path.
-     */
-    protected function getTemplateDir()
-    {
-        return static::ROOT_DIR_NAME . DIRECTORY_SEPARATOR . $this->getKey() . DIRECTORY_SEPARATOR;
-    }
-
-    /**
-     * Retrieves the path to the template main file.
-     *
-     * @since [*next-version*]
-     *
-     * @return string The path to the template main file, relative to a registered WPRA template path.
-     */
-    protected function getTemplatePath()
-    {
-        return $this->getTemplateDir() . static::MAIN_FILE_NAME;
-    }
-
-    /**
      * Prepares a render context before passing it to the template.
      *
      * @since [*next-version*]
@@ -146,44 +87,20 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     protected function prepareContext($ctx)
     {
-        $model = $ctx['model'];
-        $optCtx = isset($model['options']) ? $model['options'] : [];
-        $opts = $this->parseArgsWithSchema($optCtx, $this->getOptions());
-
-        $ctx['options'] = $this->createContextDataSet($opts);
-        $ctx['self'] = [
-            'type' => $this->getKey(),
-            'path' => $this->getTemplatePath(),
-            'dir' => $this->getTemplateDir(),
+        return [
+            'options' => $ctx,
+            'items' => $this->feedItems
         ];
-
-        return $ctx;
     }
 
     /**
-     * Creates the data set instance for a given template render context.
+     * Retrieves the template to render.
      *
      * @since [*next-version*]
      *
-     * @param array $ctx The render context.
-     *
-     * @return DataSetInterface The created data set instance.
+     * @return TemplateInterface The template instance.
      */
-    protected function createContextDataSet(array $ctx)
-    {
-        return new ArrayDataSet($ctx);
-    }
-
-    /**
-     * Retrieves the schema for template-specific options.
-     *
-     * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
-     *
-     * @since [*next-version*]
-     *
-     * @return array
-     */
-    abstract protected function getOptions();
+    abstract protected function getTemplate();
 
     /**
      * Enqueues the assets required by this template type.
