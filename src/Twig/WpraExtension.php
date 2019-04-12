@@ -21,6 +21,7 @@ class WpraExtension extends AbstractExtension
     {
         return [
             $this->getWpraLinkFilter(),
+            $this->getBase64EncodeFilter()
         ];
     }
 
@@ -65,5 +66,23 @@ class WpraExtension extends AbstractExtension
         ];
 
         return new TwigFilter($name, $callback, $options);
+    }
+
+    /**
+     * Retrieves the "base64_encode" filter.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFilter The filter instance.
+     */
+    public function getBase64EncodeFilter()
+    {
+        $name = 'base64_encode';
+
+        $callback = function ($input) {
+            return base64_encode($input);
+        };
+
+        return new TwigFilter($name, $callback);
     }
 }
