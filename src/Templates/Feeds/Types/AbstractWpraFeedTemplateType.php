@@ -27,7 +27,7 @@ use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
  *
  * @since [*next-version*]
  */
-abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType implements FeedTemplateTypeInterface
+abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
 {
     /* @since [*next-version*] */
     use ParseArgsWithSchemaCapableTrait;
