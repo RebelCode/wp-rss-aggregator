@@ -119,7 +119,7 @@ export default {
       return `[wp-rss-aggregator template="${this.model.slug}"]`
     },
     preventLoosingNotSavedData () {
-      return !this.isChanged() || confirm('Are you sure you want to cancel your changes for this template? This action cannot be reverted and all changes made since your last save will be lost.')
+      return !this.isChanged() || confirm('You have unsaved changes. All changes will be lost if you go back to the Template list before updating. Are you sure you want to continue?')
     },
     copyShortcode (e) {
       copyToClipboard(this.getShortcode())
