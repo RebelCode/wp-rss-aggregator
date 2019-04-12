@@ -14,28 +14,31 @@ trait ParseArgsWithSchemaCapableTrait
     /**
      * Parses an args array with a given schema.
      *
+     * The schema is an array with each element's key being the arg key and each value being a sub-array, containing
+     * the following data:
+     *
+     * - "default": Optional default value to use if the value is not in the args. If no default value is given, the
+     *              entry is omitted from the result.
+     * - "key":     Optional destination key to remap the args entry. The key may have delimiters (specified by the
+     *              $delim argument) to set values deeper within the resulting array.
+     * - "filter":  Optional {@link filter_var} filter to use. A custom "enum" filter is also available for filtering
+     *              values to a restricted set of known presets defined in the "options" key. Alternatively, the
+     *              filter may be a callable that accepts 3 arguments (the value, the full args array and the schema
+     *              sub-array) and returns the filtered value or throws an {@link \InvalidArgumentException} to use
+     *              the "default" value (or omit from the result if no default is given).
+     * - "options": Optional filter options to use with the specified filter, or enum values if the filter is "enum".
+     * - "flags":   Optional filter flags to use with the specified filter.
+     *
      * @since [*next-version*]
      *
-     * @param array  $args   The args to parse.
-     * @param array  $schema The schema with each element's key being the arg key and each value being a sub-array
-     *                       containing the following data:
-     *                       - "default": Optional default value to use if the value is not in the args. If no
-     *                                    default value is given, the entry is omitted from the result.
-     *                       - "key": Optional destination key to remap the args entry.
-     *                       - "filter": Optional {@link filter_var} filter to use. A custom "enum" filter is also
-     *                                   available for filtering values to a restricted set of known presets defined in
-     *                                   the "options" key. Alternatively, the filter may be a callable that accepts 3
-     *                                   arguments (the value, the full args array and the schema sub-array) and returns
-     *                                   the filtered value or throws an {@link \InvalidArgumentException} to use the
-     *                                   "default" value (or omit from the result if no default is given).
-     *                       - "options": Optional filter options to use with the specified filter, or enum values if
-     *                                    the filter is "enum".
-     *                       - "flags": Optional filter flags to use with the specified filter.
-     * @param string $delim  Optional string delimiter to split keys into paths.
+     * @param array       $args   The args to parse.
+     * @param array       $schema The schema.
+     * @param string      $delim  Optional string delimiter to split keys into paths.
+     * @param string|null $else   Optional key where non-schema data will be stored, or null to omit non-schema data.
      *
      * @return array The parsed arguments arrays.
      */
-    protected function parseArgsWithSchema($args, $schema, $delim = '/')
+    protected function parseArgsWithSchema($args, $schema, $delim = '/', $else = null)
     {
         $prepared = [];
 
@@ -107,6 +110,10 @@ trait ParseArgsWithSchemaCapableTrait
             $pathKey = explode($delim, $destKey);
 
             $this->_arrayDeepSet($prepared, $pathKey, $finalValue);
+        }
+
+        if (is_string($else) && strlen($else) > 0) {
+            $prepared[$else] = array_diff_key($args, $schema);
         }
 
         return $prepared;
