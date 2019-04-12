@@ -269,8 +269,27 @@ Our complete Knowledge Base with FAQs included can be found [here](https://kb.wp
 == Changelog ==
 
 = 4.12.3 (2019-04-01) =
-* Fixed an issue with Feed to Post not being able to show feed items in the shortcode.
-* Fixed deprecation notices on PHP 7.3.
+* Added: New feed templates.
+* Added: New Gutenberg block.
+* Added: Brand new debug log and logging system that stores logs in the database.
+* Added: Blacklist items can now be added manually.
+* Changed: Refactored a lot of legacy code over to the new modular system.
+* Changed: General display settings have been moved to the "list" template type.
+* Changed: Re-organized the general plugin settings. Advanced options are now under an advanced settings section.
+* Changed: Removed the "Add New" menu item from the RSS Aggregator menu.
+* Changed: The feed sources page now updates every 1 second.
+* Changed: Updated the TinyMCE dialog options.
+* Changed: Updated administrator and editor role capabilities, fixing various permission bugs in the process.
+* Changed: Updated a lot of setting descriptions and tooltips.
+* Changed: The help beacon is now enabled by default.
+* Fixed: Import errors no longer "freeze" feed sources in an infinite importing state.
+* Fixed: Some import errors would not be logged due to script timeout or execution errors.
+* Fixed: Feed to Post was not able to show feed items in the shortcode.
+* Fixed: Deprecation notices on PHP 7.3.
+* Fixed: The "Force feed" option had no effect. Now it properly forces the feed.
+* Fixed: A bug that caused perfectly good RSS feeds to trigger gzip errors.
+* Fixed: The "Delete permanently & blacklist" row action was appearing for non-feed-item post types.
+* Removed: The notice that asks users to leave a review was removed due to various bugs.
 
 = 4.12.2 (2019-03-26) =
 * Fixed an admin capability bug that disallowed admin users from fetching feed items.

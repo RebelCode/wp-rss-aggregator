@@ -118,7 +118,10 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/templates/feeds/list_template_type' => function (ContainerInterface $c) {
-                return new ListTemplateType($c->get('wpra/templates/feeds/file_template_collection'));
+                return new ListTemplateType(
+                    $c->get('wpra/templates/feeds/file_template_collection'),
+                    $c->get('wpra/templates/feeds/feed_item_collection')
+                );
             },
             /*
              * The collection of feed templates.
@@ -567,7 +570,7 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
                 $endPoints['render_templates'] = new EndPoint(
-                    '/templates/render(?:/(?P<template>[^/]+))?',
+                    '/templates/(?P<template>[^/]+)/render',
                     ['GET'],
                     $c->get('wpra/templates/feeds/rest_api/v1/render_endpoint')
                 );

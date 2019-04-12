@@ -1,4 +1,4 @@
-{% set isOlderVisible = pagination.page < pagination.total_pages %}
+{% set isOlderVisible = pagination.page < pagination.num_pages %}
 {% set isNewerVisible = pagination.page > 1 %}
 <div class="nav-links">
     {% if isOlderVisible %}

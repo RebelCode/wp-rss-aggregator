@@ -1,8 +1,8 @@
-{% set isOlderVisible = pagination.page < pagination.total_pages %}
+{% set isOlderVisible = pagination.page < pagination.num_pages %}
 {% set isNewerVisible = pagination.page > 1 %}
 
 {% set targetFirst = pagination.page - 2 > 0 ? pagination.page - 2 : 1 %}
-{% set targetLast = pagination.page + 2 < pagination.total_pages ? pagination.page + 2 : pagination.total_pages %}
+{% set targetLast = pagination.page + 2 < pagination.num_pages ? pagination.page + 2 : pagination.num_pages %}
 
 {% set pages = range(targetFirst, targetLast) %}
 
@@ -30,7 +30,7 @@
             </div>
         {% endif %}
     {% endfor %}
-    {% if targetLast != pagination.total_pages %}
+    {% if targetLast != pagination.num_pages %}
         <span class="alignleft">…</span>
     {% endif %}
     {% if isOlderVisible %}
