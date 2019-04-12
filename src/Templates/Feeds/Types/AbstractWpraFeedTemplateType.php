@@ -142,6 +142,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType imp
                 'num_pages' => $numPages,
             ],
             'self' => [
+                'slug' => $stdOpts['slug'],
                 'type' => $this->getKey(),
                 'path' => $this->getTemplatePath(),
                 'dir' => $this->getTemplateDir(),
@@ -159,6 +160,10 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType imp
     protected function getStandardOptions()
     {
         return [
+            'slug' => [
+                'default' => '',
+                'filter' => FILTER_DEFAULT,
+            ],
             'source' => [
                 'key' => 'filters/sources',
                 'default' => [],

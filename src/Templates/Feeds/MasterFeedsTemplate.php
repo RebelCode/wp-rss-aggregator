@@ -157,17 +157,17 @@ class MasterFeedsTemplate implements TemplateInterface
             return ob_get_clean();
         }
 
-        $key = $pCtx['template'];
+        $slug = $pCtx['template'];
 
         try {
             // Get the template model
-            $model = $this->templateCollection[$key];
+            $model = $this->templateCollection[$slug];
         } catch (Exception $exception) {
             $model = $this->templateCollection[$this->default];
 
             $this->logger->warning(
                 __('Template "{0}" does not exist or could not be loaded. The "{1}" template was used is instead.'),
-                [$key, $this->default]
+                [$slug, $this->default]
             );
         }
 
@@ -183,6 +183,8 @@ class MasterFeedsTemplate implements TemplateInterface
             $this->_normalizeArray($mdlOptions),
             $this->_normalizeArray($ctxOptions)
         );
+        // Include the template slug in the context
+        $options['slug'] = $slug;
 
         return $template->render($options);
     }
