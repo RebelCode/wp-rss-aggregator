@@ -343,7 +343,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'type' => [
                         '__built_in' => __('List', WPRSS_TEXT_DOMAIN),
                         'list' => __('List', WPRSS_TEXT_DOMAIN),
-                        'grid' => __('Grid', WPRSS_TEXT_DOMAIN),
+                        // 'grid' => __('Grid', WPRSS_TEXT_DOMAIN),
                     ],
                     'links_behavior' => [
                         'self' => __('Open in same tab/window', WPRSS_TEXT_DOMAIN),

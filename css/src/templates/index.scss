@@ -111,8 +111,14 @@
     flex-basis: 260px;
     &-description {
       padding-top: 2px;
+      padding-right: 10px;
+      line-height: 1.65;
       opacity: .6;
       font-size: 12px;
+
+      a {
+        pointer-events: auto !important;
+      }
     }
   }
   &__field {

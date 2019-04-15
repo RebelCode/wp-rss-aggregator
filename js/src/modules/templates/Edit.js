@@ -182,7 +182,7 @@ export default {
           '<ul><li>- Copy the shortcode and paste it anywhere on your site.</li>' +
           '<li>- Use the WP RSS Aggregator TinyMCE shortcode button (when using the Classic Editor)</li>' +
           '<li>- Use the WP RSS Aggregator block (when using WordPress 5.0+ with the new Gutenberg editor).</li></ul>'}
-          learnMore={'https://google.com.ua/'}
+          learnMore={'https://google.com/'}
         />
     }
 
@@ -285,11 +285,13 @@ export default {
                        options={this.typeOptions}
                        onInput={(e) => this.model.type = e}
                        disabled={this.model.type === '__built_in'}
+                       inputDisabled={true}
+                       description={'<strong>🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/">Share it with us.</a>'}
                 />
                 {
                   (this.model.type === '__built_in') ?
                     <span style={{opacity: '0.6', display: 'block'}}>
-                      This is the default feed template. To create your own, either duplicate it or click "Add New" above.
+                      This is the default template for WP RSS Aggregator. It is used as the fallback template when one is not selected via the shortcode or block. To create a new one, please go back to the Templates List.
                     </span>
                     :
                     null
@@ -309,7 +311,7 @@ export default {
                        title={this.tooltips.options.title_max_length}
                 />
                 <Input type="number"
-                       label={'Number of items'}
+                       label={'Number of items to show'}
                        value={this.model.options.items_max_num}
                        onInput={(e) => this.model.options.items_max_num = e}
                        title={this.tooltips.options.items_max_num}
