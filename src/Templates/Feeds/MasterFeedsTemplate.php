@@ -11,9 +11,12 @@ use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
+use stdClass;
+use Traversable;
 
 /**
  * An implementation of a standard Dhii template that, depending on context, delegates rendering to a WP RSS
@@ -137,7 +140,47 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since [*next-version*]
      */
-    public function render($ctx = null)
+    public function render($argCtx = null)
+    {
+        // Parse the context
+        $ctx = $this->parseContext($argCtx);
+        // Retrieve the template slug from the context
+        $tSlug = $ctx['template'];
+
+        // Render using the legacy system if legacy ctx arg is given or no template was specified and the legacy
+        // system should be used as a fallback
+        if ($ctx['legacy'] || (empty($tSlug) && $this->fallBackToLegacySystem())) {
+            return $this->renderLegacy($argCtx);
+        }
+
+        // Get the template model instance
+        $model = $this->getTemplateModel($tSlug);
+
+        // Merge the model options with the non-schema ctx args
+        $options = array_merge_recursive(
+            $this->_normalizeArray($model[static::TEMPLATE_OPTIONS_KEY]),
+            $this->_normalizeArray($ctx[static::CTX_OPTIONS_KEY])
+        );
+        // Include the template slug in the context
+        $options['slug'] = $tSlug;
+
+        // Get the template type instance and render it
+        $tTypeInst = $this->getTemplateType($model);
+        $rendered = $tTypeInst->render($options);
+
+        return $rendered;
+    }
+
+    /**
+     * Parses the render context, normalizing it to an array and filtering it against the schema.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|stdClass|Traversable $ctx The render context.
+     *
+     * @return array The parsed context.
+     */
+    protected function parseContext($ctx)
     {
         try {
             $normCtx = $this->_normalizeArray($ctx);
@@ -146,47 +189,10 @@ class MasterFeedsTemplate implements TemplateInterface
         }
 
         // Parse the context, putting all non-schema data in an "options" key
-        $pCtx = $this->parseArgsWithSchema($normCtx, $this->getContextSchema(), '/', static::CTX_OPTIONS_KEY);
+        $schema = $this->getContextSchema();
+        $pCtx = $this->parseArgsWithSchema($normCtx, $schema, '/', static::CTX_OPTIONS_KEY);
 
-        // If explicitly using legacy rendering, or no template was given and should fallback to legacy rendering,
-        // call the old WPRA render function
-        if ($pCtx['legacy'] || (!isset($pCtx['template']) && $this->fallBackToLegacySystem())) {
-            ob_start();
-            wprss_display_feed_items($normCtx);
-
-            return ob_get_clean();
-        }
-
-        $slug = $pCtx['template'];
-
-        try {
-            // Get the template model
-            $model = $this->templateCollection[$slug];
-        } catch (Exception $exception) {
-            $model = $this->templateCollection[$this->default];
-
-            $this->logger->warning(
-                __('Template "{0}" does not exist or could not be loaded. The "{1}" template was used is instead.'),
-                [$slug, $this->default]
-            );
-        }
-
-        // Get the model's template type and its instance
-        $type = isset($model['type']) ? $model['type'] : '';
-        $template = $this->getTemplateType($type);
-
-        // Prepare the template model and the ctx options
-        $mdlOptions = $model[static::TEMPLATE_OPTIONS_KEY];
-        $ctxOptions = $pCtx[static::CTX_OPTIONS_KEY];
-        // Merge them such that ctx options may override the template's options
-        $options = array_merge_recursive(
-            $this->_normalizeArray($mdlOptions),
-            $this->_normalizeArray($ctxOptions)
-        );
-        // Include the template slug in the context
-        $options['slug'] = $slug;
-
-        return $template->render($options);
+        return $pCtx;
     }
 
     /**
@@ -202,7 +208,7 @@ class MasterFeedsTemplate implements TemplateInterface
     {
         return [
             'template' => [
-                'default' => $this->default,
+                'default' => '',
                 'filter' => FILTER_SANITIZE_STRING,
             ],
             'legacy' => [
@@ -213,18 +219,50 @@ class MasterFeedsTemplate implements TemplateInterface
     }
 
     /**
-     * Retrieves a template type by key.
+     * Retrieves the template model instance for a given post slug.
      *
      * @since [*next-version*]
      *
-     * @param string $key The template type key.
+     * @param string $slug The slug name of the template post.
+     *
+     * @return DataSetInterface The model instance.
+     */
+    protected function getTemplateModel($slug)
+    {
+        // If the template slug is empty, use the default slug
+        $slug = empty($slug) ? $this->default : $slug;
+
+        try {
+            // Get the template model instance
+            $model = $this->templateCollection[$slug];
+        } catch (Exception $exception) {
+            // Fetch the default template
+            $model = $this->templateCollection[$this->default];
+            // Include warning in log that the template was not found
+            $this->logger->warning(
+                __('Template "{0}" does not exist or could not be loaded. The "{1}" template was used is instead.'),
+                [$slug, $this->default]
+            );
+        }
+
+        return $model;
+    }
+
+    /**
+     * Retrieves the template type instance for a template model.
+     *
+     * @since [*next-version*]
+     *
+     * @param DataSetInterface $model The template model.
      *
      * @return FeedTemplateTypeInterface The template type instance.
      */
-    protected function getTemplateType($key)
+    protected function getTemplateType(DataSetInterface $model)
     {
-        return isset($this->types[$key])
-            ? $this->types[$key]
+        $type = isset($model['type']) ? $model['type'] : '';
+
+        return isset($this->types[$type])
+            ? $this->types[$type]
             : $this->types['list'];
     }
 
@@ -239,5 +277,22 @@ class MasterFeedsTemplate implements TemplateInterface
     protected function fallBackToLegacySystem()
     {
         return apply_filters('wpra/templates/fallback_to_legacy_system', false);
+    }
+
+    /**
+     * Renders using the legacy WP RSS Aggregator display function.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|stdClass|Traversable $ctx The context.
+     *
+     * @return string
+     */
+    protected function renderLegacy($ctx)
+    {
+        ob_start();
+        wprss_display_feed_items($this->_normalizeArray($ctx));
+
+        return ob_get_clean();
     }
 }
