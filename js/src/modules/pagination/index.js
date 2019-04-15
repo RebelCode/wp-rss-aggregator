@@ -8,25 +8,32 @@ jQuery(document).ready(($) => {
       scrollTop: $targetEl.offset().top - 50
     }, 500);
 
-    $.ajax(`${WpraPagination.baseUri}${params.template}`, {
-      data: {
-        page: params.page,
-      }
+    const template = params.template
+    delete params.template
+
+    let url = WpraPagination.baseUri.replace('%s', template)
+
+    $.ajax(url, {
+      data: params
     }).done((data) => {
       $targetEl.replaceWith(data.html)
     })
   }
 
   const handleClick = function ($link) {
-    const $targetEl = $link.closest('[data-wpra-template]')
+    const $targetEl = $link.closest('[data-template-options]')
 
     const page = $link.data('wpra-page')
     const template = $targetEl.data('wpra-template')
 
-    fetchList($targetEl, {
+    const templateOptions = $targetEl.data('template-options')
+
+    const options = Object.assign({}, {
       page,
-      template,
-    })
+      template
+    }, JSON.parse(atob(templateOptions)))
+
+    fetchList($targetEl, options)
   }
 
   $('body').on('click', 'a[data-wpra-page]', function (e) {
