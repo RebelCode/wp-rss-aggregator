@@ -247,9 +247,23 @@
      * @since 1.1
      */ 
     function wprss_settings_page_display() {
+        wprss_plugin_enqueue_app_scripts('wpra-settings', WPRSS_JS . 'settings.min.js');
+        wp_enqueue_style('wpra-settings', WPRSS_CSS . 'common.min.css');
+        wp_localize_script('wpra-settings', 'WpraSettings', [
+            'notice' => [
+                'id' => 'settings-notice',
+                'visible' => !wprss_is_new_user(),
+                'title' => __('🎉 The display options for WP RSS Aggregator have now become Templates!', WPRSS_TEXT_DOMAIN),
+                'body' => __('As of version 4.13, we have introduced the concept of templates to replace the general display settings that were previously available on this page. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block (for those using WP 5.0+ with the Gutenberg block editor)!<br/><br/>Go to “Templates” under “RSS Aggregator” to check it out. Note: The default template is set up using your previous general settings, so nothing is lost or changed.', WPRSS_TEXT_DOMAIN),
+                'learnMore' => 'https://google.com/'
+            ]
+        ])
+
         ?>
         <div class="wrap">
-            <h2><?php _e( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ); ?></h2>   
+            <div id="wpra-settings-app"></div>
+
+            <h2><?php _e( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ); ?></h2>
 
             <?php settings_errors(); ?> 
 
