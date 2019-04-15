@@ -6,7 +6,7 @@ export default {
     value: {},
     placeholder: {},
     title: {},
-    labelTitle: {},
+    inputDisabled: {},
     options: {
       default () {
         return {}
@@ -20,6 +20,7 @@ export default {
                       checked={!!this.value}
                       onChange={() => this.$emit('input', !this.value)}
                       placeholder={this.placeholder}
+                      disabled={this.$attrs.disabled || this.inputDisabled}
                       {...{attrs: this.$attrs}}
         />
       }
@@ -29,6 +30,7 @@ export default {
                       value={this.value}
                       onInput={(e) => this.$emit('input', e.target.value)}
                       placeholder={this.placeholder}
+                      disabled={this.$attrs.disabled || this.inputDisabled}
                       {...{attrs: this.$attrs}}
                />
       }
@@ -41,6 +43,7 @@ export default {
 
       return <select
         {...{attrs: this.$attrs}}
+        disabled={this.$attrs.disabled || this.inputDisabled}
         onChange={(e) => this.$emit('input', e.target.value)}
       >{ options }</select>
     },
@@ -60,25 +63,18 @@ export default {
           <div>
             {this.label}
             {
-              this.title && this.labelTitle ? (
+              this.title ? (
                 <div class="form-input__tip" {...{directives}} title={this.title}>
                   <span class="dashicons dashicons-info"></span>
                 </div>
               ) : null
             }
           </div>
-          {this.description ? <div class="form-input__label-description">{this.description}</div> : ''}
+          {this.description ? <div class="form-input__label-description" {...{domProps: {innerHTML: this.description}}}/> : ''}
         </label>
       ) : null }
       <div class="form-input__field">
         { this.inputNode() }
-        {
-          this.title && !this.labelTitle ? (
-            <div class="form-input__tip" {...{directives}} title={this.title}>
-              <span class="dashicons dashicons-info"></span>
-            </div>
-          ) : null
-        }
       </div>
     </div>
   }

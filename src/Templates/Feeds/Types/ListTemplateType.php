@@ -46,7 +46,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
         wp_enqueue_script('wpra-pagination', WPRSS_JS . 'pagination.min.js', ['wpra-manifest']);
 
         wp_localize_script('wpra-pagination', 'WpraPagination', [
-            'baseUri' => rest_url('/wpra/v1/templates/render/'),
+            'baseUri' => rest_url('/wpra/v1/templates/%s/render/'),
         ]);
 
         if (empty($general_settings['styles_disable'])) {

@@ -5,6 +5,7 @@ import Layout from 'app/components/Layout'
 import RouteLink from 'app/components/RouteLink'
 import Input from 'app/components/Input'
 import Button from 'app/components/Button'
+import NoticeBlock from 'app/components/NoticeBlock'
 import deepmerge from 'app/utils/deepmerge'
 import DataChangesAware from 'app/mixins/DataChangesAware'
 import jsonClone from 'app/utils/jsonClone'
@@ -143,18 +144,20 @@ export default {
     }
 
     let minorActions = null,
-      shortcode = null
+      shortcode = null,
+      noticeBlock = null
 
     if (this.router.params.id) {
       minorActions = <div id="" style={{padding: '6px 0'}}>
-        <div class="misc-pub-section misc-pub-visibility" id="visibility">
+        <div class="misc-pub-section misc-pub-visibility">
           <a href={this.previewUrl}
-             class="edit-visibility"
+             class="wpra-preview-link"
              role="button"
              target="_blank"
-             style={{marginLeft: '4px'}}
+             style={{marginLeft: '4px', textDecoration: 'none'}}
           >
-            <span aria-hidden="true">Open preview</span>
+            Open preview
+            <span class="dashicons dashicons-external"/>
           </a>
         </div>
       </div>
@@ -170,6 +173,17 @@ export default {
           <button class="button" onClick={this.copyShortcode}>Copy Shortcode</button>
         </div>
       </div>
+
+      noticeBlock = <NoticeBlock
+          class={'postbox'}
+          id={'templates-usage'}
+          title={'Learn how to use this template'}
+          body={'Templates are used to display the feed items you import using WP RSS Aggregator. To display feed items using this template, you can do either of the following:<br>' +
+          '<ul><li>- Copy the shortcode and paste it anywhere on your site.</li>' +
+          '<li>- Use the WP RSS Aggregator TinyMCE shortcode button (when using the Classic Editor)</li>' +
+          '<li>- Use the WP RSS Aggregator block (when using WordPress 5.0+ with the new Gutenberg editor).</li></ul>'}
+          learnMore={'https://google.com/'}
+        />
     }
 
     let content = <div>
@@ -227,7 +241,6 @@ export default {
                        value={this.model.options.links_nofollow}
                        onInput={(e) => this.model.options.links_nofollow = e}
                        title={this.tooltips.options.links_nofollow}
-                       labelTitle={true}
                 />
                 <Input type="select"
                        label={'Open links behaviour'}
@@ -236,7 +249,6 @@ export default {
                        options={WpraTemplates.options.links_behavior}
                        onInput={(e) => this.model.options.links_behavior = e}
                        title={this.tooltips.options.links_behavior}
-                       labelTitle={true}
                 />
                 <Input type="select"
                        label={'Video embed link type'}
@@ -246,7 +258,6 @@ export default {
                        options={WpraTemplates.options.links_video_embed_page}
                        onInput={(e) => this.model.options.links_video_embed_page = e}
                        title={this.tooltips.options.links_video_embed_page}
-                       labelTitle={true}
                 />
               </Postbox>
               <Postbox id="template-custom-css" title="Custom Style">
@@ -260,6 +271,7 @@ export default {
               </Postbox>
             </Sidebar>
             <Main>
+              {noticeBlock}
               <Postbox id="template-details" title="Template Details">
                 <Input type="text"
                        label={'Template name'}
@@ -273,11 +285,13 @@ export default {
                        options={this.typeOptions}
                        onInput={(e) => this.model.type = e}
                        disabled={this.model.type === '__built_in'}
+                       inputDisabled={true}
+                       description={'<strong>🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/">Share it with us.</a>'}
                 />
                 {
                   (this.model.type === '__built_in') ?
                     <span style={{opacity: '0.6', display: 'block'}}>
-                      This is the default feed template. To create your own, either duplicate it or click "Add New" above.
+                      This is the default template for WP RSS Aggregator. It is used as the fallback template when one is not selected via the shortcode or block. To create a new one, please go back to the Templates List.
                     </span>
                     :
                     null
@@ -297,7 +311,7 @@ export default {
                        title={this.tooltips.options.title_max_length}
                 />
                 <Input type="number"
-                       label={'Number of items'}
+                       label={'Number of items to show'}
                        value={this.model.options.items_max_num}
                        onInput={(e) => this.model.options.items_max_num = e}
                        title={this.tooltips.options.items_max_num}

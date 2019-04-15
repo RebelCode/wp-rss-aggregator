@@ -16,7 +16,7 @@ export default {
           label: ('Template Name'),
         },
         style: {
-          label: ('Template Style'),
+          label: ('Template Type'),
         },
         previewTemplate: {
           label: ('Preview')
@@ -99,7 +99,7 @@ export default {
     },
 
     bulkDelete () {
-      if (!confirm('Are you sure you want to delete selected templates?')) {
+      if (!confirm('Are you sure you want to delete these templates?')) {
         return
       }
       this.loading = true
@@ -247,9 +247,9 @@ export default {
       },
       filters: () => {
         const templateTypes = {
-          'all': 'Select Template Style',
+          'all': 'Select Template Type',
           'list': 'List',
-          'grid': 'Grid',
+          // 'grid': 'Grid',
         }
         return [
           <Input type="select"
@@ -275,15 +275,7 @@ export default {
          }}
       >Add New</a>
 
-      <NoticeBlock
-        id={'templates-introduction'}
-        title={'🎉 Welcome to Templates for WP RSS Aggregator!'}
-        body={'As of version 4.13, we have introduced the concept of templates to replace the general display settings that were previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block (for those using WP 5.0+ with the Gutenberg block editor)!<br/><br/>There are new templates coming your way in the coming weeks, but for now, the List type replicates the previous options. Note: The default template is set up using your previous general settings, so nothing is lost or changed.'}
-        learnMore={'https://google.com.ua/'}
-        visible={WpraGlobal.is_existing_user}
-      />
-
-      <p class="search-box" style={{padding: '10px'}}>
+      <p class="search-box" style={{padding: '10px 0'}}>
         <label class="screen-reader-text" for="post-search-input">Search Templates:</label>
         <input type="search"
                id="post-search-input"
@@ -296,6 +288,14 @@ export default {
                onClick={this.submitFilter}
         />
       </p>
+
+      <NoticeBlock
+        id={'templates-introduction'}
+        title={'🎉 Welcome to Templates for WP RSS Aggregator!'}
+        body={'As of version 4.13, we have introduced the concept of templates to replace the general display settings that were previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block (for those using WP 5.0+ with the Gutenberg block editor)!<br/><br/>There are new templates coming your way in the coming weeks, but for now, the List type replicates the previous options. Note: The default template is set up using your previous general settings, so nothing is lost or changed.'}
+        learnMore={'https://google.com/'}
+        visible={!!WpraGlobal.is_existing_user}
+      />
 
       <hr class="wp-header-end"/>
 
@@ -315,6 +315,9 @@ export default {
         ref="table"
         notFound="No templates found."
         rowClass={this.getRowClass}
+        class={{
+          'wpra-no-cb': this.list.length === 0 || (this.list.length === 1 && this.list[0].type === '__built_in')
+        }}
         scopedSlots={
           cells
         }
@@ -328,7 +331,7 @@ export default {
               <a href="#" onClick={(e) => {
                 e.preventDefault()
                 this.bulkDelete()
-              }}>Trash</a>
+              }}>Delete</a>
             </div>
           </div>
         </BottomPanel> : null

@@ -21,7 +21,7 @@
     },
     render () {
       return this.hooks.apply('postbox-' + this.id, this, (
-        <div class="postbox" id={ this.submit ? 'submitdiv' : ''}>
+        <div class="postbox wpra-postbox" id={ this.submit ? 'submitdiv' : ''}>
           <button type="button" class="handlediv" aria-expanded="true" onClick={this.toggle}>
             <span class="screen-reader-text">Toggle panel: { this.title }</span>
             <span class="toggle-indicator" aria-hidden="true"></span>
