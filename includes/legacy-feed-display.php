@@ -6,6 +6,24 @@
      */
 
     /**
+     * Redirects to wprss_display_feed_items
+     * It is used for backwards compatibility to versions < 2.0
+     *
+     * @since 2.1
+     */
+    function wp_rss_aggregator( $args = array() ) {
+        $template = wpra_get('templates/feeds/master_template');
+        $fullArgs = $args;
+
+        // Use legacy mode if arg was not explicitly given
+        if (!isset($fullArgs['legacy'])) {
+            $fullArgs['legacy'] = true;
+        }
+
+        return $template->render($args);
+    }
+
+    /**
      * Handles the display for a single feed item.
      *
      * @since 4.6.6
@@ -471,17 +489,6 @@
 		$feed_items = wprss_get_feed_items_query( $query_args );
 
         do_action( 'wprss_display_template', $args, $feed_items );
-    }
-
-
-    /**
-     * Redirects to wprss_display_feed_items
-     * It is used for backwards compatibility to versions < 2.0
-     *
-     * @since 2.1
-     */
-    function wp_rss_aggregator( $args = array() ) {
-        wprss_display_feed_items( $args );
     }
 
 
