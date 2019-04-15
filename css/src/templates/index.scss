@@ -147,3 +147,11 @@
     vertical-align: middle;
   }
 }
+
+.wpra-no-cb {
+  .column-cb {
+    input[type="checkbox"] {
+      display: none;
+    }
+  }
+}

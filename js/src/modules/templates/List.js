@@ -315,6 +315,9 @@ export default {
         ref="table"
         notFound="No templates found."
         rowClass={this.getRowClass}
+        class={{
+          'wpra-no-cb': this.list.length === 0 || (this.list.length === 1 && this.list[0].type === '__built_in')
+        }}
         scopedSlots={
           cells
         }
