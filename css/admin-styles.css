@@ -357,7 +357,6 @@ div.wpra-log-container > table {
 }
 /* Log table: row formatting */
 div.wpra-log-container > table > tbody > tr {
-
 }
 /* Log table: cell formatting */
 div.wpra-log-container > table > tbody > tr > td {
@@ -365,6 +364,11 @@ div.wpra-log-container > table > tbody > tr > td {
     vertical-align: baseline;
     padding: 1px 10px;
     border-bottom: 1px solid transparent;
+}
+
+/* Log table: row on hover */
+div.wpra-log-container > table > tbody > tr:hover {
+    background: rgba(200, 200, 200, 0.1);
 }
 
 /* Log table: date and level cells do not wrap */
