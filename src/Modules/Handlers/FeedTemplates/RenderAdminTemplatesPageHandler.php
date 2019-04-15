@@ -50,7 +50,10 @@ class RenderAdminTemplatesPageHandler
     public function __invoke()
     {
         wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_JS . 'templates.min.js', [], '0.1', true);
-        wp_enqueue_style('wpra-templates', WPRSS_CSS . 'templates.min.css');
+        wp_enqueue_style('wpra-common', WPRSS_CSS . 'common.min.css');
+        wp_enqueue_style('wpra-templates', WPRSS_CSS . 'templates.min.css', [
+            'wpra-common'
+        ]);
 
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
