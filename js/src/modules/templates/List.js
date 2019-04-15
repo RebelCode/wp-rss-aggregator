@@ -283,7 +283,7 @@ export default {
         visible={WpraGlobal.is_existing_user}
       />
 
-      <p class="search-box" style={{padding: '10px'}}>
+      <p class="search-box">
         <label class="screen-reader-text" for="post-search-input">Search Templates:</label>
         <input type="search"
                id="post-search-input"

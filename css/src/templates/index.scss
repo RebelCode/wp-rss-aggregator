@@ -4,6 +4,12 @@
 @import "grid";
 @import "notice-block";
 
+.wpra-postbox {
+  .hndle {
+    cursor: unset !important;
+  }
+}
+
 .wpra-shortcode-copy {
   font-size: 13px;
   background-color: #fff;
@@ -91,7 +97,7 @@
     cursor: pointer;
     display: inline-block;
     margin-left: 4px;
-    opacity: .3;
+    opacity: .25;
     vertical-align: middle;
     &:hover {
       opacity: .85;

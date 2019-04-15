@@ -149,14 +149,15 @@ export default {
 
     if (this.router.params.id) {
       minorActions = <div id="" style={{padding: '6px 0'}}>
-        <div class="misc-pub-section misc-pub-visibility" id="visibility">
+        <div class="misc-pub-section misc-pub-visibility">
           <a href={this.previewUrl}
-             class="edit-visibility"
+             class="wpra-preview-link"
              role="button"
              target="_blank"
-             style={{marginLeft: '4px'}}
+             style={{marginLeft: '4px', textDecoration: 'none'}}
           >
-            <span aria-hidden="true">Open preview</span>
+            Open preview
+            <span class="dashicons dashicons-external"/>
           </a>
         </div>
       </div>
@@ -178,7 +179,7 @@ export default {
           id={'templates-usage'}
           title={'Learn how to use this template'}
           body={'Templates are used to display the feed items you import using WP RSS Aggregator. To display feed items using this template, you can do either of the following:<br>' +
-          '<ul><li>- Copy this shortcode and paste it anywhere on your site.</li>' +
+          '<ul><li>- Copy the shortcode and paste it anywhere on your site.</li>' +
           '<li>- Use the WP RSS Aggregator TinyMCE shortcode button (when using the Classic Editor)</li>' +
           '<li>- Use the WP RSS Aggregator block (when using WordPress 5.0+ with the new Gutenberg editor).</li></ul>'}
           learnMore={'https://google.com.ua/'}
