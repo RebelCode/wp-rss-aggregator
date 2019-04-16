@@ -78,17 +78,6 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
    * Called when Gutenberg initially loads the block.
    */
   edit: function (props) {
-    const startingPage = props.attributes.pagination ? <TextControl
-      label={__('Starting Page')}
-      placeholder={__('1')}
-      type={'number'}
-      min={1}
-      value={props.attributes.page || 1}
-      onChange={(value) => {
-        props.setAttributes({page: value || 1})
-      }}
-    /> : null
-
     return <div>
       <ServerSideRender
         block={'wpra-shortcode/wpra-shortcode'}
@@ -111,25 +100,22 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
               props.setAttributes({source: ''})
             }}
           />
-          <BaseControl
+          <MultipleSelectControl
             label={props.attributes.isAll ? __('Feed Sources to Exclude') : __('Feed Sources to Show')}
-          >
-            <MultipleSelectControl
-              key={'select'}
-              placeholder={__('Add feed sources')}
-              value={((props.attributes.isAll ? props.attributes.exclude : props.attributes.source) || '').split(',').map(item => parseInt(item))}
-              onChange={(selected) => {
-                selected = selected.join(',')
-                if (props.attributes.isAll) {
-                  props.setAttributes({exclude: selected})
-                  props.setAttributes({source: ''})
-                  return
-                }
-                props.setAttributes({exclude: ''})
-                props.setAttributes({source: selected})
-              }}
-            />
-          </BaseControl>
+            key={'select'}
+            placeholder={__('Add feed sources')}
+            value={((props.attributes.isAll ? props.attributes.exclude : props.attributes.source) || '').split(',').map(item => parseInt(item))}
+            onChange={(selected) => {
+              selected = selected.join(',')
+              if (props.attributes.isAll) {
+                props.setAttributes({exclude: selected})
+                props.setAttributes({source: ''})
+                return
+              }
+              props.setAttributes({exclude: ''})
+              props.setAttributes({source: selected})
+            }}
+          />
         </PanelBody>
         <PanelBody
           title={__('Display Options')}
@@ -161,7 +147,16 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
               props.setAttributes({pagination: value})
             }}
           />
-          { startingPage }
+          <TextControl
+            label={__('Starting Page')}
+            placeholder={__('1')}
+            type={'number'}
+            min={1}
+            value={props.attributes.page || 1}
+            onChange={(value) => {
+              props.setAttributes({page: value || 1})
+            }}
+          />
         </PanelBody>
         <PanelBody
           title={__('Styling')}
