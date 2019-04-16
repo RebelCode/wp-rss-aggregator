@@ -1,0 +1,16 @@
+.wpra-info-box {
+  background: #daf4ff;
+  padding: 8px 12px;
+  border-radius: 3px;
+  display: flex;
+
+  &__icon {
+    opacity: .4;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    flex-grow: 1;
+    padding-left: 8px;
+  }
+}
