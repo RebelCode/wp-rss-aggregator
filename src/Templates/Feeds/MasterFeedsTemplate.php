@@ -102,6 +102,15 @@ class MasterFeedsTemplate implements TemplateInterface
     protected $feedItemCollection;
 
     /**
+     * The template to use for legacy-mode rendering.
+     *
+     * @since [*next-version*]
+     *
+     * @var TemplateInterface
+     */
+    protected $legacyTemplate;
+
+    /**
      * The logger instance to use for recording errors.
      *
      * @since [*next-version*]
@@ -119,6 +128,7 @@ class MasterFeedsTemplate implements TemplateInterface
      * @param array               $templateTypes      The available template types.
      * @param CollectionInterface $templateCollection The collection of templates.
      * @param CollectionInterface $feedItemCollection The collection of feed items.
+     * @param TemplateInterface   $legacyTemplate     The template to use for legacy-mode rendering.
      * @param LoggerInterface     $logger             The logger instance to use for recording errors.
      */
     public function __construct(
@@ -126,12 +136,14 @@ class MasterFeedsTemplate implements TemplateInterface
         $templateTypes,
         CollectionInterface $templateCollection,
         CollectionInterface $feedItemCollection,
+        TemplateInterface $legacyTemplate,
         LoggerInterface $logger
     ) {
         $this->types = $templateTypes;
         $this->default = $default;
         $this->templateCollection = $templateCollection;
         $this->feedItemCollection = $feedItemCollection;
+        $this->legacyTemplate = $legacyTemplate;
         $this->logger = $logger;
     }
 
@@ -150,7 +162,7 @@ class MasterFeedsTemplate implements TemplateInterface
         // Render using the legacy system if legacy ctx arg is given or no template was specified and the legacy
         // system should be used as a fallback
         if ($ctx['legacy'] || (empty($tSlug) && $this->fallBackToLegacySystem())) {
-            return $this->renderLegacy($argCtx);
+            return $this->legacyTemplate->render($argCtx);
         }
 
         // Get the template model instance
@@ -162,7 +174,7 @@ class MasterFeedsTemplate implements TemplateInterface
             $this->_normalizeArray($ctx[static::CTX_OPTIONS_KEY])
         );
         // Include the template slug in the context
-        $options['slug'] = $tSlug;
+        $options['slug'] = $model['slug'];
 
         // Get the template type instance and render it
         $tTypeInst = $this->getTemplateType($model);
@@ -277,22 +289,5 @@ class MasterFeedsTemplate implements TemplateInterface
     protected function fallBackToLegacySystem()
     {
         return apply_filters('wpra/templates/fallback_to_legacy_system', false);
-    }
-
-    /**
-     * Renders using the legacy WP RSS Aggregator display function.
-     *
-     * @since [*next-version*]
-     *
-     * @param array|stdClass|Traversable $ctx The context.
-     *
-     * @return string
-     */
-    protected function renderLegacy($ctx)
-    {
-        ob_start();
-        wprss_display_feed_items($this->_normalizeArray($ctx));
-
-        return ob_get_clean();
     }
 }

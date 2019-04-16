@@ -1,0 +1,6 @@
+.wprss-feed-meta > span:not(:last-child):after {
+    content: " | ";
+}
+.wprss-feed-meta > span {
+    font-size: 85%;
+}
