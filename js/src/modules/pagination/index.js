@@ -13,8 +13,11 @@ jQuery(document).ready(($) => {
 
     let url = WpraPagination.baseUri.replace('%s', template)
 
-    $.ajax(url, {
-      data: params
+    $.ajax({
+      type: 'POST',
+      url,
+      data: JSON.stringify(params),
+      contentType: 'application/json',
     }).done((data) => {
       $targetEl.replaceWith(data.html)
     })
