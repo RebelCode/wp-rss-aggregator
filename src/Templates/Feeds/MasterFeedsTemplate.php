@@ -174,7 +174,7 @@ class MasterFeedsTemplate implements TemplateInterface
             $this->_normalizeArray($ctx[static::CTX_OPTIONS_KEY])
         );
         // Include the template slug in the context
-        $options['slug'] = $model['slug'];
+        $options['template'] = $model['slug'];
 
         // Get the template type instance and render it
         $tTypeInst = $this->getTemplateType($model);

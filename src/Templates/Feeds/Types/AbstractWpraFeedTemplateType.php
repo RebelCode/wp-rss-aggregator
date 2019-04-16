@@ -144,11 +144,12 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
                 'num_pages' => $numPages,
             ],
             'self' => [
-                'slug' => $stdOpts['slug'],
+                'slug' => $stdOpts['template'],
                 'type' => $this->getKey(),
                 'path' => $this->getTemplatePath(),
                 'dir' => $this->getTemplateDir(),
             ],
+            'ctx' => base64_encode(json_encode($ctx))
         ];
     }
 
@@ -162,7 +163,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     protected function getStandardOptions()
     {
         return [
-            'slug' => [
+            'template' => [
                 'default' => '',
                 'filter' => FILTER_DEFAULT,
             ],
