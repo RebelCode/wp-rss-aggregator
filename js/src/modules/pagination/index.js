@@ -24,17 +24,15 @@ jQuery(document).ready(($) => {
   }
 
   const handleClick = function ($link) {
-    const $targetEl = $link.closest('[data-template-options]')
+    const $targetEl = $link.closest('[data-template-ctx]')
 
-    const page = $link.data('wpra-page')
     const template = $targetEl.data('wpra-template')
+    const templateOptions = $targetEl.data('template-ctx')
 
-    const templateOptions = $targetEl.data('template-options')
-
-    const options = Object.assign({}, {
-      page,
+    let options = Object.assign({}, {
       template
     }, JSON.parse(atob(templateOptions)))
+    options['page'] = $link.data('wpra-page')
 
     fetchList($targetEl, options)
   }
