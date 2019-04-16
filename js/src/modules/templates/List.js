@@ -125,6 +125,9 @@ export default {
         delete template.type
       }
 
+      // add copy to the title so it is mor obvious for the user that this is duplicate.
+      template.name = `${template.name} (Copy)`
+
       this.$store.commit('templates/updatePreset', template)
       this.router.navigate({
         name: 'templates',

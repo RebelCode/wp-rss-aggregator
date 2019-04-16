@@ -77,9 +77,14 @@
   &--disabled {
     pointer-events: none;
     .form-input__label {
-      opacity: .5;
-      user-select: none;
+      *:not(.disable-ignored) {
+        opacity: .5;
+        user-select: none;
+      }
     }
+  }
+  .disable-ignored {
+    opacity: 1;
   }
   &--vertical {
     flex-direction: column;

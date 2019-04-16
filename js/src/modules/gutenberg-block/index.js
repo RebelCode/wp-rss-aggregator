@@ -16,24 +16,6 @@ import {
 } from '@wordpress/components'
 import MultipleSelectControl from './components/MultipleSelectControl'
 
-// Return an array of the selected opion values
-// select is an HTML select element
-function getSelectValues (select) {
-  var result = []
-  var options = select && select.options
-  var opt
-
-  for (var i = 0, iLen = options.length; i < iLen; i++) {
-    opt = options[i]
-
-    if (opt.selected) {
-      result.push(opt.value || opt.text)
-    }
-  }
-  return result
-}
-
-// Visit https://wordpress.org/gutenberg/handbook/block-api/ to learn about Block API
 registerBlockType('wpra-shortcode/wpra-shortcode', {
   title: __('Imported Feeds List'),
   description: __('Display feed items imported using WP RSS Aggregator.'),

@@ -286,13 +286,18 @@ export default {
                        onInput={(e) => this.model.type = e}
                        disabled={this.model.type === '__built_in'}
                        inputDisabled={true}
-                       description={'<strong>🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/">Share it with us.</a>'}
+                       description={'<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'}
                 />
                 {
                   (this.model.type === '__built_in') ?
-                    <span style={{opacity: '0.6', display: 'block'}}>
-                      This is the default template for WP RSS Aggregator. It is used as the fallback template when one is not selected via the shortcode or block. To create a new one, please go back to the Templates List.
-                    </span>
+                    <div class="wpra-info-box">
+                      <div class="wpra-info-box__icon">
+                        <span class="dashicons dashicons-info"/>
+                      </div>
+                      <div class="wpra-info-box__text">
+                        This is the default template for WP RSS Aggregator. It is used as the fallback template when one is not selected via the shortcode or block. To create a new one, please go back to the Templates List.
+                      </div>
+                    </div>
                     :
                     null
                 }
