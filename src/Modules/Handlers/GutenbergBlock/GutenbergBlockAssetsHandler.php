@@ -52,7 +52,7 @@ class GutenbergBlockAssetsHandler
         foreach ($this->templates as $template) {
             $templates[] = [
                 'label' => $template['name'],
-                'value' => ($template['type'] === '__built_in') ? '' : $template['slug']
+                'value' => $template['slug']
             ];
         }
 
