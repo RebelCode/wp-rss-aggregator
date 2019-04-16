@@ -571,7 +571,7 @@ class FeedTemplatesModule implements ModuleInterface
                 );
                 $endPoints['render_templates'] = new EndPoint(
                     '/templates/(?P<template>[^/]+)/render',
-                    ['GET'],
+                    ['POST'],
                     $c->get('wpra/templates/feeds/rest_api/v1/render_endpoint')
                 );
 
