@@ -268,13 +268,15 @@
         }
 
 		$feed_items_args = array(
-		    'post_type'        => get_post_types(),
-            'posts_per_page'   => $posts_per_page,
-			'orderby'          => 'date',
-			'order'            => 'DESC',
-            'paged'            => $paged,
-            'suppress_filters' => true,
+		    'post_type'           => get_post_types(),
+            'posts_per_page'      => $posts_per_page,
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+            'paged'               => $paged,
+            'suppress_filters'    => true,
+            'ignore_sticky_posts' => true,
             'meta_query' => array(
+                'relation' => 'AND',
                 array(
                     'key' => 'wprss_feed_id',
                     'compare' => 'EXISTS',
