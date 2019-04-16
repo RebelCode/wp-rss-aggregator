@@ -157,7 +157,7 @@ class MasterFeedsTemplate implements TemplateInterface
         $model = $this->getTemplateModel($tSlug);
 
         // Merge the model options with the non-schema ctx args
-        $options = array_merge_recursive(
+        $options = array_merge(
             $this->_normalizeArray($model[static::TEMPLATE_OPTIONS_KEY]),
             $this->_normalizeArray($ctx[static::CTX_OPTIONS_KEY])
         );
