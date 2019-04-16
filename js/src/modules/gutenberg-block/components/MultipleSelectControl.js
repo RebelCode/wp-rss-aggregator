@@ -41,6 +41,7 @@ export default class MultipleSelectControl extends Component {
       </Placeholder>
     }
     return <FormTokenField
+      label={this.props.label || ''}
       placeholder={this.props.placeholder || ''}
       value={this.props.value.map(function (id) {
         return items.find(item => item.value === id)
