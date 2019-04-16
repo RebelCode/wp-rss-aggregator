@@ -52,7 +52,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
       type: 'string',
       default: ''
     },
-    pagination: {
+    pagination_enabled: {
       type: 'boolean',
       default: true
     },
@@ -142,9 +142,9 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
           />
           <ToggleControl
             label={__('Show Pagination ')}
-            checked={props.attributes.pagination}
+            checked={props.attributes.pagination_enabled}
             onChange={(value) => {
-              props.setAttributes({pagination: value})
+              props.setAttributes({pagination_enabled: value})
             }}
           />
           <TextControl
