@@ -547,7 +547,7 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
                 $endPoints['patch_templates'] = new EndPoint(
-                    '/templates(?:/(?P<id>[^/]+))?',
+                    '/templates/(?P<id>[^/]+)',
                     ['PATCH'],
                     $c->get('wpra/templates/feeds/rest_api/v1/patch_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
@@ -565,7 +565,7 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
                 $endPoints['delete_templates'] = new EndPoint(
-                    '/templates(?:/(?P<id>[^/]+))?',
+                    '/templates/(?P<id>[^/]+)',
                     ['DELETE'],
                     $c->get('wpra/templates/feeds/rest_api/v1/delete_endpoint'),
                     $c->get('wpra/rest_api/v1/auth/user_is_admin')
