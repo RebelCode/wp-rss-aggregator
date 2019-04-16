@@ -37,6 +37,8 @@ class LegacyDisplayTemplate implements TemplateInterface
             $arrCtx = [];
         }
 
+        wp_enqueue_style('wpra-legacy-styles', WPRSS_CSS . 'legacy-styles.css', [], WPRSS_VERSION);
+
         ob_start();
 
         wprss_display_feed_items($arrCtx);
