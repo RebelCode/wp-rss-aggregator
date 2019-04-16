@@ -35,6 +35,7 @@
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\WpraContainer;
+use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
@@ -332,7 +333,10 @@ wpra_run();
 function wpra_run()
 {
     try {
-        wpra()->run(wpra_container());
+        $plugin = wpra();
+        $container = wpra_container();
+
+        $plugin->run($container);
     } catch (Exception $exception) {
         if (WP_DEBUG && WP_DEBUG_DISPLAY) {
             trigger_error($exception->getMessage());
@@ -372,6 +376,7 @@ function wpra_modules()
 {
     return apply_filters('wpra_plugin_modules', [
         'core' => new CoreModule(__FILE__),
+        'addons' => new AddonsModule(),
         'wordpress' => new WpModule(),
         'importer' => new ImporterModule(),
         'feed_sources' => new FeedSourcesModule(),
@@ -399,13 +404,15 @@ function wpra_modules()
  */
 function wpra_container()
 {
-    static $container = null;
+    static $instance = null;
 
-    if ($container === null) {
-        $container = apply_filters('wpra_plugin_container', new WpraContainer(wpra()));
+    if ($instance === null) {
+        $plugin = wpra();
+        $container = new WpraContainer($plugin);
+        $instance = apply_filters('wpra_plugin_container', $container);
     }
 
-    return $container;
+    return $instance;
 }
 
 /**
