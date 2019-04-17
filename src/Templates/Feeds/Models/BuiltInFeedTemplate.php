@@ -44,7 +44,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     const WP_OPTION_NAME = 'wprss_settings_general';
 
     /**
-     * The key to which to map the DB options.
+     * The key to which to map the settings options.
      *
      * @since [*next-version*]
      */
@@ -69,24 +69,23 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
      */
     protected function createMetaDataSet($postOrId)
     {
-        // Create the DB options dataset
-        $dbOpts = $this->createDbOptionsDataSet();
-        // Get the data set for the posts's template options meta data
+        // Create the settings options dataset
+        $settingsOpts = $this->createSettingsOptionsDataSet();
+        // Get the data set for the posts's template "options" meta key
         $metaOpts = new WpPostArrayMetaDataSet($postOrId, static::META_PREFIX . static::OPTIONS_KEY);
-
-        // Merge the DB options and the meta options.
-        // Any options not in the old general settings will be retrieved from meta
-        // Any non-general-settings options that are set will be saved in meta
-        $fullOptions = new MergedDataSet($dbOpts, $metaOpts);
+        // Merge the meta and settings options with a composite data set.
+        // Data reading prioritizes meta data. If not found, an option will be read from the settings.
+        // Writing is done on both data sets. Iteration is unique.
+        $fullOpts = new CompositeDataSet([$metaOpts, $settingsOpts]);
 
         // Retrieve the full original template meta
-        $originalMeta = parent::createMetaDataSet($postOrId);
+        $fullPostMeta = parent::createMetaDataSet($postOrId);
         // Create a dataset specifically for the template options
         $overrideOpts = new ArrayDataSet([
-            static::OPTIONS_KEY => $fullOptions
+            static::OPTIONS_KEY => $fullOpts
         ]);
-        // Override the original meta's `options` with the combined DB-Meta dataset
-        $final = new MergedDataSet($originalMeta, $overrideOpts, [static::OPTIONS_KEY => true]);
+        // Override the original meta's `options` with the combined Settings-Meta dataset
+        $final = new MergedDataSet($fullPostMeta, $overrideOpts, [static::OPTIONS_KEY => true]);
 
         return $final;
     }
@@ -98,18 +97,18 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
      *
      * @return DataSetInterface
      */
-    protected function createDbOptionsDataSet()
+    protected function createSettingsOptionsDataSet()
     {
         // Get the default options as a static array dataset
         $defaultOpts = new ArrayDataSet(wprss_get_default_settings_general());
-        // Get the saved DB options
+        // Get the saved settings options
         $savedOpts = new WpArrayOptionDataSet(static::WP_OPTION_NAME);
         // Merge the defaults and the saved options
         $allOpts = new MergedDataSet($savedOpts, $defaultOpts);
-        // Alias the old DB options to the new template option names
-        $aliasedDbOpts = new AliasingDataSet($allOpts, $this->getDbOptionsAliases());
+        // Alias the old settings options to the new template option names
+        $aliasedOpts = new AliasingDataSet($allOpts, $this->getSettingsOptionsAliases());
         // Mask the options to hide the other non-template general settings
-        $maskedOpts = new MaskingDataSet($aliasedDbOpts, $this->getDbOptionsMask(), false);
+        $maskedOpts = new MaskingDataSet($aliasedOpts, $this->getSettingsOptionsMask(), false);
 
         return $maskedOpts;
     }
@@ -141,13 +140,13 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     }
 
     /**
-     * Retrieves the DB options aliases.
+     * Retrieves the settings options aliases.
      *
      * @since [*next-version*]
      *
      * @return string[]
      */
-    protected function getDbOptionsAliases()
+    protected function getSettingsOptionsAliases()
     {
         return [
             'items_max_num' => 'feed_limit',
@@ -169,13 +168,13 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     }
 
     /**
-     * Retrieves the mask for which DB option keys to retain in the dataset.
+     * Retrieves the mask for which settings option keys to retain in the dataset.
      *
      * @since [*next-version*]
      *
      * @return bool[]
      */
-    protected function getDbOptionsMask()
+    protected function getSettingsOptionsMask()
     {
         // Dummy list template type, used to get the options
         $listType = new ListTemplateType(new ArrayDataSet([]), new NullCollection());
