@@ -247,6 +247,8 @@
      * @since 1.1
      */ 
     function wprss_settings_page_display() {
+        $etText = wprss_is_et_active() ? '<br/><br/>' . sprintf(__('Wondering how Templates work with Excerpts & Thumbnails? <a href="%s" target="_blank">Click here to learn more.</a>', WPRSS_TEXT_DOMAIN), 'https://kb.wprssaggregator.com/article/459-using-excerpts-thumbnails-with-templates') : '';
+
         wprss_plugin_enqueue_app_scripts('wpra-settings', WPRSS_APP_JS . 'settings.min.js');
         wp_enqueue_style('wpra-settings', WPRSS_APP_CSS . 'common.min.css');
         wp_localize_script('wpra-settings', 'WpraSettings', [
@@ -260,7 +262,7 @@
                     . ' (for the Classic Editor) and a <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a>, for those using WP 5.0+ with the Gutenberg block editor!'
                     . '<br/><br/>'
                     . 'Go to “Templates” under “RSS Aggregator” to check it out. Note: The default template is set up using your'
-                    . ' existing general settings, so nothing is lost or changed.', WPRSS_TEXT_DOMAIN),
+                    . ' existing general settings, so nothing is lost or changed.', WPRSS_TEXT_DOMAIN) . $etText,
                 'learnMore' => 'https://www.wprssaggregator.com/version-4-13-celebrating-one-million-all-time-downloads'
             ]
         ])
