@@ -5,6 +5,8 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+const dir = __dirname + '/../'
+
 function makePlugins (plugins) {
   let base = [
     new webpack.optimize.CommonsChunkPlugin({
@@ -24,7 +26,7 @@ function makePlugins (plugins) {
 }
 
 let config = {
-  context: __dirname + '/../',
+  context: dir,
   entry: {
     intro: './js/src/modules/intro/index.js',
     plugins: './js/src/modules/plugins/index.js',
@@ -35,7 +37,7 @@ let config = {
     update: './css/src/update/index.scss',
   },
   output: {
-    path: __dirname + '/../js',
+    path: dir + 'js/build',
     filename: '[name].min.js',
     library: 'WPRA',
     libraryTarget: 'umd'
@@ -72,17 +74,17 @@ let config = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@rebelcode/std-lib': '@rebelcode/std-lib/dist/std-lib.umd.js',
-      app: path.resolve(__dirname + '/../', 'js/src'),
-      css: path.resolve(__dirname + '/../', 'css'),
+      app: path.resolve(dir, 'js/src'),
+      css: path.resolve(dir, 'css'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
   plugins: debug ? makePlugins([
-    new ExtractTextPlugin('./../css/[name].min.css'),
+    new ExtractTextPlugin('./../../css/build/[name].min.css'),
     new VueLoaderPlugin(),
   ]) : makePlugins([
     new ExtractTextPlugin({ // define where to save the file
-      filename: './../css/[name].min.css',
+      filename: './../../css/build/[name].min.css',
       allChunks: true
     }),
     new VueLoaderPlugin(),

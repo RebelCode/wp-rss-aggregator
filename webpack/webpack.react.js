@@ -67,13 +67,15 @@ const externals = [
   wordpressExternals,
 ]
 
+const dir = __dirname + '/../'
+
 let config = {
-  context: __dirname + '/../',
+  context: dir,
   entry: {
     'gutenberg-block': './js/src/modules/gutenberg-block/index.js',
   },
   output: {
-    path: __dirname + '/../js',
+    path: dir + 'js/build',
     filename: '[name].min.js',
   },
   devtool: debug ? 'inline-sourcemap' : false,
@@ -113,15 +115,15 @@ let config = {
     alias: {
       '@rebelcode/std-lib': '@rebelcode/std-lib/dist/std-lib.umd.js',
       'lodash-es': 'lodash',
-      app: path.resolve(__dirname, 'js/src'),
-      css: path.resolve(__dirname, 'css'),
+      app: path.resolve(dir, 'js/src'),
+      css: path.resolve(dir, 'css'),
     },
     extensions: ['*', '.js', '.json']
   },
   externals,
   plugins: [
-    new ExtractTextPlugin(debug ? './../css/[name].min.css' : { // define where to save the file
-      filename: './../css/[name].min.css',
+    new ExtractTextPlugin(debug ? './../css/build/[name].min.css' : { // define where to save the file
+      filename: './../css/build/[name].min.css',
       allChunks: true
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),

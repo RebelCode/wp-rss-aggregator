@@ -6,8 +6,8 @@
 /releases/
 /build/
 /node_modules/
-/js/update.min.js
-/js/common.min.js
+/js/build/
+/css/build/
 *.!sync
 log.txt
 log-*.txt
