@@ -1,5 +1,11 @@
 export default {
   props: {
+    id: {
+      type: String,
+      default () {
+        return Math.random().toString(36).substr(0, 12)
+      }
+    },
     label: {},
     description: {},
     type: {},
@@ -17,6 +23,7 @@ export default {
     inputNode () {
       if (this.type === 'checkbox') {
         return <input type="checkbox"
+                      id={this.id}
                       checked={!!this.value}
                       onChange={() => this.$emit('input', !this.value)}
                       placeholder={this.placeholder}
@@ -28,6 +35,7 @@ export default {
       if (this.type !== 'select') {
         return <input type={this.type}
                       value={this.value}
+                      id={this.id}
                       onInput={(e) => this.$emit('input', e.target.value)}
                       placeholder={this.placeholder}
                       disabled={this.$attrs.disabled || this.inputDisabled}
@@ -43,6 +51,7 @@ export default {
 
       return <select
         {...{attrs: this.$attrs}}
+        id={this.id}
         disabled={this.$attrs.disabled || this.inputDisabled}
         onChange={(e) => this.$emit('input', e.target.value)}
       >{ options }</select>
@@ -59,13 +68,13 @@ export default {
 
     return <div class={{'form-input': true, 'form-input--disabled': this.$attrs.disabled || false}}>
       { this.label ? (
-        <label class="form-input__label">
+        <label class="form-input__label" for={this.id}>
           <div>
             {this.label}
             {
               this.title ? (
                 <div class="form-input__tip" {...{directives}} title={this.title}>
-                  <span class="dashicons dashicons-info"></span>
+                  <span class="dashicons dashicons-editor-help"/>
                 </div>
               ) : null
             }

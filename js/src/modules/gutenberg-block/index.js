@@ -1,3 +1,5 @@
+require('css/src/gutenberg-block/index.scss')
+
 import { __ } from '@wordpress/i18n'
 import { registerBlockType } from '@wordpress/blocks'
 import { InspectorControls } from '@wordpress/editor'
@@ -17,7 +19,7 @@ import {
 import MultipleSelectControl from './components/MultipleSelectControl'
 
 registerBlockType('wpra-shortcode/wpra-shortcode', {
-  title: __('Imported Feeds List'),
+  title: __('WP RSS Aggregator feeds'),
   description: __('Display feed items imported using WP RSS Aggregator.'),
   icon: 'rss',
   category: 'widgets',
@@ -64,11 +66,9 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
       <ServerSideRender
         block={'wpra-shortcode/wpra-shortcode'}
         attributes={props.attributes}
+        className={'wpra-gutenberg-block'}
       />
-      <InspectorControls
-        headline={'WP RSS Block'}
-        description={'Block description.'}
-      >
+      <InspectorControls>
         <PanelBody
           title={__('Feed Sources')}
           initialOpen={true}
@@ -130,7 +130,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             }}
           />
           <TextControl
-            label={__('Starting Page')}
+            label={__('Page')}
             placeholder={__('1')}
             type={'number'}
             min={1}
@@ -138,14 +138,6 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             onChange={(value) => {
               props.setAttributes({page: value || 1})
             }}
-          />
-        </PanelBody>
-        <PanelBody
-          title={__('Styling')}
-          initialOpen={false}
-        >
-          <TextareaControl
-            label={__('Custom CSS')}
           />
         </PanelBody>
       </InspectorControls>

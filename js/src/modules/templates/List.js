@@ -87,7 +87,7 @@ export default {
     },
 
     deleteTemplate (id) {
-      if (!confirm('Are you sure you want to delete this template?')) {
+      if (!confirm('Are you sure you want to delete this template? If this template is being used in a shortcode or Gutenberg block anywhere on your site, the default template will be used instead.')) {
         return
       }
       this.loading = true
@@ -99,7 +99,7 @@ export default {
     },
 
     bulkDelete () {
-      if (!confirm('Are you sure you want to delete these templates?')) {
+      if (!confirm('Are you sure you want to delete these templates? If a template is being used in a shortcode or Gutenberg block anywhere on your site, the default template will be used instead.')) {
         return
       }
       this.loading = true
@@ -240,7 +240,7 @@ export default {
         return [
           <div>
             <a href={this.getPreviewLink(row)}
-               target="_blank"
+               target="wpra-preview-template"
                class="wpra-preview-link"
             >
               Open preview <span class="dashicons dashicons-external"></span>
@@ -295,8 +295,13 @@ export default {
       <NoticeBlock
         id={'templates-introduction'}
         title={'🎉 Welcome to Templates for WP RSS Aggregator!'}
-        body={'As of version 4.13, we have introduced the concept of templates to replace the general display settings that were previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block (for those using WP 5.0+ with the Gutenberg block editor)!<br/><br/>There are new templates coming your way in the coming weeks, but for now, the List type replicates the previous options. Note: The default template is set up using your previous general settings, so nothing is lost or changed.'}
-        learnMore={'https://google.com/'}
+        body={'As of version 4.13, we have introduced the concept of templates to replace the display settings that were ' +
+        'previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more ' +
+        'flexibiltiy and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a> (for the Classic Editor) and ' +
+        'a <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a>, for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new templates coming ' +
+        'your way in the coming weeks, but for now, <em>the list template type</em> replicates the previous options. ' +
+        'Note: The default template is set up using your existing general settings, so nothing is lost or changed.'}
+        learnMore={'https://www.wprssaggregator.com/version-4-13-celebrating-one-million-all-time-downloads'}
         visible={!!WpraGlobal.is_existing_user}
       />
 

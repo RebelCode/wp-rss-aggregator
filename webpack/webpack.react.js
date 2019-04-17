@@ -122,8 +122,8 @@ let config = {
   },
   externals,
   plugins: [
-    new ExtractTextPlugin(debug ? './../css/build/[name].min.css' : { // define where to save the file
-      filename: './../css/build/[name].min.css',
+    new ExtractTextPlugin(debug ? './../../css/build/[name].min.css' : { // define where to save the file
+      filename: './../../css/build/[name].min.css',
       allChunks: true
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
