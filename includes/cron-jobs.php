@@ -19,9 +19,7 @@
      */
     function wprss_schedule_fetch_all_feeds_cron() {
 
-        $options = get_option( 'wprss_settings_general' );
-
-        $cron_interval = $options['cron_interval'];
+        $cron_interval = wprss_get_general_setting('cron_interval');
 
         // verify event has not been scheduled
         if ( ! wp_next_scheduled( 'wprss_fetch_all_feeds_hook' ) ) {
