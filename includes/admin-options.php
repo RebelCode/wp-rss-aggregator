@@ -247,8 +247,8 @@
      * @since 1.1
      */ 
     function wprss_settings_page_display() {
-        wprss_plugin_enqueue_app_scripts('wpra-settings', WPRSS_JS . 'settings.min.js');
-        wp_enqueue_style('wpra-settings', WPRSS_CSS . 'common.min.css');
+        wprss_plugin_enqueue_app_scripts('wpra-settings', WPRSS_APP_JS . 'settings.min.js');
+        wp_enqueue_style('wpra-settings', WPRSS_APP_CSS . 'common.min.css');
         wp_localize_script('wpra-settings', 'WpraSettings', [
             'notice' => [
                 'id' => 'settings-notice',
