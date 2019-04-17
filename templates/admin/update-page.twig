@@ -17,28 +17,70 @@
         <div class="postbox">
             <div class="inside wpra-update-feature">
                 <div class="wpra-update-feature__text">
-                    <h3>Better self-help solutions right on your site</h3>
-                    <p>You can now make the best use of our knowledge base and support options from right within your
-                        WordPress Dashboard! Through our support beacon you will have access to our complete knowledge base
-                        without ever leaving your site. It even includes a contact form should you need to ask us any
-                        questions.</p>
-                    <p>The beacon will be visible on the bottom right-hand corner of only WP RSS Aggregator's pages. It can
-                        be enabled or disabled at any time through the Help & Support page in our sub-menu on the left.</p>
-                    <form method="post" class="wpra-inline-form">
-                        {% if beacon_enabled == false %}
-                            <button class="button button-primary button-large" type="submit" name="wprss_hs_beacon_enabled"
-                                    value="1">Enable Support Beacon
-                            </button>
-                        {% else %}
-                            <button class="button button-large" type="submit" name="wprss_hs_beacon_enabled" value="0">
-                                Disable Support Beacon
-                            </button>
-                        {% endif %}
-                        {{ beacon_nonce_field | raw }}
-                    </form>
+                    <h3>Introducing Templates</h3>
+                    <p>
+                        WP RSS Aggregator’s feed item display has always been limited to a few display options in its
+                        settings. Those days are gone forever.
+                    </p>
+                    <p>
+                        Templates enables you to create as many variations of our feed item display as you wish, all
+                        with different options. Each one can be used anywhere across your site. So, if you’d like to
+                        have a simple list view in your sidebar, you can do that. If you want a more stylish display for
+                        your homepage, you can do that too.
+                    </p>
+                    <div class="wpra-inline-form">
+                        <a class="button button-large button-icon" href="#" target="_blank">
+                            Learn more
+                            <span class="dashicons dashicons-arrow-right-alt2"></span>
+                        </a>
+                    </div>
                 </div>
                 <div class="wpra-update-feature__image">
-                    <img src="{{ path.images }}/wp-rss-aggregator-support-beacon.png" alt="Support Beacon">
+                    <img src="{{ path.images }}/wp-rss-aggregator-support-beacon.png" alt="Brand New Templates Screen">
+                </div>
+            </div>
+        </div>
+
+        <div class="postbox">
+            <div class="inside wpra-update-feature">
+                <div class="wpra-update-feature__text">
+                    <h3>A Brand New Gutenberg Block</h3>
+                    <p>
+                        Our brand new Gutenberg editor block titled “WP RSS Aggregator Feeds” makes setting up a display
+                        of your feed items super simple. Search for the block, add it to your page or post, choose the
+                        options you want for this particular page or post, and you’re all set.
+                    </p>
+                    <div class="wpra-inline-form">
+                        <a class="button button-large button-icon" href="#" target="_blank">
+                            Learn more
+                            <span class="dashicons dashicons-arrow-right-alt2"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wpra-update-feature__image">
+                    <img src="{{ path.images }}/wp-rss-aggregator-support-beacon.png" alt="Brand New Templates Screen">
+                </div>
+            </div>
+        </div>
+
+        <div class="postbox">
+            <div class="inside wpra-update-feature">
+                <div class="wpra-update-feature__text">
+                    <h3>More Powerful Logs</h3>
+                    <p>
+                        Debug logs are vital when trying to narrow down the cause of any problem. In this version we
+                        have updated our error logging and introduced a new debug log interface that will make it easier
+                        for you, and for our support team, to filter through the log entries.
+                    </p>
+                    <div class="wpra-inline-form">
+                        <a class="button button-large button-icon" href="#" target="_blank">
+                            Learn more
+                            <span class="dashicons dashicons-arrow-right-alt2"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wpra-update-feature__image">
+                    <img src="{{ path.images }}/wp-rss-aggregator-support-beacon.png" alt="Brand New Templates Screen">
                 </div>
             </div>
         </div>
@@ -47,13 +89,26 @@
             <div class="inside">
                 <h3>Other fixes and improvements</h3>
                 <ul class="wpra-updates">
-                    <li>Performance improvements across the core plugin.</li>
-                    <li>Sorted out the "Sorted" error appearing constantly in the debug log.</li>
-                    <li>Improved the core plugin's on-boarding process for brand new users.</li>
-                    <li>The timeout for the truncating posts hook has been extended.</li>
-                    <li>Fixed PHP warnings appearing on WordPress multisite.</li>
-                    <li>Fixed PHP notice appearing on Feed Items page.</li>
-                    <li>Fixed strict standards notice appearing on settings import.</li>
+                    <li>Added: Introduced templates to replace general display options.</li>
+                    <li>Added: Introduced a WP RSS Aggregator Gutenberg block.</li>
+                    <li>Added: Brand new debug log and logging system that stores logs in the database.</li>
+                    <li style="margin-bottom: 16px">Added: Items can now be added to the Blacklist manually.</li>
+                    <li>Changed: Refactored a lot of legacy code over to the new modular system.</li>
+                    <li>Changed: General display settings have been moved to the “Default” template type.</li>
+                    <li>Changed: Reorganized the general plugin settings. Advanced options are now under an advanced settings section.</li>
+                    <li>Changed: Removed the “Add New” menu item from the RSS Aggregator menu.</li>
+                    <li>Changed: The feed sources page now updates every 1 second.</li>
+                    <li>Changed: Updated the TinyMCE dialog options for inserting a shortcode on a page or post (Classic Editor).</li>
+                    <li>Changed: Updated administrator and editor role capabilities, fixing various permission bugs in the process.</li>
+                    <li style="margin-bottom: 16px">Changed: Updated a lot of setting descriptions and tooltips.</li>
+                    <li>Fixed: Import errors no longer “freeze” feed sources in an infinite importing state.</li>
+                    <li>Fixed: Some import errors would not be logged due to script timeout or execution errors.</li>
+                    <li>Fixed: Feed to Post was not able to show feed items in the shortcode.</li>
+                    <li>Fixed: Deprecation notices on PHP 7.3.</li>
+                    <li>Fixed: The “Force feed” option was not working correctly.</li>
+                    <li>Fixed: A bug that caused perfectly good RSS feeds to trigger gzip errors.</li>
+                    <li style="margin-bottom: 16px">Fixed: The “Delete permanently & blacklist” row action was appearing for non-feed-item post types.</li>
+                    <li>Removed: The notice that asks users to leave a review was removed due to various bugs.</li>
                 </ul>
             </div>
         </div>
