@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Data\ChangelogDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpPluginInfoDataSet;
 
 /**
@@ -144,6 +145,33 @@ class CoreModule implements ModuleInterface
              */
             'wpra/core/db_version' => function () {
                 return WPRSS_DB_VERSION;
+            },
+            /*
+             * The WP RSS Aggregator changelog.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/core/changelog' => function (ContainerInterface $c) {
+                $file = $c->get('wpra/core/changelog_file_path');
+                $raw = file_get_contents($file);
+
+                return $raw;
+            },
+            /*
+             * The WP RSS Aggregator changelog, in data set form.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/core/changelog_dataset' => function (ContainerInterface $c) {
+                return new ChangelogDataSet($c->get('wpra/core/changelog_file_path'));
+            },
+            /*
+             * The path to the WP RSS Aggregator changelog file.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/core/changelog_file_path' => function (ContainerInterface $c) {
+                return $c->get('wpra/core/plugin_dir_path') . 'CHANGELOG.md';
             },
             /*
              * The WP RSS Aggregator plugin activation handler.

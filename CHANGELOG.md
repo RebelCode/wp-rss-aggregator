@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [[*next-version*]] - YYYY-MM-DD
+## [4.13] - YYYY-MM-DD
 ### Added
 * New feed templates.
 * New Gutenberg block.
@@ -31,16 +31,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 * The notice that asks users to leave a review was removed due to various bugs.
 
-## [4.12.3] (2019-04-01)
+## [4.12.3] - 2019-04-01
 ### Fixed
 * Fixed an issue with Feed to Post not being able to show feed items in the shortcode.
 * Fixed deprecation notices on PHP 7.3.
 
-### [4.12.2] - 2019-03-26
+## [4.12.2] - 2019-03-26
 ### Fixed
 * Fixed an admin capability bug that disallowed admin users from fetching feed items.
 
-### [4.12.1] - 2019-02-27
+## [4.12.1] - 2019-02-27
 ### Added
 * Added a modal with an optional poll when the plugin is deactivated.
 ### Changed
@@ -52,7 +52,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed PHP notice appearing on Feed Items page.
 * Fixed strict standards notice appearing on settings import.
 
-### [4.12] - 2019-01-29
+## [4.12] - 2019-01-29
 ### Added
 * The plugin now checks if its running on PHP 5.3.9, and deactivates itself when not.
 * Added message informing users that v4.13 will drop support for PHP 5.3.
@@ -62,27 +62,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 * Disabled the welcome page on activation and updates.
 
-### [4.11.4] - 2018-12-11
+## [4.11.4] - 2018-12-11
 ### Added
 * Added handling of lifetime licenses.
 ### Changed
 * License renewal link and expiry are not shown if they are not applicable.
 
-### [4.11.3] - 2018-05-23
+## [4.11.3] - 2018-05-23
 ### Changed
 * Updated Help & Support page.
 
-### [4.11.2] - 2017-09-18
+## [4.11.2] - 2017-09-18
 ### Added
 * Added 2 new general settings for item import order and per-import limit.
 ### Changed
 * Cosmetic and documentation improvements.
 
-### [4.11.1] - 2017-03-07
+## [4.11.1] - 2017-03-07
 ### Fixed
 * Fixed bug that caused minor publishing controls to be hidden on unrelated Edit screens.
 
-### [4.11] - 2017-03-06
+## [4.11] - 2017-03-06
 ### Changed
 * Enhanced Licenses page so as to make the [Enter] key toggle license activation.
 * Enhanced architecture by using a DI container.
@@ -97,7 +97,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug with cached admin assets being served even after update.
 * Fixed bug with admin notifications displayed on unrelated pages not being dismissible.
 
-### [4.10] - 2016-12-29
+## [4.10] - 2016-12-29
 ### Added
 * Added a per-feed-source "Link Source" option.
 * Added a per-feed-source "Feed Request User Agent" option.
@@ -122,11 +122,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed conflicts with some classes by loading only valid root namespace components.
 * Fixed PHP warning related to retrieving unique titles.
 
-### [4.9.1] - 2016-08-01
+## [4.9.1] - 2016-08-01
 ### Changed
 * Changed copyright and other info in plugin header.
 
-### [4.9] - 2016-06-14
+## [4.9] - 2016-06-14
 ### Changed
 * Enhanced: Visual improvements.
 ### Fixed
@@ -135,7 +135,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Certain notices could not be dismissed.
 * Fixed bug: Word trimming didn't always trim correctly with HTML.
 
-### [4.8.2] - 2016-02-22
+## [4.8.2] - 2016-02-22
 ### Changed
 * Enhanced: Users can now override useragent sent with feed requests.
 * Enhanced: Improvements to plugin updating system.
@@ -145,8 +145,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Interface methods used to conflict, causing fatal error on activation.
 * Fixed bug: Empty feed response used to cause misleading error message in log.
 
-### [4.8.1] - 2016-02-02
-## Changed
+## [4.8.1] - 2016-02-02
+### Changed
 * Enhanced: Visual improvements.
 * Enhanced: Included new Object Oriented code.
 ### Fixed
@@ -154,13 +154,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Requests made by image caching used to always have an infinite timeout.
 * Fixed bug: Licensing algorithm used to use constants of inactive plugins, causing fatal error.
 
-### [4.8] - 2015-12-30
+## [4.8] - 2015-12-30
 ### Changed
 * Enhanced: Major licensing system improvements.
 ### Fixed
 * Fixed bug: Licensing notices will now be displayed again.
 
-### [4.7.8] - 2015-11-18
+## [4.7.8] - 2015-11-18
 ### Changed
 * Enhanced: Added autoloading and refactored licensing.
 * Enhanced: Added button to download error log.
@@ -168,18 +168,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fixed bug: Sticky posts no longer get deleted when truncating, unless imported from a feed source.
 
-### [4.7.7] - 2015-10-19
+## [4.7.7] - 2015-10-19
 ### Changed
 * Enhanced: Optimized checking for plugin updates.
 
-### [4.7.6] - 2015-10-07
+## [4.7.6] - 2015-10-07
 ### Changed
 * Enhanced: Feeds that fail to validate due to whitespace at the beginning are now supported by the plugin.
 ### Fixed
 * Fixed bug: Undefined variables in the System Info section in the Debugging page.
 * Fixed bug: Add-on license expiration notices could not be dismissed.
 
-### [4.7.5] - 2015-09-02
+## [4.7.5] - 2015-09-02
 ### Changed
 * Enhanced: Licensing errors will be output to debug log.
 * Enhanced: Improved compatibility with plugins that allow AJAX searching in the backend.
@@ -188,14 +188,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 * Usage tracking now disabled.
 
-### [4.7.4] - 2015-08-20
+## [4.7.4] - 2015-08-20
 ### Changed
 * Requirement: WordPress 4.0 or greater now required.
 ### Fixed
 * Fixed bug in image caching
 * Fixed bug in admin interface due to incorrectly translated IDs
 
-### [4.7.3] - 2015-08-04
+## [4.7.3] - 2015-08-04
 ### Added
 * Core now implements an image cache logic.
 * Russian translation added.
@@ -206,7 +206,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Inline help (tooltips) translations now work.
 * Fixed bug: Link to the Feed to Post add-on on the welcome page is no longer broken.
 
-### [4.7.2] - 2015-06-30
+## [4.7.2] - 2015-06-30
 ### Changed
 * Enhanced: Copyright updated.
 ### Fixed
@@ -218,11 +218,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Nested options of inline help controller no longer cause a fatal error.
 * Fixed bug: Notices will no longer be displayed during rendering of feed items due to absence of required default values.
 
-### [4.7.1] - 2015-04-23
+## [4.7.1] - 2015-04-23
 ### Fixed
 * Fixed bug: No warning will be thrown when fetching feeds.
 
-### [4.7] - 2015-04-21
+## [4.7] - 2015-04-21
 ### Added
 * Optionally import only items with titles that don't already exist.
 * Added support for multibyte strings in some places.
@@ -234,15 +234,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Having no mysqli extension no longer causes an error to appear in the debug info.
 * Fixed bug: Saving an empty license key no longer results in a warning.
 
-### [4.6.13] - 2015-03-20
+## [4.6.13] - 2015-03-20
 ### Fixed
 * Fixed bug: The "Force feed" option wasn't being correctly used.
 
-### [4.6.12] - 2015-03-09
+## [4.6.12] - 2015-03-09
 ### Fixed
 * Fixed bug: The "Force feed" option was being removed by the Feed to Post add-on.
 
-### [4.6.11] - 2015-03-04
+## [4.6.11] - 2015-03-04
 ### Changed
 * Enhanced: The Help page now includes a support form if a premium add-on is detected.
 * Enhanced: Updated some translations for admin options.
@@ -250,7 +250,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Help tooltips are now optimized for iPad screens.
 * Fixed bug: Errors on the licensing page when a license code has not yet been entered.
 
-### [4.6.10] - 2015-02-10
+## [4.6.10] - 2015-02-10
 ### Added
 * Markdown library added. Changelog now read from readme.
 ### Changed
@@ -260,7 +260,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fixed bug: Saving license keys not longer triggers error in some cases.
 
-### [4.6.9] - 2015-01-21
+## [4.6.9] - 2015-01-21
 ### Changed
 * Enhanced: Admin user will now be warned about invalid or expiring licenses.
 * Enhanced: Admin notices logic centralized in this plugin.
@@ -268,7 +268,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed: Multiple small-scale security vulnerabilities.
 * Fixed: Ampersand in feed URL no longer causes the product of generated feeds to be invalidated by W3C Validator.
 
-### [4.6.8] - 2015-01-07
+## [4.6.8] - 2015-01-07
 ### Changed
 * Enhanced: Added more logging during feed importing.
 * Enhanced: Irrelevent metaboxes added by other plugins are now removed from the Add/Edit Feed Source page.
@@ -278,12 +278,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Patched a vulnerability where any user on the site can issue a feed fetch.
 * Fixed bug: The "Activate" and "Pause" actions are not shown in the bulk actions dropdown in WordPress v4.1.
 
-### [4.6.7] - 2014-12-17
+## [4.6.7] - 2014-12-17
 ### Changed
 * Enhanced: Some minor interface updates.
 * Enhanced: Added filters for use by the premium add-ons.
 
-### [4.6.6] - 2014-12-06
+## [4.6.6] - 2014-12-06
 ### Added
 * Added output layouts for feed sources and feed items.
 * Added time limit extending to prevent script from exhausting its execution time limit while importing.
@@ -293,7 +293,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: The "Delete and Re-import" button was deleting items but not re-importing.
 * Fixed bug: Non-object errors when a feed source is deleted while importing.
 
-### [4.6.5] - 2014-11-17
+## [4.6.5] - 2014-11-17
 ### Changed
 * Enhanced: Improved the logging.
 * Enhanced: Improved the licensing fields.
@@ -301,7 +301,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fixed bug: Small random error when viewing the licenses page.
 
-### [4.6.4] - 2014-11-10
+## [4.6.4] - 2014-11-10
 ### Changed
 * Enhanced: Added filters to the custom feed.
 * Enhanced: Updated some styles to improve the user interface.
@@ -309,7 +309,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: The "Remove selected from Blacklist" button had no nonce associated with it.
 * Fixed bug: The Blacklist menu entry was not always being shown.
 
-### [4.6.3] - 2014-11-3
+## [4.6.3] - 2014-11-3
 ### Changed
 * Enhanced: Re-added the "Add New" link in the plugin's menu.
 * Enhanced: Improved error logging.
@@ -319,7 +319,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: The Full Text RSS Feeds add-on was not showing as active in the "Add-ons" page.
 * Fixed bug: Broken links in the "Add-ons" page, to add-on pages on our site.
 
-### [4.6.2] - 2014-10-15
+## [4.6.2] - 2014-10-15
 ### Added
 * Added a new filter to modify the text shown before author names.
 * Added better debug logging.
@@ -330,13 +330,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 * Fixed bug: Licenses were not showing as active, even though they were activated.
 
-### [4.6.1] - 2014-10-06
+## [4.6.1] - 2014-10-06
 ### Changed
 * Enhanced: Improved internationalization in the plugin, for better translations.
 ### Fixed
 * Fixed bug: If the feed source age limit was left empty, the global setting was used instead of ignoring the limit.
 
-### [4.6] - 2014-09-22
+## [4.6] - 2014-09-22
 ### Changed
 * Enhanced: Improved the user interface, with better responsiveness and tooltips.
 * Enhanced: Removes the ID column. The ID is now shown fixed in row actions.
@@ -344,7 +344,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fixed bug: If a feed item has no date, the date and time it was imported is used.
 
-### [4.5.3] - 2014-09-15
+## [4.5.3] - 2014-09-15
 ### Changed
 * Added filter to allow adding RSS feeds to the head of your site's pages for CPTs.
 ### Changed
@@ -357,21 +357,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Removed an old description meta field.
 * Fixed bug: Plugin was not removing all scheduled cron jobs when deactivated.
 
-### [4.5.2] - 2014-09-09
+## [4.5.2] - 2014-09-09
 ### Changed
 * Enhanced: Optimized plugin for WordPress 4.0.
 * Enhanced: Improved template and added filters for add-on hooking.
 ### Fixed
 * Fixed bug: Editor toolbar visible over the WP RSS shortcode dialog.
 
-### [4.5.1] - 2014-08-26
+## [4.5.1] - 2014-08-26
 ### Fixed
 * Fixed bug: Last import feed item count stays at zero.
 * Fixed bug: Datetime::setTimestamp error when using PHP 5.2 or earlier.
 * Fixed bug: The display limit was not working.
 * Fixed bug: Minor bug in licensing.
 
-### [4.5] - 2014-08-25
+## [4.5] - 2014-08-25
 ### Added
 * New Feature: Bulk importer allows you to create multiple feed sources at once.
 ### Changed
@@ -380,19 +380,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fixed bug: Undefined `feed_limit` errors when using the shortcode.
 
-### [4.4.4] - 2014-08-19
+## [4.4.4] - 2014-08-19
 ### Fixed
 * Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
-### [4.4.3] - 2014-08-19
+## [4.4.3] - 2014-08-19
 ### Fixed
 * Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
-### [4.4.2] - 2014-08-19
+## [4.4.2] - 2014-08-19
 ### Fixed
 * Fixed bug: Errors when using older PHP versions 5.3 or lower.
 
-### [4.4.1] - 2014-08-18
+## [4.4.1] - 2014-08-18
 ### Changed
 * Enhanced: Various improvements to the plugin interface and texts.
 * Enhanced: Moved the restore default settings button farther down the Debugging page, to avoid confusion with the delete button.
@@ -400,21 +400,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Feed item dates were not being adjusted to the timezone when using a GMT offset.
 * Fixed bug: Feed item dates are now adjusted according to daylight savings time.
 
-### [4.4] - 2014-08-11
+## [4.4] - 2014-08-11
 ### Added
 * Blacklist - delete items and blacklist them to never import them again.
 ### Changed
 * Enhanced: Added a button in the Debugging page to reset the plugin settings to default.
 * Enhanced: WordPress Yoast SEO metaboxes and custom columns will no longer appear.
 
-### [4.3.1] - 2014-08-08
+## [4.3.1] - 2014-08-08
 ### Changed
 * Enhanced: Better wording on settings page.
 ### Fixed
 * Fixed bug: The Links Behaviour option in the settings was not working.
 * Fixed bug: The wrong feed items were being shown for some sources when using the "View Items" row action.
 
-### [4.3] - 2014-08-04
+## [4.3] - 2014-08-04
 ### Added
 * New Feature: Feed items now also import authors.
 ### Changed
@@ -425,7 +425,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Some feed items were showing items from another feed source.
 * Fixed bug: The feed limit in the global settings was not working.
 
-### [4.2.3] - 2014-07-29
+## [4.2.3] - 2014-07-29
 ### Changed
 * Enhanced: Added an option to choose between the current pagination type, and numbered pagination.
 * Enhanced: The Feed Preview now also shows the total number of items in the feed.
@@ -435,16 +435,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Manually fetching a feed fails if the feed is scheduled to update in the next 10 minutes.
 * Fixed bug: Bing RSS feeds were importing duplicates on every update.
 
-### [4.2.2] - 2014-07-23
+## [4.2.2] - 2014-07-23
 ### Changed
 * Enhanced: Facebook page feeds are now changed into RSS 2.0 feeds, rather than Atom 1.0 feeds.
 * Enhanced: Improved live updating performace on the Feed Sources page.
 
-### [4.2.1] - 2014-07-17
+## [4.2.1] - 2014-07-17
 ### Changed
 * Enhanced: Feed Sources page is now more responsive.
 
-### [4.2] - 2014-07-17
+## [4.2] - 2014-07-17
 ### Added
 * Can now view each feed source's imported feed items separate from other feed sources' feed items.
 ### Changed
@@ -454,66 +454,66 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Google News feeds were importing duplicate items on every update.
 * Fixed bug: Multiple minor bug fixes with old filters.
 
-### [4.1.6] - 2014-06-28
+## [4.1.6] - 2014-06-28
 ### Fixed
 * Fixed bug: Results returned by wprss_get_feed_items_for_source() will no longer be affected by filters.
 * Fixed bug: Charset issue in titles
 
-### [4.1.5] - 2014-06-19
+## [4.1.5] - 2014-06-19
 ### Changed
 * Enhanced: The Feed Sources table now indicates which feed sources encountered errors during the last import.
 ### Fixed
 * Fixed bug: Feed titles were not being decoded for HTML entities.
 
-### [4.1.4] - 2014-05-16
+## [4.1.4] - 2014-05-16
 ### Changed
 * Enhanced: Minor improvements to feed importing and handling.
 ### Fixed
 * Fixed bug: HTML entities were not being decoded in feed item titles.
 
-### [4.1.3] - 2014-04-28
+## [4.1.3] - 2014-04-28
 ### Changed
 * Enhanced: Added a force feed option, for valid RSS feeds with incorrect header content types.
 ### Fixed
 * Fixed bug: HTML entities in feed item titles are now being decoded.
 
-### [4.1.2] - 2014-04-22
+## [4.1.2] - 2014-04-22
 ### Changed
 * Enhanced: Improved the custom feed, by allowing a custom title.
 * Enhanced: Improved shortcode, by adding the "pagination" parameter.
 * Enhanced: Modified a filter to fix some bugs in the add-ons.
 
-### [4.1.1] - 2014-04-09
+## [4.1.1] - 2014-04-09
 ### Changed
 * Enhanced: Tracking notices only appear for admin users.
 ### Fixed
 * Fixed bug: Auto Feed Discovery was not working.
 
-### [4.1] - 2014-04-03
+## [4.1] - 2014-04-03
 ### Added
 * New Feature: Feed items can now link to enclosure links in the feed.
 ### Changed
 * Enhanced: Added a filter to allow add-ons to modify feed item queries.
 
-### [4.0.9] - 2014-03-27
+## [4.0.9] - 2014-03-27
 ### Changed
 * Enhanced: Added a filter to modify the feeds template.
 ### Fixed
 * Fixed bug: Nested lists in feeds template.
 
-### [4.0.8] - 2014-03-20
+## [4.0.8] - 2014-03-20
 ### Fixed
 * Fixed bug: Using the shortcode makes the comments section always open.
 
-### [4.0.7] - 2014-03-08
+## [4.0.7] - 2014-03-08
 ### Fixed
 * Fixed bug: The plugin prevented uploading of header images.
 
-### [4.0.6] - 2014-03-05
+## [4.0.6] - 2014-03-05
 ### Fixed
 * Fixed bug: Hook change in last version suspected reason for some installations having non-updated feed items.
 
-### [4.0.5] - 2014-03-03
+## [4.0.5] - 2014-03-03
 ### Added
 * New Feature: Time ago added as an option.
 ### Changed
@@ -524,7 +524,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Styles fix for pagination.
 * Fixed bug: Removed empty spaces in logging.
 
-### [4.0.4] - 2014-02-17
+## [4.0.4] - 2014-02-17
 ### Changed
 * Enhanced: Added Activate/Pause bulk actions in the Feed Sources page.
 * Enhanced: Feed Sources page table has been re-designed.
@@ -532,19 +532,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fixed bug: Undefined display settings where appearing on the front end.
 
-### [4.0.3] - 2014-02-12
+## [4.0.3] - 2014-02-12
 ### Fixed
 * Fixed bug: The general setting for deleting feed items by age was not working.
 
-### [4.0.2] - 2014-02-10
+## [4.0.2] - 2014-02-10
 ### Changed
 * Enhanced: Added a filter to change the html tags allowed in feed item content.
 
-### [4.0.1] - 2014-02-08
+## [4.0.1] - 2014-02-08
 ### Changed
 * Fixed bug: Empty array of feed items bug caused importing problems.
 
-### [4.0] - 2014-02-04
+## [4.0] - 2014-02-04
 ### Changed
 * Enhanced: Improved some internal queries, for better performance.
 ### Fixed

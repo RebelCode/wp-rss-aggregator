@@ -28,6 +28,7 @@
         "dhii/normalization-helper-base": "^0.1-alpha4",
         "dhii/validation-base": "^0.2",
         "dhii/exception": "^0.1-alpha5",
+        "erusev/parsedown": "^1.7",
         "rebelcode/composer-cleanup-plugin": "^0.1"
     },
     "require-dev": {
