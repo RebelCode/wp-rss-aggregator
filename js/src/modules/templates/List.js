@@ -295,7 +295,7 @@ export default {
       <NoticeBlock
         id={'templates-introduction'}
         title={'🎉 Welcome to Templates for WP RSS Aggregator!'}
-        body={'As of version 4.13, we have introduced the concept of templates to replace the general display settings that were previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block (for those using WP 5.0+ with the Gutenberg block editor)!<br/><br/>There are new templates coming your way in the coming weeks, but for now, the List type replicates the previous options. Note: The default template is set up using your previous general settings, so nothing is lost or changed.'}
+        body={'As of version 4.13, we have introduced the concept of templates to replace the display settings that were previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block, for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new templates coming your way in the coming weeks, but for now, <em>the list template type</em> replicates the previous options. Note: The default template is set up using your existing general settings, so nothing is lost or changed.'}
         learnMore={'https://google.com/'}
         visible={!!WpraGlobal.is_existing_user}
       />
