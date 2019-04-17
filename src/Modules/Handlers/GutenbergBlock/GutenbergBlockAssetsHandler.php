@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock;
 
-use RebelCode\Wpra\Core\Data\AbstractDataSet;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 
 /**
  * Class for registering assets for gutenberg block.
@@ -16,16 +16,16 @@ class GutenbergBlockAssetsHandler
      *
      * @since [*next-version*]
      *
-     * @var AbstractDataSet
+     * @var CollectionInterface
      */
     protected $templates;
 
     /**
      * GutenbergBlockAssetsHandler constructor.
      *
-     * @param AbstractDataSet $templates Templates collection.
+     * @param CollectionInterface $templates Templates collection.
      */
-    public function __construct($templates)
+    public function __construct(CollectionInterface $templates)
     {
         $this->templates = $templates;
     }
