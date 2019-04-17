@@ -74,7 +74,7 @@ export default {
             {
               this.title ? (
                 <div class="form-input__tip" {...{directives}} title={this.title}>
-                  <span class="dashicons dashicons-info"></span>
+                  <span class="dashicons dashicons-editor-help"/>
                 </div>
               ) : null
             }
