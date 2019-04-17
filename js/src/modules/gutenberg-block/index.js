@@ -1,3 +1,5 @@
+require('css/src/gutenberg-block/index.scss')
+
 import { __ } from '@wordpress/i18n'
 import { registerBlockType } from '@wordpress/blocks'
 import { InspectorControls } from '@wordpress/editor'
@@ -64,6 +66,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
       <ServerSideRender
         block={'wpra-shortcode/wpra-shortcode'}
         attributes={props.attributes}
+        className={'wpra-gutenberg-block'}
       />
       <InspectorControls>
         <PanelBody
