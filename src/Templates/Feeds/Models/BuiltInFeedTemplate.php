@@ -103,12 +103,12 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
         $savedOpts = new WpArrayOptionDataSet(static::WP_OPTION_NAME);
         // Merge the defaults and the saved options
         $allOpts = new MergedDataSet($savedOpts, $defaultOpts);
-        // Mask the options to hide the other non-template general settings
-        $maskedOpts = new MaskingDataSet($allOpts, $this->getDbOptionsMask(), false);
         // Alias the old DB options to the new template option names
-        $aliasedDbOpts = new AliasingDataSet($maskedOpts, $this->getDbOptionsAliases());
+        $aliasedDbOpts = new AliasingDataSet($allOpts, $this->getDbOptionsAliases());
+        // Mask the options to hide the other non-template general settings
+        $maskedOpts = new MaskingDataSet($aliasedDbOpts, $this->getDbOptionsMask(), false);
 
-        return $aliasedDbOpts;
+        return $maskedOpts;
     }
 
     /**
