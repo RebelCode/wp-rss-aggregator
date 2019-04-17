@@ -65,5 +65,19 @@ class MergedIterator extends AppendIterator
             parent::next();
             $nextKey = $this->key();
         } while ($this->valid() && isset($this->keys[$nextKey]));
+
+        $this->keys[$nextKey] = 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function current()
+    {
+        $this->keys[$this->key()] = 1;
+
+        return parent::current();
     }
 }
