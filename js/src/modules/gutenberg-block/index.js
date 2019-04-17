@@ -127,7 +127,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             }}
           />
           <TextControl
-            label={__('Starting Page')}
+            label={__('Page')}
             placeholder={__('1')}
             type={'number'}
             min={1}
