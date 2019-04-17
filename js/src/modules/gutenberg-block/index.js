@@ -140,14 +140,6 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             }}
           />
         </PanelBody>
-        <PanelBody
-          title={__('Styling')}
-          initialOpen={false}
-        >
-          <TextareaControl
-            label={__('Custom CSS')}
-          />
-        </PanelBody>
       </InspectorControls>
     </div>
   },
