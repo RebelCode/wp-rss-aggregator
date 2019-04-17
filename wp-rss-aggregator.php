@@ -97,6 +97,14 @@ if( !defined( 'WPRSS_JS' ) )
 if( !defined( 'WPRSS_CSS' ) )
     define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ) );
 
+// Set the constant path to the plugin's javascript build directory.
+if( !defined( 'WPRSS_APP_JS' ) )
+    define( 'WPRSS_APP_JS', WPRSS_URI . trailingslashit( 'js/build' ) );
+
+// Set the constant path to the plugin's CSS build directory.
+if( !defined( 'WPRSS_APP_CSS' ) )
+    define( 'WPRSS_APP_CSS', WPRSS_URI . trailingslashit( 'css/build' ) );
+
 // Set the constant path to the plugin's images directory.
 if( !defined( 'WPRSS_IMG' ) )
     define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'images' ) );

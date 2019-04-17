@@ -49,9 +49,9 @@ class RenderAdminTemplatesPageHandler
      */
     public function __invoke()
     {
-        wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_JS . 'templates.min.js', [], '0.1', true);
-        wp_enqueue_style('wpra-common', WPRSS_CSS . 'common.min.css');
-        wp_enqueue_style('wpra-templates', WPRSS_CSS . 'templates.min.css', [
+        wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_APP_JS . 'templates.min.js', [], '0.1', true);
+        wp_enqueue_style('wpra-common', WPRSS_APP_CSS . 'common.min.css');
+        wp_enqueue_style('wpra-templates', WPRSS_APP_CSS . 'templates.min.css', [
             'wpra-common'
         ]);
 

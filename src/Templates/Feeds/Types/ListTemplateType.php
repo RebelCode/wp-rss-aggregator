@@ -42,8 +42,8 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
         wp_enqueue_script('jquery.colorbox-min', WPRSS_JS . 'jquery.colorbox-min.js', ['jquery']);
         wp_enqueue_script('wprss_custom', WPRSS_JS . 'custom.js', ['jquery', 'jquery.colorbox-min']);
 
-        wp_enqueue_script('wpra-manifest', WPRSS_JS . 'wpra-manifest.min.js', ['jquery']);
-        wp_enqueue_script('wpra-pagination', WPRSS_JS . 'pagination.min.js', ['wpra-manifest']);
+        wp_enqueue_script('wpra-manifest', WPRSS_APP_JS . 'wpra-manifest.min.js', ['jquery']);
+        wp_enqueue_script('wpra-pagination', WPRSS_APP_JS . 'pagination.min.js', ['wpra-manifest']);
 
         wp_localize_script('wpra-pagination', 'WpraPagination', [
             'baseUri' => rest_url('/wpra/v1/templates/%s/render/'),
@@ -52,7 +52,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
         if (empty($general_settings['styles_disable'])) {
             wp_enqueue_style('colorbox', WPRSS_CSS . 'colorbox.css', [], '1.4.33');
             wp_enqueue_style('wpra-list-template-styles', WPRSS_CSS . 'templates/list/styles.css', [], WPRSS_VERSION);
-            wp_enqueue_style('wpra-pagination', WPRSS_CSS . 'pagination.min.css');
+            wp_enqueue_style('wpra-pagination', WPRSS_APP_CSS . 'pagination.min.css');
         }
     }
 

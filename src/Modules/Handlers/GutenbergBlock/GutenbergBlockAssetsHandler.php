@@ -37,14 +37,14 @@ class GutenbergBlockAssetsHandler
      */
     public function __invoke()
     {
-        wp_enqueue_script('wpra-shortcode', WPRSS_JS . 'gutenberg-block.min.js', [
+        wp_enqueue_script('wpra-shortcode', WPRSS_APP_JS . 'gutenberg-block.min.js', [
             'wp-blocks',
             'wp-i18n',
             'wp-element',
             'wp-editor',
         ]);
 
-        wp_enqueue_style('wpra-shortcode', WPRSS_CSS . 'gutenberg-block.min.css', [
+        wp_enqueue_style('wpra-shortcode', WPRSS_APP_CSS . 'gutenberg-block.min.css', [
             'wp-blocks',
         ]);
 
