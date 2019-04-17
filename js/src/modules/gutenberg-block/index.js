@@ -17,7 +17,7 @@ import {
 import MultipleSelectControl from './components/MultipleSelectControl'
 
 registerBlockType('wpra-shortcode/wpra-shortcode', {
-  title: __('Imported Feeds List'),
+  title: __('WP RSS Aggregator feeds'),
   description: __('Display feed items imported using WP RSS Aggregator.'),
   icon: 'rss',
   category: 'widgets',
@@ -65,10 +65,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
         block={'wpra-shortcode/wpra-shortcode'}
         attributes={props.attributes}
       />
-      <InspectorControls
-        headline={'WP RSS Block'}
-        description={'Block description.'}
-      >
+      <InspectorControls>
         <PanelBody
           title={__('Feed Sources')}
           initialOpen={true}
