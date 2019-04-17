@@ -59,7 +59,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
      */
     protected function set($key, $value)
     {
-       if (!$this->has($key)) {
+       if (!$this->isExposed($key)) {
            throw new OutOfRangeException(sprintf('Cannot set masked key "%s"', $key));
        }
 
