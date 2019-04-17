@@ -263,7 +263,7 @@
                     . '<br/><br/>'
                     . 'Go to “Templates” under “RSS Aggregator” to check it out. Note: The default template is set up using your'
                     . ' existing general settings, so nothing is lost or changed.', WPRSS_TEXT_DOMAIN) . $etText,
-                'learnMore' => 'https://www.wprssaggregator.com/version-4-13-celebrating-one-million-all-time-downloads'
+                'learnMore' => 'https://www.wprssaggregator.com/core-version-4-13-celebrating-one-million-downloads/'
             ]
         ])
 
