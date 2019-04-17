@@ -1,15 +1,22 @@
+.toasted-container.top-center {
+  top: 44px !important;
+}
+
 .toasted {
-  background: #fff !important;
-  border-radius: 0 !important;
+  background: #23282d !important;
+  color: #e5e5e5 !important;
   font-size: inherit !important;
   font-weight: inherit !important;
-  color: inherit !important;
-  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1) !important;
 
   justify-content: start !important;
+  border-left: none !important;
 
-  &.success {
-    border-left: 4px solid #19b17d;
+  &.success {}
+
+  &.error {
+    .dashicons {
+      color: #ff7781;
+    }
   }
 
   .dashicons {

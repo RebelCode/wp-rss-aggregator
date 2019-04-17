@@ -82,6 +82,15 @@ export default {
       this.runRequest().then(response => {
         this.model = deepmerge(this.model, response.data)
         this.rememberModel()
+
+        this.notification.show('Template saved!', {
+          type: 'success',
+          icon (el) {
+            el.classList.add('dashicons', 'dashicons-yes')
+            return el
+          },
+        })
+
         if (!isNew) {
           return
         }
@@ -92,14 +101,15 @@ export default {
             id: response.data.id
           }
         })
-      }).finally(() => {
-        this.notification.show('Template saved!', {
-          type: 'success',
+      }, response => {
+        this.notification.show('Something went wrong. Template is not saved!', {
+          type: 'error',
           icon (el) {
-            el.classList.add('dashicons', 'dashicons-yes')
+            el.classList.add('dashicons', 'dashicons-warning')
             return el
           },
         })
+      }).finally(() => {
         this.isSaving = false
       })
     },
