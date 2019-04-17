@@ -9,11 +9,14 @@ use InvalidArgumentException;
 use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\Collections\NullCollection;
+use RebelCode\Wpra\Core\Data\CompositeDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MaskingDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpArrayOptionDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpPostArrayMetaDataSet;
+use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 use WP_Post;
 
 /**
@@ -159,8 +162,8 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
             'date_prefix' => 'text_preceding_date',
             'date_format' => 'date_format',
             'date_use_time_ago' => 'time_ago_format_enable',
-            'links_open_behavior' => 'open_dd',
-            'links_rel_nofollow' => 'follow_dd',
+            'links_behavior' => 'open_dd',
+            'links_nofollow' => 'follow_dd',
             'links_video_embed_page' => 'video_link',
         ];
     }
@@ -174,22 +177,16 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
      */
     protected function getDbOptionsMask()
     {
-        return [
-            'feed_limit' => true,
-            'title_limit' => true,
-            'title_link' => true,
-            'pagination' => true,
-            'source_enable' => true,
-            'source_link' => true,
-            'text_preceding_source' => true,
-            'authors_enable' => true,
-            'date_enable' => true,
-            'text_preceding_date' => true,
-            'date_format' => true,
-            'time_ago_format_enable' => true,
-            'open_dd' => true,
-            'follow_dd' => true,
-            'video_link' => true,
-        ];
+        // Dummy list template type, used to get the options
+        $listType = new ListTemplateType(new ArrayDataSet([]), new NullCollection());
+        $listOptions = $listType->getOptions();
+
+        // Use a "true" mask for every list template type option available
+        $mask = [];
+        foreach ($listOptions as $key => $schema) {
+            $mask[$key] = true;
+        }
+
+        return $mask;
     }
 }
