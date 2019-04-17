@@ -240,7 +240,7 @@ export default {
         return [
           <div>
             <a href={this.getPreviewLink(row)}
-               target="_blank"
+               target="wpra-preview-template"
                class="wpra-preview-link"
             >
               Open preview <span class="dashicons dashicons-external"></span>

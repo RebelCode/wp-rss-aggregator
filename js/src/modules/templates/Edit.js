@@ -153,7 +153,7 @@ export default {
           <a href={this.previewUrl}
              class="wpra-preview-link"
              role="button"
-             target="_blank"
+             target="wpra-preview-template"
              style={{marginLeft: '4px', textDecoration: 'none'}}
           >
             Open preview
