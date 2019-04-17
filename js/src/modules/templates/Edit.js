@@ -155,7 +155,21 @@ export default {
 
     let minorActions = null,
       shortcode = null,
-      noticeBlock = null
+      noticeBlock = <NoticeBlock
+        class={'postbox'}
+        id={'templates-usage'}
+        title={'Welcome to Templates for WP RSS Aggregator'}
+        body={'Templates are used to displayed the items imported by WP RSS Aggregator. To display the items you have ' +
+        'imported, you can use <a href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode#tinymce" target="_blank">our shortcode</a> ' +
+        'or our <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">Gutenberg block</a>.<br/><br/>' +
+        'To choose where to display the items you have imported, you have three options:<br>' +
+        '<ol><li>Copy the shortcode (top right) and paste it anywhere on your site. <a href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode" target="_blank">Click here to learn more about our shortcode.</a></li>' +
+        '<li>If you’re using WordPress 5 (or later) with the block editor, within any page or post, search for the “WP RSS Aggregator Items” block. <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">Click here to learn more about our block.</a></li>' +
+        '<li>If you’re using the Classic WordPress editor, within any page or post, click on the RSS button in the TinyMCE editor. <a href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode/#tinymce" target="_blank">Click here to learn more about this button.</a></li>' +
+        '<li>For the more advanced users, you may also call a function within your theme files. <a href="https://kb.wprssaggregator.com/article/455-displaying-imported-items-through-your-theme-files" target="_blank">Click here to learn more.</a></li>' +
+        '</ol>'}
+        learnMore={'https://kb.wprssaggregator.com/article/457-templates'}
+      />
 
     if (this.router.params.id) {
       minorActions = <div id="" style={{padding: '6px 0'}}>
@@ -183,17 +197,6 @@ export default {
           <button class="button" onClick={this.copyShortcode}>Copy Shortcode</button>
         </div>
       </div>
-
-      noticeBlock = <NoticeBlock
-          class={'postbox'}
-          id={'templates-usage'}
-          title={'Learn how to use this template'}
-          body={'Templates are used to display the feed items you import using WP RSS Aggregator. To display feed items using this template, you can do either of the following:<br>' +
-          '<ul><li>- Copy the shortcode and paste it anywhere on your site.</li>' +
-          '<li>- Use the WP RSS Aggregator TinyMCE shortcode button (when using the Classic Editor)</li>' +
-          '<li>- Use the WP RSS Aggregator block (when using WordPress 5.0+ with the new Gutenberg editor).</li></ul>'}
-          learnMore={'https://google.com/'}
-        />
     }
 
     let content = <div>

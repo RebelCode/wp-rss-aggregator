@@ -295,8 +295,13 @@ export default {
       <NoticeBlock
         id={'templates-introduction'}
         title={'🎉 Welcome to Templates for WP RSS Aggregator!'}
-        body={'As of version 4.13, we have introduced the concept of templates to replace the display settings that were previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more flexibiltiy and new designs. They also come with a revamped TinyMCE shortcode button (for the Classic Editor) and a brand new block, for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new templates coming your way in the coming weeks, but for now, <em>the list template type</em> replicates the previous options. Note: The default template is set up using your existing general settings, so nothing is lost or changed.'}
-        learnMore={'https://google.com/'}
+        body={'As of version 4.13, we have introduced the concept of templates to replace the display settings that were ' +
+        'previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more ' +
+        'flexibiltiy and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a> (for the Classic Editor) and ' +
+        'a <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a>, for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new templates coming ' +
+        'your way in the coming weeks, but for now, <em>the list template type</em> replicates the previous options. ' +
+        'Note: The default template is set up using your existing general settings, so nothing is lost or changed.'}
+        learnMore={'https://www.wprssaggregator.com/version-4-13-celebrating-one-million-all-time-downloads'}
         visible={!!WpraGlobal.is_existing_user}
       />
 
