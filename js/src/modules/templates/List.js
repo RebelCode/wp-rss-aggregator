@@ -87,7 +87,7 @@ export default {
     },
 
     deleteTemplate (id) {
-      if (!confirm('Are you sure you want to delete this template?')) {
+      if (!confirm('Are you sure you want to delete this template? If this template is being used in a shortcode or Gutenberg block anywhere on your site, the default template will be used instead.')) {
         return
       }
       this.loading = true
@@ -99,7 +99,7 @@ export default {
     },
 
     bulkDelete () {
-      if (!confirm('Are you sure you want to delete these templates?')) {
+      if (!confirm('Are you sure you want to delete these templates? If a template is being used in a shortcode or Gutenberg block anywhere on your site, the default template will be used instead.')) {
         return
       }
       this.loading = true
