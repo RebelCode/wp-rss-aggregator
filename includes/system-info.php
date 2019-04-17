@@ -171,6 +171,31 @@ if ( get_bloginfo( 'version' ) < '3.4' ) {
 ?>
 
 
+SETTINGS:
+
+<?php
+$options_table = $wpdb->prefix . 'options';
+$options_query = sprintf('SELECT * FROM %s WHERE `option_name` LIKE "wprss%%"', $options_table);
+$options = $wpdb->get_results($options_query, OBJECT_K);
+
+foreach ($options as $option) {
+    $unserialized = @unserialize($option->option_value);
+
+    if (!$unserialized || is_scalar($unserialized)) {
+        printf(
+            '%s %s',
+            str_pad($option->option_name, 30),
+            $option->option_value
+        );
+        echo PHP_EOL;
+        continue;
+    }
+
+    printf('[%s]: ', $option->option_name);
+    print_r($unserialized);
+}
+?>
+
 ### End System Info ###
 <?php
 	}
