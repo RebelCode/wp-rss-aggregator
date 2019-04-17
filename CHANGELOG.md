@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 * The notice that asks users to leave a review was removed due to various bugs.
 
-## [4.12.3] (2019-04-01)
+## [4.12.3] - 2019-04-01
 ### Fixed
 * Fixed an issue with Feed to Post not being able to show feed items in the shortcode.
 * Fixed deprecation notices on PHP 7.3.
@@ -146,7 +146,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed bug: Empty feed response used to cause misleading error message in log.
 
 ## [4.8.1] - 2016-02-02
-## Changed
+### Changed
 * Enhanced: Visual improvements.
 * Enhanced: Included new Object Oriented code.
 ### Fixed
