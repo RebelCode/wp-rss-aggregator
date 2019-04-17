@@ -111,7 +111,7 @@ class FeedTemplateType extends ListTemplateType
      *
      * @since [*next-version*]
      */
-    protected function getOptions()
+    public function getOptions()
     {
         $schema = [];
 

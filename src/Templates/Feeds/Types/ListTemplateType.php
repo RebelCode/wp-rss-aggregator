@@ -61,7 +61,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
      *
      * @since [*next-version*]
      */
-    protected function getOptions()
+    public function getOptions()
     {
         return [
             'items_max_num' => [

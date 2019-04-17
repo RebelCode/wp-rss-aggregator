@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 
 use Dhii\Output\TemplateInterface;
+use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 
 /**
  * Interface for objects that represent WP RSS Aggregator feed template types.
@@ -28,4 +29,15 @@ interface FeedTemplateTypeInterface extends TemplateInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Retrieves the options available for this template type.
+     *
+     * @see ParseArgsWithSchemaCapableTrait
+     *
+     * @since [*next-version*]
+     *
+     * @return array An array of option schemas, usable with {@link ParseArgsWithSchemaCapableTrait}.
+     */
+    public function getOptions();
 }

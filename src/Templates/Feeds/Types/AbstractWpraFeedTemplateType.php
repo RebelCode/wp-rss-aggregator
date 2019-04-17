@@ -219,15 +219,4 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     {
         return new ArrayDataSet($ctx);
     }
-
-    /**
-     * Retrieves the schema for template-specific options.
-     *
-     * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
-     *
-     * @since [*next-version*]
-     *
-     * @return array
-     */
-    abstract protected function getOptions();
 }
