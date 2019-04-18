@@ -255,14 +255,14 @@
             'notice' => [
                 'id' => 'settings-notice',
                 'visible' => !wprss_is_new_user(),
-                'title' => __('🎉 The display options for WP RSS Aggregator have now become Templates!', WPRSS_TEXT_DOMAIN),
-                'body' => __('As of version 4.13, we have introduced the concept of templates to replace the general'
+                'title' => __('The display options for WP RSS Aggregator have now become Templates!', WPRSS_TEXT_DOMAIN),
+                'body' => __('As of version 4.13, we have introduced the concept of templates to replace the'
                     . ' display settings that were previously available on this page. These templates will provide you'
                     . ' with much more flexibiltiy and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a>'
                     . ' (for the Classic Editor) and a <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a>, for those using WP 5.0+ with the Gutenberg block editor!'
                     . '<br/><br/>'
-                    . 'Go to “Templates” under “RSS Aggregator” to check it out. Note: The default template is set up using your'
-                    . ' existing general settings, so nothing is lost or changed.', WPRSS_TEXT_DOMAIN) . $etText,
+                    . 'Go to “Templates” under “RSS Aggregator” to set up your templates. Please note that the default '
+                    . 'template you will see there is set up using your existing display options, so nothing is lost or changed.', WPRSS_TEXT_DOMAIN) . $etText,
                 'learnMore' => 'https://www.wprssaggregator.com/core-version-4-13-celebrating-one-million-downloads/'
             ]
         ])

@@ -19,8 +19,8 @@
                 <div class="wpra-update-feature__text">
                     <h3>Introducing Templates</h3>
                     <p>
-                        WP RSS Aggregator’s feed item display has always been limited to a few display options in its
-                        settings. Those days are gone.
+                        WP RSS Aggregator’s feed item display has always been limited to a few display options in the
+                        general settings. Those days are gone.
                     </p>
                     <p>
                         Templates enable you to create as many variations of the feed item display as you wish, all
@@ -29,10 +29,10 @@
                         your homepage, you can do that too.
                     </p>
                     <p>
-                        As of right now, there is still only one template available (the List type). This has replaced 
-                        the “Display Settings” that were previously found under RSS Aggregator > Settings in your 
-                        dashboard. In fact, existing users will notice that their display settings are now replicated in 
-                        the “Default” template.
+                        As of right now, there is still only one template type available (the "List" type). This has
+                        replaced the “Display Settings” that were previously found under RSS Aggregator > Settings in
+                        your dashboard. In fact, existing users will notice that their display settings are now
+                        replicated in the “Default” template.
                     </p>
                     <div class="wpra-inline-form">
                         <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/457-templates" target="wpra-kb-templates">
@@ -52,7 +52,7 @@
                 <div class="wpra-update-feature__text">
                     <h3>A Brand New Gutenberg Block</h3>
                     <p>
-                        Our brand new Gutenberg editor block titled “WP RSS Aggregator Feeds” makes setting up a display
+                        Our brand new Gutenberg block titled “WP RSS Aggregator Feeds” makes setting up a display
                         of your feed items super simple. Search for the block, add it to your page or post, choose the
                         options you want for this particular page or post, and you’re all set.
                     </p>
@@ -62,6 +62,9 @@
                         without ever leacing the edit page. We also introduced a new “Page” option that allows you to 
                         display different pages of a feed's items in multiple columns, boxes, or any other area.
                     </p>
+                    <p>
+                        For those using the classic WordPress editor, we have also updated our TinyMCE button. Look for
+                        the RSS button in the editor and you'll see the same options as those provided in the block.
                     <div class="wpra-inline-form">
                         <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="wpra-kb-block">
                             Learn more
@@ -111,7 +114,7 @@
                     <li>Added: Brand new debug log and logging system that stores logs in the database.</li>
                     <li style="margin-bottom: 16px">Added: Items can now be added to the Blacklist manually.</li>
                     <li>Changed: Refactored a lot of legacy code over to the new modular system.</li>
-                    <li>Changed: General display settings have been moved to the “Default” template type.</li>
+                    <li>Changed: Display settings have been moved to the “Default” template type.</li>
                     <li>Changed: Reorganized the general plugin settings. Advanced options are now under an advanced settings section.</li>
                     <li>Changed: Removed the “Add New” menu item from the RSS Aggregator menu.</li>
                     <li>Changed: The feed sources page now updates every 1 second.</li>
@@ -120,7 +123,7 @@
                     <li style="margin-bottom: 16px">Changed: Updated a lot of setting descriptions and tooltips.</li>
                     <li>Fixed: Import errors no longer “freeze” feed sources in an infinite importing state.</li>
                     <li>Fixed: Some import errors would not be logged due to script timeout or execution errors.</li>
-                    <li>Fixed: Feed to Post was not able to show feed items in the shortcode.</li>
+                    <li>Fixed: Feed to Post was not able to show imported items in the shortcode.</li>
                     <li>Fixed: Deprecation notices on PHP 7.3.</li>
                     <li>Fixed: The “Force feed” option was not working correctly.</li>
                     <li>Fixed: A bug that caused perfectly good RSS feeds to trigger gzip errors.</li>
@@ -138,9 +141,9 @@
         </div>
 
         <div class="wpra-text-center wpra-links">
-            <a href="{{ url.website }}" target="_blank">Visit website</a> |
-            <a href="{{ url.support }}" target="_blank">Contact support</a> |
-            <a href="{{ url.kb }}" target="_blank">Browse knowledge base</a>
+            <a href="{{ url.website }}" target="wpra-website">Visit website</a> |
+            <a href="{{ url.support }}" target="wpra-website-contact">Contact support</a> |
+            <a href="{{ url.kb }}" target="wpra-kb">Browse knowledge base</a>
         </div>
     </div>
 

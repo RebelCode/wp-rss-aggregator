@@ -1,3 +1,4 @@
+@import "./../mixins";
 @import "bottom-panel";
 @import "loading";
 @import "notifications";
@@ -21,9 +22,17 @@
   display: flex;
   align-items: center;
 
+  @include breakpoint (mobile) {
+    display: block;
+  }
+
   &__icon {
     padding-left: 16px;
-    //opacity: .5;
+
+    @include breakpoint (mobile) {
+      padding-left: 0;
+      margin-top: 1rem;
+    }
   }
 }
 
@@ -31,6 +40,10 @@
   display: flex;
   align-items: center;
   padding: 9px 0 4px 0;
+
+  @include breakpoint (mobile) {
+    display: block;
+  }
 
   a {
     &:focus {
@@ -53,6 +66,11 @@
   padding-right: 10px;
   margin-right: 4px;
   border-right: 1px solid #b4b4b4;
+
+  @include breakpoint (mobile) {
+    border-right: none;
+    margin-bottom: .5rem;
+  }
 
   .dashicons {
     margin-right: 8px;
@@ -94,6 +112,16 @@
       flex-basis: 100%;
     }
   }
+
+  @include breakpoint(mobile) {
+    flex-direction: column;
+    .form-input__label {
+      padding-right: 0;
+      padding-bottom: 4px;
+      flex-basis: 100%;
+    }
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -156,6 +184,33 @@
   .column-cb {
     input[type="checkbox"] {
       display: none;
+    }
+  }
+}
+
+.column.name {
+  small {
+    @include breakpoint (mobile) {
+      display: block;
+    }
+  }
+}
+
+.inside {
+  .wpra-preview-link {
+    @include breakpoint (mobile) {
+      float: none;
+    }
+  }
+}
+
+.wpra-postbox-container {
+  @include breakpoint (mobile) {
+    display: flex;
+    flex-direction: column;
+
+    .wpra-postbox-last {
+      order: 100;
     }
   }
 }
