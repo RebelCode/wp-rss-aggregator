@@ -78,12 +78,6 @@ class ChangelogDataSet implements DataSetInterface
                 break;
             }
 
-            // If an empty line
-            if (strlen(trim($buffer)) === 0) {
-                $version = '';
-                continue;
-            }
-
             // If a level-2 heading
             if (strpos($buffer, '## ', 0) === 0) {
                 $currHeading = 2;

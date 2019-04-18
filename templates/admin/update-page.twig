@@ -107,29 +107,10 @@
 
         <div class="postbox">
             <div class="inside">
-                <h3>Other fixes and improvements</h3>
-                <ul class="wpra-updates">
-                    <li>Added: Introduced templates to replace general display options.</li>
-                    <li>Added: Introduced a WP RSS Aggregator Gutenberg block.</li>
-                    <li>Added: Brand new debug log and logging system that stores logs in the database.</li>
-                    <li style="margin-bottom: 16px">Added: Items can now be added to the Blacklist manually.</li>
-                    <li>Changed: Refactored a lot of legacy code over to the new modular system.</li>
-                    <li>Changed: Display settings have been moved to the “Default” template type.</li>
-                    <li>Changed: Reorganized the general plugin settings. Advanced options are now under an advanced settings section.</li>
-                    <li>Changed: Removed the “Add New” menu item from the RSS Aggregator menu.</li>
-                    <li>Changed: The feed sources page now updates every 1 second.</li>
-                    <li>Changed: Updated the TinyMCE dialog options for inserting a shortcode on a page or post (Classic Editor).</li>
-                    <li>Changed: Updated administrator and editor role capabilities, fixing various permission bugs in the process.</li>
-                    <li style="margin-bottom: 16px">Changed: Updated a lot of setting descriptions and tooltips.</li>
-                    <li>Fixed: Import errors no longer “freeze” feed sources in an infinite importing state.</li>
-                    <li>Fixed: Some import errors would not be logged due to script timeout or execution errors.</li>
-                    <li>Fixed: Feed to Post was not able to show imported items in the shortcode.</li>
-                    <li>Fixed: Deprecation notices on PHP 7.3.</li>
-                    <li>Fixed: The “Force feed” option was not working correctly.</li>
-                    <li>Fixed: A bug that caused perfectly good RSS feeds to trigger gzip errors.</li>
-                    <li style="margin-bottom: 16px">Fixed: The “Delete permanently & blacklist” row action was appearing for non-feed-item post types.</li>
-                    <li>Removed: The notice that asks users to leave a review was removed due to various bugs.</li>
-                </ul>
+                <h2>{% trans "Full Changelog" %}</h2>
+                <div class="wpra-updates">
+                    {{ changelog|raw }}
+                </div>
             </div>
         </div>
 

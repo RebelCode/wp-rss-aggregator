@@ -180,19 +180,6 @@ require_once ( WPRSS_INC . 'autoload.php' );
 // Adding autoload paths
 wprss_autoloader()->add('Aventura\\Wprss\\Core', WPRSS_INC);
 wprss_autoloader()->add('Aventura\\Wprss\\Core\\DiagTest', WPRACORE_DIAG_TESTS_DIR);
-// Add tests
-add_filter('wprss_diag_tester_sources', function ($event) {
-    $sources = $event->getData('sources');
-
-    $locator = new \Dhii\SimpleTest\Locator\FilePathLocator();
-    $locator->addPath(new \RecursiveDirectoryIterator(WPRACORE_DIAG_TESTS_DIR, 1));
-    $testSource = new \RebelCode\Wprss\Debug\DiagTest\Model\TestSource($locator->locate(), wprss()->getCode(), WPRSS_CORE_PLUGIN_NAME);
-
-    $sources[$testSource->getCode()] = $testSource;
-    $event->setData('sources', $sources);
-
-    return $event;
-});
 
 /* Only function definitions, no effect! */
 require_once(WPRSS_INC . 'functions.php');
