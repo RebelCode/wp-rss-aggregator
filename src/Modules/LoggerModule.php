@@ -107,6 +107,28 @@ class LoggerModule implements ModuleInterface
                     'feed_id' => '',
                 ];
             },
+            /*
+             * The data set that contains the logger instances for each feed source..
+             *
+             * @since [*next-version*]
+             */
+            'wpra/logging/feed_logger_dataset' => function (ContainerInterface $c) {
+                return new FeedLoggerDataSet($c->get('wpra/logging/feed_logger_factory'));
+            },
+            /*
+             * The factory that creates logger instances for specific feeds.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/logging/feed_logger_factory' => function (ContainerInterface $c) {
+                return function ($feedId) use ($c) {
+                    return new WpdbLogger(
+                        $c->get('wpra/logging/log_table'),
+                        $c->get('wpra/logging/log_table_columns'),
+                        ['feed_id' => $feedId]
+                    );
+                };
+            },
         ];
     }
 
