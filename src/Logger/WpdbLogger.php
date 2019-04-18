@@ -144,7 +144,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
         }
 
         $table = $table->filter([
-            TableInterface::FILTER_ORDER_BY => $this->columns[static::LOG_DATE],
+            TableInterface::FILTER_ORDER_BY => $this->columns[static::LOG_ID],
             TableInterface::FILTER_ORDER => 'DESC',
         ]);
 
