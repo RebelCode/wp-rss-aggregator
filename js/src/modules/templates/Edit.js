@@ -212,77 +212,7 @@ export default {
       </div>
       <div id="poststuff">
         {
-          this.isLoading ? <div class="loading-container"></div> : <Layout class="metabox-holder columns-2">
-            <Sidebar>
-              <Postbox id="template-create"
-                       title={this.model.id ? 'Update Template' : 'Create Template'}
-                       submit={true}
-              >
-                <div class="submitbox" id="submitpost">
-                  {minorActions}
-
-                  <div id="major-publishing-actions">
-                    <div id="delete-action">
-                      {
-                        this.isChanged() ? <a href="#" class="submitdelete" onClick={(e) => {
-                          e.preventDefault()
-                          this.cancelChanges()
-                        }}>
-                          Cancel Changes
-                        </a> : null
-                      }
-                    </div>
-
-                    <div id="publishing-action">
-                      <Button class="button-primary button-large"
-                              loading={this.isSaving}
-                              nativeOnClick={this.save}
-                      >
-                        {this.model.id ? 'Save' : 'Publish'}
-                      </Button>
-                    </div>
-                    <div class="clear"></div>
-                  </div>
-                </div>
-              </Postbox>
-              <Postbox id="template-link-preferences" title="Link Preferences">
-                <p style={{opacity: .65}}>
-                  These options apply to all links within this template.
-                </p>
-                <Input type="checkbox"
-                       label={'Set links as nofollow'}
-                       value={this.model.options.links_nofollow}
-                       onInput={(e) => this.model.options.links_nofollow = e}
-                       title={this.tooltips.options.links_nofollow}
-                />
-                <Input type="select"
-                       label={'Open links behaviour'}
-                       class="form-input--vertical"
-                       value={this.model.options.links_behavior}
-                       options={WpraTemplates.options.links_behavior}
-                       onInput={(e) => this.model.options.links_behavior = e}
-                       title={this.tooltips.options.links_behavior}
-                />
-                <Input type="select"
-                       label={'Video embed link type'}
-                       description={'This will not affect already imported feed items.'}
-                       class="form-input--vertical"
-                       value={this.model.options.links_video_embed_page}
-                       options={WpraTemplates.options.links_video_embed_page}
-                       onInput={(e) => this.model.options.links_video_embed_page = e}
-                       title={this.tooltips.options.links_video_embed_page}
-                />
-              </Postbox>
-              <Postbox id="template-custom-css" title="Custom Style">
-                <Input type="text"
-                       class="form-input--vertical"
-                       label={'Custom CSS class name'}
-                       value={this.model.options.custom_css_classname}
-                       onInput={(e) => this.model.options.custom_css_classname = e}
-                       title={this.tooltips.options.custom_css_classname}
-                />
-              </Postbox>
-            </Sidebar>
+          this.isLoading ? <div class="loading-container"/> : <Layout class="metabox-holder columns-2">
             <Main>
               {noticeBlock}
               <Postbox id="template-details" title="Template Details">
@@ -435,6 +365,77 @@ export default {
                 />
               </Postbox>
             </Main>
+            <Sidebar>
+              <Postbox id="template-create"
+                       title={this.model.id ? 'Update Template' : 'Create Template'}
+                       submit={true}
+                       class={'wpra-postbox-last'}
+              >
+                <div class="submitbox" id="submitpost">
+                  {minorActions}
+
+                  <div id="major-publishing-actions">
+                    <div id="delete-action">
+                      {
+                        this.isChanged() ? <a href="#" class="submitdelete" onClick={(e) => {
+                          e.preventDefault()
+                          this.cancelChanges()
+                        }}>
+                          Cancel Changes
+                        </a> : null
+                      }
+                    </div>
+
+                    <div id="publishing-action">
+                      <Button class="button-primary button-large"
+                              loading={this.isSaving}
+                              nativeOnClick={this.save}
+                      >
+                        {this.model.id ? 'Save' : 'Publish'}
+                      </Button>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              </Postbox>
+              <Postbox id="template-link-preferences" title="Link Preferences">
+                <p style={{opacity: .65}}>
+                  These options apply to all links within this template.
+                </p>
+                <Input type="checkbox"
+                       label={'Set links as nofollow'}
+                       value={this.model.options.links_nofollow}
+                       onInput={(e) => this.model.options.links_nofollow = e}
+                       title={this.tooltips.options.links_nofollow}
+                />
+                <Input type="select"
+                       label={'Open links behaviour'}
+                       class="form-input--vertical"
+                       value={this.model.options.links_behavior}
+                       options={WpraTemplates.options.links_behavior}
+                       onInput={(e) => this.model.options.links_behavior = e}
+                       title={this.tooltips.options.links_behavior}
+                />
+                <Input type="select"
+                       label={'Video embed link type'}
+                       description={'This will not affect already imported feed items.'}
+                       class="form-input--vertical"
+                       value={this.model.options.links_video_embed_page}
+                       options={WpraTemplates.options.links_video_embed_page}
+                       onInput={(e) => this.model.options.links_video_embed_page = e}
+                       title={this.tooltips.options.links_video_embed_page}
+                />
+              </Postbox>
+              <Postbox id="template-custom-css" title="Custom Style">
+                <Input type="text"
+                       class="form-input--vertical"
+                       label={'Custom CSS class name'}
+                       value={this.model.options.custom_css_classname}
+                       onInput={(e) => this.model.options.custom_css_classname = e}
+                       title={this.tooltips.options.custom_css_classname}
+                />
+              </Postbox>
+            </Sidebar>
           </Layout>
         }
       </div>

@@ -14,6 +14,7 @@ export default {
       columns: {
         name: {
           label: ('Template Name'),
+          class: 'column-primary'
         },
         style: {
           label: ('Template Type'),
