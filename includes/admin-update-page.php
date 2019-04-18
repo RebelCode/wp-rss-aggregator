@@ -34,6 +34,9 @@ function wprss_render_update_page()
 
     wp_enqueue_style('update-page', WPRSS_APP_CSS . 'update.min.css');
 
+    $changelog = wpra_get('core/changelog_dataset');
+    $parsedown = wpra_get('parsedown');
+
     echo wprss_render_template('admin/update-page.twig', array(
         'title' => __('What\'s new in WP RSS Aggregator 4.13', WPRSS_TEXT_DOMAIN),
         'version' => WPRSS_VERSION,
@@ -48,6 +51,7 @@ function wprss_render_update_page()
         'path' => array(
             'images' => WPRSS_IMG,
         ),
+        'changelog' => $parsedown->text($changelog['4.13']['raw'])
     ));
 }
 
