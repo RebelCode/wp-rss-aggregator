@@ -27,11 +27,9 @@
 	 * @since 3.2
 	 */
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
-	    $feed_post = get_post( $feed_ID );
-	    $feed_name = $feed_post->post_title;
-        $logger = wpra_get_logger();
+        $logger = wpra_get_logger($feed_ID);
 
-		$logger->info('{0}: Starting import', [$feed_name]);
+		$logger->info('Starting import');
 
 		global $wprss_importing_feed;
 		$wprss_importing_feed = $feed_ID;
@@ -39,7 +37,7 @@
 
 		// Check if the feed source is active.
 		if ( wprss_is_feed_source_active( $feed_ID ) === FALSE && wprss_feed_source_force_next_fetch( $feed_ID ) === FALSE ) {
-            $logger->info('{0}: Feed is not active. Finished', [$feed_name]);
+            $logger->info('Feed is not active. Finished');
 			return;
 		}
 
@@ -51,7 +49,7 @@
 		// Get the feed source URL from post meta, and filter it
 		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
 		$feed_url = apply_filters( 'wprss_feed_source_url', $feed_url, $feed_ID );
-		$logger->debug('{0}: Feed source URL: {1}', [$feed_name, $feed_url]);
+		$logger->debug('Feed source URL: {0}', [$feed_url]);
 
 		// Get the feed limit from post meta
 		$feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
@@ -67,11 +65,11 @@
 			else $feed_limit = $global_limit;
 		}
 
-		$logger->debug('{0}: Feed item import limit: {1}', [$feed_name, $feed_limit]);
+		$logger->debug('Feed item import limit: {0}', [$feed_limit]);
 
 		// Filter the URL for validaty
 		if ( ! wprss_validate_url( $feed_url ) ) {
-		    $logger->error('{0}: Feed URL is not valid!', [$feed_name]);
+		    $logger->error('Feed URL is not valid!');
         } else {
 			// Get the feed items from the source
 			$items = wprss_get_feed_items( $feed_url, $feed_ID );
@@ -88,8 +86,7 @@
                     $items_to_insert = $items;
                 } else {
                     $items_to_insert = array_slice( $items, 0, $feed_limit );
-                    $logger->info('{0}: Fetched {1} items. Got {2} items after applying limit', [
-                        $feed_name,
+                    $logger->info('Fetched {0} items. Got {1} items after applying limit', [
                         count($items),
                         count($items_to_insert)
                     ]);
@@ -115,11 +112,8 @@
 			foreach ( $items_to_insert as $item ) {
 			    $item_title = $item->get_title();
 
-				$logger->debug('{0}: Checking item "{1}"', [$feed_name, $item_title]);
-				$logger->debug('{0}: Original item permalink: {1}', [$feed_name, $item->get_permalink()]);
-
 				$permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
-				$logger->debug('{0}: Filtered item permalink: {1}', [$feed_name, $permalink]);
+				$logger->debug('Checking item "{0}"', [$item_title]);
 
 				// Check if not blacklisted and not already imported
 				$is_blacklisted = wprss_is_blacklisted( $permalink );
@@ -128,20 +122,19 @@
 
 				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
 					$new_items[] = $item;
-					$logger->info('{0}: Item "{1}" is OK', [$feed_name, $item_title]);
 
 					if ( $unique_titles ) {
 						$existing_titles[$item->get_title()] = 1;
 					}
 				} else {
 					if ( $is_blacklisted ) {
-					    $logger->notice('{0}: Item "{1}" is blacklisted', [$feed_name, $item_title]);
+					    $logger->debug('Item "{0}" is blacklisted', [$item_title]);
 					}
 					if ( $permalink_exists ) {
-                        $logger->notice('{0}: Item "{1}" already exists in the database', [$feed_name, $item_title]);
+                        $logger->debug('Item "{0}" already exists in the database', [$item_title]);
 					}
 					if ( $title_exists ) {
-                        $logger->notice('{0}: An item with the title "{1}" already exists', [$feed_name, $item_title]);
+                        $logger->debug('An item with the title "{0}" already exists', [$item_title]);
 					}
 				}
 			}
@@ -150,13 +143,13 @@
 			$new_count = count( $new_items );
 
 			if ( $new_count !== $original_count ) {
-			    $logger->debug('{0}: {1} will be skipped', [$feed_name, $original_count - $new_count]);
+			    $logger->debug('{0} will be skipped', [$original_count - $new_count]);
 			}
 
 			$items_to_insert = $new_items;
             $per_import = wprss_get_general_setting('limit_feed_items_per_import');
             if (!empty($per_import)) {
-                $logger->debug('{0}: Applying per-import item limit of {1} items', [$feed_name, $per_import]);
+                $logger->debug('Applying per-import item limit of {0} items', [$per_import]);
                 $items_to_insert = array_slice( $items_to_insert, 0, $per_import );
             }
 
@@ -187,10 +180,7 @@
 				}
 
 				if ($num_items_deleted > 0) {
-                    $logger->info('{0}: Deleted the oldest {1} items from the database', [
-                        $feed_name,
-                        $num_items_deleted
-                    ]);
+                    $logger->info('Deleted the oldest {0} items from the database', [$num_items_deleted]);
                 }
 			}
 
@@ -208,12 +198,12 @@
 		if ( $next_scheduled !== '' ) {
 			wprss_feed_source_update_start_schedule( $feed_ID );
 			delete_post_meta( $feed_ID, 'wprss_reschedule_event' );
-			$logger->info('{0}: Scheduled next update', [$feed_name]);
+			$logger->info('Scheduled next update');
 		}
 
 		wprss_flag_feed_as_idle( $feed_ID );
 
-		$logger->info('{0}: Imported completed', [$feed_name]);
+		$logger->info('Imported completed!');
 
         $wprss_importing_feed = null;
 	}
@@ -243,8 +233,7 @@
 			return $feed->get_items();
 		}
 
-		wpra_get_logger()->error('{0}: Failed to fetch the feed from {1}. {2}', [
-		    get_the_title($source),
+		wpra_get_logger($source)->error('Failed to fetch the feed from {0}. Error: {1}', [
             $feed_url,
             $feed->get_error_message()
         ]);
@@ -494,8 +483,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 	 */
 	function wprss_items_insert_post( $items, $feed_ID ) {
 		update_post_meta( $feed_ID, 'wprss_feed_is_updating', $update_started_at = time() );
-		$feed_name = get_the_title($feed_ID);
-		$logger = wpra_get_logger();
+		$logger = wpra_get_logger($feed_ID);
 
 		// Gather the permalinks of existing feed item's related to this feed source
 		$existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
@@ -509,10 +497,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
             $permalink = $item->get_permalink(); // Link or enclosure URL
             $permalink = htmlspecialchars_decode( $permalink ); // SimplePie encodes HTML special chars
 
-            $logger->info('{0}: Importing item "{1}"', [
-                $feed_name,
-                $item->get_title(),
-            ]);
+            $logger->debug('Beginning import for "{0}"', [$item->get_title()]);
 
 			$permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
@@ -523,8 +508,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 				if ( $enclosure->get_link() ) {
 					$enclosure_url = $enclosure->get_link();
 
-                    $logger->debug('{0}: Item "{1}" has an enclosure link: {2}', [
-                        $feed_name,
+                    $logger->debug('Item "{0}" has an enclosure link: {1}', [
                         $item->get_title(),
                         $enclosure_url
                     ]);
@@ -577,10 +561,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 					if ( defined('ICL_LANGUAGE_CODE') ) {
 						$_POST['icl_post_language'] = $language_code = ICL_LANGUAGE_CODE;
 
-						$logger->debug('{0}: Detected WPML with language code {1]', [
-						    $feed_name,
-                            $language_code
-                        ]);
+						$logger->debug('Detected WPML with language code {0]', [$language_code]);
 					}
 
 					// Create and insert post object into the DB
@@ -609,10 +590,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 					else {
 						update_post_meta( $feed_ID, 'wprss_error_last_import', 'An error occurred while inserting a feed item into the database.' );
 
-						$logger->error('{0}: Failed to save item "{1}" into the database', [
-						    $feed_name,
-                            $item->get_title()
-                        ]);
+						$logger->error('Failed to save item "{0}" into the database', [$item->get_title()]);
 					}
 				}
 				// If the item is TRUE, then a hook function in the filter inserted the item.
@@ -623,16 +601,11 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 			}
 
 			if (is_object($item) && !is_wp_error($item)) {
-                $logger->info('{0}: Item "{1}" saved successfully', [
-                    $feed_name,
-                    $item->get_title()
-                ]);
+                $logger->info('Imported "{0}"', [$item->get_title()]);
             }
 		}
 
 		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
-
-        $logger->info('{0}: Finished saving all items into the database', [$feed_name,]);
 	}
 
 
@@ -757,10 +730,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
         );
         // Save the error in the feed source's meta and the plugin log
         update_post_meta($feed_ID, 'wprss_error_last_import', $msg);
-        wpra_get_logger()->error('{feed} {msg}', [
-            'feed' => get_the_title($feed_ID),
-            'msg' => $msg
-        ]);
+        wpra_get_logger($feed_ID)->error($msg);
 	}
 
     /**
@@ -803,8 +773,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
                 return wprss_items_sort_compare_items($itemA, $itemB, $comparators, $feedSource);
             });
         } catch (\InvalidArgumentException $e) {
-            wpra_get_logger()->warning('{0}: Encountered an error while sorting the database items: {1}', [
-                get_the_title($feedSource),
+            wpra_get_logger($feedSource)->warning('Encountered an error while sorting the database items: {0}', [
                 $e->getMessage()
             ]);
         }
