@@ -251,6 +251,7 @@ export default {
                 <Input type="number"
                        label={'Title maximum length'}
                        value={this.model.options.title_max_length || ''}
+                       placeholder={'No limit'}
                        onInput={(e) => this.model.options.title_max_length = e}
                        title={this.tooltips.options.title_max_length}
                 />
