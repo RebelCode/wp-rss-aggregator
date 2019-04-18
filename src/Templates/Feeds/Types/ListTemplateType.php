@@ -152,6 +152,10 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
                 'options' => ['default', 'numbers'],
                 'default' => 'default',
             ],
+            'className' => [
+                'filter' => FILTER_DEFAULT,
+                'default' => '',
+            ],
         ];
     }
 }

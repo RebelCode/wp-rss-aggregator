@@ -62,6 +62,9 @@ class GutenbergBlockModule implements ModuleInterface
                     'source' => [
                         'type' => 'string'
                     ],
+                    'className' => [
+                        'type' => 'string'
+                    ],
                 ];
             },
 
