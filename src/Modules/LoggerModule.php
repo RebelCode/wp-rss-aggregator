@@ -8,6 +8,7 @@ use RebelCode\Wpra\Core\Database\WpdbTable;
 use RebelCode\Wpra\Core\Logger\FeedLoggerDataSet;
 use RebelCode\Wpra\Core\Logger\WpdbLogger;
 use RebelCode\Wpra\Core\Modules\Handlers\Logger\TruncateLogsCronHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\ScheduleCronJobHandler;
 
 /**
  * A module that adds a logger to WP RSS Aggregator.
@@ -132,6 +133,20 @@ class LoggerModule implements ModuleInterface
                 };
             },
             /*
+             * The scheduler for the log truncation cron job.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/logging/trunc_logs_cron/scheduler' => function (ContainerInterface $c) {
+                return new ScheduleCronJobHandler(
+                    $c->get('wpra/logging/trunc_logs_cron/event'),
+                    $c->get('wpra/logging/trunc_logs_cron/handler'),
+                    $c->get('wpra/logging/trunc_logs_cron/first_run'),
+                    $c->get('wpra/logging/trunc_logs_cron/frequency'),
+                    $c->get('wpra/logging/trunc_logs_cron/args')
+                );
+            },
+            /*
              * The event for the log truncation cron job.
              *
              * @since [*next-version*]'
@@ -146,6 +161,14 @@ class LoggerModule implements ModuleInterface
              */
             'wpra/logging/trunc_logs_cron/frequency' => function (ContainerInterface $c) {
                 return 'daily';
+            },
+            /*
+             * When to first run the log truncation cron job after it's been scheduled.
+             *
+             * @since [*next-version*]'
+             */
+            'wpra/logging/trunc_logs_cron/first_run' => function (ContainerInterface $c) {
+                return time() + DAY_IN_SECONDS;
             },
             /*
              * The number of days to use as a maximum age for logs during the log truncation cron job.
@@ -167,6 +190,14 @@ class LoggerModule implements ModuleInterface
                     $c->get('wpra/logging/trunc_logs_cron/log_max_age_days')
                 );
             },
+            /*
+             * The arguments to pass to the log truncation cron job handler.
+             *
+             * @since [*next-version*]'
+             */
+            'wpra/logging/trunc_logs_cron/args' => function (ContainerInterface $c) {
+                return [];
+            },
         ];
     }
 
@@ -187,21 +218,7 @@ class LoggerModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        $truncLogsEvent = $c->get('wpra/logging/trunc_logs_cron/event');
-        $truncLogsFreq = $c->get('wpra/logging/trunc_logs_cron/frequency');
-        $truncLogsHandler = $c->get('wpra/logging/trunc_logs_cron/handler');
-
-        // Ensure the truncate logs cron job is scheduled
-        add_action( 'init', function () use ($truncLogsEvent, $truncLogsFreq) {
-            if (wp_next_scheduled($truncLogsEvent)) {
-                return;
-            }
-
-            // Schedule to run daily starting from tomorrow
-            wp_schedule_event(time() + DAY_IN_SECONDS, $truncLogsFreq, $truncLogsEvent);
-        });
-
-        // Attach the truncate logs cron handler to the event
-        add_action($truncLogsEvent, $truncLogsHandler);
+        // Hook in the scheduler for the truncate logs cron job
+        add_action('init', $c->get('wpra/logging/trunc_logs_cron/scheduler'));
     }
 }
