@@ -62,21 +62,21 @@
   padding: 0 18px 12px !important;
 }
 
-.wpra-update-feature__text h3 {
-  margin-top: 8px;
+.wpra-update-feature__text {
+  padding-right: 12px;
+  h3 {
+    margin-top: 8px;
+  }
 }
 
 .wpra-update-feature__image {
   width: 55rem;
   overflow: hidden;
   position: relative;
-  margin: -11px -12px -23px 0;
+  margin: -11px -18px -23px 0;
 
   img {
     max-height: 29rem;
     position: absolute;
-    bottom: 12px;
-    right: 12px;
-    filter: drop-shadow(0px 2px 3px rgba(0,0,0,.125));
   }
 }

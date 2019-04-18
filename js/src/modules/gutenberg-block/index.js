@@ -119,7 +119,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             min={1}
             value={props.attributes.limit || 15}
             onChange={(value) => {
-              props.setAttributes({limit: value || 15})
+              props.setAttributes({limit: parseInt(value) || 15})
             }}
           />
           <ToggleControl
@@ -136,7 +136,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             min={1}
             value={props.attributes.page || 1}
             onChange={(value) => {
-              props.setAttributes({page: value || 1})
+              props.setAttributes({page: parseInt(value) || 1})
             }}
           />
         </PanelBody>
