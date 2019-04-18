@@ -12,6 +12,7 @@ use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\HidePublicTemplateContent
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\PreviewTemplateRedirectHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\RenderTemplateContentHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\ReSaveTemplateHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
@@ -515,6 +516,17 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/preview_template_request_param' => function (ContainerInterface $c) {
                 return 'wpra_preview_template';
             },
+            /*
+             * The handler that synchronizes the default template with the display settings.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/handlers/sync_default_template' => function (ContainerInterface $c) {
+                return new ReSaveTemplateHandler(
+                    $c->get('wpra/templates/feeds/collection'),
+                    $c->get('wpra/templates/feeds/default_template')
+                );
+            },
         ];
     }
 
@@ -611,5 +623,8 @@ class FeedTemplatesModule implements ModuleInterface
 
         // Hooks in the handler that listens to template preview requests
         add_action('init', $c->get('wpra/templates/feeds/handlers/preview_template_request'));
+
+        // After settings have been reset, the default template and the display settings need to be synchronized
+        add_action('wprss_after_restore_settings', $c->get('wpra/templates/feeds/handlers/sync_default_template'));
     }
 }
