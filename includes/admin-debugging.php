@@ -228,6 +228,7 @@ use Psr\Log\LogLevel;
                             <tr class="wpra-log-<?= $log['level'] ?>">
                                 <td class="wpra-log-date"><?= $log['date'] ?></td>
                                 <td class="wpra-log-level"><?= ucfirst($log['level']) ?></td>
+                                <td class="wpra-log-feed"><?= get_the_title(ucfirst($log['feed_id'])) ?></td>
                                 <td class="wpra-log-message"><?= $log['message'] ?></td>
                             </tr>
                         <?php endforeach; ?>
