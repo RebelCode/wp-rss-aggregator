@@ -9,7 +9,9 @@ $breakpoint-large: 68em; // 960px
   }
   @else if $point == mobile {
     @media (max-width: $breakpoint-small)  { @content ; }
-
+  }
+  @else if $point == not-mobile {
+    @media (min-width: $breakpoint-small)  { @content ; }
   }
 }
 
