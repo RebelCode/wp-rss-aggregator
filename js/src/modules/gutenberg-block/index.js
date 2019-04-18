@@ -85,7 +85,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
           <MultipleSelectControl
             label={props.attributes.isAll ? __('Feed Sources to Exclude') : __('Feed Sources to Show')}
             key={'select'}
-            placeholder={__('Add feed sources')}
+            help={__('Start typing to search feed sources by name')}
             value={((props.attributes.isAll ? props.attributes.exclude : props.attributes.source) || '').split(',').map(item => parseInt(item))}
             onChange={(selected) => {
               selected = selected.join(',')

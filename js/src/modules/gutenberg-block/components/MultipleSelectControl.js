@@ -3,6 +3,7 @@ import {
   FormTokenField,
   Placeholder,
   Spinner,
+  BaseControl,
 } from '@wordpress/components'
 
 export default class MultipleSelectControl extends Component {
@@ -40,41 +41,45 @@ export default class MultipleSelectControl extends Component {
         <Spinner/>
       </Placeholder>
     }
-    return <FormTokenField
-      label={this.props.label || ''}
-      placeholder={this.props.placeholder || ''}
-      value={this.props.value.map(function (id) {
-        return items.find(item => item.value === id)
-      }).filter(item => !!item)}
-      suggestions={this.state.items.map(function (item) {
-        item.toLocaleLowerCase = function () {
-          return item.title.toLocaleLowerCase()
-        }
-        item.toString = function () {
-          return item.title
-        }
-        return item
-      })}
-      displayTransform={function (item) {
-        if ('number' === typeof item) {
-          item = items.find(function (iteratedItem) {
-            return iteratedItem.value === item
-          })
-        }
-        if ('object' === typeof item) {
-          return item.title
-        }
-        return item
-      }}
-      saveTransform={function (token) {
-        return token
-      }}
-      onChange={function (tokens) {
-        setState({tokens})
-        onChange(tokens.map(function (item) {
-          return item.value
-        }))
-      }}
-    />
+    return <BaseControl
+      help={this.props.help || ''}
+    >
+      <FormTokenField
+        label={this.props.label || ''}
+        placeholder={this.props.placeholder || ''}
+        value={this.props.value.map(function (id) {
+          return items.find(item => item.value === id)
+        }).filter(item => !!item)}
+        suggestions={this.state.items.map(function (item) {
+          item.toLocaleLowerCase = function () {
+            return item.title.toLocaleLowerCase()
+          }
+          item.toString = function () {
+            return item.title
+          }
+          return item
+        })}
+        displayTransform={function (item) {
+          if ('number' === typeof item) {
+            item = items.find(function (iteratedItem) {
+              return iteratedItem.value === item
+            })
+          }
+          if ('object' === typeof item) {
+            return item.title
+          }
+          return item
+        }}
+        saveTransform={function (token) {
+          return token
+        }}
+        onChange={function (tokens) {
+          setState({tokens})
+          onChange(tokens.map(function (item) {
+            return item.value
+          }))
+        }}
+      />
+    </BaseControl>
   }
 }
