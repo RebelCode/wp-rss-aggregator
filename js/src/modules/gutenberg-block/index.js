@@ -19,7 +19,7 @@ import {
 import MultipleSelectControl from './components/MultipleSelectControl'
 
 registerBlockType('wpra-shortcode/wpra-shortcode', {
-  title: __('WP RSS Aggregator feeds'),
+  title: __('WP RSS Aggregator Feeds'),
   description: __('Display feed items imported using WP RSS Aggregator.'),
   icon: 'rss',
   category: 'widgets',
