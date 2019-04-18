@@ -443,8 +443,7 @@
      * @since 3.0
      */
     function wprss_setting_cron_interval_callback( $field ) {
-        $options = get_option( 'wprss_settings_general' );  
-        $current = $options['cron_interval'];
+        $current = wprss_get_general_setting('cron_interval');
 
         $schedules = wprss_get_schedules();    
         // Set the allowed Cron schedules, we don't want any intervals that can lead to issues with server load 
@@ -805,8 +804,7 @@
      * @since 3.0
      */
     function wprss_settings_general_validate( $input ) {
-        $options = get_option( 'wprss_settings_general' );  
-        $current_cron_interval = $options['cron_interval'];
+        $current_cron_interval = wprss_get_general_setting( 'cron_interval');
 
         // Create our array for storing the validated options
         $output = array();
@@ -854,7 +852,7 @@
 		else
 			$output['video_link'] = 'true';
 		
-        if ( $input['cron_interval'] != $current_cron_interval ) {
+        if ( isset($input['cron_interval']) && $input['cron_interval'] != $current_cron_interval ) {
             wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );    
             wp_schedule_event( time(), $input['cron_interval'], 'wprss_fetch_all_feeds_hook' );
         }

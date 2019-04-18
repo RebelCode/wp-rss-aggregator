@@ -12,6 +12,7 @@ use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\HidePublicTemplateContent
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\PreviewTemplateRedirectHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\RenderAdminTemplatesPageHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\RenderTemplateContentHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\ReSaveTemplateHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterSubMenuPageHandler;
@@ -189,18 +190,18 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/cpt/labels' => function (ContainerInterface $c) {
                 return [
-                    'name' => __('Templates', WPRSS_TEXT_DOMAIN),
-                    'singular_name' => __('Template', WPRSS_TEXT_DOMAIN),
-                    'add_new' => __('Add New', WPRSS_TEXT_DOMAIN),
-                    'all_items' => __('Templates', WPRSS_TEXT_DOMAIN),
-                    'add_new_item' => __('Add New Template', WPRSS_TEXT_DOMAIN),
-                    'edit_item' => __('Edit Template', WPRSS_TEXT_DOMAIN),
-                    'new_item' => __('New Template', WPRSS_TEXT_DOMAIN),
-                    'view_item' => __('View Template', WPRSS_TEXT_DOMAIN),
-                    'search_items' => __('Search Feeds', WPRSS_TEXT_DOMAIN),
-                    'not_found' => __('No Templates Found', WPRSS_TEXT_DOMAIN),
-                    'not_found_in_trash' => __('No Templates Found In Trash', WPRSS_TEXT_DOMAIN),
-                    'menu_name' => __('Templates', WPRSS_TEXT_DOMAIN),
+                    'name' => __('Templates', 'wprss'),
+                    'singular_name' => __('Template', 'wprss'),
+                    'add_new' => __('Add New', 'wprss'),
+                    'all_items' => __('Templates', 'wprss'),
+                    'add_new_item' => __('Add New Template', 'wprss'),
+                    'edit_item' => __('Edit Template', 'wprss'),
+                    'new_item' => __('New Template', 'wprss'),
+                    'view_item' => __('View Template', 'wprss'),
+                    'search_items' => __('Search Feeds', 'wprss'),
+                    'not_found' => __('No Templates Found', 'wprss'),
+                    'not_found_in_trash' => __('No Templates Found In Trash', 'wprss'),
+                    'menu_name' => __('Templates', 'wprss'),
                 ];
             },
             /*
@@ -284,12 +285,12 @@ class FeedTemplatesModule implements ModuleInterface
                         'pagination_enabled' => true,
                         'pagination_type' => 'default',
                         'source_enabled' => true,
-                        'source_prefix' => __('Source:', WPRSS_TEXT_DOMAIN),
+                        'source_prefix' => __('Source:', 'wprss'),
                         'source_is_link' => true,
                         'author_enabled' => false,
-                        'author_prefix' => __('By', WPRSS_TEXT_DOMAIN),
+                        'author_prefix' => __('By', 'wprss'),
                         'date_enabled' => true,
-                        'date_prefix' => __('Published on:', WPRSS_TEXT_DOMAIN),
+                        'date_prefix' => __('Published on:', 'wprss'),
                         'date_format' => 'Y-m-d',
                         'date_use_time_ago' => false,
                         'links_behavior' => 'blank',
@@ -311,25 +312,25 @@ class FeedTemplatesModule implements ModuleInterface
                     'name' => false,
                     'type' => false,
                     'options' => [
-                        'items_max_num' => __('The maximum number of feed items to display when using the shortcode. This enables pagination if set to a number smaller than the number of items to be displayed.', WPRSS_TEXT_DOMAIN),
-                        'title_max_length' => __('Set the maximum number of characters to show for feed item titles.<hr/><em>Leave empty for no limit.</em>', WPRSS_TEXT_DOMAIN),
-                        'title_is_link' => __('Check this box to make the feed item titles link to the original article.', WPRSS_TEXT_DOMAIN),
-                        'pagination_enabled' => __('Enable this option to show the pagination beneath feed items.', WPRSS_TEXT_DOMAIN),
-                        'pagination_type' =>  __('The type of pagination to use when showing feed items on multiple pages. The first shows two links, "Older" and "Newer", which allow you to navigate through the pages. The second shows links for all the pages, together with links for the next and previous pages.', WPRSS_TEXT_DOMAIN),
-                        'source_enabled' => __('Enable this option to show the feed source name for each feed item.', WPRSS_TEXT_DOMAIN),
-                        'source_prefix' => __('Enter the text that you want to show before the source name. A space is automatically added between this text and the feed source name.', WPRSS_TEXT_DOMAIN),
-                        'source_is_link' => __('Enable this option to link the feed source name to the RSS feed\'s source site.', WPRSS_TEXT_DOMAIN),
-                        'author_enabled' => __('Check this box to show the author for each feed item, if it is available.', WPRSS_TEXT_DOMAIN),
-                        'author_prefix' => __('Enter the text that you want to show before the author name. A space is automatically added between this text and the author name.', WPRSS_TEXT_DOMAIN),
-                        'date_enabled' => __('Enable this to show the feed item\'s date.', WPRSS_TEXT_DOMAIN),
-                        'date_prefix' => __('Enter the text that you want to show before the feed item date. A space is automatically added between this text and the date.', WPRSS_TEXT_DOMAIN),
-                        'date_format' => __('The format to use for the feed item dates, as a PHP date format.', WPRSS_TEXT_DOMAIN),
-                        'date_use_time_ago' => __('Enable this option to show the elapsed time from the feed item\'s date and time to the present time. <em>Eg. 2 hours ago</em>', WPRSS_TEXT_DOMAIN),
-                        'links_behavior' => __('Choose how you want links to be opened. This applies to the feed item title and the source link.', WPRSS_TEXT_DOMAIN),
-                        'links_nofollow' => __('Enable this option to set all links displayed as "NoFollow".<hr/>"Nofollow" provides a way to tell search engines to <em>not</em> follow certain links, such as links to feed items in this case.', WPRSS_TEXT_DOMAIN),
-                        'links_video_embed_page' => __('For feed items from YouTube, Vimeo or Dailymotion, you can choose whether you want to have the items link to the original page link, or a link to the embedded video player only.', WPRSS_TEXT_DOMAIN),
-                        'bullets_enabled' => __('Enable this option to show bullets feed items.', WPRSS_TEXT_DOMAIN),
-                        'bullet_type' => __('The bullet type to use for feed items.', WPRSS_TEXT_DOMAIN),
+                        'items_max_num' => __('The maximum number of feed items to display when using the shortcode. This enables pagination if set to a number smaller than the number of items to be displayed.', 'wprss'),
+                        'title_max_length' => __('Set the maximum number of characters to show for feed item titles.<hr/><em>Leave empty for no limit.</em>', 'wprss'),
+                        'title_is_link' => __('Check this box to make the feed item titles link to the original article.', 'wprss'),
+                        'pagination_enabled' => __('Enable this option to show the pagination beneath feed items.', 'wprss'),
+                        'pagination_type' =>  __('The type of pagination to use when showing feed items on multiple pages. The first shows two links, "Older" and "Newer", which allow you to navigate through the pages. The second shows links for all the pages, together with links for the next and previous pages.', 'wprss'),
+                        'source_enabled' => __('Enable this option to show the feed source name for each feed item.', 'wprss'),
+                        'source_prefix' => __('Enter the text that you want to show before the source name. A space is automatically added between this text and the feed source name.', 'wprss'),
+                        'source_is_link' => __('Enable this option to link the feed source name to the RSS feed\'s source site.', 'wprss'),
+                        'author_enabled' => __('Check this box to show the author for each feed item, if it is available.', 'wprss'),
+                        'author_prefix' => __('Enter the text that you want to show before the author name. A space is automatically added between this text and the author name.', 'wprss'),
+                        'date_enabled' => __('Enable this to show the feed item\'s date.', 'wprss'),
+                        'date_prefix' => __('Enter the text that you want to show before the feed item date. A space is automatically added between this text and the date.', 'wprss'),
+                        'date_format' => __('The format to use for the feed item dates, as a PHP date format.', 'wprss'),
+                        'date_use_time_ago' => __('Enable this option to show the elapsed time from the feed item\'s date and time to the present time. <em>Eg. 2 hours ago</em>', 'wprss'),
+                        'links_behavior' => __('Choose how you want links to be opened. This applies to the feed item title and the source link.', 'wprss'),
+                        'links_nofollow' => __('Enable this option to set all links displayed as "NoFollow".<hr/>"Nofollow" provides a way to tell search engines to <em>not</em> follow certain links, such as links to feed items in this case.', 'wprss'),
+                        'links_video_embed_page' => __('For feed items from YouTube, Vimeo or Dailymotion, you can choose whether you want to have the items link to the original page link, or a link to the embedded video player only.', 'wprss'),
+                        'bullets_enabled' => __('Enable this option to show bullets feed items.', 'wprss'),
+                        'bullet_type' => __('The bullet type to use for feed items.', 'wprss'),
                         'custom_css_classname' => false,
                     ],
                 ];
@@ -342,26 +343,26 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/template_options' => function (ContainerInterface $c) {
                 return [
                     'type' => [
-                        '__built_in' => __('List', WPRSS_TEXT_DOMAIN),
-                        'list' => __('List', WPRSS_TEXT_DOMAIN),
-                        // 'grid' => __('Grid', WPRSS_TEXT_DOMAIN),
+                        '__built_in' => __('List', 'wprss'),
+                        'list' => __('List', 'wprss'),
+                        // 'grid' => __('Grid', 'wprss),
                     ],
                     'links_behavior' => [
-                        'self' => __('Open in same tab/window', WPRSS_TEXT_DOMAIN),
-                        'blank' => __('Open in a new tab', WPRSS_TEXT_DOMAIN),
-                        'lightbox' => __('Open in a lightbox', WPRSS_TEXT_DOMAIN),
+                        'self' => __('Open in same tab/window', 'wprss'),
+                        'blank' => __('Open in a new tab', 'wprss'),
+                        'lightbox' => __('Open in a lightbox', 'wprss'),
                     ],
                     'pagination_type' => [
-                        'default' => __('Older/Newer', WPRSS_TEXT_DOMAIN),
-                        'numbered' => __('Numbered', WPRSS_TEXT_DOMAIN),
+                        'default' => __('Older/Newer', 'wprss'),
+                        'numbered' => __('Numbered', 'wprss'),
                     ],
                     'bullet_type' => [
-                        'default' => __('Bullets', WPRSS_TEXT_DOMAIN),
-                        'numbers' => __('Numbers', WPRSS_TEXT_DOMAIN),
+                        'default' => __('Bullets', 'wprss'),
+                        'numbers' => __('Numbers', 'wprss'),
                     ],
                     'links_video_embed_page' => [
-                        'false' => __('Original page link', WPRSS_TEXT_DOMAIN),
-                        'true' => __('Embedded video player link', WPRSS_TEXT_DOMAIN),
+                        'false' => __('Original page link', 'wprss'),
+                        'true' => __('Embedded video player link', 'wprss'),
                     ],
                 ];
             },
@@ -515,6 +516,17 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/preview_template_request_param' => function (ContainerInterface $c) {
                 return 'wpra_preview_template';
             },
+            /*
+             * The handler that synchronizes the default template with the display settings.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/handlers/sync_default_template' => function (ContainerInterface $c) {
+                return new ReSaveTemplateHandler(
+                    $c->get('wpra/templates/feeds/collection'),
+                    $c->get('wpra/templates/feeds/default_template')
+                );
+            },
         ];
     }
 
@@ -611,5 +623,8 @@ class FeedTemplatesModule implements ModuleInterface
 
         // Hooks in the handler that listens to template preview requests
         add_action('init', $c->get('wpra/templates/feeds/handlers/preview_template_request'));
+
+        // After settings have been reset, the default template and the display settings need to be synchronized
+        add_action('wprss_after_restore_settings', $c->get('wpra/templates/feeds/handlers/sync_default_template'));
     }
 }

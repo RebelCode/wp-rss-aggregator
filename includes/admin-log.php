@@ -20,11 +20,20 @@ define('WPRSS_LOG_LEVEL_DEFAULT', WPRSS_LOG_LEVEL_NONE);
  *
  * @since [*next-version*]
  *
+ * @param int|string|null $feed_id Optional feed ID to retrieve the logger for that feed source.
+ *
  * @return LoggerInterface|ClearableLoggerInterface|LogReaderInterface
  */
-function wpra_get_logger()
+function wpra_get_logger($feed_id = null)
 {
-    return wpra_container()->get('wpra/logging/logger');
+    if ($feed_id === null) {
+        return wpra_container()->get('wpra/logging/logger');
+    }
+
+    $dataset = wpra_container()->get('wpra/logging/feed_logger_dataset');
+    $logger = $dataset[$feed_id];
+
+    return $logger;
 }
 
 /**

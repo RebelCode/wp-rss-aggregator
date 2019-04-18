@@ -382,6 +382,9 @@ div.wpra-log-container > table > tbody > tr > td.wpra-log-date {
 }
 div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
     text-align: center;
+    width: 60px;
+}
+div.wpra-log-container > table > tbody > tr > td.wpra-log-feed {
     width: 80px;
 }
 

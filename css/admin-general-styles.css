@@ -12,3 +12,13 @@
     margin-left: 5px;
     font-size: 12pt;
 }
+
+table.plugins tbody tr[data-slug="wp-rss-aggregator-excerpts-and-thumbnails"] > td,
+table.plugins tbody tr[data-slug="wp-rss-aggregator-excerpts-and-thumbnails"] > th {
+    box-shadow: none !important;
+}
+
+table.plugins tbody tr.wprss-et-plugin-row-msg > td > div > p::before {
+    content: "\f348";
+    color: #00a0d2;
+}

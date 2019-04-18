@@ -82,7 +82,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
         $fullPostMeta = parent::createMetaDataSet($postOrId);
         // Create a dataset specifically for the template options
         $overrideOpts = new ArrayDataSet([
-            static::OPTIONS_KEY => $fullOpts
+            static::OPTIONS_KEY => $fullOpts,
         ]);
         // Override the original meta's `options` with the combined Settings-Meta dataset
         $final = new MergedDataSet($fullPostMeta, $overrideOpts, [static::OPTIONS_KEY => true]);
