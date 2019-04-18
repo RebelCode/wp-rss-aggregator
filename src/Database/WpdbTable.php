@@ -198,7 +198,10 @@ class WpdbTable implements TableInterface
      */
     public function clear()
     {
-        $this->wpdb->query(sprintf('TRUNCATE TABLE `%s`', $this->fullName));
+        $parse = $this->parseFilters($this->filters);
+        $query = $this->buildDeleteQuery($parse);
+
+        $this->wpdb->query($query);
     }
 
     /**
