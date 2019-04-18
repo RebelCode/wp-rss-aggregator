@@ -301,7 +301,7 @@ export default {
         'flexibiltiy and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a> (for the Classic Editor) and ' +
         'a <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a>, for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new templates coming ' +
         'your way in the coming weeks, but for now, <em>the list template type</em> replicates the previous options. ' +
-        'Note: The default template is set up using your existing general settings, so nothing is lost or changed.'}
+        'Please note that the default template below is set up using your existing display options, so nothing is lost or changed.'}
         learnMore={'https://www.wprssaggregator.com/core-version-4-13-celebrating-one-million-downloads/'}
         visible={!!WpraGlobal.is_existing_user}
       />
