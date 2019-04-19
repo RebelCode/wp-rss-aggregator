@@ -250,13 +250,14 @@ export default {
                 />
                 <Input type="number"
                        label={'Title maximum length'}
-                       value={this.model.options.title_max_length}
+                       value={this.model.options.title_max_length || ''}
+                       placeholder={'No limit'}
                        onInput={(e) => this.model.options.title_max_length = e}
                        title={this.tooltips.options.title_max_length}
                 />
                 <Input type="number"
                        label={'Number of items to show'}
-                       value={this.model.options.items_max_num}
+                       value={this.model.options.items_max_num || ''}
                        onInput={(e) => this.model.options.items_max_num = e}
                        title={this.tooltips.options.items_max_num}
                 />

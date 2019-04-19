@@ -18,8 +18,20 @@ import {
 } from '@wordpress/components'
 import MultipleSelectControl from './components/MultipleSelectControl'
 
+// Default template is selected by default.
+let selectedTemplate = WPRA_BLOCK.templates[0]
+
+// Selected template field getter. Additional function can be passed.
+const getTemplateDefault = (field, wrapper = val => val, def = 0) => selectedTemplate[field] ? wrapper(selectedTemplate[field]) : def
+
+// Helps to not override attributes that selected manually by user.
+let templateLock = {}
+
+// Whether the block is loaded initial information.
+let _isLoaded = false
+
 registerBlockType('wpra-shortcode/wpra-shortcode', {
-  title: __('WP RSS Aggregator feeds'),
+  title: __('WP RSS Aggregator Feeds'),
   description: __('Display feed items imported using WP RSS Aggregator.'),
   icon: 'rss',
   category: 'widgets',
@@ -62,6 +74,24 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
    * Called when Gutenberg initially loads the block.
    */
   edit: function (props) {
+    /*
+     * If block is not loaded, check whether we should block auto limit selection.
+     * It will be blocked if user selected entered limit value different from template's default.
+     */
+    if (!_isLoaded && props.attributes.template) {
+      selectedTemplate = WPRA_BLOCK.templates.find(item => item.value === (props.attributes.template || 'default'))
+
+      if (parseInt(props.attributes.limit) !== getTemplateDefault('limit', parseInt)) {
+        templateLock['limit'] = true
+      }
+
+      if (!!props.attributes.pagination_enabled !== getTemplateDefault('pagination_enabled', v => !!v, false)) {
+        templateLock['pagination_enabled'] = true
+      }
+
+      _isLoaded = true
+    }
+
     return <div>
       <ServerSideRender
         block={'wpra-shortcode/wpra-shortcode'}
@@ -85,7 +115,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
           <MultipleSelectControl
             label={props.attributes.isAll ? __('Feed Sources to Exclude') : __('Feed Sources to Show')}
             key={'select'}
-            placeholder={__('Add feed sources')}
+            help={__('Start typing to search feed sources by name')}
             value={((props.attributes.isAll ? props.attributes.exclude : props.attributes.source) || '').split(',').map(item => parseInt(item))}
             onChange={(selected) => {
               selected = selected.join(',')
@@ -107,25 +137,34 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             label={ __( 'Select Template' ) }
             value={ props.attributes.template }
             onChange={(template) => {
+              selectedTemplate = WPRA_BLOCK.templates.find(item => item.value === template)
               props.setAttributes({template: template || ''})
+              if (!templateLock['limit']) {
+                props.setAttributes({limit: getTemplateDefault('limit', parseInt, 15)})
+              }
+              if (!templateLock['pagination_enabled']) {
+                props.setAttributes({pagination_enabled: getTemplateDefault('pagination_enabled', v => !!v, false)})
+              }
             }}
             options={WPRA_BLOCK.templates}
           />
           <TextControl
             label={__('Feed Limit')}
             help={__('Number of feed items to display')}
-            placeholder={__('15')}
+            placeholder={getTemplateDefault('limit', parseInt)}
             type={'number'}
             min={1}
-            value={props.attributes.limit || 15}
+            value={props.attributes.limit || getTemplateDefault('limit', parseInt)}
             onChange={(value) => {
-              props.setAttributes({limit: parseInt(value) || 15})
+              templateLock['limit'] = true
+              props.setAttributes({limit: parseInt(value) || getTemplateDefault('limit', parseInt)})
             }}
           />
           <ToggleControl
             label={__('Show Pagination ')}
             checked={props.attributes.pagination_enabled}
             onChange={(value) => {
+              templateLock['pagination_enabled'] = true
               props.setAttributes({pagination_enabled: value})
             }}
           />
