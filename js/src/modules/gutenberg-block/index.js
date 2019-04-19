@@ -22,7 +22,7 @@ import MultipleSelectControl from './components/MultipleSelectControl'
 let selectedTemplate = WPRA_BLOCK.templates[0]
 
 // Selected template field getter. Additional function can be passed.
-const getTemplateDefault = (field, wrapper = val => val) => wrapper(selectedTemplate[field])
+const getTemplateDefault = (field, wrapper = val => val, def = 0) => selectedTemplate[field] ? wrapper(selectedTemplate[field]) : def
 
 // Helps to not override attributes that selected manually by user.
 let templateLock = {}
@@ -85,6 +85,10 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
         templateLock['limit'] = true
       }
 
+      if (!!props.attributes.pagination_enabled !== getTemplateDefault('pagination_enabled', v => !!v, false)) {
+        templateLock['pagination_enabled'] = true
+      }
+
       _isLoaded = true
     }
 
@@ -136,7 +140,10 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
               selectedTemplate = WPRA_BLOCK.templates.find(item => item.value === template)
               props.setAttributes({template: template || ''})
               if (!templateLock['limit']) {
-                props.setAttributes({limit: getTemplateDefault('limit', parseInt)})
+                props.setAttributes({limit: getTemplateDefault('limit', parseInt, 15)})
+              }
+              if (!templateLock['pagination_enabled']) {
+                props.setAttributes({pagination_enabled: getTemplateDefault('pagination_enabled', v => !!v, false)})
               }
             }}
             options={WPRA_BLOCK.templates}
@@ -157,6 +164,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             label={__('Show Pagination ')}
             checked={props.attributes.pagination_enabled}
             onChange={(value) => {
+              templateLock['pagination_enabled'] = true
               props.setAttributes({pagination_enabled: value})
             }}
           />

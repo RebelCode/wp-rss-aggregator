@@ -52,6 +52,7 @@ class GutenbergBlockAssetsHandler
                 'label' => $template['name'],
                 'value' => $template['slug'],
                 'limit' => isset($template['options']['items_max_num']) ? $template['options']['items_max_num'] : 15,
+                'pagination_enabled' => isset($template['options']['pagination_enabled']) ? $template['options']['pagination_enabled'] : true,
             ];
         }
 
