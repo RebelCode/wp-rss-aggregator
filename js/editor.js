@@ -131,7 +131,7 @@ jQuery( document ).ready( function($) {
 			// Add the button
 			ed.addButton( WPRSS_TMCE_PLUGIN_ID, {
 				title : 'WP RSS Aggregator shortcode',
-				image : url + '/../images/icon-adminpage32.png',
+				image : url + '/../images/wpra-icon-32.png',
 				onclick : function() {
 					idPattern = /(?:(?:[^v]+)+v.)?([^&=]{11})(?=&|$)/;
 					WPRSS_Dialog.getDialog();
