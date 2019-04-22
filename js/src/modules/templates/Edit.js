@@ -257,9 +257,9 @@ export default {
                 />
                 <Input type="number"
                        label={'Number of items to show'}
-                       value={this.model.options.items_max_num || ''}
-                       onInput={(e) => this.model.options.items_max_num = e}
-                       title={this.tooltips.options.items_max_num}
+                       value={this.model.options.limit || ''}
+                       onInput={(e) => this.model.options.limit = e}
+                       title={this.tooltips.options.limit}
                 />
 
                 <Input type="checkbox"
