@@ -6,3 +6,9 @@
     }
   }
 }
+
+.nav-links::after {
+  display: block;
+  content: '';
+  clear: both;
+}

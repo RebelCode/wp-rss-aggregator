@@ -59,6 +59,7 @@ class GutenbergBlockAssetsHandler
         wp_localize_script('wpra-gutenberg-block', 'WPRA_BLOCK', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'templates' => $templates,
+            'is_et_active' => wprss_is_et_active(),
         ]);
     }
 }

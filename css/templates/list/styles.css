@@ -64,3 +64,10 @@ ul.wpra-item-list--bullets.wpra-item-list--numbers {
 	overflow: hidden;
 	margin-bottom: 20px;
 }
+
+.nav-links::after {
+	display: block;
+	content: '';
+	clear: both;
+}
+
