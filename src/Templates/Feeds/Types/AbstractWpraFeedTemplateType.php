@@ -189,7 +189,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
             ],
             'limit' => [
                 'key' => 'pagination/num_items',
-                'default' => wprss_get_general_setting('feed_limit'),
+                'default' => 15,
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 1],
             ],

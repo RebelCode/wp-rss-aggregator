@@ -149,7 +149,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     protected function getSettingsOptionsAliases()
     {
         return [
-            'items_max_num' => 'feed_limit',
+            'limit' => 'feed_limit',
             'title_max_length' => 'title_limit',
             'title_is_link' => 'title_link',
             'pagination_type' => 'pagination',

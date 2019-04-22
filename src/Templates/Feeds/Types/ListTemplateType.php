@@ -64,11 +64,6 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
     public function getOptions()
     {
         return [
-            'items_max_num' => [
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => ['min_range' => 1],
-                'default' => 15
-            ],
             'title_max_length' => [
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 0],
