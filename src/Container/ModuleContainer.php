@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Container;
 
-use DI\ContainerBuilder;
+use DI\NotFoundException;
 use Interop\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 
@@ -22,16 +22,37 @@ class ModuleContainer implements ContainerInterface
      */
     protected $inner;
 
+    protected $definitions;
+
+    protected $cache;
+
+    protected $proxy;
+
     /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param ModuleInterface $module The module instance.
+     * @param ModuleInterface         $module The module instance.
+     * @param ContainerInterface|null $proxy  Optional container to pass to service definitions.
      */
-    public function __construct(ModuleInterface $module)
+    public function __construct(ModuleInterface $module, ContainerInterface $proxy = null)
     {
-        $this->inner = $this->createInnerContainer($this->compileModuleServices($module));
+        $this->definitions = $this->compileModuleServices($module);
+        $this->useProxy($proxy);
+        $this->cache = [];
+    }
+
+    /**
+     * Constructor.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface|null $proxy  Optional container to pass to service definitions.
+     */
+    public function useProxy(ContainerInterface $proxy = null)
+    {
+        $this->proxy = $proxy;
     }
 
     /**
@@ -41,7 +62,20 @@ class ModuleContainer implements ContainerInterface
      */
     public function get($id)
     {
-        return $this->inner->get($id);
+        // If no definition for the given ID, throw an exception
+        if (!$this->has($id)) {
+            throw new NotFoundException(
+                sprintf(__('Service "%s" was not found', 'wprss'), $id)
+            );
+        }
+
+        // Invoke the definition and save the service in cache, if needed
+        if (!array_key_exists($id, $this->cache)) {
+            $container = ($this->proxy === null) ? $this : $this->proxy;
+            $this->cache[$id] = call_user_func_array($this->definitions[$id], [$container]);
+        }
+
+        return $this->cache[$id];
     }
 
     /**
@@ -51,26 +85,7 @@ class ModuleContainer implements ContainerInterface
      */
     public function has($id)
     {
-        return $this->inner->has($id);
-    }
-
-    /**
-     * Creates the inner container instance.
-     *
-     * @since [*next-version*]
-     *
-     * @param array $definitions The service definitions.
-     *
-     * @return ContainerInterface The created container instance.
-     */
-    protected function createInnerContainer(array $definitions)
-    {
-        $builder = new ContainerBuilder();
-        $builder->useAutowiring(false);
-        $builder->useAnnotations(false);
-        $builder->addDefinitions($definitions);
-
-        return $builder->build();
+        return array_key_exists($id, $this->definitions);
     }
 
     /**

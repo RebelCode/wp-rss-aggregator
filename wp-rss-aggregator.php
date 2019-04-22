@@ -34,12 +34,13 @@
  */
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Container\WpraContainer;
+use RebelCode\Wpra\Core\Container\ModuleContainer;
+use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
-use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
+use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
 use RebelCode\Wpra\Core\Modules\FeedItemsModule;
 use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
 use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
@@ -405,8 +406,14 @@ function wpra_container()
 
     if ($instance === null) {
         $plugin = wpra();
-        $container = new WpraContainer($plugin);
-        $instance = apply_filters('wpra_plugin_container', $container);
+        // Create the container for the plugin module
+        $moduleCntr = new ModuleContainer($plugin);
+        // Create a WP filter container that wraps around it
+        $filterCntr = new WpFilterContainer($moduleCntr);
+        // Set the module container to pass the WP filter container to service definitions
+        $moduleCntr->useProxy($filterCntr);
+        // Use the WP filter container as the main container
+        $instance = apply_filters('wpra_plugin_container', $filterCntr);
     }
 
     return $instance;
