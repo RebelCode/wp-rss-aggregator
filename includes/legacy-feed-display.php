@@ -6,6 +6,26 @@
      */
 
     /**
+     * Display template for a feed source. Simulates a shortcode call.
+     *
+     * @since 4.6.6
+     * @deprecated 4.13 This function was left here because the ET addon references it.
+     */
+    function wprss_render_feed_view( $content ) {
+        return $content;
+    }
+
+    /**
+     * Display template for a feed source. Simulates a shortcode call.
+     *
+     * @since 4.6.6
+     * @deprecated 4.13 This function was left here because the ET addon references it.
+     */
+    function wprss_render_feed_item_view( $content ) {
+        return $content;
+    }
+
+    /**
      * Redirects to wprss_display_feed_items
      * It is used for backwards compatibility to versions < 2.0
      *
