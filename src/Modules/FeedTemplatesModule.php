@@ -329,7 +329,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'links_behavior' => __('Choose how you want links to be opened. This applies to the feed item title and the source link.', 'wprss'),
                         'links_nofollow' => __('Enable this option to set all links displayed as "NoFollow".<hr/>"Nofollow" provides a way to tell search engines to <em>not</em> follow certain links, such as links to feed items in this case.', 'wprss'),
                         'links_video_embed_page' => __('For feed items from YouTube, Vimeo or Dailymotion, you can choose whether you want to have the items link to the original page link, or a link to the embedded video player only.', 'wprss'),
-                        'bullets_enabled' => __('Enable this option to show bullets feed items.', 'wprss'),
+                        'bullets_enabled' => __('Enable this option to show bullets next to feed items.', 'wprss'),
                         'bullet_type' => __('The bullet type to use for feed items.', 'wprss'),
                         'custom_css_classname' => false,
                     ],
