@@ -44,7 +44,7 @@ class GutenbergBlockModule implements ModuleInterface
                     ],
                     'template' => [
                         'type' => 'string',
-                        'default' => '',
+                        'default' => 'default',
                     ],
                     'pagination_enabled' => [
                         'type' => 'boolean',

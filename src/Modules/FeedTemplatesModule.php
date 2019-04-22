@@ -279,7 +279,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'slug' => '',
                     'type' => 'list',
                     'options' => [
-                        'items_max_num' => 15,
+                        'limit' => 15,
                         'title_max_length' => 0,
                         'title_is_link' => true,
                         'pagination_enabled' => true,
@@ -312,7 +312,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'name' => false,
                     'type' => false,
                     'options' => [
-                        'items_max_num' => __('The maximum number of feed items to display when using the shortcode. This enables pagination if set to a number smaller than the number of items to be displayed.', 'wprss'),
+                        'limit' => __('The maximum number of feed items to display when using the shortcode. This enables pagination if set to a number smaller than the number of items to be displayed.', 'wprss'),
                         'title_max_length' => __('Set the maximum number of characters to show for feed item titles.<hr/><em>Leave empty for no limit.</em>', 'wprss'),
                         'title_is_link' => __('Check this box to make the feed item titles link to the original article.', 'wprss'),
                         'pagination_enabled' => __('Enable this option to show the pagination beneath feed items.', 'wprss'),
