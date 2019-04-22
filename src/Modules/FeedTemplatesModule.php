@@ -121,8 +121,7 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/list_template_type' => function (ContainerInterface $c) {
                 return new ListTemplateType(
-                    $c->get('wpra/templates/feeds/file_template_collection'),
-                    $c->get('wpra/templates/feeds/feed_item_collection')
+                    $c->get('wpra/templates/feeds/file_template_collection')
                 );
             },
             /*

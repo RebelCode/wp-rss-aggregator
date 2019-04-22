@@ -63,13 +63,10 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
      *
      * @since [*next-version*]
      *
-     * @param DataSetInterface    $templates The templates data set.
-     * @param CollectionInterface $feedItems The feed items collection.
+     * @param DataSetInterface $templates The templates data set.
      */
-    public function __construct(DataSetInterface $templates, CollectionInterface $feedItems)
+    public function __construct(DataSetInterface $templates)
     {
-        parent::__construct($feedItems);
-
         $this->templates = $templates;
     }
 
@@ -119,10 +116,16 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
      */
     protected function prepareContext($ctx)
     {
+        $pCtx = parent::prepareContext($ctx);
+        /* @var $pOpts array */
+        $pOpts = $pCtx['options'];
+        /* @var $pItems CollectionInterface */
+        $pItems = $pCtx['items'];
+
         // Parse the standard options
-        $stdOpts = $this->parseArgsWithSchema($ctx, $this->getStandardOptions());
+        $stdOpts = $this->parseArgsWithSchema($pOpts, $this->getStandardOptions());
         // Filter the items and count them
-        $items = $this->feedItems->filter($stdOpts['filters']);
+        $items = $pItems->filter($stdOpts['filters']);
         $count = $items->getCount();
         // Paginate the items
         $items = $items->filter($stdOpts['pagination']);
@@ -132,7 +135,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
         $page = empty($stdOpts['pagination']['page']) ? 1 : $stdOpts['pagination']['page'];
 
         // Parse the template-type's own options
-        $ttOpts = $this->parseArgsWithSchema($ctx, $this->getOptions());
+        $ttOpts = $this->parseArgsWithSchema($pOpts, $this->getOptions());
 
         return [
             'items' => $items,

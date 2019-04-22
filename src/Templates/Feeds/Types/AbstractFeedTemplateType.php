@@ -9,7 +9,9 @@ use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
+use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 
 /**
  * Abstract implementation of a feed template type.
@@ -23,6 +25,9 @@ use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 {
     /* @since [*next-version*] */
+    use ParseArgsWithSchemaCapableTrait;
+
+    /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
 
     /* @since [*next-version*] */
@@ -33,27 +38,6 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 
     /* @since [*next-version*] */
     use StringTranslatingTrait;
-
-    /**
-     * The feed items collection.
-     *
-     * @since [*next-version*]
-     *
-     * @var CollectionInterface
-     */
-    protected $feedItems;
-
-    /**
-     * Constructor.
-     *
-     * @since [*next-version*]
-     *
-     * @param CollectionInterface $feedItems The feed items collection.
-     */
-    public function __construct(CollectionInterface $feedItems)
-    {
-        $this->feedItems = $feedItems;
-    }
 
     /**
      * {@inheritdoc}
@@ -87,10 +71,21 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     protected function prepareContext($ctx)
     {
-        return [
-            'options' => $ctx,
-            'items' => $this->feedItems
-        ];
+        return $this->parseArgsWithSchema($ctx, [
+            'options' => [
+                'default' => [],
+            ],
+            'items' => [
+                'default' => [],
+                'filter' => function ($items) {
+                    if ($items instanceof CollectionInterface) {
+                        return $items;
+                    }
+
+                    throw new InvalidArgumentException(__('Items is not a collection instance'));
+                },
+            ],
+        ]);
     }
 
     /**

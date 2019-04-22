@@ -178,7 +178,10 @@ class MasterFeedsTemplate implements TemplateInterface
 
         // Get the template type instance and render it
         $tTypeInst = $this->getTemplateType($model);
-        $rendered = $tTypeInst->render($options);
+        $rendered = $tTypeInst->render([
+            'options' => $options,
+            'items' => $this->feedItemCollection
+        ]);
 
         return $rendered;
     }
