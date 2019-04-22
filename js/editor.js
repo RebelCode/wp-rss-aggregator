@@ -30,7 +30,7 @@ jQuery( document ).ready( function($) {
 
 		limit = $('#wprss-dialog-feed-limit').val();
 
-		pagination = $('#wprss-dialog-pagination:checked').length > 0;
+		pagination = $('#wprss-dialog-pagination').val();
 
 		page = $('#wprss-dialog-start-page').val();
 
@@ -48,9 +48,9 @@ jQuery( document ).ready( function($) {
 			shortcode += ' limit="' + limit + '"';
 		}
 
-		shortcode += ' pagination="';
-		shortcode += ( pagination ) ? 'on' : 'off';
-		shortcode += '"';
+		if (pagination.length > 0) {
+			shortcode += ' pagination="' + pagination + '"';
+		}
 
 		if ( page !== '' && parseInt(page) > 1 ) {
 			shortcode += ' page="' + page + '"';
@@ -131,7 +131,7 @@ jQuery( document ).ready( function($) {
 			// Add the button
 			ed.addButton( WPRSS_TMCE_PLUGIN_ID, {
 				title : 'WP RSS Aggregator shortcode',
-				image : url + '/../images/icon-adminpage32.png',
+				image : url + '/../images/wpra-icon-32.png',
 				onclick : function() {
 					idPattern = /(?:(?:[^v]+)+v.)?([^&=]{11})(?=&|$)/;
 					WPRSS_Dialog.getDialog();

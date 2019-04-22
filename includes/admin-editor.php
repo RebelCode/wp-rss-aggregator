@@ -193,8 +193,15 @@
                     <td><?php _e( 'Pagination', WPRSS_TEXT_DOMAIN ) ?></td>
                     <td>
                         <label>
-                            <input id="wprss-dialog-pagination" type="checkbox" />
-                            <span>Tick to enable pagination</span>
+                            <select id="wprss-dialog-pagination">
+                                <option value=""><?php _e( 'Use template setting', WPRSS_TEXT_DOMAIN ) ?></option>
+                                <option value="on"><?php _e( 'Enabled', WPRSS_TEXT_DOMAIN ) ?></option>
+                                <option value="off"><?php _e( 'Disabled', WPRSS_TEXT_DOMAIN ) ?></option>
+                            </select>
+                            <br/>
+                            <span>
+                                <?php _e( 'Choose whether to show or hide pagination controls', WPRSS_TEXT_DOMAIN ) ?>
+                            </span>
                         </label>
                     </td>
                 </tr>
@@ -205,7 +212,7 @@
                         <input id="wprss-dialog-start-page"
                                type="number"
                                class="wprss-number-roller widefat"
-                               placeholder="<?php _e( 'Page number', WPRSS_TEXT_DOMAIN ) ?>"
+                               placeholder="<?php _e( 'Use template setting', WPRSS_TEXT_DOMAIN ) ?>"
                                min="1"
                         />
                     </td>
