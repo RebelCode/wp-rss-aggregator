@@ -46,7 +46,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
     },
     template: {
       type: 'string',
-      default: ''
+      default: 'default'
     },
     pagination_enabled: {
       type: 'boolean',
@@ -92,6 +92,10 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
       _isLoaded = true
     }
 
+    const etWarning = WPRA_BLOCK.is_et_active ? <p style={{fontStyle: 'italic'}}>
+      Excerpts & Thumbnails is incompatible with the WP RSS Aggregator Feeds block. <a href="https://kb.wprssaggregator.com/article/459-using-excerpts-thumbnails-with-templates" target={'_blank'}>Learn more</a>.
+    </p> : null
+
     return <div>
       <ServerSideRender
         block={'wpra-shortcode/wpra-shortcode'}
@@ -133,6 +137,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
           title={__('Display Options')}
           initialOpen={false}
         >
+          {etWarning}
           <SelectControl
             label={ __( 'Select Template' ) }
             value={ props.attributes.template }
