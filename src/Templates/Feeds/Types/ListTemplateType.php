@@ -63,7 +63,13 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
      */
     public function getOptions()
     {
+        // Add the "limit" std option to save it in template models
+        $stdOpts = $this->getStandardOptions();
+        $limitOpt = $stdOpts['limit'];
+        unset($limitOpt['key']);
+
         return [
+            'limit' => $limitOpt,
             'title_max_length' => [
                 'filter' => FILTER_VALIDATE_INT,
                 'options' => ['min_range' => 0],
