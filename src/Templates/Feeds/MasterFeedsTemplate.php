@@ -190,9 +190,12 @@ class MasterFeedsTemplate implements TemplateInterface
 
         // Get the template type instance and render it
         $tTypeInst = $this->getTemplateType($model);
+        $itemsCollection = ($ctx['items'] instanceof CollectionInterface)
+            ? $ctx['items']
+            : $this->feedItemCollection;
         $rendered = $tTypeInst->render([
             'options' => $options,
-            'items' => $this->feedItemCollection
+            'items' => $itemsCollection,
         ]);
 
         return $this->twigCollection['feeds/container.twig']->render([
@@ -246,6 +249,16 @@ class MasterFeedsTemplate implements TemplateInterface
                 'default' => false,
                 'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
+            'items' => [
+                'default' => $this->feedItemCollection,
+                'filter' => function ($items) {
+                    if ($items instanceof CollectionInterface) {
+                        return $items;
+                    }
+
+                    throw new InvalidArgumentException(__('The "items" must be a collection instance', 'wprss'));
+                },
+            ]
         ];
     }
 
