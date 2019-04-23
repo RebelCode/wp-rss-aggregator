@@ -179,7 +179,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         $currFilter = empty($this->filter) ? [] : $this->filter;
-        $newFilter = array_merge($currFilter, $filter);
+        $newFilter = array_merge_recursive_distinct($currFilter, $filter);
 
         return $this->createSelfWithFilter($newFilter);
     }
