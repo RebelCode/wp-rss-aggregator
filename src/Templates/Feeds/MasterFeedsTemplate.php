@@ -102,6 +102,15 @@ class MasterFeedsTemplate implements TemplateInterface
     protected $feedItemCollection;
 
     /**
+     * The collection of twig templates.
+     *
+     * @since [*next-version*]
+     *
+     * @var DataSetInterface
+     */
+    protected $twigCollection;
+
+    /**
      * The template to use for legacy-mode rendering.
      *
      * @since [*next-version*]
@@ -128,6 +137,7 @@ class MasterFeedsTemplate implements TemplateInterface
      * @param array               $templateTypes      The available template types.
      * @param CollectionInterface $templateCollection The collection of templates.
      * @param CollectionInterface $feedItemCollection The collection of feed items.
+     * @param DataSetInterface    $twigCollection     The collection of twig templates.
      * @param TemplateInterface   $legacyTemplate     The template to use for legacy-mode rendering.
      * @param LoggerInterface     $logger             The logger instance to use for recording errors.
      */
@@ -136,6 +146,7 @@ class MasterFeedsTemplate implements TemplateInterface
         $templateTypes,
         CollectionInterface $templateCollection,
         CollectionInterface $feedItemCollection,
+        DataSetInterface $twigCollection,
         TemplateInterface $legacyTemplate,
         LoggerInterface $logger
     ) {
@@ -143,6 +154,7 @@ class MasterFeedsTemplate implements TemplateInterface
         $this->default = $default;
         $this->templateCollection = $templateCollection;
         $this->feedItemCollection = $feedItemCollection;
+        $this->twigCollection = $twigCollection;
         $this->legacyTemplate = $legacyTemplate;
         $this->logger = $logger;
     }
@@ -183,7 +195,11 @@ class MasterFeedsTemplate implements TemplateInterface
             'items' => $this->feedItemCollection
         ]);
 
-        return $rendered;
+        return $this->twigCollection['feeds/container.twig']->render([
+            'ctx' => base64_encode(json_encode($argCtx)),
+            'slug' => $model['slug'],
+            'template' => $rendered,
+        ]);
     }
 
     /**

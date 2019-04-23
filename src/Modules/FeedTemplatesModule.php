@@ -60,6 +60,7 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/templates/feeds/template_types'),
                     $c->get('wpra/templates/feeds/collection'),
                     $c->get('wpra/templates/feeds/feed_item_collection'),
+                    $c->get('wpra/templates/feeds/file_template_collection'),
                     $c->get('wpra/display/feeds/legacy_template'),
                     $c->get('wpra/templates/feeds/master_template_logger')
                 );

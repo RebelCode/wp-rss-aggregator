@@ -152,7 +152,6 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
                 'path' => $this->getTemplatePath(),
                 'dir' => $this->getTemplateDir(),
             ],
-            'ctx' => base64_encode(json_encode($ctx))
         ];
     }
 
