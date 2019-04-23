@@ -131,6 +131,13 @@ export default {
           }
 
           /*
+           * Name and type shouldn't be passed for default template.
+           */
+          if (this.model.type === '__built_in' && ['name', 'type'].includes(key)) {
+            return false
+          }
+
+          /*
            * Slug and ID fields are always ignored and not sent in the request body.
            */
           return !['slug', 'id'].includes(key)
