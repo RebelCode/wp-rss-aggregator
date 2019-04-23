@@ -104,6 +104,14 @@ WordPress Memory Limit:   <?php echo ( wprss_let_to_num( WP_MEMORY_LIMIT )/( 102
 DISPLAY ERRORS:           <?php echo ( ini_get( 'display_errors' ) ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A'; ?><?php echo "\n"; ?>
 FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? __( 'Your server supports fsockopen.', WPRSS_TEXT_DOMAIN ) : __( 'Your server does not support fsockopen.', WPRSS_TEXT_DOMAIN ); ?><?php echo "\n"; ?>
 
+PLUGIN MODULES:
+
+<?php
+foreach (wpra_modules() as $key => $module) {
+    echo ' - ' . $key . PHP_EOL;
+}
+?>
+
 ACTIVE PLUGINS:
 
 <?php
