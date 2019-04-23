@@ -173,22 +173,6 @@ class CoreModule implements ModuleInterface
             'wpra/core/changelog_file_path' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_path') . 'CHANGELOG.md';
             },
-            /*
-             * The WP RSS Aggregator plugin activation handler.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/core/activation_handler' => function () {
-                return 'wprss_activate';
-            },
-            /*
-             * The WP RSS Aggregator plugin deactivation handler.
-             *
-             * @since [*next-version*]
-             */
-            'wpra/core/deactivation_handler' => function () {
-                return 'wprss_deactivate';
-            },
         ];
     }
 
@@ -210,8 +194,5 @@ class CoreModule implements ModuleInterface
     public function run(ContainerInterface $c)
     {
         do_action('wpra/init');
-
-        register_activation_hook($this->pluginFilePath , $c->get('wpra/core/activation_handler'));
-        register_deactivation_hook($this->pluginFilePath , $c->get('wpra/core/deactivation_handler'));
     }
 }

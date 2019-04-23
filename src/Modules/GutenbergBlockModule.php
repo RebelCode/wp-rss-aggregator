@@ -131,7 +131,7 @@ class GutenbergBlockModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        add_action('plugins_loaded', $c->get('wpra/gutenberg_block/handlers/register'));
+        call_user_func($c->get('wpra/gutenberg_block/handlers/register'));
 
         add_action('enqueue_block_editor_assets', $c->get('wpra/gutenberg_block/handlers/assets'));
 

@@ -84,6 +84,6 @@ class FeedShortcodeModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        add_action('plugins_loaded', $c->get('wpra/shortcode/feeds/handlers/register'));
+        call_user_func($c->get('wpra/shortcode/feeds/handlers/register'));
     }
 }

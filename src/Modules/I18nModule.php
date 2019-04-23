@@ -67,6 +67,6 @@ class I18nModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        add_action('plugins_loaded', $c->get('wpra/i18n/load_text_domain_handler'));
+        call_user_func($c->get('wpra/i18n/load_text_domain_handler'));
     }
 }

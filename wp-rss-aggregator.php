@@ -319,8 +319,11 @@ add_action( 'plugins_loaded', 'wprss_licensing' );
 
 do_action('wprss_pre_init');
 
+register_activation_hook(__FILE__, 'wprss_activate');
+register_deactivation_hook(__FILE__, 'wprss_deactivate');
+
 // Run WPRA
-wpra_run();
+add_action('plugins_loaded', 'wpra_run', 100);
 
 /**
  * Runs WP RSS Aggregator.
