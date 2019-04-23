@@ -437,6 +437,27 @@ function wpra_get($key)
 }
 
 /**
+ * Loads a WP RSS Aggregator module.
+ *
+ * @since [*next-version*]
+ *
+ * @param string          $key    The module key.
+ * @param ModuleInterface $module The module instance.
+ */
+function wpra_load_module($key, $module)
+{
+    if (!($module instanceof ModuleInterface)) {
+        throw new RuntimeException(__('Attempted to load an invalid WP RSS Aggregator module', 'wprss'));
+    }
+
+    add_filter('wpra_plugin_modules', function ($modules) use ($key, $module) {
+        $modules[$key] = $module;
+
+        return $modules;
+    });
+}
+
+/**
  * Returns the Core plugin singleton instance.
  *
  * Using DI container since 4.11.
