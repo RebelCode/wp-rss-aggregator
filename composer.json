@@ -9,18 +9,35 @@
             "email": "dev@rebelcode.com"
         }
     ],
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
-        "php": "^5.3 | ^7.0",
-        "twig/twig": "^1.0",
-        "dhii/collections-abstract": "^0.1.0",
-        "dhii/collections-interface": "^0.1.2",
+        "php": "^5.4 | ^7.0",
+        "psr/log": "^1.1",
+        "twig/twig": "^1.38.0",
+        "twig/extensions": "^1.5.4",
+        "php-di/php-di": "^5.2",
         "dhii/di": "^0.1.1",
         "dhii/di-abstract": "^0.1",
-        "dhii/di-interface": "^0.1"
+        "dhii/di-interface": "^0.1",
+        "dhii/collections-abstract": "^0.1.0",
+        "dhii/collections-interface": "^0.1.2",
+        "dhii/transformer-interface": "^0.1",
+        "dhii/output-renderer-interface": "^0.3",
+        "dhii/output-renderer-base": "^0.1-alpha1",
+        "dhii/normalization-helper-base": "^0.1-alpha4",
+        "dhii/validation-base": "^0.2",
+        "dhii/exception": "^0.1-alpha5",
+        "erusev/parsedown": "^1.7",
+        "rebelcode/composer-cleanup-plugin": "^0.1"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^4.4 | ^5.0",
         "phing/phing": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "RebelCode\\Wpra\\Core\\": "src"
+        }
     }
 }

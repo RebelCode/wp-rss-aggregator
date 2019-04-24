@@ -1,0 +1,73 @@
+/* The container for the list template output */
+div.wpra-list-template {
+	font-size: 100%;
+}
+
+/* An item in the list */
+div.wpra-list-template ul.wpra-item-list > li.wpra-item {
+	margin-bottom: 8px;
+}
+
+/* The item's title and link */
+div.wpra-list-template ul.wpra-item-list > li.wpra-item div.wpra-item-link {
+	display: inline-block;
+	vertical-align: text-top;
+	line-height: 1.4em;
+}
+
+/* The container for source, date and author */
+div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta {
+	line-height: 1.6em;
+}
+
+/* Separators between source, date and author */
+div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span {
+	font-size: 85%;
+	clear: both;
+}
+div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span:not(:last-child):after {
+	content: ' | ';
+}
+
+/* Bullet types */
+ul.wpra-item-list {
+	list-style: none;
+}
+ul.wpra-item-list:not(.wpra-item-list--bullets) li {
+	margin-left: 0;
+}
+ul.wpra-item-list--bullets.wpra-item-list--default {
+	list-style-type: disc;
+}
+ul.wpra-item-list--bullets.wpra-item-list--numbers {
+	list-style: decimal;
+}
+
+/**
+ * Old styles
+ */
+
+.thumbnail-excerpt {
+	overflow:hidden;
+	margin-bottom: 5px;
+}
+
+.thumbnail-excerpt img {
+	max-width:100%; float:left; margin-top: 0.5em; margin-right:10px;
+}
+
+.green {
+	color: #0BD600;
+}
+
+.nav-links {
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.nav-links::after {
+	display: block;
+	content: '';
+	clear: both;
+}
+

@@ -18,8 +18,8 @@ add_action('admin_init', function () {
     }
 
     add_action('admin_footer', function () {
-        wprss_plugin_enqueue_app_scripts('wpra-plugins', WPRSS_JS . 'plugins.min.js', array(), '0.1', true);
-        wp_enqueue_style('wpra-plugins', WPRSS_CSS . 'plugins.min.css');
+        wprss_plugin_enqueue_app_scripts('wpra-plugins', WPRSS_APP_JS . 'plugins.min.js', array(), '0.1', true);
+        wp_enqueue_style('wpra-plugins', WPRSS_APP_CSS . 'plugins.min.css');
 
         $addons = wprss_find_installed_addon_names();
         $addons = array_fill_keys($addons, 1);

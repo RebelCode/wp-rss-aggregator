@@ -1,0 +1,132 @@
+<div class="wrap wrap--wpra-update">
+    <div class="wpra-update wpra-text-center">
+        <div class="wpra-update__logo">
+            <img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/wp_rss_logo.png">
+        </div>
+        <div class="wpra-update-head__copy">
+            <div class="wpra-update-head__title">{{ title }}</div>
+            <div class="wpra-update-head__link">
+                <a href="{{ url.main }}">Skip the update details and get back to the plugin.</a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="wp-header-end">
+
+    <div id="wpra-update-app">
+        <div class="postbox">
+            <div class="inside wpra-update-feature">
+                <div class="wpra-update-feature__text">
+                    <h3>Introducing Templates</h3>
+                    <p>
+                        WP RSS Aggregator’s feed item display has always been limited to a few display options in the
+                        general settings. Those days are gone.
+                    </p>
+                    <p>
+                        Templates enable you to create as many variations of the feed item display as you wish, all
+                        with different options. Each one can be used anywhere across your site. So, if you’d like to
+                        have a simple list view in your sidebar, you can do that. If you want a more stylish display for
+                        your homepage, you can do that too.
+                    </p>
+                    <p>
+                        As of right now, there is still only one template type available (the "List" type). This has
+                        replaced the “Display Settings” that were previously found under RSS Aggregator > Settings in
+                        your dashboard. In fact, existing users will notice that their display settings are now
+                        replicated in the “Default” template.
+                    </p>
+                    <div class="wpra-inline-form">
+                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/457-templates" target="wpra-kb-templates">
+                            Learn more
+                            <span class="dashicons dashicons-arrow-right-alt2"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wpra-update-feature__image">
+                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/04/WP-RSS-Aggregator-Templates.png" alt="Brand New Templates Screen">
+                </div>
+            </div>
+        </div>
+
+        <div class="postbox">
+            <div class="inside wpra-update-feature">
+                <div class="wpra-update-feature__text">
+                    <h3>A Brand New Gutenberg Block</h3>
+                    <p>
+                        Our brand new Gutenberg block titled “WP RSS Aggregator Feeds” makes setting up a display
+                        of your feed items super simple. Search for the block, add it to your page or post, choose the
+                        options you want for this particular page or post, and you’re all set.
+                    </p>
+                    <p>
+                        We have implemented a live preview in the block, so as you select or hide sources, select
+                        templates, set limits, and so on, you’re seeing exactly what your visitors will see on your site
+                        without ever leacing the edit page. We also introduced a new “Page” option that allows you to 
+                        display different pages of a feed's items in multiple columns, boxes, or any other area.
+                    </p>
+                    <p>
+                        For those using the classic WordPress editor, we have also updated our TinyMCE button. Look for
+                        the RSS button in the editor and you'll see the same options as those provided in the block.
+                    <div class="wpra-inline-form">
+                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="wpra-kb-block">
+                            Learn more
+                            <span class="dashicons dashicons-arrow-right-alt2"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wpra-update-feature__image">
+                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/04/WP-RSS-Aggregator-Gutenberg-Block.png" alt="Brand New Gutenberg Block">
+                </div>
+            </div>
+        </div>
+
+        <div class="postbox">
+            <div class="inside wpra-update-feature">
+                <div class="wpra-update-feature__text">
+                    <h3>More Powerful Logs</h3>
+                    <p>
+                        Debug logs are vital when trying to narrow down the cause of any problem. In this version we
+                        have updated our error logging and introduced a new debug log interface that will make it easier
+                        for you, and for our support team, to filter through the log entries.
+                    </p>
+                    <p>
+                        The logs are now also stored in your database, not in a single large text file. This makes it
+                        more reliable, speeds up the logging, and ensures that your site isn’t bogged down by any large
+                        error log file.
+                    </p>
+                    <div class="wpra-inline-form">
+                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/110-error-logs-system-information" target="wpra-kb-logs">
+                            Learn more
+                            <span class="dashicons dashicons-arrow-right-alt2"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wpra-update-feature__image">
+                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/04/WP-RSS-Aggregator-Debug-Log.png" alt="More Powerful Logs">
+                </div>
+            </div>
+        </div>
+
+        <div class="postbox">
+            <div class="inside">
+                <h2>{% trans "Full Changelog" %}</h2>
+                <div class="wpra-updates">
+                    {{ changelog|raw }}
+                </div>
+            </div>
+        </div>
+
+        <div class="wpra-text-center">
+            <a class="button button-large button-icon" href="{{ url.main }}">
+                Continue to WP RSS Aggregator
+                <span class="dashicons dashicons-arrow-right-alt2"></span>
+            </a>
+        </div>
+
+        <div class="wpra-text-center wpra-links">
+            <a href="{{ url.website }}" target="wpra-website">Visit website</a> |
+            <a href="{{ url.support }}" target="wpra-website-contact">Contact support</a> |
+            <a href="{{ url.kb }}" target="wpra-kb">Browse knowledge base</a>
+        </div>
+    </div>
+
+    <br class="clear">
+</div>

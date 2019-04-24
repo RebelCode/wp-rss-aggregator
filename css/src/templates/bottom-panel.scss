@@ -1,0 +1,15 @@
+.wpra-bottom-panel {
+  position: sticky;
+  bottom: 0;
+  z-index: 9;
+  background-color: #fffce9;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 500;
+    padding-bottom: 8px;
+  }
+}

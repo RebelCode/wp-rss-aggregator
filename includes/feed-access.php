@@ -197,13 +197,13 @@ class WPRSS_Feed_Access
 	 * @return array The new settings array.
 	 */
 	public function add_settings( $settings ) {
-		$settings['general'][ self::SETTING_KEY_CERTIFICATE_PATH ] = array(
-			'label'			=> __( 'Certificate Path', WPRSS_TEXT_DOMAIN ),
+		$settings['advanced'][ self::SETTING_KEY_CERTIFICATE_PATH ] = array(
+			'label'			=> __( 'Certificate path', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_certificate_path_setting' )
 		);
         /** @since 4.8.2 */
-		$settings['general'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
-			'label'			=> __( 'Feed Request Useragent', WPRSS_TEXT_DOMAIN ),
+		$settings['advanced'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
+			'label'			=> __( 'Feed request useragent', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
 		);
 
@@ -431,7 +431,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 					$parser = new SimplePie_HTTP_Parser( $this->headers );
 					if ( $parser->parse() ) {
 						$this->headers = $parser->headers;
-						$this->body = trim( $parser->body );
+						$this->body = $parser->body;
 						$this->status_code = $parser->status_code;
 						if ( (in_array( $this->status_code, array( 300, 301, 302, 303, 307 ) ) || $this->status_code > 307 && $this->status_code < 400) && isset( $this->headers['location'] ) && $this->redirects < $redirects ) {
 							$this->redirects++;
@@ -495,7 +495,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 						$parser = new SimplePie_HTTP_Parser( $this->headers );
 						if ( $parser->parse() ) {
 							$this->headers = $parser->headers;
-							$this->body = trim( $parser->body );
+							$this->body = $parser->body;
 							$this->status_code = $parser->status_code;
 							if ( (in_array( $this->status_code, array( 300, 301, 302, 303, 307 ) ) || $this->status_code > 307 && $this->status_code < 400) && isset( $this->headers['location'] ) && $this->redirects < $redirects ) {
 								$this->redirects++;

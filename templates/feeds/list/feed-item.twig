@@ -1,0 +1,41 @@
+{# Get the title and optionally truncating it #}
+{% set item_title = item.title %}
+{% if options.title_max_length > 0 %}
+    {% set item_title = item_title|truncate(options.title_max_length) %}
+{% endif %}
+
+{# Show the title #}
+<div class="wpra-item-link">
+    {{ item_title | wpralink(item.permalink, options.title_is_link, options) }}
+    {{ options.title_after }}
+</div>
+
+{# Prepare date HTML class and formatted strinng #}
+{% set date_str = item.date|date(options.date_format) %}
+{% set date_class = "feed-date" %}
+{# If time-ago format is used, use alternate format and HTML class #}
+{% if options.date_use_time_ago %}
+    {% set date_str = date_str|time_diff %}
+    {% set date_class = "time-ago" %}
+{% endif %}
+
+<div class="wprss-feed-meta">
+    {% if options.source_enabled %}
+        <span class="feed-source">
+            {{ options.source_prefix }}
+            {{ item.source.title | wpralink(item.source.site_url, options.source_is_link, options) }}
+        </span>
+    {% endif %}
+
+    {% if options.date_enabled %}
+        <span class="{{ date_class }}">
+            {{ options.date_prefix }} {{ date_str }}
+        </span>
+    {% endif %}
+
+    {% if options.author_enabled and item.author|length > 0 %}
+        <span class="feed-author">
+            {{ options.author_prefix }} {{ item.author }}
+        </span>
+    {% endif %}
+</div>

@@ -267,6 +267,10 @@
                 'limit_feed_items_per_import'   => null,
                 'feed_items_import_order'       => '',
                 'feed_items_import_order'       => '',
+
+                // From 4.13
+                'custom_css' => '',
+                'html_classes' => '',
 			)
 		);
 

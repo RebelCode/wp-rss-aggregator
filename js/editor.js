@@ -5,7 +5,16 @@ var wprss_dialog_submit = null;
 jQuery( document ).ready( function($) {
 
 	wprss_dialog_submit = function() {
-		all = $('#wprss-dialog-all-sources').is(':checked');
+		this.focus();
+
+		var shortcode = '[wp-rss-aggregator';
+
+		var all = $('#wprss-dialog-all-sources').is(':checked');
+
+		var selected_template = $('#wprss-dialog-templates').val();
+		if (selected_template.length > 0) {
+			shortcode += ' template="' + selected_template + '"';
+		}
 
 		sources = [];
 		$('#wprss-dialog-feed-source-list :selected').each( function( i, selected ){
@@ -21,17 +30,32 @@ jQuery( document ).ready( function($) {
 
 		limit = $('#wprss-dialog-feed-limit').val();
 
-		shortcode = '[wp-rss-aggregator';
+		pagination = $('#wprss-dialog-pagination').val();
+
+		page = $('#wprss-dialog-start-page').val();
+
 		if ( all ) {
-			if ( excludes.length > 0 )
-				shortcode += ' exclude="' + excludes + '"'
+			if ( excludes.length > 0 ) {
+				shortcode += ' exclude="' + excludes + '"';
+			}
 		} else {
-			if ( sources.length > 0 )
-				shortcode += ' source="' + sources + '"'
+			if ( sources.length > 0 ) {
+				shortcode += ' source="' + sources + '"';
+			}
 		}
 
-		if ( limit !== '' && limit !== '0' )
+		if ( limit !== '' && limit !== '0' ) {
 			shortcode += ' limit="' + limit + '"';
+		}
+
+		if (pagination.length > 0) {
+			shortcode += ' pagination="' + pagination + '"';
+		}
+
+		if ( page !== '' && parseInt(page) > 1 ) {
+			shortcode += ' page="' + page + '"';
+		}
+
 		shortcode += ']';
 
 		WPRSS_ED.execCommand('mceInsertContent', false, shortcode);
@@ -57,8 +81,8 @@ jQuery( document ).ready( function($) {
 			overlay = $('<div id="wprss-overlay"></div>');
 			dialog = $('<div id="wprss-editor-dialog" class="postbox"></div>');
 
-			dialog_head = $('<div class="wprss-dialog-header"> <h1>WPRSS Aggregator Shortcode</h1> </div>');
-			dialog_head_close = $('<span class="close-btn"></span>').html('&times;').appendTo( dialog_head );
+			dialog_head = $('<div class="wprss-dialog-header"> <h1>WP RSS Aggregator Shortcode</h1> </div>');
+			dialog_head_close = $('<span class="close-btn">Close</span>').appendTo( dialog_head );
 			dialog_inside = $('<div class="wprss-dialog-inside"></div>');
 			dialog.append( dialog_head );
 			dialog.append( dialog_inside );
@@ -106,8 +130,8 @@ jQuery( document ).ready( function($) {
 		init : function( ed, url ) {
 			// Add the button
 			ed.addButton( WPRSS_TMCE_PLUGIN_ID, {
-				title : 'WPRSS Aggregator shortcode',
-				image : url + '/../images/icon-adminpage32.png',
+				title : 'WP RSS Aggregator shortcode',
+				image : url + '/../images/wpra-icon-32.png',
 				onclick : function() {
 					idPattern = /(?:(?:[^v]+)+v.)?([^&=]{11})(?=&|$)/;
 					WPRSS_Dialog.getDialog();
@@ -126,11 +150,11 @@ jQuery( document ).ready( function($) {
 		},
 		getInfo : function() {
 			return {
-				longname : "WPRSS Aggregator Shortcode",
-				author : 'John Galea',
-				authorurl : 'http://profiles.wordpress.org/jeangalea/',
+				longname : "WP RSS Aggregator Shortcode",
+				author : 'RebelCode',
+				authorurl : 'http://www.wprssaggregator.com/',
 				infourl : 'http://www.wprssaggregator.com/',
-				version : "1.0"
+				version : "1.1"
 			};
 		}
 	});

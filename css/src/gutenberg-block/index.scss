@@ -1,0 +1,14 @@
+.wpra-gutenberg-block, [data-type="wpra-shortcode/wpra-shortcode"] {
+  .wpra-item {
+    // Prevent clicking on feed item links.
+    a {
+      pointer-events: none !important;
+    }
+  }
+}
+
+.nav-links::after {
+  display: block;
+  content: '';
+  clear: both;
+}

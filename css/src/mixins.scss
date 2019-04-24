@@ -1,0 +1,32 @@
+// grid
+$breakpoint-small: 782px; // 540px
+$breakpoint-med: 60em; // 720px
+$breakpoint-large: 68em; // 960px
+
+@mixin breakpoint($point) {
+  @if $point == desktop {
+    @media (min-width: $breakpoint-large) { @content ; }
+  }
+  @else if $point == mobile {
+    @media (max-width: $breakpoint-small)  { @content ; }
+  }
+  @else if $point == not-mobile {
+    @media (min-width: $breakpoint-small)  { @content ; }
+  }
+}
+
+.mobile-collapsed {
+  display: inherit;
+}
+.mobile-only {
+  display: none !important;
+}
+
+@include breakpoint(mobile) {
+  .mobile-only {
+    display: inherit !important;
+  }
+  .mobile-collapsed {
+    display: none !important;
+  }
+}

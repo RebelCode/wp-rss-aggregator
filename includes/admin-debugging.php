@@ -2,8 +2,9 @@
 
 use Interop\Container\Exception\NotFoundException as ServiceNotFoundException;
 use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
+use Psr\Log\LogLevel;
 
-    /**
+/**
      * Plugin debugging
      *
      * @package    WPRSSAggregator
@@ -182,14 +183,60 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
     }
 
     /**
-     * Renders the Error Log.
+     * Renders the debug log.
      */
     function wprss_debug_render_error_log() {
+        $num = 200;
+        $logs = wpra_get_logger()->getLogs($num, 1);
         ?>
-        <h3><?php _e( 'Error Log', WPRSS_TEXT_DOMAIN ); ?></h3>
 
-        <textarea readonly="readonly" id="wprss-error-log-textarea"><?php echo wprss_get_log(); ?></textarea>
-        <?php
+        <h3><?= __( 'Debug Log', 'wprss' ); ?></h3>
+        <p><i><?= sprintf(__( 'Showing the most recent %d log messages', 'wprss' ), $num); ?></i></p>
+
+        <?php if (count($logs) === 0) : ?>
+            <section class="notice notice-success notice-inline wpra-empty-log-notice">
+                <p><?= __('The log is empty', 'wprss'); ?></p>
+            </section>
+        <?php else: ?>
+        <div class="wpra-log">
+            <p>
+                <strong><?= __('Filters:', 'wprss') ?></strong>
+
+                <span class="wpra-toggle-logs" data-level="all">
+                    <a href="#"><?= __('All', 'wprss') ?></a>
+                </span>
+                <span class="wpra-toggle-logs wpra-selected" data-level="error">
+                    <a href="#"><?= __('Errors', 'wprss') ?></a>
+                </span>
+                <span class="wpra-toggle-logs wpra-selected" data-level="info">
+                    <a href="#"><?= __('Info', 'wprss') ?></a>
+                </span>
+                <span class="wpra-toggle-logs" data-level="notice">
+                    <a href="#"><?= __('Notice', 'wprss') ?></a>
+                </span>
+                <span class="wpra-toggle-logs" data-level="warning">
+                    <a href="#"><?= __('Warnings', 'wprss') ?></a>
+                </span>
+                <span class="wpra-toggle-logs" data-level="debug">
+                    <a href="#"><?= __('Debug', 'wprss') ?></a>
+                </span>
+            </p>
+            <div class="wpra-log-container">
+                <table>
+                    <tbody>
+                        <?php foreach ($logs as $log) : ?>
+                            <tr class="wpra-log-<?= $log['level'] ?>">
+                                <td class="wpra-log-date"><?= $log['date'] ?></td>
+                                <td class="wpra-log-level"><?= ucfirst($log['level']) ?></td>
+                                <td class="wpra-log-feed"><?= get_the_title(ucfirst($log['feed_id'])) ?></td>
+                                <td class="wpra-log-message"><?= $log['message'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif;
     }
 
     /**

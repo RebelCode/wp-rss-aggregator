@@ -32,10 +32,13 @@ function wprss_render_update_page()
 {
     wprss_update_previous_update_page_version();
 
-    wp_enqueue_style('update-page', WPRSS_CSS . 'update.min.css');
+    wp_enqueue_style('update-page', WPRSS_APP_CSS . 'update.min.css');
 
-    echo wprss_render_template('admin-update-page.twig', array(
-        'title' => __('What\'s new in WP RSS Aggregator?', WPRSS_TEXT_DOMAIN),
+    $changelog = wpra_get('core/changelog_dataset');
+    $parsedown = wpra_get('parsedown');
+
+    echo wprss_render_template('admin/update-page.twig', array(
+        'title' => __('What\'s new in WP RSS Aggregator 4.13', WPRSS_TEXT_DOMAIN),
         'version' => WPRSS_VERSION,
         'beacon_nonce_field' => wp_nonce_field('wprss_hs_beacon_enabled'),
         'beacon_enabled' => wprss_is_help_beacon_enabled(),
@@ -48,6 +51,7 @@ function wprss_render_update_page()
         'path' => array(
             'images' => WPRSS_IMG,
         ),
+        'changelog' => $parsedown->text($changelog['4.13']['raw'])
     ));
 }
 

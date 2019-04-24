@@ -1,0 +1,64 @@
+.wpra-notice-block {
+  background-color: white;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+  padding: 12px 16px;
+  margin-top: .5rem;
+  margin-bottom: .15rem;
+  //border-left: 4px solid #ff792b;
+
+  &.postbox {
+    margin-top: 0;
+    margin-bottom: 20px;
+    box-shadow: 0;
+
+    .wpra-notice-block__body {
+      font-size: 14px;
+      opacity: .8;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    padding: .5rem 0 1rem;
+    max-width: 65rem;
+  }
+
+  &__body {
+    line-height: 1.5;
+    font-size: 16px;
+    opacity: .7;
+    max-width: 65rem;
+  }
+
+  &__buttons {
+    padding: 1rem 0 .5rem;
+
+    .button {
+      height: 34px;
+      line-height: 32px;
+      padding: 0 16px 2px;
+
+      .dashicons {
+        font-size: 16px;
+        vertical-align: middle;
+        opacity: .75;
+        margin-left: 2px;
+      }
+
+      &-clear {
+        margin-left: 8px;
+        font-weight: 500;
+        color: #0085ba;
+        border: none;
+        background: none;
+        box-shadow: none;
+
+        &:hover, &:active, &:focus {
+          border: none;
+          background: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
