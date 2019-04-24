@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * A handler that re-saves a template by iterating its data and re-setting it.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ReSaveTemplateHandler
 {
     /**
      * The template collection.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -24,7 +24,7 @@ class ReSaveTemplateHandler
     /**
      * The slug name of the template.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -33,7 +33,7 @@ class ReSaveTemplateHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $collection The template collection.
      * @param string           $slug       The slug name of the template.
@@ -47,7 +47,7 @@ class ReSaveTemplateHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

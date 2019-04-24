@@ -8,14 +8,14 @@ use Psr\Container\ContainerInterface;
 /**
  * A module that provides the Parsedown service for WP RSS Aggregator.s
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ParsedownModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class ParsedownModule implements ModuleInterface
             /*
              * The Parsedown service.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/parsedown' => function () {
                 $instance = new Parsedown();
@@ -38,7 +38,7 @@ class ParsedownModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -46,7 +46,7 @@ class ParsedownModule implements ModuleInterface
             /*
              * Extends the changelog by parsing it as Markdown using Parsedown.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/changelog' => function (ContainerInterface $c, $changelog) {
                 $parsed = $c->get('wpra/parsedown')->text($changelog);
@@ -60,7 +60,7 @@ class ParsedownModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

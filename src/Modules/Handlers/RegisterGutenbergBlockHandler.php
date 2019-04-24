@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers;
 /**
  * A handler for Gutenberg block registration.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RegisterGutenbergBlockHandler
 {
     /**
      * The name of the block.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class RegisterGutenbergBlockHandler
     /**
      * Gutenberg block's configuration.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -30,7 +30,7 @@ class RegisterGutenbergBlockHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $name The name of the block.
      * @param array  $config Gutenberg block's configuration.
@@ -44,7 +44,7 @@ class RegisterGutenbergBlockHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

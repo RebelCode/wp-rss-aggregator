@@ -10,14 +10,14 @@ use RebelCode\Wpra\Core\Data\Wp\WpArrayOptionDataSet;
 /**
  * The settings module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class SettingsModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -25,7 +25,7 @@ class SettingsModule implements ModuleInterface
             /*
              * The name of the option for the general settings.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/settings/general/option_name' => function (ContainerInterface $c) {
                 return 'wprss_settings_general';
@@ -33,7 +33,7 @@ class SettingsModule implements ModuleInterface
             /*
              * The dataset for the plugin's general settings.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/settings/general/dataset' => function (ContainerInterface $c) {
                 return new MergedDataSet(
@@ -47,7 +47,7 @@ class SettingsModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -57,7 +57,7 @@ class SettingsModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

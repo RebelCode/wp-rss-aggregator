@@ -7,14 +7,14 @@ use stdClass;
 /**
  * A generic handler for registering a menu page in WordPress.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RegisterMenuPageHandler
 {
     /**
      * The menu page info.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -23,7 +23,7 @@ class RegisterMenuPageHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass $info The menu page info, containing the keys:
      *                             - slug
@@ -40,7 +40,7 @@ class RegisterMenuPageHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

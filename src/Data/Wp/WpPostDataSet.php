@@ -10,17 +10,17 @@ use WP_Post;
 /**
  * An implementation of a data set that acts as a wrapper for a WordPress post.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostDataSet extends MergedDataSet
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeWpPostCapableTrait;
 
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId The WordPress post instance or post ID.
      */
@@ -34,7 +34,7 @@ class WpPostDataSet extends MergedDataSet
     /**
      * Creates the data set for the post data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Post $post The WordPress post instance.
      *
@@ -48,7 +48,7 @@ class WpPostDataSet extends MergedDataSet
     /**
      * Creates the data set for the post data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Post $post The WordPress post instance.
      *

@@ -8,14 +8,14 @@ use WP_Post;
 /**
  * Functionality for normalizing a variable into a {@link WP_Post} instance.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 trait NormalizeWpPostCapableTrait
 {
     /**
      * Normalizes the argument into a {@link WP_Post} instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId The WordPress post instance or post ID.
      *

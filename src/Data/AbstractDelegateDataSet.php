@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Data;
 /**
  * Abstract implementation of a data set that delegates to an inner data set.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractDelegateDataSet extends AbstractDataSet
 {
     /**
      * The inner data set instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -21,7 +21,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $inner The inner data set.
      */
@@ -33,7 +33,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * Retrieves the inner key to use with the inner data set for a given outer data set key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $outerKey The outer data set key.
      *
@@ -47,7 +47,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * Retrieves the inner key to use with the inner data set for a given outer data set key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $innerKey The inner data set key.
      *
@@ -61,7 +61,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -71,7 +71,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -81,7 +81,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -91,7 +91,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -101,7 +101,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -111,7 +111,7 @@ abstract class AbstractDelegateDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function key()
     {

@@ -8,14 +8,14 @@ use Dhii\Output\TemplateInterface;
  * The handler that renders the template content, by rendering the template itself as would be done through normal
  * means in WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RenderTemplateContentHandler
 {
     /**
      * The name of the templates CPT.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -24,7 +24,7 @@ class RenderTemplateContentHandler
     /**
      * The master template to use for rendering.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -33,7 +33,7 @@ class RenderTemplateContentHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string            $cpt      The name of the templates CPT.
      * @param TemplateInterface $template The master template to use for rendering.
@@ -47,7 +47,7 @@ class RenderTemplateContentHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke($content)
     {

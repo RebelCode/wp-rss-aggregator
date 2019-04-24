@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 /**
  * The handler that hides template content from the public-facing side unless a nonce is given.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class HidePublicTemplateContentHandler
 {
     /**
      * The name of the templates CPT.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class HidePublicTemplateContentHandler
     /**
      * The name of the nonce to use for allowing template content to be shown.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -30,7 +30,7 @@ class HidePublicTemplateContentHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $cpt   The name of the templates CPT.
      * @param string $nonce The name of the nonce to use for allowing template content to be shown.

@@ -9,14 +9,14 @@ use Traversable;
 /**
  * A transformer that recursively unpacks iterable values into arrays.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RecursiveToArrayTransformer implements TransformerInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function transform($source)
     {
@@ -30,7 +30,7 @@ class RecursiveToArrayTransformer implements TransformerInterface
     /**
      * Recursively unpacks an iterable value and all of its iterable children into arrays.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass|Traversable $input The iterable value to unpack.
      *
@@ -52,7 +52,7 @@ class RecursiveToArrayTransformer implements TransformerInterface
     /**
      * Checks if a value is iterable.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param mixed $value The value to check.
      *

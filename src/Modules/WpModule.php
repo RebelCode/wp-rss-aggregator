@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Wp\WpRolesProxy;
 /**
  * A module that provides various WordPress components as services.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class WpModule implements ModuleInterface
             /*
              * The WordPress global wpdb instance.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wp/db' => function () {
                 global $wpdb;
@@ -33,7 +33,7 @@ class WpModule implements ModuleInterface
             /*
              * The WordPress user roles manager instance.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wp/roles' => function () {
                 return new WpRolesProxy();
@@ -44,7 +44,7 @@ class WpModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -54,7 +54,7 @@ class WpModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

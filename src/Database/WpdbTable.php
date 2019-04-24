@@ -15,17 +15,17 @@ use wpdb;
 /**
  * An implementation of a WPDB table.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpdbTable implements TableInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use IteratorDelegateTrait;
 
     /**
      * The WordPress database driver.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var wpdb
      */
@@ -34,7 +34,7 @@ class WpdbTable implements TableInterface
     /**
      * The table name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -43,7 +43,7 @@ class WpdbTable implements TableInterface
     /**
      * The full table name, prefixed with the wpdb prefix.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -52,7 +52,7 @@ class WpdbTable implements TableInterface
     /**
      * The schema as a map of column names and their respective declarations.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string[]|Traversable
      */
@@ -61,7 +61,7 @@ class WpdbTable implements TableInterface
     /**
      * The name of the column to be used as the primary key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -70,7 +70,7 @@ class WpdbTable implements TableInterface
     /**
      * The current filters.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -79,7 +79,7 @@ class WpdbTable implements TableInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param wpdb                 $wpdb       The WordPress database driver.
      * @param string               $name       The table name.
@@ -100,7 +100,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($key)
     {
@@ -119,7 +119,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($key)
     {
@@ -135,7 +135,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($key, $value)
     {
@@ -154,7 +154,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($key)
     {
@@ -168,7 +168,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getCount()
     {
@@ -182,7 +182,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function filter($filters)
     {
@@ -194,7 +194,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function clear()
     {
@@ -207,7 +207,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function create()
     {
@@ -242,7 +242,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function drop()
     {
@@ -252,7 +252,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -265,7 +265,7 @@ class WpdbTable implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createIterationValue($value)
     {
@@ -275,7 +275,7 @@ class WpdbTable implements TableInterface
     /**
      * Creates a data set model instance for a table record.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $data The record data.
      *
@@ -289,7 +289,7 @@ class WpdbTable implements TableInterface
     /**
      * Parses a given list of collection filters into query parts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $filters The filters to parse.
      *
@@ -318,7 +318,7 @@ class WpdbTable implements TableInterface
     /**
      * Processes a single filter and modifies the given query parts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $filter     The filter key.
      * @param mixed  $value      The filter value.
@@ -365,7 +365,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds a SELECT query from a given set of query parts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $parts The query parts. See {@link parseFilters()}.
      *
@@ -385,7 +385,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds a SELECT COUNT query from a given set of query parts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $parts The query parts. See {@link parseFilters()}.
      *
@@ -406,7 +406,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds a DELETE query from a given set of query parts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $parts The query parts. See {@link parseFilters()}.
      *
@@ -426,7 +426,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds an INSERT query for a given list of records to be inserted.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|ArrayAccess[]|Traversable $records A list of records, each as an assoc. array or data set object.
      *
@@ -445,7 +445,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds a DELETE query from a given set of query parts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $parts The query parts. See {@link parseFilters()}.
      *
@@ -464,7 +464,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds the WHERE clause of an SQL query.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $where The WHERE condition.
      *
@@ -482,7 +482,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds the ORDER clause of an SQL query.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $orderBy The field to order by.
      * @param string $order   The ordering mode.
@@ -501,7 +501,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds the LIMIT clause of an SQL query.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|null $limit  The limit.
      * @param int|null $offset The offset.
@@ -524,7 +524,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds the values of an INSERT query for a given list of records.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|ArrayAccess[]|Traversable $records A list of records, each as an assoc. arrays or data set object.
      *
@@ -551,7 +551,7 @@ class WpdbTable implements TableInterface
     /**
      * Builds the "SET" SQL portion for an UPDATE query, without the "SET" keyword, for a given value map.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $values A map of column names to values.
      *
@@ -574,7 +574,7 @@ class WpdbTable implements TableInterface
      * If the value is a string and is not an SQL function, it is quoted.
      * If the value is an array, it is turned into a set: ex. "(1, 2, 3)".
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param mixed $value The value to normalize.
      *
@@ -608,7 +608,7 @@ class WpdbTable implements TableInterface
     /**
      * Retrieves the column names.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string[]
      */

@@ -7,14 +7,14 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * The handler that registers the WPRA custom feed with WordPress.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RegisterCustomFeedHandler
 {
     /**
      * The WPRA general settings dataset.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -23,7 +23,7 @@ class RegisterCustomFeedHandler
     /**
      * The default custom feed URL if no URL is saved in the settings.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -32,7 +32,7 @@ class RegisterCustomFeedHandler
     /**
      * The callback to render the custom feed.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable
      */
@@ -41,7 +41,7 @@ class RegisterCustomFeedHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $settings       The WPRA general settings dataset.
      * @param string           $defaultUrl     The default custom feed URL if no URL is saved in the settings.
@@ -57,7 +57,7 @@ class RegisterCustomFeedHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {
@@ -76,7 +76,7 @@ class RegisterCustomFeedHandler
     /**
      * Retrieves the custom feed URL.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -90,7 +90,7 @@ class RegisterCustomFeedHandler
     /**
      * Checks if the custom feed URL exists in the WordPress rewrite rules.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $customFeedUrl The custom feed URL.
      *

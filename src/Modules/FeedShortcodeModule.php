@@ -10,14 +10,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The feeds shortcode for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedShortcodeModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -25,7 +25,7 @@ class FeedShortcodeModule implements ModuleInterface
             /*
              * The shortcode names.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/shortcode/feeds/names' => function (ContainerInterface $c) {
                 return [
@@ -36,7 +36,7 @@ class FeedShortcodeModule implements ModuleInterface
             /*
              * The template used by the shortcode.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/shortcode/feeds/template' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/display/feeds/template')) {
@@ -48,7 +48,7 @@ class FeedShortcodeModule implements ModuleInterface
             /*
              * The shortcode handler.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/shortcode/feeds/handler' => function (ContainerInterface $c) {
                 return new FeedsShortcodeHandler($c->get('wpra/shortcode/feeds/template'));
@@ -56,7 +56,7 @@ class FeedShortcodeModule implements ModuleInterface
             /*
              * The handler that registers the shortcode.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/shortcode/feeds/handlers/register' => function (ContainerInterface $c) {
                 return new RegisterShortcodeHandler(
@@ -70,7 +70,7 @@ class FeedShortcodeModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -80,7 +80,7 @@ class FeedShortcodeModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

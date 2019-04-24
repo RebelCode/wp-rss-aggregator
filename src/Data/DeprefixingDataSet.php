@@ -6,14 +6,14 @@ namespace RebelCode\Wpra\Core\Data;
  * An implementation of a delegate data set that removes prefixes from consumer keys before delegating to the inner data
  * set.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class DeprefixingDataSet extends AbstractDelegateDataSet
 {
     /**
      * The prefix to strip from the inner data set's keys.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -22,7 +22,7 @@ class DeprefixingDataSet extends AbstractDelegateDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $inner  The inner data set.
      * @param string           $prefix The prefix to strip from the inner data set's keys.
@@ -36,7 +36,7 @@ class DeprefixingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getInnerKey($outerKey)
     {
@@ -50,7 +50,7 @@ class DeprefixingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getOuterKey($innerKey)
     {

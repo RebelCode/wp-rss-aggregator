@@ -14,14 +14,14 @@ use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\RenderTemplateEndPoint;
 /**
  * The REST API module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RestApiModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -29,7 +29,7 @@ class RestApiModule implements ModuleInterface
             /*
              * The WP RSS Aggregator REST API namespace.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/rest_api/v1/namespace' => function () {
                 return 'wpra/v1';
@@ -37,7 +37,7 @@ class RestApiModule implements ModuleInterface
             /*
              * The REST API endpoint manager.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/rest_api/v1/endpoint_manager' => function (ContainerInterface $c) {
                 return new EndPointManager(
@@ -48,7 +48,7 @@ class RestApiModule implements ModuleInterface
             /*
              * The REST API endpoints.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c) {
                 return [];
@@ -56,7 +56,7 @@ class RestApiModule implements ModuleInterface
             /*
              * The authorization callback function to checking if the request user is a logged-in admin.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/rest_api/v1/auth/user_is_admin' => function (ContainerInterface $c) {
                 return new AuthUserIsAdmin();
@@ -67,7 +67,7 @@ class RestApiModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -77,7 +77,7 @@ class RestApiModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

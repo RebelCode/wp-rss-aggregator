@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 /**
  * The handler that detects a preview template request and redirects to the template's front-facing page.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class PreviewTemplateRedirectHandler
 {
     /**
      * The name of the GET parameter to detect.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class PreviewTemplateRedirectHandler
     /**
      * The name of the nonce to that allows template content to be shown on the public-facing side.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -30,7 +30,7 @@ class PreviewTemplateRedirectHandler
     /**
      * The feed templates CPT capability type.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -39,7 +39,7 @@ class PreviewTemplateRedirectHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $getArg     The name of the GET parameter to detect.
      * @param string $nonce      The name of the nonce to that allows template content to be shown on the public-facing
@@ -56,7 +56,7 @@ class PreviewTemplateRedirectHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

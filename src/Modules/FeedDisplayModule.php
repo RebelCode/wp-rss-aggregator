@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Templates\Feeds\LegacyDisplayTemplate;
 /**
  * The feeds display module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedDisplayModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class FeedDisplayModule implements ModuleInterface
             /*
              * The feed display template.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/display/feeds/template' => function (ContainerInterface $c) {
                 return $c->get('wpra/display/feeds/legacy_template');
@@ -31,7 +31,7 @@ class FeedDisplayModule implements ModuleInterface
             /*
              * The legacy feed display template used by older versions of WP RSS Aggregator.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/display/feeds/legacy_template' => function (ContainerInterface $c) {
                 return new LegacyDisplayTemplate();
@@ -42,7 +42,7 @@ class FeedDisplayModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -52,7 +52,7 @@ class FeedDisplayModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

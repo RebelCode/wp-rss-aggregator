@@ -11,14 +11,14 @@ use WP_Roles;
  * since the original `$wp_roles` instance is `null` until the `admin_init` hook, which breaks parameter signatures
  * that are typed with `WP_Roles`.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpRolesProxy extends WP_Roles
 {
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __construct()
     {
@@ -27,7 +27,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * Proxies a method call to the original {@link WP_Roles} instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $method    The name of the method.
      * @param array  $arguments The method call arguments.
@@ -48,7 +48,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function add_role($role, $display_name, $capabilities = [])
     {
@@ -58,7 +58,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function remove_role($role)
     {
@@ -68,7 +68,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function add_cap($role, $cap, $grant = true)
     {
@@ -78,7 +78,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function remove_cap($role, $cap)
     {
@@ -88,7 +88,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function get_role($role)
     {
@@ -98,7 +98,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function get_names()
     {
@@ -108,7 +108,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function is_role($role)
     {
@@ -118,7 +118,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function init_roles()
     {
@@ -128,7 +128,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function for_site($site_id = null)
     {
@@ -138,7 +138,7 @@ class WpRolesProxy extends WP_Roles
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function get_site_id()
     {

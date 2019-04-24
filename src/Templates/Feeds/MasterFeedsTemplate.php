@@ -29,46 +29,46 @@ use Traversable;
  * to specify which items to render, as "query_sources", "query_exclude", "query_max_num", "query_page" and
  * "query_factory".
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class MasterFeedsTemplate implements TemplateInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use ParseArgsWithSchemaCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use SanitizeIdCommaListCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeArrayCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateTemplateRenderExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * The key from where to read template options.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const TEMPLATE_OPTIONS_KEY = 'options';
 
     /**
      * The key to which to write non-schema context options.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const CTX_OPTIONS_KEY = 'options';
 
     /**
      * The ID of the template to use by default.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -77,7 +77,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * An associative array of template type instances.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var FeedTemplateTypeInterface[]
      */
@@ -86,7 +86,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * The collection of templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var CollectionInterface
      */
@@ -95,7 +95,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * The collection of templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var CollectionInterface
      */
@@ -104,7 +104,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * The collection of twig templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -113,7 +113,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * The template to use for legacy-mode rendering.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -122,7 +122,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * The logger instance to use for recording errors.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var LoggerInterface
      */
@@ -131,7 +131,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string              $default            The name of the template to use by default.
      * @param array               $templateTypes      The available template types.
@@ -162,7 +162,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function render($argCtx = null)
     {
@@ -208,7 +208,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * Parses the render context, normalizing it to an array and filtering it against the schema.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass|Traversable $ctx The render context.
      *
@@ -234,7 +234,7 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array
      */
@@ -265,7 +265,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * Retrieves the template model instance for a given post slug.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $slug The slug name of the template post.
      *
@@ -295,7 +295,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * Retrieves the template type instance for a template model.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $model The template model.
      *
@@ -314,7 +314,7 @@ class MasterFeedsTemplate implements TemplateInterface
      * Checks whether or not the master feeds template should fall back to the legacy rendering method when no
      * template is explicitly specified in the render context.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return bool True to fall back to the legacy rendering system, false to use the default template.
      */

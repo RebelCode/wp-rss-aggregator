@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers\CustomFeed;
 /**
  * The handler that renders the custom feed.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RenderCustomFeedHandler
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

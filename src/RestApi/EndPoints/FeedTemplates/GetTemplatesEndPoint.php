@@ -12,14 +12,14 @@ use WP_REST_Response;
 /**
  * The REST API end point for retrieving templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class GetTemplatesEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The query iterator for templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var CollectionInterface
      */
@@ -28,7 +28,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param CollectionInterface $collection The templates' collection data set.
      */
@@ -40,7 +40,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handle(WP_REST_Request $request)
     {
@@ -52,7 +52,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
     /**
      * Retrieves the response data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_REST_Request $request
      *
@@ -79,7 +79,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
     /**
      * Applies filters to the collection based on the request.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_REST_Request     $request    The request.
      * @param CollectionInterface $collection The collection to filter.
@@ -114,7 +114,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
     /**
      * Paginates the collection.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_REST_Request     $request    The request.
      * @param CollectionInterface $collection The collection to paginate.

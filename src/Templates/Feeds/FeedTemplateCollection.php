@@ -10,14 +10,14 @@ use WP_Post;
 /**
  * A posts collection for WP RSS Aggregator feed templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedTemplateCollection extends WpPostCollection
 {
     /**
      * The default template's type.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -26,7 +26,7 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string     $postType The name of the post type.
      * @param string     $defType  The default template's type.
@@ -42,7 +42,7 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createModel(WP_Post $post)
     {
@@ -60,7 +60,7 @@ class FeedTemplateCollection extends WpPostCollection
      *
      * Overridden to ensure that the title is set (for auto slug generation) and the status is "publish".
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getNewPostData($data)
     {
@@ -76,7 +76,7 @@ class FeedTemplateCollection extends WpPostCollection
      *
      * Overridden to ensure that the slug updates with the title and that the status is still "publish".
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getUpdatePostData($key, $data)
     {
@@ -93,7 +93,7 @@ class FeedTemplateCollection extends WpPostCollection
      *
      * Overridden to sort the templates by title, with builtin templates served at the very top of the list.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function queryPosts($key = null)
     {
@@ -117,7 +117,7 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handleFilter(&$queryArgs, $key, $value)
     {
@@ -149,7 +149,7 @@ class FeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createSelfWithFilter($filter)
     {

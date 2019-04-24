@@ -11,14 +11,14 @@ use WP_REST_Response;
 /**
  * The REST API endpoint for deleting templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class DeleteTemplateEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The query iterator for templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var CollectionInterface
      */
@@ -27,7 +27,7 @@ class DeleteTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param CollectionInterface $collection The templates' collection data set.
      */
@@ -39,7 +39,7 @@ class DeleteTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handle(WP_REST_Request $request)
     {
@@ -65,7 +65,7 @@ class DeleteTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Deletes a single template by ID.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int $id the ID of the template to delete.
      *
@@ -89,7 +89,7 @@ class DeleteTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Deletes a collection of templates, by IDs.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int[] $ids The IDs of the templates to delete.
      *

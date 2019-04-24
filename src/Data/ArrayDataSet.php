@@ -12,23 +12,23 @@ use Traversable;
 /**
  * A data set implementation that uses a static array or object data store.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ArrayDataSet extends AbstractDataSet
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeArrayCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * The options data as an associative array.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -37,7 +37,7 @@ class ArrayDataSet extends AbstractDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass|Traversable $data The data store, as an associative array, object or iterator.
      */
@@ -49,7 +49,7 @@ class ArrayDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -59,7 +59,7 @@ class ArrayDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -69,7 +69,7 @@ class ArrayDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -79,7 +79,7 @@ class ArrayDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -89,7 +89,7 @@ class ArrayDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {

@@ -7,14 +7,14 @@ use RuntimeException;
 /**
  * A collection implementation for all items imported by WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ImportedItemsCollection extends FeedItemCollection
 {
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array      $metaQuery The meta query.
      * @param array|null $filter    Optional filter to restrict the collection query.
@@ -29,7 +29,7 @@ class ImportedItemsCollection extends FeedItemCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $data)
     {
@@ -39,7 +39,7 @@ class ImportedItemsCollection extends FeedItemCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getBasePostQueryArgs()
     {

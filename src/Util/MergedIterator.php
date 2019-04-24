@@ -12,14 +12,14 @@ use Traversable;
  * Once a key and its value have been yielded, no further values for the same keys are yielded. In other words, the
  * precedence for iterators is "first come, first serve".
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class MergedIterator extends AppendIterator
 {
     /**
      * Temporary list of keys yielded during iteration, used to avoid yielded duplicates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -28,7 +28,7 @@ class MergedIterator extends AppendIterator
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass|Traversable $iterators The iterators.
      */
@@ -45,7 +45,7 @@ class MergedIterator extends AppendIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function rewind()
     {
@@ -57,7 +57,7 @@ class MergedIterator extends AppendIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function next()
     {
@@ -72,7 +72,7 @@ class MergedIterator extends AppendIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function current()
     {

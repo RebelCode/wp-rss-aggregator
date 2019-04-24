@@ -9,7 +9,7 @@ use Traversable;
 /**
  * Interface for objects that act as collections.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface CollectionInterface extends DataSetInterface
 {
@@ -20,7 +20,7 @@ interface CollectionInterface extends DataSetInterface
      * that may be filtered further. If this is case, it should be assumed that the filters given to a collection are
      * used in an AND relationship with any filters currently assigned to the current collection instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass|Traversable $filters A list of filters as key-value pairs, where the key represents the
      *                                            filter identifier and the value represents the value to filter by.
@@ -32,7 +32,7 @@ interface CollectionInterface extends DataSetInterface
     /**
      * Retrieves the total number of entries in the collection.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return int An integer number of entries.
      */
@@ -41,7 +41,7 @@ interface CollectionInterface extends DataSetInterface
     /**
      * Clears the contents of the collection by deleting all the entries.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function clear();
 }

@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Modules\Handlers\LoadTextDomainHandler;
 /**
  * The WP RSS Aggregator internationalization module.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class I18nModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class I18nModule implements ModuleInterface
             /*
              * The text domain for WP RSS Aggregator.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/i18n/domain' => function () {
                 return WPRSS_TEXT_DOMAIN;
@@ -31,7 +31,7 @@ class I18nModule implements ModuleInterface
             /*
              * The path to the languages directory.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/i18n/languages_dir_path' => function () {
                 return WPRSS_LANG;
@@ -39,7 +39,7 @@ class I18nModule implements ModuleInterface
             /*
              * The handler that loads the plugin's text domain.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/i18n/load_text_domain_handler' => function (ContainerInterface $c) {
                 return new LoadTextDomainHandler(
@@ -53,7 +53,7 @@ class I18nModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -63,7 +63,7 @@ class I18nModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

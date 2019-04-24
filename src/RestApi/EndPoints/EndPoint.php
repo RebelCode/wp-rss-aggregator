@@ -7,14 +7,14 @@ use Dhii\Validation\ValidatorInterface;
 /**
  * A simple implementation of a REST API endpoint.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class EndPoint implements EndPointInterface
 {
     /**
      * The endpoint's route.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class EndPoint implements EndPointInterface
     /**
      * The endpoint's accepted HTTP methods.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string[]
      */
@@ -32,7 +32,7 @@ class EndPoint implements EndPointInterface
     /**
      * The endpoint's handler.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable
      */
@@ -41,7 +41,7 @@ class EndPoint implements EndPointInterface
     /**
      * The endpoint's authorization handler, if any.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var ValidatorInterface|null
      */
@@ -50,7 +50,7 @@ class EndPoint implements EndPointInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string                  $route       The route.
      * @param string[]                $methods     The accepted HTTP methods.
@@ -68,7 +68,7 @@ class EndPoint implements EndPointInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getRoute()
     {
@@ -78,7 +78,7 @@ class EndPoint implements EndPointInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getMethods()
     {
@@ -88,7 +88,7 @@ class EndPoint implements EndPointInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getHandler()
     {
@@ -98,7 +98,7 @@ class EndPoint implements EndPointInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getAuthHandler()
     {

@@ -8,14 +8,14 @@ use Traversable;
 /**
  * A generic handler implementation that invokes a list of children handlers in sequence.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class MultiHandler
 {
     /**
      * The list of handlers to invoke.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable[]|stdClass|Traversable
      */
@@ -24,7 +24,7 @@ class MultiHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param callable[]|stdClass|Traversable $handlers The list of handlers to invoke.
      */
@@ -36,7 +36,7 @@ class MultiHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

@@ -14,23 +14,23 @@ use Twig\Error\SyntaxError;
 /**
  * A standard template implementation that renders a Twig template.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class TwigTemplate implements TemplateInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateTemplateRenderExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * The Twig environment.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var Environment
      */
@@ -39,7 +39,7 @@ class TwigTemplate implements TemplateInterface
     /**
      * The path to the Twig file, relative from any registered templates directory.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -48,7 +48,7 @@ class TwigTemplate implements TemplateInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param Environment $env  The Twig environment instance.
      * @param string      $path The path to the Twig file, relative from any registered templates directory.
@@ -62,7 +62,7 @@ class TwigTemplate implements TemplateInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function render($ctx = null)
     {

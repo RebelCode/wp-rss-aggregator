@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Logger;
 /**
  * Utility functionality for loggers.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 trait LoggerUtilsTrait
 {
     /**
      * Interpolates context values into the message placeholders.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string   $message The string to interpolate.
      * @param string[] $context An associative array map of values to replace in the message.
@@ -33,7 +33,7 @@ trait LoggerUtilsTrait
     /**
      * Normalizes a context value to a string.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param mixed $value The context value to normalize.
      *

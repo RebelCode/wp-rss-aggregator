@@ -9,14 +9,14 @@ use WP_Roles;
 /**
  * Adds a CPT's meta-mapped capability type to a set of user roles.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AddCptMetaCapsHandler extends AddCapabilitiesHandler
 {
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Roles                   $wpRoles The WordPress role manager instance.
      * @param array|stdClass|Traversable $roles   The list of user roles to which the capabilities are added.
@@ -32,7 +32,7 @@ class AddCptMetaCapsHandler extends AddCapabilitiesHandler
     /**
      * Retrieves the meta-capabilities for a CPT's capability type.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $type The capability type.
      *

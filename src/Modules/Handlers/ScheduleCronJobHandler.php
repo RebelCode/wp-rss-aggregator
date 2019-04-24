@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers;
 /**
  * A generic handler that schedules a WordPress cron job and its handler.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ScheduleCronJobHandler
 {
     /**
      * The action to invoke when the cron job is run.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class ScheduleCronJobHandler
     /**
      * The cron job handler.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable
      */
@@ -30,7 +30,7 @@ class ScheduleCronJobHandler
     /**
      * The timestamp for when to run the cron job, or null to run immediately.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int|null
      */
@@ -39,7 +39,7 @@ class ScheduleCronJobHandler
     /**
      * How frequently to run the cron job, or null to run only once.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string|null
      */
@@ -48,7 +48,7 @@ class ScheduleCronJobHandler
     /**
      * The arguments to pass to the cron handler.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -57,7 +57,7 @@ class ScheduleCronJobHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string      $key       The key to use to identify this cron job.
      * @param callable    $handler   The cron job handler to invoke.
@@ -77,7 +77,7 @@ class ScheduleCronJobHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

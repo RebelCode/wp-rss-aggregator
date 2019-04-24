@@ -14,14 +14,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The feed sources module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedSourcesModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -29,7 +29,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The name of the feed sources CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/cpt/name' => function () {
                 return 'wprss_feed';
@@ -37,7 +37,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The labels for the feed sources CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/cpt/labels' => function () {
                 return [
@@ -58,7 +58,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The capability for the feed sources CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/cpt/capability' => function () {
                 return 'feed_source';
@@ -66,7 +66,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The full arguments for the feed sources CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/cpt/args' => function (ContainerInterface $c) {
                 return [
@@ -93,7 +93,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The user roles that have the feed sources CPT capabilities.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/cpt/capability_roles' => function () {
                 return ['administrator', 'editor'];
@@ -101,7 +101,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The capability for the feed sources CPT admin menu.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/menu/capability' => function () {
                 return 'manage_feed_settings';
@@ -109,7 +109,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The user roles that have the feed sources CPT admin menu capabilities.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/menu/capability_roles' => function (ContainerInterface $c) {
                 // Identical to CPT roles
@@ -118,7 +118,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that registers the feed sources CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/handlers/register_cpt' => function (ContainerInterface $c) {
                 return new RegisterCptHandler(
@@ -129,7 +129,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The template used to render feed source content.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/content_template' => function (ContainerInterface $c) {
                 if ($c->has('wpra/display/feeds/template')) {
@@ -141,7 +141,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that renders a feed source's content on the front-end.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/handlers/render_content' => function (ContainerInterface $c) {
                 return new RenderFeedSourceContentHandler($c->get('wpra/feeds/sources/content_template'));
@@ -149,7 +149,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that adds the capability that allows users to see and access the admin menu.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/handlers/add_menu_capabilities' => function (ContainerInterface $c) {
                 if (!$c->has('wp/roles')) {
@@ -165,7 +165,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that adds the CPT's capabilities to the appropriate user roles.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/handlers/add_cpt_capabilities' => function (ContainerInterface $c) {
                 return new AddCptMetaCapsHandler(
@@ -177,7 +177,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The full handler for adding all capabilities related to the feed sources CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/sources/add_capabilities_handler' => function (ContainerInterface $c) {
                 return new MultiHandler([
@@ -191,7 +191,7 @@ class FeedSourcesModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -201,7 +201,7 @@ class FeedSourcesModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

@@ -328,7 +328,7 @@ add_action('plugins_loaded', 'wpra_run', 100);
 /**
  * Runs WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 function wpra_run()
 {
@@ -348,7 +348,7 @@ function wpra_run()
 /**
  * Retrieves the WP RSS Aggregator instance.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @return Plugin
  */
@@ -368,7 +368,7 @@ function wpra()
 /**
  * Retrieves the WP RSS Aggregator plugin modules.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @return ModuleInterface[] The modules.
  */
@@ -399,7 +399,7 @@ function wpra_modules()
 /**
  * Retrieves the WP RSS Aggregator DI container.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @return ContainerInterface The container instance.
  */
@@ -425,7 +425,7 @@ function wpra_container()
 /**
  * Retrieves a WP RSS Aggregator service from the container.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @param string $key The service key, without the 'wpra/' prefix.
  *
@@ -439,7 +439,7 @@ function wpra_get($key)
 /**
  * Loads a WP RSS Aggregator module.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @param string          $key    The module key.
  * @param ModuleInterface $module The module instance.
@@ -493,7 +493,7 @@ function wprss_init() {
  * Informs users that have not updated to 4.13 that 4.13 will stop supporting PHP 5.3, if their PHP version is
  * less than 5.4.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 add_action('after_plugin_row', function($plugin_file) {
     if ($plugin_file !== plugin_basename(__FILE__)

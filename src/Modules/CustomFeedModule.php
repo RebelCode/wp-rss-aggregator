@@ -10,14 +10,14 @@ use RebelCode\Wpra\Core\Modules\Handlers\CustomFeed\RenderCustomFeedHandler;
 /**
  * The module for the WP RSS Aggregator custom feed.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class CustomFeedModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -25,7 +25,7 @@ class CustomFeedModule implements ModuleInterface
             /*
              * The default custom feed URL.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/custom_feed/default_url' => function () {
                 return 'wprss';
@@ -33,7 +33,7 @@ class CustomFeedModule implements ModuleInterface
             /*
              * The handler that registers the custom feed.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/custom_feed/register_handler' => function (ContainerInterface $c) {
                 return new RegisterCustomFeedHandler(
@@ -47,7 +47,7 @@ class CustomFeedModule implements ModuleInterface
              *
              * Resolves to the core plugin's general settings dataset, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/custom_feed/settings' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/settings/general/dataset')) {
@@ -59,7 +59,7 @@ class CustomFeedModule implements ModuleInterface
             /*
              * The default settings for the custom feed.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/custom_feed/default_settings' => function () {
                 return new ArrayDataSet([
@@ -69,7 +69,7 @@ class CustomFeedModule implements ModuleInterface
             /*
              * The handler that renders the custom feed.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/custom_feed/render_handler' => function () {
                 return new RenderCustomFeedHandler();
@@ -80,7 +80,7 @@ class CustomFeedModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -90,7 +90,7 @@ class CustomFeedModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

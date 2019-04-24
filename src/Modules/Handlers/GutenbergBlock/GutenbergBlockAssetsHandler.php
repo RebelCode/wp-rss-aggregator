@@ -7,14 +7,14 @@ use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 /**
  * Class for registering assets for gutenberg block.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class GutenbergBlockAssetsHandler
 {
     /**
      * Templates collection.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var CollectionInterface
      */
@@ -33,7 +33,7 @@ class GutenbergBlockAssetsHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

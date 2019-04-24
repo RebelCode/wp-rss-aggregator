@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers;
 /**
  * A handler for registering custom post types.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RegisterCptHandler
 {
     /**
      * The CPT name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class RegisterCptHandler
     /**
      * The CPT args.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -30,7 +30,7 @@ class RegisterCptHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $cptName The CPT name.
      * @param array  $cptArgs The CPT args.
@@ -42,7 +42,7 @@ class RegisterCptHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

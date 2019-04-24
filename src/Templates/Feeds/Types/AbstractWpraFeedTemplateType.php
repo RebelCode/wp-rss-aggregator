@@ -25,34 +25,34 @@ use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
  * The "self.dir" variable may be useful for requiring other template files located in the same directory as the
  * main template file.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use ParseArgsWithSchemaCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use SanitizeIdCommaListCapableTrait;
 
     /**
      * The name of the root templates directory.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const ROOT_DIR_NAME = 'feeds';
 
     /**
      * The name of the main template file to load.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const MAIN_FILE_NAME = 'main.twig';
 
     /**
      * The templates data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -61,7 +61,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $templates The templates data set.
      */
@@ -73,7 +73,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     /**
      * Retrieves the template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return TemplateInterface The template instance.
      */
@@ -85,7 +85,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     /**
      * Retrieves the path to the template directory.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string The path to the template directory, relative to a registered WPRA template path.
      */
@@ -97,7 +97,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     /**
      * Retrieves the path to the template main file.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string The path to the template main file, relative to a registered WPRA template path.
      */
@@ -112,7 +112,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
      * Overrides the parent method to process the standard WPRA options, filter the feed items collection and add the
      * template info to the context.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function prepareContext($ctx)
     {
@@ -158,7 +158,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     /**
      * Retrieves the WPRA-standard template type options.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array
      */
@@ -211,7 +211,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     /**
      * Creates the data set instance for a given template render context.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $ctx The render context.
      *

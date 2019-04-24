@@ -7,14 +7,14 @@ use Dhii\Output\TemplateInterface;
 /**
  * The handler that renders a feed source's content.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RenderFeedSourceContentHandler
 {
     /**
      * The template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -23,7 +23,7 @@ class RenderFeedSourceContentHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TemplateInterface $template The template to render.
      */
@@ -35,7 +35,7 @@ class RenderFeedSourceContentHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke($content)
     {

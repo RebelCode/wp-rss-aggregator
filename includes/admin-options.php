@@ -348,7 +348,7 @@
     /** 
      * Custom feed settings section header
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     function wprss_settings_custom_feed_callback() {
         echo wpautop( __( 'WP RSS Aggregator creates a custom RSS feed for you that includes any items imported by the plugin. Use the below options to set it up.', WPRSS_TEXT_DOMAIN ) );
@@ -357,7 +357,7 @@
     /**
      * Advanced settings section header
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     function wprss_settings_advanced_callback() {
         echo wpautop( __( 'Only change these options if you know what you are doing!', WPRSS_TEXT_DOMAIN ) );
@@ -680,7 +680,7 @@
     /**
      * Renders an <input> HTML tag from its parameters.
      *
-     * @since [*next-version*]
+     * @since 4.13
      * @return string The HTML of an <input> tag.
      */
     function wprss_settings_render_input($id, $name, $value, $type ='text', $attributes = [])
@@ -706,7 +706,7 @@
     /**
      * Renders an <input> checkbox HTML tag from its parameters.
      *
-     * @since [*next-version*]
+     * @since 4.13
      * @return string The HTML of an <input> checkbox tag.
      */
     function wprss_settings_render_checkbox($id, $name, $value, $checked = false)

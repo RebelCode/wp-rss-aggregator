@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 /**
  * Interface for objects that represent WP RSS Aggregator feed template types.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface FeedTemplateTypeInterface extends TemplateInterface
 {
     /**
      * Retrieves the template type key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -24,7 +24,7 @@ interface FeedTemplateTypeInterface extends TemplateInterface
     /**
      * Retrieves the template type name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -35,7 +35,7 @@ interface FeedTemplateTypeInterface extends TemplateInterface
      *
      * @see ParseArgsWithSchemaCapableTrait
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array An array of option schemas, usable with {@link ParseArgsWithSchemaCapableTrait}.
      */

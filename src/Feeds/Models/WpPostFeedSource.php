@@ -9,21 +9,21 @@ use WP_Post;
 /**
  * Model class for posts of the WP RSS Aggregator feed source custom post type.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostFeedSource extends WpCptDataSet
 {
     /**
      * The meta prefix.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const META_PREFIX = 'wprss_';
 
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $post The post instance or ID.
      */
@@ -35,7 +35,7 @@ class WpPostFeedSource extends WpCptDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createPostDataSet($postOrId)
     {

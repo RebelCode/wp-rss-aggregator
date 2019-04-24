@@ -7,14 +7,14 @@ use WP_REST_Request;
 /**
  * A REST API auth handler implementation that verifies the validity of a WordPress nonce in the request.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AuthVerifyNonce extends AbstractAuthValidator
 {
     /**
      * The name of the nonce to validate.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class AuthVerifyNonce extends AbstractAuthValidator
     /**
      * The name of the request GET param or POST field from where the nonce value is read.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -32,7 +32,7 @@ class AuthVerifyNonce extends AbstractAuthValidator
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $nonce The name of the nonce to validate.
      * @param string $param The name of the request GET param or POST field from where the nonce value is read.
@@ -46,7 +46,7 @@ class AuthVerifyNonce extends AbstractAuthValidator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function _getValidationErrors($subject)
     {

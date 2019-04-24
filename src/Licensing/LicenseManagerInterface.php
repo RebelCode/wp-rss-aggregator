@@ -8,14 +8,14 @@ use RuntimeException;
 /**
  * Interface for objects that can activate and deactivate licenses.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface LicenseManagerInterface
 {
     /**
      * Activates the given license.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param LicenseInterface $license The license to activate.
      *
@@ -27,7 +27,7 @@ interface LicenseManagerInterface
     /**
      * Deactivates the given license.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param LicenseInterface $license The license to deactivate.
      *
@@ -39,7 +39,7 @@ interface LicenseManagerInterface
     /**
      * Retrieves the information about a given license.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param LicenseInterface $license The license.
      *

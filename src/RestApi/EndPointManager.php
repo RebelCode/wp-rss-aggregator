@@ -11,14 +11,14 @@ use WP_REST_Request;
 /**
  * A REST API route manager.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class EndPointManager
 {
     /**
      * The REST API endpoints.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var EndPointInterface[]
      */
@@ -27,7 +27,7 @@ class EndPointManager
     /**
      * The namespace to use for the routes.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -36,7 +36,7 @@ class EndPointManager
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string              $namespace The namespace to use for the routes.
      * @param EndPointInterface[] $endPoints The REST API endpoints.
@@ -50,7 +50,7 @@ class EndPointManager
     /**
      * Registers the routes and endpoints with WordPress.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function register()
     {
@@ -71,7 +71,7 @@ class EndPointManager
     /**
      * Retrieves the permissions callback for an auth validator.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ValidatorInterface|null $authValidator The validator instance, if any.
      *

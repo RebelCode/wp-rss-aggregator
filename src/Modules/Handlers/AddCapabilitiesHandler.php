@@ -9,14 +9,14 @@ use WP_Roles;
 /**
  * A handler for adding capabilities to user roles.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AddCapabilitiesHandler
 {
     /**
      * The WordPress role manager instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var WP_Roles
      */
@@ -25,7 +25,7 @@ class AddCapabilitiesHandler
     /**
      * The list of user roles to which the capabilities are added.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array|stdClass|Traversable
      */
@@ -34,7 +34,7 @@ class AddCapabilitiesHandler
     /**
      * The list of capabilities to add.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array|stdClass|Traversable
      */
@@ -43,7 +43,7 @@ class AddCapabilitiesHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Roles                   $wpRoles      The WordPress role manager instance.
      * @param array|stdClass|Traversable $roles        The list of user roles to which the capabilities are added.
@@ -59,7 +59,7 @@ class AddCapabilitiesHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

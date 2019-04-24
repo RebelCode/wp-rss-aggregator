@@ -10,17 +10,17 @@ use RebelCode\Wpra\Core\Util\IteratorDelegateTrait;
 /**
  * A data set that contains, and creates on-demand, the logger instances for WP RSS Aggregator feed sources.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedLoggerDataSet implements DataSetInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use IteratorDelegateTrait;
 
     /**
      * The logger instances.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var LoggerInterface[]
      */
@@ -29,7 +29,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * A callable that should accept a feed source ID and return a logger instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable
      */
@@ -38,7 +38,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param callable $factory A callable that should accept a feed source ID and return a logger instance.
      */
@@ -51,7 +51,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($feedId)
     {
@@ -65,7 +65,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($feedId)
     {
@@ -75,7 +75,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($feedId, $instance)
     {
@@ -85,7 +85,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($feedId)
     {
@@ -95,7 +95,7 @@ class FeedLoggerDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {

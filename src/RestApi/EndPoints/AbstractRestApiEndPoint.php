@@ -14,12 +14,12 @@ use WP_REST_Response;
 /**
  * Abstract functionality for REST API end points.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractRestApiEndPoint
 {
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {
@@ -64,7 +64,7 @@ abstract class AbstractRestApiEndPoint
     /**
      * Retrieves the response transformer to use, if any.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return TransformerInterface|null The transformer instance or null if no transformer is required.
      */
@@ -76,7 +76,7 @@ abstract class AbstractRestApiEndPoint
     /**
      * Handles the request and provides a response.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_REST_Request $request The request.
      *

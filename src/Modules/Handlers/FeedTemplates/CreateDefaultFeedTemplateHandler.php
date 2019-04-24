@@ -8,14 +8,14 @@ use Traversable;
 /**
  * The handler that auto creates the default feed template.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class CreateDefaultFeedTemplateHandler
 {
     /**
      * Description
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array|Traversable
      */
@@ -24,7 +24,7 @@ class CreateDefaultFeedTemplateHandler
     /**
      * The data to use for creating the default feed template.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -33,7 +33,7 @@ class CreateDefaultFeedTemplateHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|Traversable $collection The feed templates collection.
      * @param array             $data       The data to use for creating the default feed template.
@@ -45,7 +45,7 @@ class CreateDefaultFeedTemplateHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

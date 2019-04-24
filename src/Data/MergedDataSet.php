@@ -8,35 +8,35 @@ use RebelCode\Wpra\Core\Util\MergedIterator;
 /**
  * An implementation of a data set that merged two data sets, with customizable override behavior and iteration.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class MergedDataSet extends AbstractDataSet
 {
     /**
      * Iteration mode for only iterating over the primary data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const ITERATE_PRIMARY = 0;
 
     /**
      * Iteration mode for only iterating over the secondary data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const ITERATE_SECONDARY = 1;
 
     /**
      * Iteration mode for iterating over both data sets, yielding only unique keys.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const ITERATE_BOTH = 2;
 
     /**
      * The primary data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -45,7 +45,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * The secondary data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -54,7 +54,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * The map of keys that the primary overrides.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool[]
      */
@@ -63,7 +63,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * Description
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -72,7 +72,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $primary     The primary data set to use.
      * @param DataSetInterface $secondary   The secondary data set to use for keys that don't exist in the primary.
@@ -97,7 +97,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -109,7 +109,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -121,7 +121,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -141,7 +141,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -161,7 +161,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * Checks if a key is marked as being overridden.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $key The key.
      *
@@ -175,7 +175,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -193,7 +193,7 @@ class MergedDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function current()
     {
@@ -216,7 +216,7 @@ class MergedDataSet extends AbstractDataSet
      * If a key is not marked as overwritten, then the primary dataset is prioritized. If it does not contain the key,
      * then the secondary dataset is returned.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $key The key.
      *

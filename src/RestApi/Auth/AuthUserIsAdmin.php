@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\RestApi\Auth;
 /**
  * A REST API auth handler that checks if the request is sent by a logged in administrator user.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AuthUserIsAdmin extends AbstractAuthValidator
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function _getValidationErrors($subject)
     {

@@ -8,21 +8,21 @@ use LimitIterator;
 /**
  * A special iterator implementation that paginates another iterator by only iterating over a given page subset.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class PaginatedIterator extends LimitIterator
 {
     /**
      * The number of keys that have been yielded during an iteration.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected $keyCount;
 
     /**
      * Whether or not to preserve keys.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -31,7 +31,7 @@ class PaginatedIterator extends LimitIterator
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param Iterator $iterator     The inner iterator.
      * @param int      $page         The page number.
@@ -51,7 +51,7 @@ class PaginatedIterator extends LimitIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function rewind()
     {
@@ -63,7 +63,7 @@ class PaginatedIterator extends LimitIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function key()
     {

@@ -7,14 +7,14 @@ use RebelCode\Wpra\Core\Database\TableInterface;
 /**
  * The handler for the log truncation cron job.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class TruncateLogsCronHandler
 {
     /**
      * The log table to truncate.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TableInterface
      */
@@ -23,7 +23,7 @@ class TruncateLogsCronHandler
     /**
      * Logs older than this number of days will be deleted.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int
      */
@@ -32,7 +32,7 @@ class TruncateLogsCronHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TableInterface $table The log table.
      * @param int            $days  Logs older than this number of days will be deleted.
@@ -46,7 +46,7 @@ class TruncateLogsCronHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

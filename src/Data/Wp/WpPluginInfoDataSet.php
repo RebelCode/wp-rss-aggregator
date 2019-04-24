@@ -10,14 +10,14 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * A dataset implementation for WordPress plugin information.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPluginInfoDataSet extends AbstractDelegateDataSet
 {
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $pluginFilePath The path to the plugin's main file.
      */
@@ -29,7 +29,7 @@ class WpPluginInfoDataSet extends AbstractDelegateDataSet
     /**
      * Creates the inner data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $pluginFilePath The path to the plugin's main file.
      *

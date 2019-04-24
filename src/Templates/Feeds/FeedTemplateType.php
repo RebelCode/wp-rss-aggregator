@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 /**
  * A fully generic WP RSS Aggregator feed template type, based on the core list template type.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedTemplateType extends ListTemplateType
 {
     /**
      * The template's ID.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -24,7 +24,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * The template's name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -33,7 +33,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * The path to the twig template file, relative from a registered Twig directory.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string|null
      */
@@ -42,7 +42,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * The default options.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -51,7 +51,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string           $id       The template's ID.
      * @param string           $name     The template's name.
@@ -69,7 +69,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getKey()
     {
@@ -79,7 +79,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getName()
     {
@@ -89,7 +89,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getTemplateDir()
     {
@@ -99,7 +99,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getTemplatePath()
     {
@@ -109,7 +109,7 @@ class FeedTemplateType extends ListTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getOptions()
     {

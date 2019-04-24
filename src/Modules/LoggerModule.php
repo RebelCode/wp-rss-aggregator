@@ -13,14 +13,14 @@ use RebelCode\Wpra\Core\Modules\Handlers\ScheduleCronJobHandler;
 /**
  * A module that adds a logger to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class LoggerModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -28,7 +28,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The main logger instance.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/logger' => function (ContainerInterface $c) {
                 return new WpdbLogger(
@@ -42,7 +42,7 @@ class LoggerModule implements ModuleInterface
              *
              * Resolves to a null table if WordPress' database adapter is not available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/log_table' => function (ContainerInterface $c) {
                 if (!$c->has('wp/db')) {
@@ -59,7 +59,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The name of the table where logs are stored.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/log_table_name' => function (ContainerInterface $c) {
                 return 'wprss_logs';
@@ -67,7 +67,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The table columns to use for the log table.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/log_table_schema' => function () {
                 return [
@@ -81,7 +81,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The mapping of log properties to columns.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/log_table_columns' => function () {
                 return [
@@ -95,7 +95,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The log table's primary key.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/log_table_primary_key' => function () {
                 return 'id';
@@ -103,7 +103,7 @@ class LoggerModule implements ModuleInterface
             /*
              * Additional data to include per-log in the log table.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/log_table_extra' => function () {
                 return [
@@ -113,7 +113,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The data set that contains the logger instances for each feed source..
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/feed_logger_dataset' => function (ContainerInterface $c) {
                 return new FeedLoggerDataSet($c->get('wpra/logging/feed_logger_factory'));
@@ -121,7 +121,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The factory that creates logger instances for specific feeds.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/feed_logger_factory' => function (ContainerInterface $c) {
                 return function ($feedId) use ($c) {
@@ -135,7 +135,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The scheduler for the log truncation cron job.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/logging/trunc_logs_cron/scheduler' => function (ContainerInterface $c) {
                 return new ScheduleCronJobHandler(
@@ -149,7 +149,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The event for the log truncation cron job.
              *
-             * @since [*next-version*]'
+             * @since 4.13'
              */
             'wpra/logging/trunc_logs_cron/event' => function (ContainerInterface $c) {
                 return 'wprss_truncate_logs';
@@ -157,7 +157,7 @@ class LoggerModule implements ModuleInterface
             /*
              * How frequently the log truncation cron job runs.
              *
-             * @since [*next-version*]'
+             * @since 4.13'
              */
             'wpra/logging/trunc_logs_cron/frequency' => function (ContainerInterface $c) {
                 return 'daily';
@@ -165,7 +165,7 @@ class LoggerModule implements ModuleInterface
             /*
              * When to first run the log truncation cron job after it's been scheduled.
              *
-             * @since [*next-version*]'
+             * @since 4.13'
              */
             'wpra/logging/trunc_logs_cron/first_run' => function (ContainerInterface $c) {
                 return time() + DAY_IN_SECONDS;
@@ -174,7 +174,7 @@ class LoggerModule implements ModuleInterface
              * The number of days to use as a maximum age for logs during the log truncation cron job.
              * Logs older than this number in days are deleted.
              *
-             * @since [*next-version*]'
+             * @since 4.13'
              */
             'wpra/logging/trunc_logs_cron/log_max_age_days' => function (ContainerInterface $c) {
                 return 100;
@@ -182,7 +182,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The handler for the log truncation cron job.
              *
-             * @since [*next-version*]'
+             * @since 4.13'
              */
             'wpra/logging/trunc_logs_cron/handler' => function (ContainerInterface $c) {
                 return new TruncateLogsCronHandler(
@@ -193,7 +193,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The arguments to pass to the log truncation cron job handler.
              *
-             * @since [*next-version*]'
+             * @since 4.13'
              */
             'wpra/logging/trunc_logs_cron/args' => function (ContainerInterface $c) {
                 return [];
@@ -204,7 +204,7 @@ class LoggerModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -214,7 +214,7 @@ class LoggerModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Feeds\ImportedItemsCollection;
 /**
  * The WP RSS Aggregator importer module.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ImporterModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -35,7 +35,7 @@ class ImporterModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -45,7 +45,7 @@ class ImporterModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

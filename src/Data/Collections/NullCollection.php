@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Data\Collections;
 /**
  * An implementation of a null collection.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class NullCollection implements CollectionInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($offset)
     {
@@ -22,7 +22,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($offset)
     {
@@ -32,7 +32,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($offset, $value)
     {
@@ -41,7 +41,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($offset)
     {
@@ -50,7 +50,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function filter($filters)
     {
@@ -60,7 +60,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getCount()
     {
@@ -70,7 +70,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function clear()
     {
@@ -79,7 +79,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function current()
     {
@@ -89,7 +89,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function next()
     {
@@ -98,7 +98,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]]
+     * @since 4.13]
      */
     public function key()
     {
@@ -108,7 +108,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function valid()
     {
@@ -118,7 +118,7 @@ class NullCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function rewind()
     {

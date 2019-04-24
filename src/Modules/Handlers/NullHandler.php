@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers;
 /**
  * An implementation of a null handler that does nothing.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class NullHandler
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

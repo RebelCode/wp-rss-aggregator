@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Query;
 /**
  * A simple implementation of a WordPress query iterator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpQueryIterator extends AbstractWpQueryIterator
 {
     /**
      * The WP Query arguments.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -21,7 +21,7 @@ class WpQueryIterator extends AbstractWpQueryIterator
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $args The WP Query arguments.
      */
@@ -33,7 +33,7 @@ class WpQueryIterator extends AbstractWpQueryIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getQueryArgs()
     {

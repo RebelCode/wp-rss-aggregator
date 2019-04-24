@@ -11,14 +11,14 @@ use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 /**
  * The feed items module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedItemsModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -26,7 +26,7 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The name of the feed items CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/cpt/name' => function () {
                 return 'wprss_feed_item';
@@ -34,7 +34,7 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The labels for the feed items CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/cpt/labels' => function () {
                 return [
@@ -50,7 +50,7 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The capability for the feed items CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/cpt/capability' => function () {
                 return 'feed_item';
@@ -60,7 +60,7 @@ class FeedItemsModule implements ModuleInterface
              *
              * Resolves to the feed sources CPT capability roles, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/cpt/capability_roles' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/feeds/sources/cpt/capability_roles')) {
@@ -72,7 +72,7 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The full arguments for the feed items CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/cpt/args' => function (ContainerInterface $c) {
                 return [
@@ -93,7 +93,7 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The collection for feed items.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/collection' => function (ContainerInterface $c) {
                 return new FeedItemCollection($c->get('wpra/feeds/items/cpt/name'));
@@ -101,7 +101,7 @@ class FeedItemsModule implements ModuleInterface
             /*
              * The handler that registers the feed items CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/handlers/register_cpt' => function (ContainerInterface $c) {
                 return new RegisterCptHandler(
@@ -114,7 +114,7 @@ class FeedItemsModule implements ModuleInterface
              *
              * Resolves to a null handler if the WordPress role manager is not available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/items/handlers/add_cpt_capabilities' => function (ContainerInterface $c) {
                 if (!$c->has('wp/roles')) {
@@ -133,7 +133,7 @@ class FeedItemsModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -143,7 +143,7 @@ class FeedItemsModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

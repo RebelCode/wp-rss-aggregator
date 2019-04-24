@@ -5,7 +5,7 @@ namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 /**
  * The handler that renders the admin feed templates page.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RenderAdminTemplatesPageHandler
 {
@@ -45,7 +45,7 @@ class RenderAdminTemplatesPageHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

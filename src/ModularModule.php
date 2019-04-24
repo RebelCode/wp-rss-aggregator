@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Modules\ModuleInterface;
 /**
  * An implementation of a module that is modular - i.e. made up of modules.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ModularModule implements ModuleInterface
 {
     /**
      * The plugin modules.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var ModuleInterface[]
      */
@@ -24,7 +24,7 @@ class ModularModule implements ModuleInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ModuleInterface[] $modules The modules.
      */
@@ -36,7 +36,7 @@ class ModularModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -52,7 +52,7 @@ class ModularModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -80,7 +80,7 @@ class ModularModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers;
 /**
  * A generic handler implementation that registers a WordPress shortcode.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RegisterShortcodeHandler
 {
     /**
      * The name of the shortcode, or a list of names.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string|string[]
      */
@@ -21,7 +21,7 @@ class RegisterShortcodeHandler
     /**
      * The shortcode callback handler.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable
      */
@@ -30,7 +30,7 @@ class RegisterShortcodeHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string|string[] $name The name of the shortcode, or a list of names.
      * @param callable        $handler The shortcode callback handler.
@@ -44,7 +44,7 @@ class RegisterShortcodeHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

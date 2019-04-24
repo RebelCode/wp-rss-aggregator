@@ -7,14 +7,14 @@ use Dhii\Validation\ValidatorInterface;
 /**
  * An interface that represents a REST API endpoint.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface EndPointInterface
 {
     /**
      * Retrieves the endpoint's route.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -23,7 +23,7 @@ interface EndPointInterface
     /**
      * Retrieves the endpoint's accepted HTTP methods.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string[]
      */
@@ -32,7 +32,7 @@ interface EndPointInterface
     /**
      * Retrieves the endpoint's handler.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return callable
      */
@@ -41,7 +41,7 @@ interface EndPointInterface
     /**
      * Retrieves the endpoint's authorization validator, if any.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return ValidatorInterface|null
      */

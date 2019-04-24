@@ -320,7 +320,7 @@ function wprss_blacklist_bulk_actions( $actions ) {
 /**
  * Adds the permalink meta box for the Blacklist post type.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 function wprss_blacklist_add_meta_boxes()
 {

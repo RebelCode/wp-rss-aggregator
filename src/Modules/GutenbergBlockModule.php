@@ -10,14 +10,14 @@ use RebelCode\Wpra\Core\Modules\Handlers\RegisterGutenbergBlockHandler;
 /**
  * The Gutenberg block for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class GutenbergBlockModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -25,7 +25,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The Gutenberg block name.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/gutenberg_block/name' => function (ContainerInterface $c) {
                 return 'wpra-shortcode/wpra-shortcode';
@@ -34,7 +34,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * Available Gutenberg block attributes.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/gutenberg_block/attributes' => function (ContainerInterface $c) {
                 return [
@@ -71,7 +71,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The Gutenberg block configuration.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/gutenberg_block/config' => function (ContainerInterface $c) {
                 return [
@@ -83,7 +83,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The Gutenberg block configuration.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/gutenberg_block/handlers/register' => function (ContainerInterface $c) {
                 return new RegisterGutenbergBlockHandler(
@@ -95,7 +95,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The Gutenberg block assets handler.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/gutenberg_block/handlers/assets' => function (ContainerInterface $c) {
                 return new GutenbergBlockAssetsHandler(
@@ -106,7 +106,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The handler for retrieving feed sources in Gutenberg block.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/gutenberg_block/handlers/fetch_feed_sources' => function (ContainerInterface $c) {
                 return new FetchFeedSourcesHandler();
@@ -117,7 +117,7 @@ class GutenbergBlockModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -127,7 +127,7 @@ class GutenbergBlockModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

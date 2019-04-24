@@ -10,7 +10,7 @@ add_action('plugins_loaded', function () {
 /**
  * Adds the sections for the legacy display settings.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @param array $sections The settings section.
  *
@@ -28,7 +28,7 @@ function wpra_add_legacy_display_settings_sections($sections)
 /**
  * Adds the legacy display settings.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @param array $settings The settings fields.
  *

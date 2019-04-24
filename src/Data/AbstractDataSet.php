@@ -9,17 +9,17 @@ use RuntimeException;
 /**
  * A data set that inherits missing entries from a parent data set.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractDataSet implements DataSetInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use IteratorDelegateTrait;
 
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($key)
     {
@@ -39,7 +39,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($key)
     {
@@ -55,7 +55,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($key, $value)
     {
@@ -71,7 +71,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($key)
     {
@@ -87,7 +87,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function recursiveUnpackIterators()
     {
@@ -99,7 +99,7 @@ abstract class AbstractDataSet implements DataSetInterface
      *
      * This method should assume that existence checking has already been performed.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $key The key of the value to retrieve.
      *
@@ -110,7 +110,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * Checks if an entry exists by key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $key The key to check for.
      *
@@ -121,7 +121,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * Modifies the value for a given key, creating the entry if it doesn't exist.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $key   The key of the entry to modify.
      * @param mixed  $value The new value.
@@ -131,7 +131,7 @@ abstract class AbstractDataSet implements DataSetInterface
     /**
      * Deletes a specific entry by key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $key The key of the entry to delete.
      */

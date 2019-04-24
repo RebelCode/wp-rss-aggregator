@@ -7,14 +7,14 @@ use Psr\Container\ContainerInterface;
 /**
  * The module that contains addon-related services.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AddonsModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -22,7 +22,7 @@ class AddonsModule implements ModuleInterface
             /*
              * The list of WP RSS Aggregator addons.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/addons' => function () {
                 return [];
@@ -33,7 +33,7 @@ class AddonsModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -43,7 +43,7 @@ class AddonsModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

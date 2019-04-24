@@ -9,14 +9,14 @@ namespace RebelCode\Wpra\Core\Data;
  * During iteration, the yielded keys are also aliases. This allows the consumer of this data set to separate
  * themselves completely from the keys of the inner data set.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AliasingDataSet extends AbstractDelegateDataSet
 {
     /**
      * A mapping of input keys to internal keys.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -25,7 +25,7 @@ class AliasingDataSet extends AbstractDelegateDataSet
     /**
      * A flipped mapping of the aliases map.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -34,7 +34,7 @@ class AliasingDataSet extends AbstractDelegateDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $dataset The inner data set.
      * @param array            $aliases Optional mapping of input keys to inner data set keys.
@@ -51,7 +51,7 @@ class AliasingDataSet extends AbstractDelegateDataSet
      *
      * Resolves an alias to retrieve the actual key to be used with the inner data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getInnerKey($alias)
     {
@@ -65,7 +65,7 @@ class AliasingDataSet extends AbstractDelegateDataSet
      *
      * Aliases a key to retrieve the key that consumers expect.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getOuterKey($key)
     {

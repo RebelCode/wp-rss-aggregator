@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Util;
 /**
  * Functionality for sanitizing a comma-separated string list of IDs into an array.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 trait SanitizeIdCommaListCapableTrait
 {
     /**
      * Sanitizes a list of IDs.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string|array $value A comma separated string list or an array.
      *

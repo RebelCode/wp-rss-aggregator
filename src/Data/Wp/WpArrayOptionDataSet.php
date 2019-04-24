@@ -7,14 +7,14 @@ use RebelCode\Wpra\Core\Data\ArrayDataSet;
 /**
  * An implementation of a data set that acts as a wrapper for serialized arrays stored in the `wp_options` table.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpArrayOptionDataSet extends ArrayDataSet
 {
     /**
      * The name of the WordPress option.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $optionName The name of the WordPress option.
      */
@@ -37,7 +37,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -49,7 +49,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -61,7 +61,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -73,7 +73,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -87,7 +87,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -101,7 +101,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * Loads the data from the database.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function loadData()
     {
@@ -111,7 +111,7 @@ class WpArrayOptionDataSet extends ArrayDataSet
     /**
      * Saves the data to the database.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function saveData()
     {

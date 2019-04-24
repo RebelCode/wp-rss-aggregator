@@ -20,29 +20,29 @@ use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
  * - Asset enqueueing
  * - The actual {@link TemplateInterface} to render.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use ParseArgsWithSchemaCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeArrayCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateTemplateRenderExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function render($ctx = null)
     {
@@ -63,7 +63,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     /**
      * Prepares a render context before passing it to the template.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|ArrayAccess $ctx The render context.
      *
@@ -91,7 +91,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     /**
      * Retrieves the template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return TemplateInterface The template instance.
      */
@@ -100,7 +100,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     /**
      * Enqueues the assets required by this template type.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     abstract protected function enqueueAssets();
 }

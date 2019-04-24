@@ -14,14 +14,14 @@ use Twig\Error\LoaderError;
 /**
  * A dataset implementation that acts as a collection for Twig templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class TwigTemplateCollection extends AbstractDataSet
 {
     /**
      * The Twig environment.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var Environment
      */
@@ -30,7 +30,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param Environment $env  The Twig environment instance.
      */
@@ -42,7 +42,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * Creates a template instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $path The path to the Twig file, relative from any registered templates directory.
      *
@@ -56,7 +56,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -66,7 +66,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -84,7 +84,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -94,7 +94,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -104,7 +104,7 @@ class TwigTemplateCollection extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {

@@ -8,14 +8,14 @@ use WP_Post;
 /**
  * The handler for saving custom feed blacklist posts.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class SaveBlacklistHandler extends AbstractSavePostHandler
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function savePost(WP_Post $post, $meta, $autoDraft)
     {
@@ -53,7 +53,7 @@ class SaveBlacklistHandler extends AbstractSavePostHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getMetaSchema()
     {

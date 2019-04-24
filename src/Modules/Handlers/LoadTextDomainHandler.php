@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers;
 /**
  * A handler that loads a plugin's text domain.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class LoadTextDomainHandler
 {
     /**
      * The text domain to load.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class LoadTextDomainHandler
     /**
      * The path to the translation files directory.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -30,7 +30,7 @@ class LoadTextDomainHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $domain    The text domain to load.
      * @param string $directory The path to the translation files directory.
@@ -44,7 +44,7 @@ class LoadTextDomainHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

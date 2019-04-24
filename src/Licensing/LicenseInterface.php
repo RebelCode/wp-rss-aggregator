@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Licensing;
 /**
  * Interface for objects that represent a license.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface LicenseInterface
 {
     /**
      * Retrieves the license's key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -21,7 +21,7 @@ interface LicenseInterface
     /**
      * Retrieves the license's status.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -30,7 +30,7 @@ interface LicenseInterface
     /**
      * Retrieves the license's expiry timestamp.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return int
      */
@@ -39,7 +39,7 @@ interface LicenseInterface
     /**
      * Retrieves the information about the license holder.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -48,7 +48,7 @@ interface LicenseInterface
     /**
      * Retrieves the number of activations for this license.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return int
      */
@@ -57,7 +57,7 @@ interface LicenseInterface
     /**
      * Retrieves the activation limit for this license.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return int
      */

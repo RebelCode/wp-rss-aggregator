@@ -11,17 +11,17 @@ use WP_Post;
 /**
  * A data set implementation that acts as a wrapper for standard WP_Post data.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostDataDataSet extends ArrayDataSet
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeWpPostCapableTrait;
 
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId The WordPress post instance or post ID.
      */
@@ -36,7 +36,7 @@ class WpPostDataDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -52,7 +52,7 @@ class WpPostDataDataSet extends ArrayDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {

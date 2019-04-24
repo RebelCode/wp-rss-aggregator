@@ -5,7 +5,7 @@ namespace RebelCode\Wpra\Core;
 /**
  * The WP RSS Aggregator plugin module.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class Plugin extends ModularModule
 {

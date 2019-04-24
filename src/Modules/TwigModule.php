@@ -15,14 +15,14 @@ use Twig\Loader\FilesystemLoader;
 /**
  * The Twig module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class TwigModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -30,7 +30,7 @@ class TwigModule implements ModuleInterface
             /*
              * The template loader for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig' => function (ContainerInterface $c) {
                 return new TwigEnvironment(
@@ -41,7 +41,7 @@ class TwigModule implements ModuleInterface
             /*
              * The template loader for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/loader' => function (ContainerInterface $c) {
                 return new FilesystemLoader($c->get('wpra/twig/paths'));
@@ -49,7 +49,7 @@ class TwigModule implements ModuleInterface
             /*
              * The template paths for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/paths' => function (ContainerInterface $c) {
                 return [WPRSS_TEMPLATES];
@@ -57,7 +57,7 @@ class TwigModule implements ModuleInterface
             /*
              * The twig template collection.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/collection' => function (ContainerInterface $c) {
                 return new TwigTemplateCollection($c->get('wpra/twig'));
@@ -65,7 +65,7 @@ class TwigModule implements ModuleInterface
             /*
              * The twig debug option.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/debug' => function () {
                 return defined('WPRSS_DEBUG') && WPRSS_DEBUG;
@@ -73,7 +73,7 @@ class TwigModule implements ModuleInterface
             /*
              * The twig cache enabler option.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/cache_enabled' => function (ContainerInterface $c) {
                 return !$c->get('wpra/twig/debug');
@@ -81,7 +81,7 @@ class TwigModule implements ModuleInterface
             /*
              * The path to the Twig cache.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/cache' => function (ContainerInterface $c) {
                 return get_temp_dir() . 'wprss/twig-cache';
@@ -89,7 +89,7 @@ class TwigModule implements ModuleInterface
             /*
              * The options for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/options' => function (ContainerInterface $c) {
                 return [
@@ -100,7 +100,7 @@ class TwigModule implements ModuleInterface
             /*
              * The extensions to use for WPRA's Twig instance.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/extensions' => function (ContainerInterface $c) {
                 return [
@@ -114,7 +114,7 @@ class TwigModule implements ModuleInterface
             /*
              * The i18n extension for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/extensions/i18n' => function (ContainerInterface $c) {
                 return new I18nExtension();
@@ -122,7 +122,7 @@ class TwigModule implements ModuleInterface
             /*
              * The date extension for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/extensions/date' => function (ContainerInterface $c) {
                 return new DateExtension();
@@ -130,7 +130,7 @@ class TwigModule implements ModuleInterface
             /*
              * The text extension for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/extensions/text' => function (ContainerInterface $c) {
                 return new TextExtension();
@@ -138,7 +138,7 @@ class TwigModule implements ModuleInterface
             /*
              * The debug extension for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/extensions/debug' => function (ContainerInterface $c) {
                 return new DebugExtension();
@@ -146,7 +146,7 @@ class TwigModule implements ModuleInterface
             /*
              * The custom WPRA extension for Twig.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig/extensions/wpra' => function (ContainerInterface $c) {
                 return new WpraExtension();
@@ -157,7 +157,7 @@ class TwigModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -165,7 +165,7 @@ class TwigModule implements ModuleInterface
             /*
              * Registers the Twig extensions.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/twig' => function (ContainerInterface $c, TwigEnvironment $twig) {
                 foreach ($c->get('wpra/twig/extensions') as $extension) {
@@ -180,7 +180,7 @@ class TwigModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

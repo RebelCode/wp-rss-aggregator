@@ -12,20 +12,20 @@ use WP_Post;
 /**
  * A dataset implementation that can manipulate serialized array posts meta data.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostArrayMetaDataSet implements DataSetInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeWpPostCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use IteratorDelegateTrait;
 
     /**
      * The WordPress post.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int|string|WP_Post
      */
@@ -34,7 +34,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * The key of the meta data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -43,7 +43,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId The WordPress post instance or post ID.
      * @param string             $metaKey  The key of the meta data.
@@ -57,7 +57,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($key)
     {
@@ -79,7 +79,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($key)
     {
@@ -91,7 +91,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($key, $value)
     {
@@ -104,7 +104,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($key)
     {
@@ -117,7 +117,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -127,7 +127,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * Retrieves the entire meta data array for the post's meta key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array
      */
@@ -141,7 +141,7 @@ class WpPostArrayMetaDataSet implements DataSetInterface
     /**
      * Sets the entire meta data array for the posts's meta key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $data The meta data array.
      */

@@ -9,17 +9,17 @@ use RuntimeException;
 /**
  * A data set for changelog files that adhere to the {@link http://keepachangelog.com Keep a Changelog} standard.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ChangelogDataSet implements DataSetInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use IteratorDelegateTrait;
 
     /**
      * The path to the changelog file.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * The parsed changelog data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -37,7 +37,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $file The path to the changelog file.
      */
@@ -50,7 +50,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * Checks if the changelog needs to be parsed and if so, it is parsed.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function init()
     {
@@ -62,7 +62,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * Parses the changelog file.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function parse()
     {
@@ -109,7 +109,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($offset)
     {
@@ -125,7 +125,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($offset)
     {
@@ -137,7 +137,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($offset, $value)
     {
@@ -149,7 +149,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($offset)
     {
@@ -161,7 +161,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -173,7 +173,7 @@ class ChangelogDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __toString()
     {

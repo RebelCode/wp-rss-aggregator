@@ -11,14 +11,14 @@ use WP_REST_Response;
 /**
  * The REST API endpoint for creating or updating templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class CreateUpdateTemplateEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The query iterator for templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -27,7 +27,7 @@ class CreateUpdateTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * True if the endpoint is idempotent, false otherwise.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -36,7 +36,7 @@ class CreateUpdateTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $collection The templates' collection data set.
      * @param bool             $idempotent True to make the endpoint be idempotent, false to not.
@@ -50,7 +50,7 @@ class CreateUpdateTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handle(WP_REST_Request $request)
     {

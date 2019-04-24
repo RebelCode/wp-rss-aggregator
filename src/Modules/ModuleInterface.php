@@ -7,14 +7,14 @@ use Psr\Container\ContainerInterface;
 /**
  * Interface for WP RSS Aggregator modules.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface ModuleInterface
 {
     /**
      * Retrieves the module's service factories.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return callable[]
      */
@@ -23,7 +23,7 @@ interface ModuleInterface
     /**
      * Retrieves the module's extensions.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return callable[]
      */
@@ -32,7 +32,7 @@ interface ModuleInterface
     /**
      * Runs the module.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ContainerInterface $c The services container.
      */

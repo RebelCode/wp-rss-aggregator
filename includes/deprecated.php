@@ -3,7 +3,7 @@
 /**
  * This file contains all legacy deprecated constants and functionality for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 
 // The feed source CPT name

@@ -9,14 +9,14 @@ use Traversable;
  * Functionality for objects that need to implement the {@link Iterator} interface but wish to delegate the actual
  * iteration to another iterator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 trait IteratorDelegateTrait
 {
     /**
      * Internal temporary iterator, used during iteration.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var Iterator|null
      */
@@ -25,7 +25,7 @@ trait IteratorDelegateTrait
     /**
      * Retrieves the inner iterator to use for iteration.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return Iterator|null
      */
@@ -34,7 +34,7 @@ trait IteratorDelegateTrait
     /**
      * Returns whether or not iterators values should be unpacked in to arrays during iteration.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return bool True to unpack iterator values, false to leave them as iterator instances.
      */
@@ -46,7 +46,7 @@ trait IteratorDelegateTrait
     /**
      * Processes a value that needs to be yielded during iteration.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param mixed $value The value.
      *
@@ -64,7 +64,7 @@ trait IteratorDelegateTrait
     /**
      * Creates an iteration value.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param mixed value The original iteration value.
      *
@@ -78,7 +78,7 @@ trait IteratorDelegateTrait
     /**
      * Rewinds the iterator.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function rewind()
     {
@@ -92,7 +92,7 @@ trait IteratorDelegateTrait
     /**
      * Advances the iterator onto the next element.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function next()
     {
@@ -102,7 +102,7 @@ trait IteratorDelegateTrait
     /**
      * Retrieves the current iteration key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return mixed
      */
@@ -117,7 +117,7 @@ trait IteratorDelegateTrait
      * Consumers that override this method are encourage to pass the value through {@link yieldValue} before
      * returning it.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return mixed
      */
@@ -129,7 +129,7 @@ trait IteratorDelegateTrait
     /**
      * Checks if the iterator has more elements to yield.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return bool
      */

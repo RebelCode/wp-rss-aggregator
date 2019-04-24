@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Data;
 /**
  * An implementation of a delegate data set that prefixes consumer keys before delegating to the inner data set.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class PrefixingDataSet extends AbstractDelegateDataSet
 {
     /**
      * The prefix to use when using the inner data set.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class PrefixingDataSet extends AbstractDelegateDataSet
     /**
      * Whether or not un-prefixed keys in the inner dataset can be accessed.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -30,7 +30,7 @@ class PrefixingDataSet extends AbstractDelegateDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $inner  The inner data set.
      * @param string           $prefix The prefix to use when using the inner data set.
@@ -47,7 +47,7 @@ class PrefixingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getInnerKey($outerKey)
     {
@@ -59,7 +59,7 @@ class PrefixingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getOuterKey($innerKey)
     {

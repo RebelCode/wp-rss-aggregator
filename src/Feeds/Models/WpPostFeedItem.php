@@ -14,42 +14,42 @@ use WP_Post;
 /**
  * An implementation of a data set for WP RSS Aggregator imported feed items.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostFeedItem extends WpCptDataSet
 {
     /**
      * The meta key prefix.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const META_PREFIX = 'wprss_';
 
     /**
      * The key to which to map the feed source dataset.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const SOURCE_KEY = 'source';
 
     /**
      * The key to which to map the feed item author.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const AUTHOR_KEY = 'author';
 
     /**
      * The key to which to map the feed item URL.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const URL_KEY = 'url';
 
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $post The WordPress Post object or post ID.
      */
@@ -67,7 +67,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createPostDataSet($postOrId)
     {
@@ -81,7 +81,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createMetaDataSet($postOrId)
     {
@@ -102,7 +102,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * Wraps the post meta dataset with an additional layer that contains virtual data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Post          $post The post instance for the feed item.
      * @param DataSetInterface $meta The post meta dataset.
@@ -140,7 +140,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {

@@ -7,14 +7,14 @@ use Dhii\Output\TemplateInterface;
 /**
  * The feeds shortcode handler.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedsShortcodeHandler
 {
     /**
      * The template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -23,7 +23,7 @@ class FeedsShortcodeHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TemplateInterface $template The template to render.
      */
@@ -33,7 +33,7 @@ class FeedsShortcodeHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $args The shortcode arguments.
      *

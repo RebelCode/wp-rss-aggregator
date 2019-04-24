@@ -10,14 +10,14 @@ use WP_REST_Response;
 /**
  * The REST API endpoint for rendering templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RenderTemplateEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -26,7 +26,7 @@ class RenderTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TemplateInterface $template The template to render.
      */
@@ -38,7 +38,7 @@ class RenderTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handle(WP_REST_Request $request)
     {

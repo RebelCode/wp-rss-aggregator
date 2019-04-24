@@ -9,7 +9,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * An array of keys mapping to booleans, where true exposes the key and false hides the key.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool[]
      */
@@ -18,7 +18,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * The default mask value to use for keys that are not included in the mask array.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -27,7 +27,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $inner   The inner data set.
      * @param bool[]           $mask    An array of keys mapping to booleans, where true exposes the key and false
@@ -45,7 +45,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -55,7 +55,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -69,7 +69,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -83,7 +83,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function rewind()
     {
@@ -95,7 +95,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function valid()
     {
@@ -107,7 +107,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * Checks if a key is exposed through the mask.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $key The key to check.
      *
@@ -123,7 +123,7 @@ class MaskingDataSet extends AbstractDelegateDataSet
     /**
      * Iterates forward until it an exposed key is found or until the end of iteration is reached.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function seekNextExposed()
     {

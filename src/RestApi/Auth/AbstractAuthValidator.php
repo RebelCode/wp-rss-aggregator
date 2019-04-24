@@ -8,10 +8,10 @@ use Dhii\Validation\AbstractValidatorBase;
 /**
  * Abstract functionality for authorization validators.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractAuthValidator extends AbstractValidatorBase
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeIterableCapableTrait;
 }

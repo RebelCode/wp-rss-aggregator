@@ -8,7 +8,7 @@ use Iterator;
 /**
  * Interface for a set of data.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 interface DataSetInterface extends ArrayAccess, Iterator
 {

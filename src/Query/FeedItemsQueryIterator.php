@@ -9,14 +9,14 @@ use WP_Post;
 /**
  * A query iterator implementation for retrieving imported feed items.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedItemsQueryIterator extends AbstractWpQueryIterator
 {
     /**
      * An array of feed source IDs to limit the query to.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int[]|string[]
      */
@@ -25,7 +25,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
     /**
      * An array of feed source IDs to exclude from the query.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int[]|string[]
      */
@@ -34,7 +34,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
     /**
      * Optional number of items to return, or null to return all items.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int|null
      */
@@ -43,7 +43,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
     /**
      * Optional index of the results page to return or null to get the first page.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int|null
      */
@@ -55,7 +55,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
      * @see   WP_Post
      * @see   DataSetInterface
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var callable
      */
@@ -64,7 +64,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @see   WP_Post
      * @see   DataSetInterface
@@ -93,7 +93,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function current()
     {
@@ -108,7 +108,7 @@ class FeedItemsQueryIterator extends AbstractWpQueryIterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getQueryArgs()
     {

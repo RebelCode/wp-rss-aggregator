@@ -7,14 +7,14 @@ use RebelCode\Wpra\Core\Data\Collections\NullCollection;
 /**
  * A null implementation of a table.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class NullTable extends NullCollection implements TableInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function create()
     {
@@ -23,7 +23,7 @@ class NullTable extends NullCollection implements TableInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function drop()
     {

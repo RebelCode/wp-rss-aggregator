@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 /**
  * An implementation for the list template type.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ListTemplateType extends AbstractWpraFeedTemplateType
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getKey()
     {
@@ -22,7 +22,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getName()
     {
@@ -32,7 +32,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function enqueueAssets()
     {
@@ -59,7 +59,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getOptions()
     {

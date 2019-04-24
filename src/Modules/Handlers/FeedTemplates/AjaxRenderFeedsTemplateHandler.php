@@ -7,14 +7,14 @@ use Dhii\Output\TemplateInterface;
 /**
  * The handler for rendering a feeds template.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class AjaxRenderFeedsTemplateHandler
 {
     /**
      * The template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -23,7 +23,7 @@ class AjaxRenderFeedsTemplateHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TemplateInterface $template the template to render.
      */
@@ -33,7 +33,7 @@ class AjaxRenderFeedsTemplateHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

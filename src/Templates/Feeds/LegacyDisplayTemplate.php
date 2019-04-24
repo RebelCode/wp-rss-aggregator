@@ -11,23 +11,23 @@ use InvalidArgumentException;
 /**
  * A standard template wrapper for the legacy WP RSS Aggregator display template.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class LegacyDisplayTemplate implements TemplateInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeArrayCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function render($context = null)
     {

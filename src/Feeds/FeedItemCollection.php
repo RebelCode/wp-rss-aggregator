@@ -9,14 +9,14 @@ use WP_Post;
 /**
  * A collection implementation that is specific to WP RSS Aggregator feed items.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedItemCollection extends WpPostCollection
 {
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string     $postType The name of the post type.
      * @param array|null $filter   Optional filter to restrict the collection query.
@@ -29,7 +29,7 @@ class FeedItemCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createModel(WP_Post $post)
     {
@@ -41,7 +41,7 @@ class FeedItemCollection extends WpPostCollection
      *
      * Overridden to ensure that the status is "publish".
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getNewPostData($data)
     {
@@ -54,7 +54,7 @@ class FeedItemCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handleFilter(&$queryArgs, $key, $value)
     {
@@ -88,7 +88,7 @@ class FeedItemCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createSelfWithFilter($filter)
     {

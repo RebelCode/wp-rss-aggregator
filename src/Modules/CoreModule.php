@@ -9,14 +9,14 @@ use RebelCode\Wpra\Core\Data\Wp\WpPluginInfoDataSet;
 /**
  * The WP RSS Aggregator module that represents the core plugin.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class CoreModule implements ModuleInterface
 {
     /**
      * The path to the plugin main file.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -25,7 +25,7 @@ class CoreModule implements ModuleInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $pluginFilePath The path to the plugin main file.
      */
@@ -37,7 +37,7 @@ class CoreModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -45,7 +45,7 @@ class CoreModule implements ModuleInterface
             /*
              * The WP RSS Aggregator plugin info.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/info' => function (ContainerInterface $c) {
                 return new WpPluginInfoDataSet($c->get('wpra/core/plugin_file_path'));
@@ -53,7 +53,7 @@ class CoreModule implements ModuleInterface
             /*
              * The WP RSS Aggregator core plugin version.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/version' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/info')['version'];
@@ -61,7 +61,7 @@ class CoreModule implements ModuleInterface
             /*
              * The path to the WP RSS Aggregator main plugin file.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/plugin_file_path' => function () {
                 return $this->pluginFilePath;
@@ -69,7 +69,7 @@ class CoreModule implements ModuleInterface
             /*
              * The path to the WP RSS Aggregator plugin directory.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/plugin_dir_path' => function (ContainerInterface $c) {
                 return plugin_dir_path($c->get('wpra/core/plugin_file_path'));
@@ -77,7 +77,7 @@ class CoreModule implements ModuleInterface
             /*
              * The URL to the WP RSS Aggregator plugin directory.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/plugin_dir_url' => function (ContainerInterface $c) {
                 return plugin_dir_url($c->get('wpra/core/plugin_file_path'));
@@ -85,7 +85,7 @@ class CoreModule implements ModuleInterface
             /*
              * The path to the `includes` directory. Trailing slash is included.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/includes_dir_path' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_path') . 'includes/';
@@ -93,7 +93,7 @@ class CoreModule implements ModuleInterface
             /*
              * The path to the `templates` directory. Trailing slash is included.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/templates_dir_path' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_path') . 'templates/';
@@ -101,7 +101,7 @@ class CoreModule implements ModuleInterface
             /*
              * The URL to the directory where WP RSS Aggregator JS files can be found. Trailing slash is included.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/js_dir_url' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_url') . 'js/';
@@ -109,7 +109,7 @@ class CoreModule implements ModuleInterface
             /*
              * The URL to the directory where WP RSS Aggregator CSS files can be found. Trailing slash is included.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/css_dir_url' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_url') . 'css/';
@@ -117,7 +117,7 @@ class CoreModule implements ModuleInterface
             /*
              * The URL to the directory where WP RSS Aggregator images can be found. Trailing slash is included.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/images_dir_url' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_url') . 'images/';
@@ -125,7 +125,7 @@ class CoreModule implements ModuleInterface
             /*
              * The minimum WordPress version required by WP RSS Aggregator.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/min_wp_version' => function () {
                 return WPRSS_WP_MIN_VERSION;
@@ -133,7 +133,7 @@ class CoreModule implements ModuleInterface
             /*
              * The minimum PHP version required by WP RSS Aggregator.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/min_php_version' => function () {
                 return WPRSS_MIN_PHP_VERSION;
@@ -141,7 +141,7 @@ class CoreModule implements ModuleInterface
             /*
              * The current version of the WP RSS Aggregator database.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/db_version' => function () {
                 return WPRSS_DB_VERSION;
@@ -149,7 +149,7 @@ class CoreModule implements ModuleInterface
             /*
              * The WP RSS Aggregator changelog.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/changelog' => function (ContainerInterface $c) {
                 $file = $c->get('wpra/core/changelog_file_path');
@@ -160,7 +160,7 @@ class CoreModule implements ModuleInterface
             /*
              * The WP RSS Aggregator changelog, in data set form.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/changelog_dataset' => function (ContainerInterface $c) {
                 return new ChangelogDataSet($c->get('wpra/core/changelog_file_path'));
@@ -168,7 +168,7 @@ class CoreModule implements ModuleInterface
             /*
              * The path to the WP RSS Aggregator changelog file.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/core/changelog_file_path' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/plugin_dir_path') . 'CHANGELOG.md';
@@ -179,7 +179,7 @@ class CoreModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -189,7 +189,7 @@ class CoreModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

@@ -7,14 +7,14 @@ use stdClass;
 /**
  * A generic handler for registering a submenu page in WordPress.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RegisterSubMenuPageHandler
 {
     /**
      * The submenu page info.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -23,7 +23,7 @@ class RegisterSubMenuPageHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass $info The submenu page info, containing the keys:
      *                             - parent
@@ -39,7 +39,7 @@ class RegisterSubMenuPageHandler
     }
 
     /**
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

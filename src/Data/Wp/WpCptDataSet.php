@@ -11,17 +11,17 @@ use WP_Post;
  * An implementation of a data set specifically tailored for WordPress posts of a custom post type that rely heavily on
  * application-specific meta data.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpCptDataSet extends WpPostDataSet
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeWpPostCapableTrait;
 
     /**
      * The meta prefix.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string|null
      */
@@ -30,7 +30,7 @@ class WpCptDataSet extends WpPostDataSet
     /**
      * The post mask.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string[]|null
      */
@@ -39,7 +39,7 @@ class WpCptDataSet extends WpPostDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId   The post instance or ID.
      * @param string|null        $metaPrefix Optional meta data prefix to strip from keys, or null for no stripping.
@@ -56,7 +56,7 @@ class WpCptDataSet extends WpPostDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createPostDataSet($postOrId)
     {
@@ -70,7 +70,7 @@ class WpCptDataSet extends WpPostDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createMetaDataSet($postOrId)
     {

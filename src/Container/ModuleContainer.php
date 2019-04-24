@@ -9,14 +9,14 @@ use RebelCode\Wpra\Core\Modules\ModuleInterface;
 /**
  * A container implementation specifically tailored for modules.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class ModuleContainer implements ContainerInterface
 {
     /**
      * The inner container.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var ContainerInterface
      */
@@ -31,7 +31,7 @@ class ModuleContainer implements ContainerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ModuleInterface         $module The module instance.
      * @param ContainerInterface|null $proxy  Optional container to pass to service definitions.
@@ -46,7 +46,7 @@ class ModuleContainer implements ContainerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ContainerInterface|null $proxy  Optional container to pass to service definitions.
      */
@@ -58,7 +58,7 @@ class ModuleContainer implements ContainerInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function get($id)
     {
@@ -81,7 +81,7 @@ class ModuleContainer implements ContainerInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function has($id)
     {
@@ -91,7 +91,7 @@ class ModuleContainer implements ContainerInterface
     /**
      * Compiles the module's service definitions.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ModuleInterface $module The module instance.
      *

@@ -7,7 +7,7 @@ use InvalidArgumentException;
 /**
  * Functionality for parsing array arguments against a known schema.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 trait ParseArgsWithSchemaCapableTrait
 {
@@ -29,7 +29,7 @@ trait ParseArgsWithSchemaCapableTrait
      * - "options": Optional filter options to use with the specified filter, or enum values if the filter is "enum".
      * - "flags":   Optional filter flags to use with the specified filter.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array       $args   The args to parse.
      * @param array       $schema The schema.
@@ -122,7 +122,7 @@ trait ParseArgsWithSchemaCapableTrait
     /**
      * Utility method for setting a deep value in an array.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $array The array in which to set the value.
      * @param array $path  An array of keys, each corresponding to a path segment.

@@ -9,7 +9,6 @@ use InvalidArgumentException;
 use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
-use RebelCode\Wpra\Core\Data\Collections\NullCollection;
 use RebelCode\Wpra\Core\Data\CompositeDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MaskingDataSet;
@@ -23,37 +22,37 @@ use WP_Post;
  * A specialized feed template model implementation that uses the old WP RSS Aggregator display settings as the
  * template options.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class BuiltInFeedTemplate extends WpPostFeedTemplate
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeIterableCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * The name of the option from which to retrieve the template settings.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const WP_OPTION_NAME = 'wprss_settings_general';
 
     /**
      * The key to which to map the settings options.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const OPTIONS_KEY = 'options';
 
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId The post instance or ID.
      */
@@ -65,7 +64,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createMetaDataSet($postOrId)
     {
@@ -93,7 +92,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     /**
      * Creates the dataset for the template options that are saved in the WPRA general settings.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return DataSetInterface
      */
@@ -116,7 +115,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -142,7 +141,7 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     /**
      * Retrieves the settings options aliases.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string[]
      */
@@ -170,14 +169,14 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
     /**
      * Retrieves the mask for which settings option keys to retain in the dataset.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return bool[]
      */
     protected function getSettingsOptionsMask()
     {
         // Dummy list template type, used to get the options
-        $listType = new ListTemplateType(new ArrayDataSet([]), new NullCollection());
+        $listType = new ListTemplateType(new ArrayDataSet([]));
         $listOptions = $listType->getOptions();
 
         // Use a "true" mask for every list template type option available

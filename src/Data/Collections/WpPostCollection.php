@@ -21,23 +21,23 @@ use WP_Post;
 /**
  * A data set implementation that acts as a wrapper for a collection of posts.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostCollection extends AbstractDataSet implements CollectionInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeArrayCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use StringTranslatingTrait;
 
     /**
      * The post type.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -46,7 +46,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * The meta query.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array
      */
@@ -55,7 +55,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * The ID of the last inserted post.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var int|string
      */
@@ -64,7 +64,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Optional filter to restrict the collection query.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array|null
      */
@@ -73,7 +73,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string     $postType  The post type.
      * @param array      $metaQuery The meta query.
@@ -89,7 +89,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($key)
     {
@@ -99,7 +99,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -124,7 +124,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -140,7 +140,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $data)
     {
@@ -156,7 +156,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -166,7 +166,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function filter($filter)
     {
@@ -187,7 +187,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getCount()
     {
@@ -197,7 +197,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function clear()
     {
@@ -209,7 +209,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Creates a new post using the given data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $data The data to create the post with.
      */
@@ -229,7 +229,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Updates a post.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $key  The post's key (ID or slug).
      * @param array      $data The data to update the post with.
@@ -247,7 +247,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Retrieves the data to use for creating a new post.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $data The data being used to create the post.
      *
@@ -263,7 +263,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Retrieves the data to use for updating a post.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string $key  The post key (ID or slug).
      * @param array      $data The data being used to update the post.
@@ -278,7 +278,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Normalizes a variable into a post array,
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|stdClass|Traversable|WP_Post $post Post data array, object or iterable, or a WP_Post instance.
      *
@@ -296,7 +296,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Recursively patches a subject with every entry in a given patch data array.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|ArrayAccess          $subject The subject to patch.
      * @param array|stdClass|Traversable $patch   The data to patch the subject with.
@@ -315,7 +315,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {
@@ -325,7 +325,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function recursiveUnpackIterators()
     {
@@ -335,7 +335,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createIterationValue($value)
     {
@@ -345,7 +345,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Creates the resulting dataset model.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Post $post The post.
      *
@@ -359,7 +359,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Queries the posts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|null $key Optional ID or slug which, if not null, narrows down the query to only that post.
      *
@@ -393,7 +393,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Retrieves the base (bare minimum) post query args.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array
      */
@@ -411,7 +411,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Handles the processing of a filter.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array  $queryArgs The query arguments to modify, passed by reference.
      * @param string $key       The filter key.
@@ -451,7 +451,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Creates a new collection of this type with an added filter.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array $filter The filter for restricting the collection query.
      *

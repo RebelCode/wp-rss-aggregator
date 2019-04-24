@@ -9,14 +9,14 @@ use Traversable;
 /**
  * A handler that simply renders a template, either with a preset context or the handler's arguments.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class RenderTemplateHandler
 {
     /**
      * The template to render.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TemplateInterface
      */
@@ -25,7 +25,7 @@ class RenderTemplateHandler
     /**
      * The template context or a callback that receives the handler's arguments and returns the template context.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var array|stdClass|Traversable
      */
@@ -34,7 +34,7 @@ class RenderTemplateHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TemplateInterface $template The template to render.
      * @param array|callable    $context  The template context or a callback that receives the handler's arguments
@@ -49,7 +49,7 @@ class RenderTemplateHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

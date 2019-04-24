@@ -8,14 +8,14 @@ use Interop\Container\ContainerInterface;
  * A container implementation that wraps around another container to additionally pass its service results through
  * WordPress filters with hook names equal to the service keys.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpFilterContainer implements ContainerInterface
 {
     /**
      * The inner container.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var ContainerInterface
      */
@@ -24,7 +24,7 @@ class WpFilterContainer implements ContainerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param ContainerInterface $inner The inner container.
      */
@@ -36,7 +36,7 @@ class WpFilterContainer implements ContainerInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function get($id)
     {
@@ -46,7 +46,7 @@ class WpFilterContainer implements ContainerInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function has($id)
     {

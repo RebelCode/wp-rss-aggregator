@@ -7,14 +7,14 @@ use Dhii\Output\TemplateInterface;
 /**
  * A template implementation that does nothing.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class NullTemplate implements TemplateInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function render($context = null)
     {

@@ -21,17 +21,17 @@ use Traversable;
  * get access to the aggregate data from all the children data sets. By setting each key-value pair on the composite
  * data set, each child dataset will receive that key-value pair.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class CompositeDataSet implements DataSetInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use IteratorDelegateTrait;
 
     /**
      * Additional data sets to write to and delete from.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface[]
      */
@@ -40,7 +40,7 @@ class CompositeDataSet implements DataSetInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface[]|stdClass|Traversable $dataSets The children data sets instances.
      */
@@ -52,7 +52,7 @@ class CompositeDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetGet($key)
     {
@@ -68,7 +68,7 @@ class CompositeDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetExists($key)
     {
@@ -84,7 +84,7 @@ class CompositeDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetSet($key, $value)
     {
@@ -96,7 +96,7 @@ class CompositeDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function offsetUnset($key)
     {
@@ -108,7 +108,7 @@ class CompositeDataSet implements DataSetInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {

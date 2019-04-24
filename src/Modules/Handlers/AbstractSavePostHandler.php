@@ -10,20 +10,20 @@ use WP_Post;
 /**
  * Abstract handler for saving posts and their meta data, with included error handling and displaying.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractSavePostHandler
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use NormalizeWpPostCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use ParseArgsWithSchemaCapableTrait;
 
     /**
      * The type of post to save.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string
      */
@@ -32,7 +32,7 @@ abstract class AbstractSavePostHandler
     /**
      * Indicates if the handler is being invoked - used to prevent self-triggering and infinite loops.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -41,7 +41,7 @@ abstract class AbstractSavePostHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $postType The type of post to save.
      */
@@ -55,7 +55,7 @@ abstract class AbstractSavePostHandler
     /**
      * Initializes the instance by registering the notice message handlers.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function init()
     {
@@ -85,7 +85,7 @@ abstract class AbstractSavePostHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke($postOrId)
     {
@@ -126,7 +126,7 @@ abstract class AbstractSavePostHandler
     /**
      * Retrieves the errors that occurred during the last save.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string[]
      */
@@ -141,7 +141,7 @@ abstract class AbstractSavePostHandler
     /**
      * Sets the error messages for the last post save.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string[] $errors The errors that occurred during the last saving process.
      */
@@ -153,7 +153,7 @@ abstract class AbstractSavePostHandler
     /**
      * Clears the save errors.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function clearSaveErrors()
     {
@@ -163,7 +163,7 @@ abstract class AbstractSavePostHandler
     /**
      * Retrieves the name of the transient that is used to store the save errors.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string
      */
@@ -175,7 +175,7 @@ abstract class AbstractSavePostHandler
     /**
      * Saves the post and the meta data.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param WP_Post $post      The post instance.
      * @param array   $meta      The parsed meta data in the request.
@@ -190,7 +190,7 @@ abstract class AbstractSavePostHandler
      *
      * @see   ParseArgsWithSchemaCapableTrait
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array The schema.
      */

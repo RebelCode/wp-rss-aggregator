@@ -18,7 +18,7 @@ define('WPRSS_LOG_LEVEL_DEFAULT', WPRSS_LOG_LEVEL_NONE);
 /**
  * Returns the logger.
  *
- * @since [*next-version*]
+ * @since 4.13
  *
  * @param int|string|null $feed_id Optional feed ID to retrieve the logger for that feed source.
  *

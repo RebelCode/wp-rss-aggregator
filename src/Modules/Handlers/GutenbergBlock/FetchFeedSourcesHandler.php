@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock;
 /**
  * Class for retrieving feed sources in Gutenberg block.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FetchFeedSourcesHandler
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function __invoke()
     {

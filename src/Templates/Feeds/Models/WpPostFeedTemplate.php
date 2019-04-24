@@ -9,21 +9,21 @@ use WP_Post;
 /**
  * A feed template model implementation for standard WP RSS Aggregator templates that are stored as a CPT.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostFeedTemplate extends WpCptDataSet
 {
     /**
      * The meta prefix.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const META_PREFIX = 'wprss_template_';
 
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $postOrId   The post instance or ID.
      */
@@ -35,7 +35,7 @@ class WpPostFeedTemplate extends WpCptDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createPostDataSet($postOrId)
     {
@@ -52,7 +52,7 @@ class WpPostFeedTemplate extends WpCptDataSet
     /**
      * Retrieves the list of post fields to retain in the dataset.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return string[]
      */

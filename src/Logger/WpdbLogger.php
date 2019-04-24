@@ -8,45 +8,45 @@ use RebelCode\Wpra\Core\Database\TableInterface;
 /**
  * A PSR-3 logger that saves logs in the WordPress database.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, LogReaderInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.13 */
     use LoggerUtilsTrait;
 
     /**
      * The log's ID property and default column name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const LOG_ID = 'id';
 
     /**
      * The log's date property and default column name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const LOG_DATE = 'date';
 
     /**
      * The log's level property and default column name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const LOG_LEVEL = 'level';
 
     /**
      * The log's message property and default column name.
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     const LOG_MESSAGE = 'message';
 
     /**
      * The table where logs are stored.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var TableInterface
      */
@@ -59,7 +59,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
      * @see   COL_LEVEL
      * @see   COL_MESSAGE
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string[]
      */
@@ -68,7 +68,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * Optional mapping of additional columns and fixed data to insert into a row.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var string[]
      */
@@ -77,7 +77,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param TableInterface $table   The table where logs are stored.
      * @param array          $columns A mapping of log data keys to column names. The `COL_*` constants may be used to
@@ -101,7 +101,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function log($level, $message, array $context = [])
     {
@@ -114,7 +114,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function clearLogs()
     {
@@ -124,7 +124,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getLogs($num = null, $page = 1)
     {
@@ -163,7 +163,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * Retrieves the data to insert for a single log's row.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $level   The log's level.
      * @param string $message The log's message.
@@ -185,7 +185,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * Retrieves the data for a single log's property.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $prop    The name of the property for which to return data.
      * @param string $level   The log's level.
@@ -216,7 +216,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * Retrieves the default columns.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array A map of log property keys mapping to their respective column names.
      */

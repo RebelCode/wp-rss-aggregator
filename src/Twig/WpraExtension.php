@@ -8,14 +8,14 @@ use Twig\TwigFilter;
 /**
  * Twig extension for custom WP RSS Aggregator filters.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpraExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFilters()
     {
@@ -28,7 +28,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "wpralink" filter.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return TwigFilter The filter instance.
      */
@@ -71,7 +71,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "base64_encode" filter.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return TwigFilter The filter instance.
      */

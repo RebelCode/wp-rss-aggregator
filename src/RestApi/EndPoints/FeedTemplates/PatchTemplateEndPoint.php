@@ -14,14 +14,14 @@ use WP_REST_Response;
 /**
  * The REST API endpoint for patching templates.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class PatchTemplateEndPoint extends AbstractRestApiEndPoint
 {
     /**
      * The query iterator for templates.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var DataSetInterface
      */
@@ -30,7 +30,7 @@ class PatchTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param DataSetInterface $collection The templates' collection data set.
      */
@@ -42,7 +42,7 @@ class PatchTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function handle(WP_REST_Request $request)
     {
@@ -72,7 +72,7 @@ class PatchTemplateEndPoint extends AbstractRestApiEndPoint
     /**
      * Recursively patches a subject with every entry in a given patch data array.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param array|ArrayAccess          $subject The subject to patch.
      * @param array|stdClass|Traversable $patch   The data to patch the subject with.

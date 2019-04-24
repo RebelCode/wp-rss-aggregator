@@ -8,14 +8,14 @@ use WP_Post;
 /**
  * Abstract implementation of a WP Query iterator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 abstract class AbstractWpQueryIterator implements Iterator
 {
     /**
      * The queried posts.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var WP_Post[]
      */
@@ -24,7 +24,7 @@ abstract class AbstractWpQueryIterator implements Iterator
     /**
      * Retrieves the WordPress query args.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @return array
      */
@@ -33,7 +33,7 @@ abstract class AbstractWpQueryIterator implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function rewind()
     {
@@ -44,7 +44,7 @@ abstract class AbstractWpQueryIterator implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function next()
     {
@@ -54,7 +54,7 @@ abstract class AbstractWpQueryIterator implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function key()
     {
@@ -64,7 +64,7 @@ abstract class AbstractWpQueryIterator implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function current()
     {
@@ -74,7 +74,7 @@ abstract class AbstractWpQueryIterator implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function valid()
     {

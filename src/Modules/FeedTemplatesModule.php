@@ -29,14 +29,14 @@ use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 /**
  * The templates module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedTemplatesModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -44,7 +44,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The default feed template's slug name.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/default_template' => function (ContainerInterface $c) {
                 return 'default';
@@ -52,7 +52,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The master feed template.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/master_template' => function (ContainerInterface $c) {
                 return new MasterFeedsTemplate(
@@ -78,7 +78,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * Uses the collection from the feed items module, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/feed_item_collection' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/importer/items/collection')) {
@@ -92,7 +92,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * Uses the core plugin's loader, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/master_template_logger' => function (ContainerInterface $c) {
                 if ($c->has('wpra/logging/logger')) {
@@ -106,7 +106,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * Uses the core plugin's Twig template collection, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/file_template_collection' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/twig/collection')) {
@@ -118,7 +118,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The list template type.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/list_template_type' => function (ContainerInterface $c) {
                 return new ListTemplateType(
@@ -128,7 +128,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The collection of feed templates.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/collection' => function (ContainerInterface $c) {
                 return new FeedTemplateCollection(
@@ -139,7 +139,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that creates the default template if there are no user templates.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/create_default_template_handler' => function (ContainerInterface $c) {
                 return new CreateDefaultFeedTemplateHandler(
@@ -150,7 +150,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The data for the default feed template.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/default_template_data' => function (ContainerInterface $c) {
                 return [
@@ -161,7 +161,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The template type to use for the default template.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/default_template_type' => function () {
                 return '__built_in';
@@ -169,7 +169,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that responds to AJAX requests with rendered feed items.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/ajax_render_handler' => function (ContainerInterface $c) {
                 return new AjaxRenderFeedsTemplateHandler($c->get('wpra/templates/feeds/master_template'));
@@ -178,7 +178,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The name of the feeds template CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/cpt/name' => function (ContainerInterface $c) {
                 return 'wprss_feed_template';
@@ -186,7 +186,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The labels for the feeds template CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/cpt/labels' => function (ContainerInterface $c) {
                 return [
@@ -207,7 +207,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The capability for the feed templates CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/cpt/capability' => function () {
                 return 'feed_template';
@@ -217,7 +217,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * Equal to the feed sources' CPT capability roles, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/cpt/capability_roles' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/feeds/sources/cpt/capability_roles')) {
@@ -229,7 +229,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The full arguments for the feeds template CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/cpt/args' => function (ContainerInterface $c) {
                 return [
@@ -255,7 +255,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The admin feeds templates page information.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/submenu_info' => function (ContainerInterface $c) {
                 return [
@@ -270,7 +270,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The feeds template model structure.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/model_schema' => function (ContainerInterface $c) {
                 return [
@@ -305,7 +305,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Tooltips for feed template model fields.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/model_tooltips' => function (ContainerInterface $c) {
                 return [
@@ -338,7 +338,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Feed template's fields options.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/template_options' => function (ContainerInterface $c) {
                 return [
@@ -369,7 +369,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The templates GET endpoint for the REST API.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/rest_api/v1/get_endpoint' => function (ContainerInterface $c) {
                 return new GetTemplatesEndPoint($c->get('wpra/templates/feeds/collection'));
@@ -377,7 +377,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The templates PATCH endpoint for the REST API.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/rest_api/v1/patch_endpoint' => function (ContainerInterface $c) {
                 return new PatchTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
@@ -385,7 +385,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The templates POST endpoint for the REST API.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/rest_api/v1/post_endpoint' => function (ContainerInterface $c) {
                 return new CreateUpdateTemplateEndPoint($c->get('wpra/templates/feeds/collection'), false);
@@ -393,7 +393,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The templates PUT endpoint for the REST API.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/rest_api/v1/put_endpoint' => function (ContainerInterface $c) {
                 return new CreateUpdateTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
@@ -401,7 +401,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The templates deletion endpoint for the REST API.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/rest_api/v1/delete_endpoint' => function (ContainerInterface $c) {
                 return new DeleteTemplateEndPoint($c->get('wpra/templates/feeds/collection'));
@@ -409,7 +409,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The templates rendering endpoint for the REST API.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/rest_api/v1/render_endpoint' => function (ContainerInterface $c) {
                 return new RenderTemplateEndPoint(
@@ -420,7 +420,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that registers the feeds template CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/register_cpt_handler' => function (ContainerInterface $c) {
                 return new RegisterCptHandler(
@@ -431,7 +431,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that registers the feeds template submenu page.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/register_submenu_handler' => function (ContainerInterface $c) {
                 return new RegisterSubMenuPageHandler($c->get('wpra/templates/feeds/submenu_info'));
@@ -441,7 +441,7 @@ class FeedTemplatesModule implements ModuleInterface
              *
              * Resolves to a null handler if the WordPress role manager is not available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/add_cpt_capabilities_handler' => function (ContainerInterface $c) {
                 if (!$c->has('wp/roles')) {
@@ -457,7 +457,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that renders the admin feeds templates page.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
                 return new RenderAdminTemplatesPageHandler(
@@ -469,7 +469,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that renders template content.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/handlers/render_content' => function (ContainerInterface $c) {
                 return new RenderTemplateContentHandler(
@@ -480,7 +480,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that hides template content from the public-facing side.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/handlers/hide_public_content' => function (ContainerInterface $c) {
                 return new HidePublicTemplateContentHandler(
@@ -491,7 +491,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The name of the nonce that allows template content to be shown on the public-facing side.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/public_template_content_nonce' => function (ContainerInterface $c) {
                 return 'wpra_template_preview';
@@ -499,7 +499,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that listens to requests for previewing templates.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/handlers/preview_template_request' => function (ContainerInterface $c) {
                 return new PreviewTemplateRedirectHandler(
@@ -511,7 +511,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The name of the GET parameter to detect for previewing templates.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/preview_template_request_param' => function (ContainerInterface $c) {
                 return 'wpra_preview_template';
@@ -519,7 +519,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that synchronizes the default template with the display settings.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/templates/feeds/handlers/sync_default_template' => function (ContainerInterface $c) {
                 return new ReSaveTemplateHandler(
@@ -533,7 +533,7 @@ class FeedTemplatesModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -541,7 +541,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Overrides the core display template with the master template.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/display/feeds/template' => function (ContainerInterface $c) {
                 return $c->get('wpra/templates/feeds/master_template');
@@ -549,7 +549,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Extends the list of REST API endpoints with the template endpoints.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c, $endPoints) {
                 $endPoints['get_templates'] = new EndPoint(
@@ -596,7 +596,7 @@ class FeedTemplatesModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

@@ -12,14 +12,14 @@ use WP_Post;
 /**
  * An implementation of a data set that acts as a wrapper for a WordPress post's meta data.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpPostMetaDataSet extends AbstractDataSet
 {
     /**
      * The WordPress post instance.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var WP_Post
      */
@@ -28,7 +28,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * True to include hidden meta data (meta key starts with an underscore).
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @var bool
      */
@@ -37,7 +37,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param int|string|WP_Post $post          The WordPress post instance or post ID.
      * @param bool               $incHiddenMeta True to include hidden meta data (meta key starts with an underscore).
@@ -58,7 +58,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * Checks if a meta key is hidden or not.
      *
-     * @since [*next-version*]
+     * @since 4.13
      *
      * @param string $key The meta key to check.
      *
@@ -72,7 +72,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function get($key)
     {
@@ -82,7 +82,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function has($key)
     {
@@ -92,7 +92,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function set($key, $value)
     {
@@ -106,7 +106,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function delete($key)
     {
@@ -120,7 +120,7 @@ class WpPostMetaDataSet extends AbstractDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function getIterator()
     {

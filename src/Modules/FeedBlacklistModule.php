@@ -11,14 +11,14 @@ use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
 /**
  * The feed blacklist module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class FeedBlacklistModule implements ModuleInterface
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getFactories()
     {
@@ -26,7 +26,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The name of the feed item blacklist CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/cpt/name' => function () {
                 return 'wprss_blacklist';
@@ -34,7 +34,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The labels for the feed item blacklist CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/cpt/labels' => function () {
                 return [
@@ -54,7 +54,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The capability for the feed item blacklist CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/cpt/capability' => function () {
                 return 'feed_blacklist';
@@ -64,7 +64,7 @@ class FeedBlacklistModule implements ModuleInterface
              *
              * Resolves to the feed items CPT capability roles, if available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/cpt/capability_roles' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/feeds/items/cpt/capability_roles')) {
@@ -76,7 +76,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The full arguments for the feed item blacklist CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/cpt/args' => function (ContainerInterface $c) {
                 return [
@@ -93,7 +93,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The handler that registers the feed item blacklist CPT.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/handlers/register_cpt' => function (ContainerInterface $c) {
                 return new RegisterCptHandler(
@@ -106,7 +106,7 @@ class FeedBlacklistModule implements ModuleInterface
              *
              * Resolves to a null handler if the WordPress role manager is not available.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/handlers/add_cpt_capabilities' => function (ContainerInterface $c) {
                 if (!$c->has('wp/roles')) {
@@ -122,7 +122,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The handler for saving custom feed item blacklist posts.
              *
-             * @since [*next-version*]
+             * @since 4.13
              */
             'wpra/feeds/blacklist/handlers/save_blacklist_item' => function (ContainerInterface $c) {
                 return new SaveBlacklistHandler($c->get('wpra/feeds/blacklist/cpt/name'));
@@ -133,7 +133,7 @@ class FeedBlacklistModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function getExtensions()
     {
@@ -143,7 +143,7 @@ class FeedBlacklistModule implements ModuleInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     public function run(ContainerInterface $c)
     {

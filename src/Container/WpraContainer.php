@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Container;
 /**
  * A container implementation specific to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.13
  */
 class WpraContainer extends ModuleContainer
 {
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.13
      */
     protected function createInnerContainer(array $definitions)
     {
