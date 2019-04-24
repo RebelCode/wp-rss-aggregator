@@ -80,7 +80,8 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
                 'flags' => [],
                 'default' => true,
             ],
-            'pagination_enabled' => [
+            'pagination' => [
+                'key' => 'pagination_enabled',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => true,
             ],
