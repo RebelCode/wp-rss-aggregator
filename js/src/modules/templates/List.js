@@ -297,11 +297,11 @@ export default {
         id={'templates-introduction'}
         title={'🎉 Welcome to Templates for WP RSS Aggregator!'}
         body={'As of version 4.13, we have introduced the concept of templates to replace the display settings that were ' +
-        'previously available in the General settings for WP RSS Aggregator. These templates will provide you with much more ' +
-        'flexibility and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a> (for the Classic Editor) and ' +
-        'a <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a>, for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new templates coming ' +
-        'your way in the coming weeks, but for now, <em>the list template type</em> replicates the previous options. ' +
-        'Please note that the default template below is set up using your existing display options, so nothing is lost or changed.'}
+        'previously available in the WP RSS Aggregator settings. These templates provide you with much more ' +
+        'flexibility and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a> for the Classic Editor and ' +
+        'a <em><a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a></em> for those using WP 5.0+ with the Gutenberg block editor!<br/><br/>There are new template types coming ' +
+        'your way in the coming weeks, but for now, the <em>list template type</em> replicates the previous options. ' +
+        'Please note that the <em>Default</em> template below is set up using your pre-existing display options, nothing is lost or changed.'}
         learnMore={'https://www.wprssaggregator.com/core-version-4-13-celebrating-one-million-downloads/'}
         visible={!!WpraGlobal.is_existing_user}
       />

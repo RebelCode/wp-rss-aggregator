@@ -119,8 +119,29 @@ export default {
       return this.http[method](url, this.prepareModel())
     },
     prepareModel () {
+      const availableKeys = Object.keys(WpraTemplates.model_schema)
+
       return Object.keys(this.model)
-        .filter(key => !['rest_route', 'slug', 'id'].includes(key))
+        .filter(key => {
+          /*
+           * Only keys from model_schema can be saved.
+           */
+          if (!availableKeys.includes(key)) {
+            return false
+          }
+
+          /*
+           * Name and type shouldn't be passed for default template.
+           */
+          if (this.model.type === '__built_in' && ['name', 'type'].includes(key)) {
+            return false
+          }
+
+          /*
+           * Slug and ID fields are always ignored and not sent in the request body.
+           */
+          return !['slug', 'id'].includes(key)
+        })
         .reduce((acc, key) => {
           acc[key] = this.model[key]
           return acc
