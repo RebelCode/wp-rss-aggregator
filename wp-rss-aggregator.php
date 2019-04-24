@@ -17,7 +17,7 @@
  * @link        https://www.wprssaggregator.com/
  * @license     http://www.gnu.org/licenses/gpl.html
  *
- * Copyright (C) 2012-2018 RebelCode Ltd.
+ * Copyright (C) 2012-2019 RebelCode Ltd.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.0' );
 
 if( !defined( 'WPRSS_MIN_PHP_VERSION' ) )
-    define( 'WPRSS_MIN_PHP_VERSION', '5.3.9' );
+    define( 'WPRSS_MIN_PHP_VERSION', '5.4' );
 
 // Set the database version number of the plugin.
 if( !defined( 'WPRSS_DB_VERSION' ) )
