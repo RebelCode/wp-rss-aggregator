@@ -352,17 +352,17 @@ export default {
 
                 <Input type="checkbox"
                        label={'Pagination'}
-                       value={this.model.options.pagination_enabled}
-                       onInput={(e) => this.model.options.pagination_enabled = e}
+                       value={this.model.options.pagination}
+                       onInput={(e) => this.model.options.pagination = e}
                        style={{paddingTop: '20px', fontWeight: 'bold'}}
-                       title={this.tooltips.options.pagination_enabled}
+                       title={this.tooltips.options.pagination}
                 />
                 <Input type="select"
                        label={'Pagination style'}
                        options={WpraTemplates.options.pagination_type}
                        value={this.model.options.pagination_type}
                        onInput={(e) => this.model.options.pagination_type = e}
-                       disabled={!this.model.options.pagination_enabled}
+                       disabled={!this.model.options.pagination}
                        title={this.tooltips.options.pagination_type}
                 />
 
