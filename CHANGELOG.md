@@ -6,28 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.13] - YYYY-MM-DD
 ### Added
-* New feed templates.
-* New Gutenberg block.
+* Introduced feed templates.
+* Introduced a WP RSS Aggregator Gutenberg block.
 * Brand new debug log and logging system that stores logs in the database.
-* Blacklist items can now be added manually.
+* Items can now be added to the Blacklist manually.
 
 ### Changed
 * Refactored a lot of legacy code over to the new modular system.
-* General display settings have been moved to the "list" template type.
-* Re-organized the general plugin settings. Advanced options are now under an advanced settings section.
+* General display settings have been moved to the "Default" template type.
+* Reorganized the general plugin settings. Advanced options are now under an advanced settings section.
 * Removed the "Add New" menu item from the RSS Aggregator menu.
 * The feed sources page now updates every 1 second.
-* Updated the TinyMCE dialog options.
-* Updated administrator and editor role capabilities, fixing various permission bugs in the process.
+* Updated the TinyMCE dialog options for inserting a shortcode on a page or post (Classic Editor).
+* Updated administrator and editor role capabilities, fixing various permission bugs.
 * Updated a lot of setting descriptions and tooltips.
-* The help beacon is now enabled by default.
+* The help support beacon is now enabled by default.
 
 ### Fixed
 * Import errors no longer "freeze" feed sources in an infinite importing state.
 * Some import errors would not be logged due to script timeout or execution errors.
 * Feed to Post was not able to show feed items in the shortcode.
 * Deprecation notices on PHP 7.3.
-* The "Force feed" option had no effect. Now it properly forces the feed.
+* The "Force feed" option was not properly being applied to feed sources.
 * A bug that caused perfectly good RSS feeds to trigger gzip errors.
 * The "Delete permanently & blacklist" row action was appearing for non-feed-item post types.
 
