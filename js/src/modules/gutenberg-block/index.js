@@ -48,7 +48,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
       type: 'string',
       default: 'default'
     },
-    pagination_enabled: {
+    pagination: {
       type: 'boolean',
       default: true
     },
@@ -85,8 +85,8 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
         templateLock['limit'] = true
       }
 
-      if (!!props.attributes.pagination_enabled !== getTemplateDefault('pagination_enabled', v => !!v, false)) {
-        templateLock['pagination_enabled'] = true
+      if (!!props.attributes.pagination !== getTemplateDefault('pagination', v => !!v, false)) {
+        templateLock['pagination'] = true
       }
 
       _isLoaded = true
@@ -147,8 +147,8 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
               if (!templateLock['limit']) {
                 props.setAttributes({limit: getTemplateDefault('limit', parseInt, 15)})
               }
-              if (!templateLock['pagination_enabled']) {
-                props.setAttributes({pagination_enabled: getTemplateDefault('pagination_enabled', v => !!v, false)})
+              if (!templateLock['pagination']) {
+                props.setAttributes({pagination: getTemplateDefault('pagination', v => !!v, false)})
               }
             }}
             options={WPRA_BLOCK.templates}
@@ -167,10 +167,10 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
           />
           <ToggleControl
             label={__('Show Pagination ')}
-            checked={props.attributes.pagination_enabled}
+            checked={props.attributes.pagination}
             onChange={(value) => {
-              templateLock['pagination_enabled'] = true
-              props.setAttributes({pagination_enabled: value})
+              templateLock['pagination'] = true
+              props.setAttributes({pagination: value})
             }}
           />
           <TextControl
