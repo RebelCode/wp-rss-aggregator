@@ -283,7 +283,7 @@ Our complete Knowledge Base with FAQs can be found [here](https://kb.wprssaggreg
 
 == Changelog ==
 
-= 4.13 (YYYY-MM-DD) =
+= 4.13 (2019-04-24) =
 Added: Introduced feed templates.
 Added: Introduced a WP RSS Aggregator Gutenberg block.
 Added: Brand new debug log and logging system that stores logs in the database.
