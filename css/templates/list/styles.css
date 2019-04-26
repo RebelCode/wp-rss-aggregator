@@ -1,28 +1,6 @@
-/* The container for the list template output */
-div.wpra-list-template {
-	font-size: 100%;
-}
-
-/* An item in the list */
-div.wpra-list-template ul.wpra-item-list > li.wpra-item {
-	margin-bottom: 8px;
-}
-
-/* The item's title and link */
-div.wpra-list-template ul.wpra-item-list > li.wpra-item div.wpra-item-link {
-	display: inline-block;
-	vertical-align: text-top;
-	line-height: 1.4em;
-}
-
-/* The container for source, date and author */
-div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta {
-	line-height: 1.6em;
-}
-
 /* Separators between source, date and author */
 div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span {
-	font-size: 85%;
+	font-size: 90%;
 	clear: both;
 }
 div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span:not(:last-child):after {
@@ -47,6 +25,10 @@ ul.wpra-item-list--bullets.wpra-item-list--numbers {
  * Old styles
  */
 
+li.feed-item {
+	margin-bottom: 10px;
+}
+
 .thumbnail-excerpt {
 	overflow:hidden;
 	margin-bottom: 5px;
@@ -70,4 +52,3 @@ ul.wpra-item-list--bullets.wpra-item-list--numbers {
 	content: '';
 	clear: both;
 }
-

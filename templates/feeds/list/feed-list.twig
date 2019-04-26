@@ -1,6 +1,6 @@
 {% set list_type = options.bullets_enabled and options.bullet_type == 'numbers' ? 'ol' : 'ul' %}
 
-<{{ list_type }} class="wpra-item-list {{ options.bullets_enabled ? 'wpra-item-list--bullets wpra-item-list--' ~ options.bullet_type : '' }}"
+<{{ list_type }} class="rss-aggregator wpra-item-list {{ options.bullets_enabled ? 'wpra-item-list--bullets wpra-item-list--' ~ options.bullet_type : '' }}"
     start="{{ (pagination.page - 1) *  pagination.items_per_page + 1}}">
     {% set hasItems = false %}
     {% for item in items %}
