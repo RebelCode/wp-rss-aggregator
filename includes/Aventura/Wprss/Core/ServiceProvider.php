@@ -172,7 +172,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $config = $this->_normalizeConfig($config, array(
             'plugin'            => $c->get($this->_p('plugin')),
             'log_file_path'     => WPRSS_LOG_FILE . '-' . get_current_blog_id() . WPRSS_LOG_FILE_EXT,
-            'level_threshold'   => wprss_log_get_level()
+            'level_threshold'   => WPRSS_LOG_LEVEL_ERROR,
         ));
         $service = new Component\Logger($config);
         $this->_prepareComponent($service);

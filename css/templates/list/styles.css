@@ -1,3 +1,9 @@
+/* An item in the list */
+div.wpra-list-template ul.wpra-item-list > li.wpra-item {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
 /* Separators between source, date and author */
 div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span {
 	font-size: 90%;
@@ -24,10 +30,6 @@ ul.wpra-item-list--bullets.wpra-item-list--numbers {
 /**
  * Old styles
  */
-
-li.feed-item {
-	margin-bottom: 10px;
-}
 
 .thumbnail-excerpt {
 	overflow:hidden;

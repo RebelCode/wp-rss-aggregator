@@ -68,7 +68,7 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/debug' => function () {
-                return defined('WPRSS_DEBUG') && WPRSS_DEBUG;
+                return false;
             },
             /*
              * The twig cache enabler option.
@@ -76,14 +76,14 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/cache_enabled' => function (ContainerInterface $c) {
-                return !$c->get('wpra/twig/debug');
+                return false;
             },
             /*
              * The path to the Twig cache.
              *
              * @since 4.13
              */
-            'wpra/twig/cache' => function (ContainerInterface $c) {
+            'wpra/twig/cache_dir' => function (ContainerInterface $c) {
                 return get_temp_dir() . 'wprss/twig-cache';
             },
             /*
@@ -94,7 +94,7 @@ class TwigModule implements ModuleInterface
             'wpra/twig/options' => function (ContainerInterface $c) {
                 return [
                     'debug' => $c->get('wpra/twig/debug'),
-                    'cache' => $c->get('wpra/twig/cache_enabled') ? $c->get('wpra/twig/cache') : false,
+                    'cache' => $c->get('wpra/twig/cache_enabled'),
                 ];
             },
             /*
@@ -184,5 +184,11 @@ class TwigModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
+        // Polyfill gettext using the WordPress __() function, for Twig
+        if (!function_exists('gettext')) {
+            function gettext() {
+                return call_user_func_array('__', func_get_args());
+            }
+        }
     }
 }

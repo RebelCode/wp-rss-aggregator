@@ -83,7 +83,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
             'pagination' => [
                 'key' => 'pagination_enabled',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
-                'default' => true,
+                'default' => false,
             ],
             'pagination_type' => [
                 'filter' => 'enum',
