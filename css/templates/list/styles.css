@@ -1,28 +1,30 @@
 /* The container for the list template output */
 div.wpra-list-template {
 	font-size: 100%;
+	line-height: 1.8;
 }
 
 /* An item in the list */
 div.wpra-list-template ul.wpra-item-list > li.wpra-item {
-	margin-bottom: 8px;
+	margin-top: 0px;
+	margin-bottom: 10px;
 }
 
 /* The item's title and link */
 div.wpra-list-template ul.wpra-item-list > li.wpra-item div.wpra-item-link {
 	display: inline-block;
-	vertical-align: text-top;
-	line-height: 1.4em;
+	vertical-align: top;
+	line-height: 1.8;
 }
 
 /* The container for source, date and author */
 div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta {
-	line-height: 1.6em;
+	line-height: 1.8;
 }
 
 /* Separators between source, date and author */
 div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span {
-	font-size: 85%;
+	font-size: 90%;
 	clear: both;
 }
 div.wpra-list-template ul.wpra-item-list > li.wpra-item > div.wprss-feed-meta > span:not(:last-child):after {
@@ -70,4 +72,3 @@ ul.wpra-item-list--bullets.wpra-item-list--numbers {
 	content: '';
 	clear: both;
 }
-
