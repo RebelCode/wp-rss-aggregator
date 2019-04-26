@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.13.1] - YYYY-MM-DD
+### Changed
+* Disabled Twig cache due to tmp permission issues and false-positive suspicious file reporting by hosts.
+* The list template's pagination option is now set to disabled by default, matching previous versions.
+
+### Fixed
+* Re-added missing HTML classes in the list template that had broken user custom CSS styles.
+* Added a polyfill for the `gettext()` function for sites that don't have the PHP `gettext` extension enabled.
+* Fixed use of a function that was removed in v4.13
+
 ## [4.13] - 2019-04-24
 ### Added
 * Introduced feed templates.
