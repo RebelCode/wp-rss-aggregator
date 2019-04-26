@@ -76,7 +76,7 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/cache_enabled' => function (ContainerInterface $c) {
-                return true;
+                return false;
             },
             /*
              * The path to the Twig cache.
