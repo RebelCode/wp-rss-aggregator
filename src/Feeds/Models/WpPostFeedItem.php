@@ -120,7 +120,7 @@ class WpPostFeedItem extends WpCptDataSet
     {
         $wrapperData = [
             static::SOURCE_KEY    => new WpPostFeedSource($meta['source_id']),
-            static::TIMESTAMP_KEY => strtotime($meta['item_date']),
+            static::TIMESTAMP_KEY => strtotime($post->post_date_gmt),
         ];
 
         // Use the real WordPress post author if the meta author does not exist
