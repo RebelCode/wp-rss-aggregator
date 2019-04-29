@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Re-added missing HTML classes in the list template that had broken user custom CSS styles.
 * Added a polyfill for the `gettext()` function for sites that don't have the PHP `gettext` extension enabled.
-* Fixed use of a function that was removed in v4.13
+* Re-added a function that was removed in v4.13, and marked it as deprecated.
+* Fixed feed item dates not using the site's timezone.
 
 ## [4.13] - 2019-04-24
 ### Added
