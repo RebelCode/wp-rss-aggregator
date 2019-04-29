@@ -13,7 +13,7 @@
 {% set date_class = "feed-date" %}
 {# If time-ago format is used, use alternate format and HTML class #}
 {% if options.date_use_time_ago %}
-    {% set date_str = date_str|time_diff %}
+    {% set date_str = item.date|time_diff %}
     {% set date_class = "time-ago" %}
 {% endif %}
 
