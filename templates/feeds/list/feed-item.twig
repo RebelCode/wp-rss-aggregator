@@ -9,7 +9,7 @@
 {{ options.title_after }}
 
 {# Prepare date HTML class and formatted strinng #}
-{% set date_str = item.date|date(options.date_format) %}
+{% set date_str = item.timestamp|date(options.date_format) %}
 {% set date_class = "feed-date" %}
 {# If time-ago format is used, use alternate format and HTML class #}
 {% if options.date_use_time_ago %}
