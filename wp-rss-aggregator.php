@@ -185,6 +185,9 @@ wprss_autoloader()->add('Aventura\\Wprss\\Core\\DiagTest', WPRACORE_DIAG_TESTS_D
 /* Only function definitions, no effect! */
 require_once(WPRSS_INC . 'functions.php');
 
+/* Deprecated functions */
+require_once(WPRSS_INC . 'deprecated.php');
+
 /* SimplePie */
 require_once ( ABSPATH . WPINC . '/class-simplepie.php' );
 
@@ -196,9 +199,6 @@ require_once ( WPRSS_INC . 'di.php' );
 
 /* Load install, upgrade and migration code. */
 require_once ( WPRSS_INC . 'update.php' );
-
-/* Deprecated things */
-require_once(WPRSS_INC . 'deprecated.php');
 
 /* Load the file for setting capabilities of our post types */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );

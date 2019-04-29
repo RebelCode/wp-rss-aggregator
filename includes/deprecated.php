@@ -37,6 +37,14 @@ function wprss_modify_link_builder_query($query)
     return $query;
 }
 
+/**
+ * @deprecated Replaced by PSR Logging since 4.13
+ */
+function wprss_log_get_level()
+{
+    return 'Error';
+}
+
 // Polyfill gettext using the WordPress __() function, for Twig
 if (!function_exists('\gettext')) {
     function gettext() {
