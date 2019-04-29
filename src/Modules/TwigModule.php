@@ -184,11 +184,5 @@ class TwigModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        // Polyfill gettext using the WordPress __() function, for Twig
-        if (!function_exists('gettext')) {
-            function gettext() {
-                return call_user_func_array('__', func_get_args());
-            }
-        }
     }
 }
