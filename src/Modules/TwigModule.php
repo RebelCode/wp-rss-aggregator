@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\TwigTemplateCollection;
 use RebelCode\Wpra\Core\Twig\WpraExtension;
 use Twig\Environment as TwigEnvironment;
+use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
 use Twig\Extensions\DateExtension;
 use Twig\Extensions\I18nExtension;
@@ -163,7 +164,7 @@ class TwigModule implements ModuleInterface
     {
         return [
             /*
-             * Registers the Twig extensions.
+             * Registers the Twig extensions for WPRA and sets the Twig timezone to match WordPress.
              *
              * @since 4.13
              */
@@ -171,6 +172,10 @@ class TwigModule implements ModuleInterface
                 foreach ($c->get('wpra/twig/extensions') as $extension) {
                     $twig->addExtension($extension);
                 }
+
+                /* @var $twigCore CoreExtension */
+                $twigCore = $twig->getExtension('\Twig\Extension\CoreExtension');;
+                $twigCore->setTimezone($t = $c->get('wp/timezone'));
 
                 return $twig;
             }
