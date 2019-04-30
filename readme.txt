@@ -283,11 +283,11 @@ Our complete Knowledge Base with FAQs can be found [here](https://kb.wprssaggreg
 
 == Changelog ==
 
-= 4.13.1 (YYYY-MM-DD) =
+= 4.13.1 (2018-04-30) =
 Changed: Disabled Twig cache due to tmp permission issues and false-positive suspicious file reporting by hosts.
 Changed: The list template's pagination option is now set to disabled by default, matching previous versions.
 Fixed: Re-added missing HTML classes in the list template that had broken user custom CSS styles.
 Fixed: Added a polyfill for the `gettext()` function for sites that don't have the PHP `gettext` extension enabled.
-Fixed: Use of a function that was removed in v4.13
-
-[Browse the full changelog history.](https://www.wprssaggregator.com/extension/core-plugin/)
+Fixed: Re-added a function that was removed in v4.13, and marked it as deprecated.
+Fixed: Feed item dates were not using the site's timezone.
+Fixed: The styles for the legacy rendering system used by the Excerpts & Thumbnails addon were outdated.
