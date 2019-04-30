@@ -1,5 +1,5 @@
 === WP RSS Aggregator ===
-Contributors: RebelCode, jeangalea, markzahra, Mekku, xedin.unknown,
+Contributors: RebelCode, jeangalea, markzahra, Mekku, xedin.unknown,romlytvynenko
 Plugin URI: https://www.wprssaggregator.com
 Tags: RSS import, RSS aggregator, feed import, content curation, feed to post
 Requires at least: 4.0 or higher
