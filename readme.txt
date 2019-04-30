@@ -1,11 +1,11 @@
 === WP RSS Aggregator ===
-Contributors: RebelCode, jeangalea, markzahra, Mekku, xedin.unknown,
+Contributors: RebelCode, jeangalea, markzahra, Mekku, xedin.unknown,romlytvynenko
 Plugin URI: https://www.wprssaggregator.com
 Tags: RSS import, RSS aggregator, feed import, content curation, feed to post
 Requires at least: 4.0 or higher
 Tested up to: 5.1.1
 Requires PHP: 5.4 or higher
-Stable tag: 4.13
+Stable tag: 4.13.1
 License: GPLv3
 
 WP RSS Aggregator is the original & most popular WordPress solution for importing RSS feeds, auto-blogging, content curation & aggregation.
@@ -283,27 +283,11 @@ Our complete Knowledge Base with FAQs can be found [here](https://kb.wprssaggreg
 
 == Changelog ==
 
-= 4.13 (2019-04-24) =
-Added: Introduced feed templates.
-Added: Introduced a WP RSS Aggregator Gutenberg block.
-Added: Brand new debug log and logging system that stores logs in the database.
-Added: Items can now be added to the Blacklist manually.
-Changed: Refactored a lot of legacy code over to the new modular system.
-Changed: General display settings have been moved to the "Default" template type.
-Changed: Reorganized the general plugin settings. Advanced options are now under an advanced settings section.
-Changed: Removed the "Add New" menu item from the RSS Aggregator menu.
-Changed: The feed sources page now updates every 1 second.
-Changed: Updated the TinyMCE dialog options for inserting a shortcode on a page or post (Classic Editor).
-Changed: Updated administrator and editor role capabilities, fixing various permission bugs.
-Changed: Updated a lot of setting descriptions and tooltips.
-Changed: The help support beacon is now enabled by default.
-Fixed: Import errors no longer "freeze" feed sources in an infinite importing state.
-Fixed: Some import errors would not be logged due to script timeout or execution errors.
-Fixed: Feed to Post was not able to show feed items in the shortcode.
-Fixed: Deprecation notices on PHP 7.3.
-Fixed: The "Force feed" option was not properly being applied to feed sources.
-Fixed: A bug that caused perfectly good RSS feeds to trigger gzip errors.
-Fixed: The "Delete permanently & blacklist" row action was appearing for non-feed-item post types.
-Removed: The notice that asks users to leave a review was removed due to various bugs.
-
-[Browse the full changelog history.](https://www.wprssaggregator.com/extension/core-plugin/)
+= 4.13.1 (2018-04-30) =
+Changed: Disabled Twig cache due to tmp permission issues and false-positive suspicious file reporting by hosts.
+Changed: The list template's pagination option is now set to disabled by default, matching previous versions.
+Fixed: Re-added missing HTML classes in the list template that had broken user custom CSS styles.
+Fixed: Added a polyfill for the `gettext()` function for sites that don't have the PHP `gettext` extension enabled.
+Fixed: Re-added a function that was removed in v4.13, and marked it as deprecated.
+Fixed: Feed item dates were not using the site's timezone.
+Fixed: The styles for the legacy rendering system used by the Excerpts & Thumbnails addon were outdated.

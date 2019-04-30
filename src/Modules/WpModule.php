@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules;
 
+use DateTimeZone;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Wp\WpRolesProxy;
 
@@ -37,6 +38,33 @@ class WpModule implements ModuleInterface
              */
             'wp/roles' => function () {
                 return new WpRolesProxy();
+            },
+            /*
+             * The WordPress timezone as a DateTimeZone object.
+             *
+             * @since 4.13.1
+             */
+            'wp/timezone' => function (ContainerInterface $c) {
+                return new DateTimeZone($c->get('wp/timezone_name'));
+            },
+            /*
+             * The WordPress timezone name.
+             *
+             * @since 4.13.1
+             */
+            'wp/timezone_name' => function () {
+                $timezone_string = get_option('timezone_string');
+
+                if (!empty($timezone_string)) {
+                    return $timezone_string;
+                }
+
+                $offset = get_option('gmt_offset');
+                $hours = (int) $offset;
+                $minutes = ($offset - floor($offset)) * 60;
+                $offset = sprintf('%+03d:%02d', $hours, $minutes);
+
+                return $offset;
             }
         ];
     }

@@ -47,6 +47,13 @@ class WpPostFeedItem extends WpCptDataSet
     const URL_KEY = 'url';
 
     /**
+     * The key to which to map the feed item timestamp.
+     *
+     * @since 4.13
+     */
+    const TIMESTAMP_KEY = 'timestamp';
+
+    /**
      * Constructor.
      *
      * @since 4.13
@@ -111,7 +118,10 @@ class WpPostFeedItem extends WpCptDataSet
      */
     protected function wrapPostMetaDataSet(WP_Post $post, DataSetInterface $meta)
     {
-        $wrapperData = [static::SOURCE_KEY => new WpPostFeedSource($meta['source_id'])];
+        $wrapperData = [
+            static::SOURCE_KEY    => new WpPostFeedSource($meta['source_id']),
+            static::TIMESTAMP_KEY => strtotime($post->post_date_gmt),
+        ];
 
         // Use the real WordPress post author if the meta author does not exist
         if (!isset($meta[static::AUTHOR_KEY]) || empty($meta[static::AUTHOR_KEY])) {

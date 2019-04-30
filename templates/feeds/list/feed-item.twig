@@ -5,17 +5,15 @@
 {% endif %}
 
 {# Show the title #}
-<div class="wpra-item-link">
-    {{ item_title | wpralink(item.permalink, options.title_is_link, options) }}
-    {{ options.title_after }}
-</div>
+{{ item_title | wpralink(item.permalink, options.title_is_link, options) }}
+{{ options.title_after }}
 
 {# Prepare date HTML class and formatted strinng #}
-{% set date_str = item.date|date(options.date_format) %}
+{% set date_str = item.timestamp|date(options.date_format) %}
 {% set date_class = "feed-date" %}
 {# If time-ago format is used, use alternate format and HTML class #}
 {% if options.date_use_time_ago %}
-    {% set date_str = date_str|time_diff %}
+    {% set date_str = item.date|time_diff %}
     {% set date_class = "time-ago" %}
 {% endif %}
 

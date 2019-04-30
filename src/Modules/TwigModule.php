@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\TwigTemplateCollection;
 use RebelCode\Wpra\Core\Twig\WpraExtension;
 use Twig\Environment as TwigEnvironment;
+use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
 use Twig\Extensions\DateExtension;
 use Twig\Extensions\I18nExtension;
@@ -68,7 +69,7 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/debug' => function () {
-                return defined('WPRSS_DEBUG') && WPRSS_DEBUG;
+                return false;
             },
             /*
              * The twig cache enabler option.
@@ -76,14 +77,14 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/cache_enabled' => function (ContainerInterface $c) {
-                return !$c->get('wpra/twig/debug');
+                return false;
             },
             /*
              * The path to the Twig cache.
              *
              * @since 4.13
              */
-            'wpra/twig/cache' => function (ContainerInterface $c) {
+            'wpra/twig/cache_dir' => function (ContainerInterface $c) {
                 return get_temp_dir() . 'wprss/twig-cache';
             },
             /*
@@ -94,7 +95,7 @@ class TwigModule implements ModuleInterface
             'wpra/twig/options' => function (ContainerInterface $c) {
                 return [
                     'debug' => $c->get('wpra/twig/debug'),
-                    'cache' => $c->get('wpra/twig/cache_enabled') ? $c->get('wpra/twig/cache') : false,
+                    'cache' => $c->get('wpra/twig/cache_enabled'),
                 ];
             },
             /*
@@ -163,7 +164,7 @@ class TwigModule implements ModuleInterface
     {
         return [
             /*
-             * Registers the Twig extensions.
+             * Registers the Twig extensions for WPRA and sets the Twig timezone to match WordPress.
              *
              * @since 4.13
              */
@@ -171,6 +172,10 @@ class TwigModule implements ModuleInterface
                 foreach ($c->get('wpra/twig/extensions') as $extension) {
                     $twig->addExtension($extension);
                 }
+
+                /* @var $twigCore CoreExtension */
+                $twigCore = $twig->getExtension('\Twig\Extension\CoreExtension');;
+                $twigCore->setTimezone($t = $c->get('wp/timezone'));
 
                 return $twig;
             }
