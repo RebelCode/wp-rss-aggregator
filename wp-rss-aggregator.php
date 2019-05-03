@@ -66,7 +66,7 @@ if( !defined( 'WPRSS_VERSION' ) )
     define( 'WPRSS_VERSION', '4.13.1' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
-    define( 'WPRSS_WP_MIN_VERSION', '4.0' );
+    define( 'WPRSS_WP_MIN_VERSION', '4.8' );
 
 if( !defined( 'WPRSS_MIN_PHP_VERSION' ) )
     define( 'WPRSS_MIN_PHP_VERSION', '5.4' );
