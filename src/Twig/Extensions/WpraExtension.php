@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Twig;
+namespace RebelCode\Wpra\Core\Twig\Extensions;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
