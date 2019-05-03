@@ -202,6 +202,19 @@ foreach ($options as $option) {
     printf('[%s]: ', $option->option_name);
     print_r($unserialized);
 }
+
+?>
+
+PHP EXTENSIONS:
+
+<?php
+$extensions = get_loaded_extensions();
+sort($extensions);
+
+foreach ($extensions as $extension) {
+    echo '- ' . $extension . PHP_EOL;
+}
+
 ?>
 
 ### End System Info ###
