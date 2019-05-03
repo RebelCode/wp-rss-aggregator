@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.13.2] - YYYY-MM-DD
+### Added
+* A custom Twig extension for WordPress-based i18n.
+
 ### Changed
 * Now correctly requiring WordPress version 4.8 or later.
 
 ### Fixed
 * The time ago format for the list template was not respecting the WordPress timezone setting.
 * HTML in log messages were breaking the Debugging page.
+
+## Removed
+* Removed the polyfill for the `gettext()` function.
 
 ## [4.13.1] - 2018-04-30
 ### Changed
