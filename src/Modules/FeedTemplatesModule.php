@@ -367,6 +367,16 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * The list of JS modules to load.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/js_modules' => function (ContainerInterface $c) {
+                return [
+                    'templates-app',
+                ];
+            },
+            /*
              * The templates GET endpoint for the REST API.
              *
              * @since 4.13
@@ -463,7 +473,8 @@ class FeedTemplatesModule implements ModuleInterface
                 return new RenderAdminTemplatesPageHandler(
                     $c->get('wpra/templates/feeds/model_schema'),
                     $c->get('wpra/templates/feeds/model_tooltips'),
-                    $c->get('wpra/templates/feeds/template_options')
+                    $c->get('wpra/templates/feeds/template_options'),
+                    $c->get('wpra/templates/js_modules')
                 );
             },
             /*

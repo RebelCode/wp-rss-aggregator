@@ -30,10 +30,7 @@ const app = new Core.UiFramework.App(containerFactory, services)
 
 window.UiFramework.registerPlugin('templates-app', TemplatesApplication)
 
-app.use([
-  'templates-app',
-  // 'test-plugin'
-])
+app.use(WpraTemplates.modules || ['templates-app'])
 app.init({
   '#wpra-templates-app': 'App',
 })
