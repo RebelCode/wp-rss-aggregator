@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * The time ago format for the list template was not respecting the WordPress timezone setting.
 * HTML in log messages were breaking the Debugging page.
+* The feed items were not being explicitly sorted, which could lead to unsorted items.
 
 ## Removed
 * Removed the polyfill for the `gettext()` function.
