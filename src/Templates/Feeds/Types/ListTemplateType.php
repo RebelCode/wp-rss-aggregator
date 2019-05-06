@@ -126,25 +126,6 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
             ],
-            'links_behavior' => [
-                'key' => 'links_open_behavior',
-                'filter' => 'enum',
-                'options' => ['self', 'blank', 'lightbox'],
-                'default' => 'blank',
-            ],
-            'links_nofollow' => [
-                'key' => 'links_rel_nofollow',
-                'filter' => FILTER_VALIDATE_BOOLEAN,
-                'default' => false,
-            ],
-            'links_video_embed_page' => [
-                'filter' => FILTER_VALIDATE_BOOLEAN,
-                'default' => false,
-            ],
-            'custom_css_classname' => [
-                'filter' => FILTER_DEFAULT,
-                'default' => '',
-            ],
             'bullets_enabled' => [
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => true,
@@ -153,10 +134,6 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
                 'filter' => 'enum',
                 'options' => ['default', 'numbers'],
                 'default' => 'default',
-            ],
-            'className' => [
-                'filter' => FILTER_DEFAULT,
-                'default' => '',
             ],
         ];
     }
