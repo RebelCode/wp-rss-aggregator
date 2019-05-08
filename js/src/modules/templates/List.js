@@ -250,11 +250,14 @@ export default {
         ]
       },
       filters: () => {
-        const templateTypes = {
-          'all': 'Select Template Type',
-          'list': 'List',
-          // 'grid': 'Grid',
-        }
+        let templateTypes = Object.keys(WpraTemplates.options.type)
+          .filter(key => key[0] !== '_')
+          .reduce((carry, key) => {
+            carry[key] = WpraTemplates.options.type[key]
+            return carry
+          }, {
+            'all': 'Select Template Type',
+          })
         return [
           <Input type="select"
                  style={{margin: 0}}
