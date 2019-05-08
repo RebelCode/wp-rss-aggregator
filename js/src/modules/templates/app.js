@@ -11,6 +11,8 @@ import Router from 'app/libs/Router'
 import templates from './store'
 import NotificationCenter from 'app/libs/NotificationCenter'
 
+import components from 'app/components'
+
 /**
  * Main application's container.
  */
@@ -89,6 +91,13 @@ export default {
         }
       } : {}
       return axios.create(httpClientOptions)
+    }
+
+    /*
+     * Register components.
+     */
+    for(const [name, definition] of Object.entries(components)) {
+      services[name] = () => definition
     }
 
     return services
