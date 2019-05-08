@@ -245,8 +245,10 @@ export default {
                        options={this.typeOptions}
                        onInput={(e) => this.model.type = e}
                        disabled={this.model.type === '__built_in'}
-                       inputDisabled={true}
-                       description={'<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'}
+                       inputDisabled={!WpraTemplates.options.is_type_enabled}
+                       description={
+                         WpraTemplates.options.is_type_enabled ? null  : '<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'
+                       }
                 />
                 {
                   (this.model.type === '__built_in') ?
