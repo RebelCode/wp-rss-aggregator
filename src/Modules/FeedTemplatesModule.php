@@ -350,12 +350,21 @@ class FeedTemplatesModule implements ModuleInterface
                 return $types;
             },
             /*
+             * Whether template type selection is available or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/template_type_enabled' => function (ContainerInterface $c) {
+                return false;
+            },
+            /*
              * Feed template's fields options.
              *
              * @since 4.13
              */
             'wpra/templates/feeds/template_options' => function (ContainerInterface $c) {
                 return [
+                    'is_type_enabled' => $c->get('wpra/templates/feeds/template_type_enabled'),
                     'type' => $c->get('wpra/templates/feeds/template_types_options'),
                     'links_behavior' => [
                         'self' => __('Open in same tab/window', 'wprss'),
