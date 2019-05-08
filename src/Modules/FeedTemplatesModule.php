@@ -336,17 +336,27 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * Feed template's types options.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/template_types_options' => function (ContainerInterface $c) {
+                $types = [
+                    '__built_in' => __('List', 'wprss'),
+                ];
+                foreach ($c->get('wpra/templates/feeds/template_types') as $key => $templateType) {
+                    $types[$key] = $templateType->getName();
+                }
+                return $types;
+            },
+            /*
              * Feed template's fields options.
              *
              * @since 4.13
              */
             'wpra/templates/feeds/template_options' => function (ContainerInterface $c) {
                 return [
-                    'type' => [
-                        '__built_in' => __('List', 'wprss'),
-                        'list' => __('List', 'wprss'),
-                        // 'grid' => __('Grid', 'wprss),
-                    ],
+                    'type' => $c->get('wpra/templates/feeds/template_types_options'),
                     'links_behavior' => [
                         'self' => __('Open in same tab/window', 'wprss'),
                         'blank' => __('Open in a new tab', 'wprss'),
