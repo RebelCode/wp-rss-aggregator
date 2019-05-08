@@ -17,17 +17,27 @@ import NotificationCenter from 'app/libs/NotificationCenter'
 export default {
   register (services) {
     /*
+     * Component for editing templates.
+     */
+    services['TemplateEdit'] = () => Edit
+
+    /*
+     * Component for managing templates.
+     */
+    services['TemplateList'] = () => List
+
+    /*
      * Application router instance.
      */
-    services['router'] = ({ document }) => {
+    services['router'] = ({ document, TemplateEdit, TemplateList }) => {
       return new Router([{
         route: WpraGlobal.templates_url_base + '&action',
         name: 'templates-form',
-        component: Edit,
+        component: TemplateEdit,
       }, {
         route: WpraGlobal.templates_url_base,
         name: 'templates',
-        component: List,
+        component: TemplateList,
       }], {
         afterNavigating: () => {
           document.querySelector('html').scrollTop = 0
