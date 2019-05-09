@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Now correctly requiring WordPress version 4.8 or later.
+* Improved the JS architecture to allow addons to extend the UI.
 
 ### Fixed
 * The time ago format for the list template was not respecting the WordPress timezone setting.
