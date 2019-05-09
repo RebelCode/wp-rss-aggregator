@@ -8,12 +8,14 @@ use Twig_SimpleFilter;
 /**
  * A Twig extension that adds internationalization to templates using WordPress' i18n function.
  *
- * @since [*next-version*]
+ * @since 4.13.2
  */
 class WpI18nExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
+     *
+     * @since 4.13.2
      */
     public function getName()
     {
@@ -22,6 +24,8 @@ class WpI18nExtension extends AbstractExtension
 
     /**
      * {@inheritdoc}
+     *
+     * @since 4.13.2
      */
     public function getTokenParsers()
     {
@@ -30,6 +34,8 @@ class WpI18nExtension extends AbstractExtension
 
     /**
      * {@inheritdoc}
+     *
+     * @since 4.13.2
      */
     public function getFilters()
     {

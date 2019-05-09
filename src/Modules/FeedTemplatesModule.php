@@ -338,21 +338,24 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Feed template's types options.
              *
-             * @since [*next-version*]
+             * @since 4.13.2
              */
             'wpra/templates/feeds/template_types_options' => function (ContainerInterface $c) {
+                // The built in type, which appears as "List"
                 $types = [
                     '__built_in' => __('List', 'wprss'),
                 ];
+                // Add all other template types
                 foreach ($c->get('wpra/templates/feeds/template_types') as $key => $templateType) {
                     $types[$key] = $templateType->getName();
                 }
+
                 return $types;
             },
             /*
              * Whether template type selection is available or not.
              *
-             * @since [*next-version*]
+             * @since 4.13.2
              */
             'wpra/templates/feeds/template_type_enabled' => function (ContainerInterface $c) {
                 return false;
@@ -388,7 +391,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The list of JS modules to load.
              *
-             * @since [*next-version*]
+             * @since 4.13.2
              */
             'wpra/templates/js_modules' => function (ContainerInterface $c) {
                 return [

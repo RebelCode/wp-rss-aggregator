@@ -8,14 +8,14 @@ use Twig_Token;
 /**
  * Overrides the return value of the parse method to return a custom {@link I18nTransNode} instance.
  *
- * @since [*next-version*]
+ * @since 4.13.2
  */
 class I18nTransTokenParser extends Twig_Extensions_TokenParser_Trans
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.13.2
      */
     public function parse(Twig_Token $token)
     {
