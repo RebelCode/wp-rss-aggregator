@@ -547,7 +547,8 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 						'wprss_populate_post_data',
 						array(
 							'post_title'     => html_entity_decode( $item->get_title() ),
-							'post_content'   => '',
+							'post_content'   => $item->get_content(),
+							'post_excerpt'   => $item->get_description(),
 							'post_status'    => 'publish',
 							'post_type'      => 'wprss_feed_item',
 							'post_date'      => $date,
