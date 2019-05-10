@@ -13,6 +13,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^5.4 | ^7.0",
+        "ext-curl": "*",
         "psr/log": "^1.1",
         "twig/twig": "^1.38.0",
         "twig/extensions": "^1.5.4",
