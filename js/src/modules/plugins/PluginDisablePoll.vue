@@ -61,6 +61,7 @@
         submitUrl: WrpaDisablePoll.url,
         model: WrpaDisablePoll.model,
         form: WrpaDisablePoll.form,
+        audience: WrpaDisablePoll.audience || 100,
         isModalVisible: false
       }
     },
@@ -70,9 +71,18 @@
       }
     },
     mounted () {
-      deactivateLink.addEventListener('click', this.handleDeactivateClick)
+      const isVisible = this.getRandomInt(0, 100) < this.audience
+      if (isVisible) {
+        deactivateLink.addEventListener('click', this.handleDeactivateClick)
+      }
     },
     methods: {
+      getRandomInt (min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      },
+
       image (path) {
         return WrpaDisablePoll.image + path
       },
