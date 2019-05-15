@@ -336,17 +336,39 @@ class FeedTemplatesModule implements ModuleInterface
                 ];
             },
             /*
+             * Feed template's types options.
+             *
+             * @since 4.13.2
+             */
+            'wpra/templates/feeds/template_types_options' => function (ContainerInterface $c) {
+                // The built in type, which appears as "List"
+                $types = [
+                    '__built_in' => __('List', 'wprss'),
+                ];
+                // Add all other template types
+                foreach ($c->get('wpra/templates/feeds/template_types') as $key => $templateType) {
+                    $types[$key] = $templateType->getName();
+                }
+
+                return $types;
+            },
+            /*
+             * Whether template type selection is available or not.
+             *
+             * @since 4.13.2
+             */
+            'wpra/templates/feeds/template_type_enabled' => function (ContainerInterface $c) {
+                return false;
+            },
+            /*
              * Feed template's fields options.
              *
              * @since 4.13
              */
             'wpra/templates/feeds/template_options' => function (ContainerInterface $c) {
                 return [
-                    'type' => [
-                        '__built_in' => __('List', 'wprss'),
-                        'list' => __('List', 'wprss'),
-                        // 'grid' => __('Grid', 'wprss),
-                    ],
+                    'is_type_enabled' => $c->get('wpra/templates/feeds/template_type_enabled'),
+                    'type' => $c->get('wpra/templates/feeds/template_types_options'),
                     'links_behavior' => [
                         'self' => __('Open in same tab/window', 'wprss'),
                         'blank' => __('Open in a new tab', 'wprss'),
@@ -364,6 +386,16 @@ class FeedTemplatesModule implements ModuleInterface
                         'false' => __('Original page link', 'wprss'),
                         'true' => __('Embedded video player link', 'wprss'),
                     ],
+                ];
+            },
+            /*
+             * The list of JS modules to load.
+             *
+             * @since 4.13.2
+             */
+            'wpra/templates/js_modules' => function (ContainerInterface $c) {
+                return [
+                    'templates-app',
                 ];
             },
             /*
@@ -463,7 +495,8 @@ class FeedTemplatesModule implements ModuleInterface
                 return new RenderAdminTemplatesPageHandler(
                     $c->get('wpra/templates/feeds/model_schema'),
                     $c->get('wpra/templates/feeds/model_tooltips'),
-                    $c->get('wpra/templates/feeds/template_options')
+                    $c->get('wpra/templates/feeds/template_options'),
+                    $c->get('wpra/templates/js_modules')
                 );
             },
             /*

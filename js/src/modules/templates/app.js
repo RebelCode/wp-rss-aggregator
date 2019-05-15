@@ -11,23 +11,35 @@ import Router from 'app/libs/Router'
 import templates from './store'
 import NotificationCenter from 'app/libs/NotificationCenter'
 
+import components from 'app/components'
+
 /**
  * Main application's container.
  */
 export default {
   register (services) {
     /*
+     * Component for editing templates.
+     */
+    services['TemplateEdit'] = () => Edit
+
+    /*
+     * Component for managing templates.
+     */
+    services['TemplateList'] = () => List
+
+    /*
      * Application router instance.
      */
-    services['router'] = ({ document }) => {
+    services['router'] = ({ document, TemplateEdit, TemplateList }) => {
       return new Router([{
         route: WpraGlobal.templates_url_base + '&action',
         name: 'templates-form',
-        component: Edit,
+        component: TemplateEdit,
       }, {
         route: WpraGlobal.templates_url_base,
         name: 'templates',
-        component: List,
+        component: TemplateList,
       }], {
         afterNavigating: () => {
           document.querySelector('html').scrollTop = 0
@@ -79,6 +91,13 @@ export default {
         }
       } : {}
       return axios.create(httpClientOptions)
+    }
+
+    /*
+     * Register components.
+     */
+    for(const [name, definition] of Object.entries(components)) {
+      services[name] = () => definition
     }
 
     return services

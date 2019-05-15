@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.13.2] - 2018-05-14
+### Added
+* A custom Twig extension for WordPress-based i18n.
+
+### Changed
+* Now correctly requiring WordPress version 4.8 or later.
+* Improved the JS architecture to allow addons to extend the UI.
+* The deactivation poll will now be shown only 50% of the time, randomly.
+
+### Fixed
+* The time ago format for the list template was not respecting the WordPress timezone setting.
+* HTML in log messages were breaking the Debugging page.
+* The feed items were not being explicitly sorted, which could lead to unsorted items.
+
+## Removed
+* Removed the polyfill for the `gettext()` function.
+
 ## [4.13.1] - 2018-04-30
 ### Changed
 * Disabled Twig cache due to tmp permission issues and false-positive suspicious file reporting by hosts.

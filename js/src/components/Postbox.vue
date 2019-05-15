@@ -13,14 +13,15 @@
         type: Boolean,
         default: false,
       },
+      context: {},
     },
     methods: {
       toggle () {
         this.expanded = !this.expanded
       }
     },
-    render () {
-      return this.hooks.apply('postbox-' + this.id, this, (
+    render (h) {
+      return this.hooks.apply('postbox-' + this.id, this.context || this, (
         <div class="postbox wpra-postbox" id={ this.submit ? 'submitdiv' : ''}>
           <button type="button" class="handlediv" aria-expanded="true" onClick={this.toggle}>
             <span class="screen-reader-text">Toggle panel: { this.title }</span>
@@ -31,13 +32,13 @@
           ><span>{ this.title }</span></h2>
           <div class="inside">
             {
-              this.hooks.apply('postbox-content-' + this.id, this, [
+              this.hooks.apply('postbox-content-' + this.id, this.context || this, [
                 this.$slots.default
-              ])
+              ], {h})
             }
           </div>
         </div>
-      ))
+      ), {h})
     }
   }
 </script>

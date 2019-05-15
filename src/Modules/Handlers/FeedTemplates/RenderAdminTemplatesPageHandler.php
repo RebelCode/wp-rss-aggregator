@@ -31,17 +31,26 @@ class RenderAdminTemplatesPageHandler
     protected $templateOptions;
 
     /**
+     * The list of JS modules to load.
+     *
+     * @var array
+     */
+    protected $modules;
+
+    /**
      * RenderAdminTemplatesPageHandler constructor.
      *
      * @param array $modelSchema     The feeds template model structure.
      * @param array $modelTooltips   Tooltips for feed template model fields.
      * @param array $templateOptions Feed template's fields options.
+     * @param array $modules         The list of JS modules to load.
      */
-    public function __construct($modelSchema, $modelTooltips, $templateOptions)
+    public function __construct($modelSchema, $modelTooltips, $templateOptions, $modules)
     {
         $this->modelSchema = $modelSchema;
         $this->modelTooltips = $modelTooltips;
         $this->templateOptions = $templateOptions;
+        $this->modules = $modules;
     }
 
     /**
@@ -68,6 +77,7 @@ class RenderAdminTemplatesPageHandler
             'model_schema' => $this->modelSchema,
             'model_tooltips' => $this->modelTooltips,
             'options' => $this->templateOptions,
+            'modules' => $this->modules,
             'base_url' => rest_url('/wpra/v1/templates'),
         ]);
 

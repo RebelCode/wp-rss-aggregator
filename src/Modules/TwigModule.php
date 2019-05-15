@@ -4,12 +4,12 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\TwigTemplateCollection;
-use RebelCode\Wpra\Core\Twig\WpraExtension;
+use RebelCode\Wpra\Core\Twig\Extensions\I18n\WpI18nExtension;
+use RebelCode\Wpra\Core\Twig\Extensions\WpraExtension;
 use Twig\Environment as TwigEnvironment;
 use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
 use Twig\Extensions\DateExtension;
-use Twig\Extensions\I18nExtension;
 use Twig\Extensions\TextExtension;
 use Twig\Loader\FilesystemLoader;
 
@@ -118,7 +118,7 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/extensions/i18n' => function (ContainerInterface $c) {
-                return new I18nExtension();
+                return new WpI18nExtension();
             },
             /*
              * The date extension for Twig.

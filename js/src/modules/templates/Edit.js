@@ -232,7 +232,7 @@ export default {
           this.isLoading ? <div class="loading-container"/> : <Layout class="metabox-holder columns-2">
             <Main>
               {noticeBlock}
-              <Postbox id="template-details" title="Template Details">
+              <Postbox id="template-details" title="Template Details" context={this}>
                 <Input type="text"
                        label={'Template name'}
                        value={this.model.name}
@@ -245,8 +245,10 @@ export default {
                        options={this.typeOptions}
                        onInput={(e) => this.model.type = e}
                        disabled={this.model.type === '__built_in'}
-                       inputDisabled={true}
-                       description={'<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'}
+                       inputDisabled={!WpraTemplates.options.is_type_enabled}
+                       description={
+                         WpraTemplates.options.is_type_enabled ? null  : '<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'
+                       }
                 />
                 {
                   (this.model.type === '__built_in') ?
@@ -262,7 +264,7 @@ export default {
                     null
                 }
               </Postbox>
-              <Postbox id="template-options" title="Template Options">
+              <Postbox id="template-options" title="Template Options" context={this}>
                 <Input type="checkbox"
                        label={'Link title to original article'}
                        value={this.model.options.title_is_link}
@@ -388,6 +390,7 @@ export default {
                        title={this.model.id ? 'Update Template' : 'Create Template'}
                        submit={true}
                        class={'wpra-postbox-last'}
+                       context={this}
               >
                 <div class="submitbox" id="submitpost">
                   {minorActions}
@@ -416,7 +419,7 @@ export default {
                   </div>
                 </div>
               </Postbox>
-              <Postbox id="template-link-preferences" title="Link Preferences">
+              <Postbox id="template-link-preferences" title="Link Preferences" context={this}>
                 <p style={{opacity: .65}}>
                   These options apply to all links within this template.
                 </p>
@@ -444,7 +447,7 @@ export default {
                        title={this.tooltips.options.links_video_embed_page}
                 />
               </Postbox>
-              <Postbox id="template-custom-css" title="Custom Style">
+              <Postbox id="template-custom-css" title="Custom Style" context={this}>
                 <Input type="text"
                        class="form-input--vertical"
                        label={'Custom CSS class name'}

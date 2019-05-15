@@ -21,13 +21,19 @@ class ImporterModule implements ModuleInterface
     {
         return [
             'wpra/importer/items/collection' => function () {
-                return new ImportedItemsCollection([
-                    'relation' => 'AND',
+                return new ImportedItemsCollection(
                     [
-                        'key' => 'wprss_feed_id',
-                        'compare' => 'EXISTS',
+                        'relation' => 'AND',
+                        [
+                            'key' => 'wprss_feed_id',
+                            'compare' => 'EXISTS',
+                        ],
                     ],
-                ]);
+                    [
+                        'order_by' => 'date',
+                        'order'    => 'DESC',
+                    ]
+                );
             },
         ];
     }
