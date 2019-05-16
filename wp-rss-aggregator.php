@@ -212,6 +212,9 @@ require_once ( WPRSS_INC . 'feed-blacklist.php' );
 /* Load the feed importing functions file */
 require_once ( WPRSS_INC . 'feed-importing.php' );
 
+/* Load the feed image importing functions file */
+require_once ( WPRSS_INC . 'feed-importing-images.php' );
+
 /* Load the feed states functions file */
 require_once ( WPRSS_INC . 'feed-states.php' );
 
