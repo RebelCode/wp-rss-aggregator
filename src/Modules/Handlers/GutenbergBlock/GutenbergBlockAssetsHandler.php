@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock;
 
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
 
 /**
  * Class for registering assets for gutenberg block.
@@ -21,12 +22,23 @@ class GutenbergBlockAssetsHandler
     protected $templates;
 
     /**
+     * The list of assets required to render the block.
+     *
+     * @since [*next-version*]
+     *
+     * @var AssetInterface[]
+     */
+    protected $assets;
+
+    /**
      * GutenbergBlockAssetsHandler constructor.
      *
+     * @param AssetInterface[] $assets The list of assets for the block.
      * @param CollectionInterface $templates Templates collection.
      */
-    public function __construct(CollectionInterface $templates)
+    public function __construct(array $assets, CollectionInterface $templates)
     {
+        $this->assets = $assets;
         $this->templates = $templates;
     }
 
@@ -37,14 +49,9 @@ class GutenbergBlockAssetsHandler
      */
     public function __invoke()
     {
-        wp_enqueue_script('wpra-gutenberg-block', WPRSS_APP_JS . 'gutenberg-block.min.js', [
-            'wp-blocks',
-            'wp-i18n',
-            'wp-element',
-            'wp-editor',
-        ]);
-
-        wp_enqueue_style('wpra-gutenberg-block', WPRSS_APP_CSS . 'gutenberg-block.min.css');
+        foreach ($this->assets as $asset) {
+            $asset->enqueue();
+        }
 
         $templates = [];
         foreach ($this->templates as $template) {

@@ -6,6 +6,8 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\FetchFeedSourcesHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\GutenbergBlockAssetsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterGutenbergBlockHandler;
+use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
+use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
 
 /**
  * The Gutenberg block for WP RSS Aggregator.
@@ -99,8 +101,45 @@ class GutenbergBlockModule implements ModuleInterface
              */
             'wpra/gutenberg_block/handlers/assets' => function (ContainerInterface $c) {
                 return new GutenbergBlockAssetsHandler(
+                    $c->get('wpra/gutenberg_block/assets_list'),
                     $c->get('wpra/templates/feeds/collection')
                 );
+            },
+
+            /*
+             * The list of the block's assets.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/gutenberg_block/assets_list' => function (ContainerInterface $c) {
+                return [
+                    'gutenberg_script' => $c->get('wpra/scripts/gutenberg'),
+                    'gutenberg_style' => $c->get('wpra/styles/gutenberg'),
+                ];
+            },
+
+            /*
+             * The block's script.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/scripts/gutenberg' => function (ContainerInterface $c) {
+                $script = new ScriptAsset('wpra-gutenberg-block', WPRSS_APP_JS . 'gutenberg-block.min.js');
+                return $script->setDependencies([
+                    'wp-blocks',
+                    'wp-i18n',
+                    'wp-element',
+                    'wp-editor',
+                ]);
+            },
+
+            /*
+             * The block's style.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/styles/gutenberg' => function (ContainerInterface $c) {
+                return new StyleAsset('wpra-gutenberg-block', WPRSS_APP_CSS . 'gutenberg-block.min.css');
             },
 
             /*
