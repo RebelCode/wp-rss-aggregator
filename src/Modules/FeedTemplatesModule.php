@@ -26,7 +26,6 @@ use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 use RebelCode\Wpra\Core\Wp\Asset\ApplicationScriptAsset;
-use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
 use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
 
 /**
