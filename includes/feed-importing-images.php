@@ -57,7 +57,10 @@ function wpra_get_item_images($item)
     $images += wpra_get_item_content_images($item);
     $images += wpra_get_item_enclosure_images($item);
 
-    return $images;
+    // Filter out empty images
+    return array_filter($images, function ($image) {
+        return !empty($image);
+    });
 }
 
 /**
