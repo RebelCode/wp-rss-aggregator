@@ -2,6 +2,8 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
+use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
+
 /**
  * The handler that renders the admin feed templates page.
  *
@@ -38,15 +40,25 @@ class RenderAdminTemplatesPageHandler
     protected $modules;
 
     /**
+     * The list of assets required to render the page.
+     *
+     * @since [*next-version*]
+     *
+     * @var AssetInterface[]
+     */
+    protected $assets;
+
+    /**
      * RenderAdminTemplatesPageHandler constructor.
      *
-     * @param array $modelSchema     The feeds template model structure.
+     * @param AssetInterface[] $assets  The list of assets required to render the page.
      * @param array $modelTooltips   Tooltips for feed template model fields.
      * @param array $templateOptions Feed template's fields options.
      * @param array $modules         The list of JS modules to load.
      */
-    public function __construct($modelSchema, $modelTooltips, $templateOptions, $modules)
+    public function __construct($assets, $modelSchema, $modelTooltips, $templateOptions, $modules)
     {
+        $this->assets = $assets;
         $this->modelSchema = $modelSchema;
         $this->modelTooltips = $modelTooltips;
         $this->templateOptions = $templateOptions;
@@ -58,11 +70,9 @@ class RenderAdminTemplatesPageHandler
      */
     public function __invoke()
     {
-        wprss_plugin_enqueue_app_scripts('wpra-templates', WPRSS_APP_JS . 'templates.min.js', [], '0.1', true);
-        wp_enqueue_style('wpra-common', WPRSS_APP_CSS . 'common.min.css');
-        wp_enqueue_style('wpra-templates', WPRSS_APP_CSS . 'templates.min.css', [
-            'wpra-common'
-        ]);
+        foreach ($this->assets as $asset) {
+            $asset->enqueue();
+        }
 
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 

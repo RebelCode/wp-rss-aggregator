@@ -25,6 +25,9 @@ use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\RenderTemplateEndPoint;
 use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
+use RebelCode\Wpra\Core\Wp\Asset\ApplicationScriptAsset;
+use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
+use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
 
 /**
  * The templates module for WP RSS Aggregator.
@@ -493,11 +496,48 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
                 return new RenderAdminTemplatesPageHandler(
+                    $c->get('wpra/templates/feeds/template_page_assets'),
                     $c->get('wpra/templates/feeds/model_schema'),
                     $c->get('wpra/templates/feeds/model_tooltips'),
                     $c->get('wpra/templates/feeds/template_options'),
                     $c->get('wpra/templates/js_modules')
                 );
+            },
+            /*
+             * The list of template page assets.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/template_page_assets' => function (ContainerInterface $c) {
+                return [
+                    'templates_script' => $c->get('wpra/scripts/templates'),
+                    'templates_style' => $c->get('wpra/styles/templates'),
+                    'common_style' => $c->get('wpra/styles/common'),
+                ];
+            },
+            /*
+             * The template script.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/scripts/templates' => function (ContainerInterface $c) {
+                return new ApplicationScriptAsset('wpra-templates', WPRSS_APP_JS . 'templates.min.js');
+            },
+            /*
+             * The template style.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/styles/templates' => function (ContainerInterface $c) {
+                return new StyleAsset('wpra-templates', WPRSS_APP_CSS . 'templates.min.css');
+            },
+            /*
+             * The template style.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/styles/common' => function (ContainerInterface $c) {
+                return new StyleAsset('wpra-templates', WPRSS_APP_CSS . 'templates.min.css');
             },
             /*
              * The handler that renders template content.
