@@ -5,7 +5,7 @@ Tags: RSS import, RSS aggregator, feed import, content curation, feed to post
 Requires at least: 4.0 or higher
 Tested up to: 5.1.1
 Requires PHP: 5.4 or higher
-Stable tag: 4.13.1
+Stable tag: 4.13.2
 License: GPLv3
 
 WP RSS Aggregator is the original & most popular WordPress solution for importing RSS feeds, auto-blogging, content curation & aggregation.
@@ -283,11 +283,12 @@ Our complete Knowledge Base with FAQs can be found [here](https://kb.wprssaggreg
 
 == Changelog ==
 
-= 4.13.1 (2018-04-30) =
-Changed: Disabled Twig cache due to tmp permission issues and false-positive suspicious file reporting by hosts.
-Changed: The list template's pagination option is now set to disabled by default, matching previous versions.
-Fixed: Re-added missing HTML classes in the list template that had broken user custom CSS styles.
-Fixed: Added a polyfill for the `gettext()` function for sites that don't have the PHP `gettext` extension enabled.
-Fixed: Re-added a function that was removed in v4.13, and marked it as deprecated.
-Fixed: Feed item dates were not using the site's timezone.
-Fixed: The styles for the legacy rendering system used by the Excerpts & Thumbnails addon were outdated.
+= 4.13.2 (2018-05-14) =
+* Added: A custom Twig extension for WordPress-based i18n.
+* Changed: Now correctly requiring WordPress version 4.8 or later.
+* Changed: Improved the JS architecture to allow addons to extend the UI.
+* Changed: The deactivation poll will now be shown only 50% of the time, randomly.
+* Fixed: The time ago format for the list template was not respecting the WordPress timezone setting.
+* Fixed: HTML in log messages were breaking the Debugging page.
+* Fixed: The feed items were not being explicitly sorted, which could lead to unsorted items.
+* Removed: The polyfill for the `gettext()` function.
