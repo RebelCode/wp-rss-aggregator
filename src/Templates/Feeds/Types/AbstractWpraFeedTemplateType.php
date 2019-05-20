@@ -137,9 +137,14 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
         // Parse the template-type's own options
         $ttOpts = $this->parseArgsWithSchema($pOpts, $this->getOptions());
 
+        // Get all options by merging std options with template type options
+        $allOpts = ( isset($stdOpts['options']) && !empty($stdOpts['options']) )
+            ? array_merge_recursive($stdOpts['options'], $ttOpts)
+            : $ttOpts;
+
         return [
             'items' => $items,
-            'options' => $ttOpts,
+            'options' => $allOpts,
             'pagination' => [
                 'page' => $page,
                 'total_num_items' => $count,
@@ -206,25 +211,28 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
                 'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
             'links_behavior' => [
-                'key' => 'links_open_behavior',
+                'key' => 'options/links_open_behavior',
                 'filter' => 'enum',
                 'options' => ['self', 'blank', 'lightbox'],
                 'default' => 'blank',
             ],
             'links_nofollow' => [
-                'key' => 'links_rel_nofollow',
+                'key' => 'options/links_rel_nofollow',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
             ],
             'links_video_embed_page' => [
+                'key' => 'options/links_video_embed_page',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
             ],
             'custom_css_classname' => [
+                'key' => 'options/custom_css_classname',
                 'filter' => FILTER_DEFAULT,
                 'default' => '',
             ],
             'className' => [
+                'key' => 'options/className',
                 'filter' => FILTER_DEFAULT,
                 'default' => '',
             ],
