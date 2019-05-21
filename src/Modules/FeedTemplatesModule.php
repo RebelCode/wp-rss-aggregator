@@ -27,6 +27,7 @@ use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 use RebelCode\Wpra\Core\Wp\Asset\ApplicationScriptAsset;
 use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
+use RebelCode\Wpra\Core\Wp\ScriptState;
 
 /**
  * The templates module for WP RSS Aggregator.
@@ -496,11 +497,65 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/templates/feeds/render_admin_page_handler' => function (ContainerInterface $c) {
                 return new RenderAdminTemplatesPageHandler(
                     $c->get('wpra/templates/feeds/template_page_assets'),
-                    $c->get('wpra/templates/feeds/model_schema'),
-                    $c->get('wpra/templates/feeds/model_tooltips'),
-                    $c->get('wpra/templates/feeds/template_options'),
-                    $c->get('wpra/templates/js_modules')
+                    $c->get('wpra/templates/feeds/template_page_states')
                 );
+            },
+            /*
+             * The list of template page states.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/templates/feeds/template_page_states' => function (ContainerInterface $c) {
+                return [
+                    'global' => $c->get('wpra/states/global')->setHandle('wpra-templates'),
+                    'templates' => $c->get('wpra/states/templates'),
+                ];
+            },
+            /*
+             * The global state of the application.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/states/global' => function (ContainerInterface $c) {
+                return new ScriptState('wpra-global', 'WpraGlobal', function () use ($c) {
+                    return $c->get('wpra/states/raw/global');
+                });
+            },
+            /*
+             * The state of the templates application.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/states/templates' => function (ContainerInterface $c) {
+                return new ScriptState('wpra-templates', 'WpraTemplates', $c->get('wpra/states/raw/templates'));
+            },
+            /*
+             * Raw global state of the application.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/states/raw/global' => function (ContainerInterface $c) {
+                $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+                return [
+                    'admin_base_url' => admin_url(),
+                    'templates_url_base' => str_replace($url, '', menu_page_url('wpra_feed_templates', false)),
+                    'is_existing_user' => !wprss_is_new_user(),
+                    'nonce' => wp_create_nonce('wp_rest'),
+                ];
+            },
+            /*
+             * Raw templates state of the application.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/states/raw/templates' => function (ContainerInterface $c) {
+                return [
+                    'model_schema' => $c->get('wpra/templates/feeds/model_schema'),
+                    'model_tooltips' => $c->get('wpra/templates/feeds/model_tooltips'),
+                    'options' => $c->get('wpra/templates/feeds/template_options'),
+                    'modules' => $c->get('wpra/templates/js_modules'),
+                    'base_url' => rest_url('/wpra/v1/templates'),
+                ];
             },
             /*
              * The list of template page assets.
