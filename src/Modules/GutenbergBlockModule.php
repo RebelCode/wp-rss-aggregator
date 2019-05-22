@@ -172,6 +172,7 @@ class GutenbergBlockModule implements ModuleInterface
             'wpra/scripts/gutenberg' => function (ContainerInterface $c) {
                 $script = new ScriptAsset('wpra-gutenberg-block', WPRSS_APP_JS . 'gutenberg-block.min.js');
                 return $script->setDependencies([
+                    'wp-hooks',
                     'wp-blocks',
                     'wp-i18n',
                     'wp-element',

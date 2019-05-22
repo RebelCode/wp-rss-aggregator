@@ -527,7 +527,9 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/states/templates' => function (ContainerInterface $c) {
-                return new ScriptState('wpra-templates', 'WpraTemplates', $c->get('wpra/states/raw/templates'));
+                return new ScriptState('wpra-templates', 'WpraTemplates', function () use ($c) {
+                    return $c->get('wpra/states/raw/templates');
+                });
             },
             /*
              * Raw global state of the application.
