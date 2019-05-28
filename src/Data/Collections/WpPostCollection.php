@@ -219,7 +219,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         $result = wp_insert_post($post, true);
 
         if ($result instanceof WP_Error) {
-            throw new RuntimeException($result->get_error_message(), $result->get_error_code());
+            throw new RuntimeException($result->get_error_message());
         }
 
         $this->lastInsertedId = $result;
