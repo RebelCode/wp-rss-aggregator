@@ -179,8 +179,8 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             props.setAttributes({page: parseInt(value) || 1})
           }}
         />,
-        {etWarning}
-        ], 'displayOptions', {props})}
+        etWarning
+      ], 'displayOptions', {props})}
       </PanelBody>,
     ], {props})
 
