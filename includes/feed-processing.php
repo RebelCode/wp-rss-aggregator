@@ -517,6 +517,53 @@
         return strtotime( "-$age_limit $age_unit" );
     }
 
+    /**
+     * Truncates the items for a single feed source based on its age limit.
+     *
+     * @since [*next-version*]
+     *
+     * @param int|WP_Post $source The source ID or post instance.
+     */
+    function wprss_truncate_items_for_source( $source )
+    {
+        $id = ( $source instanceof WP_Post )
+            ? $source->ID
+            : $source;
+
+        // Get the max age setting for this feed source
+        $max_age = wprss_get_max_age_for_feed_source( $id );
+
+        // If the data is empty, do not delete
+        if ( $max_age === false ) {
+            return;
+        }
+
+        // Get all feed items for this source
+        $feed_items = wprss_get_feed_items_for_source( $id );
+
+        // If there are no feed items, stop
+        if ( ! $feed_items->have_posts() ) {
+            return;
+        }
+
+        // Extend the timeout time limit for the deletion of the feed items
+        set_time_limit( wprss_get_item_import_time_limit() );
+
+        // For each feed item
+        while ( $feed_items->have_posts() ) {
+            $feed_items->the_post();
+            // If the post is older than the maximum age
+            $item_id = get_the_ID();
+
+            if ( wprss_is_feed_item_older_than( $item_id, $max_age ) === true ){
+                // Delete the post
+                wp_delete_post( $item_id, true );
+            }
+        }
+
+        // Reset feed items query data
+        wp_reset_postdata();
+    }
 
     /**
      * Delete old feed items from the database to avoid bloat.
@@ -532,35 +579,10 @@
 
         // Check if there are feed sources
         if( $feed_sources->have_posts() ) {
-            // FOR EACH FEED SOURCE
+            // Truncate items for each feed source
             while ( $feed_sources->have_posts() ) {
                 $feed_sources->the_post();
-                // Get the max age setting for this feed source
-                $max_age = wprss_get_max_age_for_feed_source( get_the_ID() );
-
-                // If the data is empty, do not delete
-                if ( $max_age === FALSE ) continue;
-
-                // Get all feed items for this source
-                $feed_items = wprss_get_feed_items_for_source( get_the_ID() );
-                // If there are feed items
-                if ( $feed_items-> have_posts() ) {
-                    // Extend the timeout time limit for the deletion of the feed items
-                    $time_limit = wprss_get_item_import_time_limit();
-                    wprss_log( "Extended execution time limit by {$time_limit}s for imported items truncation.", null, WPRSS_LOG_LEVEL_SYSTEM );
-                    set_time_limit( $time_limit );
-                    // For each feed item
-                    while ( $feed_items->have_posts() ) {
-                        $feed_items->the_post();
-                        // If the post is older than the maximum age
-                        if ( wprss_is_feed_item_older_than( get_the_ID(), $max_age ) === TRUE ){
-                            // Delete the post
-                            wp_delete_post( get_the_ID(), true );
-                        }
-                    }
-                    // Reset feed items query data
-                    wp_reset_postdata();
-                }
+                wprss_truncate_items_for_source( get_the_ID() );
             }
             // Reset feed sources query data
             wp_reset_postdata();
