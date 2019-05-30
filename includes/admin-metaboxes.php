@@ -597,8 +597,12 @@
 
         <div class="wprss-meta-side-setting">
             <p>
-                <label id="wprss-age-limit-feed-label" for="" data-when-empty="Delete old feed items:">Delete feed items older than: </label>
-                <strong id="wprss-age-limit-feed-viewer"><?php echo $age_limit . ' ' . $age_unit; ?></strong>
+                <label id="wprss-age-limit-feed-label" for="" data-when-empty="Limit items by age:">
+                    <?php _e( 'Limit items by age:', 'wprss' ); ?>
+                </label>
+                <strong id="wprss-age-limit-feed-viewer">
+                    <?php _e( 'Default', WPRSS_TEXT_DOMAIN ); ?>
+                </strong>
                 <a href="#">Edit</a>
 				<?php echo $help->tooltip( 'field_wprss_age_limit', null, $help_options ) ?>
             </p>
