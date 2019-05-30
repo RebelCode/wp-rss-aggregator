@@ -46,6 +46,9 @@
 			delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
 		}
 
+		// Truncate old items first
+        wprss_truncate_items_for_source( $feed_ID );
+
 		// Get the feed source URL from post meta, and filter it
 		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
 		$feed_url = apply_filters( 'wprss_feed_source_url', $feed_url, $feed_ID );
