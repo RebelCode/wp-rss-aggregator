@@ -494,11 +494,8 @@
         $pause = get_post_meta( $post->ID, 'wprss_pause_feed', TRUE );
         $update_interval = get_post_meta( $post->ID, 'wprss_update_interval', TRUE );
 
-        $age_limit = get_post_meta( $post->ID, 'wprss_age_limit', FALSE );
-        $age_unit = get_post_meta( $post->ID, 'wprss_age_unit', FALSE );
-
-        $age_limit = ( count( $age_limit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age' ) : $age_limit[0];
-        $age_unit = ( count( $age_unit ) === 0 )? wprss_get_general_setting( 'limit_feed_items_age_unit' ) : $age_unit[0];
+        $age_limit = get_post_meta( $post->ID, 'wprss_age_limit', true );
+        $age_unit = get_post_meta( $post->ID, 'wprss_age_unit', true );
 
         // Set default strings for activate and pause times
         $default_activate = 'immediately';
