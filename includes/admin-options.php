@@ -556,9 +556,9 @@
         $mainOptionName = 'wprss_settings_general';
         $value = wprss_get_general_setting($id);
         $items = array(
-            ''                     => __('Any', WPRSS_TEXT_DOMAIN),
-            'latest'               => __('Latest First', WPRSS_TEXT_DOMAIN),
-            'oldest'               => __('Oldest First', WPRSS_TEXT_DOMAIN),
+            'latest'               => __('Latest items first', WPRSS_TEXT_DOMAIN),
+            'oldest'               => __('Oldest items first', WPRSS_TEXT_DOMAIN),
+            ''                     => __('Original feed order', WPRSS_TEXT_DOMAIN),
         );
         ?>
 		<select id="<?php echo $id ?>" name="<?php echo \Aventura\Wprss\Core\Model\SettingsAbstract::getNameHtml(array($mainOptionName, $id)) ?>">
