@@ -265,8 +265,7 @@
 
                 // From 4.11.2
                 'limit_feed_items_per_import'   => null,
-                'feed_items_import_order'       => '',
-                'feed_items_import_order'       => '',
+                'feed_items_import_order'       => 'latest',
 
                 // From 4.13
                 'custom_css' => '',
