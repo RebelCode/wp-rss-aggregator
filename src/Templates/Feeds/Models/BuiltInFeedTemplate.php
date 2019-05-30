@@ -185,6 +185,13 @@ class BuiltInFeedTemplate extends WpPostFeedTemplate
             $mask[$key] = true;
         }
 
+        // Allow the standard options through the mask as well
+        $mask['links_behavior'] = true;
+        $mask['links_nofollow'] = true;
+        $mask['links_video_embed_page'] = true;
+        $mask['custom_css_classname'] = true;
+        $mask['className'] = true;
+
         return $mask;
     }
 }
