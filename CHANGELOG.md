@@ -9,8 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Image URLs are detected and saved in feed item meta, to be used by templates that can show images.
 * Feed item excerpt is now imported, to be used by templates that can show excerpts.
 
+### Changed
+* Some options were renamed to be consistent across various plugin pages.
+
 ### Fixed
 * An error would occur that prevented the default template from being saved.
+* The age limit setting was incorrectly being copied to feed sources.
 
 ## [4.13.2] - 2019-05-14
 ### Added

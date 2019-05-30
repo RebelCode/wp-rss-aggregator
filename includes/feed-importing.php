@@ -36,7 +36,7 @@
 		register_shutdown_function( 'wprss_detect_exec_timeout' );
 
 		// Check if the feed source is active.
-		if ( wprss_is_feed_source_active( $feed_ID ) === FALSE && wprss_feed_source_force_next_fetch( $feed_ID ) === FALSE ) {
+		if ( ! wprss_is_feed_source_active( $feed_ID ) && ! wprss_feed_source_force_next_fetch( $feed_ID ) ) {
             $logger->info('Feed is not active. Finished');
 			return;
 		}
@@ -45,6 +45,9 @@
 		if ( wprss_feed_source_force_next_fetch( $feed_ID ) ) {
 			delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
 		}
+
+		// Truncate old items first
+        wprss_truncate_items_for_source( $feed_ID );
 
 		// Get the feed source URL from post meta, and filter it
 		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );

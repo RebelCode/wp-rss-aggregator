@@ -69,7 +69,7 @@
 
 '.											'Also, items in the RSS feed that are already older than this age will not be imported at all.
 
-'.											'Leaving empty to use the <em>Limit feed items by age</em> option in the general settings.', WPRSS_TEXT_DOMAIN),
+'.											'Leave empty to use the <em>Limit feed items by age</em> option in the general settings.', WPRSS_TEXT_DOMAIN),
 
 				/* ----------------------
 				 *  Feed Preview Metabox
