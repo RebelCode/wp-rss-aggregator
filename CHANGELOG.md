@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Some options were renamed to be consistent across various plugin pages.
+* Improved the wording, description and tooltip of the "Import order" option.
 
 ### Fixed
 * An error would occur that prevented the default template from being saved.
