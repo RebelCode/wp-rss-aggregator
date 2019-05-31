@@ -1,0 +1,67 @@
+<h3>{% trans "Debug Log" %}</h3>
+
+{% set numLogs = logs|length %}
+
+{% if numLogs == 0 %}
+    <section class="notice notice-success notice-inline wpra-empty-log-notice">
+        <p>{% trans "The log is empty" %}</p>
+    </section>
+{% else %}
+    <p>
+        <i>{{ "Showing the most recent %d log messages"|trans|format(numLogs) }}</i>
+    </p>
+    <div class="wpra-log">
+        <p>
+            <strong>{% trans "Filters:" %}</strong>
+
+            <span class="wpra-toggle-logs" data-level="all">
+                <a href="#">{% trans "All" %}</a>
+            </span>
+            <span class="wpra-toggle-logs wpra-selected" data-level="error">
+                <a href="#">{% trans "Errors" %}</a>
+            </span>
+            <span class="wpra-toggle-logs wpra-selected" data-level="info">
+                <a href="#">{% trans "Info" %}</a>
+            </span>
+            <span class="wpra-toggle-logs" data-level="notice">
+                <a href="#">{% trans "Notice" %}</a>
+            </span>
+            <span class="wpra-toggle-logs" data-level="warning">
+                <a href="#">{% trans "Warnings" %}</a>
+            </span>
+            <span class="wpra-toggle-logs" data-level="debug">
+                <a href="#">{% trans "Debug" %}</a>
+            </span>
+        </p>
+        <div class="wpra-log-container">
+            <table>
+                <tbody>
+                {% for log in logs %}
+                    <tr class="{{ "wpra-log-" ~ log.level }}">
+                        <td class="wpra-log-date">{{ log.date }}</td>
+                        <td class="wpra-log-level">{{ log.level|title }}</td>
+                        <td class="wpra-log-feed">{{ log.feed.post_title }}</td>
+                        <td class="wpra-log-message">{{ log.message }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <form id="wprss-clear-error-log-form" method="POST" class="wprss-error-log-action">
+        {{ wp_nonce_field(nonce_name) }}
+        <button type="submit" name="wpra-clear-log" class="button button-red" value="1">
+            <i class="fa fa-trash-o"></i>
+            {% trans "Clear log" %}
+        </button>
+    </form>
+
+    <form id="wprss-download-error-log-form" method="POST" class="wprss-error-log-action">
+        {{ wp_nonce_field(nonce_name) }}
+        <button type="submit" name="wpra-download-log" class="button button-primary" value="1">
+            <i class="fa fa-download"></i>
+            {% trans "Download log" %}
+        </button>
+    </form>
+{% endif %}
