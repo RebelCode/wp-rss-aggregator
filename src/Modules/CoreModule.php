@@ -3,7 +3,11 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\ChangelogDataSet;
+use RebelCode\Wpra\Core\Data\DeprefixingDataSet;
+use RebelCode\Wpra\Core\Data\PrefixingDataSet;
+use RebelCode\Wpra\Core\Data\Wp\WpOptionsDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpPluginInfoDataSet;
 
 /**
@@ -145,6 +149,33 @@ class CoreModule implements ModuleInterface
              */
             'wpra/core/db_version' => function () {
                 return WPRSS_DB_VERSION;
+            },
+            /*
+             * The config for WP RSS Aggregator.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/core/config' => function (ContainerInterface $c) {
+                $prefix = $c->get('wpra/core/config/prefix');
+                $options = new DeprefixingDataSet($c->get('wpra/core/config/options'), $prefix);
+
+                return new PrefixingDataSet(new WpOptionsDataSet($options), $prefix, true);
+            },
+            /*
+             * The options available in the WP RSS Aggregator config.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/core/config/options' => function () {
+                return new ArrayDataSet([]);
+            },
+            /*
+             * The prefix to use for config options.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/core/config/prefix' => function (ContainerInterface $c) {
+                return 'wpra/';
             },
             /*
              * The WP RSS Aggregator changelog.
