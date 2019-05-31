@@ -154,6 +154,8 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
             foreach ($this->columns as $prop => $col) {
                 $log[$prop] = $row[$col];
             }
+            $log['feed'] = get_post($log['feed_id']);
+
             $logs[] = $log;
         }
 
