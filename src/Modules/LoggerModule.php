@@ -35,7 +35,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/enabled'                          => function (ContainerInterface $c) {
+            'wpra/logging/enabled' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/config')['logging/enabled'];
             },
             /*
@@ -43,7 +43,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/logger'                           => function (ContainerInterface $c) {
+            'wpra/logging/logger' => function (ContainerInterface $c) {
                 return new ConditionalLogger(
                     $c->get('wpra/logging/wpdb_logger'),
                     $c->get('wpra/logging/enabled')
@@ -54,7 +54,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/wpdb_logger'                      => function (ContainerInterface $c) {
+            'wpra/logging/wpdb_logger' => function (ContainerInterface $c) {
                 return new WpdbLogger(
                     $c->get('wpra/logging/log_table'),
                     $c->get('wpra/logging/log_table_columns'),
@@ -66,7 +66,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/reader'                           => function (ContainerInterface $c) {
+            'wpra/logging/reader' => function (ContainerInterface $c) {
                 return $c->get('wpra/logging/wpdb_logger');
             },
             /*
@@ -74,7 +74,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/clearer'                          => function (ContainerInterface $c) {
+            'wpra/logging/clearer' => function (ContainerInterface $c) {
                 return $c->get('wpra/logging/wpdb_logger');
             },
             /*
@@ -84,7 +84,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/log_table'                        => function (ContainerInterface $c) {
+            'wpra/logging/log_table' => function (ContainerInterface $c) {
                 if (!$c->has('wp/db')) {
                     return new NullTable();
                 }
@@ -101,7 +101,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/log_table_name'                   => function (ContainerInterface $c) {
+            'wpra/logging/log_table_name' => function (ContainerInterface $c) {
                 return 'wprss_logs';
             },
             /*
@@ -109,11 +109,11 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/log_table_schema'                 => function () {
+            'wpra/logging/log_table_schema' => function () {
                 return [
-                    'id'      => 'BIGINT NOT NULL AUTO_INCREMENT',
-                    'date'    => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
-                    'level'   => 'varchar(30) NOT NULL',
+                    'id' => 'BIGINT NOT NULL AUTO_INCREMENT',
+                    'date' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
+                    'level' => 'varchar(30) NOT NULL',
                     'message' => 'text NOT NULL',
                     'feed_id' => 'varchar(100)',
                 ];
@@ -123,13 +123,13 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/log_table_columns'                => function () {
+            'wpra/logging/log_table_columns' => function () {
                 return [
-                    WpdbLogger::LOG_ID      => 'id',
-                    WpdbLogger::LOG_DATE    => 'date',
-                    WpdbLogger::LOG_LEVEL   => 'level',
+                    WpdbLogger::LOG_ID => 'id',
+                    WpdbLogger::LOG_DATE => 'date',
+                    WpdbLogger::LOG_LEVEL => 'level',
                     WpdbLogger::LOG_MESSAGE => 'message',
-                    'feed_id'               => 'feed_id',
+                    'feed_id' => 'feed_id',
                 ];
             },
             /*
@@ -137,7 +137,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/log_table_primary_key'            => function () {
+            'wpra/logging/log_table_primary_key' => function () {
                 return 'id';
             },
             /*
@@ -145,7 +145,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/log_table_extra'                  => function () {
+            'wpra/logging/log_table_extra' => function () {
                 return [
                     'feed_id' => '',
                 ];
@@ -155,7 +155,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/feed_logger_dataset'              => function (ContainerInterface $c) {
+            'wpra/logging/feed_logger_dataset' => function (ContainerInterface $c) {
                 return new FeedLoggerDataSet($c->get('wpra/logging/feed_logger_factory'));
             },
             /*
@@ -163,7 +163,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/feed_logger_factory'              => function (ContainerInterface $c) {
+            'wpra/logging/feed_logger_factory' => function (ContainerInterface $c) {
                 return function ($feedId) use ($c) {
                     return new ConditionalLogger(
                         new WpdbLogger(
@@ -180,7 +180,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/logging/trunc_logs_cron/scheduler'        => function (ContainerInterface $c) {
+            'wpra/logging/trunc_logs_cron/scheduler' => function (ContainerInterface $c) {
                 return new ScheduleCronJobHandler(
                     $c->get('wpra/logging/trunc_logs_cron/event'),
                     $c->get('wpra/logging/trunc_logs_cron/handler'),
@@ -194,7 +194,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13'
              */
-            'wpra/logging/trunc_logs_cron/event'            => function (ContainerInterface $c) {
+            'wpra/logging/trunc_logs_cron/event' => function (ContainerInterface $c) {
                 return 'wprss_truncate_logs';
             },
             /*
@@ -202,7 +202,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13'
              */
-            'wpra/logging/trunc_logs_cron/frequency'        => function (ContainerInterface $c) {
+            'wpra/logging/trunc_logs_cron/frequency' => function (ContainerInterface $c) {
                 return 'daily';
             },
             /*
@@ -210,7 +210,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13'
              */
-            'wpra/logging/trunc_logs_cron/first_run'        => function (ContainerInterface $c) {
+            'wpra/logging/trunc_logs_cron/first_run' => function (ContainerInterface $c) {
                 return time() + DAY_IN_SECONDS;
             },
             /*
@@ -227,7 +227,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/page/url'                         => function () {
+            'wpra/logging/page/url' => function () {
                 return admin_url('edit.php?post_type=wprss_feed&page=wprss-debugging');
             },
             /**
@@ -235,7 +235,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/page/nonce_name'                  => function () {
+            'wpra/logging/page/nonce_name' => function () {
                 return 'wprss-debug-log';
             },
             /**
@@ -243,7 +243,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/handlers/render_log'              => function (ContainerInterface $c) {
+            'wpra/logging/handlers/render_log' => function (ContainerInterface $c) {
                 return new RenderLogHandler(
                     $c->get('wpra/logging/reader'),
                     $c->get('wpra/twig/collection')['admin/debug/log.twig'],
@@ -256,7 +256,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/handlers/clear_log'               => function (ContainerInterface $c) {
+            'wpra/logging/handlers/clear_log' => function (ContainerInterface $c) {
                 return new ClearLogHandler(
                     $c->get('wpra/logging/clearer'),
                     $c->get('wpra/logging/page/nonce_name')
@@ -267,7 +267,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/handlers/download_log'            => function (ContainerInterface $c) {
+            'wpra/logging/handlers/download_log' => function (ContainerInterface $c) {
                 return new DownloadLogHandler(
                     $c->get('wpra/logging/reader'),
                     $c->get('wpra/logging/page/nonce_name')
@@ -278,7 +278,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/logging/handlers/save_options'            => function (ContainerInterface $c) {
+            'wpra/logging/handlers/save_options' => function (ContainerInterface $c) {
                 return new SaveLogOptionsHandler(
                     $c->get('wpra/core/config'),
                     $c->get('wpra/logging/page/nonce_name')
@@ -289,7 +289,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13'
              */
-            'wpra/logging/trunc_logs_cron/handler'          => function (ContainerInterface $c) {
+            'wpra/logging/trunc_logs_cron/handler' => function (ContainerInterface $c) {
                 return new TruncateLogsCronHandler(
                     $c->get('wpra/logging/log_table'),
                     $c->get('wpra/core/config')
@@ -300,7 +300,7 @@ class LoggerModule implements ModuleInterface
              *
              * @since 4.13'
              */
-            'wpra/logging/trunc_logs_cron/args'             => function (ContainerInterface $c) {
+            'wpra/logging/trunc_logs_cron/args' => function (ContainerInterface $c) {
                 return [];
             },
         ];
@@ -343,8 +343,8 @@ class LoggerModule implements ModuleInterface
             $operations['render-error-log'] = apply_filters(
                 'wprss_render_error_log_operation',
                 [
-                    'nonce'  => null,
-                    'run'    => null,
+                    'nonce' => null,
+                    'run' => null,
                     'render' => $c->get('wpra/logging/handlers/render_log'),
                 ]
             );
