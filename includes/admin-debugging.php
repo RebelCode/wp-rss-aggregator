@@ -50,36 +50,6 @@ use Psr\Log\LogLevel;
             )
         );
 
-        $operations['render-error-log'] = apply_filters(
-            'wprss_render_error_log_operation',
-            array(
-                'nonce'     =>  null,
-                'run'       =>  null,
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
-                'render'    =>  'wprss_debug_render_error_log'
-            )
-        );
-
-        $operations['download-error-log'] = apply_filters(
-            'wprss_debug_download_error_log_operation',
-            array(
-                'nonce'     =>  'wprss-download-error-log',
-                'run'       =>  'wprss_download_log',
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
-                'render'    =>  'wprss_debug_download_log_button'
-            )
-        );
-
-        $operations['clear-error-log'] = apply_filters(
-            'wprss_debug_error_log_operation',
-            array(
-                'nonce'     =>  'wprss-clear-error-log',
-                'run'       =>  'wprss_clear_log',
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=3',
-                'render'    =>  'wprss_debug_clear_log_button'
-            )
-        );
-
 		$operations ['restore-settings'] = apply_filters(
 			'wprss_debug_restore_settings_operation',
 			array(
@@ -285,7 +255,6 @@ use Psr\Log\LogLevel;
             array(
                 '1'     =>  'debug_feeds_updating',
                 '2'     =>  'debug_feeds_reimporting',
-                '3'     =>  'debug_cleared_log',
                 '4'		=>	'debug_settings_reset',
             )
         );
