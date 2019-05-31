@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [*next-version*] - 2019-05-14
 ### Added
+* New option to enable or disable the plugin's logging.
+* New option to set the log age, in days, for daily truncation.
 * Image URLs are detected and saved in feed item meta, to be used by templates that can show images.
 * Feed item excerpt is now imported, to be used by templates that can show excerpts.
 
 ### Changed
+* Converted log section in the debugging page to use the new module system.
 * Some options were renamed to be consistent across various plugin pages.
 * Improved the wording, description and tooltip of the "Import order" option.
 * Added better error handling during image file creation when using the GD extension.

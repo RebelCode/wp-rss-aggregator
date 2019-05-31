@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Twig\Extensions;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Twig extension for custom WP RSS Aggregator filters.
@@ -23,6 +24,32 @@ class WpraExtension extends AbstractExtension
             $this->getWpraLinkFilter(),
             $this->getBase64EncodeFilter()
         ];
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @since [*next-version*]
+     */
+    public function getFunctions()
+    {
+        return [
+            $this->getWpNonceFieldFunction(),
+        ];
+    }
+
+    /**
+     * Retrieves the wp_nonce_field twig function.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFunction
+     */
+    protected function getWpNonceFieldFunction()
+    {
+        return new TwigFunction('wp_nonce_field', 'wp_nonce_field', [
+            'is_safe' => ['html']
+        ]);
     }
 
     /**

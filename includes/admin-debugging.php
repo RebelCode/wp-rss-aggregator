@@ -50,36 +50,6 @@ use Psr\Log\LogLevel;
             )
         );
 
-        $operations['render-error-log'] = apply_filters(
-            'wprss_render_error_log_operation',
-            array(
-                'nonce'     =>  null,
-                'run'       =>  null,
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
-                'render'    =>  'wprss_debug_render_error_log'
-            )
-        );
-
-        $operations['download-error-log'] = apply_filters(
-            'wprss_debug_download_error_log_operation',
-            array(
-                'nonce'     =>  'wprss-download-error-log',
-                'run'       =>  'wprss_download_log',
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging',
-                'render'    =>  'wprss_debug_download_log_button'
-            )
-        );
-
-        $operations['clear-error-log'] = apply_filters(
-            'wprss_debug_error_log_operation',
-            array(
-                'nonce'     =>  'wprss-clear-error-log',
-                'run'       =>  'wprss_clear_log',
-                'redirect'  =>  'edit.php?post_type=wprss_feed&page=wprss-debugging&debug_message=3',
-                'render'    =>  'wprss_debug_clear_log_button'
-            )
-        );
-
 		$operations ['restore-settings'] = apply_filters(
 			'wprss_debug_restore_settings_operation',
 			array(
@@ -109,11 +79,26 @@ use Psr\Log\LogLevel;
         // Check which of the operations needs to be run
         foreach ( $debug_operations as $id => $operation ) {
             // If page loading after having clicked 'Update all fields'
-            if ( isset( $_POST[ $id ] ) && check_admin_referer( $operation['nonce'] ) ) { 
-                call_user_func( $operation['run'] );
-                wp_redirect( $operation['redirect'] );
-                break;        
+            if ( !isset($_POST[$id]) ) {
+                continue;
             }
+
+            $nonce = isset($operation['nonce']) ? $operation['nonce'] : null;
+            if ( ! check_admin_referer( $nonce ) ) {
+                continue;
+            }
+
+            $run = isset($operation['run']) ? $operation['run'] : null;
+            if ( is_callable($run) ) {
+                call_user_func( $run );
+            }
+
+            $redirect = isset( $operation['redirect'] )
+                ? $operation['redirect']
+                : 'edit.php?post_type=wprss_feed&page=wprss-debugging';
+            wp_redirect( $redirect );
+
+            break;
         }
     }
 
@@ -285,7 +270,6 @@ use Psr\Log\LogLevel;
             array(
                 '1'     =>  'debug_feeds_updating',
                 '2'     =>  'debug_feeds_reimporting',
-                '3'     =>  'debug_cleared_log',
                 '4'		=>	'debug_settings_reset',
             )
         );
@@ -361,6 +345,7 @@ use Psr\Log\LogLevel;
 			?>
         </div>
     <?php
+        wp_enqueue_script('wpra-admin-debug-js', WPRSS_JS . 'admin-debug.js', ['jquery'], WPRSS_VERSION, true);
     }       
 
 

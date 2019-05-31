@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\Logger;
 
+use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Database\TableInterface;
 
 /**
@@ -21,26 +22,26 @@ class TruncateLogsCronHandler
     protected $table;
 
     /**
-     * Logs older than this number of days will be deleted.
+     * The logging config data set.
      *
-     * @since 4.13
+     * @since [*next-version*]
      *
-     * @var int
+     * @var DataSetInterface
      */
-    protected $days;
+    protected $config;
 
     /**
      * Constructor.
      *
      * @since 4.13
      *
-     * @param TableInterface $table The log table.
-     * @param int            $days  Logs older than this number of days will be deleted.
+     * @param TableInterface   $table  The log table.
+     * @param DataSetInterface $config The logging config data set.
      */
-    public function __construct(TableInterface $table, $days)
+    public function __construct(TableInterface $table, DataSetInterface $config)
     {
         $this->table = $table;
-        $this->days = $days;
+        $this->config = $config;
     }
 
     /**
@@ -50,9 +51,15 @@ class TruncateLogsCronHandler
      */
     public function __invoke()
     {
+        $daysLimit = $this->config['logging/limit_days'];
+
+        if (empty($daysLimit) || $daysLimit <= 0) {
+            return;
+        }
+
         // Filter to retrieve logs older than 60 days
         $table = $this->table->filter([
-            'where' => 'DATEDIFF(CURDATE(), `date`) > 30',
+            'where' => sprintf('DATEDIFF(CURDATE(), `date`) > %d', $daysLimit),
         ]);
 
         // Clear the filtered table

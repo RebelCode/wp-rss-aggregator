@@ -263,16 +263,22 @@ input#thumbnails-width {
     display: block;
 }
 
-form.wprss-error-log-action {
+.wprss-error-log-action {
     display: inline-block;
     margin: 15px 5px 15px 0;
 }
+
+#wprss-download-error-log-form {
+    float: right;
+}
+
 form.wprss-error-log-action input[type="submit"]:active {
     vertical-align: baseline;
 }
 /* The debug log root element */
 div.wpra-log {
     display: none;
+    width: 800px;
 }
 
 /* The "Filters" label */
@@ -411,6 +417,43 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
     color: white;
     background-color: #b90000;
     font-weight: bold;
+}
+
+#wprss-error-log-options {
+    display: none;
+    margin: 10px 0;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+#wprss-error-log-options form {
+    display: block;
+}
+
+#wprss-error-log-options label {
+    display: inline-block;
+    line-height: 1;
+    font-size: 1em;
+    margin: 3px 0;
+}
+
+#wprss-error-log-options label > span {
+    display: inline-block;
+    font-weight: bold;
+    width: 150px;
+}
+
+#wprss-log-options-form input[name="logging_limit_days"] {
+    width: 80px;
+}
+
+#wpra-log-options-submit-wrap {
+    text-align: right;
+}
+#wpra-log-options-submit-wrap > button {
+    text-align: center;
 }
 
 @media screen and (min-width: 782px) {
