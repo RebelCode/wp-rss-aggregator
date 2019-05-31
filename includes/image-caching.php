@@ -1313,16 +1313,28 @@ class WPRSS_Image_Cache_Image {
 			if ( $size = getimagesize( $path ) )
 				$this->_size = array( 0 => $size[0], 1 => $size[1] );
 
-			wprss_log( sprintf( 'Tried `getimagesize()`: %1$s', empty($this->_size) ? 'failure' : 'success' ), __METHOD__, WPRSS_LOG_LEVEL_SYSTEM );
+			wprss_log(
+			    sprintf( 'Tried `getimagesize()`: %1$s', empty($this->_size) ? 'failure' : 'success' ),
+                __METHOD__,
+                WPRSS_LOG_LEVEL_SYSTEM
+            );
 
 			if( !$this->_size && function_exists( 'gd_info' ) ) {
 				$image = file_get_contents( $path );
 				$image = imagecreatefromstring( $image );
-				$width = imagesx( $image );
-				$height = imagesy( $image );
-				$this->_size = array( 0 => $width, 1 => $height );
-				wprss_log( sprintf( 'Tried GD: %1$s', empty($this->_size) ? 'failure' : 'success' ), __METHOD__, WPRSS_LOG_LEVEL_SYSTEM );
-			}
+
+				if ($image !== false) {
+                    $width = imagesx($image);
+                    $height = imagesy($image);
+                    $this->_size = [0 => $width, 1 => $height];
+
+                    wprss_log(
+                        sprintf('Tried GD: %1$s', empty($this->_size) ? 'failure' : 'success'),
+                        __METHOD__,
+                        WPRSS_LOG_LEVEL_SYSTEM
+                    );
+                }
+            }
 		}
 
 		return $this->_size;
