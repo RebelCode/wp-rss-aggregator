@@ -261,7 +261,7 @@
                 'expiration_notice_period'  => '2 weeks',
 
                 // From 4.8.2
-                'feed_request_useragent'    => null,
+                'feed_request_useragent'    => 'WordPress',
 
                 // From 4.11.2
                 'limit_feed_items_per_import'   => null,
