@@ -1,16 +1,64 @@
-<h3>{% trans "Debug Log" %}</h3>
+<h3>
+    {% trans "Debug Log" %}
+
+    <small id="wpra-log-options-link-wrap">
+        <a id="wprss-error-log-options-link" href="javascript:void(0)">
+            {% trans "Options" %}
+        </a>
+    </small>
+</h3>
 
 {% set numLogs = logs|length %}
 
-{% if numLogs == 0 %}
-    <section class="notice notice-success notice-inline wpra-empty-log-notice">
-        <p>{% trans "The log is empty" %}</p>
-    </section>
-{% else %}
-    <p>
-        <i>{{ "Showing the most recent %d log messages"|trans|format(numLogs) }}</i>
-    </p>
-    <div class="wpra-log">
+<div class="wpra-log">
+
+    <div id="wprss-error-log-options">
+        <form id="wprss-log-options-form" method="POST">
+            {{ wp_nonce_field(nonce_name) }}
+            <label>
+                <span>{% trans "Enable logging" %}</span>
+                <input type="checkbox" name="logging_enabled"
+                       value="1" {% if config['logging/enabled'] %} checked {% endif %} />
+            </label>
+
+            <br/>
+
+            <label>
+                <span>{% trans "Log limit in days" %}</span>
+                <input type="number" name="logging_limit_days" value="{{ config['logging/limit_days'] }}"/>
+                <i>{% trans "Once per day, logs older than the set amount of days are deleted" %}</i>
+            </label>
+
+            <hr/>
+
+            <div id="wpra-log-options-submit-wrap">
+                <button type="submit" name="wpra-log-options" class="button button-primary" value="1">
+                    {% trans "Save Log Options" %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {# logging disabled message #}
+    {% if not config['logging/enabled'] %}
+        <section class="notice notice-warning notice-inline wpra-log-disabled">
+            <p>{% trans "Logging is disabled" %}</p>
+        </section>
+    {% endif %}
+
+    {# log is empty message #}
+    {% if numLogs == 0 %}
+        <section class="notice notice-success notice-inline wpra-empty-log-notice">
+            <p>{% trans "The log is empty" %}</p>
+        </section>
+    {% else %}
+
+        {% if config['logging/enabled'] %}
+            <p>
+                <i>{{ "Showing the most recent %d log messages."|trans|format(numLogs) }}</i>
+            </p>
+        {% endif %}
+
         <p>
             <strong>{% trans "Filters:" %}</strong>
 
@@ -47,21 +95,22 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
-    <form id="wprss-clear-error-log-form" method="POST" class="wprss-error-log-action">
-        {{ wp_nonce_field(nonce_name) }}
-        <button type="submit" name="wpra-clear-log" class="button button-red" value="1">
-            <i class="fa fa-trash-o"></i>
-            {% trans "Clear log" %}
-        </button>
-    </form>
+        <form id="wprss-clear-error-log-form" method="POST" class="wprss-error-log-action">
+            {{ wp_nonce_field(nonce_name) }}
+            <button type="submit" name="wpra-clear-log" class="button button-red" value="1">
+                <i class="fa fa-trash-o"></i>
+                {% trans "Clear log" %}
+            </button>
+        </form>
 
-    <form id="wprss-download-error-log-form" method="POST" class="wprss-error-log-action">
-        {{ wp_nonce_field(nonce_name) }}
-        <button type="submit" name="wpra-download-log" class="button button-primary" value="1">
-            <i class="fa fa-download"></i>
-            {% trans "Download log" %}
-        </button>
-    </form>
-{% endif %}
+        <form id="wprss-download-error-log-form" method="POST" class="wprss-error-log-action">
+            {{ wp_nonce_field(nonce_name) }}
+            <button type="submit" name="wpra-download-log" class="button button-primary" value="1">
+                <i class="fa fa-download"></i>
+                {% trans "Download log" %}
+            </button>
+        </form>
+
+    {% endif %}
+</div>

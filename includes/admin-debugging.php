@@ -345,6 +345,7 @@ use Psr\Log\LogLevel;
 			?>
         </div>
     <?php
+        wp_enqueue_script('wpra-admin-debug-js', WPRSS_JS . 'admin-debug.js', ['jquery'], WPRSS_VERSION, true);
     }       
 
 
