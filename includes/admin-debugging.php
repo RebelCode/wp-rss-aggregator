@@ -79,17 +79,26 @@ use Psr\Log\LogLevel;
         // Check which of the operations needs to be run
         foreach ( $debug_operations as $id => $operation ) {
             // If page loading after having clicked 'Update all fields'
-            if ( isset( $_POST[ $id ] ) && check_admin_referer( $operation['nonce'] ) ) { 
-                call_user_func( $operation['run'] );
-
-                $redirect = isset( $operation['redirect'] )
-                    ? $operation['redirect']
-                    : 'edit.php?post_type=wprss_feed&page=wprss-debugging';
-
-                wp_redirect( $redirect );
-
-                break;        
+            if ( !isset($_POST[$id]) ) {
+                continue;
             }
+
+            $nonce = isset($operation['nonce']) ? $operation['nonce'] : null;
+            if ( ! check_admin_referer( $nonce ) ) {
+                continue;
+            }
+
+            $run = isset($operation['run']) ? $operation['run'] : null;
+            if ( is_callable($run) ) {
+                call_user_func( $run );
+            }
+
+            $redirect = isset( $operation['redirect'] )
+                ? $operation['redirect']
+                : 'edit.php?post_type=wprss_feed&page=wprss-debugging';
+            wp_redirect( $redirect );
+
+            break;
         }
     }
 
