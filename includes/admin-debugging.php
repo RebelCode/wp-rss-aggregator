@@ -81,7 +81,13 @@ use Psr\Log\LogLevel;
             // If page loading after having clicked 'Update all fields'
             if ( isset( $_POST[ $id ] ) && check_admin_referer( $operation['nonce'] ) ) { 
                 call_user_func( $operation['run'] );
-                wp_redirect( $operation['redirect'] );
+
+                $redirect = isset( $operation['redirect'] )
+                    ? $operation['redirect']
+                    : 'edit.php?post_type=wprss_feed&page=wprss-debugging';
+
+                wp_redirect( $redirect );
+
                 break;        
             }
         }
