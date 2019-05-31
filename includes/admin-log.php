@@ -131,7 +131,7 @@ function wprss_download_log()
 
     header('Content-Description: File Transfer');
     header('Content-type: text/plain');
-    header('Content-Disposition: attachment; filename="error-log.txt"');
+    header('Content-Disposition: attachment; filename="wpra-log.txt"');
     header('Expires: 0');
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
