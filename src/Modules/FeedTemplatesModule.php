@@ -585,15 +585,18 @@ class FeedTemplatesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/styles/templates' => function (ContainerInterface $c) {
-                return new StyleAsset('wpra-templates', WPRSS_APP_CSS . 'templates.min.css');
+                $asset = new StyleAsset('wpra-templates', WPRSS_APP_CSS . 'templates.min.css');
+                return $asset->setDependencies([
+                    'wpra-common'
+                ]);
             },
             /*
-             * The template style.
+             * The common styles.
              *
              * @since [*next-version*]
              */
             'wpra/styles/common' => function (ContainerInterface $c) {
-                return new StyleAsset('wpra-templates', WPRSS_APP_CSS . 'templates.min.css');
+                return new StyleAsset('wpra-common', WPRSS_APP_CSS . 'common.min.css');
             },
             /*
              * The handler that renders template content.
