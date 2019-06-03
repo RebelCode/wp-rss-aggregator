@@ -19,6 +19,15 @@ class ScriptAsset extends AbstractAsset
     protected $inFooter = false;
 
     /**
+     * Function to execute after the script was enqueued.
+     *
+     * @since [*next-version*]
+     *
+     * @var null|callable
+     */
+    protected $afterEnqueue;
+
+    /**
      * Set the in footer property.
      *
      * @since [*next-version*]
@@ -34,6 +43,21 @@ class ScriptAsset extends AbstractAsset
     }
 
     /**
+     * Set the callback to execute right after the script was enqueued.
+     *
+     * @since [*next-version*]
+     *
+     * @param callable $callback
+     *
+     * @return $this
+     */
+    public function setAfterEnqueue($callback)
+    {
+        $this->afterEnqueue = $callback;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @since [*next-version*]
@@ -41,5 +65,9 @@ class ScriptAsset extends AbstractAsset
     public function enqueue()
     {
         wp_enqueue_script($this->handle, $this->src, $this->dependencies, $this->version, $this->inFooter);
+
+        if ($this->afterEnqueue && is_callable($this->afterEnqueue)) {
+            call_user_func($this->afterEnqueue);
+        }
     }
 }

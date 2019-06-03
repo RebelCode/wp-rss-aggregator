@@ -8,6 +8,7 @@ use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\GutenbergBlockAssetsHand
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterGutenbergBlockHandler;
 use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
 use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
+use RebelCode\Wpra\Core\Wp\ScriptState;
 
 /**
  * The Gutenberg block for WP RSS Aggregator.
@@ -102,7 +103,7 @@ class GutenbergBlockModule implements ModuleInterface
             'wpra/gutenberg_block/handlers/assets' => function (ContainerInterface $c) {
                 return new GutenbergBlockAssetsHandler(
                     $c->get('wpra/gutenberg_block/assets_list'),
-                    $c->get('wpra/templates/feeds/collection')
+                    $c->get('wpra/gutenberg_block/states')
                 );
             },
 
@@ -119,6 +120,51 @@ class GutenbergBlockModule implements ModuleInterface
             },
 
             /*
+             * The list of the block's states.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/gutenberg_block/states' => function (ContainerInterface $c) {
+                return [
+                    'main' => $c->get('wpra/states/gutenberg'),
+                ];
+            },
+
+            /*
+             * The script state for gutenberg block.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/states/gutenberg' => function (ContainerInterface $c) {
+                return new ScriptState('wpra-gutenberg-block', 'WPRA_BLOCK', function () use ($c) {
+                    return $c->get('wpra/states/raw/gutenberg');
+                });
+            },
+
+            /*
+             * Raw gutenberg state.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/states/raw/gutenberg' => function (ContainerInterface $c) {
+                $templatesCollection = $c->get('wpra/templates/feeds/collection');
+                $templates = [];
+                foreach ($templatesCollection as $template) {
+                    $templates[] = [
+                        'label' => $template['name'],
+                        'value' => $template['slug'],
+                        'limit' => isset($template['options']['limit']) ? $template['options']['limit'] : 15,
+                        'pagination' => isset($template['options']['pagination']) ? $template['options']['pagination'] : true,
+                    ];
+                }
+                return [
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'templates' => $templates,
+                    'is_et_active' => wprss_is_et_active(),
+                ];
+            },
+
+            /*
              * The block's script.
              *
              * @since [*next-version*]
@@ -126,6 +172,7 @@ class GutenbergBlockModule implements ModuleInterface
             'wpra/scripts/gutenberg' => function (ContainerInterface $c) {
                 $script = new ScriptAsset('wpra-gutenberg-block', WPRSS_APP_JS . 'gutenberg-block.min.js');
                 return $script->setDependencies([
+                    'wp-hooks',
                     'wp-blocks',
                     'wp-i18n',
                     'wp-element',

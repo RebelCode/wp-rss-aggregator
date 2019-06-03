@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
+use Dhii\Output\RendererInterface;
 use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
 
 /**
@@ -12,34 +13,6 @@ use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
 class RenderAdminTemplatesPageHandler
 {
     /**
-     * The feeds template model structure.
-     *
-     * @var array
-     */
-    protected $modelSchema;
-
-    /**
-     * Tooltips for feed template model fields.
-     *
-     * @var array
-     */
-    protected $modelTooltips;
-
-    /**
-     * Feed template's fields options.
-     *
-     * @var array
-     */
-    protected $templateOptions;
-
-    /**
-     * The list of JS modules to load.
-     *
-     * @var array
-     */
-    protected $modules;
-
-    /**
      * The list of assets required to render the page.
      *
      * @since [*next-version*]
@@ -49,20 +22,24 @@ class RenderAdminTemplatesPageHandler
     protected $assets;
 
     /**
+     * The list of states to render on the templates admin page.
+     *
+     * @since [*next-version*]
+     *
+     * @var RendererInterface[]
+     */
+    protected $states;
+
+    /**
      * RenderAdminTemplatesPageHandler constructor.
      *
-     * @param AssetInterface[] $assets  The list of assets required to render the page.
-     * @param array $modelTooltips   Tooltips for feed template model fields.
-     * @param array $templateOptions Feed template's fields options.
-     * @param array $modules         The list of JS modules to load.
+     * @param AssetInterface[] $assets The list of assets required to render the page.
+     * @param RendererInterface[] $states
      */
-    public function __construct($assets, $modelSchema, $modelTooltips, $templateOptions, $modules)
+    public function __construct($assets, $states)
     {
         $this->assets = $assets;
-        $this->modelSchema = $modelSchema;
-        $this->modelTooltips = $modelTooltips;
-        $this->templateOptions = $templateOptions;
-        $this->modules = $modules;
+        $this->states = $states;
     }
 
     /**
@@ -74,22 +51,9 @@ class RenderAdminTemplatesPageHandler
             $asset->enqueue();
         }
 
-        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-
-        wp_localize_script('wpra-templates', 'WpraGlobal', [
-            'admin_base_url' => admin_url(),
-            'templates_url_base' => str_replace($url, '', menu_page_url('wpra_feed_templates', false)),
-            'is_existing_user' => !wprss_is_new_user(),
-            'nonce' => wp_create_nonce('wp_rest'),
-        ]);
-
-        wp_localize_script('wpra-templates', 'WpraTemplates', [
-            'model_schema' => $this->modelSchema,
-            'model_tooltips' => $this->modelTooltips,
-            'options' => $this->templateOptions,
-            'modules' => $this->modules,
-            'base_url' => rest_url('/wpra/v1/templates'),
-        ]);
+        foreach ($this->states as $state) {
+            $state->render();
+        }
 
         echo wprss_render_template('admin/templates-page.twig', [
             'title' => 'Templates',

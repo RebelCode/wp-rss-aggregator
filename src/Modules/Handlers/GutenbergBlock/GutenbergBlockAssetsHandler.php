@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock;
 
-use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use Dhii\Output\RendererInterface;
 use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
 
 /**
@@ -13,15 +13,6 @@ use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
 class GutenbergBlockAssetsHandler
 {
     /**
-     * Templates collection.
-     *
-     * @since 4.13
-     *
-     * @var CollectionInterface
-     */
-    protected $templates;
-
-    /**
      * The list of assets required to render the block.
      *
      * @since [*next-version*]
@@ -31,15 +22,24 @@ class GutenbergBlockAssetsHandler
     protected $assets;
 
     /**
+     * The list of states for the block.
+     *
+     * @since [*next-version*]
+     *
+     * @var RendererInterface[]
+     */
+    protected $states;
+
+    /**
      * GutenbergBlockAssetsHandler constructor.
      *
      * @param AssetInterface[] $assets The list of assets for the block.
-     * @param CollectionInterface $templates Templates collection.
+     * @param RendererInterface[] $states The list of states for the block.
      */
-    public function __construct(array $assets, CollectionInterface $templates)
+    public function __construct(array $assets, array $states)
     {
         $this->assets = $assets;
-        $this->templates = $templates;
+        $this->states = $states;
     }
 
     /**
@@ -53,20 +53,8 @@ class GutenbergBlockAssetsHandler
             $asset->enqueue();
         }
 
-        $templates = [];
-        foreach ($this->templates as $template) {
-            $templates[] = [
-                'label' => $template['name'],
-                'value' => $template['slug'],
-                'limit' => isset($template['options']['limit']) ? $template['options']['limit'] : 15,
-                'pagination' => isset($template['options']['pagination']) ? $template['options']['pagination'] : true,
-            ];
+        foreach ($this->states as $state) {
+            $state->render();
         }
-
-        wp_localize_script('wpra-gutenberg-block', 'WPRA_BLOCK', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'templates' => $templates,
-            'is_et_active' => wprss_is_et_active(),
-        ]);
     }
 }
