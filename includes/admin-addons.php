@@ -86,13 +86,6 @@
                 'basename'              => 'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
                 'url'                   => 'https://www.wprssaggregator.com/extension/spinnerchief/'
             ),
-            'et'                    => array(
-                'title'                 => 'Excerpts & Thumbnails',
-                'description'           => __("Displays an excerpt and thumbnail image (taken from within the RSS feed) together with the title, date and source of each feed item. It uses the shortcode to display the feed items.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-excerpts-thumbnails/wp-rss-excerpts-thumbnails.php',
-                'url'                   => 'https://www.wprssaggregator.com/extension/excerpts-thumbnails/'
-            ),
             'c'                     => array(
                 'title'                 => 'Categories',
                 'description'           => __("Categorises your feed sources and allows you to display feed items from a particular category within your site using the shortcode parameters.", WPRSS_TEXT_DOMAIN),
@@ -106,13 +99,6 @@
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
                 'url'                   => 'https://www.wprssaggregator.com/extension/keyword-filtering/'
-            ),
-            'widget'                => array(
-                'title'                 => 'Widget',
-                'description'           => __("Adds a widget to your website that displays all the imported feed items. It can also display excerpts and thumbnail images when used in conjunction with the Excerpts &amp; Thumbnails add-on", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-widget/wp-rss-widget.php',
-                'url'                   => 'https://www.wprssaggregator.com/extension/widget/'
             ),
         ));
     }
