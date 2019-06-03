@@ -926,3 +926,16 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     list-style: disc;
     list-style-position: inside;
 }
+
+.wpra_ft_image_option {
+    margin-top: 10px;
+}
+
+#wpra_image_min_size_row {
+    display: none;
+}
+
+/* Spacing between image width and height fields */
+#wpra_image_min_size_row > td > label {
+    margin-right: 10px;
+}

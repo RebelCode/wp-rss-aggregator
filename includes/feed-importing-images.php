@@ -1,7 +1,5 @@
 <?php
 
-use Aventura\Wprss\Core\Caching\ImageCache;
-
 // Save item image info during import
 add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 10, 3);
 
@@ -52,15 +50,11 @@ function wpra_import_item_images($itemId, $item, $sourceId)
 function wpra_get_item_images($item)
 {
     // Detect images and save them
-    $images = [];
-    $images[] = wpra_get_item_media_thumbnail_image($item);
+    $images = [wpra_get_item_media_thumbnail_image($item)];
     $images += wpra_get_item_content_images($item);
     $images += wpra_get_item_enclosure_images($item);
 
-    // Filter out empty images
-    return array_filter($images, function ($image) {
-        return !empty($image);
-    });
+    return $images;
 }
 
 /**
@@ -74,6 +68,8 @@ function wpra_get_item_images($item)
  */
 function wpra_process_images($images, &$bestImage = null)
 {
+    $imgContainer = wpra_container()->get('wpra/images/container');
+
     // The final list of images
     $finalImages = [];
     // The largest image size found so far, as width * height
@@ -84,12 +80,10 @@ function wpra_process_images($images, &$bestImage = null)
     $minHeight = apply_filters('wprss_thumbnail_min_height', 50);
 
     foreach ($images as $imageUrl) {
-        // Try to download the image, skip image on failure
-        if (is_wp_error($tmp_img = wpra_download_image($imageUrl))) {
-            continue;
-        }
-
         try {
+            /* @var $tmp_img WPRSS_Image_Cache_Image */
+            $tmp_img = $imgContainer->get($imageUrl);
+
             $dimensions = ($tmp = $tmp_img->get_local_path())
                 ? $tmp_img->get_size()
                 : null;
@@ -116,7 +110,7 @@ function wpra_process_images($images, &$bestImage = null)
         }
     }
 
-    return $images;
+    return $finalImages;
 }
 
 /**
@@ -144,9 +138,12 @@ function wpra_get_item_media_thumbnail_image($item)
         return null;
     }
 
-    // Stop if image cannot be downloaded
-    $image = wpra_download_image($url);
-    if (is_wp_error($image)) {
+    // Check if image can be downloaded
+    $imgContainer = wpra_container()->get('wpra/images/container');
+    try {
+        /* @var $image WPRSS_Image_Cache_Image */
+        $image = $imgContainer->get($url);
+    } catch (Exception $exception) {
         return null;
     }
 
@@ -176,7 +173,7 @@ function wpra_get_item_enclosure_images($item)
     }
 
     // Get all the thumbnails from the enclosure
-    $thumbnails = (array)$enclosure->get_thumbnails();
+    $thumbnails = (array) $enclosure->get_thumbnails();
 
     return $thumbnails;
 }
@@ -207,161 +204,9 @@ function wpra_get_item_content_images($item)
             $imageUrl = 'http:' . $imageUrl;
         }
 
-        // Maybe fix the image URL for small facebook images
-        $imageUrl = wpra_maybe_get_large_facebook_image($imageUrl);
-
         // Add to the list
         $images[] = $imageUrl;
     }
 
     return $images;
-}
-
-/**
- * Checks if the image at the given URL is provided by Facebook's CDN and attempts to retrieve the large version.
- *
- * @since [*next-version*]
- *
- * @param string $url The URL of the image.
- *
- * @return string The URL of the larger version of the image if the image was provided by Facebook and a larger
- *                version is available, or the original parameter URL otherwise.
- */
-function wpra_maybe_get_large_facebook_image($url)
-{
-    // Check if image is provided from Facebook's CDN, and if so remove any "_s" small image extension in the URL
-    if (stripos($url, 'fbcdn') > 0) {
-        $imageExt = strrchr($url, '.');
-        $largerImgUrl = str_replace('_s' . $imageExt, '_n' . $imageExt, $url);
-        // If the larger image exists, set the url to point to it
-        if (wpra_remote_file_exists($largerImgUrl)) {
-            $url = $largerImgUrl;
-        }
-    }
-
-    // If the URL is from 'fbexternal-a.akamaihd.net', we can use a GET param to get the actual image url
-    if (parse_url($url, PHP_URL_HOST) === 'fbexternal-a.akamaihd.net') {
-        // Get the query string
-        $queryStr = parse_url($url, PHP_URL_QUERY);
-        // If not empty
-        if ($queryStr !== '') {
-            // Parse it
-            parse_str(urldecode($queryStr), $output);
-
-            // If it has a url GET param, use it as the image URL
-            if (isset($output['amp;url'])) {
-                $output['url'] = $output['amp;url'];
-            }
-            if (isset($output['url'])) {
-                $url = urldecode($output['url']);
-            }
-        }
-    }
-
-    return $url;
-}
-
-/**
- * Retrieves the cache TTL.
- *
- * This value defaults to the value of the WPRSS_ET_IMAGE_CACHE_TTL constant.
- * It can be modified by implementing a handler for the `wprss_et_image_cache_ttl` filter.
- *
- * @since [*next-version*]
- *
- * @return int The number of seconds representing the cache time to live.
- */
-function wpra_get_image_cache_ttl()
-{
-    return apply_filters('wprss_et_image_cache_ttl', WEEK_IN_SECONDS);
-}
-
-/**
- * Retrieves the cache controller.
- *
- * This value can be modified by implementing a handler for the `wprss_et_image_cache` filter.
- *
- * @since [*next-version*]
- *
- * @see   wpra_get_image_cache_ttl()
- *
- * @return ImageCache The instance of the cache controller.
- */
-function wpra_get_image_cache()
-{
-    static $cache = null;
-
-    if (is_null($cache)) {
-        $cache = new ImageCache();
-        $cache->set_ttl(wpra_get_image_cache_ttl());
-    }
-
-    return apply_filters('wprss_et_image_cache', $cache);
-}
-
-/**
- * Retrieves an image identified by it's URL from cache.
- *
- * If cache doesn't exist, or is expired, image will be downloaded first.
- * This value can be overridden by implementing a handler for the `wprss_et_downloaded_image` filter.
- *
- * @since [*next-version*]
- *
- * @see   wpra_get_image_cache()
- *
- * @param string $url The URL of the image to download
- *
- * @return ImageCache\Image The instance of the retrieved image
- */
-function wpra_download_image($url)
-{
-    if (empty($url)) {
-        return apply_filters(
-            'wprss_et_downloaded_image',
-            new WP_Error('wprss_et_download_image_failed', __('Image URL cannot be empty'))
-        );
-    }
-
-    try {
-        $image = wpra_get_image_cache()->get_images($url);
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $image = new WP_Error('wprss_et_download_image_failed', $message, $url);
-
-        wpra_get_logger()->warning(
-            'Image could not be downloaded from {url}. Error: {error}',
-            [
-                'url' => $url,
-                'error' => $message,
-            ]
-        );
-    }
-
-    return apply_filters('wprss_et_downloaded_image', $image);
-}
-
-/**
- * Checks if a remote file exists, by pinging it and checking the status code.
- *
- * @since [*next-version*]
- *
- * @param string $url The url of the remote resource
- *
- * @return bool True if the remote file exists, false if not.
- */
-function wpra_remote_file_exists($url)
-{
-    $exists = false;
-
-    $curl = curl_init($url);
-    curl_setopt($curl, CURLOPT_NOBODY, true);
-    $response = curl_exec($curl);
-
-    if ($response !== false && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200) {
-        $exists = true;
-    }
-
-    curl_close($curl);
-
-    return $exists;
 }
