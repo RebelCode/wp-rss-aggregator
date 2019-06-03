@@ -136,7 +136,7 @@
 		$help = WPRSS_Help::get_instance();
 
         // Use nonce for verification
-        wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' );
+        wp_nonce_field( 'wpra_feed_source', 'wprss_meta_box_nonce' );
 
             // Fix for WordpRess SEO JS issue
             ?><input type="hidden" id="content" value="" /><?php
@@ -302,8 +302,10 @@
         $meta_fields = wprss_get_custom_fields();
 
         /* Verify the nonce before proceeding. */
-        if ( !isset( $_POST['wprss_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['wprss_meta_box_nonce'], basename( __FILE__ ) ) )
+        if ( !isset( $_POST['wprss_meta_box_nonce'] ) ||
+             !wp_verify_nonce( $_POST['wprss_meta_box_nonce'], 'wpra_feed_source' ) ) {
             return $post_id;
+        }
 
         /* Get the post type object. */
         $post_type = get_post_type_object( $post->post_type );
