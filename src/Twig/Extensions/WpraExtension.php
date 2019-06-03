@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Twig\Extensions;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use WPRSS_Help;
 
 /**
  * Twig extension for custom WP RSS Aggregator filters.
@@ -34,8 +35,22 @@ class WpraExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
+            $this->getWpraFunction(),
             $this->getWpNonceFieldFunction(),
+            $this->getWpraTooltipFunction(),
         ];
+    }
+
+    /**
+     * Retrieves the wpra twig function.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFunction
+     */
+    protected function getWpraFunction()
+    {
+        return new TwigFunction('wpra', 'wpra_container');
     }
 
     /**
@@ -50,6 +65,30 @@ class WpraExtension extends AbstractExtension
         return new TwigFunction('wp_nonce_field', 'wp_nonce_field', [
             'is_safe' => ['html']
         ]);
+    }
+
+    /**
+     * Retrieves the WPRA tooltip twig function.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFunction
+     */
+    protected function getWpraTooltipFunction()
+    {
+        $options = [
+            'is_safe' => ['html'],
+        ];
+
+        return new TwigFunction('wpra_tooltip', function ($id, $text = '') {
+            $help = WPRSS_Help::get_instance();
+
+            if ($help->has_tooltip($id)) {
+                return $help->do_tooltip($id);
+            }
+
+            return $help->tooltip($id, $text);
+        }, $options);
     }
 
     /**
