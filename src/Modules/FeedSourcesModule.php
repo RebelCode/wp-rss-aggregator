@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCapabilitiesHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\FeedSources\FeedSourceSaveMetaHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedSources\RenderFeedSourceContentHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
@@ -185,6 +186,14 @@ class FeedSourcesModule implements ModuleInterface
                     $c->get('wpra/feeds/sources/handlers/add_cpt_capabilities'),
                 ]);
             },
+            /*
+             * The handler that saves meta data for feed sources when saved through the edit page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/meta_box/save_handler' => function (ContainerInterface $c) {
+                return new FeedSourceSaveMetaHandler();
+            },
         ];
     }
 
@@ -208,5 +217,6 @@ class FeedSourcesModule implements ModuleInterface
         add_action('init', $c->get('wpra/feeds/sources/handlers/register_cpt'));
         add_filter('the_content', $c->get('wpra/feeds/sources/handlers/render_content'));
         add_action('admin_init', $c->get('wpra/feeds/sources/add_capabilities_handler'));
+        add_action('save_post', $c->get('wpra/feeds/sources/meta_box/save_handler'), 20, 2);
     }
 }
