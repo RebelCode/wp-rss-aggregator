@@ -3,6 +3,8 @@
 namespace RebelCode\Wpra\Core\Feeds\Models;
 
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
 use WP_Post;
 
@@ -42,6 +44,38 @@ class WpPostFeedSource extends WpCptDataSet
         return new AliasingDataSet(parent::createPostDataSet($postOrId), [
             'id' => 'ID',
             'title' => 'post_title'
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    protected function createMetaDataSet($postOrId)
+    {
+        $meta =  parent::createMetaDataSet($postOrId);
+        $defaults = $this->getDefaultMetaData();
+
+        return new MergedDataSet($meta, $defaults);
+    }
+
+    /**
+     * Retrieves the default meta data.
+     *
+     * @since [*next-version*]
+     *
+     * @return ArrayDataSet The data set containing the default meta data.
+     */
+    protected function getDefaultMetaData()
+    {
+        return new ArrayDataSet([
+            'featured_image' => '',
+            'download_images' => '0',
+            'siphon_ft_image' => '0',
+            'must_have_ft_image' => '0',
+            'image_min_width' => 150,
+            'image_min_height' => 150,
         ]);
     }
 }
