@@ -328,7 +328,9 @@
 
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type($post) === 'wprss_feed_item' )  {
-            unset( $actions[ 'edit' ] );
+            if ( apply_filters('wpra_dev_mode', false) === false ) {
+                unset($actions['edit']);
+            }
             unset( $actions[ 'view' ] );
             //unset( $actions[ 'trash' ] );
             unset( $actions[ 'inline hide-if-no-js' ] );
