@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Feeds\FeedSourceCollection;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCapabilitiesHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedSources\FeedSourceSaveMetaHandler;
@@ -34,6 +35,14 @@ class FeedSourcesModule implements ModuleInterface
              */
             'wpra/feeds/sources/cpt/name' => function () {
                 return 'wprss_feed';
+            },
+            /*
+             * The collection for feed sources.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/collection' => function (ContainerInterface $c) {
+                return new FeedSourceCollection($c->get('wpra/feeds/sources/cpt/name'));
             },
             /*
              * The labels for the feed sources CPT.
