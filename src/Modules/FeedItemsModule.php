@@ -88,6 +88,7 @@ class FeedItemsModule implements ModuleInterface
                     'capability_type' => $c->get('wpra/feeds/items/cpt/capability'),
                     'map_meta_cap' => true,
                     'labels' => $c->get('wpra/feeds/items/cpt/labels'),
+                    'supports' => ['title', 'editor', 'excerpt']
                 ];
             },
             /*
