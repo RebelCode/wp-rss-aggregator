@@ -54,6 +54,13 @@ class WpPostFeedItem extends WpCptDataSet
     const TIMESTAMP_KEY = 'timestamp';
 
     /**
+     * The key to which to map the item featured image.
+     *
+     * @since [*next-version*]
+     */
+    const FT_IMAGE_KEY = 'ft_image_url';
+
+    /**
      * Constructor.
      *
      * @since 4.13
@@ -121,6 +128,7 @@ class WpPostFeedItem extends WpCptDataSet
         $wrapperData = [
             static::SOURCE_KEY    => new WpPostFeedSource($meta['source_id']),
             static::TIMESTAMP_KEY => strtotime($post->post_date_gmt),
+            static::FT_IMAGE_KEY => $this->getFtImageUrl($post),
         ];
 
         // Use the real WordPress post author if the meta author does not exist
@@ -161,5 +169,31 @@ class WpPostFeedItem extends WpCptDataSet
         }
 
         return parent::set($key, $value);
+    }
+
+    /**
+     * Retrieves the featured image URL for the feed item.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_Post $post The post for the feed item.
+     *
+     * @return string|null The URL of the featured image or null if the item has no featured image.
+     */
+    protected function getFtImageUrl($post)
+    {
+        // Fetch featured image first
+        $attachment = wp_get_attachment_image_url(get_post_thumbnail_id($post->ID), '');
+        if ($attachment !== false) {
+            return $attachment;
+        }
+
+        // Then try the old E&T meta key
+        $etThumbnail = get_post_meta($post->ID, 'wprss_item_thumbnail', true);
+        if (!empty($etThumbnail)) {
+            return $etThumbnail;
+        }
+
+        return null;
     }
 }
