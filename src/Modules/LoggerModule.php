@@ -321,7 +321,7 @@ class LoggerModule implements ModuleInterface
              */
             'wpra/core/config/options' => function (ContainerInterface $c, $options) {
                 $options['logging/enabled'] = true;
-                $options['logging/limit_days'] = 10;
+                $options['logging/limit_days'] = 7;
 
                 return $options;
             },

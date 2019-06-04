@@ -172,3 +172,36 @@
         ), $deps);
         wp_enqueue_script($handle, $src, $deps, $ver, $in_footer);
     }
+
+    add_filter('admin_footer_text', 'wprss_admin_footer');
+    /**
+     * Adds footer text on the plugin pages.
+     *
+     * @param string $footer The footer text to filter
+     *
+     * @return string         The filtered footer text with added plugin text, or the param
+     *                        value if the page is not specific to the plugin.
+     */
+    function wprss_admin_footer($footer)
+    {
+        // Current post type
+        global $typenow;
+        // Check if type is a plugin type. If not, stop
+        // Plugin type is in the form 'wprss_*'' where * is 'feed', 'blacklist', etc)
+        if (stripos($typenow, 'wprss_') !== 0) {
+            return $footer;
+        }
+
+        // Prepare fragments of the message
+        $thank_you = sprintf(
+            __('Thank you for using <a href="%1$s" target="_blank">WP RSS Aggregator</a>.', 'wprss'),
+            'https://www.wprssaggregator.com/'
+        );
+        $rate_us = sprintf(
+            __('Please <a href="%1$s" target="_blank">rate us</a>!', 'wprss'),
+            'https://wordpress.org/support/view/plugin-reviews/wp-rss-aggregator?filter=5#postform'
+        );
+
+        // Return the final text
+        return sprintf('<span class="wp-rss-footer-text">%1$s %2$s</span>', $thank_you, $rate_us);
+    }

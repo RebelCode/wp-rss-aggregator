@@ -269,9 +269,6 @@ require_once ( WPRSS_INC . 'scripts.php' );
 /* Load the Ajax notification file */
 require_once ( WPRSS_INC . 'admin-ajax-notice.php' );
 
-/* Load the dashboard welcome screen file */
-require_once ( WPRSS_INC . 'admin-dashboard.php' );
-
 /* Load the logging class */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
