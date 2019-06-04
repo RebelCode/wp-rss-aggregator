@@ -2,7 +2,7 @@
     <tbody>
 
     {# Featured image options #}
-    {% if options.ft_image or options.all %}
+    {% if options.featured_image or options.all %}
         <tr>
             <th>
                 <label for="wpra_ft_image">
@@ -10,27 +10,21 @@
                 </label>
             </th>
             <td>
-                <select id="wpra_ft_image" name="wpra_feed[ft_image]">
-                    <option value="" {{ feed.ft_image == '' ? 'selected' : '' }}>
+                <select id="wpra_ft_image" name="wpra_feed[featured_image]">
+                    <option value="" {{ feed.featured_image == '' ? 'selected' : '' }}>
                         {% trans "No featured image" %}
                     </option>
-                    <option value="auto" {{ feed.ft_image == 'auto' ? 'selected' : '' }}>
+                    <option value="auto" {{ feed.featured_image == 'auto' ? 'selected' : '' }}>
                         {% trans "Auto detect best image" %}
                     </option>
-                    <option value="media" {{ feed.ft_image == 'media' ? 'selected' : '' }}>
+                    <option value="media" {{ feed.featured_image == 'media' ? 'selected' : '' }}>
                         {% trans "Media thumbnail image" %}
                     </option>
-                    <option value="enclosure" {{ feed.ft_image == 'enclosure' ? 'selected' : '' }}>
+                    <option value="enclosure" {{ feed.featured_image == 'enclosure' ? 'selected' : '' }}>
                         {% trans "Enclosure image" %}
                     </option>
-                    <option value="content" {{ feed.ft_image == 'content' ? 'selected' : '' }}>
-                        {% trans "Best image in content/excerpt" %}
-                    </option>
-                    <option value="content" {{ feed.ft_image == 'first' ? 'selected' : '' }}>
+                    <option value="content" {{ feed.featured_image == 'first' ? 'selected' : '' }}>
                         {% trans "First image in content/excerpt" %}
-                    </option>
-                    <option value="content" {{ feed.ft_image == 'last' ? 'selected' : '' }}>
-                        {% trans "Last image in content/excerpt" %}
                     </option>
                 </select>
                 {{ wpra_tooltip('ft_image') }}
@@ -43,7 +37,7 @@
                             <input type="checkbox"
                                    name="wpra_feed[must_have_ft_image]"
                                    value="1"
-                                   {{ feed.must_have_ft_image == '1' ? 'checked' : '' }}
+                                   {{ feed.must_have_ft_image ? 'checked' : '' }}
                             />
                             {% trans "Items must have a featured image" %}
                             {{ wpra_tooltip('must_have_ft_image', 'Items that do not have a suitable featured image will not be imported.') }}
@@ -59,7 +53,7 @@
                             <input type="checkbox"
                                    name="wpra_feed[siphon_ft_image]"
                                    value="1"
-                                    {{ feed.siphon_ft_image == '1' ? 'checked' : '' }}
+                                    {{ feed.siphon_ft_image ? 'checked' : '' }}
                             />
                             {% trans "Remove the featured image from the content" %}
                             {{ wpra_tooltip('siphon_ft_image', "Tick this box to remove the featured image from an imported item's content.") }}
@@ -94,7 +88,7 @@
     {% endif %}
 
     {# Image minimum size option #}
-    {% if options.min_size or options.all %}
+    {% if options.image_min_size or options.all %}
         <tr id="wpra_image_min_size_row">
             <th>
                 <label for="wpra_image_min_width">

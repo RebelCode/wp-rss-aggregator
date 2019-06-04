@@ -4,6 +4,9 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Aventura\Wprss\Core\Caching\ImageCache;
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\MergedDataSet;
+use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
 use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedSource;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
@@ -76,15 +79,9 @@ class ImagesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/images/feeds/meta_box/handler/render' => function (ContainerInterface $c) {
-                $context = $c->get('wpra/images/feeds/meta_box/template/context');
-
                 return new RenderTemplateHandler(
                     $c->get('wpra/images/feeds/meta_box/template'),
-                    function () use ($context) {
-                        global $post;
-
-                        return $context + ['feed' => new WpPostFeedSource($post)];
-                    },
+                    $c->get('wpra/images/feeds/meta_box/template/context'),
                     true
                 );
             },
@@ -102,14 +99,26 @@ class ImagesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/images/feeds/meta_box/template/context' => function (ContainerInterface $c) {
+                return function () use ($c) {
+                    global $post;
+
+                    $collection = $c->get('wpra/feeds/sources/collection');
+
+                    return [
+                        'feed' => $collection[$post->ID],
+                        'options' => $c->get('wpra/images/feeds/meta_box/template/enabled_options'),
+                    ];
+                };
+            },
+            /*
+             * The image options that should be shown in the feed sources image meta box.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/feeds/meta_box/template/enabled_options' => function (ContainerInterface $c) {
                 return [
-                    'options' => [
-                        'all' => true,
-                        'ft_image' => true,
-                        'min_size' => true,
-                        'must_have_ft_image' => true,
-                        'siphon_ft_image' => true,
-                    ],
+                    'featured_image' => true,
+                    'image_min_size' => true,
                 ];
             },
             /*
