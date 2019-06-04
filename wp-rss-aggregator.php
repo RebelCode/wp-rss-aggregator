@@ -311,6 +311,9 @@ require_once ( WPRSS_INC . 'feed-access.php' );
 /* Load the fallbacks for mbstring */
 require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
+/* Load the polyfill functions file */
+require_once ( WPRSS_INC . 'polyfills.php' );
+
 // Initializes licensing
 add_action( 'plugins_loaded', 'wprss_licensing' );
 
