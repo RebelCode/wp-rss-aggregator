@@ -182,9 +182,7 @@ export default {
         title={'Setting up your Templates'}
         body={'Templates are used to display the items imported using WP RSS Aggregator. Choose the preferred options ' +
         'below and use them anywhere on your site via our <a href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode#tinymce" target="_blank">shortcode</a> ' +
-        'or our <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">block</a>. ' +
-        '<br/><br/>' +
-        'More template types and options will be made available soon. Have you got a template idea in mind? <a href="https://www.wprssaggregator.com/request-a-template/" target="_blank">Share it with us.</a>'}
+        'or our <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">block</a>.'}
         learnMore={'https://kb.wprssaggregator.com/article/457-templates'}
       />
 
