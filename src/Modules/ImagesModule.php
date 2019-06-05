@@ -4,10 +4,6 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Aventura\Wprss\Core\Caching\ImageCache;
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Data\ArrayDataSet;
-use RebelCode\Wpra\Core\Data\MergedDataSet;
-use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
-use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedSource;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
 use RebelCode\Wpra\Core\Modules\Handlers\ImageImporter\CustomFtImageMetaBoxHandler;
