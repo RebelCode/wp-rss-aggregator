@@ -1,6 +1,8 @@
 <?php
 
 // Save item image info during import
+use RebelCode\Wpra\Core\Data\DataSetInterface;
+
 add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 10, 3);
 
 /**
@@ -15,17 +17,69 @@ add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 10, 3);
  */
 function wpra_import_item_images($itemId, $item, $sourceId)
 {
+    // Start with empty meta
+    update_post_meta($itemId, 'wprss_images', []);
+    update_post_meta($itemId, 'wprss_best_image', '');
+
+    $title = $item->get_title();
     $logger = wpra_get_logger($sourceId);
-    $logger->debug('Importing images for item "{title}"', ['title' => $item->get_title()]);
+    $logger->debug('Importing images for item "{title}"', ['title' => $title]);
+
+    $collection = wpra_container()->get('wpra/feeds/sources/collection');
+    try {
+        $source = $collection[$sourceId];
+    } catch (Exception $exception) {
+        $logger->warning('Feed source #{id} could not be found', ['id' => $sourceId]);
+        return;
+    }
+
+    // Get the featured image option from the feed source
+    $ftImageOpt = $source['featured_image'];
+
+    // Stop if source has featured images disabled
+    if (empty($ftImageOpt)) {
+        $logger->debug('Feed source has featured images disabled');
+        return;
+    }
 
     // Get all of the item's images
     $allImages = wpra_get_item_images($item);
     // Process the images, removing duds, and find the best image
-    $images = wpra_process_images($allImages, $bestImage);
+    $images = wpra_process_images($allImages, $source, $bestImage);
 
-    // Set the best image as the featured image
-    if (!empty($bestImage)) {
-        wpra_set_featured_image_from_url($itemId, $bestImage);
+    $ftImageUrl = null;
+    switch ($ftImageOpt)
+    {
+        case 'auto':
+            if (!empty($bestImage)) {
+                $ftImageUrl = $bestImage;
+            }
+            break;
+
+        case 'media':
+            if (isset($images['media'])) {
+                $ftImageUrl = $images['media'];
+            }
+            break;
+
+        case 'enclosure':
+            if (is_array($images['enclosure']) && !empty($images['enclosure'])) {
+                $ftImageUrl = reset($images['enclosure']);
+            }
+            break;
+
+        case 'content':
+            if (is_array($images['content']) && !empty($images['content'])) {
+                $ftImageUrl = reset($images['content']);
+            }
+            break;
+    }
+
+    if (!empty($ftImageUrl)) {
+        $logger->info('Set featured image from URL: "{url}"', ['url' => $ftImageUrl]);
+        wpra_set_featured_image_from_url($itemId, $ftImageUrl);
+    } else {
+        $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
     }
 
     // Save the image URLs in meta
@@ -33,13 +87,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
     update_post_meta($itemId, 'wprss_best_image', $bestImage);
 
     // Log number of found images
-    $count = count($images);
     $logger->info('Found {count} images', ['count' => count($images)]);
-
-    // Log best image found
-    if ($count > 0) {
-        $logger->info('Found best image: "{url}"', ['url' => $bestImage]);
-    }
 }
 
 /**
@@ -55,8 +103,8 @@ function wpra_get_item_images($item)
     $images = [];
 
     // Add the media thumbnail image
-    $images['media_thumbnail'] = [wpra_get_item_media_thumbnail_image($item)];
-    $images['enclosure_images'] = wpra_get_item_enclosure_images($item);
+    $images['media'] = [wpra_get_item_media_thumbnail_image($item)];
+    $images['enclosure'] = wpra_get_item_enclosure_images($item);
     $images['content'] = wpra_get_item_content_images($item);
 
     return $images;
@@ -66,23 +114,25 @@ function wpra_get_item_images($item)
  * Processes a list of image URLs to strip away images that are unreachable or too small, as well as identify which
  * image in the list is the best image (in terms of dimensions and aspect ratio).
  *
- * @param      $images
- * @param null $bestImage
+ * @param array                  $images The image URLs.
+ * @param array|DataSetInterface $source The feed source data set.
+ * @param string|null $bestImage This variable given as this parameter will be set to the URL of
+ *                               the best found image.
  *
  * @return mixed
  */
-function wpra_process_images($images, &$bestImage = null)
+function wpra_process_images($images, $source, &$bestImage = null)
 {
     $imgContainer = wpra_container()->get('wpra/images/container');
 
-    // The final list of images
-    $finalImages = [];
+    // The list of images of keep and their sizes
+    $imageInfos = [];
     // The largest image size found so far, as width * height
     $maxSize = 0;
 
     // The minimum dimensions for an image to be valid
-    $minWidth = apply_filters('wprss_thumbnail_min_width', 50);
-    $minHeight = apply_filters('wprss_thumbnail_min_height', 50);
+    $minWidth = apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
+    $minHeight = apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
 
     foreach ($images as $group => $urls) {
         foreach ($urls as $imageUrl) {
@@ -109,12 +159,27 @@ function wpra_process_images($images, &$bestImage = null)
                 }
 
                 // Add to the list of images to save
-                $finalImages[$group][] = $imageUrl;
+                $imageInfos[$group][] = [$imageUrl, $dimensions, $area, $ratio];
             } catch (Exception $exception) {
                 // If failed to get dimensions, skip the image
                 continue;
             }
         }
+    }
+
+    $finalImages = [];
+    foreach ($imageInfos as $group => $infos) {
+        // Sort each group by image size in descending order (largest image first)
+        usort($infos, function ($img1, $img2) {
+            $area1 = $img1[1];
+            $area2 = $img2[1];
+
+            return ($area1 >= $area2) ? -1 : 1;
+        });
+        // Save only the URLs
+        $finalImages[$group] = array_map(function ($info) {
+            return $info[0];
+        }, $infos);
     }
 
     return $finalImages;

@@ -1305,21 +1305,15 @@ class WPRSS_Image_Cache_Image {
 	 */
 	public function get_size() {
 		if ( !isset( $this->_size ) ) {
-			$error_caption = 'Could not get image size';
 			$path = $this->get_local_path();
 			if ( !$this->is_readable() ) throw new Exception( sprintf( '%1$s: image file is not readable', $path ) );
 
 			// Trying simplest way
-			if ( $size = getimagesize( $path ) )
-				$this->_size = array( 0 => $size[0], 1 => $size[1] );
+			if ( $size = getimagesize( $path ) ) {
+                $this->_size = [0 => $size[0], 1 => $size[1]];
+            }
 
-			wprss_log(
-			    sprintf( 'Tried `getimagesize()`: %1$s', empty($this->_size) ? 'failure' : 'success' ),
-                __METHOD__,
-                WPRSS_LOG_LEVEL_SYSTEM
-            );
-
-			if( !$this->_size && function_exists( 'gd_info' ) ) {
+            if( !$this->_size && function_exists( 'gd_info' ) ) {
 				$image = file_get_contents( $path );
 				$image = imagecreatefromstring( $image );
 
