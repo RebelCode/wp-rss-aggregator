@@ -75,11 +75,18 @@ function wpra_import_item_images($itemId, $item, $sourceId)
             break;
     }
 
-    if (!empty($ftImageUrl)) {
+    if (empty($ftImageUrl)) {
+        $fallbackImage = get_post_thumbnail_id($sourceId);
+        $usedFallback = set_post_thumbnail($itemId, $fallbackImage);
+
+        if ($usedFallback) {
+            $logger->notice('Used the feed source\'s fallback featured image for "{title}"', ['title' => $title]);
+        } else {
+            $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
+        }
+    } else {
         $logger->info('Set featured image from URL: "{url}"', ['url' => $ftImageUrl]);
         wpra_set_featured_image_from_url($itemId, $ftImageUrl);
-    } else {
-        $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
     }
 
     // Save the image URLs in meta

@@ -182,7 +182,7 @@ class WpPostFeedItem extends WpCptDataSet
      */
     protected function getFtImageUrl($post)
     {
-        // Fetch featured image first
+        // Fetch the featured image first
         $attachment = wp_get_attachment_image_url(get_post_thumbnail_id($post->ID), '');
         if ($attachment !== false) {
             return $attachment;
