@@ -211,8 +211,10 @@ class ImagesModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        // The handler that registers the images meta box
-        add_action('add_meta_boxes', $c->get('wpra/images/feeds/meta_box/handler/register'));
+        // The handler that registers the images meta box, if Feed to Post's version is not being used
+        if (!class_exists('WPRSS_FTP_Meta')) {
+            add_action('add_meta_boxes', $c->get('wpra/images/feeds/meta_box/handler/register'));
+        }
 
         // The handler that renders a custom featured image meta box, for the default featured image
         add_action('add_meta_boxes', $c->get('wpra/images/ft_image/meta_box/handler'));
