@@ -150,11 +150,12 @@ class GutenbergBlockModule implements ModuleInterface
                 $templatesCollection = $c->get('wpra/templates/feeds/collection');
                 $templates = [];
                 foreach ($templatesCollection as $template) {
+                    $tOptions = isset($template['options']) ? $template['options'] : [];
                     $templates[] = [
                         'label' => $template['name'],
                         'value' => $template['slug'],
-                        'limit' => isset($template['options']['limit']) ? $template['options']['limit'] : 15,
-                        'pagination' => isset($template['options']['pagination']) ? $template['options']['pagination'] : true,
+                        'limit' => isset($tOptions['limit']) ? $tOptions['limit'] : 15,
+                        'pagination' => isset($tOptions['pagination']) ? $tOptions['pagination'] : true,
                     ];
                 }
                 return [
