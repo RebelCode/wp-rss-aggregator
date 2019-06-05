@@ -545,13 +545,19 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
 					$date      = date( $format, $timestamp );
 					$date_gmt  = gmdate( $format, $timestamp );
+
+                    // Do not let WordPress sanitize the excerpt
+                    // WordPress sanitizes the excerpt because it's expected to be typed by a user and sent in a POST
+                    // request. However, our excerpt is being inserted as a raw string with custom sanitization.
+                    remove_all_filters( 'excerpt_save_pre' );
+
 					// Prepare the item data
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
 						array(
 							'post_title'     => html_entity_decode( $item->get_title() ),
 							'post_content'   => $item->get_content(),
-							'post_excerpt'   => $item->get_description(),
+							'post_excerpt'   => wprss_sanitize_excerpt($item->get_description()),
 							'post_status'    => 'publish',
 							'post_type'      => 'wprss_feed_item',
 							'post_date'      => $date,
@@ -902,4 +908,26 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
         return array(
             $helper->createCommand('wprss_item_comparator_date', $defaultArgs),
         );
+    }
+
+    /**
+     * Sanitizes a post excerpt, cleverly removing all HTML markup while preserving text content and whitespace.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $excerpt The excerpt to sanitize.
+     *
+     * @return string
+     */
+    function wprss_sanitize_excerpt($excerpt) {
+        // Decode HTML entities back to their respective characters
+        $excerpt = html_entity_decode($excerpt);
+        // Add a space between any HTML elements
+        $excerpt = str_replace('>', ' >', $excerpt);
+        // Strip all HTML tags
+        $excerpt = strip_tags($excerpt);
+        // Remove any redundant spaces
+        $excerpt = str_replace('  ', ' ', trim($excerpt));
+
+        return $excerpt;
     }
