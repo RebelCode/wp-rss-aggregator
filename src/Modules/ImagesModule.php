@@ -6,7 +6,7 @@ use Aventura\Wprss\Core\Caching\ImageCache;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
-use RebelCode\Wpra\Core\Modules\Handlers\ImageImporter\CustomFtImageMetaBoxHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\Images\CustomFtImageMetaBoxHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterMetaBoxHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RenderTemplateHandler;
 use WPRSS_Help;

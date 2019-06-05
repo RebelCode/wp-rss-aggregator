@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Modules\Handlers\ImageImporter;
+namespace RebelCode\Wpra\Core\Modules\Handlers\Images;
 
 /**
  * The handler that replaces the WordPress featured image meta box with a custom "Default featured image" variant.
