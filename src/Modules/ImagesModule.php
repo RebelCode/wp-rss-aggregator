@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Aventura\Wprss\Core\Caching\ImageCache;
 use Psr\Container\ContainerInterface;
+use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
 use RebelCode\Wpra\Core\Modules\Handlers\Images\CustomFtImageMetaBoxHandler;
@@ -141,6 +142,26 @@ class ImagesModule implements ModuleInterface
                     ),
                 ];
             },
+            /*
+             * The handler for the developer images meta box for feed items.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/dev_meta_box/handler' => function (ContainerInterface $c) {
+                $templates = $c->get('wpra/twig/collection');
+
+                return new RegisterMetaBoxHandler(
+                    'wpra-dev-items-images',
+                    __('Images', 'wprss'),
+                    new RenderTemplateHandler($templates['admin/items/images-meta-box.twig'], function () {
+                        global $post;
+                        return [
+                            'item' => new WpPostFeedItem($post),
+                        ];
+                    }, true),
+                    'wprss_feed_item'
+                );
+            }
         ];
     }
 
@@ -195,6 +216,11 @@ class ImagesModule implements ModuleInterface
 
         // The handler that renders a custom featured image meta box, for the default featured image
         add_action('add_meta_boxes', $c->get('wpra/images/ft_image/meta_box/handler'));
+
+        // Show the developer images meta box for feed items, if the developer filter is enabled
+        if (apply_filters('wpra_dev_mode', false) === true) {
+            add_action('add_meta_boxes', $c->get('wpra/images/items/dev_meta_box/handler'));
+        }
 
         // Register the meta box tooltips
         $tooltips = $c->get('wpra/images/feeds/meta_box/tooltips');
