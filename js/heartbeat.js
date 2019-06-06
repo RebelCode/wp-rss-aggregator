@@ -67,14 +67,9 @@
 			// Update the count and the icon appropriately
 			itemCount.text( feed_source['items'] );
 			icon.toggleClass( 'wprss-show', feed_source['updating'] );
-			
-			
-			
-
 
 			// Update the error icon
-			var errorsCol = row.find('td.column-errors');
-			var errorIcon = errorsCol.find('i.fa');
+			var errorIcon = itemsCol.find('i.wprss-feed-error-symbol');
 			errorIcon.toggleClass( 'wprss-show', feed_source['errors'] !== '' );
 		}
 

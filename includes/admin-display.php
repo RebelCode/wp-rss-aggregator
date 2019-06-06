@@ -123,7 +123,7 @@
             $errorShowClass = ( $errors != '' )? 'wprss-show' : '';
             $default_msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
             $msg = strlen( $errors ) > 0 ? $errors : $default_msg;
-            $errorsHtml = sprintf(
+            $errorIcon = sprintf(
                 '<i title="%1$s" class="fa fa-warning fa-fw wprss-feed-error-symbol %2$s"></i>',
                 esc_attr($msg),
                 $errorShowClass
@@ -132,8 +132,10 @@
             ?>
 				<p>
 					<span class="items-imported"><?php echo $items->post_count ?></span>
+
+                    <?php echo $errorIcon; ?>
+
 					<i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
-                    <?php echo $errorsHtml; ?>
 				</p>
 			<?php
 
