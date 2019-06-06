@@ -4,7 +4,7 @@ function wprss_is_url_youtube($url)
 {
     $parsed = is_array($url) ? $url : wpra_parse_url($url);
 
-    return stripos($parsed['host'], 'youtube.com') !== false;
+    return isset($parsed['host']) && stripos($parsed['host'], 'youtube.com') !== false;
 }
 
 function wprss_is_feed_youtube($feed)
