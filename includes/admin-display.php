@@ -118,7 +118,7 @@
             $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
             $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
-            $errorShowClass = ( $errors == '' )? 'wprss-show' : '';
+            $errorShowClass = ( $errors != '' )? 'wprss-show' : '';
             $default_msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
             $msg = strlen( $errors ) > 0 ? $errors : $default_msg;
             $errorsHtml = sprintf(
