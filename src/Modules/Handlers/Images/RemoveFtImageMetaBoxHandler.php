@@ -18,5 +18,7 @@ class RemoveFtImageMetaBoxHandler
     {
         // Removes the 'Featured Image' meta box
         remove_meta_box('postimagediv', 'wprss_feed', 'side');
+        // Removes the hook that E&T uses to add the same meta box
+        remove_action('do_meta_boxes', 'wprss_et_feed_default_thumbnail_metabox');
     }
 }
