@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [*next-version*] - 2019-05-14
 ### Added
+* YouTube channel URLs are now supported.
+* Items imported from YouTube are detected and their embed link is saved.
 * New option to enable or disable the plugin's logging.
 * New option to set the log age, in days, for daily truncation.
 * Image URLs are detected and saved in feed item meta, to be used by templates that can show images.
