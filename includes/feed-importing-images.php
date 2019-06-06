@@ -109,6 +109,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
         $usedFallback = set_post_thumbnail($itemId, $fallbackImage);
 
         if ($usedFallback) {
+            update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
             $logger->notice('Used the feed source\'s fallback featured image for "{title}"', ['title' => $title]);
         } else {
             $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
