@@ -102,6 +102,10 @@ function wpra_import_item_images($itemId, $item, $sourceId)
                 $ftImageUrl = reset($images['content']);
             }
             break;
+
+        default:
+            $ftImageUrl = '';
+            break;
     }
 
     if (empty($ftImageUrl)) {
