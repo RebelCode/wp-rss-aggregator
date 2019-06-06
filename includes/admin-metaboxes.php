@@ -410,26 +410,30 @@
         if ( ! empty( $feed_url ) ) {
             $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
-                $items = $feed->get_items();
+                ob_start();
                 // Figure out how many total items there are
-                $total = $feed->get_item_quantity();
+                $total = @$feed->get_item_quantity();
                 // Get the number of items again, but limit it to 5.
                 $maxitems = $feed->get_item_quantity(5);
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $items = $feed->get_items( 0, $maxitems );
+                ob_clean();
                 ?>
 				<h4><?php echo sprintf( __( 'Latest %1$s feed items out of %2$s available from %3$s' ), $maxitems, $total, get_the_title() ) ?></h4>
                 <ul>
 				<?php
                 foreach ( $items as $item ) {
-                    // Get human date (comment if you want to use non human date)
-                    $has_date = $item->get_date( 'U' ) ? TRUE : FALSE;
+                    $date = $item->get_date( 'U' );
+                    $has_date = $date ? true : false;
+
+                    // Get human date
                     if ( $has_date ) {
-                        $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
+                        $item_date = human_time_diff( $date, current_time('timestamp')).' '.__( 'ago', 'wprss' );
                     } else {
                         $item_date = '<em>[' . __( 'No Date', WPRSS_TEXT_DOMAIN ) . ']</em>';
                     }
+
                     // Start displaying item content within a <li> tag
                     echo '<li>';
                     // create item link
