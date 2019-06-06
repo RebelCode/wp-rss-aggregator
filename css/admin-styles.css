@@ -940,3 +940,7 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 #wpra_image_min_size_row > td > label {
     margin-right: 10px;
 }
+
+#wprss-feed-def-ft-image-preview {
+    width: 150px;
+}

@@ -56,8 +56,13 @@ class WpPostFeedSource extends WpCptDataSet
     {
         $meta =  parent::createMetaDataSet($postOrId);
         $defaults = $this->getDefaultMetaData();
+        $fullMeta = new MergedDataSet($meta, $defaults);
 
-        return new MergedDataSet($meta, $defaults);
+        $defFtImage = isset($fullMeta['def_ft_image']) ? $fullMeta['def_ft_image'] : '';
+
+        return new MergedDataSet($fullMeta, new ArrayDataSet([
+            'def_ft_image_url' => wp_get_attachment_image_url($defFtImage),
+        ]));
     }
 
     /**
@@ -70,7 +75,7 @@ class WpPostFeedSource extends WpCptDataSet
     protected function getDefaultMetaData()
     {
         return new ArrayDataSet([
-            'featured_image' => '',
+            'import_ft_images' => '',
             'download_images' => '0',
             'siphon_ft_image' => '0',
             'must_have_ft_image' => '0',

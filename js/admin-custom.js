@@ -528,5 +528,20 @@ if ( !String.prototype.trim ) {
         $('#wpra_download_images').on('change', update);
 
         update();
+
+        var gallery = new WpraGallery({
+            id: 'wpra-feed-def-ft-image',
+            title: "Choose a default featured image",
+            button: "Set default featured image",
+            library: {type: 'image'},
+            multiple: false,
+            elements: {
+                value: $('#wprss-feed-def-ft-image'),
+                open: $('#wprss-feed-set-def-ft-image'),
+                remove: $('#wprss-feed-remove-def-ft-image'),
+                preview: $('#wprss-feed-def-ft-image-preview'),
+                hint: $('#wprss-feed-def-ft-image-preview-hint'),
+            },
+        });
     });
 })(jQuery);

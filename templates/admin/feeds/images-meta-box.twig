@@ -10,20 +10,20 @@
                 </label>
             </th>
             <td>
-                <select id="wpra_ft_image" name="wpra_feed[featured_image]">
-                    <option value="" {{ feed.featured_image == '' ? 'selected' : '' }}>
+                <select id="wpra_ft_image" name="wpra_feed[import_ft_images]">
+                    <option value="" {{ feed.import_ft_images == '' ? 'selected' : '' }}>
                         {% trans "No featured image" %}
                     </option>
-                    <option value="auto" {{ feed.featured_image == 'auto' ? 'selected' : '' }}>
+                    <option value="auto" {{ feed.import_ft_images == 'auto' ? 'selected' : '' }}>
                         {% trans "Auto detect best image" %}
                     </option>
-                    <option value="media" {{ feed.featured_image == 'media' ? 'selected' : '' }}>
+                    <option value="media" {{ feed.import_ft_images == 'media' ? 'selected' : '' }}>
                         {% trans "Media thumbnail image" %}
                     </option>
-                    <option value="enclosure" {{ feed.featured_image == 'enclosure' ? 'selected' : '' }}>
+                    <option value="enclosure" {{ feed.import_ft_images == 'enclosure' ? 'selected' : '' }}>
                         {% trans "Enclosure image" %}
                     </option>
-                    <option value="content" {{ feed.featured_image == 'first' ? 'selected' : '' }}>
+                    <option value="content" {{ feed.import_ft_images == 'first' ? 'selected' : '' }}>
                         {% trans "First image in content/excerpt" %}
                     </option>
                 </select>
@@ -63,6 +63,30 @@
             </td>
         </tr>
     {% endif %}
+
+    <tr>
+        <th>
+            <label>
+                {% trans "Default Featured Image" %}
+            </label>
+        </th>
+        <td>
+            <input type="hidden" id="wprss-feed-def-ft-image" name="wpra_feed[def_ft_image]" value="{{ feed.def_ft_image }}" />
+
+            <img src="{{ feed.def_ft_image_url }}" id="wprss-feed-def-ft-image-preview" />
+            <p id="wprss-feed-def-ft-image-preview-hint" class="howto">
+                {% trans "Click the image to edit or update" %}
+            </p>
+
+            <br/>
+            <a href="javascript:void(0)" id="wprss-feed-set-def-ft-image">
+                {% trans "Set default featured image" %}
+            </a>
+            <a href="javascript:void(0)" id="wprss-feed-remove-def-ft-image">
+                {% trans "Remove default featured image" %}
+            </a>
+        </td>
+    </tr>
 
     {# Download images locally option #}
     {% if options.download_images or options.all %}
