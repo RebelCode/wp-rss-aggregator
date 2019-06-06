@@ -26,6 +26,13 @@ class WpPostFeedItem extends WpCptDataSet
     const META_PREFIX = 'wprss_';
 
     /**
+     * The second item-specific meta key prefix.
+     *
+     * @since [*next-version*]
+     */
+    const SECOND_META_PREFIX = 'wprss_item_';
+
+    /**
      * The key to which to map the feed source dataset.
      *
      * @since 4.13
@@ -99,12 +106,12 @@ class WpPostFeedItem extends WpCptDataSet
      */
     protected function createMetaDataSet($postOrId)
     {
-        // Alias the original meta data
-        $aliased = new AliasingDataSet(parent::createMetaDataSet($postOrId), [
-            'permalink' => 'item_permalink',
+        // Add the second meta prefix
+        $prefixed = new PrefixingDataSet(parent::createMetaDataSet($postOrId), static::SECOND_META_PREFIX);
+
+        // Alias some of the meta data
+        $aliased = new AliasingDataSet($prefixed, [
             'source_id' => 'feed_id',
-            'author' => 'item_author',
-            'enclosure' => 'item_enclosure',
         ]);
 
         $post = $this->normalizeWpPost($postOrId);
