@@ -78,6 +78,8 @@
         wp_localize_script( 'wprss-hs-beacon-js', 'WprssHelpBeaconConfig', array (
             'premiumSupport' => ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) )
         ));
+
+        wp_register_script( 'wprss-gallery-js', WPRSS_JS . 'gallery.js', array('jquery'), $version, true );
     }
 
 
@@ -141,6 +143,8 @@
         if ($pageBase === 'post' && $postType = 'wprss_feed') {
             // Change text on post screen from 'Enter title here' to 'Enter feed name here'
             add_filter( 'enter_title_here', 'wprss_change_title_text' );
+            wp_enqueue_media();
+            wp_enqueue_script( 'wprss-gallery-js' );
         }
         if ('wprss_feed' === $postType) {
             wp_enqueue_script( 'wprss-custom-bulk-actions' );
