@@ -314,6 +314,9 @@ require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 /* Load the polyfill functions file */
 require_once ( WPRSS_INC . 'polyfills.php' );
 
+/* Load the youtube functionality */
+require_once ( WPRSS_INC . 'youtube.php' );
+
 // Initializes licensing
 add_action( 'plugins_loaded', 'wprss_licensing' );
 
