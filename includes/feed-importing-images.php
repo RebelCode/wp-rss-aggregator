@@ -3,7 +3,36 @@
 // Save item image info during import
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 
-add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 10, 3);
+add_action('wprss_items_create_post_meta', 'wpra_detect_item_type', 10, 3);
+add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 11, 3);
+
+/**
+ * Imports images for a feed item.
+ *
+ * The "import" process here basically just fetches the images from the item's content/excerpt, the media:thumbnail
+ * tag and the enclosures. The entire list of images is saved, along with the URL of the best image.
+ *
+ * @param int|string     $itemId   The ID of the feed item.
+ * @param SimplePie_Item $item     The simple pie item object.
+ * @param int|string     $sourceId The ID of the feed source from which the item was imported.
+ */
+function wpra_detect_item_type($itemId, $item, $sourceId)
+{
+    $logger = wpra_get_logger($sourceId);
+    $url = parse_url($item->get_permalink());
+    $url['query_str'] = isset($url['query']) ? $url['query'] : '';
+    parse_str($url['query_str'], $url['query']);
+
+    if (stripos($url['host'], 'youtube.com') !== false && !empty($url['query']['v'])) {
+        $logger->info('Detected YouTube feed item');
+
+        $videoCode = $url['query']['v'];
+        $embedUrl = sprintf('https://youtube.com/embed/%s', $videoCode);
+
+        update_post_meta($itemId, 'wprss_item_is_youtube', '1');
+        update_post_meta($itemId, 'wprss_item_youtube_embed', $embedUrl);
+    }
+}
 
 /**
  * Imports images for a feed item.
