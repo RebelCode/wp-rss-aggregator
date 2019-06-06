@@ -60,7 +60,7 @@ class WpPostFeedSource extends WpCptDataSet
 
         return new MergedDataSet($fullMeta, new ArrayDataSet([
             'def_ft_image_id' => $defFtImage = get_post_thumbnail_id($postOrId),
-            'def_ft_image_url' => wp_get_attachment_image_url($defFtImage),
+            'def_ft_image_url' => wp_get_attachment_image_url($defFtImage, ''),
         ]));
     }
 
