@@ -524,24 +524,29 @@ if ( !String.prototype.trim ) {
     }
 
     $(document).ready(function () {
-        $('#wpra_ft_image').on('change', update);
-        $('#wpra_download_images').on('change', update);
+        var defFtImage = $('#wprss-feed-def-ft-image');
 
-        update();
+        if (defFtImage.length) {
+            $('#wpra_ft_image').on('change', update);
+            $('#wpra_download_images').on('change', update);
 
-        var gallery = new WpraGallery({
-            id: 'wpra-feed-def-ft-image',
-            title: "Choose a default featured image",
-            button: "Set default featured image",
-            library: {type: 'image'},
-            multiple: false,
-            elements: {
-                value: $('#wprss-feed-def-ft-image'),
-                open: $('#wprss-feed-set-def-ft-image'),
-                remove: $('#wprss-feed-remove-def-ft-image'),
-                preview: $('#wprss-feed-def-ft-image-preview'),
-                previewHint: $('#wprss-feed-def-ft-image-preview-hint'),
-            },
-        });
+            update();
+
+            var gallery = new WpraGallery({
+                id: 'wpra-feed-def-ft-image',
+                title: "Choose a default featured image",
+                button: "Set default featured image",
+                library: {type: 'image'},
+                multiple: false,
+                elements: {
+                    value: defFtImage,
+                    open: $('#wprss-feed-set-def-ft-image'),
+                    remove: $('#wprss-feed-remove-def-ft-image'),
+                    preview: $('#wprss-feed-def-ft-image-preview'),
+                    previewHint: $('#wprss-feed-def-ft-image-preview-hint'),
+                },
+            });
+        }
+
     });
 })(jQuery);
