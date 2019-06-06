@@ -168,8 +168,8 @@ function wpra_process_images($images, $source, &$bestImage = null)
     $maxSize = 0;
 
     // The minimum dimensions for an image to be valid
-    $minWidth = apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
-    $minHeight = apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
+    $minWidth = (int) apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
+    $minHeight = (int) apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
 
     foreach ($images as $group => $urls) {
         foreach ($urls as $imageUrl) {
