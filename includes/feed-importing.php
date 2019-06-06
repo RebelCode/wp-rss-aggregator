@@ -279,6 +279,10 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
     {
         // Trim the URL
         $url = trim($url);
+        // Parse the URL
+        $parsed = wpra_parse_url($url);
+        // Filter the URL
+        $url = apply_filters('wpra/importer/feed/url', $url, $parsed);
 
         // Initialize the Feed
         $feed = new SimplePie();
@@ -930,4 +934,31 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
         $excerpt = str_replace('  ', ' ', trim($excerpt));
 
         return $excerpt;
+    }
+
+    /**
+     * Parses a URL, it's query and its path.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $url The URL to parse.
+     *
+     * @return string
+     */
+    function wpra_parse_url($url)
+    {
+        // Parse the URL
+        $parsed = parse_url($url);
+
+        // Move the path to "path_str"
+        $parsed['path_str'] = isset($parsed['path']) ? $parsed['path'] : '';
+        // Explode the path
+        $parsed['path'] = explode('/', $parsed['path_str']);
+
+        // Move the query to "query_str"
+        $parsed['query_str'] = isset($parsed['query']) ? $parsed['query'] : '';
+        // Parse the query
+        parse_str($parsed['query_str'], $parsed['query']);
+
+        return $parsed;
     }
