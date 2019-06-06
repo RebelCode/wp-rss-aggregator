@@ -7,7 +7,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
-use RebelCode\Wpra\Core\Modules\Handlers\Images\CustomFtImageMetaBoxHandler;
+use RebelCode\Wpra\Core\Modules\Handlers\Images\RemoveFtImageMetaBoxHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterMetaBoxHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RenderTemplateHandler;
 use WPRSS_Help;
@@ -128,7 +128,7 @@ class ImagesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/images/ft_image/meta_box/handler' => function (ContainerInterface $c) {
-                return new CustomFtImageMetaBoxHandler();
+                return new RemoveFtImageMetaBoxHandler();
             },
             /*
              * The help tooltips for the feed sources images meta box.
