@@ -71,14 +71,13 @@
             </label>
         </th>
         <td>
-            <input type="hidden" id="wprss-feed-def-ft-image" name="wpra_feed[def_ft_image]" value="{{ feed.def_ft_image }}" />
+            <input type="hidden" id="wprss-feed-def-ft-image" name="wpra_feed_def_ft_image" value="{{ feed.def_ft_image_id }}" />
 
             <img src="{{ feed.def_ft_image_url }}" id="wprss-feed-def-ft-image-preview" />
             <p id="wprss-feed-def-ft-image-preview-hint" class="howto">
                 {% trans "Click the image to edit or update" %}
             </p>
 
-            <br/>
             <a href="javascript:void(0)" id="wprss-feed-set-def-ft-image">
                 {% trans "Set default featured image" %}
             </a>

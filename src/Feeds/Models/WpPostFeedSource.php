@@ -58,9 +58,8 @@ class WpPostFeedSource extends WpCptDataSet
         $defaults = $this->getDefaultMetaData();
         $fullMeta = new MergedDataSet($meta, $defaults);
 
-        $defFtImage = isset($fullMeta['def_ft_image']) ? $fullMeta['def_ft_image'] : '';
-
         return new MergedDataSet($fullMeta, new ArrayDataSet([
+            'def_ft_image_id' => $defFtImage = get_post_thumbnail_id($postOrId),
             'def_ft_image_url' => wp_get_attachment_image_url($defFtImage),
         ]));
     }

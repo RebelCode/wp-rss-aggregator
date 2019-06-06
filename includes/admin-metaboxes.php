@@ -330,6 +330,17 @@
         if ( defined( 'DOING_CRON' ) && DOING_CRON )
             return;
 
+        if ( isset($_POST['wpra_feed_def_ft_image']) ) {
+            $def_ft_image_id = $_POST['wpra_feed_def_ft_image'];
+
+            if (empty($def_ft_image_id)) {
+                // Does not actually delete the image
+                delete_post_thumbnail( $post_id );
+            } else {
+                set_post_thumbnail( $post_id, $def_ft_image_id );
+            }
+        }
+
         // Change the limit, if it is zero, to an empty string
         if ( isset( $_POST['wprss_limit'] ) && strval( $_POST['wprss_limit'] ) == '0' ) {
             $_POST['wprss_limit'] = '';
