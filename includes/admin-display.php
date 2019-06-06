@@ -45,6 +45,8 @@
         case 'extra':
             if (wprss_is_feed_youtube($post_id)) {
                 echo '<span class="dashicons dashicons-video-alt3"></span>';
+            } else {
+                echo '<span class="dashicons dashicons-rss"></span>';
             }
 
           break;
