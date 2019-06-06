@@ -12,7 +12,7 @@ function WpraGallery(config) {
     config.elements && (this.openEl = config.elements.open);
     config.elements && (this.removeEl = config.elements.remove);
     config.elements && (this.previewEl = config.elements.preview);
-    config.elements && (this.previewHintEl = config.elements.previewHintEl);
+    config.elements && (this.previewHintEl = config.elements.previewHint);
 
     this.createGallery();
 

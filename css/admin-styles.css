@@ -944,3 +944,7 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 #wprss-feed-def-ft-image-preview {
     width: 150px;
 }
+
+#wprss-feed-def-ft-image-preview-hint {
+    margin-bottom: 8px;
+}

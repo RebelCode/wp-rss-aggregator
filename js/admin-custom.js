@@ -540,7 +540,7 @@ if ( !String.prototype.trim ) {
                 open: $('#wprss-feed-set-def-ft-image'),
                 remove: $('#wprss-feed-remove-def-ft-image'),
                 preview: $('#wprss-feed-def-ft-image-preview'),
-                hint: $('#wprss-feed-def-ft-image-preview-hint'),
+                previewHint: $('#wprss-feed-def-ft-image-preview-hint'),
             },
         });
     });
