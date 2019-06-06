@@ -974,7 +974,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
         }
 
         // Check if there's another part that follows the "channel" part in the URL path
-        if (isset($pathArray[$channelPos + 1])) {
+        if (!empty($pathArray[$channelPos + 1])) {
             // Use it to construct the Youtube feed URL
             return sprintf(
                 'https://www.youtube.com/feeds/videos.xml?channel_id=%s',
