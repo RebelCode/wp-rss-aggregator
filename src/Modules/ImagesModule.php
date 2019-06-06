@@ -100,9 +100,12 @@ class ImagesModule implements ModuleInterface
                     global $post;
 
                     $collection = $c->get('wpra/feeds/sources/collection');
+                    $feed = isset($collection[$post->ID])
+                        ? $collection[$post->ID]
+                        : [];
 
                     return [
-                        'feed' => $collection[$post->ID],
+                        'feed' => $feed,
                         'options' => $c->get('wpra/images/feeds/meta_box/template/enabled_options'),
                     ];
                 };
