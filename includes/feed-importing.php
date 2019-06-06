@@ -962,3 +962,25 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 
         return $parsed;
     }
+
+    // Filters URLs to allow WPRA to be able to use YouTube channel URLs as feed URLs
+    add_filter('wpra/importer/feed/url', function ($url, $parsed) {
+        $pathArray = $parsed['path'];
+        $channelPos = array_search('channel', $pathArray);
+
+        // Check if a Youtube URL and the "channel" part was found in the URL path
+        if (stripos($parsed['host'], 'youtube.com') === false || $channelPos === false) {
+            return $url;
+        }
+
+        // Check if there's another part that follows the "channel" part in the URL path
+        if (isset($pathArray[$channelPos + 1])) {
+            // Use it to construct the Youtube feed URL
+            return sprintf(
+                'https://www.youtube.com/feeds/videos.xml?channel_id=%s',
+                $pathArray[$channelPos + 1]
+            );
+        }
+
+        return $url;
+    }, 10, 2);
