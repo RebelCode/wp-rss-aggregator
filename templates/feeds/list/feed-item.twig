@@ -6,7 +6,7 @@
 
 {# Show the title #}
 {% if options.title_is_link %}
-    <a {{ wpra_url_params(item.url, options)|raw }}>
+    <a {{ wpra_link_attrs(item.url, options)|raw }}>
         {{ item_title }}
     </a>
 {% else %}
@@ -30,7 +30,7 @@
             {{ options.source_prefix }}
 
             {% if options.source_is_link %}
-                <a {{ wpra_url_params(item.source.site_url, options)|raw }}>
+                <a {{ wpra_link_attrs(item.source.site_url, options)|raw }}>
                     {{ item.source.title }}
                 </a>
             {% else %}
