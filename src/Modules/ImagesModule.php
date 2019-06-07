@@ -7,6 +7,7 @@ use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
+use RebelCode\Wpra\Core\Modules\Handlers\Images\DeleteImagesHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\Images\RemoveFtImageMetaBoxHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterMetaBoxHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RenderTemplateHandler;
@@ -164,7 +165,17 @@ class ImagesModule implements ModuleInterface
                     }, true),
                     'wprss_feed_item'
                 );
-            }
+            },
+            /*
+             * The handler that deletes an imported item's featured image when the item is deleted.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/handlers/delete_images' => function (ContainerInterface $c) {
+                return new DeleteImagesHandler(
+                    $c->get('wpra/importer/items/collection')
+                );
+            },
         ];
     }
 
@@ -232,5 +243,8 @@ class ImagesModule implements ModuleInterface
         add_action('admin_init', function () use ($tooltips) {
             WPRSS_Help::get_instance()->add_tooltips($tooltips);
         });
+
+        // The handler that deletes images when the respective imported item is deleted
+        add_action('before_delete_post', $c->get('wpra/images/items/handlers/delete_images'));
     }
 }
