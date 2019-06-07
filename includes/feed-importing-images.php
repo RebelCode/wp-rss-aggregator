@@ -246,6 +246,12 @@ function wpra_get_item_media_thumbnail_image($item)
         return null;
     }
 
+    // Stop if enclosure is not an image
+    $type = $enclosure->get_type();
+    if (!empty($type) && stripos($type, 'image/') !== 0) {
+        return null;
+    }
+
     // Stop if enclosure tag has no link
     $url = $enclosure->get_link();
     if (empty($url)) {
@@ -551,7 +557,13 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
             $mime_type = $url_type['type'];
             $file_ext = isset($mime_to_ext[$mime_type])
                 ? $mime_to_ext[$mime_type]
-                : 'png';
+                : null;
+
+            // If no file extension, check if the mime type begins with "image/" and if so default to "png"
+            $mime_type_parts = explode('/', $mime_type);
+            if ($file_ext === null && count($mime_type_parts) > 1 && $mime_type_parts[0] === 'image') {
+                $file_ext = 'png';
+            }
 
             // Add a filter to ensure that the image ext and mime type get passed through WordPress' security
             add_filter('wp_check_filetype_and_ext', function ($image) use ($file_ext, $mime_type) {
