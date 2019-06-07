@@ -63,7 +63,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
     }
 
     // Get the featured image option from the feed source
-    $ftImageOpt = $source['featured_image'];
+    $ftImageOpt = $source['import_ft_images'];
 
     // Stop if source has featured images disabled
     if (empty($ftImageOpt)) {
