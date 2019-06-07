@@ -18,19 +18,31 @@ function wprss_is_feed_youtube($feed)
 // Filters URLs to allow WPRA to be able to use YouTube channel URLs as feed URLs
 add_filter('wpra/importer/feed/url', function ($url, $parsed) {
     $pathArray = $parsed['path'];
-    $channelPos = array_search('channel', $pathArray);
 
-    // Check if a Youtube URL and the "channel" part was found in the URL path
-    if (stripos($parsed['host'], 'youtube.com') === false || $channelPos === false) {
+    // Check if it's a Youtube URL
+    if (stripos($parsed['host'], 'youtube.com') === false) {
         return $url;
     }
 
-    // Check if there's another part that follows the "channel" part in the URL path
-    if (!empty($pathArray[$channelPos + 1])) {
-        // Use it to construct the Youtube feed URL
+    // Check if the YouTube URL has "channel" in the path
+    $channelPos = array_search('channel', $pathArray);
+    if ($channelPos !== false && !empty($pathArray[$channelPos + 1])) {
+        // Check if there's another part that follows the "channel" part in the URL path
+        // And use it to construct the Youtube feed URL
         return sprintf(
             'https://www.youtube.com/feeds/videos.xml?channel_id=%s',
             $pathArray[$channelPos + 1]
+        );
+    }
+
+    // Check if the YouTube URL has "user" in the path
+    $userPos = array_search('user', $pathArray);
+    if ($userPos !== false &&  !empty($pathArray[$userPos + 1])) {
+        // Check if there's another part that follows the "user" part in the URL path
+        // And use it to construct the Youtube feed URL
+        return sprintf(
+            'https://www.youtube.com/feeds/videos.xml?user=%s',
+            $pathArray[$userPos + 1]
         );
     }
 
