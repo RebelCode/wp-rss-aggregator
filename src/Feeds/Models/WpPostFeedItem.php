@@ -132,8 +132,10 @@ class WpPostFeedItem extends WpCptDataSet
      */
     protected function wrapPostMetaDataSet(WP_Post $post, DataSetInterface $meta)
     {
+        $source = new WpPostFeedSource($meta['source_id']);
+
         $wrapperData = [
-            static::SOURCE_KEY    => new WpPostFeedSource($meta['source_id']),
+            static::SOURCE_KEY    => $source,
             static::TIMESTAMP_KEY => strtotime($post->post_date_gmt),
             static::FT_IMAGE_KEY => $this->getFtImageUrl($post),
         ];
@@ -146,6 +148,10 @@ class WpPostFeedItem extends WpCptDataSet
         // Override the URL from meta if the post type is not a WP RSS Aggregator feed item
         if ($post->post_type !== 'wprss_feed_item') {
             $wrapperData[static::URL_KEY] = get_permalink($post);
+        } elseif (isset($source['link_to_embed']) && $source['link_to_embed']) {
+            $wrapperData[static::URL_KEY] = $meta['embed_url'];
+        } else {
+            $wrapperData[static::URL_KEY] = $meta['permalink'];
         }
 
         // Copy the wrapper data and replace all values with true
