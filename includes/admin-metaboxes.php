@@ -101,10 +101,10 @@
             'type'  => 'number'
         );
 
-        $wprss_meta_fields[ 'enclosure' ] = array(
-            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
-            'id'    => $prefix . 'enclosure',
-            'type'  => 'checkbox'
+        $wprss_meta_fields[ 'link_to_embed' ] = array(
+            'label' => __( 'Link to embed', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'link_to_embed',
+            'type'  => 'checkbox2'
         );
 
         $wprss_meta_fields[ 'unique_titles' ] = array(
@@ -203,12 +203,30 @@
                             case 'checkbox':
                                 ?>
 								<input type="hidden" name="<?php echo $field['id'] ?>" value="false" />
-                                <input type="checkbox" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="true" <?php checked( $meta, 'true' ) ?> /><?php
+                                <input type="checkbox" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="true" <?php checked( $meta, 'true' ) ?> />
+                                <?php
                                 echo $help->tooltip( $tooltip_id, $tooltip );
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
                                     ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;
+
+                            // improved checkbox
+                            case 'checkbox2':
+                                ?>
+                                <input type="hidden" name="<?php echo $field['id'] ?>" value="0" />
+                                <input type="checkbox"
+                                       id="<?php echo $field['id'] ?>"
+                                       name="<?php echo $field['id'] ?>"
+                                       value="1"
+                                        <?php checked( $meta, '1' ) ?>
+                                />
+                                <?php
+                                echo $help->tooltip( $tooltip_id, $tooltip );
+                                if ( strlen( trim( $field['desc'] ) ) > 0 ) {
+                                    ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
+                                }
+                                break;
 
                             // select
                             case 'select':
