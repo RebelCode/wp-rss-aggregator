@@ -148,7 +148,7 @@ class WpPostFeedItem extends WpCptDataSet
         // Override the URL from meta if the post type is not a WP RSS Aggregator feed item
         if ($post->post_type !== 'wprss_feed_item') {
             $wrapperData[static::URL_KEY] = get_permalink($post);
-        } elseif (isset($source['link_to_embed']) && $source['link_to_embed']) {
+        } elseif (isset($source['link_to_embed']) && $source['link_to_embed'] && isset($meta['embed_url'])) {
             $wrapperData[static::URL_KEY] = $meta['embed_url'];
         } else {
             $wrapperData[static::URL_KEY] = $meta['permalink'];
