@@ -29,8 +29,9 @@ function wpra_detect_item_type($itemId, $item, $sourceId)
         $videoCode = $url['query']['v'];
         $embedUrl = sprintf('https://youtube.com/embed/%s', $videoCode);
 
-        update_post_meta($itemId, 'wprss_item_is_youtube', '1');
-        update_post_meta($itemId, 'wprss_item_youtube_embed', $embedUrl);
+        update_post_meta($itemId, 'wprss_item_is_yt', '1');
+        update_post_meta($itemId, 'wprss_item_yt_embed_url', $embedUrl);
+        update_post_meta($itemId, 'wprss_item_embed_url', $embedUrl);
     }
 }
 
