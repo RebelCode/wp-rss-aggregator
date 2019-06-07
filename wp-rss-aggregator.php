@@ -118,9 +118,6 @@ if( !defined( 'WPRSS_INC' ) )
 if( !defined( 'WPRSS_LANG' ) )
     define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ) );
 
-if( !defined( 'WPRSS_TEMPLATES' ) )
-    define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ) );
-
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
     define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log' );

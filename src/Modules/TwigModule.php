@@ -53,7 +53,9 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/paths' => function (ContainerInterface $c) {
-                return [WPRSS_TEMPLATES];
+                return [
+                    $c->get('wpra/core/templates_dir_path')
+                ];
             },
             /*
              * The twig template collection.
