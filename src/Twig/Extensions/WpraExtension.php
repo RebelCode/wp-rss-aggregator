@@ -129,8 +129,8 @@ class WpraExtension extends AbstractExtension
     {
         $name = 'wpra_link_attrs';
 
-        return new TwigFunction($name, function ($url, $options) {
-            return $this->prepareLinkAttrs($url, $options);
+        return new TwigFunction($name, function ($url, $options, $className = '') {
+            return $this->prepareLinkAttrs($url, $options, $className);
         });
     }
 
