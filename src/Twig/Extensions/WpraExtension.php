@@ -195,12 +195,13 @@ class WpraExtension extends AbstractExtension
      *
      * @since [*next-version*]
      *
-     * @param string $url     The link URL.
-     * @param array  $options The template options.
+     * @param string $url       The link URL.
+     * @param array  $options   The template options.
+     * @param string $className The HTML class(es) to add.
      *
      * @return string The attributes as a string.
      */
-    public function prepareLinkAttrs($url, $options)
+    public function prepareLinkAttrs($url, $options, $className = '')
     {
         $openBehavior = isset($options['links_open_behavior'])
             ? $options['links_open_behavior']
@@ -214,13 +215,14 @@ class WpraExtension extends AbstractExtension
             ? 'rel="nofollow"'
             : '';
 
-        $targetAttr = '';
-        if ($openBehavior === 'blank') {
-            $targetAttr = 'target="_blank"';
-        } elseif ($openBehavior === 'lightbox') {
-            $targetAttr = 'class="colorbox"';
+        $targetAttr = ($openBehavior === 'blank')
+            ? 'target="_blank"'
+            : '';
+
+        if ($openBehavior === 'lightbox') {
+            $className = trim($className . ' colorbox');
         }
 
-        return sprintf('%s %s %s', $hrefAttr, $targetAttr, $relAttr);
+        return sprintf('%s %s %s class="%s"', $hrefAttr, $targetAttr, $relAttr, $className);
     }
 }
