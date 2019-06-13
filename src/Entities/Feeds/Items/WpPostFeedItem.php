@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Entities\Feeds\Items;
 
 use LogicException;
+use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
@@ -74,6 +75,8 @@ class WpPostFeedItem extends WpCptDataSet
      * @since 4.13
      *
      * @param int|string|WP_Post $post The WordPress Post object or post ID.
+     *
+     * @throws OutOfRangeException If the post does not exist.
      */
     public function __construct($post)
     {

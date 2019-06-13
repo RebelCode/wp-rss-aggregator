@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Data\Wp;
 
+use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
@@ -23,6 +24,8 @@ class WpPostDataSet extends MergedDataSet
      * @since 4.13
      *
      * @param int|string|WP_Post $postOrId The WordPress post instance or post ID.
+     *
+     * @throws OutOfRangeException If the post does not exist.
      */
     public function __construct($postOrId)
     {

@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Entities\Feeds\Sources;
 
+use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
@@ -28,6 +29,8 @@ class WpPostFeedSource extends WpCptDataSet
      * @since 4.13
      *
      * @param int|string|WP_Post $post The post instance or ID.
+     *
+     * @throws OutOfRangeException If the post does not exist.
      */
     public function __construct($post)
     {
