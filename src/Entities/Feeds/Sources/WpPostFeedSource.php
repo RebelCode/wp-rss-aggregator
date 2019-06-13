@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds\Models;
+namespace RebelCode\Wpra\Core\Entities\Feeds\Sources;
 
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;

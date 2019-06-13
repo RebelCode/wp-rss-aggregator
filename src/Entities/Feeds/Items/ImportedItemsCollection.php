@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds;
+namespace RebelCode\Wpra\Core\Entities\Feeds\Items;
 
 use RuntimeException;
 
@@ -9,7 +9,7 @@ use RuntimeException;
  *
  * @since 4.13
  */
-class ImportedItemsCollection extends FeedItemCollection
+class ImportedItemsCollection extends WpPostFeedItemCollection
 {
     /**
      * Constructor.

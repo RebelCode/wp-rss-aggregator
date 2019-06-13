@@ -1,10 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Templates\Feeds;
+namespace RebelCode\Wpra\Core\Entities\Feeds\Templates;
 
 use RebelCode\Wpra\Core\Data\Collections\WpPostCollection;
-use RebelCode\Wpra\Core\Templates\Feeds\Models\BuiltInFeedTemplate;
-use RebelCode\Wpra\Core\Templates\Feeds\Models\WpPostFeedTemplate;
 use WP_Post;
 
 /**
@@ -12,7 +10,7 @@ use WP_Post;
  *
  * @since 4.13
  */
-class FeedTemplateCollection extends WpPostCollection
+class WpPostFeedTemplateCollection extends WpPostCollection
 {
     /**
      * The default template's type.

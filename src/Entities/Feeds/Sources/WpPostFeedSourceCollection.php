@@ -1,9 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds;
+namespace RebelCode\Wpra\Core\Entities\Feeds\Sources;
 
 use RebelCode\Wpra\Core\Data\Collections\WpPostCollection;
-use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedSource;
 use WP_Post;
 
 /**
@@ -11,7 +10,7 @@ use WP_Post;
  *
  * @since [*next-version*]
  */
-class FeedSourceCollection extends WpPostCollection
+class WpPostFeedSourceCollection extends WpPostCollection
 {
     /**
      * Constructor.

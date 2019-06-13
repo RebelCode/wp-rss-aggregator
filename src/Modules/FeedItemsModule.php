@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Feeds\FeedItemCollection;
+use RebelCode\Wpra\Core\Entities\Feeds\Items\WpPostFeedItemCollection;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
@@ -97,7 +97,7 @@ class FeedItemsModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/feeds/items/collection' => function (ContainerInterface $c) {
-                return new FeedItemCollection($c->get('wpra/feeds/items/cpt/name'));
+                return new WpPostFeedItemCollection($c->get('wpra/feeds/items/cpt/name'));
             },
             /*
              * The handler that registers the feed items CPT.

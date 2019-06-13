@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds\Models;
+namespace RebelCode\Wpra\Core\Entities\Feeds\Items;
 
 use LogicException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
@@ -9,6 +9,7 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\PrefixingDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
+use RebelCode\Wpra\Core\Entities\Feeds\Sources\WpPostFeedSource;
 use WP_Post;
 
 /**

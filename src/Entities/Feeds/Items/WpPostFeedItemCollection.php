@@ -1,9 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Feeds;
+namespace RebelCode\Wpra\Core\Entities\Feeds\Items;
 
 use RebelCode\Wpra\Core\Data\Collections\WpPostCollection;
-use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedItem;
 use WP_Post;
 
 /**
@@ -11,7 +10,7 @@ use WP_Post;
  *
  * @since 4.13
  */
-class FeedItemCollection extends WpPostCollection
+class WpPostFeedItemCollection extends WpPostCollection
 {
     /**
      * Constructor.

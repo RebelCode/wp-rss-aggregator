@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
 use RebelCode\Wpra\Core\Data\Collections\NullCollection;
+use RebelCode\Wpra\Core\Entities\Feeds\Templates\WpPostFeedTemplateCollection;
 use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates\CreateDefaultFeedTemplateHandler;
@@ -22,7 +23,6 @@ use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\DeleteTemplateEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\GetTemplatesEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\PatchTemplateEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\RenderTemplateEndPoint;
-use RebelCode\Wpra\Core\Templates\Feeds\FeedTemplateCollection;
 use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 use RebelCode\Wpra\Core\Wp\Asset\ApplicationScriptAsset;
@@ -134,7 +134,7 @@ class FeedTemplatesModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/templates/feeds/collection' => function (ContainerInterface $c) {
-                return new FeedTemplateCollection(
+                return new WpPostFeedTemplateCollection(
                     $c->get('wpra/templates/feeds/cpt/name'),
                     $c->get('wpra/templates/feeds/default_template_type')
                 );

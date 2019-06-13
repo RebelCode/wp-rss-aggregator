@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\FeedSources;
 
-use RebelCode\Wpra\Core\Feeds\Models\WpPostFeedSource;
+use RebelCode\Wpra\Core\Entities\Feeds\Sources\WpPostFeedSource;
 use WP_Post;
 
 /**
