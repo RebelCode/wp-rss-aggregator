@@ -269,9 +269,6 @@ require_once ( WPRSS_INC . 'admin-ajax-notice.php' );
 /* Load the logging class */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
-/* Load the security reset file */
-require_once ( WPRSS_INC . 'secure-reset.php' );
-
 /* Load the licensing file */
 require_once ( WPRSS_INC . 'licensing.php' );
 

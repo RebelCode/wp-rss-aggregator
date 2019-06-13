@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * An error would occur that prevented the default template from being saved.
 * The age limit setting was incorrectly being copied to feed sources.
 
+### Removed
+* Removed old secure reset code.
+
 ## [4.13.2] - 2019-05-14
 ### Added
 * A custom Twig extension for WordPress-based i18n.
