@@ -39,6 +39,19 @@ class FeedItemCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
+     * @since [*next-version*]
+     */
+    protected function getBasePostQueryArgs()
+    {
+        $args = parent::getBasePostQueryArgs();
+        $args['post_status'] = 'publish';
+
+        return $args;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * Overridden to ensure that the status is "publish".
      *
      * @since 4.13

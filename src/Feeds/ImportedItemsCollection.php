@@ -46,6 +46,7 @@ class ImportedItemsCollection extends FeedItemCollection
         $args = parent::getBasePostQueryArgs();
 
         $args['post_type'] = get_post_types();
+        $args['post_status'] = 'publish';
 
         return $args;
     }
