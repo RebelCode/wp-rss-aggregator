@@ -22,7 +22,8 @@ class WpraExtension extends AbstractExtension
     {
         return [
             $this->getWpraLinkFilter(),
-            $this->getBase64EncodeFilter()
+            $this->getBase64EncodeFilter(),
+            $this->getCloseTagsFilter()
         ];
     }
 
@@ -111,5 +112,27 @@ class WpraExtension extends AbstractExtension
         };
 
         return new TwigFilter($name, $callback);
+    }
+
+    /**
+     * Retrieves the "close_tags" Twig filter.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFilter
+     */
+    public function getCloseTagsFilter()
+    {
+        $name = 'close_tags';
+
+        $callback = function ($input) {
+            return preg_replace_callback('#<\s*(img|br|hr)\s*([^>]+\s*)>#', function ($matches) {
+                return sprintf('<%s %s/>', $matches[1], $matches[2]);
+            }, $input);
+        };
+
+        return new TwigFilter($name, $callback, [
+            'is_safe' => ['html'],
+        ]);
     }
 }
