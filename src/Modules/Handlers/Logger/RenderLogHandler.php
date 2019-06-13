@@ -83,7 +83,8 @@ class RenderLogHandler
         echo $this->template->render([
             'logs'               => $this->reader->getLogs($this->numLogs),
             'nonce_name'         => $this->nonceName,
-            'config'             => $this->config
+            'config'             => $this->config,
+            'show_options'       => true,
         ]);
     }
 }

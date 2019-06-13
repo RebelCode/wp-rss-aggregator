@@ -439,10 +439,10 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
     margin: 3px 0;
 }
 
-#wprss-error-log-options label > span {
+#wprss-error-log-options label > span:first-child {
     display: inline-block;
     font-weight: bold;
-    width: 150px;
+    width: 200px;
 }
 
 #wprss-log-options-form input[name="logging_limit_days"] {
