@@ -2,7 +2,6 @@
 
 namespace RebelCode\Wpra\Core\Modules\Handlers\FeedTemplates;
 
-use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 
 /**
