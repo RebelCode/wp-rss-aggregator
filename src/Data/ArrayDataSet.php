@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Data;
 
+use ArrayAccess;
 use ArrayIterator;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
@@ -35,15 +36,24 @@ class ArrayDataSet extends AbstractDataSet
     protected $data;
 
     /**
+     * @since [*next-version*]
+     *
+     * @var bool
+     */
+    protected $recursive;
+
+    /**
      * Constructor.
      *
      * @since 4.13
      *
-     * @param array|stdClass|Traversable $data The data store, as an associative array, object or iterator.
+     * @param array|stdClass|Traversable $data      The data store, as an associative array, object or iterator.
+     * @param bool                       $recursive Whether or not to recursively set data to children data sets.
      */
-    public function __construct($data)
+    public function __construct($data, $recursive = false)
     {
         $this->data = $this->_normalizeArray($data);
+        $this->recursive = $recursive;
     }
 
     /**
@@ -73,6 +83,14 @@ class ArrayDataSet extends AbstractDataSet
      */
     protected function set($key, $value)
     {
+        if ($this->recursive && (is_array($value) || $value instanceof ArrayAccess)) {
+            foreach ($value as $subKey => $subValue) {
+                $this->data[$key][$subKey] = $subValue;
+            }
+
+            return;
+        }
+
         $this->data[$key] = $value;
     }
 
