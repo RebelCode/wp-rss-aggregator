@@ -206,7 +206,7 @@
 
 		wprss_flag_feed_as_idle( $feed_ID );
 
-		$logger->info('Imported completed!');
+		$logger->info('Import completed!');
 
         $wprss_importing_feed = null;
 	}
