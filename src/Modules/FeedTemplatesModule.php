@@ -146,7 +146,7 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/templates/feeds/create_default_template_handler' => function (ContainerInterface $c) {
                 return new CreateDefaultFeedTemplateHandler(
-                    $c->get('wpra/templates/feeds/collection'),
+                    $c->get('wpra/templates/feeds/collection')->filter(['type' => '__built_in']),
                     $c->get('wpra/templates/feeds/default_template_data')
                 );
             },
