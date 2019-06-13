@@ -5,12 +5,12 @@ namespace RebelCode\Wpra\Core\Modules;
 use Aventura\Wprss\Core\Caching\ImageCache;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Entities\Feeds\Items\WpPostFeedItem;
+use RebelCode\Wpra\Core\Handlers\Images\DeleteImagesHandler;
+use RebelCode\Wpra\Core\Handlers\Images\RemoveFtImageMetaBoxHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterMetaBoxHandler;
+use RebelCode\Wpra\Core\Handlers\RenderTemplateHandler;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
-use RebelCode\Wpra\Core\Modules\Handlers\Images\DeleteImagesHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Images\RemoveFtImageMetaBoxHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterMetaBoxHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RenderTemplateHandler;
 use WPRSS_Help;
 
 /**

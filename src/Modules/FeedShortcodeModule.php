@@ -3,8 +3,8 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Modules\Handlers\FeedShortcode\FeedsShortcodeHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterShortcodeHandler;
+use RebelCode\Wpra\Core\Handlers\FeedShortcode\FeedsShortcodeHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterShortcodeHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
 
 /**

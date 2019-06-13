@@ -4,9 +4,9 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Entities\Feeds\Items\WpPostFeedItemCollection;
-use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Handlers\NullHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 
 /**
  * The feed items module for WP RSS Aggregator.

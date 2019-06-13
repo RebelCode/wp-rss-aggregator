@@ -4,13 +4,13 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Entities\Feeds\Sources\WpPostFeedSourceCollection;
-use RebelCode\Wpra\Core\Modules\Handlers\AddCapabilitiesHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\FeedSources\FeedSourceSaveMetaHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\FeedSources\RenderFeedSourceContentHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\MultiHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Handlers\AddCapabilitiesHandler;
+use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Handlers\FeedSources\FeedSourceSaveMetaHandler;
+use RebelCode\Wpra\Core\Handlers\FeedSources\RenderFeedSourceContentHandler;
+use RebelCode\Wpra\Core\Handlers\MultiHandler;
+use RebelCode\Wpra\Core\Handlers\NullHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
 
 /**
