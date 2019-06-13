@@ -223,7 +223,15 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         $this->lastInsertedId = $result;
+
+        // Temporarily disable the filter
+        $tFilter = $this->filter;
+        $this->filter = [];
+
         $this->updatePost($result, $data);
+
+        // Restore the filter
+        $this->filter = $tFilter;
     }
 
     /**
