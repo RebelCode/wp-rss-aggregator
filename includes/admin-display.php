@@ -389,43 +389,6 @@
     }
 
 
-    add_action( 'admin_init', 'check_delete_for_feed_source' );
-    /**
-     * Checks the GET data for the delete per feed source action request
-     *
-     * @since 3.5
-     */
-    function check_delete_for_feed_source( $source_id = NULL ) {
-        if ( ! current_user_can( 'delete_feed_sources' ) ) return;
-        // then we need to check the GET data for the request
-        if ( isset( $_GET['purge-feed-items'] ) ) {
-            $source_id = $_GET['purge-feed-items'];
-            // Schedule a job that runs this function with the source id parameter
-            wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $source_id ) );
-            // Set a transient
-            set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
-            // Mark feed as deleting its items
-            update_post_meta( $source_id, 'wprss_feed_is_deleting_items', time() );
-            // check pagination
-            $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
-            // Refresh the page without the GET parameter
-            header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' . $page ) );
-            exit();
-        } else {
-            // Get the notification transient
-            $transient = get_transient( 'wprss_delete_posts_by_source_notif' );
-            // If the transient is set and is set to 'true'
-            if ( $transient !== FALSE && $transient === 'true' ) {
-                // delete it
-                delete_transient( 'wprss_delete_posts_by_source_notif' );
-                // Add an action to show the notification
-                wprss()->getAdminAjaxNotices()->addNotice('deleting_feed_items');
-                // add_action( 'all_admin_notices', 'wprss_notify_about_deleting_source_feed_items' );
-            }
-        }
-    }
-
-
 
     add_action( 'wprss_delete_feed_items_from_source_hook', 'wprss_delete_feed_items_of_feed_source', 10 , 1 );
     /**
