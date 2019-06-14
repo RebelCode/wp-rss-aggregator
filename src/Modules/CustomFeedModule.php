@@ -71,8 +71,13 @@ class CustomFeedModule implements ModuleInterface
              *
              * @since 4.13
              */
-            'wpra/custom_feed/render_handler' => function () {
-                return new RenderCustomFeedHandler();
+            'wpra/custom_feed/render_handler' => function (ContainerInterface $c) {
+                $templates = $c->get('wpra/twig/collection');
+
+                return new RenderCustomFeedHandler(
+                    $c->get('wpra/feeds/items/collection'),
+                    $templates['custom-feed/main.twig']
+                );
             }
         ];
     }

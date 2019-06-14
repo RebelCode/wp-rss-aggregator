@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Converted log section in the debugging page to use the new module system.
+* The custom feed now uses the Atom 1.0 standard.
 * Some options were renamed to be consistent across various plugin pages.
 * Improved the wording, description and tooltip of the "Import order" option.
 * Added better error handling during image file creation when using the GD extension.
@@ -28,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 * Removed old secure reset code.
+* The custom feed was not entirely valid and would not work with some feed readers.
 
 ## [4.13.2] - 2019-05-14
 ### Added
