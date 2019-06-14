@@ -611,6 +611,32 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 130px !important;
 }
 
+/* Hide ".wprss-when-paused" elements when the feed is active */
+.wprss-feed-state-container.wprss-feed-active .wprss-when-paused {
+    display: none;
+}
+/* Hide ".wprss-when-active" elements when the feed is paused */
+.wprss-feed-state-container.wprss-feed-paused .wprss-when-active {
+    display: none;
+}
+
+/* Hide the button's loading icon when the feed state is not loading */
+.wprss-feed-state-container:not(.wprss-feed-state-loading) button.wprss-toggle-feed-state i.wprss-feed-state-loading-icon {
+    display: none;
+}
+/* Show the buttons; normal icon when the feed state is not loading */
+.wprss-feed-state-container:not(.wprss-feed-state-loading) button.wprss-toggle-feed-state i:not(.wprss-feed-state-loading-icon) {
+    display: inline-block;
+}
+
+/* Show the loading icon when the feed state is loading */
+.wprss-feed-state-container.wprss-feed-state-loading button.wprss-toggle-feed-state i.wprss-feed-state-loading-icon {
+    display: inline-block;
+}
+/* Hide the normal icon when the feed state is loading */
+.wprss-feed-state-container.wprss-feed-state-loading button.wprss-toggle-feed-state i:not(.wprss-feed-state-loading-icon) {
+    display: none;
+}
 
 /** FEED SOURCES TABLE RESPONSIVENESS */
 @media screen and (max-width: 1020px) {

@@ -51,20 +51,32 @@
           break;
         case 'state':
             $active = wprss_is_feed_source_active( $post_id );
-            $text       = ( $active )? 'Active' : 'Paused';
-            $button     = ( $active )? 'Pause this feed source' : 'Activate this feed source';
-            $icon       = ( $active )? 'pause' : 'play';
-            $value      = ( $active )? 'paused' : 'active';
-            $indicator  = ( $active )? 'green' : 'grey';
+            $class  = ( $active ) ? 'wprss-feed-active' : 'wprss-feed-paused';
 
             ?>
-            <p>
-                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php _e( $text, WPRSS_TEXT_DOMAIN ) ?>">
+            <p class="wprss-feed-state-container <?php echo $class ?>">
+                <span class="wprss-indicator-green wprss-when-active" title="<?php _e( 'Active', 'wprss' ) ?>">
                     <i class="fa fa-circle"></i>
                 </span>
-                <input type="hidden" name="wprss-redirect" value="1" />
-                <button type="submit" class='button-secondary' title="<?php _e( $button, WPRSS_TEXT_DOMAIN ) ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
-                    <i class='fa fa-<?php echo $icon; ?>'></i>
+                <button type="button"
+                        class='button-secondary wprss-when-active wprss-toggle-feed-state'
+                        title="<?php _e( 'Activate this feed source', 'wprss' ) ?>"
+                        name="wprss-feed-id"
+                        value="<?php echo $post_id; ?>">
+                    <i class='fa fa-pause'></i>
+                    <i class='fa fa-spin fa-refresh wprss-feed-state-loading-icon'></i>
+                </button>
+
+                <span class="wprss-indicator-grey wprss-when-paused" title="<?php _e( 'Paused', 'wprss' ) ?>">
+                    <i class="fa fa-circle"></i>
+                </span>
+                <button type="button"
+                        class='button-secondary wprss-when-paused wprss-toggle-feed-state'
+                        title="<?php _e( 'Pause this feed source', 'wprss' ) ?>"
+                        name="wprss-feed-id"
+                        value="<?php echo $post_id; ?>">
+                    <i class='fa fa-play'></i>
+                    <i class='fa fa-spin fa-refresh wprss-feed-state-loading-icon'></i>
                 </button>
             </p>
             <?php
@@ -570,6 +582,56 @@
         exit();
     }
 
+
+    add_action( 'wp_ajax_wprss_toggle_feed_state', 'wprss_ajax_toggle_feed_state' );
+    /**
+     * The AJAX function for toggling a feed's state from the 'All Feed Sources' page.
+     *
+     * @since [*next-version*]
+     */
+    function wprss_ajax_toggle_feed_state() {
+        $kFeedSourceId = 'feed_source_id';
+        $response = wprss()->createAjaxResponse();
+        $wprss = wprss();
+        try {
+            $id = filter_input(INPUT_POST, 'id', FILTER_DEFAULT);
+            if (empty($id)) {
+                throw new Exception($wprss->__('Source ID was not specified'));
+            }
+
+            $response->setAjaxData($kFeedSourceId, $id);
+
+            if (!current_user_can('edit_feed_sources')) {
+                throw new Exception($wprss->__(array('User must have sufficient privileges', $id)));
+            }
+
+            // Verify admin referer
+            if (!wprss_verify_nonce( 'wprss_feed_source_action', 'wprss_admin_ajax_nonce' )) {
+                throw new Exception($wprss->__(array('Nonce has expired - Please refresh the page.', $id)));
+            }
+
+            $active = wprss_is_feed_source_active( $id );
+
+            if ( $active ) {
+                wprss_pause_feed_source( $id );
+            } else {
+                wprss_activate_feed_source( $id );
+            }
+
+            $response->setAjaxData('active', !$active);
+        } catch (Exception $e) {
+            $response = wprss()->createAjaxErrorResponse($e);
+            if (isset($id)) {
+                $response->setAjaxData($kFeedSourceId, $id);
+            }
+            echo $response->getBody();
+            exit();
+        }
+
+        $response->setAjaxData('message', $wprss->__(array('Feed state changed successfully', $id)));
+        echo $response->getBody();
+        exit();
+    }
 
     add_action('manage_posts_extra_tablenav', function($which) {
         $screen = get_current_screen();

@@ -113,6 +113,46 @@ function delete_items_row_action_callback(e){
 
 
 
+// jQuery for the feed state toggle buttons
+function toggle_feed_state_ajax_callback(e) {
+    var button = jQuery(this);
+    var parent = button.closest('.wprss-feed-state-container');
+
+    var errorFunction = function (response) {
+        console.log(response);
+    };
+
+    parent.addClass('wprss-feed-state-loading');
+
+    jQuery.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'action': 'wprss_toggle_feed_state',
+            'id':   id,
+            'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
+            'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
+        },
+        success: function( response, status, jqXHR ){
+            if (response.is_error) {
+                errorFunction(response.error_message);
+                return;
+            }
+
+            parent.toggleClass('wprss-feed-active').toggleClass('wprss-feed-paused');
+        },
+        error: errorFunction,
+        complete: function () {
+            parent.removeClass('wprss-feed-state-loading');
+        },
+        timeout: 60000
+    });
+}
+
+
+
+
 jQuery(window).load( function(){
 
 
@@ -183,6 +223,7 @@ jQuery(window).load( function(){
 
 	jQuery('.wp-list-table').on( 'click', '.wprss_fetch_items_ajax_action', fetch_items_row_action_callback );
     jQuery('.wp-list-table').on( 'click', '.wprss_delete_items_ajax_action', delete_items_row_action_callback );
+    jQuery('.wp-list-table').on( 'click', '.wprss-toggle-feed-state', toggle_feed_state_ajax_callback );
 
 	// Make the number rollers change their value to empty string when value is 0, making
 	// them use the placeholder.
