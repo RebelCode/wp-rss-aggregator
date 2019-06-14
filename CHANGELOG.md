@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * New option to set the log age, in days, for daily truncation.
 * Image URLs are detected and saved in feed item meta, to be used by templates that can show images.
 * Feed item excerpt is now imported, to be used by templates that can show excerpts.
+* Deleting feed items from the Feed Sources page is now asynchronous.
+* Activating or pausing feed sources from the Feed Sources page is now asynchronous.
 
 ### Changed
 * Converted log section in the debugging page to use the new module system.
@@ -20,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * An error would occur that prevented the default template from being saved.
 * The age limit setting was incorrectly being copied to feed sources.
+* Non image files are no longer wrongly downloaded, caching and treated as images.
 
 ## [4.13.2] - 2019-05-14
 ### Added
