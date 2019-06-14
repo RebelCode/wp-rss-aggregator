@@ -29,8 +29,8 @@ abstract class AbstractResponse extends Message\AbstractResponse implements Core
      *
      * @since 4.9
      * @see Core\DataObject::addData()
-     * @param type $key
-     * @param type $value
+     * @param string $key
+     * @param mixed $value
      * @return \Aventura\Wprss\Core\Http\Message\Ajax\AbstractResponse
      */
     public function setAjaxData($key, $value = null) {
