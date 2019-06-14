@@ -31,7 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 * Removed old secure reset code.
-* The custom feed was not entirely valid and would not work with some feed readers.
 
 ## [4.13.2] - 2019-05-14
 ### Added
