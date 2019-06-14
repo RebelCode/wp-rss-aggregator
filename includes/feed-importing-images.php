@@ -165,6 +165,10 @@ function wpra_get_item_images($item)
  */
 function wpra_process_images($images, $source, &$bestImage = null)
 {
+    if (!wpra_container()->has('wpra/images/container')) {
+        return [];
+    }
+
     $imgContainer = wpra_container()->get('wpra/images/container');
 
     // The list of images of keep and their sizes
@@ -260,12 +264,13 @@ function wpra_get_item_media_thumbnail_image($item)
     }
 
     // Check if image can be downloaded
-    $imgContainer = wpra_container()->get('wpra/images/container');
-    try {
-        /* @var $image WPRSS_Image_Cache_Image */
-        $image = $imgContainer->get($url);
-    } catch (Exception $exception) {
-        return null;
+    if (wpra_container()->has('wpra/images/container')) {
+        try {
+            /* @var $image WPRSS_Image_Cache_Image */
+            $image = wpra_container()->get('wpra/images/container')->get($url);
+        } catch (Exception $exception) {
+            return null;
+        }
     }
 
     if ($image->get_local_path()) {
@@ -457,6 +462,10 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
 {
     if (!$url || !$post_id) {
         return new WP_Error('missing', "Need a valid URL and post ID...");
+    }
+
+    if (!wpra_container()->has('wpra/images/container')) {
+        return new WP_Error('Images module is not loaded');
     }
 
     $logger = wpra_get_logger();
