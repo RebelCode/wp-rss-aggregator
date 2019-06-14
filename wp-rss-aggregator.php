@@ -36,6 +36,7 @@
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\ModuleContainer;
 use RebelCode\Wpra\Core\Container\WpFilterContainer;
+use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
@@ -321,6 +322,7 @@ register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
 // Run WPRA
 add_action('plugins_loaded', 'wpra_run', 100);
+add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
 
 /**
  * Runs WP RSS Aggregator.
@@ -330,15 +332,15 @@ add_action('plugins_loaded', 'wpra_run', 100);
 function wpra_run()
 {
     try {
+        $errorHandler = new ErrorHandler(__DIR__, 'wpra_critical_error_handler');
+        $errorHandler->register();
+
         $plugin = wpra();
         $container = wpra_container();
 
         $plugin->run($container);
     } catch (Exception $exception) {
-        if (WP_DEBUG && WP_DEBUG_DISPLAY) {
-            trigger_error($exception->getMessage());
-        }
-        wp_die($exception->getMessage());
+        wpra_exception_handler($exception);
     }
 }
 
@@ -455,6 +457,120 @@ function wpra_load_module($key, $module)
 }
 
 /**
+ * Handles soft exceptions, caught from {@link wpra_run()}.
+ *
+ * @since [*next-version*]
+ *
+ * @param Exception $exception The caught exception.
+ */
+function wpra_exception_handler($exception)
+{
+    add_action('all_admin_notices', function () use ($exception) {
+        ?>
+        <div class="notice notice-error">
+            <?php echo wpra_display_error($exception) ?>
+        </div>
+        <?php
+    });
+}
+
+/**
+ * Handles critical errors.
+ *
+ * This function is passed as a callback to the {@link ErrorHandler}.
+ *
+ * @since [*next-version*]
+ *
+ * @param Exception|Throwable $error The encountered error.
+ */
+function wpra_critical_error_handler($error)
+{
+    ob_start(); ?>
+
+    <br/>
+    <form method="POST" action="<?php echo esc_attr(admin_url()) ?>">
+        <?php wp_nonce_field('wprss_safe_deactivate', 'wprss_safe_deactivate_nonce'); ?>
+        <button type="submit" class="button button-secondary">
+            <?php echo __('Deactivate WP RSS Aggregator', 'wprss') ?>
+        </button>
+    </form>
+
+    <?php
+    $deactivateForm = ob_get_clean();
+    $errorDisplay = wpra_display_error($error);
+
+    wp_die(
+        $errorDisplay . $deactivateForm,
+        __('WP RSS Aggregator Error', 'wprss')
+    );
+}
+
+/**
+ * Generates common display for WP RSS Aggregator errors.
+ *
+ * @since [*next-version*]
+ *
+ * @param Exception|Throwable $error The error.
+ *
+ * @return string
+ */
+function wpra_display_error($error)
+{
+    ob_start(); ?>
+
+    <p>
+        <?php _e(
+            '<b>WP RSS Aggregator</b> has encountered a critical error. If this problem persists, kindly contact customer support and provide the following details:',
+            'wprss'
+        ) ?>
+    </p>
+    <div>
+        <details>
+            <summary style="cursor: pointer;">
+                <?php _e('Click to show error details', 'wprss') ?>
+            </summary>
+            <div style="background-color: rgba(0, 0, 0, .07); padding: 5px; border: 1px solid #aaa;">
+                <strong><?php _e('Error Message:', 'wprss'); ?></strong>
+                <br/>
+                <pre><?php echo $error->getMessage(); ?></pre>
+
+                <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
+                <br/>
+                <pre><?php echo $error->getTraceAsString(); ?></pre>
+            </div>
+        </details>
+    </div>
+    <br/>
+    <?php
+
+    return ob_get_clean();
+}
+
+/**
+ * Safely deactivates WP RSS Aggregator.
+ *
+ * This function is intended to be called from error handlers that give users the option to deactivate the plugin.
+ *
+ * @since [*next-version*]
+ */
+function wpra_safe_deactivate()
+{
+    $nonce = filter_input(INPUT_POST, 'wprss_safe_deactivate_nonce', FILTER_DEFAULT);
+
+    if (empty($nonce)) {
+        return;
+    }
+
+    if (!wp_verify_nonce($nonce, 'wprss_safe_deactivate')) {
+        return;
+    }
+
+    deactivate_plugins(plugin_basename(__FILE__), true);
+    header('Location: ' . admin_url('plugins.php'));
+    exit;
+}
+
+/**
  * Returns the Core plugin singleton instance.
  *
  * Using DI container since 4.11.
@@ -469,10 +585,7 @@ function wprss() {
 try {
     $instance = wprss();
 } catch (Exception $e) {
-    if (WP_DEBUG && WP_DEBUG_DISPLAY) {
-        trigger_error($e->getMessage());
-    }
-    wp_die( $e->getMessage() );
+    wpra_exception_handler($e);
 }
 
 add_action( 'init', 'wprss_init' );
