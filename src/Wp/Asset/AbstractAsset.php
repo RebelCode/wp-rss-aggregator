@@ -52,13 +52,15 @@ abstract class AbstractAsset implements AssetInterface
      *
      * @since [*next-version*]
      *
-     * @param string $handle Asset's unique name.
-     * @param string $src The URL of the asset.
+     * @param string $handle  Asset's unique name.
+     * @param string $src     The URL of the asset.
+     * @param bool   $version String specifying asset version number.
      */
-    public function __construct($handle, $src)
+    public function __construct($handle, $src, $version = false)
     {
         $this->handle = $handle;
         $this->src = $src;
+        $this->version = $version;
     }
 
     /**
