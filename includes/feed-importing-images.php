@@ -109,13 +109,19 @@ function wpra_import_item_images($itemId, $item, $sourceId)
             break;
     }
 
-    if (empty($ftImageUrl)) {
-        $fallbackImage = get_post_thumbnail_id($sourceId);
-        $usedFallback = set_post_thumbnail($itemId, $fallbackImage);
+    if (empty($ftImageUrl) || $ftImageOpt === 'default') {
+        // Get the feed source's default featured image
+        $defaultFtImage = get_post_thumbnail_id($sourceId);
+        // Assign it to the feed item
+        $defaultSuccessful = set_post_thumbnail($itemId, $defaultFtImage);
+        // The feed item is classified as using the default image if:
+        // - the default image was successfully assigned
+        // - the user did NOT explicitly want to use the default
+        $usedDefault = $defaultSuccessful && $ftImageOpt !== 'default';
 
-        if ($usedFallback) {
+        if ($usedDefault) {
             update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
-            $logger->notice('Used the feed source\'s fallback featured image for "{title}"', ['title' => $title]);
+            $logger->notice('Used the feed source\'s default featured image for "{title}"', ['title' => $title]);
         } else {
             $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
         }

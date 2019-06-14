@@ -600,13 +600,14 @@ if ( !String.prototype.trim ) {
         var ftImage = $('#wpra_ft_image').val();
         var downloadImages = $('#wpra_download_images').prop('checked') === true;
         var ftImagesEnabled = (ftImage !== '');
+        var useDefaultftImage = (ftImage === 'default');
 
         // Only show the "must have ft image" and "remove ft image" options if featured images are enabled
         $('#wpra_siphon_ft_image').toggle(ftImagesEnabled);
         $('#wpra_must_have_ft_image').toggle(ftImagesEnabled);
 
         // Show the image minimum size options if either featured images or image downloading are enabled
-        $('#wpra_image_min_size_row').toggle(ftImagesEnabled || downloadImages);
+        $('#wpra_image_min_size_row').toggle( (ftImagesEnabled || downloadImages) && !useDefaultftImage );
     }
 
     $(document).ready(function () {
