@@ -353,11 +353,22 @@
                 $actions['view-items'] = '<a href="' . $view_items_link . '">' . $view_items_text . '</a>';
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . $fetch_items_row_action_text . '</a>';
+                $actions[ 'fetch' ] = sprintf(
+                    '<a href="javascript:;" class="wprss_fetch_items_ajax_action" pid="%s" purl="%s">%s</a>',
+                    $post->ID,
+                    admin_url('admin-ajax.php'),
+                    $fetch_items_row_action_text
+                );
 
-                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', WPRSS_TEXT_DOMAIN ) );
-                $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', WPRSS_TEXT_DOMAIN ) );
-                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . $purge_feeds_row_action_title . "' >" . __( $purge_feeds_row_action_text, WPRSS_TEXT_DOMAIN ) . "</a>";
+                $purge_items_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', 'wprss' ) );
+                $purge_items_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', 'wprss' ) );
+                $actions['purge-posts'] = sprintf(
+                    '<a href="javascript:;" class="wprss_delete_items_ajax_action" pid="%s" purl="%s" title="%s">%s</a>',
+                    $post->ID,
+                    admin_url('admin-ajax.php'),
+                    $purge_items_row_action_title,
+                    $purge_items_row_action_text
+                );
 
                 $actions['trash'] = $trash;
             }
@@ -449,7 +460,7 @@
     }
 
 
-    add_action( 'wp_ajax_wprss_fetch_feeds_row_action', 'wprss_fetch_feeds_action_hook' );
+    add_action( 'wp_ajax_wprss_fetch_items_row_action', 'wprss_fetch_feeds_action_hook' );
     /**
      * The AJAX function for the 'Fetch Feed Items' row action on the
      * 'All Feed Sources' page.
@@ -510,6 +521,51 @@
         }
 
         $response->setAjaxData('message', $wprss->__(array('Fetch for feed source #%1$s successfully scheduled', $id)));
+        echo $response->getBody();
+        exit();
+    }
+    
+    add_action( 'wp_ajax_wprss_delete_items_row_action', 'wprss_delete_items_ajax_action_hook' );
+    /**
+     * The AJAX function for the 'Delete Items' row action on the 'All Feed Sources' page.
+     *
+     * @since [*next-version*]
+     */
+    function wprss_delete_items_ajax_action_hook() {
+        $kFeedSourceId = 'feed_source_id';
+        $response = wprss()->createAjaxResponse();
+        $wprss = wprss();
+        try {
+            $id = filter_input(INPUT_POST, 'id', FILTER_DEFAULT);
+            if (empty($id)) {
+                throw new Exception($wprss->__('Source ID was not specified'));
+            }
+
+            $response->setAjaxData($kFeedSourceId, $id);
+
+            if (!current_user_can('edit_feed_sources')) {
+                throw new Exception($wprss->__(array('User must have sufficient privileges', $id)));
+            }
+
+            // Verify admin referer
+            if (!wprss_verify_nonce( 'wprss_feed_source_action', 'wprss_admin_ajax_nonce' )) {
+                throw new Exception($wprss->__(array('Nonce has expired - Please refresh the page.', $id)));
+            }
+
+            // Schedule a job that runs this function with the source id parameter
+            wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $id ) );
+            // Mark feed as deleting its items
+            update_post_meta( $id, 'wprss_feed_is_deleting_items', time() );
+        } catch (Exception $e) {
+            $response = wprss()->createAjaxErrorResponse($e);
+            if (isset($id)) {
+                $response->setAjaxData($kFeedSourceId, $id);
+            }
+            echo $response->getBody();
+            exit();
+        }
+
+        $response->setAjaxData('message', $wprss->__(array('Items are being deleted', $id)));
         echo $response->getBody();
         exit();
     }

@@ -6,7 +6,7 @@ function fetch_items_row_action_callback(e){
     var url = link.attr('purl');
 
     var errorImportingHandler = function(jqXHR, status, exceptionText) {
-        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');;
+        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');
     };
 
     var displayResultMessage = function(message, className) {
@@ -32,7 +32,7 @@ function fetch_items_row_action_callback(e){
         type: 'POST',
         dataType: 'json',
         data: {
-            'action': 'wprss_fetch_feeds_row_action',
+            'action': 'wprss_fetch_items_row_action',
             'id':   id,
             'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
             'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
@@ -43,26 +43,70 @@ function fetch_items_row_action_callback(e){
                 return;
             }
 
-            displayResultMessage(wprss_admin_custom.items_are_importing + '!');
+            displayResultMessage(wprss_admin_custom.items_are_importing);
             jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
         },
         error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute
     });
-    /*
-    jQuery.post(
-        url, 
-        {
-            'action': 'wprss_fetch_feeds_row_action',
-            'id':   id
-        }, 
-        function(response){
-            link.text('Feed items imported!');
-            setTimeout( function(){
-                link.text( original_text ).click( fetch_items_row_action_callback );
-            }, 3500 );
-        }
-    );*/
+    link.text( wprss_admin_custom.please_wait );
+    link.attr('disabled', 'disabled');
+};
+
+
+
+
+// jQuery for 'Delete Items' Row Action in 'All Feed Sources' page
+function delete_items_row_action_callback(e){
+    var link = jQuery(this);
+    var original_text = link.text();
+    var id = link.attr('pid');
+    var url = link.attr('purl');
+
+    var errorImportingHandler = function(jqXHR, status, exceptionText) {
+        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');
+    };
+
+    var displayResultMessage = function(message, className) {
+        link.text(message);
+        if (className)
+            link.addClass(className);
+
+        setTimeout(function(){
+            link.text(original_text);
+            link.removeAttr('disabled');
+            if (className)
+                link.removeClass(className);
+        }, 3500);
+    };
+
+    e.preventDefault();
+    if (link.attr('disabled')) {
+        return;
+    }
+
+    jQuery.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'action': 'wprss_delete_items_row_action',
+            'id':   id,
+            'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
+            'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
+        },
+        success: function( response, status, jqXHR ){
+            if (response.is_error) {
+                errorImportingHandler(jqXHR, status, response.error_message);
+                return;
+            }
+
+            displayResultMessage(wprss_admin_custom.items_are_deleting);
+            jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
+        },
+        error: errorImportingHandler,
+        timeout: 60000 // set timeout to 1 minute
+    });
     link.text( wprss_admin_custom.please_wait );
     link.attr('disabled', 'disabled');
 };
@@ -137,8 +181,9 @@ jQuery(window).load( function(){
     }
     );	        
 
-	jQuery('.wp-list-table').on( 'click', '.wprss_ajax_action', fetch_items_row_action_callback );
-	
+	jQuery('.wp-list-table').on( 'click', '.wprss_fetch_items_ajax_action', fetch_items_row_action_callback );
+    jQuery('.wp-list-table').on( 'click', '.wprss_delete_items_ajax_action', delete_items_row_action_callback );
+
 	// Make the number rollers change their value to empty string when value is 0, making
 	// them use the placeholder.
 	jQuery('.wprss-number-roller').on('change', function(){
