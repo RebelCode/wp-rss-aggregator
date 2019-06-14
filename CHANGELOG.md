@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Feed item excerpt is now imported, to be used by templates that can show excerpts.
 * Deleting feed items from the Feed Sources page is now asynchronous.
 * Activating or pausing feed sources from the Feed Sources page is now asynchronous.
+* New plugin-wide error handling to prevent site locks and white screens.
 
 ### Changed
 * Converted log section in the debugging page to use the new module system.
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * An error would occur that prevented the default template from being saved.
 * The age limit setting was incorrectly being copied to feed sources.
 * Non image files are no longer wrongly downloaded, caching and treated as images.
+* Fixed use of previously cached version scripts and styles for the Templates page.
 
 ### Removed
 * Removed old secure reset code.
