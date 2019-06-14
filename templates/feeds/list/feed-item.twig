@@ -5,7 +5,12 @@
 {% endif %}
 
 {# Show the title #}
-{{ item_title | wpralink(item.permalink, options.title_is_link, options) }}
+{% if options.title_is_link %}
+    <a {{ wpra_link_attrs(item.url, options)|raw }}>{{ item_title }}</a>
+{% else %}
+    {{ item_title }}
+{% endif %}
+
 {{ options.title_after }}
 
 {# Prepare date HTML class and formatted strinng #}
@@ -21,7 +26,12 @@
     {% if options.source_enabled %}
         <span class="feed-source">
             {{ options.source_prefix }}
-            {{ item.source.title | wpralink(item.source.site_url, options.source_is_link, options) }}
+
+            {% if options.source_is_link %}
+                <a {{ wpra_link_attrs(item.source.site_url, options)|raw }}>{{ item.source.title }}</a>
+            {% else %}
+                {{ item.source.title }}
+            {% endif %}
         </span>
     {% endif %}
 

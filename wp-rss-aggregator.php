@@ -118,9 +118,6 @@ if( !defined( 'WPRSS_INC' ) )
 if( !defined( 'WPRSS_LANG' ) )
     define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ) );
 
-if( !defined( 'WPRSS_TEMPLATES' ) )
-    define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ) );
-
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
     define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log' );
@@ -272,9 +269,6 @@ require_once ( WPRSS_INC . 'admin-ajax-notice.php' );
 /* Load the logging class */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );
 
-/* Load the security reset file */
-require_once ( WPRSS_INC . 'secure-reset.php' );
-
 /* Load the licensing file */
 require_once ( WPRSS_INC . 'licensing.php' );
 
@@ -310,6 +304,12 @@ require_once ( WPRSS_INC . 'feed-access.php' );
 
 /* Load the fallbacks for mbstring */
 require_once ( WPRSS_INC . 'fallback-mbstring.php' );
+
+/* Load the polyfill functions file */
+require_once ( WPRSS_INC . 'polyfills.php' );
+
+/* Load the youtube functionality */
+require_once ( WPRSS_INC . 'youtube.php' );
 
 // Initializes licensing
 add_action( 'plugins_loaded', 'wprss_licensing' );

@@ -223,7 +223,15 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         $this->lastInsertedId = $result;
+
+        // Temporarily disable the filter
+        $tFilter = $this->filter;
+        $this->filter = [];
+
         $this->updatePost($result, $data);
+
+        // Restore the filter
+        $this->filter = $tFilter;
     }
 
     /**
@@ -401,6 +409,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     {
         return [
             'post_type' => $this->postType,
+            'post_status' => array_keys(get_post_statuses()),
             'suppress_filters' => true,
             'cache_results' => false,
             'posts_per_page' => -1,

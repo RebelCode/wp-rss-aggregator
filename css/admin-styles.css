@@ -439,10 +439,10 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
     margin: 3px 0;
 }
 
-#wprss-error-log-options label > span {
+#wprss-error-log-options label > span:first-child {
     display: inline-block;
     font-weight: bold;
-    width: 150px;
+    width: 200px;
 }
 
 #wprss-log-options-form input[name="logging_limit_days"] {
@@ -579,8 +579,8 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th {
     overflow: hidden;
 }
 /* ERRORS */
-body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#errors {
-    width: 15px !important;
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#extra {
+    width: 10px !important;
 }
 /* ID */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
@@ -673,6 +673,7 @@ i.wprss-feed-error-symbol {
     font-size: 1.2em;
     vertical-align: middle;
     color: rgb(200,0,0);
+    margin-left: 8px;
 }
 
 i.wprss-updating-feed-icon {
@@ -951,4 +952,25 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 .wpra-changelog-container ul {
     list-style: disc;
     list-style-position: inside;
+}
+
+.wpra_ft_image_option {
+    margin-top: 10px;
+}
+
+#wpra_image_min_size_row {
+    display: none;
+}
+
+/* Spacing between image width and height fields */
+#wpra_image_min_size_row > td > label {
+    margin-right: 10px;
+}
+
+#wprss-feed-def-ft-image-preview {
+    width: 220px;
+}
+
+#wprss-feed-def-ft-image-preview-hint {
+    margin-bottom: 8px;
 }

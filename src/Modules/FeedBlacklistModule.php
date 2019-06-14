@@ -3,10 +3,10 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\FeedBlacklist\SaveBlacklistHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Handlers\FeedBlacklist\SaveBlacklistHandler;
+use RebelCode\Wpra\Core\Handlers\NullHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 
 /**
  * The feed blacklist module for WP RSS Aggregator.

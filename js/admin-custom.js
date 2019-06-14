@@ -593,3 +593,46 @@ if ( !String.prototype.trim ) {
         });
     });
 })(jQuery);
+
+// Image options in feed source edit page
+(function($) {
+    function update() {
+        var ftImage = $('#wpra_ft_image').val();
+        var downloadImages = $('#wpra_download_images').prop('checked') === true;
+        var ftImagesEnabled = (ftImage !== '');
+
+        // Only show the "must have ft image" and "remove ft image" options if featured images are enabled
+        $('#wpra_siphon_ft_image').toggle(ftImagesEnabled);
+        $('#wpra_must_have_ft_image').toggle(ftImagesEnabled);
+
+        // Show the image minimum size options if either featured images or image downloading are enabled
+        $('#wpra_image_min_size_row').toggle(ftImagesEnabled || downloadImages);
+    }
+
+    $(document).ready(function () {
+        var defFtImage = $('#wprss-feed-def-ft-image');
+
+        if (defFtImage.length) {
+            $('#wpra_ft_image').on('change', update);
+            $('#wpra_download_images').on('change', update);
+
+            update();
+
+            var gallery = new WpraGallery({
+                id: 'wpra-feed-def-ft-image',
+                title: "Choose a default featured image",
+                button: "Set default featured image",
+                library: {type: 'image'},
+                multiple: false,
+                elements: {
+                    value: defFtImage,
+                    open: $('#wprss-feed-set-def-ft-image'),
+                    remove: $('#wprss-feed-remove-def-ft-image'),
+                    preview: $('#wprss-feed-def-ft-image-preview'),
+                    previewHint: $('#wprss-feed-def-ft-image-preview-hint'),
+                },
+            });
+        }
+
+    });
+})(jQuery);

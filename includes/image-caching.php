@@ -510,30 +510,36 @@ class WPRSS_Image_Cache {
 			$path = $this->get_unique_filename( $url );
 		}
 
-		if ( !$url )
+		if ( !$url ) {
 			throw new Exception( sprintf( __( 'Invalid URL provided: "%1$s"' ), $url ) );
+		}
 
-		if ( !is_null( $target_path ) )
+		if ( !is_null( $target_path ) ) {
 			$path = $target_path;
+		}
 
-		if ( !is_null( $request_timeout ) )
+		if ( !is_null( $request_timeout ) ) {
 			$timeout = $request_timeout;
+		}
 
 		// Absolute path to the cache file
 		$tmpfname = $image instanceof WPRSS_Image_Cache_Image
 			? $image->get_tmp_dir( $path )
 			: $this->get_tmp_dir( $path );
 
-		//WARNING: The file is not automatically deleted, The script must unlink() the file.
-		$dirname = dirname( $tmpfname );
-		if ( !wp_mkdir_p( $dirname ) )
-			throw new Exception(  sprintf( __( 'Could not create directory: "%1$s". Filename: "%2$s"' ), $dirname, $tmpfname ) );
+		$this->check_is_image($tmpfname, $url);
 
+		// WARNING: The file is not automatically deleted, The script must unlink() the file.
+		$dirname = dirname( $tmpfname );
+		if ( !wp_mkdir_p( $dirname ) ) {
+			throw new Exception(  sprintf( __( 'Could not create directory: "%1$s". Filename: "%2$s"' ), $dirname, $tmpfname ) );
+        }
 
 		// Getting file download lib
 		$file_lib_path = ABSPATH . 'wp-admin/includes/file.php';
-		if ( !is_readable( $file_lib_path ) )
+		if ( !is_readable( $file_lib_path ) ) {
 			throw new Exception( sprintf( __( 'The file library cannot be read from %1$s' ), $file_lib_path ) );
+        }
 
 		require_once( $file_lib_path );
 
@@ -565,6 +571,42 @@ class WPRSS_Image_Cache {
 		return $tmpfname;
 	}
 
+    /**
+     * Checks if a remote resource is an image.
+     *
+     * This method will first check the file type of the locally downloaded copy.
+     * If that fails, the method will attempt to fetch the MIME type from the original remote file.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $path The path to the local file.
+     * @param string $url The URL to the remote file.
+     *
+     * @return bool
+     */
+	public function check_is_image( $path, $url )
+    {
+        // Determine file type (ext and mime/type)
+        $url_type = wp_check_filetype($path);
+
+        // If the wp_check_filetype function fails to determine the MIME type
+        if (empty($url_type['type'])) {
+            $url_type = wpra_check_file_type($path, $url);
+        }
+
+        $mime_type = $url_type['type'];
+        $mime_parts = explode('/', $mime_type);
+
+        if (count($mime_parts) < 1) {
+            return false;
+        }
+
+        if ($mime_parts[0] !== 'image') {
+            return false;
+        }
+
+        return true;
+    }
 
 	/**
 	 * Uses one of the registered hashing functions to hash the given value.
@@ -1305,21 +1347,15 @@ class WPRSS_Image_Cache_Image {
 	 */
 	public function get_size() {
 		if ( !isset( $this->_size ) ) {
-			$error_caption = 'Could not get image size';
 			$path = $this->get_local_path();
 			if ( !$this->is_readable() ) throw new Exception( sprintf( '%1$s: image file is not readable', $path ) );
 
 			// Trying simplest way
-			if ( $size = getimagesize( $path ) )
-				$this->_size = array( 0 => $size[0], 1 => $size[1] );
+			if ( $size = getimagesize( $path ) ) {
+                $this->_size = [0 => $size[0], 1 => $size[1]];
+            }
 
-			wprss_log(
-			    sprintf( 'Tried `getimagesize()`: %1$s', empty($this->_size) ? 'failure' : 'success' ),
-                __METHOD__,
-                WPRSS_LOG_LEVEL_SYSTEM
-            );
-
-			if( !$this->_size && function_exists( 'gd_info' ) ) {
+            if( !$this->_size && function_exists( 'gd_info' ) ) {
 				$image = file_get_contents( $path );
 				$image = imagecreatefromstring( $image );
 

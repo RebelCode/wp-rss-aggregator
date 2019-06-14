@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Feeds\ImportedItemsCollection;
+use RebelCode\Wpra\Core\Entities\Feeds\Items\ImportedItemsCollection;
 
 /**
  * The WP RSS Aggregator importer module.

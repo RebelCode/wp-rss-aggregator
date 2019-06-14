@@ -4,8 +4,8 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
-use RebelCode\Wpra\Core\Modules\Handlers\CustomFeed\RegisterCustomFeedHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\CustomFeed\RenderCustomFeedHandler;
+use RebelCode\Wpra\Core\Handlers\CustomFeed\RegisterCustomFeedHandler;
+use RebelCode\Wpra\Core\Handlers\CustomFeed\RenderCustomFeedHandler;
 
 /**
  * The module for the WP RSS Aggregator custom feed.

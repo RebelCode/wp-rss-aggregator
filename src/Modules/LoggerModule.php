@@ -5,15 +5,15 @@ namespace RebelCode\Wpra\Core\Modules;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Database\NullTable;
 use RebelCode\Wpra\Core\Database\WpdbTable;
+use RebelCode\Wpra\Core\Handlers\Logger\ClearLogHandler;
+use RebelCode\Wpra\Core\Handlers\Logger\DownloadLogHandler;
+use RebelCode\Wpra\Core\Handlers\Logger\RenderLogHandler;
+use RebelCode\Wpra\Core\Handlers\Logger\SaveLogOptionsHandler;
+use RebelCode\Wpra\Core\Handlers\Logger\TruncateLogsCronHandler;
+use RebelCode\Wpra\Core\Handlers\ScheduleCronJobHandler;
 use RebelCode\Wpra\Core\Logger\ConditionalLogger;
 use RebelCode\Wpra\Core\Logger\FeedLoggerDataSet;
 use RebelCode\Wpra\Core\Logger\WpdbLogger;
-use RebelCode\Wpra\Core\Modules\Handlers\Logger\ClearLogHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Logger\DownloadLogHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Logger\RenderLogHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Logger\SaveLogOptionsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\Logger\TruncateLogsCronHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\ScheduleCronJobHandler;
 
 /**
  * A module that adds a logger to WP RSS Aggregator.

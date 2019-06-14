@@ -101,10 +101,10 @@
             'type'  => 'number'
         );
 
-        $wprss_meta_fields[ 'enclosure' ] = array(
-            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
-            'id'    => $prefix . 'enclosure',
-            'type'  => 'checkbox'
+        $wprss_meta_fields[ 'link_to_embed' ] = array(
+            'label' => __( 'Link to embed', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'link_to_embed',
+            'type'  => 'checkbox2'
         );
 
         $wprss_meta_fields[ 'unique_titles' ] = array(
@@ -136,7 +136,7 @@
 		$help = WPRSS_Help::get_instance();
 
         // Use nonce for verification
-        wp_nonce_field( basename( __FILE__ ), 'wprss_meta_box_nonce' );
+        wp_nonce_field( 'wpra_feed_source', 'wprss_meta_box_nonce' );
 
             // Fix for WordpRess SEO JS issue
             ?><input type="hidden" id="content" value="" /><?php
@@ -203,12 +203,30 @@
                             case 'checkbox':
                                 ?>
 								<input type="hidden" name="<?php echo $field['id'] ?>" value="false" />
-                                <input type="checkbox" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="true" <?php checked( $meta, 'true' ) ?> /><?php
+                                <input type="checkbox" name="<?php echo $field['id'] ?>" id="<?php echo $field['id'] ?>" value="true" <?php checked( $meta, 'true' ) ?> />
+                                <?php
                                 echo $help->tooltip( $tooltip_id, $tooltip );
                                 if ( strlen( trim( $field['desc'] ) ) > 0 ) {
                                     ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
                                 }
                             break;
+
+                            // improved checkbox
+                            case 'checkbox2':
+                                ?>
+                                <input type="hidden" name="<?php echo $field['id'] ?>" value="0" />
+                                <input type="checkbox"
+                                       id="<?php echo $field['id'] ?>"
+                                       name="<?php echo $field['id'] ?>"
+                                       value="1"
+                                        <?php checked( $meta, '1' ) ?>
+                                />
+                                <?php
+                                echo $help->tooltip( $tooltip_id, $tooltip );
+                                if ( strlen( trim( $field['desc'] ) ) > 0 ) {
+                                    ?><label for="<?php echo $field['id'] ?>"><span class="description"><?php echo $field_description ?></span></label><?php
+                                }
+                                break;
 
                             // select
                             case 'select':
@@ -302,8 +320,10 @@
         $meta_fields = wprss_get_custom_fields();
 
         /* Verify the nonce before proceeding. */
-        if ( !isset( $_POST['wprss_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['wprss_meta_box_nonce'], basename( __FILE__ ) ) )
+        if ( !isset( $_POST['wprss_meta_box_nonce'] ) ||
+             !wp_verify_nonce( $_POST['wprss_meta_box_nonce'], 'wpra_feed_source' ) ) {
             return $post_id;
+        }
 
         /* Get the post type object. */
         $post_type = get_post_type_object( $post->post_type );
@@ -327,6 +347,17 @@
             return;
         if ( defined( 'DOING_CRON' ) && DOING_CRON )
             return;
+
+        if ( isset($_POST['wpra_feed_def_ft_image']) ) {
+            $def_ft_image_id = $_POST['wpra_feed_def_ft_image'];
+
+            if (empty($def_ft_image_id)) {
+                // Does not actually delete the image
+                delete_post_thumbnail( $post_id );
+            } else {
+                set_post_thumbnail( $post_id, $def_ft_image_id );
+            }
+        }
 
         // Change the limit, if it is zero, to an empty string
         if ( isset( $_POST['wprss_limit'] ) && strval( $_POST['wprss_limit'] ) == '0' ) {
@@ -397,26 +428,30 @@
         if ( ! empty( $feed_url ) ) {
             $feed = wprss_fetch_feed( $feed_url, $post->ID );
             if ( ! is_wp_error( $feed ) ) {
-                $items = $feed->get_items();
+                ob_start();
                 // Figure out how many total items there are
-                $total = $feed->get_item_quantity();
+                $total = @$feed->get_item_quantity();
                 // Get the number of items again, but limit it to 5.
                 $maxitems = $feed->get_item_quantity(5);
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $items = $feed->get_items( 0, $maxitems );
+                ob_clean();
                 ?>
 				<h4><?php echo sprintf( __( 'Latest %1$s feed items out of %2$s available from %3$s' ), $maxitems, $total, get_the_title() ) ?></h4>
                 <ul>
 				<?php
                 foreach ( $items as $item ) {
-                    // Get human date (comment if you want to use non human date)
-                    $has_date = $item->get_date( 'U' ) ? TRUE : FALSE;
+                    $date = $item->get_date( 'U' );
+                    $has_date = $date ? true : false;
+
+                    // Get human date
                     if ( $has_date ) {
-                        $item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
+                        $item_date = human_time_diff( $date, current_time('timestamp')).' '.__( 'ago', 'wprss' );
                     } else {
                         $item_date = '<em>[' . __( 'No Date', WPRSS_TEXT_DOMAIN ) . ']</em>';
                     }
+
                     // Start displaying item content within a <li> tag
                     echo '<li>';
                     // create item link
