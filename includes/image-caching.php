@@ -510,14 +510,17 @@ class WPRSS_Image_Cache {
 			$path = $this->get_unique_filename( $url );
 		}
 
-		if ( !$url )
+		if ( !$url ) {
 			throw new Exception( sprintf( __( 'Invalid URL provided: "%1$s"' ), $url ) );
+		}
 
-		if ( !is_null( $target_path ) )
+		if ( !is_null( $target_path ) ) {
 			$path = $target_path;
+		}
 
-		if ( !is_null( $request_timeout ) )
+		if ( !is_null( $request_timeout ) ) {
 			$timeout = $request_timeout;
+		}
 
 		// Absolute path to the cache file
 		$tmpfname = $image instanceof WPRSS_Image_Cache_Image
@@ -526,14 +529,15 @@ class WPRSS_Image_Cache {
 
 		//WARNING: The file is not automatically deleted, The script must unlink() the file.
 		$dirname = dirname( $tmpfname );
-		if ( !wp_mkdir_p( $dirname ) )
+		if ( !wp_mkdir_p( $dirname ) ) {
 			throw new Exception(  sprintf( __( 'Could not create directory: "%1$s". Filename: "%2$s"' ), $dirname, $tmpfname ) );
-
+        }
 
 		// Getting file download lib
 		$file_lib_path = ABSPATH . 'wp-admin/includes/file.php';
-		if ( !is_readable( $file_lib_path ) )
+		if ( !is_readable( $file_lib_path ) ) {
 			throw new Exception( sprintf( __( 'The file library cannot be read from %1$s' ), $file_lib_path ) );
+        }
 
 		require_once( $file_lib_path );
 
