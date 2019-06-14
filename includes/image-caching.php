@@ -527,7 +527,9 @@ class WPRSS_Image_Cache {
 			? $image->get_tmp_dir( $path )
 			: $this->get_tmp_dir( $path );
 
-		//WARNING: The file is not automatically deleted, The script must unlink() the file.
+		$this->check_is_image($tmpfname, $url);
+
+		// WARNING: The file is not automatically deleted, The script must unlink() the file.
 		$dirname = dirname( $tmpfname );
 		if ( !wp_mkdir_p( $dirname ) ) {
 			throw new Exception(  sprintf( __( 'Could not create directory: "%1$s". Filename: "%2$s"' ), $dirname, $tmpfname ) );
@@ -569,6 +571,42 @@ class WPRSS_Image_Cache {
 		return $tmpfname;
 	}
 
+    /**
+     * Checks if a remote resource is an image.
+     *
+     * This method will first check the file type of the locally downloaded copy.
+     * If that fails, the method will attempt to fetch the MIME type from the original remote file.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $path The path to the local file.
+     * @param string $url The URL to the remote file.
+     *
+     * @return bool
+     */
+	public function check_is_image( $path, $url )
+    {
+        // Determine file type (ext and mime/type)
+        $url_type = wp_check_filetype($path);
+
+        // If the wp_check_filetype function fails to determine the MIME type
+        if (empty($url_type['type'])) {
+            $url_type = wpra_check_file_type($path, $url);
+        }
+
+        $mime_type = $url_type['type'];
+        $mime_parts = explode('/', $mime_type);
+
+        if (count($mime_parts) < 1) {
+            return false;
+        }
+
+        if ($mime_parts[0] !== 'image') {
+            return false;
+        }
+
+        return true;
+    }
 
 	/**
 	 * Uses one of the registered hashing functions to hash the given value.
