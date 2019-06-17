@@ -963,29 +963,29 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 /*
  * The Feed Source List Table styles that mimic the plugins table
  */
-.post-type-wprss_feed table.wp-list-table tbody tr
+.post-type-wprss_feed table.wp-list-table.posts tbody tr
 {
     background: #fff;
 }
 
-.post-type-wprss_feed table.wp-list-table tbody tr th,
-.post-type-wprss_feed table.wp-list-table tbody tr td
+.post-type-wprss_feed table.wp-list-table.posts tbody tr th,
+.post-type-wprss_feed table.wp-list-table.posts tbody tr td
 {
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
 }
 
-.post-type-wprss_feed table.wp-list-table tbody tr.active th.check-column
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.active th.check-column
 {
     border-left: 4px solid #00a0d2;
 }
-.post-type-wprss_feed table.wp-list-table thead td.check-column,
-.post-type-wprss_feed table.wp-list-table tbody tr:not(.active) th.check-column
+.post-type-wprss_feed table.wp-list-table.posts thead td.check-column,
+.post-type-wprss_feed table.wp-list-table.posts tbody tr:not(.active) th.check-column
 {
     padding-left: 7px;
 }
 
-.post-type-wprss_feed table.wp-list-table tbody tr.active th,
-.post-type-wprss_feed table.wp-list-table tbody tr.active td
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.active th,
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.active td
 {
     background-color: #f7fcfe;
 }

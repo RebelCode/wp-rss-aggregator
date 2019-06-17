@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-    jQuery('body.post-type-wprss_feed table.wp-list-table.striped').removeClass('striped');
+    jQuery('body.post-type-wprss_feed table.wp-list-table.posts.striped').removeClass('striped');
 });
 
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
