@@ -524,12 +524,12 @@ function wpra_display_error($error)
             'wprss'
         ) ?>
     </p>
-    <div>
+    <div style="background-color: rgba(0,0,0,.07); padding: 5px;">
         <details>
             <summary style="cursor: pointer;">
                 <?php _e('Click to show error details', 'wprss') ?>
             </summary>
-            <div style="background-color: rgba(0, 0, 0, .07); padding: 5px; border: 1px solid #aaa;">
+            <div style="padding-top: 10px; overflow-x: scroll;">
                 <strong><?php _e('Error Message:', 'wprss'); ?></strong>
                 <br/>
                 <pre><?php echo $error->getMessage(); ?></pre>
