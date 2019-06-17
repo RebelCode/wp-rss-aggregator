@@ -139,9 +139,14 @@
                 $errorShowClass
             );
 
+            $view_items_url = admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . $post_id );
+            $view_items_url = apply_filters( 'wprss_view_feed_items_row_action_link', $view_items_url, $post_id );
             ?>
 				<p>
+                    <a href="<?php echo esc_attr($view_items_url); ?>">
 					<span class="items-imported"><?php echo $items->post_count ?></span>
+                    <?php _e('items', 'wprss') ?>
+                    </a>
 
                     <?php echo $errorIcon; ?>
 
@@ -368,14 +373,6 @@
             if ( get_post_status( $post->ID ) !== 'trash' ) {
                 $trash = $actions['trash'];
                 unset( $actions['trash'] );
-
-                $view_items_link = apply_filters(
-                  'wprss_view_feed_items_row_action_link',
-                  admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . $post->ID ),
-                  $post->ID
-                );
-                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', __( 'View Items', WPRSS_TEXT_DOMAIN ) );
-                $actions['view-items'] = '<a href="' . $view_items_link . '">' . $view_items_text . '</a>';
 
                 $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
                 $actions[ 'fetch' ] = sprintf(
