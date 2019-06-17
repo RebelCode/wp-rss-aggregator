@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Some options were renamed to be consistent across various plugin pages.
 * Improved the wording, description and tooltip of the "Import order" option.
 * Added better error handling during image file creation when using the GD extension.
+* Fixed the responsiveness of the feed sources list table.
 
 ### Fixed
 * An error would occur that prevented the default template from being saved.
