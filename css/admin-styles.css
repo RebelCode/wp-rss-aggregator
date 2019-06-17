@@ -578,32 +578,28 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th {
     text-align: left;
     overflow: hidden;
 }
-/* ERRORS */
-body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#extra {
-    width: 10px !important;
+/* CHECKBOX */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead td#cb {
+    width: 30px !important;
 }
-/* ID */
-body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id {
-    width: 50px !important;
+/* STATE */
+body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
+    width: 70px !important;
 }
 /* NAME */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#title {
-    width: 65% !important;
+    width: auto;
 }
 /* NEXT UPDATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates {
-    width: 220px !important;
+    width: 260px !important;
 }
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts td.column-updates p {
     margin-bottom: 0 !important;
 }
-/* STATE */
-body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state {
-    width: 90px !important;
-}
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
-    width: 140px !important;
+    width: 150px !important;
 }
 /* CATEGORIES */
 body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#category,
@@ -611,35 +607,9 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 130px !important;
 }
 
-/* Hide ".wprss-when-paused" elements when the feed is active */
-.wprss-feed-state-container.wprss-feed-active .wprss-when-paused {
-    display: none;
-}
-/* Hide ".wprss-when-active" elements when the feed is paused */
-.wprss-feed-state-container.wprss-feed-paused .wprss-when-active {
-    display: none;
-}
-
-/* Hide the button's loading icon when the feed state is not loading */
-.wprss-feed-state-container:not(.wprss-feed-state-loading) button.wprss-toggle-feed-state i.wprss-feed-state-loading-icon {
-    display: none;
-}
-/* Show the buttons; normal icon when the feed state is not loading */
-.wprss-feed-state-container:not(.wprss-feed-state-loading) button.wprss-toggle-feed-state i:not(.wprss-feed-state-loading-icon) {
-    display: inline-block;
-}
-
-/* Show the loading icon when the feed state is loading */
-.wprss-feed-state-container.wprss-feed-state-loading button.wprss-toggle-feed-state i.wprss-feed-state-loading-icon {
-    display: inline-block;
-}
-/* Hide the normal icon when the feed state is loading */
-.wprss-feed-state-container.wprss-feed-state-loading button.wprss-toggle-feed-state i:not(.wprss-feed-state-loading-icon) {
-    display: none;
-}
-
 /** FEED SOURCES TABLE RESPONSIVENESS */
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 1200px) {
+    /* HIDE UPDATES COLUMN */
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates,
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-updates,
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-updates {
@@ -654,6 +624,20 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-state,
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-state {
         display: none;
+    }
+}
+@media only screen and (max-width: 782px) {
+    /* WIDEN CHECKBOX COLUMN */
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead td#cb {
+        width: 50px !important;
+    }
+
+    /* HIDE STATE COLUMN */
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#state,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-state,
+    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-state {
+        display: none;
+        padding: 8px 10px;
     }
 }
 
@@ -973,4 +957,113 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 
 #wprss-feed-def-ft-image-preview-hint {
     margin-bottom: 8px;
+}
+
+
+/*
+ * The Feed Source List Table styles that mimic the plugins table
+ */
+.post-type-wprss_feed table.wp-list-table tbody tr
+{
+    background: #fff;
+}
+
+.post-type-wprss_feed table.wp-list-table tbody tr th,
+.post-type-wprss_feed table.wp-list-table tbody tr td
+{
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
+}
+
+.post-type-wprss_feed table.wp-list-table tbody tr.active th.check-column
+{
+    border-left: 4px solid #00a0d2;
+}
+.post-type-wprss_feed table.wp-list-table thead td.check-column,
+.post-type-wprss_feed table.wp-list-table tbody tr:not(.active) th.check-column
+{
+    padding-left: 7px;
+}
+
+.post-type-wprss_feed table.wp-list-table tbody tr.active th,
+.post-type-wprss_feed table.wp-list-table tbody tr.active td
+{
+    background-color: #f7fcfe;
+}
+
+
+/*
+ * Styles for the Feed Source List Table "State" column
+ */
+div.wprss-feed-state-container,
+div.wprss-feed-source-type
+{
+    display: inline-block;
+}
+
+/* the feed type icon */
+div.wprss-feed-source-type {
+    float: right;
+}
+
+.post-type-wprss_feed table.wp-list-table tr div.wprss-feed-source-type {
+    color: #aaa;
+}
+
+.post-type-wprss_feed table.wp-list-table tr.active div.wprss-feed-source-type {
+    color: #00a0d2;
+}
+
+.post-type-wprss_feed table.wp-list-table tbody td.column-state {
+    padding-right: 0;
+}
+
+
+/*
+ * TOGGLE SWITCH
+ */
+.wprss-switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 21px;
+}
+.wprss-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.wprss-switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 34px;
+    background-color: #ccc;
+    transition: .2s;
+    -webkit-transition: .2s;
+}
+.wprss-switch-slider:before {
+    position: absolute;
+    content: "";
+    width: 13px;
+    height: 13px;
+    left: 4px;
+    bottom: 4px;
+    border-radius: 50%;
+    background-color: white;
+    transition: .2s;
+    -webkit-transition: .2s;
+}
+input:checked + .wprss-switch-slider {
+    background-color: #00a0d2;
+}
+input:focus + .wprss-switch-slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .wprss-switch-slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
 }

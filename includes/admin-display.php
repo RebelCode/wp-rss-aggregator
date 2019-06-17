@@ -5,6 +5,20 @@
      * @package WP RSS Aggregator
      */
 
+    // Adds the "active" class to the feed source list table rows, for active feed sources
+    add_filter( 'post_class', function( $classes, $class, $postId ) {
+        $post = get_post($postId);
+
+        if ($post->post_type !== 'wprss_feed') {
+            return $classes;
+        }
+
+        if (wprss_is_feed_source_active($postId)) {
+            $classes[] = 'active';
+        }
+
+        return $classes;
+    }, 10, 3 );
 
     add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns', 20, 1 );
     /**
@@ -16,7 +30,7 @@
 
         $columns = array(
             'cb'          =>  '<input type="checkbox" />',
-            'extra'       =>  '',
+            'state'       =>  __( '', WPRSS_TEXT_DOMAIN ),
             'title'       =>  __( 'Name', WPRSS_TEXT_DOMAIN ),
         );
 
@@ -24,7 +38,6 @@
 
         // Columns to add when feed is not trashed
         if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
-            $columns['state'] = __( 'State', WPRSS_TEXT_DOMAIN );
             $columns['updates'] = __( 'Updates', WPRSS_TEXT_DOMAIN );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), WPRSS_TEXT_DOMAIN );
         }
@@ -42,47 +55,32 @@
     function wprss_show_custom_columns( $column, $post_id ) {
 
       switch ( $column ) {
-        case 'extra':
-            if (wprss_is_feed_youtube($post_id)) {
-                echo '<span class="dashicons dashicons-video-alt3"></span>';
-            } else {
-                echo '<span class="dashicons dashicons-rss"></span>';
-            }
-
-          break;
         case 'state':
-            $active = wprss_is_feed_source_active( $post_id );
-            $class  = ( $active ) ? 'wprss-feed-active' : 'wprss-feed-paused';
-
             ?>
-            <p class="wprss-feed-state-container <?php echo $class ?>">
-                <span class="wprss-indicator-green wprss-when-active" title="<?php _e( 'Active', 'wprss' ) ?>">
-                    <i class="fa fa-circle"></i>
-                </span>
-                <button type="button"
-                        class='button-secondary wprss-when-active wprss-toggle-feed-state'
-                        title="<?php _e( 'Activate this feed source', 'wprss' ) ?>"
-                        name="wprss-feed-id"
-                        value="<?php echo $post_id; ?>">
-                    <i class='fa fa-pause'></i>
-                    <i class='fa fa-spin fa-refresh wprss-feed-state-loading-icon'></i>
-                </button>
+            <div class="wprss-feed-state-container">
+                <label class="wprss-switch">
+                    <input type="checkbox"
+                           class="wprss-toggle-feed-state"
+                           autocomplete="off"
+                           value="<?php echo esc_attr($post_id); ?>"
+                           <?php checked(true, wprss_is_feed_source_active($post_id)) ?>
+                    />
+                    <span class="wprss-switch-slider"></span>
+                </label>
+            </div>
 
-                <span class="wprss-indicator-grey wprss-when-paused" title="<?php _e( 'Paused', 'wprss' ) ?>">
-                    <i class="fa fa-circle"></i>
-                </span>
-                <button type="button"
-                        class='button-secondary wprss-when-paused wprss-toggle-feed-state'
-                        title="<?php _e( 'Pause this feed source', 'wprss' ) ?>"
-                        name="wprss-feed-id"
-                        value="<?php echo $post_id; ?>">
-                    <i class='fa fa-play'></i>
-                    <i class='fa fa-spin fa-refresh wprss-feed-state-loading-icon'></i>
-                </button>
-            </p>
+            <div class="wprss-feed-source-type">
+                <?php
+                if (wprss_is_feed_youtube($post_id)) {
+                    echo '<span class="dashicons dashicons-video-alt3"></span>';
+                } else {
+                    echo '<span class="dashicons dashicons-rss"></span>';
+                }
+                ?>
+            </div>
             <?php
 
-            break;
+          break;
 
         case 'updates':
             // Get the update interval
@@ -170,7 +168,6 @@
             // meta column id => sortby value used in query
             'title'			=> 'title',
 			'updates'		=>	'updates',
-			'state'			=>	'state',
 			'feed-count'	=>	'feed-count'
         );
         return apply_filters( 'wprss_feed_sortable_columns', $sortable_columns );

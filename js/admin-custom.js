@@ -1,3 +1,7 @@
+jQuery(document).ready(function() {
+    jQuery('body.post-type-wprss_feed table.wp-list-table.striped').removeClass('striped');
+});
+
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
 function fetch_items_row_action_callback(e){
     var link = jQuery(this);
@@ -115,14 +119,17 @@ function delete_items_row_action_callback(e){
 
 // jQuery for the feed state toggle buttons
 function toggle_feed_state_ajax_callback(e) {
-    var button = jQuery(this);
-    var parent = button.closest('.wprss-feed-state-container');
+    var checkbox = jQuery(this);
+    var id = checkbox.val();
+    var checked = checkbox.prop('checked') === true;
+    var container = checkbox.closest('.wprss-feed-state-container');
+    var row = checkbox.closest('tr');
 
     var errorFunction = function (response) {
         console.log(response);
     };
 
-    parent.addClass('wprss-feed-state-loading');
+    row.toggleClass('active');
 
     jQuery.ajax({
         url: ajaxurl,
@@ -137,15 +144,9 @@ function toggle_feed_state_ajax_callback(e) {
         success: function( response, status, jqXHR ){
             if (response.is_error) {
                 errorFunction(response.error_message);
-                return;
             }
-
-            parent.toggleClass('wprss-feed-active').toggleClass('wprss-feed-paused');
         },
         error: errorFunction,
-        complete: function () {
-            parent.removeClass('wprss-feed-state-loading');
-        },
         timeout: 60000
     });
 }
@@ -223,7 +224,7 @@ jQuery(window).load( function(){
 
 	jQuery('.wp-list-table').on( 'click', '.wprss_fetch_items_ajax_action', fetch_items_row_action_callback );
     jQuery('.wp-list-table').on( 'click', '.wprss_delete_items_ajax_action', delete_items_row_action_callback );
-    jQuery('.wp-list-table').on( 'click', '.wprss-toggle-feed-state', toggle_feed_state_ajax_callback );
+    jQuery('.wp-list-table').on( 'change', '.wprss-toggle-feed-state', toggle_feed_state_ajax_callback );
 
 	// Make the number rollers change their value to empty string when value is 0, making
 	// them use the placeholder.
