@@ -72,6 +72,11 @@ class RenderCustomFeedHandler
             'site_url' => trailingslashit(get_site_url()),
             'self_url' => trailingslashit(get_feed_link('wprss')),
             'updated_date' => date(DATE_ATOM),
+            'generator' => [
+                'name' => 'WP RSS Aggregator',
+                'url' => 'https://wprssaggregator.com',
+                'version' => WPRSS_VERSION,
+            ],
             'items' => $items,
         ];
 

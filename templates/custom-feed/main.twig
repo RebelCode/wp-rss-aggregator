@@ -6,6 +6,9 @@
     <link href="{{ site_url }}"/>
     <id>{{ site_url }}</id>
     <updated>{{ updated_date }}</updated>
+    <generator uri="{{ generator.url }}" version="{{ generator.version }}">
+        {{ generator.name }}
+    </generator>
 
     {% for item in items %}
         {% include('custom-feed/entry.twig') %}
