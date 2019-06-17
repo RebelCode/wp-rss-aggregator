@@ -99,13 +99,13 @@
 		  	if ( wprss_is_feed_source_active( $post_id ) ) {
 				$next_update_text = $next_update === FALSE ? __( 'None', WPRSS_TEXT_DOMAIN ) : human_time_diff( $next_update, time() );
 			} else {
-				$next_update_text = __( 'Paused', WPRSS_TEXT_DOMAIN );
+				$next_update_text = __( '...', 'wprss' );
 			}
 		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
 
             ?>
 
-            <p>
+            <p class="next-update-container">
                 <?php _e( 'Next update:', WPRSS_TEXT_DOMAIN ) ?>
                 <code class="next-update">
                    	<?php echo $next_update_text; ?>
@@ -115,9 +115,18 @@
             <?php if ( $last_update !== '' ): ?>
               <p class="last-update-container">
                 <?php _e( 'Last updated:', WPRSS_TEXT_DOMAIN ) ?>
-                <code class="last-update"><?php echo sprintf( __( '%1$s ago', WPRSS_TEXT_DOMAIN ), human_time_diff( $last_update, time() ) ) ?></code>
+                <code class="last-update-time">
+                    <?php printf( __( '%1$s ago', 'wprss' ), human_time_diff( $last_update, time() ) ) ?>
+                </code>
                 <?php if ( $last_update_items !== '' ): ?>
-                    <span class="last-update-imported-container"><br/><?php echo sprintf( __( 'Last update imported: <code class="last-update-imported">%1$d</code> items', WPRSS_TEXT_DOMAIN ), $last_update_items ) ?></span>
+                    <span class="last-update-num-items-container"><br/>
+                        <?php
+                        printf(
+                            __( 'Last update imported: %s items', 'wprss' ),
+                            sprintf('<code class="last-update-num-items">%d</code>', $last_update_items)
+                        );
+                        ?>
+                    </span>
                 <?php endif; ?>
               </p>
             <?php endif;

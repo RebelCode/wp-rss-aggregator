@@ -48,13 +48,17 @@ function wprss_feed_source_updates() {
 				}
 				// Set the text appropriately
 				if ( ! wprss_is_feed_source_active( $feed_id ) ) {
-					$feed_source_data['next-update'] = __( 'Paused', WPRSS_TEXT_DOMAIN );
+					$feed_source_data['next-update'] = __( '...', 'wprss' );
 				}
 				elseif( $next_update === FALSE ) {
-					$feed_source_data['next-update'] = __( 'None', WPRSS_TEXT_DOMAIN );
+					$feed_source_data['next-update'] = __( 'None', 'wprss' );
 				}
 				else {
-					$feed_source_data['next-update'] = human_time_diff( $next_update, time() );
+				    $time_diff = absint($next_update - time());
+
+					$feed_source_data['next-update'] = ($time_diff > 1)
+                        ? human_time_diff( $next_update, time() )
+                        : _x('now', 'Next update: now', 'wprss');
 				}
 				// Update the meta field
 				update_post_meta( $feed_id, 'wprss_next_update', $feed_source_data['next-update'] );

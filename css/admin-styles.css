@@ -1017,6 +1017,12 @@ div.wprss-feed-source-type {
     padding-right: 0;
 }
 
+.post-type-wprss_feed table.wp-list-table.posts tbody tr .next-update-container {
+    font-weight: bold;
+}
+.post-type-wprss_feed table.wp-list-table.posts tbody tr:not(.active) .next-update-container {
+    display: none;
+}
 
 /*
  * TOGGLE SWITCH

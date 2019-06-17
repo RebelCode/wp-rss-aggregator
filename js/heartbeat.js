@@ -48,17 +48,13 @@
 			// Update the next update time
 			updatesCol.find('code.next-update').text( feed_source['next-update'] );
 
-			// Update the last update time
-			if ( feed_source['last-update'] == '' )
+			// Update the last update time and item count
+			if ( feed_source['last-update'] == '' ) {
 				updatesCol.find('p.last-update-container').hide();
-			else
-				updatesCol.find('code.last-update').text( feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago );
-
-			// Update the last update items count
-			if ( feed_source['last-update-imported'] == '' )
-				updatesCol.find('span.last-update-imported-container').hide();
-			else
-				updatesCol.find('code.last-update-imported').text( feed_source['last-update-imported'] );
+			} else {
+				updatesCol.find('.last-update-time').text(feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago);
+				updatesCol.find('.last-update-num-items').text( feed_source['last-update-imported'] )
+			}
 
 			// Update the items imported count and the icon
 			var icon = itemsCol.find('i.fa-spin');
