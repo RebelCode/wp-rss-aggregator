@@ -13,7 +13,8 @@ function wprss_feed_source_updates() {
 
 	// Get the wprss heartbeat data and extract the data
 	$wprss_heartbeat = $_POST['wprss_heartbeat'];
-	extract( $wprss_heartbeat );
+	$action = $wprss_heartbeat['action'];
+	$params = $wprss_heartbeat['params'];
 
 	// Perform the action specified by the heartbeat data
 	switch( $action ) {
