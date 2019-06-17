@@ -38,7 +38,7 @@ class WpPluginInfoDataSet extends AbstractDelegateDataSet
     protected function createInnerDataSet($pluginFilePath)
     {
         if (!function_exists('get_plugin_data')) {
-            require_once ABSPATH . WPINC . '/plugin.php';
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
         $inner = new ArrayDataSet(get_plugin_data($pluginFilePath));
