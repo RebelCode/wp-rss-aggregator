@@ -23,6 +23,9 @@
                     <option value="enclosure" {{ feed.import_ft_images == 'enclosure' ? 'selected' : '' }}>
                         {% trans "Enclosure image" %}
                     </option>
+                    <option value="itunes" {{ feed.import_ft_images == 'itunes' ? 'selected' : '' }}>
+                        {% trans "iTunes image" %}
+                    </option>
                     <option value="content" {{ feed.import_ft_images == 'content' ? 'selected' : '' }}>
                         {% trans "First image in content/excerpt" %}
                     </option>

@@ -3,6 +3,10 @@
 // Save item image info during import
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 
+class Wpra_Rss_Namespace {
+    const ITUNES = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
+}
+
 add_action('wprss_items_create_post_meta', 'wpra_detect_item_type', 10, 3);
 add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 11, 3);
 
@@ -104,6 +108,12 @@ function wpra_import_item_images($itemId, $item, $sourceId)
             }
             break;
 
+        case 'itunes':
+            if (is_array($images['itunes']) && !empty($images['itunes'])) {
+                $ftImageUrl = reset($images['itunes']);
+            }
+            break;
+
         default:
             $ftImageUrl = '';
             break;
@@ -154,6 +164,7 @@ function wpra_get_item_images($item)
     $images['media'] = [wpra_get_item_media_thumbnail_image($item)];
     $images['enclosure'] = wpra_get_item_enclosure_images($item);
     $images['content'] = wpra_get_item_content_images($item);
+    $images['itunes'] = wpra_get_item_itunes_images($item);
 
     return $images;
 }
@@ -338,6 +349,35 @@ function wpra_get_item_content_images($item)
 
         // Add to the list
         $images[] = $imageUrl;
+    }
+
+    return $images;
+}
+
+/**
+ * Returns the itunes images for the given feed item.
+ *
+ * @since [*next-version*]
+ *
+ * @param SimplePie_Item $item The feed item
+ *
+ * @return string[] Returns the string URLs of the images found.
+ */
+function wpra_get_item_itunes_images($item)
+{
+    $tags = $item->get_item_tags(Wpra_Rss_Namespace::ITUNES,'image');
+
+    $images = [];
+    foreach ($tags as $tag) {
+        if (empty($tag['attribs']) || empty($tag['attribs'][''])) {
+            continue;
+        }
+
+        $attribs = $tag['attribs'][''];
+
+        if (!empty($attribs['href'])) {
+            $images[] = $attribs['href'];
+        }
     }
 
     return $images;
