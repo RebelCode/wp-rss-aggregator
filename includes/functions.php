@@ -1,9 +1,40 @@
 <?php
+
+use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
+
 /**
  * Helper and misc functions.
  * 
  * @todo Make this part of Core instead
  */
+
+/**
+ * Returns a representation of an HTML expression that matches all representations of that HTML.
+ *
+ * @since [*next-version*]
+ *
+ * @param string      $expr  The expression to encodify.
+ * @param string|null $delim The delimiter of the expression.
+ *
+ * @return string The encodified HTML expression.
+ */
+function wprss_html_regex_encodify($expr, $delim = null)
+{
+    static $instance;
+
+    if ($instance === null) {
+        $instance = new HtmlEncoder();
+    }
+
+    $instance->reset();
+
+    if ($delim !== null) {
+        // Not a bug: the `setDelimiter` method call is handled using magic `__call()`
+        $instance->setDelimiter($delim);
+    }
+
+    return $instance->encodify($expr);
+}
 
 if (!function_exists('wprss_get_namespace')) {
 

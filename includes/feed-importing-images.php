@@ -114,30 +114,69 @@ function wpra_import_item_images($itemId, $item, $sourceId)
             }
             break;
 
+        case 'default':
         default:
             $ftImageUrl = '';
             break;
     }
 
-    if (empty($ftImageUrl) || $ftImageOpt === 'default') {
-        // Get the feed source's default featured image
-        $defaultFtImage = get_post_thumbnail_id($sourceId);
-        // Assign it to the feed item
-        $defaultSuccessful = set_post_thumbnail($itemId, $defaultFtImage);
-        // The feed item is classified as using the default image if:
-        // - the default image was successfully assigned
-        // - the user did NOT explicitly want to use the default
-        $usedDefault = $defaultSuccessful && $ftImageOpt !== 'default';
+    if (empty($ftImageUrl)) {
+        // If not always using the default image, and items must have an image, delete the item
+        if ($ftImageOpt !== 'default' && wpra_image_feature_enabled('must_have_ft_image') && $source['must_have_ft_image']) {
+            $logger->debug('Rejecting item "{title}" due to a lack of a featured image.', [
+                'title' => get_post($itemId)->post_title,
+            ]);
 
-        if ($usedDefault) {
-            update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
-            $logger->notice('Used the feed source\'s default featured image for "{title}"', ['title' => $title]);
+            wp_delete_post($itemId, true);
         } else {
-            $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
+            // Get the feed source's default featured image
+            $defaultFtImage = get_post_thumbnail_id($sourceId);
+            // Assign it to the feed item
+            $defaultSuccessful = set_post_thumbnail($itemId, $defaultFtImage);
+            // The feed item is classified as using the default image if:
+            // - the default image was successfully assigned
+            // - the user did NOT explicitly want to use the default
+            $usedDefault = $defaultSuccessful && $ftImageOpt !== 'default';
+
+            if ($usedDefault) {
+                update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
+                $logger->notice('Used the feed source\'s default featured image for "{title}"', ['title' => $title]);
+            } else {
+                $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
+            }
         }
     } else {
         $logger->info('Set featured image from URL: "{url}"', ['url' => $ftImageUrl]);
         wpra_set_featured_image_from_url($itemId, $ftImageUrl);
+
+        if (wpra_image_feature_enabled('siphon_ft_image') && $source['siphon_ft_image']) {
+            $content = get_post($itemId)->post_content;
+            $newContent = wpra_remove_image_from_content($content, $ftImageUrl);
+
+            wp_update_post([
+                'ID' => $itemId,
+                'post_content' => $newContent
+            ]);
+        }
+    }
+
+    // Maybe download other images and replace the URLs in the item's content
+    if (wpra_image_feature_enabled('download_images') && $source['download_images']) {
+        // Flatten the list of images from a 2d array to a 1d array
+        $imagesList = call_user_func_array('array_merge', $images);
+        // Download the images and attach them to the item
+        $urlMapping = wpra_download_item_images($imagesList, $itemId);
+        // Replace the URLs in the item's content
+        $content = str_replace(
+            array_keys($urlMapping),
+            array_values($urlMapping),
+            get_post($itemId)->post_content
+        );
+        // Update the post content
+        wp_update_post([
+            'ID' => $itemId,
+            'post_content' => $content
+        ]);
     }
 
     // Save the image URLs in meta
@@ -146,6 +185,39 @@ function wpra_import_item_images($itemId, $item, $sourceId)
 
     // Log number of found images
     $logger->info('Found {count} images', ['count' => count($images)]);
+}
+
+/**
+ * Downloads a given list of images and attaches them to an imported item.
+ *
+ * @since [*next-version*]
+ *
+ * @param string[] $images The URLs of the images to download.
+ * @param int $postId The ID of the WordPress post to which the images will be attached.
+ *
+ * @return string[] A mapping of the given URLs pointing to the corresponding local URLs of the downloaded images.
+ */
+function wpra_download_item_images($images, $postId)
+{
+    $mapping = [];
+
+    foreach ($images as $url) {
+        // No need to download
+        if (wpra_is_url_local($url)) {
+            continue;
+        }
+
+        $imageId = wpra_download_item_image($postId, $url);
+
+        // Failed to download
+        if ($imageId === null) {
+            continue;
+        }
+
+        $mapping[$url] = wp_get_attachment_url($imageId);
+    }
+
+    return $mapping;
 }
 
 /**
@@ -194,8 +266,12 @@ function wpra_process_images($images, $source, &$bestImage = null)
     $maxSize = 0;
 
     // The minimum dimensions for an image to be valid
-    $minWidth = (int) apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
-    $minHeight = (int) apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
+    $minWidth = 0;
+    $minHeight = 0;
+    if (wpra_image_feature_enabled('image_min_size')) {
+        $minWidth = (int)apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
+        $minHeight = (int)apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
+    }
 
     foreach ($images as $group => $urls) {
         foreach ($urls as $imageUrl) {
@@ -386,6 +462,82 @@ function wpra_get_item_itunes_images($item)
     return $images;
 }
 
+/**
+ * Removes an image tag, matched by an image URL, from a string of HTML content.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $content The content in which to search for and remove the image.
+ * @param string $url     The URL of the image to remove.
+ * @param int    $limit   Optional number of image occurrences to remove.
+ *
+ * @return string The new content, with any matching `img` HTML tags removed.
+ */
+function wpra_remove_image_from_content($content, $url, $limit = 1)
+{
+    $tag_search = array(
+        '<img[^<>]*?src="%s"[^<>]*?>',
+        '<img[^<>]*?srcset="[^<>]*?%s.[^<>]*?"[^<>]*?>'
+    );
+
+    foreach ($tag_search as $regex) {
+        // This will transform the expression to match images in html-encoded content
+        $regex = wprss_html_regex_encodify($regex);
+        // Prepare the URL to be inserted into the sprintf-style regex string
+        $regexUrl = preg_quote(esc_attr($url), '!');
+        // Insert the URL into the regex string, and add the regex delimiter and modifiers
+        $regex = sprintf($regex, $regexUrl);
+        $regex = sprintf('!%s!Uis', $regex);
+        // Replace the tag with an empty string, and get the new content
+        $content = preg_replace($regex, '', $content, $limit);
+    }
+
+    $filtered = wp_filter_post_kses($content);
+    $trimmed = trim($filtered);
+
+    return $trimmed;
+}
+
+/**
+ * Downloads a feed item image.
+ *
+ * This function will attempt to download the image at the given URL. If the image URL is a local URL, the function
+ * will skip the downloading process. The post ID is required in order to use WordPress side-loading function.
+ *
+ * @since [*next-version*]
+ *
+ * @param int $post_id The ID of the post.
+ * @param string $url The URL of the image.
+ *
+ * @return string|null The ID of the locally downloaded image or null on failure.
+ */
+function wpra_download_item_image($post_id, $url)
+{
+    // Download image if needed
+    if (wpra_is_url_local($url)) {
+        return null;
+    }
+
+    $id = wpra_media_sideload_image($url, $post_id, false);
+
+    if ($id instanceof WP_Error) {
+        return null;
+    }
+
+    return $id;
+}
+
+/**
+ * Sets a featured image to a post, from a URL.
+ *
+ * This function will attempt to download the image at the given URL and then assign it to the post with the given ID.
+ * If the image URL is a local URL, the function will skip the downloading process.
+ *
+ * @since [*next-version*]
+ *
+ * @param int $post_id The ID of the post.
+ * @param string $url The URL of the image.
+ */
 function wpra_set_featured_image_from_url($post_id, $url)
 {
     // Download image if needed
@@ -735,4 +887,21 @@ function wpra_get_attachment_id_from_url( $image_src ) {
     $query = "SELECT ID FROM {$wpdb->posts} WHERE guid='$image_src'";
     $id = $wpdb->get_var($query);
     return $id;
+}
+
+/**
+ * Checks if an images feature is enabled.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $feature The feature name.
+ *
+ * @return bool True if the feature is enabled, false if the feature is disabled.
+ */
+function wpra_image_feature_enabled($feature)
+{
+    $c = wpra_container();
+    $key = 'wpra/images/features/' . $feature;
+
+    return $c->has($key) && $c->get($key) === true;
 }
