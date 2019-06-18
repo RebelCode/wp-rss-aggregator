@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Feed item excerpt is now imported, to be used by templates that can show excerpts.
 * Deleting feed items from the Feed Sources page is now asynchronous.
 * Activating or pausing feed sources from the Feed Sources page is now asynchronous.
+* The imported items count on the Feed Source page can be clicked to show the imported items for that feed.
 * New plugin-wide error handling to prevent site locks and white screens.
 
 ### Changed
@@ -32,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 * Removed old secure reset code.
+* The "View items" link in the Feed Sources page has been removed.
 
 ## [4.13.2] - 2019-05-14
 ### Added
