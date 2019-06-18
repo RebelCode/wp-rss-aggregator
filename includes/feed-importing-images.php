@@ -287,7 +287,7 @@ function wpra_get_item_media_thumbnail_image($item)
 }
 
 /**
- * Returns the enclosure image for the given feed item.
+ * Returns the enclosure images for the given feed item.
  *
  * @since [*next-version*]
  *
@@ -311,7 +311,7 @@ function wpra_get_item_enclosure_images($item)
 }
 
 /**
- * Returns the first image found in the given item's content
+ * Returns the images found in the given item's content
  *
  * @since [*next-version*]
  *
