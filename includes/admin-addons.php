@@ -72,6 +72,27 @@
                 'basename'              => 'wp-rss-full-text-feeds/wp-rss-full-text.php',
                 'url'                   => 'https://www.wprssaggregator.com/extension/full-text-rss-feeds/'
             ),
+            'tmp'                    => array(
+                'title'                 => 'Templates',
+                'description'           => __("Adds a variety of premium templates, allowing you to display your imported feed in grids, sliders, masonry layouts and more, with added features for showing images and short excerpts.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-templates/wp-rss-templates.php',
+                'url'                   => 'https://www.wprssaggregator.com/extension/templates/'
+            ),
+            'kf'                    => array(
+                'title'                 => 'Keyword Filtering',
+                'description'           => __("Filters the feed items to be imported based on your own keywords, key phrases, or tags; you only get the items you're interested in. It is compatible with all other add-ons.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
+                'url'                   => 'https://www.wprssaggregator.com/extension/keyword-filtering/'
+            ),
+            'c'                     => array(
+                'title'                 => 'Categories',
+                'description'           => __("Categorises your feed sources and allows you to display feed items from a particular category within your site using the shortcode parameters.", WPRSS_TEXT_DOMAIN),
+                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
+                'basename'              => 'wp-rss-categories/wp-rss-categories.php',
+                'url'                   => 'https://www.wprssaggregator.com/extension/categories/'
+            ),
             'wai'                   => array(
                 'title'                 => 'WordAi',
                 'description'           => __("An extension for Feed to Post that allows you to integrate the WordAi article spinner so that the imported content is both completely unique and completely readable.", WPRSS_TEXT_DOMAIN),
@@ -85,20 +106,6 @@
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
                 'url'                   => 'https://www.wprssaggregator.com/extension/spinnerchief/'
-            ),
-            'c'                     => array(
-                'title'                 => 'Categories',
-                'description'           => __("Categorises your feed sources and allows you to display feed items from a particular category within your site using the shortcode parameters.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-categories/wp-rss-categories.php',
-                'url'                   => 'https://www.wprssaggregator.com/extension/categories/'
-            ),
-            'kf'                    => array(
-                'title'                 => 'Keyword Filtering',
-                'description'           => __("Filters the feed items to be imported based on your own keywords, key phrases, or tags; you only get the items you're interested in. It is compatible with all other add-ons.", WPRSS_TEXT_DOMAIN),
-                'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
-                'basename'              => 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
-                'url'                   => 'https://www.wprssaggregator.com/extension/keyword-filtering/'
             ),
         ));
     }
