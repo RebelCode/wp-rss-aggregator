@@ -19,7 +19,9 @@ jQuery(document).ready(($) => {
       data: JSON.stringify(params),
       contentType: 'application/json',
     }).done((data) => {
-      $targetEl.replaceWith(data.html)
+      $newEl = $(data.html)
+      $newEl.find('.colorbox').colorbox({iframe:true, width:'80%', height:'80%'})
+      $targetEl.replaceWith($newEl)
     })
   }
 
