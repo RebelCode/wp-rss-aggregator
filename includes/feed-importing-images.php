@@ -206,7 +206,7 @@ function wpra_process_images($images, $source, &$bestImage = null)
 
                 // If larger than the current best image and its aspect ratio is between 1 and 2,
                 // then set this image as the new best image
-                if ($area > $maxSize && $ratio > 1.0 && $ratio < 2.0) {
+                if ($maxSize === 0 || ($area > $maxSize && $ratio > 1.0 && $ratio < 2.0)) {
                     $maxSize = $area;
                     $bestImage = $imageUrl;
                 }
