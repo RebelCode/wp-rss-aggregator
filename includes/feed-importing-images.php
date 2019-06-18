@@ -233,13 +233,16 @@ function wpra_process_images($images, $source, &$bestImage = null)
 
     $finalImages = [];
     foreach ($imageInfos as $group => $infos) {
-        // Sort each group by image size in descending order (largest image first)
-        usort($infos, function ($img1, $img2) {
-            $area1 = $img1[1];
-            $area2 = $img2[1];
+        // Do not sort images found in the content
+        if ($group !== 'content') {
+            // Sort each group by image size in descending order (largest image first)
+            usort($infos, function ($img1, $img2) {
+                $area1 = $img1[1];
+                $area2 = $img2[1];
 
-            return ($area1 >= $area2) ? -1 : 1;
-        });
+                return ($area1 >= $area2) ? -1 : 1;
+            });
+        }
         // Save only the URLs
         $finalImages[$group] = array_map(function ($info) {
             return $info[0];
