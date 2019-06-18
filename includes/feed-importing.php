@@ -29,7 +29,7 @@
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
         $logger = wpra_get_logger($feed_ID);
 
-		$logger->info('Starting import');
+		$logger->info('Starting import of feed {id}', ['id' => $feed_ID]);
 
 		global $wprss_importing_feed;
 		$wprss_importing_feed = $feed_ID;
