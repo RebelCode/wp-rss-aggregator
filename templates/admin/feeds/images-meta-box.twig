@@ -2,7 +2,7 @@
     <tbody>
 
     {# Featured image options #}
-    {% if options.featured_image or options.all %}
+    {% if options.import_ft_images or options.all %}
         <tr>
             <th>
                 <label for="wpra_ft_image">
@@ -27,7 +27,7 @@
                         {% trans "iTunes image" %}
                     </option>
                     <option value="content" {{ feed.import_ft_images == 'content' ? 'selected' : '' }}>
-                        {% trans "First image in content/excerpt" %}
+                        {% trans "Best image in content/excerpt" %}
                     </option>
                     <option value="default" {{ feed.import_ft_images == 'default' ? 'selected' : '' }}>
                         {% trans "Always use default image" %}

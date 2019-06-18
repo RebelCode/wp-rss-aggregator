@@ -48,6 +48,7 @@ use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
 use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
+use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
@@ -385,6 +386,7 @@ function wpra_modules()
         'feed_shortcode' => new FeedShortcodeModule(),
         'feed_templates' => new FeedTemplatesModule(),
         'gutenberg_block' => new GutenbergBlockModule(),
+        'images' => new ImagesModule(),
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),

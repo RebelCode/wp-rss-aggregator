@@ -29,6 +29,54 @@ class ImagesModule implements ModuleInterface
     {
         return [
             /*
+             * The flag that controls whether UI for controlling image importing is enabled or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/ui_enabled' => function (ContainerInterface $c) {
+                return false;
+            },
+            /*
+             * Whether the feature to import featured images is enabled or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/features/import_ft_images' => function () {
+                return true;
+            },
+            /*
+             * Whether the feature to restrict images by size is enabled or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/features/image_min_size' => function () {
+                return true;
+            },
+            /*
+             * Whether the feature to download non-featured images is enabled or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/features/download_images' => function () {
+                return false;
+            },
+            /*
+             * Whether the feature to remove featured images from the content is enabled or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/features/siphon_ft_image' => function () {
+                return false;
+            },
+            /*
+             * Whether the feature to reject items without featured images is enabled or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/features/must_have_ft_image' => function () {
+                return true;
+            },
+            /*
              * The image cache manager instance.
              *
              * @since [*next-version*]
@@ -118,13 +166,15 @@ class ImagesModule implements ModuleInterface
              */
             'wpra/images/feeds/meta_box/template/enabled_options' => function (ContainerInterface $c) {
                 return [
-                    'featured_image' => true,
-                    'image_min_size' => true,
+                    'import_ft_images' => $c->get('wpra/images/features/import_ft_images'),
+                    'image_min_size' => $c->get('wpra/images/features/image_min_size'),
+                    'download_images' => $c->get('wpra/images/features/download_images'),
+                    'siphon_ft_image' => $c->get('wpra/images/features/siphon_ft_image'),
+                    'must_have_ft_image' => $c->get('wpra/images/features/must_have_ft_image'),
                 ];
             },
             /*
-             * The handler that replaces the WordPress featured image meta box with a custom one.
-             * This custom meta box changes the terminology from "Featured image" to "Default Featured Image".
+             * The handler that removes the WordPress featured image meta box.
              *
              * @since [*next-version*]
              */
@@ -139,9 +189,9 @@ class ImagesModule implements ModuleInterface
             'wpra/images/feeds/meta_box/tooltips' => function () {
                 return [
                     'ft_image' => __(
-                        'This option allows you to select which feed item image to use as the featured image. WordPress
-                        requires that featured images exist in the media library, so featured images are always
-                        downloaded by WP RSS Aggregator.',
+                        "This option allows you to select which feed item image to use as the featured image. Automatic best image detection will attempt to find the largest image with the best aspect ratio.
+
+                        WordPress requires that featured images exist in the media library, so WP RSS Aggregator will always download and save featured images.",
                         'wprss'
                     ),
                 ];
@@ -225,26 +275,29 @@ class ImagesModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
-        // The handler that registers the images meta box, if Feed to Post's version is not being used
-        if (!class_exists('WPRSS_FTP_Meta')) {
-            add_action('add_meta_boxes', $c->get('wpra/images/feeds/meta_box/handler/register'));
-        }
-
-        // The handler that renders a custom featured image meta box, for the default featured image
+        // The handler that removes the WordPress featured image meta box
         add_action('add_meta_boxes', $c->get('wpra/images/ft_image/meta_box/handler'));
 
-        // Show the developer images meta box for feed items, if the developer filter is enabled
-        if (apply_filters('wpra_dev_mode', false) === true) {
-            add_action('add_meta_boxes', $c->get('wpra/images/items/dev_meta_box/handler'));
+        // Check if the images UI is enabled
+        if ($c->get('wpra/images/ui_enabled')) {
+            // The handler that registers the images meta box, if Feed to Post's version is not being used
+            if (!class_exists('WPRSS_FTP_Meta')) {
+                add_action('add_meta_boxes', $c->get('wpra/images/feeds/meta_box/handler/register'));
+            }
+
+            // Show the developer images meta box for feed items, if the developer filter is enabled
+            if (apply_filters('wpra_dev_mode', false) === true) {
+                add_action('add_meta_boxes', $c->get('wpra/images/items/dev_meta_box/handler'));
+            }
+
+            // Register the meta box tooltips
+            $tooltips = $c->get('wpra/images/feeds/meta_box/tooltips');
+            add_action('admin_init', function () use ($tooltips) {
+                WPRSS_Help::get_instance()->add_tooltips($tooltips);
+            });
+
+            // The handler that deletes images when the respective imported item is deleted
+            add_action('before_delete_post', $c->get('wpra/images/items/handlers/delete_images'));
         }
-
-        // Register the meta box tooltips
-        $tooltips = $c->get('wpra/images/feeds/meta_box/tooltips');
-        add_action('admin_init', function () use ($tooltips) {
-            WPRSS_Help::get_instance()->add_tooltips($tooltips);
-        });
-
-        // The handler that deletes images when the respective imported item is deleted
-        add_action('before_delete_post', $c->get('wpra/images/items/handlers/delete_images'));
     }
 }
