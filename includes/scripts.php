@@ -29,8 +29,8 @@
         wp_register_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider'), $version );
         wp_localize_script( 'wprss-admin-custom', 'wprss_admin_custom', array(
             'failed_to_import'      =>  __( 'Failed to import', WPRSS_TEXT_DOMAIN ),
-            'items_are_importing'   =>  __( 'Items are being importing!', WPRSS_TEXT_DOMAIN ),
-            'items_are_deleting'    =>  __( 'Items are being deleted!', WPRSS_TEXT_DOMAIN ),
+            'items_are_importing'   =>  __( 'Importing!', WPRSS_TEXT_DOMAIN ),
+            'items_are_deleting'    =>  __( 'Deleting!', WPRSS_TEXT_DOMAIN ),
             'please_wait'           =>  __( 'Please wait ...', WPRSS_TEXT_DOMAIN ),
             'bulk_add'              =>  __( 'Bulk Add', WPRSS_TEXT_DOMAIN ),
             'ok'                    =>  __( 'OK', WPRSS_TEXT_DOMAIN ),
