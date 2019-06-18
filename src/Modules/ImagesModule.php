@@ -42,7 +42,7 @@ class ImagesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/images/features/import_ft_images' => function () {
-                return true;
+                return false;
             },
             /*
              * Whether the feature to restrict images by size is enabled or not.
@@ -50,7 +50,7 @@ class ImagesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/images/features/image_min_size' => function () {
-                return true;
+                return false;
             },
             /*
              * Whether the feature to download non-featured images is enabled or not.
@@ -74,7 +74,7 @@ class ImagesModule implements ModuleInterface
              * @since [*next-version*]
              */
             'wpra/images/features/must_have_ft_image' => function () {
-                return true;
+                return false;
             },
             /*
              * The image cache manager instance.
