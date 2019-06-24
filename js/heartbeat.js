@@ -54,6 +54,7 @@
 			} else {
 				updatesCol.find('.last-update-time').text(feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago);
 				updatesCol.find('.last-update-num-items').text( feed_source['last-update-imported'] )
+				updatesCol.find('p.last-update-container').show();
 			}
 
 			// Update the items imported count and the icon
