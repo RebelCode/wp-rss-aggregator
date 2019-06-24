@@ -98,17 +98,8 @@
 
 			// Gather the permalinks of existing feed item's related to this feed source
 			$existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
-
-			// Check if we should only import uniquely-titled feed items.
-			$existing_titles = array();
-			$unique_titles = FALSE;
-			if ( wprss_get_general_setting( 'unique_titles' ) ) {
-				$unique_titles = TRUE;
-				$existing_titles = wprss_get_existing_titles( );
-			} else if ( get_post_meta( $feed_ID, 'wprss_unique_titles', true ) === 'true' ) {
-				$unique_titles = TRUE;
-				$existing_titles = wprss_get_existing_titles( $feed_ID );
-			}
+			// Gather the titles of the items that are imported
+			$existing_titles = [];
 
 			// Generate a list of items fetched, that are not already in the DB
 			$new_items = array();
@@ -121,25 +112,31 @@
 				// Check if not blacklisted and not already imported
 				$is_blacklisted = wprss_is_blacklisted( $permalink );
 				$permalink_exists = array_key_exists( $permalink, $existing_permalinks );
-				$title_exists = array_key_exists( $item->get_title(), $existing_titles );
+				$title_exists_db = wprss_item_title_exists( $item->get_title() );
+                $title_exists_feed = array_key_exists($item_title, $existing_titles);
+                $title_exists = $title_exists_db || $title_exists_feed;
 
-				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
-					$new_items[] = $item;
+                $existing_titles[$item_title] = 1;
 
-					if ( $unique_titles ) {
-						$existing_titles[$item->get_title()] = 1;
-					}
-				} else {
-					if ( $is_blacklisted ) {
-					    $logger->debug('Item "{0}" is blacklisted', [$item_title]);
-					}
-					if ( $permalink_exists ) {
-                        $logger->debug('Item "{0}" already exists in the database', [$item_title]);
-					}
-					if ( $title_exists ) {
-                        $logger->debug('An item with the title "{0}" already exists', [$item_title]);
-					}
-				}
+                if ($is_blacklisted) {
+                    $logger->debug('Item "{0}" is blacklisted', [$item_title]);
+
+                    continue;
+                }
+
+                if ($permalink_exists) {
+                    $logger->debug('Item "{0}" already exists in the database', [$item_title]);
+
+                    continue;
+                }
+
+                if ($title_exists) {
+                    $logger->debug('An item with the title "{0}" already exists', [$item_title]);
+
+                    continue;
+                }
+
+                $new_items[] = $item;
 			}
 
 			$original_count = count( $items_to_insert );

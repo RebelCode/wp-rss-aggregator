@@ -134,6 +134,27 @@
         return @array_flip($cols);
     }
 
+    /**
+     * Checks if an item title exists in the database.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $title The title to search for.
+     *
+     * @return bool True if the title exists, false if not.
+     */
+    function wprss_item_title_exists( $title ) {
+        global $wpdb;
+
+        $cols = $wpdb->get_col("
+            SELECT *
+            FROM `{$wpdb->posts}` AS p
+            JOIN `{$wpdb->postmeta}` AS q ON p.`ID` = q.`post_id`
+            WHERE q.`meta_key` = 'wprss_feed_id' AND p.`post_title` = '$title'
+        ");
+
+        return count($cols) > 0;
+    }
 
     /**
      * Database query to get existing titles

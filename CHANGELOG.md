@@ -24,11 +24,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Improved the wording, description and tooltip of the "Import order" option.
 * Added better error handling during image file creation when using the GD extension.
 * Fixed the responsiveness of the feed sources list table.
+* Rewrote the unique title checking logic.
 
 ### Fixed
 * An error would occur that prevented the default template from being saved.
 * The age limit setting was incorrectly being copied to feed sources.
 * Non image files are no longer wrongly downloaded, caching and treated as images.
+* The unique titles option caused a PHP warning when enabled.
 * Fixed use of previously cached version scripts and styles for the Templates page.
 
 ### Removed
