@@ -218,8 +218,10 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
             ],
             'links_nofollow' => [
                 'key' => 'options/links_rel_nofollow',
-                'filter' => FILTER_VALIDATE_BOOLEAN,
-                'default' => false,
+                'filter' => function ($val) {
+                    return $val === 'no_follow' || filter_var($val, FILTER_VALIDATE_BOOLEAN);
+                },
+                'default' => true,
             ],
             'links_video_embed_page' => [
                 'key' => 'options/links_video_embed_page',
