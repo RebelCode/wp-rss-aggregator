@@ -12,18 +12,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * New option to set the log age, in days, for daily truncation.
 * Image URLs are detected and saved in feed item meta, to be used by templates that can show images.
 * Feed item excerpt is now imported, to be used by templates that can show excerpts.
-* Deleting feed items from the Feed Sources page is now asynchronous.
 * Activating or pausing feed sources from the Feed Sources page is now asynchronous.
-* The imported items count on the Feed Source page can be clicked to show the imported items for that feed.
+* Deleting feed items from the Feed Sources page is now asynchronous.
 * New plugin-wide error handling to prevent site locks and white screens.
 
 ### Changed
-* Converted log section in the debugging page to use the new module system.
+* Redesigned the feed sources page.
 * The custom feed now uses the Atom 1.0 standard.
+* Improved the responsive styling of the feed sources list table.
+* Converted log section in the debugging page to use the new module system.
 * Some options were renamed to be consistent across various plugin pages.
 * Improved the wording, description and tooltip of the "Import order" option.
 * Added better error handling during image file creation when using the GD extension.
-* Fixed the responsiveness of the feed sources list table.
 * Rewrote the unique title checking logic.
 
 ### Fixed
