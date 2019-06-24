@@ -278,9 +278,10 @@ export default {
                 />
                 <Input type="number"
                        label={'Number of items to show'}
-                       value={this.model.options.limit || ''}
-                       onInput={(e) => this.model.options.limit = e}
+                       value={this.model.options.limit || 0}
+                       onInput={(e) => this.model.options.limit = (e === '') ? 0 : e}
                        title={this.tooltips.options.limit}
+                       min="0"
                 />
 
                 <div id={'wpra-list-template-publish-date'} style={{paddingTop: '10px'}}>
@@ -363,13 +364,14 @@ export default {
                          onInput={(e) => this.model.options.pagination = e}
                          style={{fontWeight: 'bold'}}
                          title={this.tooltips.options.pagination}
+                         disabled={parseInt(this.model.options.limit) < 1}
                   />
                   <Input type="select"
                          label={'Pagination style'}
                          options={WpraTemplates.options.pagination_type}
                          value={this.model.options.pagination_type}
                          onInput={(e) => this.model.options.pagination_type = e}
-                         disabled={!this.model.options.pagination}
+                         disabled={!this.model.options.pagination || parseInt(this.model.options.limit) < 1}
                          title={this.tooltips.options.pagination_type}
                   />
                 </div>

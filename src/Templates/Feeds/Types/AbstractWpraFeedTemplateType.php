@@ -131,7 +131,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
         $items = $items->filter($stdOpts['pagination']);
         // Calculate the total number of pages and items per page
         $perPage = empty($stdOpts['pagination']['num_items']) ? 0 : $stdOpts['pagination']['num_items'];
-        $numPages = $perPage ? ceil($count / $perPage) : 0;
+        $numPages = ($perPage > 0) ? ceil($count / $perPage) : 1;
         $page = empty($stdOpts['pagination']['page']) ? 1 : $stdOpts['pagination']['page'];
 
         // Parse the template-type's own options
