@@ -592,14 +592,14 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#title {
 }
 /* NEXT UPDATE */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates {
-    width: 260px !important;
+    width: 300px !important;
 }
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts td.column-updates p {
     margin-bottom: 0 !important;
 }
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
-    width: 180px !important;
+    width: 150px !important;
 }
 /* CATEGORIES */
 body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#category,
@@ -1016,7 +1016,7 @@ div.wprss-feed-source-type {
 }
 
 /* The last update time in the feed sources page table */
-.post-type-wprss_feed table.wp-list-table.posts .last-update-time-container {
+.post-type-wprss_feed table.wp-list-table.posts .last-update-num-items-container {
     color: #666;
     font-style: italic;
     font-size: 90%;

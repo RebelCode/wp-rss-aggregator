@@ -116,13 +116,13 @@
             <p class="last-update-container"
                style="display: <?php echo empty($timeago) ? 'none' : 'inline-block'; ?>">
                 <span class="last-update-num-items-container">
-                    <?php echo _x( 'Imported', 'Example: "Imported: 15 items"', 'wprss' ); ?>
-                    <code><span class="last-update-num-items"><?php echo $last_update_items ?></span>
-                        <?php echo _x('items', 'Example: "15 items"', 'wprss'); ?></code>
-
+                    <?php echo _x( 'Updated', 'Example: "Updated 2 days ago"', 'wprss' ); ?>
                     <span class="last-update-time-container">
-                        (<span class="last-update-time"><?php printf(__('%1$s ago', 'wprss'), $timeago) ?></span>)
+                        <code class="last-update-time"><?php printf(__('%1$s ago', 'wprss'), $timeago) ?></code>
                     </span>
+                    (<span class="last-update-num-items"><?php echo
+                        $last_update_items ?></span>
+                    <?php echo _x('items', 'Example: "15 new"', 'wprss'); ?>)
                 </span>
             </p>
 
