@@ -443,7 +443,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         if ($key === 'num_items') {
-            $queryArgs['posts_per_page'] = $value;
+            $queryArgs['posts_per_page'] = (!$value) ? -1 : $value;
 
             return true;
         }
