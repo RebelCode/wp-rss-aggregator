@@ -599,7 +599,7 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts td.column-updates p
 }
 /* FEED COUNT */
 body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#feed-count {
-    width: 150px !important;
+    width: 180px !important;
 }
 /* CATEGORIES */
 body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#category,
@@ -607,15 +607,6 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 130px !important;
 }
 
-/** FEED SOURCES TABLE RESPONSIVENESS */
-@media screen and (max-width: 1200px) {
-    /* HIDE UPDATES COLUMN */
-    body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#updates,
-    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-updates,
-    body.post-type-wprss_feed.edit-php table.wp-list-table.posts tbody td.column-updates {
-        display: none;
-    }
-}
 @media screen and (max-width: 660px) {
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id,
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-id,
