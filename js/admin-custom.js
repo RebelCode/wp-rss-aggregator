@@ -48,7 +48,7 @@ function fetch_items_row_action_callback(e){
             }
 
             displayResultMessage(wprss_admin_custom.items_are_importing);
-            jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
+            jQuery('table.wp-list-table tbody tr.post-' + id).addClass('wpra-feed-is-updating');
         },
         error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute
@@ -106,7 +106,7 @@ function delete_items_row_action_callback(e){
             }
 
             displayResultMessage(wprss_admin_custom.items_are_deleting);
-            jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
+            jQuery('table.wp-list-table tbody tr.post-' + id).addClass('wpra-feed-is-updating');
         },
         error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute

@@ -155,8 +155,6 @@
                     <?php _e('items', 'wprss') ?>
                 </a>
 
-                <i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
-
                 <?php echo $errorIcon; ?>
 
                 <div class="row-actions">

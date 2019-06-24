@@ -53,17 +53,18 @@
 				updatesCol.find('p.last-update-container').hide();
 			} else {
 				updatesCol.find('.last-update-time').text(feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago);
-				updatesCol.find('.last-update-num-items').text( feed_source['last-update-imported'] )
+				updatesCol.find('.last-update-num-items').text( feed_source['last-update-imported'] );
 				updatesCol.find('p.last-update-container').show();
 			}
 
 			// Update the items imported count and the icon
-			var icon = itemsCol.find('i.fa-spin');
 			var itemCount = itemsCol.find('span.items-imported');
 
 			// Update the count and the icon appropriately
 			itemCount.text( feed_source['items'] );
-			icon.toggleClass( 'wprss-show', feed_source['updating'] );
+
+			// Toggle the row's updating class
+			row.toggleClass('wpra-feed-is-updating', !!feed_source['updating']);
 
 			// Toggle the "has imported items" class depending on the number of imported items
 			itemsCol.find('.items-imported-link').toggleClass('has-imported-items', feed_source['items'] > 0);

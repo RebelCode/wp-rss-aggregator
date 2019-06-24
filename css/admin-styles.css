@@ -981,6 +981,30 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     background-color: #f7fcfe;
 }
 
+/* Feed updating animation in feed sources table */
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating {
+    background-image: linear-gradient(-45deg, rgba(30, 30, 30, 0.05) 25%, transparent 0, transparent 50%, rgba(50, 50, 50, 0.05) 50%, rgba(30, 30, 30, 0.05) 75%, transparent 0, #0000);
+    animation: wpra-feed-is-updating 1.5s linear infinite;
+    background-size: 80px 80px;
+}
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating td,
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating th {
+    background: transparent !important;
+}
+@keyframes wpra-feed-is-updating {
+    0% {
+        background-position: 0 0;
+        background-color: #f7fcfe;
+    }
+    50% {
+        background-position: 40px 40px;
+        background-color: #eaf6ff;
+    }
+    100% {
+        background-position: 80px 80px;
+        background-color: #f7fcfe;
+    }
+}
 
 /*
  * Styles for the Feed Source List Table "State" column
