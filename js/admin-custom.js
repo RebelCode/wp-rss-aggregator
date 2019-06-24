@@ -5,7 +5,7 @@ jQuery(document).ready(function() {
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
 function fetch_items_row_action_callback(e){
     var link = jQuery(this);
-    var original_text = link.text();
+    var original_text = link.html();
     var id = link.attr('pid');
     var url = link.attr('purl');
 
@@ -19,7 +19,7 @@ function fetch_items_row_action_callback(e){
             link.addClass(className);
 
         setTimeout(function(){
-            link.text(original_text);
+            link.html(original_text);
             link.removeAttr('disabled');
             if (className)
                 link.removeClass(className);
