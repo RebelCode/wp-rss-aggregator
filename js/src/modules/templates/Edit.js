@@ -447,7 +447,7 @@ export default {
                 />
                   {
                       (this.model.options.links_behavior === 'lightbox' )?
-                          <div class="notice notice-warning notice-alt">
+                          <div class="notice notice-info notice-alt">
                             <p>
                               Some sites may not allow their content to be shown in a lightbox.
                               {' '}
