@@ -67,14 +67,14 @@
             ),
             'ftr'                   => array(
                 'title'                 => 'Full Text RSS Feeds',
-                'description'           => __("Adds connectivity to our premium full text service, which allows you to import the full post content for an unlimited number of feed items per feed source, even when the feed itself doesn't provide it", WPRSS_TEXT_DOMAIN),
+                'description'           => __("An extension for Feed to Post that adds connectivity to our premium full text service, which allows you to import the full post content for an unlimited number of feed items per feed source, even when the feed itself doesn't provide it", WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-full-text-feeds/wp-rss-full-text.php',
                 'url'                   => 'https://www.wprssaggregator.com/extension/full-text-rss-feeds/'
             ),
             'tmp'                    => array(
                 'title'                 => 'Templates',
-                'description'           => __("Adds a variety of premium templates, allowing you to display your imported feed in grids, sliders, masonry layouts and more, with added features for showing images and short excerpts.", WPRSS_TEXT_DOMAIN),
+                'description'           => __('Premium templates to display images and excerpts in various ways. It includes a fully customisable grid template and a list template that includes excerpts & thumbnails, both of which will spruce up your site!', WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-templates/wp-rss-templates.php',
                 'url'                   => 'https://www.wprssaggregator.com/extension/templates/'
@@ -87,7 +87,7 @@
                 'url'                   => 'https://www.wprssaggregator.com/extension/keyword-filtering/'
             ),
             'c'                     => array(
-                'title'                 => 'Categories',
+                'title'                 => 'Source Categories',
                 'description'           => __("Categorises your feed sources and allows you to display feed items from a particular category within your site using the shortcode parameters.", WPRSS_TEXT_DOMAIN),
                 'thumbnail'             => WPRSS_IMG . 'add-ons/wprss.jpg',
                 'basename'              => 'wp-rss-categories/wp-rss-categories.php',
