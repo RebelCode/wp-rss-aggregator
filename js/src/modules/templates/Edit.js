@@ -278,9 +278,10 @@ export default {
                 />
                 <Input type="number"
                        label={'Number of items to show'}
-                       value={this.model.options.limit || 0}
+                       value={this.model.options.limit || ''}
                        onInput={(e) => this.model.options.limit = (e === '') ? 0 : e}
                        title={this.tooltips.options.limit}
+                       placeholder={"Show all items"}
                        min="0"
                 />
 
@@ -364,14 +365,14 @@ export default {
                          onInput={(e) => this.model.options.pagination = e}
                          style={{fontWeight: 'bold'}}
                          title={this.tooltips.options.pagination}
-                         disabled={parseInt(this.model.options.limit) < 1}
+                         disabled={parseInt(this.model.options.limit) < 1 || !this.model.options.limit}
                   />
                   <Input type="select"
                          label={'Pagination style'}
                          options={WpraTemplates.options.pagination_type}
                          value={this.model.options.pagination_type}
                          onInput={(e) => this.model.options.pagination_type = e}
-                         disabled={!this.model.options.pagination || parseInt(this.model.options.limit) < 1}
+                         disabled={!this.model.options.pagination || parseInt(this.model.options.limit) < 1 || !this.model.options.limit}
                          title={this.tooltips.options.pagination_type}
                   />
                 </div>
