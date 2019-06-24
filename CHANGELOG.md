@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Non image files are no longer wrongly downloaded, caching and treated as images.
 * The unique titles option caused a PHP warning when enabled.
 * Fixed use of previously cached version scripts and styles for the Templates page.
+* Fixed pagination not working correctly when no item limit is set.
+* Fixed the "Set links as no follow" option not having any effect.
 
 ### Removed
 * Removed old secure reset code.
