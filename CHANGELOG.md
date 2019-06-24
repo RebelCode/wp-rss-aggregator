@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed use of previously cached version scripts and styles for the Templates page.
 * Fixed pagination not working correctly when no item limit is set.
 * Fixed the "Set links as no follow" option not having any effect.
+* An empty limit for the number of items in a template silently defaults to 5 items.
 
 ### Removed
 * Removed old secure reset code.
