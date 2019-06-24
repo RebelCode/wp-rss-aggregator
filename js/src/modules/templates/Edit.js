@@ -445,6 +445,20 @@ export default {
                        onInput={(e) => this.model.options.links_behavior = e}
                        title={this.tooltips.options.links_behavior}
                 />
+                  {
+                      (this.model.options.links_behavior === 'lightbox' )?
+                          <div class="notice notice-warning notice-alt">
+                            <p>
+                              Some sites may not allow their content to be shown in a lightbox.
+                              {' '}
+                              <a href="https://kb.wprssaggregator.com/article/471-q-why-wont-some-of-my-feed-items-work-with-the-lightbox-link-behaviour-for-templates"
+                                 target="_blank">
+                                {'Learn more'}
+                              </a>
+                            </p>
+                          </div>
+                          : null
+                  }
                 <Input type="select"
                        label={'Video embed link type'}
                        description={'This will not affect already imported feed items.'}
