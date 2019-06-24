@@ -1015,6 +1015,29 @@ div.wprss-feed-source-type {
     display: none;
 }
 
+/* The last update time in the feed sources page table */
+.post-type-wprss_feed table.wp-list-table.posts .last-update-time-container {
+    color: #666;
+    font-style: italic;
+    font-size: 90%;
+}
+
+/* The imported items link in the feed sources page - disabled when 0 items */
+.post-type-wprss_feed table.wp-list-table.posts .items-imported-link.has-imported-items {
+    font-weight: bold;
+}
+.post-type-wprss_feed table.wp-list-table.posts .items-imported-link:not(.has-imported-items) {
+    color: #777;
+    font-style: italic;
+    pointer-events: none;
+}
+
+/* The delete items row action in the feed sources page - hidden when 0 items */
+.post-type-wprss_feed table.wp-list-table.posts .row-actions .purge-posts:not(.has-imported-items) {
+    display: none;
+}
+
+
 /*
  * TOGGLE SWITCH
  */

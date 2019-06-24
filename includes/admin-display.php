@@ -103,38 +103,35 @@
 			}
 		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
 
+            $timeago = empty($last_update) ? '' : human_time_diff( $last_update, time() );
             ?>
 
-            <p class="next-update-container">
-                <?php _e( 'Next update:', WPRSS_TEXT_DOMAIN ) ?>
+            <span class="next-update-container">
+                <?php _e( 'Next update in', WPRSS_TEXT_DOMAIN ) ?>
                 <code class="next-update">
                    	<?php echo $next_update_text; ?>
                 </code>
+            </span>
+
+            <p class="last-update-container"
+               style="display: <?php echo empty($timeago) ? 'none' : 'inline-block'; ?>">
+                <span class="last-update-num-items-container">
+                    <?php echo _x( 'Imported', 'Example: "Imported: 15 items"', 'wprss' ); ?>
+                    <code><span class="last-update-num-items"><?php echo $last_update_items ?></span>
+                        <?php echo _x('items', 'Example: "15 items"', 'wprss'); ?></code>
+
+                    <span class="last-update-time-container">
+                        (<span class="last-update-time"><?php printf(__('%1$s ago', 'wprss'), $timeago) ?></span>)
+                    </span>
+                </span>
             </p>
 
-            <?php if ( $last_update !== '' ): ?>
-              <p class="last-update-container">
-                <?php _e( 'Last updated:', WPRSS_TEXT_DOMAIN ) ?>
-                <code class="last-update-time">
-                    <?php printf( __( '%1$s ago', 'wprss' ), human_time_diff( $last_update, time() ) ) ?>
-                </code>
-                <?php if ( $last_update_items !== '' ): ?>
-                    <span class="last-update-num-items-container"><br/>
-                        <?php
-                        printf(
-                            __( 'Last update imported: %s items', 'wprss' ),
-                            sprintf('<code class="last-update-num-items">%d</code>', $last_update_items)
-                        );
-                        ?>
-                    </span>
-                <?php endif; ?>
-              </p>
-            <?php endif;
-
+            <?php
             break;
 
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
+            $has_items_class = ($items->post_count > 0) ? 'has-imported-items' : '';
             $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
             $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
@@ -151,16 +148,36 @@
             $view_items_url = admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . $post_id );
             $view_items_url = apply_filters( 'wprss_view_feed_items_row_action_link', $view_items_url, $post_id );
             ?>
-				<p>
-                    <a href="<?php echo esc_attr($view_items_url); ?>">
-					<span class="items-imported"><?php echo $items->post_count ?></span>
+                <a href="<?php echo esc_attr($view_items_url); ?>"
+                   class="items-imported-link <?php echo $has_items_class; ?>"
+                >
+                    <span class="items-imported"><?php echo $items->post_count ?></span>
                     <?php _e('items', 'wprss') ?>
-                    </a>
+                </a>
 
-                    <?php echo $errorIcon; ?>
+                <i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
 
-					<i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
-				</p>
+                <?php echo $errorIcon; ?>
+
+                <div class="row-actions">
+                    <span class="fetch">
+                        <a href="javascript:;"
+                           class="wprss_fetch_items_ajax_action"
+                           pid="<?php echo esc_attr ($post_id); ?>"
+                           purl="<?php echo admin_url('admin-ajax.php'); ?>">
+                            <?php _e('Fetch', 'wprss'); ?>
+                        </a>
+                    </span>
+                    <span class="purge-posts trash <?php echo $has_items_class; ?>">
+                        |
+                        <a href="javascript:;"
+                           class="wprss_delete_items_ajax_action"
+                           pid="<?php echo esc_attr ($post_id); ?>"
+                           purl="<?php echo admin_url('admin-ajax.php'); ?>">
+                            <?php _e('Delete', 'wprss'); ?>
+                        </a>
+                    </span>
+                </div>
 			<?php
 
 		  	// Set meta field for items imported
@@ -379,30 +396,6 @@
 
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
-            if ( get_post_status( $post->ID ) !== 'trash' ) {
-                $trash = $actions['trash'];
-                unset( $actions['trash'] );
-
-                $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
-                $actions[ 'fetch' ] = sprintf(
-                    '<a href="javascript:;" class="wprss_fetch_items_ajax_action" pid="%s" purl="%s">%s</a>',
-                    $post->ID,
-                    admin_url('admin-ajax.php'),
-                    $fetch_items_row_action_text
-                );
-
-                $purge_items_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', 'wprss' ) );
-                $purge_items_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', 'wprss' ) );
-                $actions['purge-posts'] = sprintf(
-                    '<a href="javascript:;" class="wprss_delete_items_ajax_action" pid="%s" purl="%s" title="%s">%s</a>',
-                    $post->ID,
-                    admin_url('admin-ajax.php'),
-                    $purge_items_row_action_title,
-                    $purge_items_row_action_text
-                );
-
-                $actions['trash'] = $trash;
-            }
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
     }
