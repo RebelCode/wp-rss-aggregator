@@ -475,7 +475,7 @@
 		$diff = time() - $is_deleting_meta;
 
         $items = wprss_get_feed_items_for_source( $id );
-        if ( $items->post_count == 0 || $diff > 300 ) {
+        if ( $items->post_count === 0 || $diff > 300 ) {
             delete_post_meta( $id, 'wprss_feed_is_deleting_items' );
             return FALSE;
         }

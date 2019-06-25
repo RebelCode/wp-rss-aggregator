@@ -404,8 +404,8 @@
     /**
      * Deletes the feed items of the feed source identified by the given ID.
      *
-     * @param $source_id The ID of the feed source
      * @since 3.5
+     * @param int $source_id The ID of the feed source
      */
     function wprss_delete_feed_items_of_feed_source( $source_id ) {
         $force_delete = apply_filters( 'wprss_force_delete_when_by_source', TRUE );
@@ -431,6 +431,8 @@
             $query->the_post();
             wp_delete_post( get_the_ID(), $force_delete );
         }
+
+        delete_post_meta($source_id, 'wprss_feed_is_deleting_items');
     }
 
 
