@@ -30,8 +30,12 @@ function wprss_feed_source_updates() {
 				$feed_source_data = &$feed_sources_data[$feed_id];
 
 				// Check if the feed source is updating
-				$seconds_for_next_update = wprss_get_next_feed_source_update( $feed_id ) - time();
-				$feed_source_data['updating'] = ( $seconds_for_next_update < 2 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_updating( $feed_id ) || wprss_is_feed_source_deleting( $feed_id );
+				$next_fetch = wprss_get_next_feed_source_update($feed_id);
+                $fetches_soon = $next_fetch !== false && $next_fetch < 2 && $next_fetch > 0;
+				$is_fetching = wprss_is_feed_source_updating($feed_id);
+                $is_deleting = wprss_is_feed_source_deleting($feed_id);
+                $feed_source_data['fetching'] = $fetches_soon || $is_fetching;
+                $feed_source_data['deleting'] = $is_deleting;
 
 				// Add the number of imported items
 				$items = wprss_get_feed_items_for_source( $feed_id );

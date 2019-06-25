@@ -63,8 +63,23 @@
 			// Update the count and the icon appropriately
 			itemCount.text( feed_source['items'] );
 
-			// Toggle the row's updating class
-			row.toggleClass('wpra-feed-is-updating', !!feed_source['updating']);
+			// Toggle the row's updating class - the check ignores false negatives
+			if (row.hasClass('wpra-manual-update')) {
+				row.removeClass('wpra-manual-update');
+			} else {
+				row.toggleClass('wpra-feed-is-updating', !!feed_source['fetching']);
+			}
+
+			// Toggle the row's deleting class - the check ignores false negatives
+			if (row.hasClass('wpra-manual-delete')) {
+				row.removeClass('wpra-manual-delete');
+			} else {
+				row.toggleClass('wpra-feed-is-deleting', !!feed_source['deleting'] && !feed_source['fetching']);
+			}
+
+			// False negatives occur when the handlers for the update/delete row actions add the "is updating" or
+			// "is deleting" class to the row, and immediately after a heartbeat response comes back that reports the
+			// same feed source as not updating and not deleting, which results in the row losing those classes.
 
 			// Toggle the "has imported items" class depending on the number of imported items
 			itemsCol.find('.items-imported-link').toggleClass('has-imported-items', feed_source['items'] > 0);

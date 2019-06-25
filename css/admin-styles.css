@@ -981,28 +981,64 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     background-color: #f7fcfe;
 }
 
-/* Feed updating animation in feed sources table */
-.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating {
-    background-image: linear-gradient(-45deg, rgba(30, 30, 30, 0.05) 25%, transparent 0, transparent 50%, rgba(50, 50, 50, 0.05) 50%, rgba(30, 30, 30, 0.05) 75%, transparent 0, #0000);
-    animation: wpra-feed-is-updating 1.5s linear infinite;
+/* Feed updating/deleting animation in feed sources table */
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating,
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting {
+    /*background-image: linear-gradient(-45deg, rgba(30, 30, 30, 0.05) 25%, transparent 0, transparent 50%, rgba(50, 50, 50, 0.05) 50%, rgba(30, 30, 30, 0.05) 75%, transparent 0, #0000);*/
+    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 0, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 0, #0000);
     background-size: 80px 80px;
 }
-.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating td,
-.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating th {
+
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating > *,
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting > * {
     background: transparent !important;
 }
+
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating {
+    animation: wpra-feed-is-updating 2s linear infinite;
+}
+.post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting {
+    animation: wpra-feed-is-deleting 2s linear infinite;
+}
+
 @keyframes wpra-feed-is-updating {
     0% {
         background-position: 0 0;
-        background-color: #f7fcfe;
+        background-color: #edf8ff;
+    }
+    25% {
+        background-position: 40px 40px;
     }
     50% {
-        background-position: 40px 40px;
-        background-color: #eaf6ff;
+        background-position: 80px 80px;
+        background-color: #d4eeff;
+    }
+    75% {
+        background-position: 120px 120px;
     }
     100% {
+        background-position: 160px 160px;
+        background-color: #edf8ff;
+    }
+}
+@keyframes wpra-feed-is-deleting {
+    0% {
+        background-position: 0 0;
+        background-color: #fff4f4;
+    }
+    25% {
+        background-position: 40px 40px;
+    }
+    50% {
         background-position: 80px 80px;
-        background-color: #f7fcfe;
+        background-color: #fbe1e1;
+    }
+    75% {
+        background-position: 120px 120px;
+    }
+    100% {
+        background-position: 160px 160px;
+        background-color: #fff4f4;
     }
 }
 
