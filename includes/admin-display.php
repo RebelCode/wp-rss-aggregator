@@ -420,7 +420,7 @@
             array(
                     'meta_key'       => 'wprss_feed_id',
                     'meta_value'     => $source_id,
-                    'post_type'      => 'wprss_feed_item',
+                    'post_type'      => get_post_types(),
                     'post_status'    => 'any',
                     'posts_per_page' => -1
                 )
