@@ -5,7 +5,7 @@ function fetch_items_row_action_callback(e){
         return;
     }
 
-    var allLinks = jQuery('a.wprss_fetch_items_ajax_action');
+    var allLinks = jQuery('a.wprss_fetch_items_ajax_action, a.wprss_delete_items_ajax_action');
     allLinks.attr('disabled', 'disabled');
 
     var original_text = link.html();
@@ -68,7 +68,7 @@ function delete_items_row_action_callback(e){
         return;
     }
 
-    var allLinks = jQuery('a.wprss_delete_items_ajax_action');
+    var allLinks = jQuery('a.wprss_fetch_items_ajax_action, a.wprss_delete_items_ajax_action');
     allLinks.attr('disabled', 'disabled');
 
     var original_text = link.text();
