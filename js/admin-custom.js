@@ -5,9 +5,15 @@ jQuery(document).ready(function() {
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
 function fetch_items_row_action_callback(e){
     var link = jQuery(this);
+    if (link.attr('disabled')) {
+        return;
+    }
+
+    var allLinks = jQuery('a.wprss_fetch_items_ajax_action');
+    allLinks.attr('disabled', 'disabled');
+
     var original_text = link.html();
     var id = link.attr('pid');
-    var url = link.attr('purl');
 
     var errorImportingHandler = function(jqXHR, status, exceptionText) {
         displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');
@@ -15,21 +21,20 @@ function fetch_items_row_action_callback(e){
 
     var displayResultMessage = function(message, className) {
         link.text(message);
-        if (className)
+        if (className) {
             link.addClass(className);
+        }
 
         setTimeout(function(){
             link.html(original_text);
-            link.removeAttr('disabled');
-            if (className)
+            allLinks.removeAttr('disabled');
+            if (className) {
                 link.removeClass(className);
-        }, 3500);
+            }
+        }, 2000);
     };
 
-    e.preventDefault();
-    if (link.attr('disabled')) {
-        return;
-    }
+    link.text( wprss_admin_custom.please_wait );
 
     jQuery.ajax({
         url: ajaxurl,
@@ -53,8 +58,8 @@ function fetch_items_row_action_callback(e){
         error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute
     });
-    link.text( wprss_admin_custom.please_wait );
-    link.attr('disabled', 'disabled');
+
+    e.preventDefault();
 };
 
 
@@ -63,9 +68,15 @@ function fetch_items_row_action_callback(e){
 // jQuery for 'Delete Items' Row Action in 'All Feed Sources' page
 function delete_items_row_action_callback(e){
     var link = jQuery(this);
+    if (link.attr('disabled')) {
+        return;
+    }
+
+    var allLinks = jQuery('a.wprss_delete_items_ajax_action');
+    allLinks.attr('disabled', 'disabled');
+
     var original_text = link.text();
     var id = link.attr('pid');
-    var url = link.attr('purl');
 
     var errorImportingHandler = function(jqXHR, status, exceptionText) {
         displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');
@@ -73,21 +84,20 @@ function delete_items_row_action_callback(e){
 
     var displayResultMessage = function(message, className) {
         link.text(message);
-        if (className)
+        if (className) {
             link.addClass(className);
+        }
 
         setTimeout(function(){
             link.text(original_text);
-            link.removeAttr('disabled');
-            if (className)
+            allLinks.removeAttr('disabled');
+            if (className) {
                 link.removeClass(className);
-        }, 3500);
+            }
+        }, 2000);
     };
 
-    e.preventDefault();
-    if (link.attr('disabled')) {
-        return;
-    }
+    link.text( wprss_admin_custom.please_wait );
 
     jQuery.ajax({
         url: ajaxurl,
@@ -111,8 +121,8 @@ function delete_items_row_action_callback(e){
         error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute
     });
-    link.text( wprss_admin_custom.please_wait );
-    link.attr('disabled', 'disabled');
+
+    e.preventDefault();
 };
 
 

@@ -1097,6 +1097,13 @@ div.wprss-feed-source-type {
     display: none;
 }
 
+/* Styles for the disabled "Fetch" and "Delete" feed source row actions */
+.post-type-wprss_feed table.wp-list-table.posts .row-actions a.wprss_fetch_items_ajax_action[disabled] {
+    color: #555;
+}
+.post-type-wprss_feed table.wp-list-table.posts .row-actions a.wprss_delete_items_ajax_action[disabled] {
+    color: #666;
+}
 
 /*
  * TOGGLE SWITCH
