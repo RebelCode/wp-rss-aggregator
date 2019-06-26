@@ -125,7 +125,6 @@
         $page = isset( $_GET['page'] )? $_GET['page'] : '';
         $version = wprss()->getVersion();
 
-        wp_enqueue_style( 'wprss-styles' );
         wp_enqueue_style( 'wprss-admin-styles' );
         wp_enqueue_style( 'wprss-fa' );
         wp_enqueue_style( 'wprss-admin-3.8-styles' );
@@ -224,7 +223,6 @@
     {
         $version = wprss()->getVersion();
 
-        wp_register_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css', array(), $version );
         wp_register_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css', array(), $version );
         wp_register_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css', array(), $version );
