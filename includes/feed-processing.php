@@ -409,7 +409,7 @@
      * @since 4.6.6
      */
     function wprss_flag_feed_as_idle( $feed_ID ) {
-        delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
+        update_post_meta( $feed_ID, 'wprss_feed_is_updating', '' );
     }
 
 

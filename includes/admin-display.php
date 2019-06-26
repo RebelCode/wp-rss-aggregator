@@ -432,7 +432,7 @@
             wp_delete_post( get_the_ID(), $force_delete );
         }
 
-        delete_post_meta($source_id, 'wprss_feed_is_deleting_items');
+        update_post_meta($source_id, 'wprss_feed_is_deleting_items', '');
     }
 
 
