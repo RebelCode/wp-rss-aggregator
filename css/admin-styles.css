@@ -954,10 +954,6 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 /*
  * The Feed Source List Table styles that mimic the plugins table
  */
-.post-type-wprss_feed table.wp-list-table.posts tbody tr
-{
-    background: #fff;
-}
 
 .post-type-wprss_feed table.wp-list-table.posts tbody tr th,
 .post-type-wprss_feed table.wp-list-table.posts tbody tr td
@@ -965,28 +961,20 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
 }
 
-.post-type-wprss_feed table.wp-list-table.posts tbody tr.active th.check-column
-{
-    border-left: 4px solid #00a0d2;
-}
-.post-type-wprss_feed table.wp-list-table.posts thead td.check-column,
-.post-type-wprss_feed table.wp-list-table.posts tbody tr:not(.active) th.check-column
-{
-    padding-left: 7px;
-}
-
-.post-type-wprss_feed table.wp-list-table.posts tbody tr.active th,
-.post-type-wprss_feed table.wp-list-table.posts tbody tr.active td
-{
-    background-color: #f7fcfe;
-}
-
 /* Feed updating/deleting animation in feed sources table */
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating,
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting {
     /*background-image: linear-gradient(-45deg, rgba(30, 30, 30, 0.05) 25%, transparent 0, transparent 50%, rgba(50, 50, 50, 0.05) 50%, rgba(30, 30, 30, 0.05) 75%, transparent 0, #0000);*/
-    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 0, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 0, #0000);
+    background-image: linear-gradient(
+            -45deg, rgba(0, 0, 0, 0.9) 25%,
+            transparent 0,
+            transparent 50%,
+            rgba(0, 0, 0, 0.9) 50%,
+            rgba(0, 0, 0, 0.9) 75%,
+            transparent 0, #0000
+    );
     background-size: 80px 80px;
+    background-blend-mode: overlay;
 }
 
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating > *,
@@ -995,50 +983,23 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 }
 
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating {
-    animation: wpra-feed-is-updating 2s linear infinite;
+    animation: wpra-feed-updating-animation 2s linear infinite;
+    background-color: #e6fcec;
 }
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting {
-    animation: wpra-feed-is-deleting 2s linear infinite;
+    animation: wpra-feed-updating-animation 1.5s linear infinite;
+    background-color: #fff2f2;
 }
 
-@keyframes wpra-feed-is-updating {
+@keyframes wpra-feed-updating-animation {
     0% {
         background-position: 0 0;
-        background-color: #edf8ff;
-    }
-    25% {
-        background-position: 40px 40px;
     }
     50% {
         background-position: 80px 80px;
-        background-color: #d4eeff;
-    }
-    75% {
-        background-position: 120px 120px;
     }
     100% {
         background-position: 160px 160px;
-        background-color: #edf8ff;
-    }
-}
-@keyframes wpra-feed-is-deleting {
-    0% {
-        background-position: 0 0;
-        background-color: #fff4f4;
-    }
-    25% {
-        background-position: 40px 40px;
-    }
-    50% {
-        background-position: 80px 80px;
-        background-color: #fbe1e1;
-    }
-    75% {
-        background-position: 120px 120px;
-    }
-    100% {
-        background-position: 160px 160px;
-        background-color: #fff4f4;
     }
 }
 
@@ -1055,19 +1016,26 @@ div.wprss-feed-source-type
 div.wprss-feed-source-type {
     float: right;
 }
-
+/* inactive color */
 .post-type-wprss_feed table.wp-list-table tr div.wprss-feed-source-type {
     color: #aaa;
 }
-
+/* active color */
 .post-type-wprss_feed table.wp-list-table tr.active div.wprss-feed-source-type {
-    color: #00a0d2;
+    color: #ff792b;
+}
+/* youtube color */
+.post-type-wprss_feed table.wp-list-table tr.active div.wprss-feed-source-type.wprss-feed-source-type-yt {
+    color: #ff0000;
 }
 
 .post-type-wprss_feed table.wp-list-table tbody td.column-state {
     padding-right: 0;
 }
 
+.column-updates > p {
+    margin: 0 !important;
+}
 .post-type-wprss_feed table.wp-list-table.posts tbody tr .next-update-container {
     font-weight: bold;
 }
@@ -1085,10 +1053,10 @@ div.wprss-feed-source-type {
 /* The imported items link in the feed sources page - disabled when 0 items */
 .post-type-wprss_feed table.wp-list-table.posts .items-imported-link.has-imported-items {
     font-weight: bold;
+    line-height: 20px;
 }
 .post-type-wprss_feed table.wp-list-table.posts .items-imported-link:not(.has-imported-items) {
     color: #777;
-    font-style: italic;
     pointer-events: none;
 }
 
@@ -1105,6 +1073,16 @@ div.wprss-feed-source-type {
     color: #666;
 }
 
+/* The feed updating/deleting spinner icon */
+.post-type-wprss_feed table.wp-list-table.posts .column-feed-count .spinner {
+    float: none;
+    vertical-align: bottom;
+}
+.post-type-wprss_feed table.wp-list-table.posts tr.wpra-feed-is-updating .column-feed-count .spinner,
+.post-type-wprss_feed table.wp-list-table.posts tr.wpra-feed-is-deleting .column-feed-count .spinner {
+    visibility: visible;
+}
+
 /*
  * TOGGLE SWITCH
  */
@@ -1112,7 +1090,7 @@ div.wprss-feed-source-type {
     position: relative;
     display: inline-block;
     width: 34px;
-    height: 21px;
+    height: 18px;
 }
 .wprss-switch input {
     opacity: 0;
@@ -1134,23 +1112,23 @@ div.wprss-feed-source-type {
 .wprss-switch-slider:before {
     position: absolute;
     content: "";
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
     left: 4px;
-    bottom: 4px;
+    bottom: 3px;
     border-radius: 50%;
     background-color: white;
     transition: .2s;
     -webkit-transition: .2s;
 }
 input:checked + .wprss-switch-slider {
-    background-color: #00a0d2;
+    background-color: #0baa3c;
 }
 input:focus + .wprss-switch-slider {
     box-shadow: 0 0 1px #2196F3;
 }
 input:checked + .wprss-switch-slider:before {
-    -webkit-transform: translateX(13px);
-    -ms-transform: translateX(13px);
-    transform: translateX(13px);
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
 }

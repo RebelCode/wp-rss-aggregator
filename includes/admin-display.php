@@ -69,14 +69,18 @@
                 </label>
             </div>
 
-            <div class="wprss-feed-source-type">
-                <?php
-                if (wprss_is_feed_youtube($post_id)) {
-                    echo '<span class="dashicons dashicons-video-alt3"></span>';
-                } else {
-                    echo '<span class="dashicons dashicons-rss"></span>';
-                }
-                ?>
+            <?php
+            $type = 'rss';
+            $icon = 'rss';
+
+            if (wprss_is_feed_youtube($post_id)) {
+                $type = 'yt';
+                $icon = 'video-alt3';
+            }
+            ?>
+
+            <div class="wprss-feed-source-type wprss-feed-source-type-<?php echo $type ?>">
+                <span class="dashicons dashicons-<?php echo $icon ?>"></span>
             </div>
             <?php
 
@@ -106,12 +110,12 @@
             $timeago = empty($last_update) ? '' : human_time_diff( $last_update, time() );
             ?>
 
-            <span class="next-update-container">
+            <p class="next-update-container">
                 <?php _e( 'Next update in', WPRSS_TEXT_DOMAIN ) ?>
                 <code class="next-update">
                    	<?php echo $next_update_text; ?>
                 </code>
-            </span>
+            </p>
 
             <p class="last-update-container"
                style="display: <?php echo empty($timeago) ? 'none' : 'inline-block'; ?>">
@@ -154,6 +158,7 @@
                     <span class="items-imported"><?php echo $items->post_count ?></span>
                     <?php _e('items', 'wprss') ?>
                 </a>
+            <div class="spinner"></div>
 
                 <?php echo $errorIcon; ?>
 
@@ -172,7 +177,7 @@
                            class="wprss_delete_items_ajax_action"
                            pid="<?php echo esc_attr ($post_id); ?>"
                            purl="<?php echo admin_url('admin-ajax.php'); ?>">
-                            <?php _e('Delete', 'wprss'); ?>
+                            <?php _e('Delete items', 'wprss'); ?>
                         </a>
                     </span>
                 </div>

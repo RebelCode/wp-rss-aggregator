@@ -1,7 +1,3 @@
-jQuery(document).ready(function() {
-    jQuery('body.post-type-wprss_feed table.wp-list-table.posts.striped').removeClass('striped');
-});
-
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
 function fetch_items_row_action_callback(e){
     var link = jQuery(this);
