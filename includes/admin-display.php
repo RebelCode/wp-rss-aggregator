@@ -496,7 +496,11 @@
             }
 
             // Schedule the event for 5 seconds from now
-            wp_schedule_single_event( time() + 1, 'wprss_fetch_single_feed_hook', $schedule_args );
+            $offset = floor(count(wp_get_ready_cron_jobs()) / 2);
+            $success = wp_schedule_single_event( time() + $offset, 'wprss_fetch_single_feed_hook', $schedule_args );
+            if (!$success) {
+                throw new Exception(__('Failed to schedule cron', 'wprss'));
+            }
             wprss_flag_feed_as_updating( $id );
         } catch (Exception $e) {
             $response = wprss()->createAjaxErrorResponse($e);
@@ -508,6 +512,7 @@
         }
 
         $response->setAjaxData('message', $wprss->__(array('Fetch for feed source #%1$s successfully scheduled', $id)));
+        $response->setAjaxData('success', $success);
         echo $response->getBody();
         exit();
     }
@@ -540,7 +545,11 @@
             }
 
             // Schedule a job that runs this function with the source id parameter
-            wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $id ) );
+            $offset = floor(count(wp_get_ready_cron_jobs()) / 2);
+            $success = wp_schedule_single_event( time() + $offset, 'wprss_delete_feed_items_from_source_hook', array( $id ) );
+            if (!$success) {
+                throw new Exception(__('Failed to schedule cron', 'wprss'));
+            }
             // Mark feed as deleting its items
             update_post_meta( $id, 'wprss_feed_is_deleting_items', time() );
         } catch (Exception $e) {
@@ -553,6 +562,7 @@
         }
 
         $response->setAjaxData('message', $wprss->__(array('Items are being deleted', $id)));
+        $response->setAjaxData('success', $success);
         echo $response->getBody();
         exit();
     }
