@@ -84,7 +84,7 @@
 			// Toggle the "has imported items" class depending on the number of imported items
 			itemsCol.find('.items-imported-link').toggleClass('has-imported-items', feed_source['items'] > 0);
 			// Hide the "Delete" row action for items if there are no imported items
-			itemsCol.find('.row-actions .purge-posts').toggle(feed_source['items'] > 0);
+			itemsCol.find('.row-actions .purge-posts').toggle(feed_source['items'] >= 0);
 
 			// Update the error icon
 			var errorIcon = itemsCol.find('i.wprss-feed-error-symbol');
