@@ -151,7 +151,7 @@ class LoggerModule implements ModuleInterface
                 ];
             },
             /*
-             * The data set that contains the logger instances for each feed source..
+             * The data set that contains the logger instances for each feed source.
              *
              * @since 4.13
              */
