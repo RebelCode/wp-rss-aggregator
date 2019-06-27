@@ -24,7 +24,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Some options were renamed to be consistent across various plugin pages.
 * Improved the wording, description and tooltip of the "Import order" option.
 * Added better error handling during image file creation when using the GD extension.
-* Rewrote the unique title checking logic.
+* Rewrote the unique item title checking logic to be faster and more accurate.
+* Now suppressing "non-numeric value encountered" warnings from SimplePie.
+* The "date" column for the logs table is now explicitly allowed to be null.
 
 ### Fixed
 * An error would occur that prevented the default template from being saved.
