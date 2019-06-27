@@ -141,8 +141,6 @@
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
             $has_items_class = ($items->post_count > 0) ? 'has-imported-items' : '';
-            $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
-            $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
 
             $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
             $errorShowClass = ( $errors != '' )? 'wprss-show' : '';
