@@ -213,15 +213,6 @@ class LoggerModule implements ModuleInterface
             'wpra/logging/trunc_logs_cron/first_run' => function (ContainerInterface $c) {
                 return time() + DAY_IN_SECONDS;
             },
-            /*
-             * The number of days to use as a maximum age for logs during the log truncation cron job.
-             * Logs older than this number in days are deleted.
-             *
-             * @since 4.13'
-             */
-            'wpra/logging/trunc_logs_cron/log_max_age_days' => function (ContainerInterface $c) {
-                return 100;
-            },
             /**
              * The URL of the page where the log is found.
              *
@@ -321,7 +312,7 @@ class LoggerModule implements ModuleInterface
              */
             'wpra/core/config/options' => function (ContainerInterface $c, $options) {
                 $options['logging/enabled'] = true;
-                $options['logging/limit_days'] = 7;
+                $options['logging/limit_days'] = 3;
 
                 return $options;
             },
