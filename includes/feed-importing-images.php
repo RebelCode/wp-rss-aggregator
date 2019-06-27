@@ -1,6 +1,7 @@
 <?php
 
 // Save item image info during import
+use Psr\Log\LoggerInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 
 class Wpra_Rss_Namespace {
@@ -55,8 +56,12 @@ function wpra_import_item_images($itemId, $item, $sourceId)
     update_post_meta($itemId, 'wprss_images', []);
     update_post_meta($itemId, 'wprss_best_image', '');
 
+    /* @var $logger LoggerInterface */
+    $container = wpra_container();
+    $loggerDataSet = $container->get('wpra/images/logging/feed_logger_dataset');
+    $logger = $loggerDataSet[$sourceId];
+
     $title = $item->get_title();
-    $logger = wpra_get_logger($sourceId);
     $logger->debug('Importing images for item "{title}"', ['title' => $title]);
 
     $collection = wpra_container()->get('wpra/feeds/sources/collection');
