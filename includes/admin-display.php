@@ -143,7 +143,7 @@
             $has_items_class = ($items->post_count > 0) ? 'has-imported-items' : '';
 
             $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
-            $errorShowClass = ( $errors != '' )? 'wprss-show' : '';
+            $errorShowClass = ( $errors !== '' )? 'wprss-show' : '';
             $default_msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
             $msg = strlen( $errors ) > 0 ? $errors : $default_msg;
             $errorIcon = sprintf(

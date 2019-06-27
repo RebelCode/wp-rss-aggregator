@@ -87,7 +87,7 @@
 			itemsCol.find('.row-actions .purge-posts').toggle(feed_source['items'] >= 0);
 
 			// Update the error icon
-			var errorIcon = itemsCol.find('i.wprss-feed-error-symbol');
+			var errorIcon = itemsCol.find('i.wprss-feed-error-symbol').attr('title', feed_source['errors']);
 			errorIcon.toggleClass( 'wprss-show', feed_source['errors'] !== '' );
 		}
 
