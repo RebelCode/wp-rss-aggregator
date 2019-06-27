@@ -112,7 +112,7 @@ class LoggerModule implements ModuleInterface
             'wpra/logging/log_table_schema' => function () {
                 return [
                     'id' => 'BIGINT NOT NULL AUTO_INCREMENT',
-                    'date' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
+                    'date' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
                     'level' => 'varchar(30) NOT NULL',
                     'message' => 'text NOT NULL',
                     'feed_id' => 'varchar(100)',
