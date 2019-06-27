@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Activating or pausing feed sources from the Feed Sources page is now asynchronous.
 * Deleting feed items from the Feed Sources page is now asynchronous.
 * New plugin-wide error handling to prevent site locks and white screens.
+* Feed sources that are missing their respective cron are detected and fixed while on the Feed Sources page.
 
 ### Changed
 * Redesigned the feed sources page.
@@ -26,7 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added better error handling during image file creation when using the GD extension.
 * Rewrote the unique item title checking logic to be faster and more accurate.
 * Now suppressing "non-numeric value encountered" warnings from SimplePie.
-* The "date" column for the logs table is now explicitly allowed to be null.
 
 ### Fixed
 * An error would occur that prevented the default template from being saved.
