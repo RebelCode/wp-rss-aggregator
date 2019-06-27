@@ -230,7 +230,7 @@
 
 		if ( !is_wp_error( $feed ) ) {
 			// Return the items in the feed.
-			return $feed->get_items();
+			return @$feed->get_items();
 		}
 
 		wpra_get_logger($source)->error('Failed to fetch the feed from {0}. Error: {1}', [
