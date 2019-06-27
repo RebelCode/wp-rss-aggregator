@@ -56,8 +56,9 @@
 
       switch ( $column ) {
         case 'state':
+            $switch_title = __('Activate or pause auto importing for this feed', 'wprss');
             ?>
-            <div class="wprss-feed-state-container">
+            <div class="wprss-feed-state-container" title="<?php echo esc_attr($switch_title); ?>">
                 <label class="wprss-switch">
                     <input type="checkbox"
                            class="wprss-toggle-feed-state"
@@ -70,17 +71,21 @@
             </div>
 
             <?php
-            $type = 'rss';
-            $icon = 'rss';
+            $feed_type = 'rss';
+            $feed_icon = 'rss';
+            $icon_title = __('Normal RSS Feed', 'wprss');
 
             if (wprss_is_feed_youtube($post_id)) {
-                $type = 'yt';
-                $icon = 'video-alt3';
+                $feed_type = 'yt';
+                $feed_icon = 'video-alt3';
+                $icon_title = __('YouTube Feed', 'wprss');
             }
             ?>
 
-            <div class="wprss-feed-source-type wprss-feed-source-type-<?php echo $type ?>">
-                <span class="dashicons dashicons-<?php echo $icon ?>"></span>
+            <div class="wprss-feed-source-type wprss-feed-source-type-<?php echo $feed_type ?>"
+                 title="<?php echo esc_attr($icon_title) ?>"
+            >
+                <span class="dashicons dashicons-<?php echo $feed_icon ?>"></span>
             </div>
             <?php
 
@@ -154,6 +159,7 @@
             ?>
                 <a href="<?php echo esc_attr($view_items_url); ?>"
                    class="items-imported-link <?php echo $has_items_class; ?>"
+                   title="<?php echo esc_attr(__('View the imported items for this feed source', 'wprss')); ?>"
                 >
                     <span class="items-imported"><?php echo $items->post_count ?></span>
                     <?php _e('items', 'wprss') ?>
