@@ -16,11 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Deleting feed items from the Feed Sources page is now asynchronous.
 * New plugin-wide error handling to prevent site locks and white screens.
 * Feed sources that are missing their respective cron are detected and fixed while on the Feed Sources page.
+* Added tooltips to various links and controls in the feed source list page.
+* Import errors are now asynchronously added to the error icon in the feed sources list page.
 
 ### Changed
 * Redesigned the feed sources page.
 * The custom feed now uses the Atom 1.0 standard.
 * Improved the responsive styling of the feed sources list table.
+* Improved the detection of cron scheduling failures, prevent feeds from appearing to be stuck.
 * Converted log section in the debugging page to use the new module system.
 * Some options were renamed to be consistent across various plugin pages.
 * Improved the wording, description and tooltip of the "Import order" option.
