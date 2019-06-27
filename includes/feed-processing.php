@@ -449,6 +449,22 @@
         // Calculate how many seconds have passed since the feed last signalled that it is updating
         $diff = time() - $is_updating_meta;
 
+        // Get the transient that is set when the import function is called and the time of the next scheduled cron
+        $is_updating_transient = get_transient('wpra/feeds/importing/' . $id);
+        $scheduled = (wprss_get_next_feed_source_update($id) !== false);
+        // If more than 5 seconds have passed and the transient is not yet set and the cron was not scheduled
+        // then the cron probably failed to be registered
+        if ( $diff > 5  && !$is_updating_transient && !$scheduled) {
+            wprss_flag_feed_as_idle($id);
+            update_post_meta(
+                $id,
+                'wprss_error_last_import',
+                __('The plugin failed to schedule a fetch for this feed. Please try again.', 'wprss')
+            );
+
+            return false;
+        }
+
         // If the difference is greater than the allowed maximum amount of time, mark the feed as idle.
 		if ( $diff > $allowed_time ) {
 			wprss_flag_feed_as_idle( $id );
