@@ -56,6 +56,7 @@ function wprss_feed_source_updates() {
 				}
 				elseif( $next_update === FALSE ) {
 					$feed_source_data['next-update'] = __( 'None', 'wprss' );
+					wprss_activate_feed_source( $feed_id );
 				}
 				else {
 				    $time_diff = absint($next_update - time());
