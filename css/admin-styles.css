@@ -983,12 +983,12 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 }
 
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating {
-    animation: wpra-feed-updating-animation 2s linear infinite;
-    background-color: #e6fcec;
+    animation: wpra-feed-updating-animation 1.3s linear infinite;
+    background-color: #e9f9ee;
 }
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting {
-    animation: wpra-feed-updating-animation 1.5s linear infinite;
-    background-color: #fff2f2;
+    animation: wpra-feed-updating-animation 1s linear infinite;
+    background-color: #f8eaea;
 }
 
 @keyframes wpra-feed-updating-animation {
