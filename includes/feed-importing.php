@@ -527,12 +527,6 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 				}
 			}
 
-			/* OLD NORMALIZATION CODE - TO NORMALIZE URLS FROM PROXY URLS
-			$response = wp_remote_head( $permalink );
-			if ( !is_wp_error(  $response ) && isset( $response['headers']['location'] ) ) {
-				$permalink = current( explode( '?', $response['headers']['location'] ) );
-			}*/
-
 			// Check if newly fetched item already present in existing feed items,
 			// if not insert it into wp_posts and insert post meta.
 			if ( ! ( array_key_exists( $permalink, $existing_permalinks ) ) ) {
