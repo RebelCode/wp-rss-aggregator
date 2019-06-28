@@ -998,14 +998,14 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-updating,
 .post-type-wprss_feed table.wp-list-table.posts tbody tr.wpra-feed-is-deleting {
     /*background-image: linear-gradient(-45deg, rgba(30, 30, 30, 0.05) 25%, transparent 0, transparent 50%, rgba(50, 50, 50, 0.05) 50%, rgba(30, 30, 30, 0.05) 75%, transparent 0, #0000);*/
-    background-image: linear-gradient(
-            -45deg, rgba(0, 0, 0, 0.9) 25%,
-            transparent 0,
-            transparent 50%,
-            rgba(0, 0, 0, 0.9) 50%,
-            rgba(0, 0, 0, 0.9) 75%,
-            transparent 0, #0000
-    );
+    /*background-image: linear-gradient(*/
+    /*        -45deg, rgba(0, 0, 0, 0.9) 25%,*/
+    /*        transparent 0,*/
+    /*        transparent 50%,*/
+    /*        rgba(0, 0, 0, 0.9) 50%,*/
+    /*        rgba(0, 0, 0, 0.9) 75%,*/
+    /*        transparent 0, #0000*/
+    /*);*/
     background-size: 80px 80px;
     background-blend-mode: overlay;
 }
