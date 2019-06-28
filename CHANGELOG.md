@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Feed item excerpts are now imported, to be used by templates that can show excerpts.
 * Activating or pausing feed sources from the Feed Sources page is now asynchronous.
 * Deleting feed items from the Feed Sources page is now asynchronous.
-* New plugin-wide error handling to prevent site locks, with the option to deactivate the plugin.
+* New plugin-wide error handling to prevent site locks, with the option to deactivate the plugin and its addons.
 * Feed sources that are missing their respective cron are detected and fixed while on the Feed Sources page.
 * Added tooltips to various links and controls in the feed source list page.
 * Import errors are now asynchronously added to the error icon in the feed sources list page.

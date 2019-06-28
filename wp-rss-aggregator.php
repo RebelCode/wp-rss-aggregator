@@ -567,7 +567,23 @@ function wpra_safe_deactivate()
         return;
     }
 
-    deactivate_plugins(plugin_basename(__FILE__), true);
+    $plugins = [plugin_basename(__FILE__)];
+    $check = [
+        'WPRSS_TEMPLATES',
+        'WPRSS_C_PATH',
+        'WPRSS_ET_PATH',
+        'WPRSS_KF_PATH',
+        'WPRSS_FTP_PATH',
+        'WPRSS_FTR_PATH',
+        'WPRSS_SPC_ADDON'
+    ];
+    foreach ($check as $pathConstant) {
+        if (defined($pathConstant)) {
+            $plugins[] = plugin_basename(constant($pathConstant));
+        }
+    }
+
+    deactivate_plugins($plugins, true);
     header('Location: ' . admin_url('plugins.php'));
     exit;
 }
