@@ -13,6 +13,7 @@ export default {
     },
     label: {},
     description: {},
+    after: {},
     type: {},
     value: {},
     placeholder: {},
@@ -92,7 +93,7 @@ export default {
         </label>
       ) : null }
       <div class="form-input__field">
-        { this.inputNode() }
+        { this.inputNode() }{ this.after }
       </div>
     </div>
   }
