@@ -451,9 +451,9 @@ export default {
                   {
                       (this.model.options.links_behavior === 'lightbox' )?
                           <div class="notice notice-info notice-alt">
+                            <p>Some sites may not allow their content to be shown in a lightbox.</p>
+                            <p>Embedded content usually works. Try ticking the below checkbox.</p>
                             <p>
-                              Some sites may not allow their content to be shown in a lightbox.
-                              {' '}
                               <a href="https://kb.wprssaggregator.com/article/471-q-why-wont-some-of-my-feed-items-work-with-the-lightbox-link-behaviour-for-templates"
                                  target="_blank">
                                 {'Learn more'}
@@ -462,14 +462,11 @@ export default {
                           </div>
                           : null
                   }
-                <Input type="select"
-                       label={'Video embed link type'}
-                       description={'This will not affect already imported feed items.'}
-                       class="form-input--vertical"
-                       value={this.model.options.links_video_embed_page}
-                       options={WpraTemplates.options.links_video_embed_page}
-                       onInput={(e) => this.model.options.links_video_embed_page = e}
-                       title={this.tooltips.options.links_video_embed_page}
+                <Input type="checkbox"
+                       label={'Link to embed'}
+                       value={this.model.options.link_to_embed}
+                       onInput={(e) => this.model.options.link_to_embed = e}
+                       title={this.tooltips.options.link_to_embed}
                 />
               </Postbox>
               <Postbox id="template-custom-css" title="Custom Style" context={this}>

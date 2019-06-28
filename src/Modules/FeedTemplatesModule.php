@@ -331,7 +331,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'date_use_time_ago' => __('Enable this option to show the elapsed time from the feed item\'s date and time to the present time. <em>Eg. 2 hours ago</em>', 'wprss'),
                         'links_behavior' => __('Choose how you want links to be opened. This applies to the feed item title and the source link.', 'wprss'),
                         'links_nofollow' => __('Enable this option to set all links displayed as "NoFollow".<hr/>"Nofollow" provides a way to tell search engines to <em>not</em> follow certain links, such as links to feed items in this case.', 'wprss'),
-                        'links_video_embed_page' => __('For feed items from YouTube, Vimeo or Dailymotion, you can choose whether you want to have the items link to the original page link, or a link to the embedded video player only.', 'wprss'),
+                        'link_to_embed' => __('Tick this box to have feed items link to their embedded content, if they have any. This works especially well when links are set to <em>"Open in a lightbox"</em>.', 'wprss'),
                         'bullets_enabled' => __('Enable this option to show bullets next to feed items.', 'wprss'),
                         'bullet_type' => __('The bullet type to use for feed items.', 'wprss'),
                         'custom_css_classname' => false,

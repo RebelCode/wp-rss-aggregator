@@ -223,8 +223,8 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
                 },
                 'default' => true,
             ],
-            'links_video_embed_page' => [
-                'key' => 'options/links_video_embed_page',
+            'link_to_embed' => [
+                'key' => 'options/link_to_embed',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
             ],
