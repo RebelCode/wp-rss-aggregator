@@ -2,6 +2,8 @@
 
 namespace RebelCode\Wpra\Core\Twig\Extensions;
 
+use ArrayAccess;
+use RebelCode\Wpra\Core\Data\DataSetInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -25,7 +27,7 @@ class WpraExtension extends AbstractExtension
             $this->getBase64EncodeFilter(),
             $this->getWpraLinkFilter(),
             $this->getWordsLimitFilter(),
-            $this->getCloseTagsFilter()
+            $this->getCloseTagsFilter(),
         ];
     }
 
@@ -42,6 +44,7 @@ class WpraExtension extends AbstractExtension
             $this->getWpNonceFieldFunction(),
             $this->getWpraTooltipFunction(),
             $this->getHtmlEntitiesDecodeFunction(),
+            $this->getWpraItemUrlFunction(),
         ];
     }
 
@@ -93,6 +96,32 @@ class WpraExtension extends AbstractExtension
 
             return $help->tooltip($id, $text);
         }, $options);
+    }
+
+    /**
+     * Retrieves the "wpra_item_url" Twig function.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFunction
+     */
+    protected function getWpraItemUrlFunction()
+    {
+        $name = 'wpra_item_url';
+        $callback = function ($item, $options) {
+            if (!is_array($item) && !$item instanceof DataSetInterface && !$item instanceof ArrayAccess) {
+                return '';
+            }
+
+            if ($options['link_to_embed'] && !empty($item['embed_url'])) {
+                return $item['embed_url'];
+            }
+
+            return $item['url'];
+        };
+        $options = [];
+
+        return new TwigFunction($name, $callback, $options);
     }
 
     /**

@@ -4,9 +4,12 @@
     {% set item_title = item_title|truncate(options.title_max_length) %}
 {% endif %}
 
+{# The item title #}
+{% set item_url = wpra_item_url(item, options) %}
+
 {# Show the title #}
 {% if options.title_is_link %}
-    <a {{ wpra_link_attrs(item.url, options)|raw }}>{{ item_title }}</a>
+    <a {{ wpra_link_attrs(item_url, options)|raw }}>{{ item_title }}</a>
 {% else %}
     {{ item_title }}
 {% endif %}
