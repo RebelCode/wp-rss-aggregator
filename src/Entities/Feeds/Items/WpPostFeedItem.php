@@ -150,11 +150,9 @@ class WpPostFeedItem extends WpCptDataSet
             $wrapperData[static::AUTHOR_KEY] = get_the_author_meta('display_name', $post->post_author);
         }
 
-        // Copy the wrapper data and replace all values with true
-        // This will be used as the overrides option for the merged data set
-        $overrides = array_map(function () {
-            return true;
-        }, $wrapperData);
+        // Create a copy of the wrapper data with all the values replaced with `true`
+        // This will be used as the override map for the merged data set
+        $overrides = array_map('__return_true', $wrapperData);
 
         // Merge the real meta data with the wrapper dataset,
         // and explicitly set the secondary dataset to override to wrapper's entries
