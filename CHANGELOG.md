@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed pagination not working correctly when no item limit is set.
 * Fixed the "Set links as no follow" option not having any effect.
 * An empty limit for the number of items in a template silently defaults to 5 items.
+* The name of the user was being shown as the author for feed items that had no author.
 
 ### Removed
 * Removed old secure reset code.

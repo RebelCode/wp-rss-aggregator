@@ -145,8 +145,8 @@ class WpPostFeedItem extends WpCptDataSet
             static::URL_KEY => $this->getItemUrl($post, $meta, $source),
         ];
 
-        // Use the real WordPress post author if the meta author does not exist
-        if (!isset($meta[static::AUTHOR_KEY]) || empty($meta[static::AUTHOR_KEY])) {
+        // For non-WPRSS feed items, use the real WordPress post author if the meta author does not exist
+        if ($post->post_type !== 'wprss_feed_item' && empty($meta[static::AUTHOR_KEY])) {
             $wrapperData[static::AUTHOR_KEY] = get_the_author_meta('display_name', $post->post_author);
         }
 
