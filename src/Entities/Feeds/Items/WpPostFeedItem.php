@@ -223,7 +223,7 @@ class WpPostFeedItem extends WpCptDataSet
         }
 
         // Use the enclosure if the feed source option is enabled and the item has an enclosure link
-        if (isset($source['enclosure']) && $source['enclosure'] && !empty($meta['enclosure'])) {
+        if (!empty($source['enclosure']) && filter_var($source['enclosure'], FILTER_VALIDATE_BOOLEAN) && !empty($meta['enclosure'])) {
             return $meta['enclosure'];
         }
 
