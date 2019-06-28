@@ -10,6 +10,11 @@ class Wpra_Rss_Namespace {
 
 add_action('wprss_items_create_post_meta', 'wpra_detect_item_type', 10, 3);
 add_action('wprss_items_create_post_meta', 'wpra_import_item_images', 11, 3);
+add_filter('wprss_ftp_post_meta', function ($meta, $id, $source, $item) {
+    wpra_detect_item_type($id, $item, $source);
+
+    return $meta;
+}, 11, 4);
 
 /**
  * Imports images for a feed item.
