@@ -101,10 +101,10 @@
             'type'  => 'number'
         );
 
-        $wprss_meta_fields[ 'link_to_embed' ] = array(
-            'label' => __( 'Link to embed', WPRSS_TEXT_DOMAIN ),
-            'id'    => $prefix . 'link_to_embed',
-            'type'  => 'checkbox2'
+        $wprss_meta_fields[ 'enclosure' ] = array(
+            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'enclosure',
+            'type'  => 'checkbox'
         );
 
         $wprss_meta_fields[ 'unique_titles' ] = array(

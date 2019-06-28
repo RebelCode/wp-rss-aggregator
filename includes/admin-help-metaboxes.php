@@ -24,12 +24,11 @@
 
 '.											'If you already have items imported from this feed source, setting this option now may delete some of your items, in order to comply with the limit.', WPRSS_TEXT_DOMAIN),
 				// Link to Enclosure
-				'wprss_link_to_embed'   => __('Tick this box if you want to have imported items link to their embedded content instead of linking to the original article.
+				'wprss_enclosure'       => __('Tick this box to make imported items link to their enclosure, rather than to the original article.
 
-'.                                            'This is useful for feeds that contain embedded content, such as extra images, videos, audio, PDFs, flash content, etc.
+'.											'Enclosures are typically links to attachments, such as images, audio, videos, documents or flash content.
 
-'.                                            'Try this feature in combination with the lightbox to get popup embedded content!',
-				                            'wprss'),
+'.											'If you are not sure, leave this option unticked', WPRSS_TEXT_DOMAIN),
 
 				'wprss_unique_titles'   => __('Whether to allow multiple feed items to have the same title. When checked, if a feed item has the same title as a previously-imported feed item, it will not be imported.
 

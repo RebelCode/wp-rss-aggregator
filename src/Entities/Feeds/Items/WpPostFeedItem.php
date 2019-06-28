@@ -142,20 +142,12 @@ class WpPostFeedItem extends WpCptDataSet
             static::SOURCE_KEY    => $source,
             static::TIMESTAMP_KEY => strtotime($post->post_date_gmt),
             static::FT_IMAGE_KEY => $this->getFtImageUrl($post),
+            static::URL_KEY => $this->getItemUrl($post, $meta, $source),
         ];
 
         // Use the real WordPress post author if the meta author does not exist
         if (!isset($meta[static::AUTHOR_KEY]) || empty($meta[static::AUTHOR_KEY])) {
             $wrapperData[static::AUTHOR_KEY] = get_the_author_meta('display_name', $post->post_author);
-        }
-
-        // Override the URL from meta if the post type is not a WP RSS Aggregator feed item
-        if ($post->post_type !== 'wprss_feed_item') {
-            $wrapperData[static::URL_KEY] = get_permalink($post);
-        } elseif (isset($source['link_to_embed']) && $source['link_to_embed'] && isset($meta['embed_url'])) {
-            $wrapperData[static::URL_KEY] = $meta['embed_url'];
-        } else {
-            $wrapperData[static::URL_KEY] = $meta['permalink'];
         }
 
         // Copy the wrapper data and replace all values with true
@@ -212,5 +204,32 @@ class WpPostFeedItem extends WpCptDataSet
         }
 
         return null;
+    }
+
+    /**
+     * Retrieves the item URL to use for a feed item.
+     *
+     * @since [*next-version*]
+     *
+     * @param WP_Post          $post   The post object.
+     * @param DataSetInterface $meta   The meta data set.
+     * @param DataSetInterface $source The feed source data set.
+     *
+     * @return string
+     */
+    protected function getItemUrl($post, $meta, $source)
+    {
+        // If not a WPRSS feed item, use its WordPress post permalink
+        if ($post->post_type !== 'wprss_feed_item') {
+            return get_permalink($post);
+        }
+
+        // Use the enclosure if the feed source option is enabled and the item has an enclosure link
+        if (isset($source['enclosure']) && $source['enclosure'] && !empty($meta['enclosure'])) {
+            return $meta['enclosure'];
+        }
+
+        // Use the permalink in the meta data
+        return $meta['permalink'];
     }
 }
