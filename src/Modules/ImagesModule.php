@@ -6,8 +6,10 @@ use Aventura\Wprss\Core\Caching\ImageCache;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
 use RebelCode\Wpra\Core\Entities\Feeds\Items\WpPostFeedItem;
+use RebelCode\Wpra\Core\Handlers\Images\AddItemsImageColumnHandler;
 use RebelCode\Wpra\Core\Handlers\Images\DeleteImagesHandler;
 use RebelCode\Wpra\Core\Handlers\Images\RemoveFtImageMetaBoxHandler;
+use RebelCode\Wpra\Core\Handlers\Images\RenderItemsImageColumnHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterMetaBoxHandler;
 use RebelCode\Wpra\Core\Handlers\RenderTemplateHandler;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
@@ -171,6 +173,53 @@ class ImagesModule implements ModuleInterface
                 return new ImageContainer(
                     $c->get('wpra/images/cache'),
                     $c->get('wpra/logging/logger')
+                );
+            },
+            /*
+             * The feed items image column key.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/column/key' => function () {
+                return 'image';
+            },
+            /*
+             * The feed items image column name.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/column/name' => function () {
+                return __('Image', 'wprss');
+            },
+            /*
+             * The feed items image column position.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/column/position' => function () {
+                return 1;
+            },
+            /*
+             * The handler that adds the image column to the items list page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/column/handler/add' => function (ContainerInterface $c) {
+                return new AddItemsImageColumnHandler(
+                    $c->get('wpra/images/items/column/key'),
+                    $c->get('wpra/images/items/column/name'),
+                    $c->get('wpra/images/items/column/position')
+                );
+            },
+            /*
+             * The handler that renders the contents of the image column in the items list page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/images/items/column/handler/render' => function (ContainerInterface $c) {
+                return new RenderItemsImageColumnHandler(
+                    $c->get('wpra/feeds/items/collection'),
+                    $c->get('wpra/images/items/column/key')
                 );
             },
             /*
@@ -365,6 +414,11 @@ class ImagesModule implements ModuleInterface
 
             // The handler that deletes images when the respective imported item is deleted
             add_action('before_delete_post', $c->get('wpra/images/items/handlers/delete_images'));
+
+            // Adds the image column in the feed items page
+            add_filter('wprss_set_feed_item_custom_columns', $c->get('wpra/images/items/column/handler/add'));
+            // Renders the image column in the feed items page
+            add_action('manage_wprss_feed_item_posts_custom_column', $c->get('wpra/images/items/column/handler/render'), 10, 2 );
         }
     }
 }

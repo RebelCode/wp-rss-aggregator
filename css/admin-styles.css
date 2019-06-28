@@ -607,6 +607,14 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
     width: 130px !important;
 }
 
+/* FEED ITEM IMAGE */
+body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#image {
+    width: 120px;
+}
+body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tbody img.wpra-item-ft-image {
+    width: 100px;
+}
+
 @media screen and (max-width: 660px) {
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#id,
     body.post-type-wprss_feed.edit-php table.wp-list-table.posts tfoot th.column-id,
@@ -630,8 +638,33 @@ body.post-type-wprss_feed.edit-php table.wp-list-table.posts thead th#category {
         display: none;
         padding: 8px 10px;
     }
+
+    /* HIDE ITEM IMAGE COLUMN */
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#image,
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tfoot th.column-image,
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tbody td.column-image {
+        display: none;
+    }
+
+    /* IMAGE IS LARGER IN RESPONSIVE MOBILE VIEW */
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tbody img.wpra-item-ft-image {
+        width: 350px;
+    }
+
+    /* HIDE INLINE IMAGE COLUMN NAME IN RESPONSIVE MOBILE VIEW */
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tbody td.column-image::before {
+        display: none;
+    }
 }
 
+@media only screen and (max-width: 1200px) {
+    /* HIDE ITEM PERMALINK COLUMN */
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#permalink,
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tfoot th.column-permalink,
+    body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts tbody td.column-permalink {
+        display: none;
+    }
+}
 
 /* For feed items */
 body.post-type-wprss_feed_item.edit-php table.wp-list-table.posts thead th#publishdate {
