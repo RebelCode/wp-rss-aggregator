@@ -443,8 +443,8 @@
 		// Calculate the allowed maximum time, based on the maximum number of items allowed to be
         // imported from this source.
         // If no limit is used, 60s (1min) is used.
-        $single_item_time_limit = wprss_get_item_import_time_limit();
-		$allowed_time = $limit === NULL ? 60 : $single_item_time_limit * intval( $limit );
+        $single_item_time_limit = wprss_get_feed_fetch_time_limit();
+		$allowed_time = $limit === NULL ? 120 : $single_item_time_limit * intval( $limit );
 
         // Calculate how many seconds have passed since the feed last signalled that it is updating
         $diff = time() - $is_updating_meta;

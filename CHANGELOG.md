@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added better error handling during image file creation when using the GD extension.
 * Rewrote the unique item title checking logic to be faster and more accurate.
 * Now suppressing "non-numeric value encountered" warnings from SimplePie.
+* Increased feed fetch time limit to 2 minutes.
 
 ### Fixed
 * An error would occur that prevented the default template from being saved.
