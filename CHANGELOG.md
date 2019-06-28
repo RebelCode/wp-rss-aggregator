@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 * Removed old secure reset code.
 * The "View items" link in the Feed Sources page has been removed.
+* Removed the "Edit" bulk action from the feed sources list page.
 
 ## [4.13.2] - 2019-05-14
 ### Added
