@@ -7,20 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [*next-version*] - 2019-05-14
 ### Added
 * YouTube channel URLs are now supported.
-* Items imported from YouTube are detected and their embed link is saved.
+* Items imported from YouTube are detected and their embed links are saved.
+* Embedded YouTube videos can now be shown in a lightbox.
 * New option to enable or disable the plugin's logging.
 * New option to set the log age, in days, for daily truncation.
 * Image URLs are detected and saved in feed item meta, to be used by templates that can show images.
-* Feed item excerpt is now imported, to be used by templates that can show excerpts.
+* Feed item excerpts are now imported, to be used by templates that can show excerpts.
 * Activating or pausing feed sources from the Feed Sources page is now asynchronous.
 * Deleting feed items from the Feed Sources page is now asynchronous.
-* New plugin-wide error handling to prevent site locks and white screens.
+* New plugin-wide error handling to prevent site locks, with the option to deactivate the plugin.
 * Feed sources that are missing their respective cron are detected and fixed while on the Feed Sources page.
 * Added tooltips to various links and controls in the feed source list page.
 * Import errors are now asynchronously added to the error icon in the feed sources list page.
 
 ### Changed
-* Redesigned the feed sources page.
+* Redesigned the feed sources page to be more compact and informative at a glance.
 * The custom feed now uses the Atom 1.0 standard.
 * Improved the responsive styling of the feed sources list table.
 * Improved the detection of cron scheduling failures, prevent feeds from appearing to be stuck.
@@ -33,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Increased feed fetch time limit to 2 minutes.
 
 ### Fixed
-* An error would occur that prevented the default template from being saved.
+* The default template could not be saved with a particular combination of settings.
 * The age limit setting was incorrectly being copied to feed sources.
 * Non image files are no longer wrongly downloaded, caching and treated as images.
 * The unique titles option caused a PHP warning when enabled.
