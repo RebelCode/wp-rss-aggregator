@@ -232,9 +232,21 @@ export default {
         ]
       },
       style: ({row}) => {
+        if (this.filters[row.type]) {
+          return [
+            <div>{this.filters[row.type]}</div>
+          ]
+        }
+
         return [
-          <div>{this.filters[row.type]}</div>
-        ]
+          <div>
+            {this.filters.list}
+            &nbsp;
+            <span style={{opacity: 0.7, fontSize: '90%'}}>
+              (Missing type: <code>{row.type}</code>)
+            </span>
+          </div>
+        ];
       },
       previewTemplate: ({row}) => {
         return [
