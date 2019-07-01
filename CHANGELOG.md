@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [*next-version*] - 2019-05-14
+## [4.14] - 2019-07-03
 ### Added
 * YouTube channel URLs are now supported.
 * Items imported from YouTube are detected and their embed links are saved.
@@ -22,8 +22,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Redesigned the feed sources page to be more compact and informative at a glance.
-* The custom feed now uses the Atom 1.0 standard.
+* The imported item count in the feed sources page is now a link to that feed's imported items.
 * Improved the responsive styling of the feed sources list table.
+* The custom feed now uses the Atom 1.0 standard.
 * Improved the detection of cron scheduling failures, prevent feeds from appearing to be stuck.
 * Converted log section in the debugging page to use the new module system.
 * Some options were renamed to be consistent across various plugin pages.
@@ -36,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * The default template could not be saved with a particular combination of settings.
 * The age limit setting was incorrectly being copied to feed sources.
-* Non image files are no longer wrongly downloaded, caching and treated as images.
+* Non image files are no longer wrongly downloaded, cached and treated as images.
 * The unique titles option caused a PHP warning when enabled.
 * Fixed use of previously cached version scripts and styles for the Templates page.
 * Fixed pagination not working correctly when no item limit is set.
@@ -46,7 +47,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 * Removed old secure reset code.
-* The "View items" link in the Feed Sources page has been removed.
+* The "View items" row action link in the Feed Sources page has been removed.
 * Removed the "Edit" bulk action from the feed sources list page.
 
 ## [4.13.2] - 2019-05-14
