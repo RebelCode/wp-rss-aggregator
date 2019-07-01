@@ -97,6 +97,7 @@
   min-height: 336px;
   position: relative;
   margin: -11px -18px -23px 0;
+  cursor: pointer;
 
   @include breakpoint(mobile) {
     flex-shrink: unset;

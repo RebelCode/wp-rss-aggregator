@@ -130,3 +130,23 @@
 
     <br class="clear">
 </div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            if ($.fn.colorbox) {
+                $('.wrap--wpra-update .wpra-update-feature__image').colorbox({
+                    title: 'Image',
+                    href: function () {
+                        var img = $(this).find('img');
+                        var src = img.attr('src');
+
+                        return src;
+                    },
+                    photo: true,
+                    rel: 'wpra-updates',
+                });
+            }
+        });
+    })(jQuery);
+</script>

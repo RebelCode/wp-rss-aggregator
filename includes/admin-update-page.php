@@ -33,6 +33,8 @@ function wprss_render_update_page()
     wprss_update_previous_update_page_version();
 
     wp_enqueue_style('update-page', WPRSS_APP_CSS . 'update.min.css');
+    wp_enqueue_script('wpra-colorbox', WPRSS_JS . 'jquery.colorbox-min.js', ['jquery'], WPRSS_VERSION);
+    wp_enqueue_style('colorbox', WPRSS_CSS . 'colorbox.css', [], '1.4.33');
 
     $changelog = wpra_get('core/changelog_dataset');
     $parsedown = wpra_get('parsedown');
