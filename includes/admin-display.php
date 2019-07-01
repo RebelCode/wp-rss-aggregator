@@ -40,12 +40,14 @@
 
         $columns['title'] = __( 'Name', WPRSS_TEXT_DOMAIN );
 
+        $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
+
         if (!$isTrashPage) {
             $columns['updates'] = __( 'Updates', WPRSS_TEXT_DOMAIN );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), WPRSS_TEXT_DOMAIN );
         }
 
-        return apply_filters( 'wprss_set_feed_custom_columns', $columns );
+        return apply_filters( 'wprss_feed_columns', $columns );
     }
 
 
