@@ -207,6 +207,7 @@
     function wprss_feed_sortable_columns() {
         $sortable_columns = array(
             // meta column id => sortby value used in query
+            'state'			=> 'state',
             'title'			=> 'title',
 			'updates'		=>	'updates',
 			'feed-count'	=>	'feed-count'
