@@ -472,7 +472,7 @@ export default {
               <Postbox id="template-custom-css" title="Custom Style" context={this}>
                 <Input type="text"
                        class="form-input--vertical"
-                       label={'Custom CSS class name'}
+                       label={'Custom HTML class name'}
                        value={this.model.options.custom_css_classname}
                        onInput={(e) => this.model.options.custom_css_classname = e}
                        title={this.tooltips.options.custom_css_classname}

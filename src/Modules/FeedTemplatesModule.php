@@ -334,7 +334,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'link_to_embed' => __('Tick this box to have feed items link to their embedded content, if they have any. This works especially well when links are set to <em>"Open in a lightbox"</em>.', 'wprss'),
                         'bullets_enabled' => __('Enable this option to show bullets next to feed items.', 'wprss'),
                         'bullet_type' => __('The bullet type to use for feed items.', 'wprss'),
-                        'custom_css_classname' => false,
+                        'custom_css_classname' => __('You can add your own HTML class name to the template output. This lets you customize your template further using custom CSS styling or custom JS functionality.'),
                     ],
                 ];
             },
