@@ -575,6 +575,10 @@ function wpra_safe_deactivate()
     $plugins = wpra_get_addon_paths();
     $plugins[] = plugin_basename(__FILE__);
 
+    if (!function_exists('deactivate_plugins')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
     deactivate_plugins($plugins, true);
     header('Location: ' . admin_url('plugins.php'));
     exit;
