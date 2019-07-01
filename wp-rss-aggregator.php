@@ -487,13 +487,18 @@ function wpra_exception_handler($exception)
  */
 function wpra_critical_error_handler($error)
 {
-    ob_start(); ?>
+    $hasAddons = count(wpra_get_addon_paths()) > 0;
+    ob_start();
+    ?>
 
     <br/>
     <form method="POST" action="<?php echo esc_attr(admin_url()) ?>">
         <?php wp_nonce_field('wprss_safe_deactivate', 'wprss_safe_deactivate_nonce'); ?>
         <button type="submit" class="button button-secondary">
-            <?php echo __('Deactivate WP RSS Aggregator', 'wprss') ?>
+            <?php echo $hasAddons
+                ? __('Deactivate WP RSS Aggregator and its addons', 'wprss')
+                : __('Deactivate WP RSS Aggregator', 'wprss')
+            ?>
         </button>
     </form>
 
@@ -567,7 +572,23 @@ function wpra_safe_deactivate()
         return;
     }
 
-    $plugins = [plugin_basename(__FILE__)];
+    $plugins = wpra_get_addon_paths();
+    $plugins[] = plugin_basename(__FILE__);
+
+    deactivate_plugins($plugins, true);
+    header('Location: ' . admin_url('plugins.php'));
+    exit;
+}
+
+/**
+ * Retrieves the list of full paths to the main files of activated addons.
+ *
+ * @since [*next-version*]
+ *
+ * @return string[]
+ */
+function wpra_get_addon_paths()
+{
     $check = [
         'WPRSS_TEMPLATES',
         'WPRSS_C_PATH',
@@ -577,15 +598,15 @@ function wpra_safe_deactivate()
         'WPRSS_FTR_PATH',
         'WPRSS_SPC_ADDON'
     ];
+
+    $addons = [];
     foreach ($check as $pathConstant) {
         if (defined($pathConstant)) {
-            $plugins[] = plugin_basename(constant($pathConstant));
+            $addons[] = plugin_basename(constant($pathConstant));
         }
     }
 
-    deactivate_plugins($plugins, true);
-    header('Location: ' . admin_url('plugins.php'));
-    exit;
+    return $addons;
 }
 
 /**
