@@ -60,7 +60,7 @@ abstract class AbstractAsset implements AssetInterface
     {
         $this->handle = $handle;
         $this->src = $src;
-        $this->version = $version;
+        $this->version = ($version === false) ? WPRSS_VERSION : $version;
     }
 
     /**
