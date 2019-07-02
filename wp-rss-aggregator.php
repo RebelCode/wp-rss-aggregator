@@ -468,9 +468,13 @@ function wpra_load_module($key, $module)
 function wpra_exception_handler($exception)
 {
     add_action('all_admin_notices', function () use ($exception) {
+        $message = __(
+            '<b>WP RSS Aggregator</b> has encountered an error. If this problem persists, kindly contact customer support and provide the following details:',
+            'wprss'
+        );
         ?>
         <div class="notice notice-error">
-            <?php echo wpra_display_error($exception) ?>
+            <?php echo wpra_display_error($message, $exception) ?>
         </div>
         <?php
     });
@@ -504,7 +508,11 @@ function wpra_critical_error_handler($error)
 
     <?php
     $deactivateForm = ob_get_clean();
-    $errorDisplay = wpra_display_error($error);
+    $message = __(
+        '<b>WP RSS Aggregator</b> has encountered a critical error. The safest course of action is to deactivate the plugin and any of its add-ons on this site using the button below. Once you’ve done that, you may reactivate them and start using the plugins again. If the problem persists, please copy the below error and send it to our support team with an explanation of when and how it happened.',
+        'wprss'
+    );
+    $errorDisplay = wpra_display_error($message, $error);
 
     wp_die(
         $errorDisplay . $deactivateForm,
@@ -517,19 +525,17 @@ function wpra_critical_error_handler($error)
  *
  * @since [*next-version*]
  *
- * @param Exception|Throwable $error The error.
+ * @param string              $message The message to show.
+ * @param Exception|Throwable $error   The error.
  *
  * @return string
  */
-function wpra_display_error($error)
+function wpra_display_error($message, $error)
 {
     ob_start(); ?>
 
     <p>
-        <?php _e(
-            '<b>WP RSS Aggregator</b> has encountered a critical error. If this problem persists, kindly contact customer support and provide the following details:',
-            'wprss'
-        ) ?>
+        <?php echo $message ?>
     </p>
     <div style="background-color: rgba(0,0,0,.07); padding: 5px;">
         <details>
