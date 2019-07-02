@@ -50,6 +50,7 @@ use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
+use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
@@ -313,9 +314,6 @@ require_once ( WPRSS_INC . 'polyfills.php' );
 /* Load the youtube functionality */
 require_once ( WPRSS_INC . 'youtube.php' );
 
-// Initializes licensing
-add_action( 'plugins_loaded', 'wprss_licensing' );
-
 do_action('wprss_pre_init');
 
 register_activation_hook(__FILE__, 'wprss_activate');
@@ -324,6 +322,8 @@ register_deactivation_hook(__FILE__, 'wprss_deactivate');
 // Run WPRA
 add_action('plugins_loaded', 'wpra_run', 100);
 add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
+// Initializes licensing
+add_action( 'plugins_loaded', 'wprss_licensing', 150 );
 
 /**
  * Runs WP RSS Aggregator.
@@ -390,6 +390,7 @@ function wpra_modules()
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),
+        'licensing' => new LicensingModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),

@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Rewrote the unique item title checking logic to be faster and more accurate.
 * Now suppressing "non-numeric value encountered" warnings from SimplePie.
 * Increased the time by which the plugin detects stuck feeds to 2 minutes.
+* The addon licensing registration system has been partially converted to the new module system.
 
 ### Fixed
 * The default template could not be saved with a particular combination of settings.
