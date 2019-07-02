@@ -7,6 +7,8 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
+    padding-right: 20px;
+    box-sizing: border-box;
   }
 }
 
@@ -110,7 +112,7 @@
     }
 
     &::before {
-      content: "\f179";
+      content: "\f177";
       display: block;
       position: absolute;
       top: calc(50% - 45px);
