@@ -32,11 +32,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added better error handling during image file creation when using the GD extension.
 * Rewrote the unique item title checking logic to be faster and more accurate.
 * Now suppressing "non-numeric value encountered" warnings from SimplePie.
-* Increased feed fetch time limit to 2 minutes.
+* Increased the time by which the plugin detects stuck feeds to 2 minutes.
 
 ### Fixed
 * The default template could not be saved with a particular combination of settings.
 * The age limit setting was incorrectly being copied to feed sources.
+* Fixed links in templates not opening in new tabs under certain conditions.
 * Non image files are no longer wrongly downloaded, cached and treated as images.
 * The unique titles option caused a PHP warning when enabled.
 * Fixed use of previously cached version scripts and styles for the Templates page.
