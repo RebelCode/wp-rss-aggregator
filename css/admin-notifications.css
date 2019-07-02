@@ -7,6 +7,10 @@
     margin-right: 200px;
 }
 
+.wprss_admin-notice .notice-inside {
+    margin-right: 200px;
+}
+
 .wprss_admin-notice .btn-close {
     position: absolute;
     right: 15px;
