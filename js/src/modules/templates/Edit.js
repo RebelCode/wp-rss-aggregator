@@ -463,7 +463,7 @@ export default {
                           : null
                   }
                 <Input type="checkbox"
-                       label={'Link to embed'}
+                       label={'Set links to open embeds'}
                        value={this.model.options.link_to_embed}
                        onInput={(e) => this.model.options.link_to_embed = e}
                        title={this.tooltips.options.link_to_embed}
