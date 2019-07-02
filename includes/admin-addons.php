@@ -14,11 +14,17 @@
         <div class="wrap">
             <h2><?php _e( 'More Features With Our Premium Add-Ons', WPRSS_TEXT_DOMAIN ); ?></h2>
             <p><?php echo sprintf(__( 'The following <a href="%1$s" target="_blank">add-ons</a> are available to increase the functionality of the WP RSS Aggregator plugin.', WPRSS_TEXT_DOMAIN ), 'https://www.wprssaggregator.com/extensions') ?></p>
-            <p><?php echo sprintf(__(
-                       'Save more with our <a href="%1$s" target="_blank"><strong>Simple Feeds Bundle</strong></a> or'
-                       . ' <a href="%2$s" target="_blank"><strong>Advanced Feeds Bundle</strong></a>!', WPRSS_TEXT_DOMAIN ),
-                       'https://www.wprssaggregator.com/extension/simple-feeds-bundle/',
-                       'https://www.wprssaggregator.com/extension/advanced-feeds-bundle/'); ?></p>
+            <p>
+                <?php
+                    $pricingLink = sprintf(
+                        '<a href="%s" target="_blank">%s</a>',
+                        'https://www.wprssaggregator.com/pricing',
+                        _x('pricing plans', 'Check out our pricing plans for bigger savings!', 'wprss')
+                    );
+
+                    printf(_x('Check out our %s for bigger savings!', '%s = "pricing plans"', 'wprss'), $pricingLink);
+                ?>
+            </p>
         
             <div id="add-ons" class="clearfix">
                 
