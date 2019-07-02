@@ -319,11 +319,12 @@ do_action('wprss_pre_init');
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
+// Safe deactivation hook (for the error handler)
+add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
 // Run WPRA
 add_action('plugins_loaded', 'wpra_run', 100);
-add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
 // Initializes licensing
-add_action( 'plugins_loaded', 'wprss_licensing', 150 );
+add_action('plugins_loaded', 'wprss_licensing', 150);
 
 /**
  * Runs WP RSS Aggregator.
@@ -338,10 +339,13 @@ function wpra_run()
 
         $plugin = wpra();
         $container = wpra_container();
+        do_action('wpra_loaded', $container, $plugin);
 
         $plugin->run($container);
+        do_action('wpra_after_run', $container, $plugin);
     } catch (Exception $exception) {
         wpra_exception_handler($exception);
+        do_action('wpra_error', $exception);
     }
 }
 
