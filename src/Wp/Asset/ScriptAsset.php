@@ -7,7 +7,7 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
  *
  * @since [*next-version*]
  */
-class ScriptAsset extends AbstractAsset
+class ScriptAsset extends AbstractAsset implements ScriptInterface
 {
     /**
      * Whether to enqueue the script before `</body>` instead of in the `<head>`.
@@ -16,7 +16,7 @@ class ScriptAsset extends AbstractAsset
      *
      * @var bool
      */
-    protected $inFooter = false;
+    protected $footer = false;
 
     /**
      * Function to execute after the script was enqueued.
@@ -25,36 +25,55 @@ class ScriptAsset extends AbstractAsset
      *
      * @var null|callable
      */
-    protected $afterEnqueue;
+    protected $afterNq;
 
     /**
-     * Set the in footer property.
+     * Localization data.
      *
      * @since [*next-version*]
      *
-     * @param bool $inFooter
-     *
-     * @return $this
+     * @var array
      */
-    public function setInFooter($inFooter)
+    protected $l10n;
+
+    /**
+     * @inheritdoc
+     *
+     * @since [*next-version*]
+     *
+     * @param bool          $footer  Whether to enqueue the script before `</body>` instead of in the `<head>`.
+     * @param callable|null $afterNq Function to execute after the script was enqueued.
+     */
+    public function __construct($handle, $src, $deps = [], $version = false, $footer = false, $afterNq = null)
     {
-        $this->inFooter = $inFooter;
-        return $this;
+        parent::__construct($handle, $src, $deps, $version);
+
+        $this->footer = $footer;
+        $this->afterNq = $afterNq;
+        $this->l10n = [];
     }
 
     /**
-     * Set the callback to execute right after the script was enqueued.
+     * @inheritdoc
      *
      * @since [*next-version*]
-     *
-     * @param callable $callback
-     *
-     * @return $this
      */
-    public function setAfterEnqueue($callback)
+    public function localize($key, $callback)
     {
-        $this->afterEnqueue = $callback;
-        return $this;
+        $instance = clone $this;
+        $instance->l10n[$key] = $callback;
+
+        return $instance;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @since [*next-version*]
+     */
+    public function register()
+    {
+        wp_register_script($this->handle, $this->src, $this->deps, $this->version, $this->footer);
     }
 
     /**
@@ -64,10 +83,15 @@ class ScriptAsset extends AbstractAsset
      */
     public function enqueue()
     {
-        wp_enqueue_script($this->handle, $this->src, $this->dependencies, $this->version, $this->inFooter);
+        foreach ($this->l10n as $key => $data) {
+            wp_localize_script($this->handle, $key, is_callable($data) ? call_user_func($data) : $data);
+        }
 
-        if ($this->afterEnqueue && is_callable($this->afterEnqueue)) {
-            call_user_func($this->afterEnqueue);
+        $this->register();
+        wp_enqueue_script($this->handle);
+
+        if (is_callable($this->afterNq)) {
+            call_user_func($this->afterNq, [$this]);
         }
     }
 }

@@ -71,7 +71,7 @@
 	 * Renders the TinyMCE button dialog contents.
 	 */
 	function wprss_return_dialog_contents() {
-		$templates_collection = wpra_get('templates/feeds/collection');
+		$templates_collection = wpra_get('feeds/templates/collection');
 		$templates_options = [];
 		foreach ($templates_collection as $template) {
 		    $template_name = $template['name'];

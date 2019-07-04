@@ -30,7 +30,7 @@ abstract class AbstractAsset implements AssetInterface
     /**
      * String specifying asset version number, if it has one, which is added to the URL as a query string for cache
      * busting purposes. If version is set to false, a version number is automatically added equal to current installed
-     * WordPress version. If set to null, no version is added.
+     * WP RSS Aggregator version. If set to null, no version is added.
      *
      * @since [*next-version*]
      *
@@ -45,7 +45,7 @@ abstract class AbstractAsset implements AssetInterface
      *
      * @var string[]
      */
-    protected $dependencies = [];
+    protected $deps = [];
 
     /**
      * AbstractAsset constructor.
@@ -54,49 +54,14 @@ abstract class AbstractAsset implements AssetInterface
      *
      * @param string $handle  Asset's unique name.
      * @param string $src     The URL of the asset.
+     * @param array  $deps    The list of asset handles for this asset's dependencies.
      * @param bool   $version String specifying asset version number.
      */
-    public function __construct($handle, $src, $version = false)
+    public function __construct($handle, $src, $deps = [], $version = false)
     {
         $this->handle = $handle;
         $this->src = $src;
         $this->version = ($version === false) ? WPRSS_VERSION : $version;
+        $this->deps = $deps;
     }
-
-    /**
-     * Sets the version of the asset.
-     *
-     * @since [*next-version*]
-     *
-     * @param string|bool|null $version
-     *
-     * @return $this
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
-        return $this;
-    }
-
-    /**
-     * Sets the names of dependencies.
-     *
-     * @since [*next-version*]
-     *
-     * @param string[] $dependencies
-     *
-     * @return $this
-     */
-    public function setDependencies($dependencies)
-    {
-        $this->dependencies = $dependencies;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since [*next-version*]
-     */
-    abstract public function enqueue();
 }

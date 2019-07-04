@@ -38,6 +38,7 @@ use RebelCode\Wpra\Core\Container\ModuleContainer;
 use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
+use RebelCode\Wpra\Core\Modules\AssetsModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
@@ -382,6 +383,7 @@ function wpra_modules()
         'core' => new CoreModule(__FILE__),
         'addons' => new AddonsModule(),
         'wordpress' => new WpModule(),
+        'assets' => new AssetsModule(),
         'importer' => new ImporterModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),

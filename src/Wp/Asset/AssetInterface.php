@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Wp\Asset;
 
 /**
- * Interface AssetInterface
+ * Interface for UI assets.
  *
  * Assets provide ability to to include styles or scripts.
  *
@@ -12,11 +12,16 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
 interface AssetInterface
 {
     /**
-     * Enqueue current asset.
+     * Registers the asset.
      *
      * @since [*next-version*]
+     */
+    public function register();
+
+    /**
+     * Enqueues the asset.
      *
-     * @return void
+     * @since [*next-version*]
      */
     public function enqueue();
 }

@@ -22,24 +22,13 @@ class RenderAdminTemplatesPageHandler
     protected $assets;
 
     /**
-     * The list of states to render on the templates admin page.
-     *
-     * @since [*next-version*]
-     *
-     * @var RendererInterface[]
-     */
-    protected $states;
-
-    /**
      * RenderAdminTemplatesPageHandler constructor.
      *
      * @param AssetInterface[] $assets The list of assets required to render the page.
-     * @param RendererInterface[] $states
      */
-    public function __construct($assets, $states)
+    public function __construct($assets)
     {
         $this->assets = $assets;
-        $this->states = $states;
     }
 
     /**
@@ -49,10 +38,6 @@ class RenderAdminTemplatesPageHandler
     {
         foreach ($this->assets as $asset) {
             $asset->enqueue();
-        }
-
-        foreach ($this->states as $state) {
-            $state->render();
         }
 
         echo wprss_render_template('admin/templates-page.twig', [

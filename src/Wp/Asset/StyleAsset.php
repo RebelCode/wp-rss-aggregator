@@ -10,28 +10,38 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
 class StyleAsset extends AbstractAsset
 {
     /**
-     * The media for which this stylesheet has been defined. Accepts media types like 'all', 'print' and 'screen',
-     * or media queries like '(orientation: portrait)' and '(max-width: 640px)'.
+     * The media for which this stylesheet has been defined.
      *
      * @since [*next-version*]
      *
      * @var string
      */
-    protected $media = 'all';
+    protected $media;
 
     /**
-     * Set media property.
+     * @inheritdoc
      *
      * @since [*next-version*]
      *
-     * @param string $media
-     *
-     * @return $this
+     * @param string $media The media for which this stylesheet has been defined. Accepts media types like 'all',
+     *                      'print' and 'screen', or media queries like '(orientation: portrait)' and '(max-width:
+     *                      640px)'.
      */
-    public function setMedia($media)
+    public function __construct($handle, $src, $deps = [], $version = false, $media = 'all')
     {
+        parent::__construct($handle, $src, $deps, $version);
+
         $this->media = $media;
-        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @since [*next-version*]
+     */
+    public function register()
+    {
+        wp_register_style($this->handle, $this->src, $this->deps, $this->version, $this->media);
     }
 
     /**
@@ -41,6 +51,7 @@ class StyleAsset extends AbstractAsset
      */
     public function enqueue()
     {
-        wp_enqueue_style($this->handle, $this->src, $this->dependencies, $this->version, $this->media);
+        $this->register();
+        wp_enqueue_style($this->handle);
     }
 }
