@@ -248,7 +248,7 @@ export default {
                        disabled={this.model.type === '__built_in'}
                        inputDisabled={!WpraTemplates.options.is_type_enabled}
                        description={
-                         WpraTemplates.options.is_type_enabled ? null  : '<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'
+                         WpraTemplates.options.is_type_enabled ? null  : '<div class="disable-ignored"><strong class="disable-ignored">Get more template types, including a customisable grid template.</strong> <a target="_blank" href="https://www.wprssaggregator.com/extensions/templates/" class="disable-ignored">Learn more.</a></div>'
                        }
                 />
                 {
