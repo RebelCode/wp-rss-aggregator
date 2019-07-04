@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Import errors are now asynchronously added to the error icon in the feed sources list page.
 
 ### Changed
+* Previewing a template no longer requires saving the template.
 * Redesigned the feed sources page to be more compact and informative at a glance.
 * The imported item count in the feed sources page is now a link to that feed's imported items.
 * Improved the responsive styling of the feed sources list table.

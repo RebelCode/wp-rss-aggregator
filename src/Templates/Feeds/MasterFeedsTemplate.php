@@ -102,13 +102,13 @@ class MasterFeedsTemplate implements TemplateInterface
     protected $feedItemCollection;
 
     /**
-     * The collection of twig templates.
+     * The template to use to render the container.
      *
-     * @since 4.13
+     * @since [*next-version*]
      *
-     * @var DataSetInterface
+     * @var TemplateInterface
      */
-    protected $twigCollection;
+    protected $containerTemplate;
 
     /**
      * The template to use for legacy-mode rendering.
@@ -137,7 +137,7 @@ class MasterFeedsTemplate implements TemplateInterface
      * @param array               $templateTypes      The available template types.
      * @param CollectionInterface $templateCollection The collection of templates.
      * @param CollectionInterface $feedItemCollection The collection of feed items.
-     * @param DataSetInterface    $twigCollection     The collection of twig templates.
+     * @param TemplateInterface   $containerTemplate  The template to use for rendering the container.
      * @param TemplateInterface   $legacyTemplate     The template to use for legacy-mode rendering.
      * @param LoggerInterface     $logger             The logger instance to use for recording errors.
      */
@@ -146,7 +146,7 @@ class MasterFeedsTemplate implements TemplateInterface
         $templateTypes,
         CollectionInterface $templateCollection,
         CollectionInterface $feedItemCollection,
-        DataSetInterface $twigCollection,
+        TemplateInterface $containerTemplate,
         TemplateInterface $legacyTemplate,
         LoggerInterface $logger
     ) {
@@ -154,7 +154,7 @@ class MasterFeedsTemplate implements TemplateInterface
         $this->default = $default;
         $this->templateCollection = $templateCollection;
         $this->feedItemCollection = $feedItemCollection;
-        $this->twigCollection = $twigCollection;
+        $this->containerTemplate = $containerTemplate;
         $this->legacyTemplate = $legacyTemplate;
         $this->logger = $logger;
     }
@@ -198,7 +198,7 @@ class MasterFeedsTemplate implements TemplateInterface
             'items' => $itemsCollection,
         ]);
 
-        return $this->twigCollection['feeds/container.twig']->render([
+        return $this->containerTemplate->render([
             'ctx' => base64_encode(json_encode($argCtx)),
             'slug' => $model['slug'],
             'template' => $rendered,

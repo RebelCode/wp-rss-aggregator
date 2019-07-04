@@ -24,6 +24,7 @@ use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\GetTemplatesEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\PatchTemplateEndPoint;
 use RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates\RenderTemplateEndPoint;
 use RebelCode\Wpra\Core\Templates\Feeds\MasterFeedsTemplate;
+use RebelCode\Wpra\Core\Templates\Feeds\TemplateTypeTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
 use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
@@ -200,10 +201,41 @@ class FeedTemplatesModule implements ModuleInterface
                     $c->get('wpra/feeds/templates/template_types'),
                     $c->get('wpra/feeds/templates/collection'),
                     $c->get('wpra/feeds/templates/feed_item_collection'),
-                    $c->get('wpra/feeds/templates/file_template_collection'),
+                    $c->get('wpra/feeds/templates/container_template'),
                     $c->get('wpra/display/feeds/legacy_template'),
                     $c->get('wpra/feeds/templates/master_template_logger')
                 );
+            },
+            /*
+             * The generic template type template.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/templates/generic_template' => function (ContainerInterface $c) {
+                return new TemplateTypeTemplate(
+                    $c->get('wpra/feeds/templates/generic_template_default_type'),
+                    $c->get('wpra/feeds/templates/template_types'),
+                    $c->get('wpra/feeds/templates/feed_item_collection'),
+                    $c->get('wpra/feeds/templates/container_template')
+                );
+            },
+            /*
+             * The default template type to use for the generic template.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/templates/generic_template_default_type' => function (ContainerInterface $c) {
+                return 'list';
+            },
+            /*
+             * The template for the HTML container that wraps all rendered templates.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/templates/container_template' => function (ContainerInterface $c) {
+                $twigTemplates = $c->get('wpra/feeds/templates/file_template_collection');
+
+                return $twigTemplates['feeds/container.twig'];
             },
             /*
              * The feed item collection to use with the master template.
@@ -522,7 +554,8 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/feeds/templates/handlers/render_content' => function (ContainerInterface $c) {
                 return new RenderTemplateContentHandler(
                     $c->get('wpra/feeds/templates/cpt/name'),
-                    $c->get('wpra/feeds/templates/master_template')
+                    $c->get('wpra/feeds/templates/master_template'),
+                    $c->get('wpra/feeds/templates/generic_template')
                 );
             },
             /*

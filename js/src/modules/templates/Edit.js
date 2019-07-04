@@ -9,6 +9,7 @@ import NoticeBlock from 'app/components/NoticeBlock'
 import deepmerge from 'app/utils/deepmerge'
 import DataChangesAware from 'app/mixins/DataChangesAware'
 import jsonClone from 'app/utils/jsonClone'
+import base64 from 'app/utils/base64'
 import { copyToClipboard } from 'app/utils/copy'
 
 export default {
@@ -42,7 +43,9 @@ export default {
   },
   computed: {
     previewUrl () {
-      return `${WpraGlobal.admin_base_url}?wpra_preview_template=${this.router.params.id}`
+      let options = base64.encode(JSON.stringify(this.model.options))
+
+      return `${WpraGlobal.admin_base_url}?wpra_preview_template=${this.router.params.id}&wpra_template_options=${options}`
     }
   },
   methods: {

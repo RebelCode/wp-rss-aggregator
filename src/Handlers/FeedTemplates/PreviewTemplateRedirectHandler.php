@@ -82,10 +82,19 @@ class PreviewTemplateRedirectHandler
             exit;
         }
 
+        // Get the template options, if present. They will in the form of a Base64 string of their JSON serialization
+        $options = filter_input(INPUT_GET, 'wpra_template_options', FILTER_SANITIZE_STRING);
+        $options = empty($options) ? '' : $options;
+
         $urlQuery = parse_url($permalink, PHP_URL_QUERY);
         $separator = (empty($urlQuery)) ? '?' : "&";
         $nonce = wp_create_nonce($this->nonce);
-        $fullUrl = $permalink . $separator . '_wpnonce=' . $nonce;
+        $getParams = [
+            '_wpnonce' => $nonce,
+            'options' => $options,
+        ];
+
+        $fullUrl = $permalink . $separator . http_build_query($getParams);
 
         wp_safe_redirect($fullUrl);
         die;
