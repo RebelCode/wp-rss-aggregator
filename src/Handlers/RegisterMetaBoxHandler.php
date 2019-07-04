@@ -7,84 +7,84 @@ use WP_Screen;
 /**
  * A generic handler for registering WordPress meta boxes.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class RegisterMetaBoxHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      */
     const CONTEXT_NORMAL = 'normal';
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      */
     const CONTEXT_ADVANCED = 'advanced';
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      */
     const CONTEXT_SIDE = 'side';
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      */
     const PRIORITY_DEFAULT = 'default';
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      */
     const PRIORITY_LOW = 'low';
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      */
     const PRIORITY_HIGH = 'high';
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $id;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $title;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var callable
      */
     protected $callback;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $screen;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string|array|WP_Screen
      */
     protected $context;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $priority;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var array
      */
@@ -93,7 +93,7 @@ class RegisterMetaBoxHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string                 $id       The meta box ID.
      * @param string                 $title    The title of the meta box.
@@ -124,7 +124,7 @@ class RegisterMetaBoxHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

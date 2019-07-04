@@ -9,14 +9,14 @@ use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
 /**
  * The WP RSS Aggregator module that handles asset management and registration.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class AssetsModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function run(ContainerInterface $c)
     {
@@ -38,7 +38,7 @@ class AssetsModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getFactories()
     {
@@ -56,7 +56,7 @@ class AssetsModule implements ModuleInterface
             /*
              * Manifest file holds function used for bootstrapping and ordered loading of dependencies and application.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/assets/scripts/manifest' => function() {
                 return new ScriptAsset(
@@ -74,7 +74,7 @@ class AssetsModule implements ModuleInterface
              * that particular application. Common dependencies like Vue live in this file and loaded before that
              * application.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/assets/scripts/vendor' => function() {
                 return new ScriptAsset(
@@ -88,7 +88,7 @@ class AssetsModule implements ModuleInterface
             /*
              * The common styles.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/assets/styles/common' => function () {
                 return new StyleAsset('wpra-common', WPRSS_APP_CSS . 'common.min.css');
@@ -99,7 +99,7 @@ class AssetsModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getExtensions()
     {

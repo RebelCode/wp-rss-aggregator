@@ -200,7 +200,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
 /**
  * Downloads a given list of images and attaches them to an imported item.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param string[] $images The URLs of the images to download.
  * @param int $postId The ID of the WordPress post to which the images will be attached.
@@ -341,7 +341,7 @@ function wpra_process_images($images, $source, &$bestImage = null)
 /**
  * Returns the <media:thumbnail> image for the given feed item.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param SimplePie_Item $item The feed item
  *
@@ -389,7 +389,7 @@ function wpra_get_item_media_thumbnail_image($item)
 /**
  * Returns the enclosure images for the given feed item.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param SimplePie_Item $item The feed item
  *
@@ -413,7 +413,7 @@ function wpra_get_item_enclosure_images($item)
 /**
  * Returns the images found in the given item's content
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param SimplePie_Item $item The feed item
  *
@@ -446,7 +446,7 @@ function wpra_get_item_content_images($item)
 /**
  * Returns the itunes images for the given feed item.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param SimplePie_Item $item The feed item
  *
@@ -475,7 +475,7 @@ function wpra_get_item_itunes_images($item)
 /**
  * Removes an image tag, matched by an image URL, from a string of HTML content.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param string $content The content in which to search for and remove the image.
  * @param string $url     The URL of the image to remove.
@@ -514,7 +514,7 @@ function wpra_remove_image_from_content($content, $url, $limit = 1)
  * This function will attempt to download the image at the given URL. If the image URL is a local URL, the function
  * will skip the downloading process. The post ID is required in order to use WordPress side-loading function.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param int $post_id The ID of the post.
  * @param string $url The URL of the image.
@@ -543,7 +543,7 @@ function wpra_download_item_image($post_id, $url)
  * This function will attempt to download the image at the given URL and then assign it to the post with the given ID.
  * If the image URL is a local URL, the function will skip the downloading process.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param int $post_id The ID of the post.
  * @param string $url The URL of the image.
@@ -564,7 +564,7 @@ function wpra_set_featured_image_from_url($post_id, $url)
 /**
  * Checks if the given url is a local or external one
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 function wpra_is_url_local($url, $home_url = null)
 {
@@ -586,7 +586,7 @@ function wpra_is_url_local($url, $home_url = null)
 /**
  * Builds a URL from a given URL, using only the specified parts of it.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @see   parse_url()
  *
@@ -829,7 +829,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
 /**
  * Fallback function for determining mime type and extension of an image
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param string $local_image_path  Local path of the downloaded image
  * @param string $remote_image_path Remote image url
@@ -869,7 +869,7 @@ function wpra_check_file_type($local_image_path, $remote_image_path)
 /**
  * Return Mime type and ext mapping array
  *
- * @since [*next-version*]
+ * @since 4.14
  * @return array Mime type and ext mapping
  */
 function wpra_get_mime_type_ext_mapping()
@@ -890,7 +890,7 @@ function wpra_get_mime_type_ext_mapping()
 /**
  * Returns the attachment ID of the image with the given source
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 function wpra_get_attachment_id_from_url( $image_src ) {
     global $wpdb;
@@ -902,7 +902,7 @@ function wpra_get_attachment_id_from_url( $image_src ) {
 /**
  * Checks if an images feature is enabled.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param string $feature The feature name.
  *

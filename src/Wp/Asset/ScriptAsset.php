@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
 /**
  * Class for enqueuing scripts.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class ScriptAsset extends AbstractAsset implements ScriptInterface
 {
     /**
      * Whether to enqueue the script before `</body>` instead of in the `<head>`.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var bool
      */
@@ -21,7 +21,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
     /**
      * Function to execute after the script was enqueued.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var null|callable
      */
@@ -30,7 +30,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
     /**
      * Localization data.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var array
      */
@@ -39,7 +39,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param bool          $footer  Whether to enqueue the script before `</body>` instead of in the `<head>`.
      * @param callable|null $afterNq Function to execute after the script was enqueued.
@@ -56,7 +56,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function localize($key, $callback)
     {
@@ -69,7 +69,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function register()
     {
@@ -79,7 +79,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function enqueue()
     {

@@ -577,7 +577,7 @@ class WPRSS_Image_Cache {
      * This method will first check the file type of the locally downloaded copy.
      * If that fails, the method will attempt to fetch the MIME type from the original remote file.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $path The path to the local file.
      * @param string $url The URL to the remote file.

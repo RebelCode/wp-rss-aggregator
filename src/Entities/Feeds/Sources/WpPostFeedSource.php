@@ -53,7 +53,7 @@ class WpPostFeedSource extends WpCptDataSet
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function createMetaDataSet($postOrId)
     {
@@ -70,7 +70,7 @@ class WpPostFeedSource extends WpCptDataSet
     /**
      * Retrieves the default meta data.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return ArrayDataSet The data set containing the default meta data.
      */

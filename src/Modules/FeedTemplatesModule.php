@@ -209,7 +209,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The generic template type template.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/generic_template' => function (ContainerInterface $c) {
                 return new TemplateTypeTemplate(
@@ -222,7 +222,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The default template type to use for the generic template.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/generic_template_default_type' => function (ContainerInterface $c) {
                 return 'list';
@@ -230,7 +230,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The template for the HTML container that wraps all rendered templates.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/container_template' => function (ContainerInterface $c) {
                 $twigTemplates = $c->get('wpra/feeds/templates/file_template_collection');
@@ -473,7 +473,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The assets used on the admin templates page.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/admin/assets' => function (ContainerInterface $c) {
                 return [
@@ -484,7 +484,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The template style.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/admin/styles/main' => function () {
                 return new StyleAsset('wpra-templates', WPRSS_APP_CSS . 'templates.min.css', ['wpra-common']);
@@ -492,7 +492,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The template script.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/admin/scripts/main' => function (ContainerInterface $c) {
                 $script = new ScriptAsset('wpra-templates', WPRSS_APP_JS . 'templates.min.js', [
@@ -513,7 +513,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The state for the templates script.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/admin/states/main' => function (ContainerInterface $c) {
                 return [
@@ -527,7 +527,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The global state of the application.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/admin/states/global' => function (ContainerInterface $c) {
                 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
@@ -541,7 +541,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The handler that renders the admin templates page.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/templates/admin/render_handler' => function (ContainerInterface $c) {
                 return new RenderAdminTemplatesPageHandler($c->get('wpra/feeds/templates/admin/assets'));
@@ -674,7 +674,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Register the templates UI assets for the admin-side.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/assets/admin' => function(ContainerInterface $c, $assets) {
                 foreach ($c->get('wpra/feeds/templates/admin/assets') as $asset) {

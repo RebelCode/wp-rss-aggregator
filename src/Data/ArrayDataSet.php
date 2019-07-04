@@ -36,7 +36,7 @@ class ArrayDataSet extends AbstractDataSet
     protected $data;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var bool
      */

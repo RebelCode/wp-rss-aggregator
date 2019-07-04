@@ -38,7 +38,7 @@ class WpPostFeedItemCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function getBasePostQueryArgs()
     {

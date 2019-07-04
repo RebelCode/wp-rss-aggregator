@@ -153,7 +153,7 @@ class CoreModule implements ModuleInterface
             /*
              * The config for WP RSS Aggregator.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/core/config' => function (ContainerInterface $c) {
                 $prefix = $c->get('wpra/core/config/prefix');
@@ -164,7 +164,7 @@ class CoreModule implements ModuleInterface
             /*
              * The options available in the WP RSS Aggregator config.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/core/config/options' => function () {
                 return new ArrayDataSet([]);
@@ -172,7 +172,7 @@ class CoreModule implements ModuleInterface
             /*
              * The prefix to use for config options.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/core/config/prefix' => function (ContainerInterface $c) {
                 return 'wpra/';

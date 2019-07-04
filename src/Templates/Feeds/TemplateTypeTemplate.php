@@ -16,26 +16,26 @@ use Traversable;
 /**
  * A template that can render any template type with a list of options, unbound from any post.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class TemplateTypeTemplate implements TemplateInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.14 */
     use ParseArgsWithSchemaCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.14 */
     use NormalizeArrayCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.14 */
     use CreateInvalidArgumentExceptionCapableTrait;
 
-    /* @since [*next-version*] */
+    /* @since 4.14 */
     use StringTranslatingTrait;
 
     /**
      * An associative array of template type instances.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var FeedTemplateTypeInterface[]
      */
@@ -44,7 +44,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * The key of the default template type to use.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -53,7 +53,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * The collection of feed items to render.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var CollectionInterface
      */
@@ -62,7 +62,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * The template to use to render the container.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var TemplateInterface
      */
@@ -71,7 +71,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string              $defType           The name of the template to use by default.
      * @param array               $templateTypes     The available template types.
@@ -93,7 +93,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function render($argCtx = null)
     {
@@ -122,7 +122,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * Parses the render context, normalizing it to an array and filtering it against the schema.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param array|stdClass|Traversable $ctx The render context.
      *
@@ -146,7 +146,7 @@ class TemplateTypeTemplate implements TemplateInterface
     /**
      * Retrieves the standard WP RSS Aggregator template context schema.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @see   ParseArgsWithSchemaCapableTrait::parseArgsWithSchema()
      *

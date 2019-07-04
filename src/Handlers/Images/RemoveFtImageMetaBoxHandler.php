@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Handlers\Images;
 /**
  * The handler that removes the WordPress featured image meta box.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class RemoveFtImageMetaBoxHandler
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

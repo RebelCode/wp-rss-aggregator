@@ -7,19 +7,19 @@ use RebelCode\Wpra\Core\Logger\ClearableLoggerInterface;
 /**
  * Handles log clearing requests.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class ClearLogHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var ClearableLoggerInterface
      */
     protected $logger;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class ClearLogHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param ClearableLoggerInterface $logger    The logger.
      * @param string                   $nonceName The name of the nonce to verify requests.
@@ -42,7 +42,7 @@ class ClearLogHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
 /**
  * Class for enqueuing styles.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class StyleAsset extends AbstractAsset
 {
     /**
      * The media for which this stylesheet has been defined.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -21,7 +21,7 @@ class StyleAsset extends AbstractAsset
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $media The media for which this stylesheet has been defined. Accepts media types like 'all',
      *                      'print' and 'screen', or media queries like '(orientation: portrait)' and '(max-width:
@@ -37,7 +37,7 @@ class StyleAsset extends AbstractAsset
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function register()
     {
@@ -47,7 +47,7 @@ class StyleAsset extends AbstractAsset
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function enqueue()
     {

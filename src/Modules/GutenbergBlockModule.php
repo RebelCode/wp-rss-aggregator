@@ -97,7 +97,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The list of the block's assets.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/gutenberg_block/assets' => function (ContainerInterface $c) {
                 return [
@@ -109,7 +109,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The block's style.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/gutenberg_block/styles/main' => function (ContainerInterface $c) {
                 return new StyleAsset('wpra-gutenberg-block', WPRSS_APP_CSS . 'gutenberg-block.min.css');
@@ -117,7 +117,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * The block's script.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/gutenberg_block/scripts/main' => function (ContainerInterface $c) {
                 $script = new ScriptAsset('wpra-gutenberg-block', WPRSS_APP_JS . 'gutenberg-block.min.js', [
@@ -135,7 +135,7 @@ class GutenbergBlockModule implements ModuleInterface
             /*
              * Gutenberg block script state.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/gutenberg_block/states/main' => function (ContainerInterface $c) {
                 $templatesCollection = $c->get('wpra/feeds/templates/collection');

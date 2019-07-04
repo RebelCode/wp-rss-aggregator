@@ -34,7 +34,7 @@ class RenderTemplateHandler
     /**
      * If true, the rendered content is echoed to the output buffer. Otherwise, it is returned.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var bool
      */

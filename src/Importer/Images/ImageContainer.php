@@ -12,19 +12,19 @@ use WPRSS_Image_Cache_Image;
 /**
  * A container implementation for fetching remote images and checking if they exist remotely.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class ImageContainer implements ContainerInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var ImageCache
      */
     protected $cache;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var LoggerInterface
      */
@@ -33,7 +33,7 @@ class ImageContainer implements ContainerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param ImageCache      $cache  The image cache instance.
      * @param LoggerInterface $logger The logger instance.
@@ -47,7 +47,7 @@ class ImageContainer implements ContainerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return WPRSS_Image_Cache_Image
      */
@@ -77,7 +77,7 @@ class ImageContainer implements ContainerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function has($url)
     {

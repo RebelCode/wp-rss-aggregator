@@ -8,12 +8,12 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * The handler that deletes attached images for an imported item.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class DeleteImagesHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface
      */
@@ -22,7 +22,7 @@ class DeleteImagesHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param DataSetInterface $importedItems The imported items data set.
      */
@@ -34,7 +34,7 @@ class DeleteImagesHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke($post_id)
     {

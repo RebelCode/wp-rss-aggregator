@@ -9,14 +9,14 @@ use RebelCode\Wpra\Core\Licensing\Addon;
 /**
  * The licensing module for WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class LicensingModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function run(ContainerInterface $c)
     {
@@ -59,7 +59,7 @@ class LicensingModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getFactories()
     {
@@ -67,7 +67,7 @@ class LicensingModule implements ModuleInterface
             /*
              * The licensing manager instance - uses the instance from the old system.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/licensing/manager' => function () {
                 return wprss_licensing_get_manager();
@@ -75,7 +75,7 @@ class LicensingModule implements ModuleInterface
             /*
              * Mirror for 'wpra/addons' service in the addons module.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/licensing/addons' => function (ContainerInterface $c) {
                 if ($c->has('wpra/addons')) {
@@ -90,7 +90,7 @@ class LicensingModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getExtensions()
     {

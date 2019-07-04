@@ -137,7 +137,7 @@
     /**
      * Checks if an item title exists in the database.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $title The title to search for.
      *
@@ -560,7 +560,7 @@
     /**
      * Truncates the items for a single feed source based on its age limit.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param int|WP_Post $source The source ID or post instance.
      */

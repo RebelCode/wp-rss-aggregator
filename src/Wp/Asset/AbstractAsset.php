@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
 /**
  * {@inheritdoc}
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 abstract class AbstractAsset implements AssetInterface
 {
     /**
      * Name of the asset. Should be unique.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -21,7 +21,7 @@ abstract class AbstractAsset implements AssetInterface
     /**
      * Full URL of the asset, or path of the asset relative to the WordPress root directory.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -32,7 +32,7 @@ abstract class AbstractAsset implements AssetInterface
      * busting purposes. If version is set to false, a version number is automatically added equal to current installed
      * WP RSS Aggregator version. If set to null, no version is added.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string|bool|null
      */
@@ -41,7 +41,7 @@ abstract class AbstractAsset implements AssetInterface
     /**
      * An array of registered handles this asset depends on.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string[]
      */
@@ -50,7 +50,7 @@ abstract class AbstractAsset implements AssetInterface
     /**
      * AbstractAsset constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $handle  Asset's unique name.
      * @param string $src     The URL of the asset.

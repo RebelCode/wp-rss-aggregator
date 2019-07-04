@@ -9,14 +9,14 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * A data set implementation for WordPress options.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class WpOptionsDataSet extends AbstractDataSet
 {
     /**
      * An associative array of option names as keys and their defaults as values.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface
      */
@@ -25,7 +25,7 @@ class WpOptionsDataSet extends AbstractDataSet
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param DataSetInterface $options A data set with option names as keys and their defaults as values.
      */
@@ -37,7 +37,7 @@ class WpOptionsDataSet extends AbstractDataSet
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function get($key)
     {
@@ -47,7 +47,7 @@ class WpOptionsDataSet extends AbstractDataSet
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function has($key)
     {
@@ -57,7 +57,7 @@ class WpOptionsDataSet extends AbstractDataSet
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function set($key, $value)
     {
@@ -79,7 +79,7 @@ class WpOptionsDataSet extends AbstractDataSet
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function getIterator()
     {

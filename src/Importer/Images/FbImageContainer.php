@@ -7,14 +7,14 @@ use Psr\Container\ContainerInterface;
 /**
  * An image container decorator that can detect Facebook image URLs and convert them for large image URLs.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class FbImageContainer implements ContainerInterface
 {
     /**
      * The container instance to decorate.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var ContainerInterface
      */
@@ -23,7 +23,7 @@ class FbImageContainer implements ContainerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param ContainerInterface $container The container instance to decorate.
      */
@@ -35,7 +35,7 @@ class FbImageContainer implements ContainerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function get($url)
     {
@@ -45,7 +45,7 @@ class FbImageContainer implements ContainerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function has($url)
     {
@@ -55,7 +55,7 @@ class FbImageContainer implements ContainerInterface
     /**
      * Checks if a URL is from Facebook and attempts to modify the URL to point to the larger version of the image.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $url The original image URL.
      *

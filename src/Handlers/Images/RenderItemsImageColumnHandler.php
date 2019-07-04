@@ -7,19 +7,19 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * The handler that renders the contents of the images column in the feed items page.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class RenderItemsImageColumnHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface
      */
     protected $feedItems;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class RenderItemsImageColumnHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param DataSetInterface $feedItems
      * @param string           $column
@@ -42,7 +42,7 @@ class RenderItemsImageColumnHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke($column, $postId)
     {

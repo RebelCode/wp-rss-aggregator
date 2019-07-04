@@ -9,21 +9,21 @@ use Throwable;
 /**
  * Handles errors.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class ErrorHandler
 {
     /*
      * Provides string translating functionality.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     use StringTranslatingTrait;
 
     /**
      * The callback to invoke.
      *
-     * @since [*next-version*]
+     * @since 4.14
      * 
      * @var callable
      */
@@ -32,14 +32,14 @@ class ErrorHandler
     /*
      * The previous exception handler.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected $previous;
 
     /**
      * The root directory for which to limit exception handling.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -48,7 +48,7 @@ class ErrorHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string   $rootDir  The root directory for which to limit exception handling.
      * @param callable $callback The callback to invoke when an exception is handled. The callback will receive the
@@ -64,7 +64,7 @@ class ErrorHandler
     /**
      * Registers the handler.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function register()
     {
@@ -74,7 +74,7 @@ class ErrorHandler
     /**
      * De-registers the handler.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function deregister()
     {
@@ -84,7 +84,7 @@ class ErrorHandler
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

@@ -11,7 +11,7 @@ use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
 /**
  * Returns a representation of an HTML expression that matches all representations of that HTML.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @param string      $expr  The expression to encodify.
  * @param string|null $delim The delimiter of the expression.

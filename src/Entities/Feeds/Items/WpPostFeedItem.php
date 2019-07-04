@@ -30,7 +30,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * The second item-specific meta key prefix.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     const SECOND_META_PREFIX = 'wprss_item_';
 
@@ -65,7 +65,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * The key to which to map the item featured image.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     const FT_IMAGE_KEY = 'ft_image_url';
 
@@ -181,7 +181,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * Retrieves the featured image URL for the feed item.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param WP_Post $post The post for the feed item.
      *
@@ -207,7 +207,7 @@ class WpPostFeedItem extends WpCptDataSet
     /**
      * Retrieves the item URL to use for a feed item.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param WP_Post          $post   The post object.
      * @param DataSetInterface $meta   The meta data set.

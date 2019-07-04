@@ -8,14 +8,14 @@ use WP_Post;
 /**
  * Handler for saving feed source meta data submitted from the edit page meta box.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class FeedSourceSaveMetaHandler
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke($postId, WP_Post $post)
     {

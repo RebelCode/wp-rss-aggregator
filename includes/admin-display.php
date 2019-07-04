@@ -536,7 +536,7 @@
     /**
      * The AJAX function for the 'Delete Items' row action on the 'All Feed Sources' page.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     function wprss_delete_items_ajax_action_hook() {
         $kFeedSourceId = 'feed_source_id';
@@ -587,7 +587,7 @@
     /**
      * The AJAX function for toggling a feed's state from the 'All Feed Sources' page.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     function wprss_ajax_toggle_feed_state() {
         $kFeedSourceId = 'feed_source_id';

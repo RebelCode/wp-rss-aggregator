@@ -104,7 +104,7 @@ class MasterFeedsTemplate implements TemplateInterface
     /**
      * The template to use to render the container.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var TemplateInterface
      */

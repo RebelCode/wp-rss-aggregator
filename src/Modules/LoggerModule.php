@@ -33,7 +33,7 @@ class LoggerModule implements ModuleInterface
             /*
              * Whether or not logging is enabled.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/enabled' => function (ContainerInterface $c) {
                 return $c->get('wpra/core/config')['logging/enabled'];
@@ -64,7 +64,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The log reader instance.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/reader' => function (ContainerInterface $c) {
                 return $c->get('wpra/logging/wpdb_logger');
@@ -72,7 +72,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The log clearer instance.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/clearer' => function (ContainerInterface $c) {
                 return $c->get('wpra/logging/wpdb_logger');
@@ -216,7 +216,7 @@ class LoggerModule implements ModuleInterface
             /**
              * The URL of the page where the log is found.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/page/url' => function () {
                 return admin_url('edit.php?post_type=wprss_feed&page=wprss-debugging');
@@ -224,7 +224,7 @@ class LoggerModule implements ModuleInterface
             /**
              * The name of the nonce used in the debug page to verify the referer of log-related requests.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/page/nonce_name' => function () {
                 return 'wprss-debug-log';
@@ -232,7 +232,7 @@ class LoggerModule implements ModuleInterface
             /**
              * The handler that renders the log.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/handlers/render_log' => function (ContainerInterface $c) {
                 return new RenderLogHandler(
@@ -245,7 +245,7 @@ class LoggerModule implements ModuleInterface
             /**
              * TThe handler that processes the clear log request.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/handlers/clear_log' => function (ContainerInterface $c) {
                 return new ClearLogHandler(
@@ -256,7 +256,7 @@ class LoggerModule implements ModuleInterface
             /**
              * The handler that processes the log download request.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/handlers/download_log' => function (ContainerInterface $c) {
                 return new DownloadLogHandler(
@@ -267,7 +267,7 @@ class LoggerModule implements ModuleInterface
             /**
              * The handler that processes log option saving request.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/logging/handlers/save_options' => function (ContainerInterface $c) {
                 return new SaveLogOptionsHandler(
@@ -308,7 +308,7 @@ class LoggerModule implements ModuleInterface
             /*
              * Adds the logging options to the plugin config.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/core/config/options' => function (ContainerInterface $c, $options) {
                 $options['logging/enabled'] = true;

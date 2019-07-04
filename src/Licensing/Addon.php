@@ -5,40 +5,40 @@ namespace RebelCode\Wpra\Core\Licensing;
 /**
  * A class for standard WP RSS Aggregator addon class.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class Addon
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     public $key;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     public $name;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     public $version;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     public $filePath;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -47,7 +47,7 @@ class Addon
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $key The addon key.
      * @param string $name The addon name.

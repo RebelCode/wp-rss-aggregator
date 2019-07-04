@@ -21,14 +21,14 @@ use WPRSS_Help;
 /**
  * The module that adds image importing functionality to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class ImagesModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getFactories()
     {
@@ -36,7 +36,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The flag that controls whether UI for controlling image importing is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/ui_enabled' => function (ContainerInterface $c) {
                 return false;
@@ -44,7 +44,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The flag that controls whether logging for image importing is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/logging/enabled' => function (ContainerInterface $c) {
                 return false;
@@ -52,7 +52,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The logger for image importing, that only logs if image logging is enabled.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/logging/logger' => function (ContainerInterface $c) {
                 // Get the original logger from WPRA's logger module, if available
@@ -69,7 +69,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The decorator for decorating other loggers for image import logging.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/logging/decorator' => function (ContainerInterface $c) {
                 return function($logger) use ($c) {
@@ -79,7 +79,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The data set that contains the image import logger instances for each feed source.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/logging/feed_logger_dataset' => function (ContainerInterface $c) {
                 return new FeedLoggerDataSet($c->get('wpra/images/logging/feed_logger_factory'));
@@ -87,7 +87,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The factory that creates image importing logger instances for specific feeds.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/logging/feed_logger_factory' => function (ContainerInterface $c) {
                 $factory = $c->has('wpra/logging/feed_logger_factory')
@@ -108,7 +108,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Whether the feature to import featured images is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/features/import_ft_images' => function () {
                 return false;
@@ -116,7 +116,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Whether the feature to restrict images by size is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/features/image_min_size' => function () {
                 return false;
@@ -124,7 +124,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Whether the feature to download non-featured images is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/features/download_images' => function () {
                 return false;
@@ -132,7 +132,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Whether the feature to remove featured images from the content is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/features/siphon_ft_image' => function () {
                 return false;
@@ -140,7 +140,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Whether the feature to reject items without featured images is enabled or not.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/features/must_have_ft_image' => function () {
                 return false;
@@ -148,7 +148,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The image cache manager instance.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/cache' => function (ContainerInterface $c) {
                 $cache = new ImageCache();
@@ -159,7 +159,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The time-to-live, in seconds, for cached images.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/cache/ttl' => function () {
                 return WEEK_IN_SECONDS;
@@ -167,7 +167,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The container for remote images.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/container' => function (ContainerInterface $c) {
                 return new ImageContainer(
@@ -178,7 +178,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The feed items image column key.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/column/key' => function () {
                 return 'image';
@@ -186,7 +186,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The feed items image column name.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/column/name' => function () {
                 return __('Image', 'wprss');
@@ -194,7 +194,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The feed items image column position.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/column/position' => function () {
                 return 1;
@@ -202,7 +202,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler that adds the image column to the items list page.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/column/handler/add' => function (ContainerInterface $c) {
                 return new AddItemsImageColumnHandler(
@@ -214,7 +214,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler that renders the contents of the image column in the items list page.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/column/handler/render' => function (ContainerInterface $c) {
                 return new RenderItemsImageColumnHandler(
@@ -225,7 +225,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler that registers the feed sources images meta box.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/feeds/meta_box/handler/register' => function (ContainerInterface $c) {
                 return new RegisterMetaBoxHandler(
@@ -238,7 +238,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler that renders the feed sources image options meta box.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/feeds/meta_box/handler/render' => function (ContainerInterface $c) {
                 return new RenderTemplateHandler(
@@ -250,7 +250,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The template for the feed sources image options meta box.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/feeds/meta_box/template' => function (ContainerInterface $c) {
                 return $c->get('wpra/twig/collection')['admin/feeds/images-meta-box.twig'];
@@ -258,7 +258,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The context for the feed sources image options meta box template.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/feeds/meta_box/template/context' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -278,7 +278,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The image options that should be shown in the feed sources image meta box.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/feeds/meta_box/template/enabled_options' => function (ContainerInterface $c) {
                 return [
@@ -292,7 +292,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler that removes the WordPress featured image meta box.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/ft_image/meta_box/handler' => function (ContainerInterface $c) {
                 return new RemoveFtImageMetaBoxHandler();
@@ -300,7 +300,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The help tooltips for the feed sources images meta box.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/feeds/meta_box/tooltips' => function () {
                 return [
@@ -315,7 +315,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler for the developer images meta box for feed items.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/dev_meta_box/handler' => function (ContainerInterface $c) {
                 $templates = $c->get('wpra/twig/collection');
@@ -335,7 +335,7 @@ class ImagesModule implements ModuleInterface
             /*
              * The handler that deletes an imported item's featured image when the item is deleted.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/items/handlers/delete_images' => function (ContainerInterface $c) {
                 return new DeleteImagesHandler(
@@ -348,7 +348,7 @@ class ImagesModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getExtensions()
     {
@@ -356,7 +356,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Adds featured image support to feed sources.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/sources/cpt/args' => function (ContainerInterface $c, $args) {
                 $args['supports'][] = 'thumbnail';
@@ -366,7 +366,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Adds featured image support to feed items.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/items/cpt/args' => function (ContainerInterface $c, $args) {
                 $args['supports'][] = 'thumbnail';
@@ -376,7 +376,7 @@ class ImagesModule implements ModuleInterface
             /*
              * Decorates the images container to be able to fetch large versions of Facebook images.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/images/container' => function (ContainerInterface $c, $container) {
                 return new FbImageContainer($container);
@@ -387,7 +387,7 @@ class ImagesModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function run(ContainerInterface $c)
     {

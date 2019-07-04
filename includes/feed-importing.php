@@ -916,7 +916,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
     /**
      * Sanitizes a post excerpt, cleverly removing all HTML markup while preserving text content and whitespace.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $excerpt The excerpt to sanitize.
      *
@@ -938,7 +938,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
     /**
      * Parses a URL, it's query and its path.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $url The URL to parse.
      *

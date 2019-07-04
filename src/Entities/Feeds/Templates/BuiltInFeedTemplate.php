@@ -38,7 +38,7 @@ class BuiltInFeedTemplate extends AbstractDelegateDataSet
     /**
      * The meta prefix.
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     const META_PREFIX = 'wprss_template_';
 
@@ -57,7 +57,7 @@ class BuiltInFeedTemplate extends AbstractDelegateDataSet
     /**
      * Creates the internal data set.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param int|WP_Post $postOrId The post instance or ID.
      *
@@ -129,7 +129,7 @@ class BuiltInFeedTemplate extends AbstractDelegateDataSet
     /**
      * Retrieves the settings options aliases.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return string[]
      */
@@ -160,7 +160,7 @@ class BuiltInFeedTemplate extends AbstractDelegateDataSet
      * The settings aliases are used to construct this mapping, since the only explicit mapping we need are for
      * settings keys. Any other keys will default to the meta data set.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return array
      */
@@ -175,7 +175,7 @@ class BuiltInFeedTemplate extends AbstractDelegateDataSet
     /**
      * Retrieves the mask for which settings option keys to retain in the dataset.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return bool[]
      */

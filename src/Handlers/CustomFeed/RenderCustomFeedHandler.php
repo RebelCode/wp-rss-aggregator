@@ -13,14 +13,14 @@ use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 class RenderCustomFeedHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var CollectionInterface
      */
     protected $items;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var TemplateInterface
      */
@@ -31,7 +31,7 @@ class RenderCustomFeedHandler
      *
      * @todo Inject the required wp-options dataset, when it's available as a service
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param CollectionInterface $items    The items to include in the feed.
      * @param TemplateInterface   $template The template to use for rendering the feed.

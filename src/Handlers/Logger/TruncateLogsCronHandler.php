@@ -24,7 +24,7 @@ class TruncateLogsCronHandler
     /**
      * The logging config data set.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface
      */

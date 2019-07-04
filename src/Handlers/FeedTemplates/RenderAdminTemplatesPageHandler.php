@@ -15,7 +15,7 @@ class RenderAdminTemplatesPageHandler
     /**
      * The list of assets required to render the page.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var AssetInterface[]
      */

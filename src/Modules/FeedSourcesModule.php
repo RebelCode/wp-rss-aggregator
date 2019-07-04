@@ -39,7 +39,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The collection for feed sources.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/sources/collection' => function (ContainerInterface $c) {
                 return new WpPostFeedSourceCollection($c->get('wpra/feeds/sources/cpt/name'));
@@ -198,7 +198,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that saves meta data for feed sources when saved through the edit page.
              *
-             * @since [*next-version*]
+             * @since 4.14
              */
             'wpra/feeds/sources/meta_box/save_handler' => function (ContainerInterface $c) {
                 return new FeedSourceSaveMetaHandler();

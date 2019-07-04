@@ -34,7 +34,7 @@ class WpraExtension extends AbstractExtension
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function getFunctions()
     {
@@ -51,7 +51,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the wpra twig function.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFunction
      */
@@ -63,7 +63,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the wp_nonce_field twig function.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFunction
      */
@@ -77,7 +77,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the WPRA tooltip twig function.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFunction
      */
@@ -101,7 +101,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "wpra_item_url" Twig function.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFunction
      */
@@ -151,7 +151,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "wpra_link_attrs" Twig function.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFunction The filter instance.
      */
@@ -167,7 +167,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "wpra_word_limit" Twig filter.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFilter The filter instance.
      */
@@ -189,7 +189,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "html_decode" Twig function.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFunction The filter instance.
      */
@@ -205,7 +205,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "base64_encode" filter.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFilter The filter instance.
      */
@@ -223,7 +223,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Prepares an HTML link element's attributes, based on the WPRA template options for links.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $url       The link URL.
      * @param array  $options   The template options.
@@ -259,7 +259,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "close_tags" Twig filter.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @return TwigFilter
      */

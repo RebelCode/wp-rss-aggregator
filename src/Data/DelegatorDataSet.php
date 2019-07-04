@@ -10,17 +10,17 @@ use RuntimeException;
 /**
  * A data set implementation that delegates functionality to one of many children data sets, determined by a callback.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class DelegatorDataSet implements DataSetInterface
 {
-    /* @since [*next-version*] */
+    /* @since 4.14 */
     use IteratorDelegateTrait;
 
     /**
      * The children data set mapping.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface[]|ArrayAccess
      */
@@ -29,7 +29,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * The callable that maps a key to a data set.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var callable
      */
@@ -38,7 +38,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param ArrayAccess|DataSetInterface[] $children  The mapping of data set keys to data set instances.
      * @param callable                       $mappingFn The mapping function to use to determine which data set to
@@ -53,7 +53,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * Retrieves the child data set to use for the given key.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param int|string $key The data key.
      *
@@ -75,7 +75,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function offsetGet($key)
     {
@@ -85,7 +85,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function offsetExists($key)
     {
@@ -95,7 +95,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function offsetSet($key, $value)
     {
@@ -105,7 +105,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function offsetUnset($key)
     {
@@ -115,7 +115,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     protected function getIterator()
     {
@@ -125,7 +125,7 @@ class DelegatorDataSet implements DataSetInterface
     /**
      * Creates a mapping function that uses a fixed map of keys.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string[]|ArrayAccess $keyMap  The mapping of entry keys to child data set keys.
      * @param string               $default The default child data set key to use.

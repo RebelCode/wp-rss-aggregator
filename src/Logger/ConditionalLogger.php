@@ -8,19 +8,19 @@ use Psr\Log\LoggerInterface;
 /**
  * A PSR-3 logger decorator that conditionally delegates to an inner logger.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class ConditionalLogger extends AbstractLogger
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var bool
      */
@@ -29,7 +29,7 @@ class ConditionalLogger extends AbstractLogger
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param LoggerInterface $logger  The inner logger instance.
      * @param bool            $enabled The enabled flag: true to log using the inner logger, false to not log.
@@ -43,7 +43,7 @@ class ConditionalLogger extends AbstractLogger
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function log($level, $message, array $context = [])
     {

@@ -34,7 +34,7 @@ class RenderTemplateContentHandler
     /**
      * The template to use for rendering previews.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var TemplateInterface
      */

@@ -1,7 +1,7 @@
 /**
  * Library agnostic wrapper for notifications.
  *
- * @since [*next-version*]
+ * @since 4.14
  *
  * @class NotificationsCenter
  */
@@ -9,7 +9,7 @@ export default class NotificationsCenter {
   /**
    * NotificationsCenter constructor.
    *
-   * @since [*next-version*]
+   * @since 4.14
    *
    * @param {Function} show Function implementation for displaying messages.
    * @param {Function} error Function implementation for displaying errors.
@@ -22,7 +22,7 @@ export default class NotificationsCenter {
   /**
    * Display informational message.
    *
-   * @since [*next-version*]
+   * @since 4.14
    *
    * @param {string} msg Message for displaying
    * @param {object} options Options for notification.
@@ -34,7 +34,7 @@ export default class NotificationsCenter {
   /**
    * Display error message.
    *
-   * @since [*next-version*]
+   * @since 4.14
    *
    * @param {string} msg Message for displaying
    * @param {object} options Options for notification.

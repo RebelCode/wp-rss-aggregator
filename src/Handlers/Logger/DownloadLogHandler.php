@@ -7,7 +7,7 @@ use RebelCode\Wpra\Core\Logger\LogReaderInterface;
 /**
  * Handles log download requests.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class DownloadLogHandler
 {
@@ -17,7 +17,7 @@ class DownloadLogHandler
     protected $reader;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -26,7 +26,7 @@ class DownloadLogHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param LogReaderInterface $reader    The log reader.
      * @param string             $nonceName The name of the nonce to verify requests.
@@ -40,7 +40,7 @@ class DownloadLogHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

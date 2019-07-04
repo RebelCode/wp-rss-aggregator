@@ -7,19 +7,19 @@ use RebelCode\Wpra\Core\Data\DataSetInterface;
 /**
  * Handles log option save requests.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class SaveLogOptionsHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface
      */
     protected $config;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class SaveLogOptionsHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param DataSetInterface $config    The logging config data set.
      * @param string           $nonceName The name of the nonce to verify requests.
@@ -42,7 +42,7 @@ class SaveLogOptionsHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

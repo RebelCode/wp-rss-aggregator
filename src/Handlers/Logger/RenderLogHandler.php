@@ -9,40 +9,40 @@ use RebelCode\Wpra\Core\Logger\LogReaderInterface;
 /**
  * The handler that renders the log.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class RenderLogHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var LogReaderInterface
      */
     protected $reader;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var TemplateInterface
      */
     protected $template;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var DataSetInterface
      */
     protected $config;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $nonceName;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var int
      */
@@ -51,7 +51,7 @@ class RenderLogHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param LogReaderInterface $reader    The log reader.
      * @param TemplateInterface  $template  The template to render.
@@ -76,7 +76,7 @@ class RenderLogHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke()
     {

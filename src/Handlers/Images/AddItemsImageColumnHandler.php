@@ -5,26 +5,26 @@ namespace RebelCode\Wpra\Core\Handlers\Images;
 /**
  * The handler that adds the images column to the feed items page.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 class AddItemsImageColumnHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $key;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var string
      */
     protected $name;
 
     /**
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @var int
      */
@@ -33,7 +33,7 @@ class AddItemsImageColumnHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string $key The column key.
      * @param string $name The column name.
@@ -49,7 +49,7 @@ class AddItemsImageColumnHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.14
      */
     public function __invoke($columns)
     {

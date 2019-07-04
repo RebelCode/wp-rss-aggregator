@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Wp\Asset;
 /**
  * Interface for script assets.
  *
- * @since [*next-version*]
+ * @since 4.14
  */
 interface ScriptInterface extends AssetInterface
 {
     /**
      * Localizes the script with given data.
      *
-     * @since [*next-version*]
+     * @since 4.14
      *
      * @param string   $key      The key, also used for the JS var name.
      * @param callable $callback The callback that returns the localization data.
