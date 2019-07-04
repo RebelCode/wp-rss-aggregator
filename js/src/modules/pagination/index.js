@@ -11,7 +11,8 @@ jQuery(document).ready(($) => {
     const template = params.template
     delete params.template
 
-    let url = WpraPagination.baseUri.replace('%s', template)
+    let tmp = template.length? template : '0'
+    let url = WpraPagination.baseUri.replace('%s', tmp)
 
     $.ajax({
       type: 'POST',

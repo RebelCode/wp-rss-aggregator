@@ -105,8 +105,11 @@ class TemplateTypeTemplate implements TemplateInterface
             ? $this->types[$typeKey]
             : $this->types[$this->defType];
 
+        $options = $ctx['options'];
+        $options['page'] = $ctx['page'];
+
         $rendered = $templateType->render([
-            'options' => $ctx['options'],
+            'options' => $options,
             'items' => $ctx['items'],
         ]);
 
@@ -175,6 +178,11 @@ class TemplateTypeTemplate implements TemplateInterface
 
                     throw new InvalidArgumentException(__('The "items" must be a collection instance', 'wprss'));
                 },
+            ],
+            'page' => [
+                'default' => 1,
+                'filter' => FILTER_VALIDATE_INT,
+                'options' => ['min_range' => 0],
             ],
         ];
     }
