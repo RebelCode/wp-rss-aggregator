@@ -307,7 +307,7 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/feeds/templates/create_default_template_handler' => function (ContainerInterface $c) {
                 return new CreateDefaultFeedTemplateHandler(
-                    $c->get('wpra/feeds/templates/collection')->filter(['type' => '__built_in']),
+                    $c->get('wpra/feeds/templates/collection'),
                     $c->get('wpra/feeds/templates/default_template_data')
                 );
             },
@@ -319,8 +319,17 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/feeds/templates/default_template_data' => function (ContainerInterface $c) {
                 return [
                     'name' => __('Default', 'wprss'),
+                    'slug' => $c->get('wpra/feeds/templates/default_template_slug'),
                     'type' => $c->get('wpra/feeds/templates/default_template_type'),
                 ];
+            },
+            /*
+             * The slug to use for the default template.
+             *
+             * @since 4.14
+             */
+            'wpra/feeds/templates/default_template_slug' => function () {
+                return 'default';
             },
             /*
              * The template type to use for the default template.
