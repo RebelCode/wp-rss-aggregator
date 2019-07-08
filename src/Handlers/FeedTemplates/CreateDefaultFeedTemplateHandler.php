@@ -13,7 +13,7 @@ use Traversable;
 class CreateDefaultFeedTemplateHandler
 {
     /**
-     * Description
+     * The collection of feed templates.
      *
      * @since 4.13
      *
