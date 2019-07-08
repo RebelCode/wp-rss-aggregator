@@ -72,7 +72,7 @@
 		}
 
 		// Update to 4.14
-		if ( intval($old_db_version) < 16 ) {
+		if ( !empty($old_db_version) && intval($old_db_version) < 16 ) {
 			// Copy the default template's meta to its settings options
 			// In 4.13.x, a bug caused corruption such that the meta data was more up-to-date than the settings
 			// This also meant that the options users saw in the Templates edit page did not match what was stored in
