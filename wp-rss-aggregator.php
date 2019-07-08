@@ -991,9 +991,9 @@ add_action('after_plugin_row', function ($plugin_file, $plugin_data, $status) {
     echo '        <div class="update-message notice inline notice-success notice-alt">';
 
     printf('<p>%1$s <a href="%3$s" target="_blank">%2$s</a></p>',
-        __('Excerpts & Thumbnails has been discontinued in favor of Templates.', 'wprss'),
+        __('The Excerpts & Thumbnails addon has been discontinued in favor of the Templates addon.', 'wprss'),
         __('Click here to learn more.', 'wprss'),
-        'https://www.wprssaggregator.com/new-templates-add-on-released#migration'
+        'https://www.wprssaggregator.com/https://www.wprssaggregator.com/excerpts-thumbnails-add-on-discontinued-templates-coming-soon/'
     );
 
     echo '        </div>';
