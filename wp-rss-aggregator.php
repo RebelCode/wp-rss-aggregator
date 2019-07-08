@@ -988,12 +988,12 @@ add_action('after_plugin_row', function ($plugin_file, $plugin_data, $status) {
 
     echo '<tr class="plugin-update-tr wprss-et-plugin-row-msg">';
     echo '    <td colspan="3" class="plugin-update colspanchange">';
-    echo '        <div class="update-message notice inline notice-info notice-alt">';
+    echo '        <div class="update-message notice inline notice-success notice-alt">';
 
     printf('<p>%1$s <a href="%3$s" target="_blank">%2$s</a></p>',
-        __('The Excerpts & Thumbnails add-on is to be discontinued. Support will be provided until the expiry of your current license.', 'wprss'),
+        __('Excerpts & Thumbnails has been discontinued in favor of Templates.', 'wprss'),
         __('Click here to learn more.', 'wprss'),
-        'https://www.wprssaggregator.com/excerpts-thumbnails-add-on-to-be-discontinued/'
+        'https://www.wprssaggregator.com/new-templates-add-on-released#migration'
     );
 
     echo '        </div>';
