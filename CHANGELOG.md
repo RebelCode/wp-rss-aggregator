@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * An empty limit for the number of items in a template silently defaults to 5 items.
 * The name of the user was being shown as the author for feed items that had no author.
 * Fixed the "property on non-object" error on the Licensing settings page for new addons.
+* On some sites, multiple default templates are constantly being created.
+* The default template is auto-created is corrupted data. An update procedure will now fix this data.
 
 ### Removed
 * Removed old secure reset code.
