@@ -7,3 +7,7 @@
     bottom: 86px !important;
     right: 20px !important;
 }
+
+#beacon-container iframe {
+    z-index: 1000000 !important;
+}
