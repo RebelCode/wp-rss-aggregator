@@ -993,7 +993,7 @@ add_action('after_plugin_row', function ($plugin_file, $plugin_data, $status) {
     printf('<p>%1$s <a href="%3$s" target="_blank">%2$s</a></p>',
         __('The Excerpts & Thumbnails addon has been discontinued in favor of the Templates addon.', 'wprss'),
         __('Click here to learn more.', 'wprss'),
-        'https://www.wprssaggregator.com/https://www.wprssaggregator.com/excerpts-thumbnails-add-on-discontinued-templates-coming-soon/'
+        'https://www.wprssaggregator.com/excerpts-thumbnails-add-on-discontinued-templates-coming-soon/'
     );
 
     echo '        </div>';
