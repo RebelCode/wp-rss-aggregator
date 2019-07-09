@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.14] - 2019-09-04
+## [4.14] - 2019-07-09
 ### Added
 * YouTube channel URLs are now supported.
 * Items imported from YouTube are detected and their embed links are saved.
