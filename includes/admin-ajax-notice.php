@@ -1079,7 +1079,7 @@ class WPRSS_Admin_Notices {
 		?>
 
 		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?> dismiss-mode-<?php echo $notice['dismiss_mode'] ?>">
-			<div class="notice-content">
+			<div class="notice-inside">
 				<?php echo $notice['content'] ?>
 			</div>
                         <?php if ($notice['dismiss_mode'] !== NoticeInterface::DISMISS_MODE_NONE): ?>

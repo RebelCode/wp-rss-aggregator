@@ -131,15 +131,20 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
         $items = $items->filter($stdOpts['pagination']);
         // Calculate the total number of pages and items per page
         $perPage = empty($stdOpts['pagination']['num_items']) ? 0 : $stdOpts['pagination']['num_items'];
-        $numPages = $perPage ? ceil($count / $perPage) : 0;
+        $numPages = ($perPage > 0) ? ceil($count / $perPage) : 1;
         $page = empty($stdOpts['pagination']['page']) ? 1 : $stdOpts['pagination']['page'];
 
         // Parse the template-type's own options
         $ttOpts = $this->parseArgsWithSchema($pOpts, $this->getOptions());
 
+        // Get all options by merging std options with template type options
+        $allOpts = ( isset($stdOpts['options']) && !empty($stdOpts['options']) )
+            ? array_merge_recursive($stdOpts['options'], $ttOpts)
+            : $ttOpts;
+
         return [
             'items' => $items,
-            'options' => $ttOpts,
+            'options' => $allOpts,
             'pagination' => [
                 'page' => $page,
                 'total_num_items' => $count,
@@ -206,25 +211,30 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
                 'filter' => FILTER_VALIDATE_BOOLEAN,
             ],
             'links_behavior' => [
-                'key' => 'links_open_behavior',
+                'key' => 'options/links_open_behavior',
                 'filter' => 'enum',
                 'options' => ['self', 'blank', 'lightbox'],
                 'default' => 'blank',
             ],
             'links_nofollow' => [
-                'key' => 'links_rel_nofollow',
-                'filter' => FILTER_VALIDATE_BOOLEAN,
-                'default' => false,
+                'key' => 'options/links_rel_nofollow',
+                'filter' => function ($val) {
+                    return $val === 'no_follow' || filter_var($val, FILTER_VALIDATE_BOOLEAN);
+                },
+                'default' => true,
             ],
-            'links_video_embed_page' => [
+            'link_to_embed' => [
+                'key' => 'options/link_to_embed',
                 'filter' => FILTER_VALIDATE_BOOLEAN,
                 'default' => false,
             ],
             'custom_css_classname' => [
+                'key' => 'options/custom_css_classname',
                 'filter' => FILTER_DEFAULT,
                 'default' => '',
             ],
             'className' => [
+                'key' => 'options/className',
                 'filter' => FILTER_DEFAULT,
                 'default' => '',
             ],

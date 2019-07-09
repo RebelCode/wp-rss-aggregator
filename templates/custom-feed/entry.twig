@@ -1,0 +1,15 @@
+<entry>
+    <id>{{ item.permalink }}</id>
+    <title type="html">{{ item.title }}</title>
+    <link href="{{ item.permalink }}"/>
+    <updated>{{ item.timestamp|date('Y-m-d\\TH:i:sP') }}</updated>
+    <summary>{{ item.excerpt }}</summary>
+    <content type="html">
+        <![CDATA[{{ item.content|raw|close_tags }}]]>
+    </content>
+    {% if item.author|length > 0 %}
+        <author>
+            <name>{{ item.author }}</name>
+        </author>
+    {% endif %}
+</entry>

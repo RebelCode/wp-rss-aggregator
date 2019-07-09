@@ -32,7 +32,7 @@
      * @since 2.1
      */
     function wp_rss_aggregator( $args = array() ) {
-        $template = wpra_get('templates/feeds/master_template');
+        $template = wpra_get('feeds/templates/master_template');
         $fullArgs = $args;
 
         // Use legacy mode if arg was not explicitly given

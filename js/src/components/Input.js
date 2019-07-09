@@ -1,4 +1,9 @@
+import MediaInput from './MediaInput'
+
 export default {
+  mixins: [
+    MediaInput
+  ],
   props: {
     id: {
       type: String,
@@ -8,6 +13,7 @@ export default {
     },
     label: {},
     description: {},
+    after: {},
     type: {},
     value: {},
     placeholder: {},
@@ -21,6 +27,10 @@ export default {
   },
   methods: {
     inputNode () {
+      if (this.type === 'media') {
+        return this.mediaNode()
+      }
+
       if (this.type === 'checkbox') {
         return <input type="checkbox"
                       id={this.id}
@@ -83,7 +93,7 @@ export default {
         </label>
       ) : null }
       <div class="form-input__field">
-        { this.inputNode() }
+        { this.inputNode() }{ this.after }
       </div>
     </div>
   }

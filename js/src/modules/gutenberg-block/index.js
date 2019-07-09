@@ -16,6 +16,8 @@ import {
   FormTokenField,
   SelectControl,
 } from '@wordpress/components'
+import { addFilter, applyFilters } from '@wordpress/hooks'
+
 import MultipleSelectControl from './components/MultipleSelectControl'
 
 // Default template is selected by default.
@@ -39,7 +41,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
   // Remove to make block editable in HTML mode.
   supportHTML: false,
 
-  attributes: {
+  attributes: applyFilters('wpra.gutenbergBlock.attributes', {
     isAll: {
       type: 'boolean',
       default: true
@@ -64,11 +66,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
     source: {
       type: 'string'
     }
-  },
-
-  state: {
-    foo: 'bar'
-  },
+  }),
 
   /**
    * Called when Gutenberg initially loads the block.
@@ -93,20 +91,17 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
     }
 
     const etWarning = WPRA_BLOCK.is_et_active ? <p style={{fontStyle: 'italic'}}>
-      Excerpts & Thumbnails is incompatible with the WP RSS Aggregator Feeds block. <a href="https://kb.wprssaggregator.com/article/459-using-excerpts-thumbnails-with-templates" target={'_blank'}>Learn more</a>.
+      Excerpts & Thumbnails is incompatible with the WP RSS Aggregator Feeds block. <a
+      href="https://kb.wprssaggregator.com/article/459-using-excerpts-thumbnails-with-templates" target={'_blank'}>Learn
+      more</a>.
     </p> : null
 
-    return <div>
-      <ServerSideRender
-        block={'wpra-shortcode/wpra-shortcode'}
-        attributes={props.attributes}
-        className={'wpra-gutenberg-block'}
-      />
-      <InspectorControls>
-        <PanelBody
-          title={__('Feed Sources')}
-          initialOpen={true}
-        >
+    const panels = applyFilters('wpra.gutenbergBlock.panels', [
+      <PanelBody
+        title={__('Feed Sources')}
+        initialOpen={true}
+      >
+        {applyFilters('wpra.gutenbergBlock.panelItems', [
           <ToggleControl
             label={__('Show all Feed Sources ')}
             checked={props.attributes.isAll}
@@ -115,7 +110,7 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
               props.setAttributes({exclude: ''})
               props.setAttributes({source: ''})
             }}
-          />
+          />,
           <MultipleSelectControl
             label={props.attributes.isAll ? __('Feed Sources to Exclude') : __('Feed Sources to Show')}
             key={'select'}
@@ -132,59 +127,76 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
               props.setAttributes({source: selected})
             }}
           />
-        </PanelBody>
-        <PanelBody
-          title={__('Display Options')}
-          initialOpen={false}
-        >
-          {etWarning}
-          <SelectControl
-            label={ __( 'Select Template' ) }
-            value={ props.attributes.template }
-            onChange={(template) => {
-              selectedTemplate = WPRA_BLOCK.templates.find(item => item.value === template)
-              props.setAttributes({template: template || ''})
-              if (!templateLock['limit']) {
-                props.setAttributes({limit: getTemplateDefault('limit', parseInt, 15)})
-              }
-              if (!templateLock['pagination']) {
-                props.setAttributes({pagination: getTemplateDefault('pagination', v => !!v, false)})
-              }
-            }}
-            options={WPRA_BLOCK.templates}
-          />
-          <TextControl
-            label={__('Feed Limit')}
-            help={__('Number of feed items to display')}
-            placeholder={getTemplateDefault('limit', parseInt)}
-            type={'number'}
-            min={1}
-            value={props.attributes.limit || getTemplateDefault('limit', parseInt)}
-            onChange={(value) => {
-              templateLock['limit'] = true
-              props.setAttributes({limit: parseInt(value) || getTemplateDefault('limit', parseInt)})
-            }}
-          />
-          <ToggleControl
-            label={__('Show Pagination ')}
-            checked={props.attributes.pagination}
-            onChange={(value) => {
-              templateLock['pagination'] = true
-              props.setAttributes({pagination: value})
-            }}
-          />
-          <TextControl
-            label={__('Page')}
-            placeholder={__('1')}
-            type={'number'}
-            min={1}
-            value={props.attributes.page || 1}
-            onChange={(value) => {
-              props.setAttributes({page: parseInt(value) || 1})
-            }}
-          />
-        </PanelBody>
+        ], 'feedSources', {props})}
+      </PanelBody>,
+      <PanelBody
+        title={__('Display Options')}
+        initialOpen={false}
+      >
+        {applyFilters('wpra.gutenbergBlock.panelItems', [
+        <SelectControl
+          label={__('Select Template')}
+          value={props.attributes.template}
+          onChange={(template) => {
+            selectedTemplate = WPRA_BLOCK.templates.find(item => item.value === template)
+            props.setAttributes({template: template || ''})
+            if (!templateLock['limit']) {
+              props.setAttributes({limit: getTemplateDefault('limit', parseInt, 15)})
+            }
+            if (!templateLock['pagination']) {
+              props.setAttributes({pagination: getTemplateDefault('pagination', v => !!v, false)})
+            }
+          }}
+          options={WPRA_BLOCK.templates}
+        />,
+        <TextControl
+          label={__('Feed Limit')}
+          help={__('Number of feed items to display')}
+          placeholder={getTemplateDefault('limit', parseInt)}
+          type={'number'}
+          min={1}
+          value={props.attributes.limit || getTemplateDefault('limit', parseInt)}
+          onChange={(value) => {
+            templateLock['limit'] = true
+            props.setAttributes({limit: parseInt(value) || getTemplateDefault('limit', parseInt)})
+          }}
+        />,
+        <ToggleControl
+          label={__('Show Pagination ')}
+          checked={props.attributes.pagination}
+          onChange={(value) => {
+            templateLock['pagination'] = true
+            props.setAttributes({pagination: value})
+          }}
+        />,
+        <TextControl
+          label={__('Page')}
+          placeholder={__('1')}
+          type={'number'}
+          min={1}
+          value={props.attributes.page || 1}
+          onChange={(value) => {
+            props.setAttributes({page: parseInt(value) || 1})
+          }}
+        />,
+        etWarning
+      ], 'displayOptions', {props})}
+      </PanelBody>,
+    ], {props})
+
+    console.warn({panels})
+
+    return <div>
+      <ServerSideRender
+        block={'wpra-shortcode/wpra-shortcode'}
+        attributes={props.attributes}
+        className={'wpra-gutenberg-block'}
+      />
+      {applyFilters('wpra.gutenbergBlock.before', [], {props})}
+      <InspectorControls>
+        {panels}
       </InspectorControls>
+      {applyFilters('wpra.gutenbergBlock.after', [], {props})}
     </div>
   },
 

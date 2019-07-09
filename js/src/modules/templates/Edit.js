@@ -9,6 +9,7 @@ import NoticeBlock from 'app/components/NoticeBlock'
 import deepmerge from 'app/utils/deepmerge'
 import DataChangesAware from 'app/mixins/DataChangesAware'
 import jsonClone from 'app/utils/jsonClone'
+import base64 from 'app/utils/base64'
 import { copyToClipboard } from 'app/utils/copy'
 
 export default {
@@ -42,7 +43,9 @@ export default {
   },
   computed: {
     previewUrl () {
-      return `${WpraGlobal.admin_base_url}?wpra_preview_template=${this.router.params.id}`
+      let options = base64.encode(JSON.stringify(this.model.options))
+
+      return `${WpraGlobal.admin_base_url}?wpra_preview_template=${this.router.params.id}&wpra_template_options=${options}`
     }
   },
   methods: {
@@ -182,9 +185,7 @@ export default {
         title={'Setting up your Templates'}
         body={'Templates are used to display the items imported using WP RSS Aggregator. Choose the preferred options ' +
         'below and use them anywhere on your site via our <a href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode#tinymce" target="_blank">shortcode</a> ' +
-        'or our <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">block</a>. ' +
-        '<br/><br/>' +
-        'More template types and options will be made available soon. Have you got a template idea in mind? <a href="https://www.wprssaggregator.com/request-a-template/" target="_blank">Share it with us.</a>'}
+        'or our <a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">block</a>.'}
         learnMore={'https://kb.wprssaggregator.com/article/457-templates'}
       />
 
@@ -247,7 +248,7 @@ export default {
                        disabled={this.model.type === '__built_in'}
                        inputDisabled={!WpraTemplates.options.is_type_enabled}
                        description={
-                         WpraTemplates.options.is_type_enabled ? null  : '<div class="disable-ignored"><strong class="disable-ignored">🎉 More template types coming soon!</strong>  Have you got a template idea in mind? <a target="_blank" href="https://www.wprssaggregator.com/request-a-template/" class="disable-ignored">Share it with us.</a></div>'
+                         WpraTemplates.options.is_type_enabled ? null  : '<div class="disable-ignored"><strong class="disable-ignored">Get more template types, including a customisable grid template.</strong> <a target="_blank" href="https://www.wprssaggregator.com/extensions/templates/" class="disable-ignored">Learn more.</a></div>'
                        }
                 />
                 {
@@ -281,108 +282,121 @@ export default {
                 <Input type="number"
                        label={'Number of items to show'}
                        value={this.model.options.limit || ''}
-                       onInput={(e) => this.model.options.limit = e}
+                       onInput={(e) => this.model.options.limit = (e === '') ? 0 : e}
                        title={this.tooltips.options.limit}
+                       placeholder={"Show all items"}
+                       min="0"
                 />
 
-                <Input type="checkbox"
-                       label={'Show publish date'}
-                       value={this.model.options.date_enabled}
-                       onInput={(e) => this.model.options.date_enabled = e}
-                       style={{paddingTop: '20px', fontWeight: 'bold'}}
-                       title={this.tooltips.options.date_enabled}
-                />
-                <Input type="text"
-                       label={'Date prefix'}
-                       value={this.model.options.date_prefix}
-                       onInput={(e) => this.model.options.date_prefix = e}
-                       disabled={!this.model.options.date_enabled}
-                       title={this.tooltips.options.date_prefix}
-                />
-                <Input type="text"
-                       label={'Date format'}
-                       value={this.model.options.date_format}
-                       onInput={(e) => this.model.options.date_format = e}
-                       disabled={this.model.options.date_use_time_ago || !this.model.options.date_enabled}
-                       title={this.tooltips.options.date_format}
-                />
-                <Input type="checkbox"
-                       label={'Use "time ago" format'}
-                       description={'Example: 20 minutes ago'}
-                       value={this.model.options.date_use_time_ago}
-                       onInput={(e) => this.model.options.date_use_time_ago = e}
-                       disabled={!this.model.options.date_enabled}
-                       title={this.tooltips.options.date_use_time_ago}
-                />
+                <div id={'wpra-list-template-publish-date'} style={{paddingTop: '10px'}}>
+                  <Input type="checkbox"
+                         label={'Show publish date'}
+                         value={this.model.options.date_enabled}
+                         onInput={(e) => this.model.options.date_enabled = e}
+                         style={{fontWeight: 'bold'}}
+                         title={this.tooltips.options.date_enabled}
+                  />
+                  <Input type="text"
+                         label={'Date prefix'}
+                         value={this.model.options.date_prefix}
+                         onInput={(e) => this.model.options.date_prefix = e}
+                         disabled={!this.model.options.date_enabled}
+                         title={this.tooltips.options.date_prefix}
+                  />
+                  <Input type="text"
+                         label={'Date format'}
+                         value={this.model.options.date_format}
+                         onInput={(e) => this.model.options.date_format = e}
+                         disabled={this.model.options.date_use_time_ago || !this.model.options.date_enabled}
+                         title={this.tooltips.options.date_format}
+                  />
+                  <Input type="checkbox"
+                         label={'Use "time ago" format'}
+                         description={'Example: 20 minutes ago'}
+                         value={this.model.options.date_use_time_ago}
+                         onInput={(e) => this.model.options.date_use_time_ago = e}
+                         disabled={!this.model.options.date_enabled}
+                         title={this.tooltips.options.date_use_time_ago}
+                  />
+                </div>
 
-                <Input type="checkbox"
-                       label={'Show source name'}
-                       value={this.model.options.source_enabled}
-                       onInput={(e) => this.model.options.source_enabled = e}
-                       style={{paddingTop: '20px', fontWeight: 'bold'}}
-                       title={this.tooltips.options.source_enabled}
-                />
-                <Input type="text"
-                       label={'Source prefix'}
-                       value={this.model.options.source_prefix}
-                       onInput={(e) => this.model.options.source_prefix = e}
-                       disabled={!this.model.options.source_enabled}
-                       title={this.tooltips.options.source_prefix}
-                />
-                <Input type="checkbox"
-                       label={'Link source name'}
-                       value={this.model.options.source_is_link}
-                       onInput={(e) => this.model.options.source_is_link = e}
-                       disabled={!this.model.options.source_enabled}
-                       title={this.tooltips.options.source_is_link}
-                />
+                <div id={'wpra-list-template-source'} style={{paddingTop: '10px'}}>
+                  <Input type="checkbox"
+                         label={'Show source name'}
+                         value={this.model.options.source_enabled}
+                         onInput={(e) => this.model.options.source_enabled = e}
+                         style={{fontWeight: 'bold'}}
+                         title={this.tooltips.options.source_enabled}
+                  />
+                  <Input type="text"
+                         label={'Source prefix'}
+                         value={this.model.options.source_prefix}
+                         onInput={(e) => this.model.options.source_prefix = e}
+                         disabled={!this.model.options.source_enabled}
+                         title={this.tooltips.options.source_prefix}
+                  />
+                  <Input type="checkbox"
+                         label={'Link source name'}
+                         value={this.model.options.source_is_link}
+                         onInput={(e) => this.model.options.source_is_link = e}
+                         disabled={!this.model.options.source_enabled}
+                         title={this.tooltips.options.source_is_link}
+                  />
+                </div>
 
-                <Input type="checkbox"
-                       label={'Show author name'}
-                       value={this.model.options.author_enabled}
-                       onInput={(e) => this.model.options.author_enabled = e}
-                       style={{paddingTop: '20px', fontWeight: 'bold'}}
-                       title={this.tooltips.options.author_enabled}
-                />
-                <Input type="text"
-                       label={'Author prefix'}
-                       value={this.model.options.author_prefix}
-                       onInput={(e) => this.model.options.author_prefix = e}
-                       disabled={!this.model.options.author_enabled}
-                       title={this.tooltips.options.author_prefix}
-                />
+                <div id={'wpra-list-template-author'} style={{paddingTop: '10px'}}>
+                  <Input type="checkbox"
+                         label={'Show author name'}
+                         value={this.model.options.author_enabled}
+                         onInput={(e) => this.model.options.author_enabled = e}
+                         style={{fontWeight: 'bold'}}
+                         title={this.tooltips.options.author_enabled}
+                  />
+                  <Input type="text"
+                         label={'Author prefix'}
+                         value={this.model.options.author_prefix}
+                         onInput={(e) => this.model.options.author_prefix = e}
+                         disabled={!this.model.options.author_enabled}
+                         title={this.tooltips.options.author_prefix}
+                  />
+                </div>
 
-                <Input type="checkbox"
-                       label={'Pagination'}
-                       value={this.model.options.pagination}
-                       onInput={(e) => this.model.options.pagination = e}
-                       style={{paddingTop: '20px', fontWeight: 'bold'}}
-                       title={this.tooltips.options.pagination}
-                />
-                <Input type="select"
-                       label={'Pagination style'}
-                       options={WpraTemplates.options.pagination_type}
-                       value={this.model.options.pagination_type}
-                       onInput={(e) => this.model.options.pagination_type = e}
-                       disabled={!this.model.options.pagination}
-                       title={this.tooltips.options.pagination_type}
-                />
+                <div id={'wpra-list-template-pagination'} style={{paddingTop: '10px'}}>
+                  <Input type="checkbox"
+                         label={'Pagination'}
+                         value={this.model.options.pagination}
+                         onInput={(e) => this.model.options.pagination = e}
+                         style={{fontWeight: 'bold'}}
+                         title={this.tooltips.options.pagination}
+                         disabled={parseInt(this.model.options.limit) < 1 || !this.model.options.limit}
+                  />
+                  <Input type="select"
+                         label={'Pagination style'}
+                         options={WpraTemplates.options.pagination_type}
+                         value={this.model.options.pagination_type}
+                         onInput={(e) => this.model.options.pagination_type = e}
+                         disabled={!this.model.options.pagination || parseInt(this.model.options.limit) < 1 || !this.model.options.limit}
+                         title={this.tooltips.options.pagination_type}
+                  />
+                </div>
 
-                <Input type="checkbox"
-                       label={'Show bullets'}
-                       value={this.model.options.bullets_enabled}
-                       onInput={(e) => this.model.options.bullets_enabled = e}
-                       style={{paddingTop: '20px', fontWeight: 'bold'}}
-                       title={this.tooltips.options.bullets_enabled}
-                />
-                <Input type="select"
-                       label={'Bullet style'}
-                       options={WpraTemplates.options.bullet_type}
-                       value={this.model.options.bullet_type}
-                       onInput={(e) => this.model.options.bullet_type = e}
-                       disabled={!this.model.options.bullets_enabled}
-                       title={this.tooltips.options.bullet_type}
-                />
+                <div id={'wpra-list-template-bullets'} style={{paddingTop: '10px'}}>
+                  <Input type="checkbox"
+                         label={'Show bullets'}
+                         value={this.model.options.bullets_enabled}
+                         onInput={(e) => this.model.options.bullets_enabled = e}
+                         style={{fontWeight: 'bold'}}
+                         title={this.tooltips.options.bullets_enabled}
+                  />
+                  <Input type="select"
+                         label={'Bullet style'}
+                         options={WpraTemplates.options.bullet_type}
+                         value={this.model.options.bullet_type}
+                         onInput={(e) => this.model.options.bullet_type = e}
+                         disabled={!this.model.options.bullets_enabled}
+                         title={this.tooltips.options.bullet_type}
+                  />
+                </div>
               </Postbox>
             </Main>
             <Sidebar>
@@ -437,20 +451,31 @@ export default {
                        onInput={(e) => this.model.options.links_behavior = e}
                        title={this.tooltips.options.links_behavior}
                 />
-                <Input type="select"
-                       label={'Video embed link type'}
-                       description={'This will not affect already imported feed items.'}
-                       class="form-input--vertical"
-                       value={this.model.options.links_video_embed_page}
-                       options={WpraTemplates.options.links_video_embed_page}
-                       onInput={(e) => this.model.options.links_video_embed_page = e}
-                       title={this.tooltips.options.links_video_embed_page}
+                  {
+                      (this.model.options.links_behavior === 'lightbox' )?
+                          <div class="notice notice-info notice-alt">
+                            <p>Some sites may not allow their content to be shown in a lightbox.</p>
+                            <p>Embedded content usually works. Try ticking the below checkbox.</p>
+                            <p>
+                              <a href="https://kb.wprssaggregator.com/article/471-q-why-wont-some-of-my-feed-items-work-with-the-lightbox-link-behaviour-for-templates"
+                                 target="_blank">
+                                {'Learn more'}
+                              </a>
+                            </p>
+                          </div>
+                          : null
+                  }
+                <Input type="checkbox"
+                       label={'Set links to open embeds'}
+                       value={this.model.options.link_to_embed}
+                       onInput={(e) => this.model.options.link_to_embed = e}
+                       title={this.tooltips.options.link_to_embed}
                 />
               </Postbox>
               <Postbox id="template-custom-css" title="Custom Style" context={this}>
                 <Input type="text"
                        class="form-input--vertical"
-                       label={'Custom CSS class name'}
+                       label={'Custom HTML class name'}
                        value={this.model.options.custom_css_classname}
                        onInput={(e) => this.model.options.custom_css_classname = e}
                        title={this.tooltips.options.custom_css_classname}

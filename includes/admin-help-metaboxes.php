@@ -24,11 +24,11 @@
 
 '.											'If you already have items imported from this feed source, setting this option now may delete some of your items, in order to comply with the limit.', WPRSS_TEXT_DOMAIN),
 				// Link to Enclosure
-				'wprss_enclosure'       => __('Tick this box to make feed items link to the URL in the enclosure tag, rather than link to the original article.
+				'wprss_enclosure'       => __('Tick this box to make imported items link to their enclosure, rather than to the original article.
 
-'.											'Enclosure tags are RSS tags that may be included with a feed items. These tags typically contain links to images, audio, videos, attachment files or even flash content.
+'.											'Enclosures are typically links to attachments, such as images, audio, videos, documents or flash content.
 
-'.											'If you are not sure leave this setting blank.', WPRSS_TEXT_DOMAIN),
+'.											'If you are not sure, leave this option unticked', WPRSS_TEXT_DOMAIN),
 
 				'wprss_unique_titles'   => __('Whether to allow multiple feed items to have the same title. When checked, if a feed item has the same title as a previously-imported feed item, it will not be imported.
 
@@ -69,7 +69,7 @@
 
 '.											'Also, items in the RSS feed that are already older than this age will not be imported at all.
 
-'.											'Leaving empty to use the <em>Limit feed items by age</em> option in the general settings.', WPRSS_TEXT_DOMAIN),
+'.											'Leave empty to use the <em>Limit feed items by age</em> option in the general settings.', WPRSS_TEXT_DOMAIN),
 
 				/* ----------------------
 				 *  Feed Preview Metabox

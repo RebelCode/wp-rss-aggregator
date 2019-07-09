@@ -27,184 +27,192 @@
 	 * @since 3.2
 	 */
 	function wprss_fetch_insert_single_feed_items( $feed_ID ) {
-        $logger = wpra_get_logger($feed_ID);
+	    set_transient('wpra/feeds/importing/' . $feed_ID, true, 0);
 
-		$logger->info('Starting import');
+        global $wprss_importing_feed;
+        $wprss_importing_feed = $feed_ID;
 
-		global $wprss_importing_feed;
-		$wprss_importing_feed = $feed_ID;
-		register_shutdown_function( 'wprss_detect_exec_timeout' );
+        register_shutdown_function('wprss_detect_exec_timeout');
 
-		// Check if the feed source is active.
-		if ( wprss_is_feed_source_active( $feed_ID ) === FALSE && wprss_feed_source_force_next_fetch( $feed_ID ) === FALSE ) {
-            $logger->info('Feed is not active. Finished');
-			return;
-		}
+	    $importFn = function ($feed_ID) {
+            $logger = wpra_get_logger($feed_ID);
 
-		// If the feed source is forced for next fetch, remove the force next fetch data
-		if ( wprss_feed_source_force_next_fetch( $feed_ID ) ) {
-			delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
-		}
+            $logger->info('Starting import of feed {id}', ['id' => $feed_ID]);
 
-		// Get the feed source URL from post meta, and filter it
-		$feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
-		$feed_url = apply_filters( 'wprss_feed_source_url', $feed_url, $feed_ID );
-		$logger->debug('Feed source URL: {0}', [$feed_url]);
+            // Check if the feed source is active.
+            if ( ! wprss_is_feed_source_active( $feed_ID ) && ! wprss_feed_source_force_next_fetch( $feed_ID ) ) {
+                $logger->info('Feed is not active. Finished');
+                return;
+            }
 
-		// Get the feed limit from post meta
-		$feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
+            // If the feed source is forced for next fetch, remove the force next fetch data
+            if ( wprss_feed_source_force_next_fetch( $feed_ID ) ) {
+                delete_post_meta( $feed_ID, 'wprss_force_next_fetch' );
+            }
 
-		// If the feed has no individual limit
-		if ( $feed_limit === '' || intval( $feed_limit ) <= 0 ) {
-			// Get the global limit
-			$global_limit = wprss_get_general_setting('limit_feed_items_imported');
-			// If no global limit is set, mark as NULL
-			if ( $global_limit === '' || intval($global_limit) <= 0 ) {
-				$feed_limit = NULL;
-			}
-			else $feed_limit = $global_limit;
-		}
+            // Truncate old items first
+            wprss_truncate_items_for_source( $feed_ID );
 
-		$logger->debug('Feed item import limit: {0}', [$feed_limit]);
+            // Get the feed source URL from post meta, and filter it
+            $feed_url = get_post_meta( $feed_ID, 'wprss_url', true );
+            $feed_url = apply_filters( 'wprss_feed_source_url', $feed_url, $feed_ID );
+            $logger->debug('Feed source URL: {0}', [$feed_url]);
 
-		// Filter the URL for validaty
-		if ( ! wprss_validate_url( $feed_url ) ) {
-		    $logger->error('Feed URL is not valid!');
-        } else {
-			// Get the feed items from the source
-			$items = wprss_get_feed_items( $feed_url, $feed_ID );
+            // Get the feed limit from post meta
+            $feed_limit = get_post_meta( $feed_ID, 'wprss_limit', true );
 
-			// If got NULL, convert to an empty array
-			if ( $items === NULL ) {
-                $items_to_insert = array();
-			} else {
-                // See `wprss_item_comparators` filter
-                wprss_sort_items($items);
+            // If the feed has no individual limit
+            if ( $feed_limit === '' || intval( $feed_limit ) <= 0 ) {
+                // Get the global limit
+                $global_limit = wprss_get_general_setting('limit_feed_items_imported');
+                // If no global limit is set, mark as NULL
+                if ( $global_limit === '' || intval($global_limit) <= 0 ) {
+                    $feed_limit = NULL;
+                }
+                else $feed_limit = $global_limit;
+            }
 
-                // If using a limit ...
-                if ( $feed_limit === NULL ) {
-                    $items_to_insert = $items;
+            $logger->debug('Feed item import limit: {0}', [$feed_limit]);
+
+            // Filter the URL for validaty
+            if ( ! wprss_validate_url( $feed_url ) ) {
+                $logger->error('Feed URL is not valid!');
+            } else {
+                // Get the feed items from the source
+                $items = wprss_get_feed_items( $feed_url, $feed_ID );
+
+                // If got NULL, convert to an empty array
+                if ( $items === NULL ) {
+                    $items_to_insert = array();
                 } else {
-                    $items_to_insert = array_slice( $items, 0, $feed_limit );
-                    $logger->info('Fetched {0} items. Got {1} items after applying limit', [
-                        count($items),
-                        count($items_to_insert)
-                    ]);
+                    // See `wprss_item_comparators` filter
+                    wprss_sort_items($items);
+
+                    // If using a limit ...
+                    if ( $feed_limit === NULL ) {
+                        $items_to_insert = $items;
+                    } else {
+                        $items_to_insert = array_slice( $items, 0, $feed_limit );
+                        $logger->info('Fetched {0} items. Got {1} items after applying limit', [
+                            count($items),
+                            count($items_to_insert)
+                        ]);
+                    }
                 }
-            }
 
-			// Gather the permalinks of existing feed item's related to this feed source
-			$existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
+                // Gather the permalinks of existing feed item's related to this feed source
+                $existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
+                // Gather the titles of the items that are imported
+                $existing_titles = [];
 
-			// Check if we should only import uniquely-titled feed items.
-			$existing_titles = array();
-			$unique_titles = FALSE;
-			if ( wprss_get_general_setting( 'unique_titles' ) ) {
-				$unique_titles = TRUE;
-				$existing_titles = wprss_get_existing_titles( );
-			} else if ( get_post_meta( $feed_ID, 'wprss_unique_titles', true ) === 'true' ) {
-				$unique_titles = TRUE;
-				$existing_titles = wprss_get_existing_titles( $feed_ID );
-			}
+                // Generate a list of items fetched, that are not already in the DB
+                $new_items = array();
+                foreach ( $items_to_insert as $item ) {
+                    $item_title = $item->get_title();
 
-			// Generate a list of items fetched, that are not already in the DB
-			$new_items = array();
-			foreach ( $items_to_insert as $item ) {
-			    $item_title = $item->get_title();
+                    $permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
+                    $logger->debug('Checking item "{0}"', [$item_title]);
 
-				$permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
-				$logger->debug('Checking item "{0}"', [$item_title]);
+                    // Check if not blacklisted and not already imported
+                    $is_blacklisted = wprss_is_blacklisted( $permalink );
+                    $permalink_exists = array_key_exists( $permalink, $existing_permalinks );
+                    $title_exists_db = wprss_item_title_exists( $item->get_title() );
+                    $title_exists_feed = array_key_exists($item_title, $existing_titles);
+                    $title_exists = $title_exists_db || $title_exists_feed;
 
-				// Check if not blacklisted and not already imported
-				$is_blacklisted = wprss_is_blacklisted( $permalink );
-				$permalink_exists = array_key_exists( $permalink, $existing_permalinks );
-				$title_exists = array_key_exists( $item->get_title(), $existing_titles );
+                    $existing_titles[$item_title] = 1;
 
-				if ( $is_blacklisted === FALSE && $permalink_exists === FALSE && $title_exists === FALSE) {
-					$new_items[] = $item;
+                    if ($is_blacklisted) {
+                        $logger->debug('Item "{0}" is blacklisted', [$item_title]);
 
-					if ( $unique_titles ) {
-						$existing_titles[$item->get_title()] = 1;
-					}
-				} else {
-					if ( $is_blacklisted ) {
-					    $logger->debug('Item "{0}" is blacklisted', [$item_title]);
-					}
-					if ( $permalink_exists ) {
+                        continue;
+                    }
+
+                    if ($permalink_exists) {
                         $logger->debug('Item "{0}" already exists in the database', [$item_title]);
-					}
-					if ( $title_exists ) {
+
+                        continue;
+                    }
+
+                    if ($title_exists) {
                         $logger->debug('An item with the title "{0}" already exists', [$item_title]);
-					}
-				}
-			}
 
-			$original_count = count( $items_to_insert );
-			$new_count = count( $new_items );
+                        continue;
+                    }
 
-			if ( $new_count !== $original_count ) {
-			    $logger->debug('{0} will be skipped', [$original_count - $new_count]);
-			}
+                    $new_items[] = $item;
+                }
 
-			$items_to_insert = $new_items;
-            $per_import = wprss_get_general_setting('limit_feed_items_per_import');
-            if (!empty($per_import)) {
-                $logger->debug('Applying per-import item limit of {0} items', [$per_import]);
-                $items_to_insert = array_slice( $items_to_insert, 0, $per_import );
+                $original_count = count( $items_to_insert );
+                $new_count = count( $new_items );
+
+                if ( $new_count !== $original_count ) {
+                    $logger->debug('{0} will be skipped', [$original_count - $new_count]);
+                }
+
+                $items_to_insert = $new_items;
+                $per_import = wprss_get_general_setting('limit_feed_items_per_import');
+                if (!empty($per_import)) {
+                    $logger->debug('Applying per-import item limit of {0} items', [$per_import]);
+                    $items_to_insert = array_slice( $items_to_insert, 0, $per_import );
+                }
+
+                // If using a limit - delete any excess items to make room for the new items
+                if ( $feed_limit !== NULL ) {
+                    // Get the number of feed items in DB, and their count
+                    $db_feed_items = wprss_get_feed_items_for_source( $feed_ID );
+                    $num_db_feed_items = $db_feed_items->post_count;
+
+                    // Get the number of feed items we can store until we reach the limit
+                    $num_can_insert = $feed_limit - $num_db_feed_items;
+                    // Calculate how many feed items we must delete before importing, to keep to the limit
+                    $num_new_items = count( $new_items );
+                    $num_feed_items_to_delete = $num_can_insert > $num_new_items
+                            ? 0
+                            : $num_new_items - $num_can_insert;
+
+                    // Get an array with the DB feed items in reverse order (oldest first)
+                    $db_feed_items_reversed = array_reverse( $db_feed_items->posts );
+                    // Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
+                    $feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
+
+                    // Iterate the feed items and delete them
+                    $num_items_deleted = 0;
+                    foreach ( $feed_items_to_delete as $key => $post ) {
+                        wp_delete_post( $post->ID, TRUE );
+                        $num_items_deleted++;
+                    }
+
+                    if ($num_items_deleted > 0) {
+                        $logger->info('Deleted the oldest {0} items from the database', [$num_items_deleted]);
+                    }
+                }
+
+                update_post_meta( $feed_ID, 'wprss_last_update', $last_update_time = time() );
+                update_post_meta( $feed_ID, 'wprss_last_update_items', 0 );
+
+                // Insert the items into the db
+                if ( !empty( $items_to_insert ) ) {
+                    wprss_items_insert_post( $items_to_insert, $feed_ID );
+                }
             }
 
-			// If using a limit - delete any excess items to make room for the new items
-			if ( $feed_limit !== NULL ) {
-				// Get the number of feed items in DB, and their count
-				$db_feed_items = wprss_get_feed_items_for_source( $feed_ID );
-				$num_db_feed_items = $db_feed_items->post_count;
+            $next_scheduled = get_post_meta( $feed_ID, 'wprss_reschedule_event', TRUE );
 
-				// Get the number of feed items we can store until we reach the limit
-				$num_can_insert = $feed_limit - $num_db_feed_items;
-				// Calculate how many feed items we must delete before importing, to keep to the limit
-				$num_new_items = count( $new_items );
-				$num_feed_items_to_delete = $num_can_insert > $num_new_items
-						? 0
-						: $num_new_items - $num_can_insert;
+            if ( $next_scheduled !== '' ) {
+                wprss_feed_source_update_start_schedule( $feed_ID );
+                delete_post_meta( $feed_ID, 'wprss_reschedule_event' );
+                $logger->info('Scheduled next update');
+            }
 
-				// Get an array with the DB feed items in reverse order (oldest first)
-				$db_feed_items_reversed = array_reverse( $db_feed_items->posts );
-				// Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
-				$feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
+            $logger->info('Import completed!');
 
-				// Iterate the feed items and delete them
-                $num_items_deleted = 0;
-				foreach ( $feed_items_to_delete as $key => $post ) {
-					wp_delete_post( $post->ID, TRUE );
-					$num_items_deleted++;
-				}
+        };
 
-				if ($num_items_deleted > 0) {
-                    $logger->info('Deleted the oldest {0} items from the database', [$num_items_deleted]);
-                }
-			}
+	    $importFn($feed_ID);
 
-			update_post_meta( $feed_ID, 'wprss_last_update', $last_update_time = time() );
-			update_post_meta( $feed_ID, 'wprss_last_update_items', 0 );
-
-			// Insert the items into the db
-			if ( !empty( $items_to_insert ) ) {
-				wprss_items_insert_post( $items_to_insert, $feed_ID );
-			}
-		}
-
-		$next_scheduled = get_post_meta( $feed_ID, 'wprss_reschedule_event', TRUE );
-
-		if ( $next_scheduled !== '' ) {
-			wprss_feed_source_update_start_schedule( $feed_ID );
-			delete_post_meta( $feed_ID, 'wprss_reschedule_event' );
-			$logger->info('Scheduled next update');
-		}
-
-		wprss_flag_feed_as_idle( $feed_ID );
-
-		$logger->info('Imported completed!');
-
+        delete_transient('wpra/feeds/importing/' . $feed_ID);
+        wprss_flag_feed_as_idle($feed_ID);
         $wprss_importing_feed = null;
 	}
 
@@ -230,7 +238,7 @@
 
 		if ( !is_wp_error( $feed ) ) {
 			// Return the items in the feed.
-			return $feed->get_items();
+			return @$feed->get_items();
 		}
 
 		wpra_get_logger($source)->error('Failed to fetch the feed from {0}. Error: {1}', [
@@ -276,6 +284,10 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
     {
         // Trim the URL
         $url = trim($url);
+        // Parse the URL
+        $parsed = wpra_parse_url($url);
+        // Filter the URL
+        $url = apply_filters('wpra/importer/feed/url', $url, $parsed);
 
         // Initialize the Feed
         $feed = new SimplePie();
@@ -515,12 +527,6 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 				}
 			}
 
-			/* OLD NORMALIZATION CODE - TO NORMALIZE URLS FROM PROXY URLS
-			$response = wp_remote_head( $permalink );
-			if ( !is_wp_error(  $response ) && isset( $response['headers']['location'] ) ) {
-				$permalink = current( explode( '?', $response['headers']['location'] ) );
-			}*/
-
 			// Check if newly fetched item already present in existing feed items,
 			// if not insert it into wp_posts and insert post meta.
 			if ( ! ( array_key_exists( $permalink, $existing_permalinks ) ) ) {
@@ -542,12 +548,19 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
 					$date      = date( $format, $timestamp );
 					$date_gmt  = gmdate( $format, $timestamp );
+
+                    // Do not let WordPress sanitize the excerpt
+                    // WordPress sanitizes the excerpt because it's expected to be typed by a user and sent in a POST
+                    // request. However, our excerpt is being inserted as a raw string with custom sanitization.
+                    remove_all_filters( 'excerpt_save_pre' );
+
 					// Prepare the item data
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
 						array(
 							'post_title'     => html_entity_decode( $item->get_title() ),
-							'post_content'   => '',
+							'post_content'   => $item->get_content(),
+							'post_excerpt'   => wprss_sanitize_excerpt($item->get_description()),
 							'post_status'    => 'publish',
 							'post_type'      => 'wprss_feed_item',
 							'post_date'      => $date,
@@ -898,4 +911,53 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
         return array(
             $helper->createCommand('wprss_item_comparator_date', $defaultArgs),
         );
+    }
+
+    /**
+     * Sanitizes a post excerpt, cleverly removing all HTML markup while preserving text content and whitespace.
+     *
+     * @since 4.14
+     *
+     * @param string $excerpt The excerpt to sanitize.
+     *
+     * @return string
+     */
+    function wprss_sanitize_excerpt($excerpt) {
+        // Decode HTML entities back to their respective characters
+        $excerpt = html_entity_decode($excerpt);
+        // Add a space between any HTML elements
+        $excerpt = str_replace('>', ' >', $excerpt);
+        // Strip all HTML tags
+        $excerpt = strip_tags($excerpt);
+        // Remove any redundant spaces
+        $excerpt = str_replace('  ', ' ', trim($excerpt));
+
+        return $excerpt;
+    }
+
+    /**
+     * Parses a URL, it's query and its path.
+     *
+     * @since 4.14
+     *
+     * @param string $url The URL to parse.
+     *
+     * @return string
+     */
+    function wpra_parse_url($url)
+    {
+        // Parse the URL
+        $parsed = parse_url($url);
+
+        // Move the path to "path_str"
+        $parsed['path_str'] = isset($parsed['path']) ? $parsed['path'] : '';
+        // Explode the path
+        $parsed['path'] = explode('/', $parsed['path_str']);
+
+        // Move the query to "query_str"
+        $parsed['query_str'] = isset($parsed['query']) ? $parsed['query'] : '';
+        // Parse the query
+        parse_str($parsed['query_str'], $parsed['query']);
+
+        return $parsed;
     }

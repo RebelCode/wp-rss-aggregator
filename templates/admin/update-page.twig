@@ -1,12 +1,13 @@
 <div class="wrap wrap--wpra-update">
     <div class="wpra-update wpra-text-center">
         <div class="wpra-update__logo">
-            <img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/wp_rss_logo.png">
+            <img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/wp_rss_logo.png"
+                alt="WP RSS Aggregator Logo">
         </div>
         <div class="wpra-update-head__copy">
             <div class="wpra-update-head__title">{{ title }}</div>
             <div class="wpra-update-head__link">
-                <a href="{{ url.main }}">Skip the update details and get back to the plugin.</a>
+                <a href="{{ url.main }}">{% trans "Skip the update details and get back to the plugin." %}</a>
             </div>
         </div>
     </div>
@@ -17,32 +18,39 @@
         <div class="postbox">
             <div class="inside wpra-update-feature">
                 <div class="wpra-update-feature__text">
-                    <h3>Introducing Templates</h3>
+                    <h3>{% trans "Better Youtube Feed Support" %}</h3>
                     <p>
-                        WP RSS Aggregator’s feed item display has always been limited to a few display options in the
-                        general settings. Those days are gone.
+                        {% trans %}
+                            We've made it easier to import videos from YouTube using WP RSS Aggregator. You can now
+                            paste the URL of any YouTube channel or user as your feed source URL and the plugin takes
+                            care of the rest.
+                        {% endtrans %}
                     </p>
                     <p>
-                        Templates enable you to create as many variations of the feed item display as you wish, all
-                        with different options. Each one can be used anywhere across your site. So, if you’d like to
-                        have a simple list view in your sidebar, you can do that. If you want a more stylish display for
-                        your homepage, you can do that too.
+                        {% trans %}
+                            This makes displaying a feed of YouTube videos much easier. You will now be able to show an
+                            embedded video in the lightbox, and with the introduction of the new Templates add-on you
+                            will also be able to show the video thumbnails and even add the embedded YouTube video
+                            player directly on your site!
+                        {% endtrans %}
                     </p>
                     <p>
-                        As of right now, there is still only one template type available (the "List" type). This has
-                        replaced the “Display Settings” that were previously found under RSS Aggregator > Settings in
-                        your dashboard. In fact, existing users will notice that their display settings are now
-                        replicated in the “Default” template.
+                        {% trans %}
+                            This is the first of many exciting updates to come, that will make WP RSS Aggregator
+                            integrate better with popular multimedia and social media platforms!
+                        {% endtrans %}
                     </p>
                     <div class="wpra-inline-form">
-                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/457-templates" target="wpra-kb-templates">
-                            Learn more
+                        <a class="button button-large button-icon" target="wpra-kb-youtube"
+                           href="https://kb.wprssaggregator.com/article/211-importing-from-youtube-feeds">
+                            {% trans "Learn more" %}
                             <span class="dashicons dashicons-arrow-right-alt2"></span>
                         </a>
                     </div>
                 </div>
                 <div class="wpra-update-feature__image">
-                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/04/WP-RSS-Aggregator-Templates.png" alt="Brand New Templates Screen">
+                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/07/wpra-core-4.14-youtube_source.png"
+                         alt="Import and Display Youtube Feeds">
                 </div>
             </div>
         </div>
@@ -50,57 +58,38 @@
         <div class="postbox">
             <div class="inside wpra-update-feature">
                 <div class="wpra-update-feature__text">
-                    <h3>A Brand New Gutenberg Block</h3>
+                    <h3>{% trans "Feed Sources Page Improvements" %}</h3>
                     <p>
-                        Our brand new Gutenberg block titled “WP RSS Aggregator Feeds” makes setting up a display
-                        of your feed items super simple. Search for the block, add it to your page or post, choose the
-                        options you want for this particular page or post, and you’re all set.
+                        {% trans %}
+                            The <b>Feed Sources</b> page has received a major update. We've tweaked the design of the
+                            feed list to make it more informative at a glance, helping you better manage your feed
+                            sources.
+                        {% endtrans %}
                     </p>
                     <p>
-                        We have implemented a live preview in the block, so as you select or hide sources, select
-                        templates, set limits, and so on, you’re seeing exactly what your visitors will see on your site
-                        without ever leacing the edit page. We also introduced a new “Page” option that allows you to 
-                        display different pages of a feed's items in multiple columns, boxes, or any other area.
+                        {% trans %}
+                            We've also added a few new things, such as a new toggle switch for activating and pausing
+                            feeds and an icon to help distinguish between RSS feeds and Youtube feeds. We will be adding
+                            more icons in the future as we start adding support for more kinds of feeds.
+                        {% endtrans %}
                     </p>
                     <p>
-                        For those using the classic WordPress editor, we have also updated our TinyMCE button. Look for
-                        the RSS button in the editor and you'll see the same options as those provided in the block.
+                        {% trans %}
+                        What's more, the page is now fully asynchronous! This means that your actions on the page -
+                        activating or pausing a feed, fetching items, deleting items - no longer cause the
+                        page to reload. Updates and errors are now reliably added to the page, making it feel more like
+                        a live dashboard.
+                        {% endtrans %}
+                    </p>
                     <div class="wpra-inline-form">
-                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="wpra-kb-block">
+                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/472-feed-sources-list" target="wpra-kb-block">
                             Learn more
                             <span class="dashicons dashicons-arrow-right-alt2"></span>
                         </a>
                     </div>
                 </div>
                 <div class="wpra-update-feature__image">
-                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/04/WP-RSS-Aggregator-Gutenberg-Block.png" alt="Brand New Gutenberg Block">
-                </div>
-            </div>
-        </div>
-
-        <div class="postbox">
-            <div class="inside wpra-update-feature">
-                <div class="wpra-update-feature__text">
-                    <h3>More Powerful Logs</h3>
-                    <p>
-                        Debug logs are vital when trying to narrow down the cause of any problem. In this version we
-                        have updated our error logging and introduced a new debug log interface that will make it easier
-                        for you, and for our support team, to filter through the log entries.
-                    </p>
-                    <p>
-                        The logs are now also stored in your database, not in a single large text file. This makes it
-                        more reliable, speeds up the logging, and ensures that your site isn’t bogged down by any large
-                        error log file.
-                    </p>
-                    <div class="wpra-inline-form">
-                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/110-error-logs-system-information" target="wpra-kb-logs">
-                            Learn more
-                            <span class="dashicons dashicons-arrow-right-alt2"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="wpra-update-feature__image">
-                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/04/WP-RSS-Aggregator-Debug-Log.png" alt="More Powerful Logs">
+                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/07/wpra-core-4.14-feed_sources_list.png" alt="Feed Sources Page Improvements">
                 </div>
             </div>
         </div>
@@ -130,3 +119,23 @@
 
     <br class="clear">
 </div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            if ($.fn.colorbox) {
+                $('.wrap--wpra-update .wpra-update-feature__image').colorbox({
+                    title: 'Image',
+                    href: function () {
+                        var img = $(this).find('img');
+                        var src = img.attr('src');
+
+                        return src;
+                    },
+                    photo: true,
+                    rel: 'wpra-updates',
+                });
+            }
+        });
+    })(jQuery);
+</script>

@@ -48,33 +48,46 @@
 			// Update the next update time
 			updatesCol.find('code.next-update').text( feed_source['next-update'] );
 
-			// Update the last update time
-			if ( feed_source['last-update'] == '' )
+			// Update the last update time and item count
+			if ( feed_source['last-update'] == '' ) {
 				updatesCol.find('p.last-update-container').hide();
-			else
-				updatesCol.find('code.last-update').text( feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago );
-
-			// Update the last update items count
-			if ( feed_source['last-update-imported'] == '' )
-				updatesCol.find('span.last-update-imported-container').hide();
-			else
-				updatesCol.find('code.last-update-imported').text( feed_source['last-update-imported'] );
+			} else {
+				updatesCol.find('.last-update-time').text(feed_source['last-update'] + ' ' + wprss_admin_heartbeat.ago);
+				updatesCol.find('.last-update-num-items').text( feed_source['last-update-imported'] );
+				updatesCol.find('p.last-update-container').show();
+			}
 
 			// Update the items imported count and the icon
-			var icon = itemsCol.find('i.fa-spin');
 			var itemCount = itemsCol.find('span.items-imported');
 
 			// Update the count and the icon appropriately
 			itemCount.text( feed_source['items'] );
-			icon.toggleClass( 'wprss-show', feed_source['updating'] );
-			
-			
-			
 
+			// Toggle the row's updating class - the check ignores false negatives
+			if (row.hasClass('wpra-manual-update')) {
+				row.removeClass('wpra-manual-update');
+			} else {
+				row.toggleClass('wpra-feed-is-updating', !!feed_source['fetching']);
+			}
+
+			// Toggle the row's deleting class - the check ignores false negatives
+			if (row.hasClass('wpra-manual-delete')) {
+				row.removeClass('wpra-manual-delete');
+			} else {
+				row.toggleClass('wpra-feed-is-deleting', !!feed_source['deleting'] && !feed_source['fetching']);
+			}
+
+			// False negatives occur when the handlers for the update/delete row actions add the "is updating" or
+			// "is deleting" class to the row, and immediately after a heartbeat response comes back that reports the
+			// same feed source as not updating and not deleting, which results in the row losing those classes.
+
+			// Toggle the "has imported items" class depending on the number of imported items
+			itemsCol.find('.items-imported-link').toggleClass('has-imported-items', feed_source['items'] > 0);
+			// Hide the "Delete" row action for items if there are no imported items
+			itemsCol.find('.row-actions .purge-posts').toggle(feed_source['items'] >= 0);
 
 			// Update the error icon
-			var errorsCol = row.find('td.column-errors');
-			var errorIcon = errorsCol.find('i.fa');
+			var errorIcon = itemsCol.find('i.wprss-feed-error-symbol').attr('title', feed_source['errors']);
 			errorIcon.toggleClass( 'wprss-show', feed_source['errors'] !== '' );
 		}
 
@@ -91,7 +104,7 @@
 			},
 			success: function(data, status, jqXHR){
 				updateFeedSourceTable(data);
-				setTimeout(wprssFeedSourceTableAjax, 1000);
+				setTimeout(wprssFeedSourceTableAjax, 1500);
 			},
 			dataType: 'json'
 		});

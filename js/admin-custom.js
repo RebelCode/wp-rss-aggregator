@@ -1,38 +1,43 @@
 // jQuery for 'Fetch Feed Items' Row Action in 'All Feed Sources' page
 function fetch_items_row_action_callback(e){
     var link = jQuery(this);
-    var original_text = link.text();
+    if (link.attr('disabled')) {
+        return;
+    }
+
+    var allLinks = jQuery('a.wprss_fetch_items_ajax_action, a.wprss_delete_items_ajax_action');
+    allLinks.attr('disabled', 'disabled');
+
+    var original_text = link.html();
     var id = link.attr('pid');
-    var url = link.attr('purl');
 
     var errorImportingHandler = function(jqXHR, status, exceptionText) {
-        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');;
+        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');
     };
 
     var displayResultMessage = function(message, className) {
         link.text(message);
-        if (className)
+        if (className) {
             link.addClass(className);
+        }
 
         setTimeout(function(){
-            link.text(original_text);
-            link.removeAttr('disabled');
-            if (className)
+            link.html(original_text);
+            allLinks.removeAttr('disabled');
+            if (className) {
                 link.removeClass(className);
-        }, 3500);
+            }
+        }, 2000);
     };
 
-    e.preventDefault();
-    if (link.attr('disabled')) {
-        return;
-    }
+    link.text( wprss_admin_custom.please_wait );
 
     jQuery.ajax({
         url: ajaxurl,
         type: 'POST',
         dataType: 'json',
         data: {
-            'action': 'wprss_fetch_feeds_row_action',
+            'action': 'wprss_fetch_items_row_action',
             'id':   id,
             'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
             'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
@@ -43,29 +48,115 @@ function fetch_items_row_action_callback(e){
                 return;
             }
 
-            displayResultMessage(wprss_admin_custom.items_are_importing + '!');
-            jQuery('table.wp-list-table tbody tr.post-' + id + ' td.column-feed-count i.fa-spin').addClass('wprss-show');
+            displayResultMessage(wprss_admin_custom.items_are_importing);
+            jQuery('table.wp-list-table tbody tr.post-' + id).addClass('wpra-feed-is-updating wpra-manual-update');
         },
         error: errorImportingHandler,
         timeout: 60000 // set timeout to 1 minute
     });
-    /*
-    jQuery.post(
-        url, 
-        {
-            'action': 'wprss_fetch_feeds_row_action',
-            'id':   id
-        }, 
-        function(response){
-            link.text('Feed items imported!');
-            setTimeout( function(){
-                link.text( original_text ).click( fetch_items_row_action_callback );
-            }, 3500 );
-        }
-    );*/
-    link.text( wprss_admin_custom.please_wait );
-    link.attr('disabled', 'disabled');
+
+    e.preventDefault();
 };
+
+
+
+
+// jQuery for 'Delete Items' Row Action in 'All Feed Sources' page
+function delete_items_row_action_callback(e){
+    var link = jQuery(this);
+    if (link.attr('disabled')) {
+        return;
+    }
+
+    var allLinks = jQuery('a.wprss_fetch_items_ajax_action, a.wprss_delete_items_ajax_action');
+    allLinks.attr('disabled', 'disabled');
+
+    var original_text = link.text();
+    var id = link.attr('pid');
+
+    var errorImportingHandler = function(jqXHR, status, exceptionText) {
+        displayResultMessage(status === 'parsererror' ? 'Error parsing response' : exceptionText, 'ajax-error');
+    };
+
+    var displayResultMessage = function(message, className) {
+        link.text(message);
+        if (className) {
+            link.addClass(className);
+        }
+
+        setTimeout(function(){
+            link.text(original_text);
+            allLinks.removeAttr('disabled');
+            if (className) {
+                link.removeClass(className);
+            }
+        }, 2000);
+    };
+
+    link.text( wprss_admin_custom.please_wait );
+
+    jQuery.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'action': 'wprss_delete_items_row_action',
+            'id':   id,
+            'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
+            'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
+        },
+        success: function( response, status, jqXHR ){
+            if (response.is_error) {
+                errorImportingHandler(jqXHR, status, response.error_message);
+                return;
+            }
+
+            displayResultMessage(wprss_admin_custom.items_are_deleting);
+            jQuery('table.wp-list-table tbody tr.post-' + id).addClass('wpra-feed-is-deleting wpra-manual-delete');
+        },
+        error: errorImportingHandler,
+        timeout: 60000 // set timeout to 1 minute
+    });
+
+    e.preventDefault();
+};
+
+
+
+// jQuery for the feed state toggle buttons
+function toggle_feed_state_ajax_callback(e) {
+    var checkbox = jQuery(this);
+    var id = checkbox.val();
+    var checked = checkbox.prop('checked') === true;
+    var container = checkbox.closest('.wprss-feed-state-container');
+    var row = checkbox.closest('tr');
+
+    var errorFunction = function (response) {
+        console.log(response);
+    };
+
+    row.toggleClass('active');
+
+    jQuery.ajax({
+        url: ajaxurl,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'action': 'wprss_toggle_feed_state',
+            'id':   id,
+            'wprss_admin_ajax_nonce': jQuery('#wprss_feed_source_action_nonce').data('value'), // nonce
+            'wprss_admin_ajax_referer': jQuery('#_wp_http_referer').val() // referer
+        },
+        success: function( response, status, jqXHR ){
+            if (response.is_error) {
+                errorFunction(response.error_message);
+            }
+        },
+        error: errorFunction,
+        timeout: 60000
+    });
+}
+
 
 
 
@@ -137,8 +228,10 @@ jQuery(window).load( function(){
     }
     );	        
 
-	jQuery('.wp-list-table').on( 'click', '.wprss_ajax_action', fetch_items_row_action_callback );
-	
+	jQuery('.wp-list-table').on( 'click', '.wprss_fetch_items_ajax_action', fetch_items_row_action_callback );
+    jQuery('.wp-list-table').on( 'click', '.wprss_delete_items_ajax_action', delete_items_row_action_callback );
+    jQuery('.wp-list-table').on( 'change', '.wprss-toggle-feed-state', toggle_feed_state_ajax_callback );
+
 	// Make the number rollers change their value to empty string when value is 0, making
 	// them use the placeholder.
 	jQuery('.wprss-number-roller').on('change', function(){
@@ -505,5 +598,49 @@ if ( !String.prototype.trim ) {
         $('.wpra-log').each(function () {
             WpraLogViewers.push(new WpraLogViewer($(this)));
         });
+    });
+})(jQuery);
+
+// Image options in feed source edit page
+(function($) {
+    function update() {
+        var ftImage = $('#wpra_ft_image').val();
+        var downloadImages = $('#wpra_download_images').prop('checked') === true;
+        var ftImagesEnabled = (ftImage !== '');
+        var useDefaultftImage = (ftImage === 'default');
+
+        // Only show the "must have ft image" and "remove ft image" options if featured images are enabled
+        $('#wpra_siphon_ft_image').toggle(ftImagesEnabled);
+        $('#wpra_must_have_ft_image').toggle(ftImagesEnabled);
+
+        // Show the image minimum size options if either featured images or image downloading are enabled
+        $('#wpra_image_min_size_row').toggle( (ftImagesEnabled || downloadImages) && !useDefaultftImage );
+    }
+
+    $(document).ready(function () {
+        var defFtImage = $('#wprss-feed-def-ft-image');
+
+        if (defFtImage.length) {
+            $('#wpra_ft_image').on('change', update);
+            $('#wpra_download_images').on('change', update);
+
+            update();
+
+            var gallery = new WpraGallery({
+                id: 'wpra-feed-def-ft-image',
+                title: "Choose a default featured image",
+                button: "Set default featured image",
+                library: {type: 'image'},
+                multiple: false,
+                elements: {
+                    value: defFtImage,
+                    open: $('#wprss-feed-set-def-ft-image'),
+                    remove: $('#wprss-feed-remove-def-ft-image'),
+                    preview: $('#wprss-feed-def-ft-image-preview'),
+                    previewHint: $('#wprss-feed-def-ft-image-preview-hint'),
+                },
+            });
+        }
+
     });
 })(jQuery);

@@ -274,6 +274,7 @@ class Settings {
         $addonId = $args[0];
         $manager = $this->getManager();
         $data = $manager->checkLicense( $addonId, 'ALL' );
+        $data = empty($data) ? 'invalid' : $data;
         $status = is_string( $data ) ? $data : $data->license;
         if ( $status === 'site_inactive' ) $status = 'inactive';
         if ( $status === 'item_name_mismatch' ) $status = 'invalid';

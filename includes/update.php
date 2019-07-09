@@ -71,6 +71,30 @@
 			}
 		}
 
+		// Update to 4.14
+		if ( !empty($old_db_version) && intval($old_db_version) < 16 ) {
+			// Copy the default template's meta to its settings options
+			// In 4.13.x, a bug caused corruption such that the meta data was more up-to-date than the settings
+			// This also meant that the options users saw in the Templates edit page did not match what was stored in
+			// the database, and what was used by the templates during rendering.
+			// This was fixed in 4.14. Since the options that users saw in the Templates Edit page are what they most
+			// likely wanted to have be saved in the database, we are here copying the meta over to the settings.
+			try {
+				$templates = wpra_container()->get('wpra/feeds/templates/collection');
+				$default = $templates['default'];
+				$id = $default['id'];
+				$options = $default['options'];
+
+				$meta = get_post_meta($id, 'wprss_template_options',true);
+				foreach ($meta as $k => $v) {
+					$options[$k] = $v;
+				}
+
+				$default['options'] = $options;
+			} catch (Exception $exception) {
+				// Fail silently
+			}
+		}
 	}
 
 
@@ -261,12 +285,11 @@
                 'expiration_notice_period'  => '2 weeks',
 
                 // From 4.8.2
-                'feed_request_useragent'    => null,
+                'feed_request_useragent'    => 'WordPress',
 
                 // From 4.11.2
                 'limit_feed_items_per_import'   => null,
-                'feed_items_import_order'       => '',
-                'feed_items_import_order'       => '',
+                'feed_items_import_order'       => 'latest',
 
                 // From 4.13
                 'custom_css' => '',

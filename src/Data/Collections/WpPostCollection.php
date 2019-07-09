@@ -219,11 +219,19 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         $result = wp_insert_post($post, true);
 
         if ($result instanceof WP_Error) {
-            throw new RuntimeException($result->get_error_message(), $result->get_error_code());
+            throw new RuntimeException($result->get_error_message());
         }
 
         $this->lastInsertedId = $result;
+
+        // Temporarily disable the filter
+        $tFilter = $this->filter;
+        $this->filter = [];
+
         $this->updatePost($result, $data);
+
+        // Restore the filter
+        $this->filter = $tFilter;
     }
 
     /**
@@ -401,6 +409,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
     {
         return [
             'post_type' => $this->postType,
+            'post_status' => array_keys(get_post_statuses()),
             'suppress_filters' => true,
             'cache_results' => false,
             'posts_per_page' => -1,
@@ -434,7 +443,7 @@ class WpPostCollection extends AbstractDataSet implements CollectionInterface
         }
 
         if ($key === 'num_items') {
-            $queryArgs['posts_per_page'] = $value;
+            $queryArgs['posts_per_page'] = (!$value) ? -1 : $value;
 
             return true;
         }

@@ -3,10 +3,10 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Feeds\FeedItemCollection;
-use RebelCode\Wpra\Core\Modules\Handlers\AddCptMetaCapsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\NullHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Entities\Feeds\Items\WpPostFeedItemCollection;
+use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
+use RebelCode\Wpra\Core\Handlers\NullHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 
 /**
  * The feed items module for WP RSS Aggregator.
@@ -88,6 +88,7 @@ class FeedItemsModule implements ModuleInterface
                     'capability_type' => $c->get('wpra/feeds/items/cpt/capability'),
                     'map_meta_cap' => true,
                     'labels' => $c->get('wpra/feeds/items/cpt/labels'),
+                    'supports' => ['title', 'editor', 'excerpt']
                 ];
             },
             /*
@@ -96,7 +97,7 @@ class FeedItemsModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/feeds/items/collection' => function (ContainerInterface $c) {
-                return new FeedItemCollection($c->get('wpra/feeds/items/cpt/name'));
+                return new WpPostFeedItemCollection($c->get('wpra/feeds/items/cpt/name'));
             },
             /*
              * The handler that registers the feed items CPT.

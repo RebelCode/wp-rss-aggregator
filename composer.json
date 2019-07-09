@@ -13,8 +13,9 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^5.4 | ^7.0",
+        "ext-curl": "*",
         "psr/log": "^1.1",
-        "twig/twig": "^1.38.0",
+        "twig/twig": "^1.39.0",
         "twig/extensions": "^1.5.4",
         "php-di/php-di": "^5.2",
         "dhii/di": "^0.1.1",
@@ -29,7 +30,7 @@
         "dhii/validation-base": "^0.2",
         "dhii/exception": "^0.1-alpha5",
         "erusev/parsedown": "^1.7",
-        "rebelcode/composer-cleanup-plugin": "^0.1"
+        "rebelcode/composer-cleanup-plugin": "dev-master"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^4.4 | ^5.0",
@@ -38,6 +39,11 @@
     "autoload": {
         "psr-4": {
             "RebelCode\\Wpra\\Core\\": "src"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "5.4"
         }
     }
 }

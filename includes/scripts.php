@@ -29,7 +29,8 @@
         wp_register_script( 'wprss-admin-custom', WPRSS_JS .'admin-custom.js', array('jquery','jquery-ui-datepicker','jquery-ui-slider'), $version );
         wp_localize_script( 'wprss-admin-custom', 'wprss_admin_custom', array(
             'failed_to_import'      =>  __( 'Failed to import', WPRSS_TEXT_DOMAIN ),
-            'items_are_importing'   =>  __( 'Items are importing', WPRSS_TEXT_DOMAIN ),
+            'items_are_importing'   =>  __( 'Importing!', WPRSS_TEXT_DOMAIN ),
+            'items_are_deleting'    =>  __( 'Deleting!', WPRSS_TEXT_DOMAIN ),
             'please_wait'           =>  __( 'Please wait ...', WPRSS_TEXT_DOMAIN ),
             'bulk_add'              =>  __( 'Bulk Add', WPRSS_TEXT_DOMAIN ),
             'ok'                    =>  __( 'OK', WPRSS_TEXT_DOMAIN ),
@@ -78,6 +79,8 @@
         wp_localize_script( 'wprss-hs-beacon-js', 'WprssHelpBeaconConfig', array (
             'premiumSupport' => ( wprss_licensing_get_manager()->licenseWithStatusExists( License_Status::VALID ) )
         ));
+
+        wp_register_script( 'wprss-gallery-js', WPRSS_JS . 'gallery.js', array('jquery'), $version, true );
     }
 
 
@@ -122,7 +125,6 @@
         $page = isset( $_GET['page'] )? $_GET['page'] : '';
         $version = wprss()->getVersion();
 
-        wp_enqueue_style( 'wprss-styles' );
         wp_enqueue_style( 'wprss-admin-styles' );
         wp_enqueue_style( 'wprss-fa' );
         wp_enqueue_style( 'wprss-admin-3.8-styles' );
@@ -141,6 +143,8 @@
         if ($pageBase === 'post' && $postType = 'wprss_feed') {
             // Change text on post screen from 'Enter title here' to 'Enter feed name here'
             add_filter( 'enter_title_here', 'wprss_change_title_text' );
+            wp_enqueue_media();
+            wp_enqueue_script( 'wprss-gallery-js' );
         }
         if ('wprss_feed' === $postType) {
             wp_enqueue_script( 'wprss-custom-bulk-actions' );
@@ -219,13 +223,12 @@
     {
         $version = wprss()->getVersion();
 
-        wp_register_style( 'wprss-styles', WPRSS_CSS . 'admin-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-styles', WPRSS_CSS . 'admin-styles.css', array(), $version );
         wp_register_style( 'wprss-fa', WPRSS_CSS . 'font-awesome.min.css', array(), $version );
         wp_register_style( 'wprss-admin-3.8-styles', WPRSS_CSS . 'admin-3.8.css', array(), $version );
         wp_register_style( 'wprss-admin-editor-styles', WPRSS_CSS . 'admin-editor.css', array(), $version );
         wp_register_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-general-styles', WPRSS_CSS . 'admin-general-styles.css', array(), $version );
-        wp_register_style( 'wprss-hs-beacon-css', WPRSS_CSS, 'beacon.css', array(), $version );
+        wp_register_style( 'wprss-hs-beacon-css', WPRSS_CSS . 'beacon.css', array(), $version );
         wp_register_style( 'jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
     }

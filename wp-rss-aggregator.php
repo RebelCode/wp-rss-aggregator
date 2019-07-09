@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.13.2
+ * Version: 4.14
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -36,7 +36,9 @@
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Container\ModuleContainer;
 use RebelCode\Wpra\Core\Container\WpFilterContainer;
+use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
+use RebelCode\Wpra\Core\Modules\AssetsModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
@@ -47,7 +49,9 @@ use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
 use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
 use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
+use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
+use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
@@ -63,7 +67,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.13.2' );
+    define( 'WPRSS_VERSION', '4.14' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -73,7 +77,7 @@ if( !defined( 'WPRSS_MIN_PHP_VERSION' ) )
 
 // Set the database version number of the plugin.
 if( !defined( 'WPRSS_DB_VERSION' ) )
-    define( 'WPRSS_DB_VERSION', 15 );
+    define( 'WPRSS_DB_VERSION', 16 );
 
 // Set the plugin prefix
 if( !defined( 'WPRSS_PREFIX' ) )
@@ -118,9 +122,6 @@ if( !defined( 'WPRSS_INC' ) )
 if( !defined( 'WPRSS_LANG' ) )
     define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ) );
 
-if( !defined( 'WPRSS_TEMPLATES' ) )
-    define( 'WPRSS_TEMPLATES', WPRSS_DIR . trailingslashit( 'templates' ) );
-
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
     define( 'WPRSS_LOG_FILE', WP_CONTENT_DIR . '/log/wprss/log' );
@@ -138,7 +139,7 @@ if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
 
 // Maximum time for the feed source to be fetched
 if ( !defined( 'WPRSS_FEED_FETCH_TIME_LIMIT' ) ) {
-    define( 'WPRSS_FEED_FETCH_TIME_LIMIT', 30 );
+    define( 'WPRSS_FEED_FETCH_TIME_LIMIT', 120 );
 }
 // Maximum time for a single feed item to import
 if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
@@ -212,6 +213,9 @@ require_once ( WPRSS_INC . 'feed-blacklist.php' );
 /* Load the feed importing functions file */
 require_once ( WPRSS_INC . 'feed-importing.php' );
 
+/* Load the feed image importing functions file */
+require_once ( WPRSS_INC . 'feed-importing-images.php' );
+
 /* Load the feed states functions file */
 require_once ( WPRSS_INC . 'feed-states.php' );
 
@@ -266,14 +270,8 @@ require_once ( WPRSS_INC . 'scripts.php' );
 /* Load the Ajax notification file */
 require_once ( WPRSS_INC . 'admin-ajax-notice.php' );
 
-/* Load the dashboard welcome screen file */
-require_once ( WPRSS_INC . 'admin-dashboard.php' );
-
 /* Load the logging class */
 require_once ( WPRSS_INC . 'roles-capabilities.php' );
-
-/* Load the security reset file */
-require_once ( WPRSS_INC . 'secure-reset.php' );
 
 /* Load the licensing file */
 require_once ( WPRSS_INC . 'licensing.php' );
@@ -311,19 +309,23 @@ require_once ( WPRSS_INC . 'feed-access.php' );
 /* Load the fallbacks for mbstring */
 require_once ( WPRSS_INC . 'fallback-mbstring.php' );
 
-/* The "Leave a Review" notification module */
-require_once ( WPRSS_INC . 'leave-review-notification.php' );
+/* Load the polyfill functions file */
+require_once ( WPRSS_INC . 'polyfills.php' );
 
-// Initializes licensing
-add_action( 'plugins_loaded', 'wprss_licensing' );
+/* Load the youtube functionality */
+require_once ( WPRSS_INC . 'youtube.php' );
 
 do_action('wprss_pre_init');
 
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
+// Safe deactivation hook (for the error handler)
+add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
 // Run WPRA
 add_action('plugins_loaded', 'wpra_run', 100);
+// Initializes licensing
+add_action('plugins_loaded', 'wprss_licensing', 150);
 
 /**
  * Runs WP RSS Aggregator.
@@ -333,15 +335,18 @@ add_action('plugins_loaded', 'wpra_run', 100);
 function wpra_run()
 {
     try {
+        $errorHandler = new ErrorHandler(__DIR__, 'wpra_critical_error_handler');
+        $errorHandler->register();
+
         $plugin = wpra();
         $container = wpra_container();
+        do_action('wpra_loaded', $container, $plugin);
 
         $plugin->run($container);
+        do_action('wpra_after_run', $container, $plugin);
     } catch (Exception $exception) {
-        if (WP_DEBUG && WP_DEBUG_DISPLAY) {
-            trigger_error($exception->getMessage());
-        }
-        wp_die($exception->getMessage());
+        wpra_exception_handler($exception);
+        do_action('wpra_error', $exception);
     }
 }
 
@@ -378,6 +383,7 @@ function wpra_modules()
         'core' => new CoreModule(__FILE__),
         'addons' => new AddonsModule(),
         'wordpress' => new WpModule(),
+        'assets' => new AssetsModule(),
         'importer' => new ImporterModule(),
         'feed_sources' => new FeedSourcesModule(),
         'feed_items' => new FeedItemsModule(),
@@ -386,9 +392,11 @@ function wpra_modules()
         'feed_shortcode' => new FeedShortcodeModule(),
         'feed_templates' => new FeedTemplatesModule(),
         'gutenberg_block' => new GutenbergBlockModule(),
+        'images' => new ImagesModule(),
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),
+        'licensing' => new LicensingModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),
@@ -458,6 +466,167 @@ function wpra_load_module($key, $module)
 }
 
 /**
+ * Handles soft exceptions, caught from {@link wpra_run()}.
+ *
+ * @since [*next-version*]
+ *
+ * @param Exception $exception The caught exception.
+ */
+function wpra_exception_handler($exception)
+{
+    add_action('all_admin_notices', function () use ($exception) {
+        $message = __(
+            '<b>WP RSS Aggregator</b> has encountered an error. If this problem persists, kindly contact customer support and provide the following details:',
+            'wprss'
+        );
+        ?>
+        <div class="notice notice-error">
+            <?php echo wpra_display_error($message, $exception) ?>
+        </div>
+        <?php
+    });
+}
+
+/**
+ * Handles critical errors.
+ *
+ * This function is passed as a callback to the {@link ErrorHandler}.
+ *
+ * @since [*next-version*]
+ *
+ * @param Exception|Throwable $error The encountered error.
+ */
+function wpra_critical_error_handler($error)
+{
+    $hasAddons = count(wpra_get_addon_paths()) > 0;
+    ob_start();
+    ?>
+
+    <br/>
+    <form method="POST" action="<?php echo esc_attr(admin_url()) ?>">
+        <?php wp_nonce_field('wprss_safe_deactivate', 'wprss_safe_deactivate_nonce'); ?>
+        <button type="submit" class="button button-secondary">
+            <?php echo $hasAddons
+                ? __('Deactivate WP RSS Aggregator and its addons', 'wprss')
+                : __('Deactivate WP RSS Aggregator', 'wprss')
+            ?>
+        </button>
+    </form>
+
+    <?php
+    $deactivateForm = ob_get_clean();
+    $message = __(
+        '<b>WP RSS Aggregator</b> has encountered a critical error. The safest course of action is to deactivate the plugin and any of its add-ons on this site using the button below. Once you’ve done that, you may reactivate them and start using the plugins again. If the problem persists, please copy the below error and send it to our support team with an explanation of when and how it happened.',
+        'wprss'
+    );
+    $errorDisplay = wpra_display_error($message, $error);
+
+    wp_die(
+        $errorDisplay . $deactivateForm,
+        __('WP RSS Aggregator Error', 'wprss')
+    );
+}
+
+/**
+ * Generates common display for WP RSS Aggregator errors.
+ *
+ * @since [*next-version*]
+ *
+ * @param string              $message The message to show.
+ * @param Exception|Throwable $error   The error.
+ *
+ * @return string
+ */
+function wpra_display_error($message, $error)
+{
+    ob_start(); ?>
+
+    <p>
+        <?php echo $message ?>
+    </p>
+    <div style="background-color: rgba(0,0,0,.07); padding: 5px;">
+        <details>
+            <summary style="cursor: pointer;">
+                <?php _e('Click to show error details', 'wprss') ?>
+            </summary>
+            <div style="padding-top: 10px; overflow-x: scroll;">
+                <strong><?php _e('Error Message:', 'wprss'); ?></strong>
+                <br/>
+                <pre><?php echo $error->getMessage(); ?></pre>
+
+                <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
+                <br/>
+                <pre><?php echo $error->getTraceAsString(); ?></pre>
+            </div>
+        </details>
+    </div>
+    <br/>
+    <?php
+
+    return ob_get_clean();
+}
+
+/**
+ * Safely deactivates WP RSS Aggregator.
+ *
+ * This function is intended to be called from error handlers that give users the option to deactivate the plugin.
+ *
+ * @since [*next-version*]
+ */
+function wpra_safe_deactivate()
+{
+    $nonce = filter_input(INPUT_POST, 'wprss_safe_deactivate_nonce', FILTER_DEFAULT);
+
+    if (empty($nonce)) {
+        return;
+    }
+
+    if (!wp_verify_nonce($nonce, 'wprss_safe_deactivate')) {
+        return;
+    }
+
+    $plugins = wpra_get_addon_paths();
+    $plugins[] = plugin_basename(__FILE__);
+
+    if (!function_exists('deactivate_plugins')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    deactivate_plugins($plugins, true);
+    header('Location: ' . admin_url('plugins.php'));
+    exit;
+}
+
+/**
+ * Retrieves the list of full paths to the main files of activated addons.
+ *
+ * @since [*next-version*]
+ *
+ * @return string[]
+ */
+function wpra_get_addon_paths()
+{
+    $check = [
+        'WPRSS_TEMPLATES',
+        'WPRSS_C_PATH',
+        'WPRSS_ET_PATH',
+        'WPRSS_KF_PATH',
+        'WPRSS_FTP_PATH',
+        'WPRSS_FTR_PATH',
+        'WPRSS_SPC_ADDON'
+    ];
+
+    $addons = [];
+    foreach ($check as $pathConstant) {
+        if (defined($pathConstant)) {
+            $addons[] = plugin_basename(constant($pathConstant));
+        }
+    }
+
+    return $addons;
+}
+
+/**
  * Returns the Core plugin singleton instance.
  *
  * Using DI container since 4.11.
@@ -472,10 +641,7 @@ function wprss() {
 try {
     $instance = wprss();
 } catch (Exception $e) {
-    if (WP_DEBUG && WP_DEBUG_DISPLAY) {
-        trigger_error($e->getMessage());
-    }
-    wp_die( $e->getMessage() );
+    wpra_exception_handler($e);
 }
 
 add_action( 'init', 'wprss_init' );
@@ -822,12 +988,12 @@ add_action('after_plugin_row', function ($plugin_file, $plugin_data, $status) {
 
     echo '<tr class="plugin-update-tr wprss-et-plugin-row-msg">';
     echo '    <td colspan="3" class="plugin-update colspanchange">';
-    echo '        <div class="update-message notice inline notice-info notice-alt">';
+    echo '        <div class="update-message notice inline notice-success notice-alt">';
 
     printf('<p>%1$s <a href="%3$s" target="_blank">%2$s</a></p>',
-        __('The Excerpts & Thumbnails add-on is to be discontinued. Support will be provided until the expiry of your current license.', 'wprss'),
+        __('The Excerpts & Thumbnails addon has been discontinued in favor of the Templates addon.', 'wprss'),
         __('Click here to learn more.', 'wprss'),
-        'https://www.wprssaggregator.com/excerpts-thumbnails-add-on-to-be-discontinued/'
+        'https://www.wprssaggregator.com/excerpts-thumbnails-add-on-discontinued-templates-coming-soon/'
     );
 
     echo '        </div>';

@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Data\Wp;
 
+use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\MaskingDataSet;
 use RebelCode\Wpra\Core\Data\PrefixingDataSet;
 use RebelCode\Wpra\Core\Util\NormalizeWpPostCapableTrait;
@@ -44,6 +45,8 @@ class WpCptDataSet extends WpPostDataSet
      * @param int|string|WP_Post $postOrId   The post instance or ID.
      * @param string|null        $metaPrefix Optional meta data prefix to strip from keys, or null for no stripping.
      * @param string[]|null      $postFields Optional list of post fields to use, or null to use all of them.
+     *
+     * @throws OutOfRangeException If the post does not exist.
      */
     public function __construct($postOrId, $metaPrefix = null, $postFields = null)
     {

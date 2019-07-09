@@ -5,6 +5,20 @@
      * @package WP RSS Aggregator
      */
 
+    // Adds the "active" class to the feed source list table rows, for active feed sources
+    add_filter( 'post_class', function( $classes, $class, $postId ) {
+        $post = get_post($postId);
+
+        if ($post->post_type !== 'wprss_feed') {
+            return $classes;
+        }
+
+        if (wprss_is_feed_source_active($postId)) {
+            $classes[] = 'active';
+        }
+
+        return $classes;
+    }, 10, 3 );
 
     add_filter( 'manage_wprss_feed_posts_columns', 'wprss_set_feed_custom_columns', 20, 1 );
     /**
@@ -13,23 +27,27 @@
      * @since 2.0
      */
     function wprss_set_feed_custom_columns( $columns ) {
+        $isTrashPage = filter_input(INPUT_GET, 'post_status') === 'trash';
 
         $columns = array(
             'cb'          =>  '<input type="checkbox" />',
-            'errors'      =>  '',
-            'title'       =>  __( 'Name', WPRSS_TEXT_DOMAIN ),
         );
+
+
+        if (!$isTrashPage) {
+            $columns['state'] =  __( 'State', WPRSS_TEXT_DOMAIN );
+        }
+
+        $columns['title'] = __( 'Name', WPRSS_TEXT_DOMAIN );
 
         $columns = apply_filters( 'wprss_set_feed_custom_columns', $columns );
 
-        // Columns to add when feed is not trashed
-        if ( !isset( $_GET['post_status'] ) || $_GET['post_status'] !== 'trash' ) {
-            $columns['state'] = __( 'State', WPRSS_TEXT_DOMAIN );
+        if (!$isTrashPage) {
             $columns['updates'] = __( 'Updates', WPRSS_TEXT_DOMAIN );
             $columns['feed-count'] = __( apply_filters( 'wprss_feed_items_count_column', 'Imported items' ), WPRSS_TEXT_DOMAIN );
         }
 
-        return $columns;
+        return apply_filters( 'wprss_feed_columns', $columns );
     }
 
 
@@ -42,34 +60,41 @@
     function wprss_show_custom_columns( $column, $post_id ) {
 
       switch ( $column ) {
-        case 'errors':
-          $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
-          $showClass = ( $errors !== '' )? 'wprss-show' : '';
-          $default_msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
-          $msg = strlen( $errors ) > 0 ? $errors : $default_msg;
-          echo sprintf('<i title="%1$s" class="fa fa-warning fa-fw wprss-feed-error-symbol %2$s"></i>', esc_attr($msg), $showClass);
-          break;
         case 'state':
-            $active = wprss_is_feed_source_active( $post_id );
-            $text       = ( $active )? 'Active' : 'Paused';
-            $button     = ( $active )? 'Pause this feed source' : 'Activate this feed source';
-            $icon       = ( $active )? 'pause' : 'play';
-            $value      = ( $active )? 'paused' : 'active';
-            $indicator  = ( $active )? 'green' : 'grey';
-
+            $switch_title = __('Activate or pause auto importing for this feed', 'wprss');
             ?>
-            <p>
-                <span class="wprss-indicator-<?php echo $indicator; ?>" title="<?php _e( $text, WPRSS_TEXT_DOMAIN ) ?>">
-                    <i class="fa fa-circle"></i>
-                </span>
-                <input type="hidden" name="wprss-redirect" value="1" />
-                <button type="submit" class='button-secondary' title="<?php _e( $button, WPRSS_TEXT_DOMAIN ) ?>" name="wprss-feed-id" value="<?php echo $post_id; ?>">
-                    <i class='fa fa-<?php echo $icon; ?>'></i>
-                </button>
-            </p>
+            <div class="wprss-feed-state-container" title="<?php echo esc_attr($switch_title); ?>">
+                <label class="wprss-switch">
+                    <input type="checkbox"
+                           class="wprss-toggle-feed-state"
+                           autocomplete="off"
+                           value="<?php echo esc_attr($post_id); ?>"
+                           <?php checked(true, wprss_is_feed_source_active($post_id)) ?>
+                    />
+                    <span class="wprss-switch-slider"></span>
+                </label>
+            </div>
+
+            <?php
+            $feed_type = 'rss';
+            $feed_icon = 'rss';
+            $icon_title = __('Normal RSS Feed', 'wprss');
+
+            if (wprss_is_feed_youtube($post_id)) {
+                $feed_type = 'yt';
+                $feed_icon = 'video-alt3';
+                $icon_title = __('YouTube Feed', 'wprss');
+            }
+            ?>
+
+            <div class="wprss-feed-source-type wprss-feed-source-type-<?php echo $feed_type ?>"
+                 title="<?php echo esc_attr($icon_title) ?>"
+            >
+                <span class="dashicons dashicons-<?php echo $feed_icon ?>"></span>
+            </div>
             <?php
 
-            break;
+          break;
 
         case 'updates':
             // Get the update interval
@@ -88,41 +113,83 @@
 		  	if ( wprss_is_feed_source_active( $post_id ) ) {
 				$next_update_text = $next_update === FALSE ? __( 'None', WPRSS_TEXT_DOMAIN ) : human_time_diff( $next_update, time() );
 			} else {
-				$next_update_text = __( 'Paused', WPRSS_TEXT_DOMAIN );
+				$next_update_text = __( '...', 'wprss' );
 			}
 		  	update_post_meta( $post_id, 'wprss_next_update', $next_update_text );
 
+            $timeago = empty($last_update) ? '' : human_time_diff( $last_update, time() );
             ?>
 
-            <p>
-                <?php _e( 'Next update:', WPRSS_TEXT_DOMAIN ) ?>
+            <p class="next-update-container">
+                <?php _e( 'Next update in', WPRSS_TEXT_DOMAIN ) ?>
                 <code class="next-update">
                    	<?php echo $next_update_text; ?>
                 </code>
             </p>
 
-            <?php if ( $last_update !== '' ): ?>
-              <p class="last-update-container">
-                <?php _e( 'Last updated:', WPRSS_TEXT_DOMAIN ) ?>
-                <code class="last-update"><?php echo sprintf( __( '%1$s ago', WPRSS_TEXT_DOMAIN ), human_time_diff( $last_update, time() ) ) ?></code>
-                <?php if ( $last_update_items !== '' ): ?>
-                    <span class="last-update-imported-container"><br/><?php echo sprintf( __( 'Last update imported: <code class="last-update-imported">%1$d</code> items', WPRSS_TEXT_DOMAIN ), $last_update_items ) ?></span>
-                <?php endif; ?>
-              </p>
-            <?php endif;
+            <p class="last-update-container"
+               style="display: <?php echo empty($timeago) ? 'none' : 'inline-block'; ?>">
+                <span class="last-update-num-items-container">
+                    <?php echo _x( 'Updated', 'Example: "Updated 2 days ago"', 'wprss' ); ?>
+                    <span class="last-update-time-container">
+                        <code class="last-update-time"><?php printf(__('%1$s ago', 'wprss'), $timeago) ?></code>
+                    </span>
+                    (<span class="last-update-num-items"><?php echo
+                        $last_update_items ?></span>
+                    <?php echo _x('items', 'Example: "15 new"', 'wprss'); ?>)
+                </span>
+            </p>
 
+            <?php
             break;
 
         case 'feed-count':
             $items = wprss_get_feed_items_for_source( $post_id );
-            $seconds_for_next_update = wprss_get_next_feed_source_update( $post_id ) - time();
-            $showClass = ( ( $seconds_for_next_update < 10 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_deleting( $post_id ) )? 'wprss-show' : '';
+            $has_items_class = ($items->post_count > 0) ? 'has-imported-items' : '';
 
+            $errors = get_post_meta( $post_id, 'wprss_error_last_import', true );
+            $errorShowClass = ( $errors !== '' )? 'wprss-show' : '';
+            $default_msg = __( "This feed source experienced an error during the last feed fetch or validation check. Re-check the feed source URL or check the Error Log in the Debugging page for more details.", WPRSS_TEXT_DOMAIN );
+            $msg = strlen( $errors ) > 0 ? $errors : $default_msg;
+            $errorIcon = sprintf(
+                '<i title="%1$s" class="fa fa-warning fa-fw wprss-feed-error-symbol %2$s"></i>',
+                esc_attr($msg),
+                $errorShowClass
+            );
+
+            $view_items_url = admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . $post_id );
+            $view_items_url = apply_filters( 'wprss_view_feed_items_row_action_link', $view_items_url, $post_id );
             ?>
-				<p>
-					<span class="items-imported"><?php echo $items->post_count ?></span>
-					<i class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon <?php echo $showClass ?>" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
-				</p>
+                <a href="<?php echo esc_attr($view_items_url); ?>"
+                   class="items-imported-link <?php echo $has_items_class; ?>"
+                   title="<?php echo esc_attr(__('View the imported items for this feed source', 'wprss')); ?>"
+                >
+                    <span class="items-imported"><?php echo $items->post_count ?></span>
+                    <?php _e('items', 'wprss') ?>
+                </a>
+            <div class="spinner"></div>
+
+                <?php echo $errorIcon; ?>
+
+                <div class="row-actions">
+                    <span class="fetch">
+                        <a href="javascript:;"
+                           class="wprss_fetch_items_ajax_action"
+                           pid="<?php echo esc_attr ($post_id); ?>"
+                           purl="<?php echo admin_url('admin-ajax.php'); ?>">
+                            <?php _e('Fetch', 'wprss'); ?>
+                        </a>
+                    </span>
+                    <span class="purge-posts trash <?php echo $has_items_class; ?>">
+                        |
+                        <a href="javascript:;"
+                           class="wprss_delete_items_ajax_action"
+                           pid="<?php echo esc_attr ($post_id); ?>"
+                           purl="<?php echo admin_url('admin-ajax.php'); ?>">
+                            <?php _e('Delete items', 'wprss'); ?>
+                        </a>
+                    </span>
+                </div>
 			<?php
 
 		  	// Set meta field for items imported
@@ -142,9 +209,9 @@
     function wprss_feed_sortable_columns() {
         $sortable_columns = array(
             // meta column id => sortby value used in query
+            'state'			=> 'state',
             'title'			=> 'title',
 			'updates'		=>	'updates',
-			'state'			=>	'state',
 			'feed-count'	=>	'feed-count'
         );
         return apply_filters( 'wprss_feed_sortable_columns', $sortable_columns );
@@ -328,7 +395,9 @@
 
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type($post) === 'wprss_feed_item' )  {
-            unset( $actions[ 'edit' ] );
+            if ( apply_filters('wpra_dev_mode', false) === false ) {
+                unset($actions['edit']);
+            }
             unset( $actions[ 'view' ] );
             //unset( $actions[ 'trash' ] );
             unset( $actions[ 'inline hide-if-no-js' ] );
@@ -340,66 +409,8 @@
 
             unset( $actions[ 'view'] );
             unset( $actions[ 'inline hide-if-no-js'] );
-            if ( get_post_status( $post->ID ) !== 'trash' ) {
-                $trash = $actions['trash'];
-                unset( $actions['trash'] );
-
-                $view_items_link = apply_filters(
-                  'wprss_view_feed_items_row_action_link',
-                  admin_url( 'edit.php?post_type=wprss_feed_item&wprss_feed=' . $post->ID ),
-                  $post->ID
-                );
-                $view_items_text = apply_filters( 'wprss_view_feed_items_row_action_text', __( 'View Items', WPRSS_TEXT_DOMAIN ) );
-                $actions['view-items'] = '<a href="' . $view_items_link . '">' . $view_items_text . '</a>';
-
-                $fetch_items_row_action_text = apply_filters( 'wprss_fetch_items_row_action_text', __( 'Fetch Items', WPRSS_TEXT_DOMAIN ) );
-                $actions[ 'fetch' ] = '<a href="javascript:;" class="wprss_ajax_action" pid="'. $post->ID .'" purl="'.home_url().'/wp-admin/admin-ajax.php">' . $fetch_items_row_action_text . '</a>';
-
-                $purge_feeds_row_action_text = apply_filters( 'wprss_purge_feeds_row_action_text', __( 'Delete Items', WPRSS_TEXT_DOMAIN ) );
-                $purge_feeds_row_action_title = apply_filters( 'wprss_purge_feeds_row_action_title', __( 'Delete feed items imported by this feed source', WPRSS_TEXT_DOMAIN ) );
-                $actions['purge-posts'] = "<a href='".admin_url("edit.php?post_type=wprss_feed&purge-feed-items=" . $post->ID . $page ) . "' title='" . $purge_feeds_row_action_title . "' >" . __( $purge_feeds_row_action_text, WPRSS_TEXT_DOMAIN ) . "</a>";
-
-                $actions['trash'] = $trash;
-            }
         }
         return apply_filters( 'wprss_remove_row_actions', $actions );
-    }
-
-
-    add_action( 'admin_init', 'check_delete_for_feed_source' );
-    /**
-     * Checks the GET data for the delete per feed source action request
-     *
-     * @since 3.5
-     */
-    function check_delete_for_feed_source( $source_id = NULL ) {
-        if ( ! current_user_can( 'delete_feed_sources' ) ) return;
-        // then we need to check the GET data for the request
-        if ( isset( $_GET['purge-feed-items'] ) ) {
-            $source_id = $_GET['purge-feed-items'];
-            // Schedule a job that runs this function with the source id parameter
-            wp_schedule_single_event( time(), 'wprss_delete_feed_items_from_source_hook', array( $source_id ) );
-            // Set a transient
-            set_transient( 'wprss_delete_posts_by_source_notif', 'true', 30 );
-            // Mark feed as deleting its items
-            update_post_meta( $source_id, 'wprss_feed_is_deleting_items', time() );
-            // check pagination
-            $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
-            // Refresh the page without the GET parameter
-            header( 'Location: ' . admin_url( 'edit.php?post_type=wprss_feed' . $page ) );
-            exit();
-        } else {
-            // Get the notification transient
-            $transient = get_transient( 'wprss_delete_posts_by_source_notif' );
-            // If the transient is set and is set to 'true'
-            if ( $transient !== FALSE && $transient === 'true' ) {
-                // delete it
-                delete_transient( 'wprss_delete_posts_by_source_notif' );
-                // Add an action to show the notification
-                wprss()->getAdminAjaxNotices()->addNotice('deleting_feed_items');
-                // add_action( 'all_admin_notices', 'wprss_notify_about_deleting_source_feed_items' );
-            }
-        }
     }
 
 
@@ -408,8 +419,8 @@
     /**
      * Deletes the feed items of the feed source identified by the given ID.
      *
-     * @param $source_id The ID of the feed source
      * @since 3.5
+     * @param int $source_id The ID of the feed source
      */
     function wprss_delete_feed_items_of_feed_source( $source_id ) {
         $force_delete = apply_filters( 'wprss_force_delete_when_by_source', TRUE );
@@ -424,7 +435,7 @@
             array(
                     'meta_key'       => 'wprss_feed_id',
                     'meta_value'     => $source_id,
-                    'post_type'      => 'wprss_feed_item',
+                    'post_type'      => get_post_types(),
                     'post_status'    => 'any',
                     'posts_per_page' => -1
                 )
@@ -435,6 +446,8 @@
             $query->the_post();
             wp_delete_post( get_the_ID(), $force_delete );
         }
+
+        update_post_meta($source_id, 'wprss_feed_is_deleting_items', '');
     }
 
 
@@ -449,7 +462,7 @@
     }
 
 
-    add_action( 'wp_ajax_wprss_fetch_feeds_row_action', 'wprss_fetch_feeds_action_hook' );
+    add_action( 'wp_ajax_wprss_fetch_items_row_action', 'wprss_fetch_feeds_action_hook' );
     /**
      * The AJAX function for the 'Fetch Feed Items' row action on the
      * 'All Feed Sources' page.
@@ -498,7 +511,11 @@
             }
 
             // Schedule the event for 5 seconds from now
-            wp_schedule_single_event( time() + 1, 'wprss_fetch_single_feed_hook', $schedule_args );
+            $offset = floor(count(wp_get_ready_cron_jobs()) / 2);
+            $success = wp_schedule_single_event( time() + $offset, 'wprss_fetch_single_feed_hook', $schedule_args );
+            if (!$success) {
+                throw new Exception(__('Failed to schedule cron', 'wprss'));
+            }
             wprss_flag_feed_as_updating( $id );
         } catch (Exception $e) {
             $response = wprss()->createAjaxErrorResponse($e);
@@ -510,10 +527,111 @@
         }
 
         $response->setAjaxData('message', $wprss->__(array('Fetch for feed source #%1$s successfully scheduled', $id)));
+        $response->setAjaxData('success', $success);
+        echo $response->getBody();
+        exit();
+    }
+    
+    add_action( 'wp_ajax_wprss_delete_items_row_action', 'wprss_delete_items_ajax_action_hook' );
+    /**
+     * The AJAX function for the 'Delete Items' row action on the 'All Feed Sources' page.
+     *
+     * @since 4.14
+     */
+    function wprss_delete_items_ajax_action_hook() {
+        $kFeedSourceId = 'feed_source_id';
+        $response = wprss()->createAjaxResponse();
+        $wprss = wprss();
+        try {
+            $id = filter_input(INPUT_POST, 'id', FILTER_DEFAULT);
+            if (empty($id)) {
+                throw new Exception($wprss->__('Source ID was not specified'));
+            }
+
+            $response->setAjaxData($kFeedSourceId, $id);
+
+            if (!current_user_can('edit_feed_sources')) {
+                throw new Exception($wprss->__(array('User must have sufficient privileges', $id)));
+            }
+
+            // Verify admin referer
+            if (!wprss_verify_nonce( 'wprss_feed_source_action', 'wprss_admin_ajax_nonce' )) {
+                throw new Exception($wprss->__(array('Nonce has expired - Please refresh the page.', $id)));
+            }
+
+            // Schedule a job that runs this function with the source id parameter
+            $offset = floor(count(wp_get_ready_cron_jobs()) / 2);
+            $success = wp_schedule_single_event( time() + $offset, 'wprss_delete_feed_items_from_source_hook', array( $id ) );
+            if (!$success) {
+                throw new Exception(__('Failed to schedule cron', 'wprss'));
+            }
+            // Mark feed as deleting its items
+            update_post_meta( $id, 'wprss_feed_is_deleting_items', time() );
+        } catch (Exception $e) {
+            $response = wprss()->createAjaxErrorResponse($e);
+            if (isset($id)) {
+                $response->setAjaxData($kFeedSourceId, $id);
+            }
+            echo $response->getBody();
+            exit();
+        }
+
+        $response->setAjaxData('message', $wprss->__(array('Items are being deleted', $id)));
+        $response->setAjaxData('success', $success);
         echo $response->getBody();
         exit();
     }
 
+
+    add_action( 'wp_ajax_wprss_toggle_feed_state', 'wprss_ajax_toggle_feed_state' );
+    /**
+     * The AJAX function for toggling a feed's state from the 'All Feed Sources' page.
+     *
+     * @since 4.14
+     */
+    function wprss_ajax_toggle_feed_state() {
+        $kFeedSourceId = 'feed_source_id';
+        $response = wprss()->createAjaxResponse();
+        $wprss = wprss();
+        try {
+            $id = filter_input(INPUT_POST, 'id', FILTER_DEFAULT);
+            if (empty($id)) {
+                throw new Exception($wprss->__('Source ID was not specified'));
+            }
+
+            $response->setAjaxData($kFeedSourceId, $id);
+
+            if (!current_user_can('edit_feed_sources')) {
+                throw new Exception($wprss->__(array('User must have sufficient privileges', $id)));
+            }
+
+            // Verify admin referer
+            if (!wprss_verify_nonce( 'wprss_feed_source_action', 'wprss_admin_ajax_nonce' )) {
+                throw new Exception($wprss->__(array('Nonce has expired - Please refresh the page.', $id)));
+            }
+
+            $active = wprss_is_feed_source_active( $id );
+
+            if ( $active ) {
+                wprss_pause_feed_source( $id );
+            } else {
+                wprss_activate_feed_source( $id );
+            }
+
+            $response->setAjaxData('active', !$active);
+        } catch (Exception $e) {
+            $response = wprss()->createAjaxErrorResponse($e);
+            if (isset($id)) {
+                $response->setAjaxData($kFeedSourceId, $id);
+            }
+            echo $response->getBody();
+            exit();
+        }
+
+        $response->setAjaxData('message', $wprss->__(array('Feed state changed successfully', $id)));
+        echo $response->getBody();
+        exit();
+    }
 
     add_action('manage_posts_extra_tablenav', function($which) {
         $screen = get_current_screen();

@@ -65,7 +65,7 @@
             array(
                 'general'   =>  array(
                     'limit-feed-items-by-age' => array(
-                        'label'     =>  __( 'Limit feed items stored by age', WPRSS_TEXT_DOMAIN ),
+                        'label'     =>  __( 'Limit items by age', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
                     ),
                     'limit-feed-items-imported' => array(
@@ -85,7 +85,7 @@
                         'callback'  => 'wprss_setting_feed_items_import_order_callback'
                     ),
                     'cron-interval' => array(
-                        'label'     =>  __( 'Feed processing interval', WPRSS_TEXT_DOMAIN ),
+                        'label'     =>  __( 'Update interval', WPRSS_TEXT_DOMAIN ),
                         'callback'  =>  'wprss_setting_cron_interval_callback'
                     ),
                     'unique-titles' => array(
@@ -247,25 +247,6 @@
      * @since 1.1
      */ 
     function wprss_settings_page_display() {
-        $etText = wprss_is_et_active() ? '<br/><br/>' . sprintf(__('Wondering how Templates work with Excerpts & Thumbnails? <a href="%s" target="_blank">Click here to learn more.</a>', WPRSS_TEXT_DOMAIN), 'https://kb.wprssaggregator.com/article/459-using-excerpts-thumbnails-with-templates') : '';
-
-        wprss_plugin_enqueue_app_scripts('wpra-settings', WPRSS_APP_JS . 'settings.min.js');
-        wp_enqueue_style('wpra-settings', WPRSS_APP_CSS . 'common.min.css');
-        wp_localize_script('wpra-settings', 'WpraSettings', [
-            'notice' => [
-                'id' => 'settings-notice',
-                'visible' => !wprss_is_new_user(),
-                'title' => __('The display options for WP RSS Aggregator have now become Templates.', WPRSS_TEXT_DOMAIN),
-                'body' => __('As of Core version 4.13, we have introduced the concept of templates to replace the'
-                    . ' display settings that were previously available on this page. These templates provide you'
-                    . ' with more flexibility and new designs. They also come with a revamped <a target="_blank" href="https://kb.wprssaggregator.com/article/54-displaying-imported-items-shortcode">TinyMCE shortcode button</a>'
-                    . ' for the Classic Editor and a <em><a href="https://kb.wprssaggregator.com/article/454-displaying-imported-items-block-gutenberg" target="_blank">brand new block</a></em> for those using WP 5.0+ with the Gutenberg block editor.'
-                    . '<br/><br/>'
-                    . 'Go to <em>Templates</em> under <em>RSS Aggregator</em> to set up your templates. Please note that the default '
-                    . 'template you will see there is set up using your pre-existing display options, nothing is lost or changed.', WPRSS_TEXT_DOMAIN) . $etText,
-                'learnMore' => 'https://www.wprssaggregator.com/core-version-4-13-celebrating-one-million-downloads/'
-            ]
-        ])
 
         ?>
         <div class="wrap">
@@ -556,9 +537,9 @@
         $mainOptionName = 'wprss_settings_general';
         $value = wprss_get_general_setting($id);
         $items = array(
-            ''                     => __('Any', WPRSS_TEXT_DOMAIN),
-            'latest'               => __('Latest First', WPRSS_TEXT_DOMAIN),
-            'oldest'               => __('Oldest First', WPRSS_TEXT_DOMAIN),
+            'latest'               => __('Latest items first', WPRSS_TEXT_DOMAIN),
+            'oldest'               => __('Oldest items first', WPRSS_TEXT_DOMAIN),
+            ''                     => __('Original feed order', WPRSS_TEXT_DOMAIN),
         );
         ?>
 		<select id="<?php echo $id ?>" name="<?php echo \Aventura\Wprss\Core\Model\SettingsAbstract::getNameHtml(array($mainOptionName, $id)) ?>">

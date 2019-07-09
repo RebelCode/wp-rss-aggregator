@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Modules\Handlers\LoadTextDomainHandler;
+use RebelCode\Wpra\Core\Handlers\LoadTextDomainHandler;
 
 /**
  * The WP RSS Aggregator internationalization module.

@@ -13,7 +13,8 @@ function wprss_feed_source_updates() {
 
 	// Get the wprss heartbeat data and extract the data
 	$wprss_heartbeat = $_POST['wprss_heartbeat'];
-	extract( $wprss_heartbeat );
+	$action = $wprss_heartbeat['action'];
+	$params = $wprss_heartbeat['params'];
 
 	// Perform the action specified by the heartbeat data
 	switch( $action ) {
@@ -29,8 +30,12 @@ function wprss_feed_source_updates() {
 				$feed_source_data = &$feed_sources_data[$feed_id];
 
 				// Check if the feed source is updating
-				$seconds_for_next_update = wprss_get_next_feed_source_update( $feed_id ) - time();
-				$feed_source_data['updating'] = ( $seconds_for_next_update < 2 && $seconds_for_next_update > 0 ) || wprss_is_feed_source_updating( $feed_id ) || wprss_is_feed_source_deleting( $feed_id );
+				$next_fetch = wprss_get_next_feed_source_update($feed_id);
+                $fetches_soon = $next_fetch !== false && $next_fetch < 2 && $next_fetch > 0;
+				$is_fetching = wprss_is_feed_source_updating($feed_id);
+                $is_deleting = wprss_is_feed_source_deleting($feed_id);
+                $feed_source_data['fetching'] = $fetches_soon || $is_fetching;
+                $feed_source_data['deleting'] = $is_deleting;
 
 				// Add the number of imported items
 				$items = wprss_get_feed_items_for_source( $feed_id );
@@ -47,13 +52,18 @@ function wprss_feed_source_updates() {
 				}
 				// Set the text appropriately
 				if ( ! wprss_is_feed_source_active( $feed_id ) ) {
-					$feed_source_data['next-update'] = __( 'Paused', WPRSS_TEXT_DOMAIN );
+					$feed_source_data['next-update'] = __( '...', 'wprss' );
 				}
 				elseif( $next_update === FALSE ) {
-					$feed_source_data['next-update'] = __( 'None', WPRSS_TEXT_DOMAIN );
+					$feed_source_data['next-update'] = __( 'None', 'wprss' );
+					wprss_activate_feed_source( $feed_id );
 				}
 				else {
-					$feed_source_data['next-update'] = human_time_diff( $next_update, time() );
+				    $time_diff = absint($next_update - time());
+
+					$feed_source_data['next-update'] = ($time_diff > 1)
+                        ? human_time_diff( $next_update, time() )
+                        : _x('now', 'Next update: now', 'wprss');
 				}
 				// Update the meta field
 				update_post_meta( $feed_id, 'wprss_next_update', $feed_source_data['next-update'] );

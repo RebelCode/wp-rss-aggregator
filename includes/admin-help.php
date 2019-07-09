@@ -23,28 +23,28 @@
 
 		<div class="wrap">
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
-			<h3><?php _e( 'Documentation', WPRSS_TEXT_DOMAIN ) ?></h3>
+			<h3><?php _e( 'Knowledge Base', WPRSS_TEXT_DOMAIN ) ?></h3>
 			<?php
 				printf(
 					wpautop(
-						__( 'In the <a href="%s">documentation area</a> on the WP RSS Aggregator website you will find comprehensive details on how to use the core plugin and all the add-ons.
+						__( 'In the <a href="%s">WP RSS Aggregator knowledge base</a> you will find comprehensive details and tutorials on how to use the core plugin and all the add-ons.
 
 							There are also some videos to help you make a quick start to setting up and enjoying this plugin.',
 							WPRSS_TEXT_DOMAIN
 						)
 					),
-					'https://docs.wprssaggregator.com/'
+					'https://kb.wprssaggregator.com/'
 				);
 			?>
 			<h3><?php _e( 'Frequently Asked Questions (FAQ)', WPRSS_TEXT_DOMAIN ) ?></h3>
 			<?php
 				printf(
 					wpautop(
-						__( 'If after going through the documentation you still have questions, please take a look at the <a href="%s">FAQ page</a> on the site. We set this up purposely to answer the most commonly asked questions by our users.',
+						__( 'If after going through the knowledge base you still have questions, please take a look at the <a href="%s">FAQ section</a>. We set this up purposely to answer the most commonly asked questions from our users.',
 							WPRSS_TEXT_DOMAIN
 						)
 					),
-					'https://docs.wprssaggregator.com/category/faqs/'
+					'https://kb.wprssaggregator.com/category/359-faqs'
 				)
 			?>
 

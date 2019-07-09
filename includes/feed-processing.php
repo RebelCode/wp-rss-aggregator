@@ -134,6 +134,30 @@
         return @array_flip($cols);
     }
 
+    /**
+     * Checks if an item title exists in the database.
+     *
+     * @since 4.14
+     *
+     * @param string $title The title to search for.
+     *
+     * @return bool True if the title exists, false if not.
+     */
+    function wprss_item_title_exists( $title ) {
+        global $wpdb;
+
+        $cols = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT *
+                FROM `{$wpdb->posts}` AS p
+                JOIN `{$wpdb->postmeta}` AS q ON p.`ID` = q.`post_id`
+                WHERE q.`meta_key` = 'wprss_feed_id' AND p.`post_title` = %s",
+                [$title]
+            )
+        );
+
+        return count($cols) > 0;
+    }
 
     /**
      * Database query to get existing titles
@@ -388,7 +412,7 @@
      * @since 4.6.6
      */
     function wprss_flag_feed_as_idle( $feed_ID ) {
-        delete_post_meta( $feed_ID, 'wprss_feed_is_updating' );
+        update_post_meta( $feed_ID, 'wprss_feed_is_updating', '' );
     }
 
 
@@ -419,11 +443,27 @@
 		// Calculate the allowed maximum time, based on the maximum number of items allowed to be
         // imported from this source.
         // If no limit is used, 60s (1min) is used.
-        $single_item_time_limit = wprss_get_item_import_time_limit();
-		$allowed_time = $limit === NULL ? 60 : $single_item_time_limit * intval( $limit );
+        $single_item_time_limit = wprss_get_feed_fetch_time_limit();
+		$allowed_time = $limit === NULL ? 120 : $single_item_time_limit * intval( $limit );
 
         // Calculate how many seconds have passed since the feed last signalled that it is updating
         $diff = time() - $is_updating_meta;
+
+        // Get the transient that is set when the import function is called and the time of the next scheduled cron
+        $is_updating_transient = get_transient('wpra/feeds/importing/' . $id);
+        $scheduled = (wprss_get_next_feed_source_update($id) !== false);
+        // If more than 5 seconds have passed and the transient is not yet set and the cron was not scheduled
+        // then the cron probably failed to be registered
+        if ( $diff > 5  && !$is_updating_transient && !$scheduled) {
+            wprss_flag_feed_as_idle($id);
+            update_post_meta(
+                $id,
+                'wprss_error_last_import',
+                __('The plugin failed to schedule a fetch for this feed. Please try again.', 'wprss')
+            );
+
+            return false;
+        }
 
         // If the difference is greater than the allowed maximum amount of time, mark the feed as idle.
 		if ( $diff > $allowed_time ) {
@@ -454,7 +494,7 @@
 		$diff = time() - $is_deleting_meta;
 
         $items = wprss_get_feed_items_for_source( $id );
-        if ( $items->post_count == 0 || $diff > 300 ) {
+        if ( $items->post_count === 0 || $diff > 300 ) {
             delete_post_meta( $id, 'wprss_feed_is_deleting_items' );
             return FALSE;
         }
@@ -517,6 +557,53 @@
         return strtotime( "-$age_limit $age_unit" );
     }
 
+    /**
+     * Truncates the items for a single feed source based on its age limit.
+     *
+     * @since 4.14
+     *
+     * @param int|WP_Post $source The source ID or post instance.
+     */
+    function wprss_truncate_items_for_source( $source )
+    {
+        $id = ( $source instanceof WP_Post )
+            ? $source->ID
+            : $source;
+
+        // Get the max age setting for this feed source
+        $max_age = wprss_get_max_age_for_feed_source( $id );
+
+        // If the data is empty, do not delete
+        if ( $max_age === false ) {
+            return;
+        }
+
+        // Get all feed items for this source
+        $feed_items = wprss_get_feed_items_for_source( $id );
+
+        // If there are no feed items, stop
+        if ( ! $feed_items->have_posts() ) {
+            return;
+        }
+
+        // Extend the timeout time limit for the deletion of the feed items
+        set_time_limit( wprss_get_item_import_time_limit() );
+
+        // For each feed item
+        while ( $feed_items->have_posts() ) {
+            $feed_items->the_post();
+            // If the post is older than the maximum age
+            $item_id = get_the_ID();
+
+            if ( wprss_is_feed_item_older_than( $item_id, $max_age ) === true ){
+                // Delete the post
+                wp_delete_post( $item_id, true );
+            }
+        }
+
+        // Reset feed items query data
+        wp_reset_postdata();
+    }
 
     /**
      * Delete old feed items from the database to avoid bloat.
@@ -532,35 +619,10 @@
 
         // Check if there are feed sources
         if( $feed_sources->have_posts() ) {
-            // FOR EACH FEED SOURCE
+            // Truncate items for each feed source
             while ( $feed_sources->have_posts() ) {
                 $feed_sources->the_post();
-                // Get the max age setting for this feed source
-                $max_age = wprss_get_max_age_for_feed_source( get_the_ID() );
-
-                // If the data is empty, do not delete
-                if ( $max_age === FALSE ) continue;
-
-                // Get all feed items for this source
-                $feed_items = wprss_get_feed_items_for_source( get_the_ID() );
-                // If there are feed items
-                if ( $feed_items-> have_posts() ) {
-                    // Extend the timeout time limit for the deletion of the feed items
-                    $time_limit = wprss_get_item_import_time_limit();
-                    wprss_log( "Extended execution time limit by {$time_limit}s for imported items truncation.", null, WPRSS_LOG_LEVEL_SYSTEM );
-                    set_time_limit( $time_limit );
-                    // For each feed item
-                    while ( $feed_items->have_posts() ) {
-                        $feed_items->the_post();
-                        // If the post is older than the maximum age
-                        if ( wprss_is_feed_item_older_than( get_the_ID(), $max_age ) === TRUE ){
-                            // Delete the post
-                            wp_delete_post( get_the_ID(), true );
-                        }
-                    }
-                    // Reset feed items query data
-                    wp_reset_postdata();
-                }
+                wprss_truncate_items_for_source( get_the_ID() );
             }
             // Reset feed sources query data
             wp_reset_postdata();

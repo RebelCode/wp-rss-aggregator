@@ -3,9 +3,11 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\FetchFeedSourcesHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\GutenbergBlock\GutenbergBlockAssetsHandler;
-use RebelCode\Wpra\Core\Modules\Handlers\RegisterGutenbergBlockHandler;
+use RebelCode\Wpra\Core\Handlers\GutenbergBlock\FetchFeedSourcesHandler;
+use RebelCode\Wpra\Core\Handlers\RegisterGutenbergBlockHandler;
+use RebelCode\Wpra\Core\Wp\Asset\AssetInterface;
+use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
+use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
 
 /**
  * The Gutenberg block for WP RSS Aggregator.
@@ -93,14 +95,67 @@ class GutenbergBlockModule implements ModuleInterface
             },
 
             /*
-             * The Gutenberg block assets handler.
+             * The list of the block's assets.
              *
-             * @since 4.13
+             * @since 4.14
              */
-            'wpra/gutenberg_block/handlers/assets' => function (ContainerInterface $c) {
-                return new GutenbergBlockAssetsHandler(
-                    $c->get('wpra/templates/feeds/collection')
-                );
+            'wpra/gutenberg_block/assets' => function (ContainerInterface $c) {
+                return [
+                    'gutenberg_script' => $c->get('wpra/gutenberg_block/scripts/main'),
+                    'gutenberg_style' => $c->get('wpra/gutenberg_block/styles/main'),
+                ];
+            },
+
+            /*
+             * The block's style.
+             *
+             * @since 4.14
+             */
+            'wpra/gutenberg_block/styles/main' => function (ContainerInterface $c) {
+                return new StyleAsset('wpra-gutenberg-block', WPRSS_APP_CSS . 'gutenberg-block.min.css');
+            },
+            /*
+             * The block's script.
+             *
+             * @since 4.14
+             */
+            'wpra/gutenberg_block/scripts/main' => function (ContainerInterface $c) {
+                $script = new ScriptAsset('wpra-gutenberg-block', WPRSS_APP_JS . 'gutenberg-block.min.js', [
+                    'wp-hooks',
+                    'wp-blocks',
+                    'wp-i18n',
+                    'wp-element',
+                    'wp-editor',
+                ]);
+
+                return $script->localize('WPRA_BLOCK', function () use ($c) {
+                    return $c->get('wpra/gutenberg_block/states/main');
+                });
+            },
+            /*
+             * Gutenberg block script state.
+             *
+             * @since 4.14
+             */
+            'wpra/gutenberg_block/states/main' => function (ContainerInterface $c) {
+                $templatesCollection = $c->get('wpra/feeds/templates/collection');
+                $templates = [];
+
+                foreach ($templatesCollection as $template) {
+                    $tOptions = isset($template['options']) ? $template['options'] : [];
+                    $templates[] = [
+                        'label' => $template['name'],
+                        'value' => $template['slug'],
+                        'limit' => isset($tOptions['limit']) ? $tOptions['limit'] : 15,
+                        'pagination' => isset($tOptions['pagination']) ? $tOptions['pagination'] : true,
+                    ];
+                }
+
+                return [
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'templates' => $templates,
+                    'is_et_active' => wprss_is_et_active(),
+                ];
             },
 
             /*
@@ -131,10 +186,21 @@ class GutenbergBlockModule implements ModuleInterface
      */
     public function run(ContainerInterface $c)
     {
+        // Registers the block
         call_user_func($c->get('wpra/gutenberg_block/handlers/register'));
 
-        add_action('enqueue_block_editor_assets', $c->get('wpra/gutenberg_block/handlers/assets'));
+        // Enqueues the assets for the block
+        add_action('enqueue_block_editor_assets', function () use ($c) {
+            $assets = $c->get('wpra/gutenberg_block/assets');
 
+            /* @var $assets AssetInterface[] */
+            foreach ($assets as $asset) {
+                $asset->register();
+                $asset->enqueue();
+            }
+        });
+
+        // Adds the AJAX listener for fetching feed sources from the block
         add_action('wp_ajax_wprss_fetch_items', $c->get('wpra/gutenberg_block/handlers/fetch_feed_sources'));
     }
 }
