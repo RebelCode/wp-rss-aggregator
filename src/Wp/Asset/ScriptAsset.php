@@ -58,7 +58,7 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
      *
      * @since 4.14
      */
-    public function localize($key, $callback)
+    public function localize($key, callable $callback)
     {
         $instance = clone $this;
         $instance->l10n[$key] = $callback;
