@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.14.1] - YYYY-MM-DD
+### Added
+* New error handling for catchable PHP7 `Throwable` errors.
+
+### Fixed
+* Feed sources had image importing wrongly enabled by default.
+
 ## [4.14] - 2019-07-09
 ### Added
 * YouTube channel URLs are now supported.
