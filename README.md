@@ -5,6 +5,7 @@
 **Recommended**
 * PHP 7+
 * PHP `curl` extension
+* PHP `simplexml` extension
 * PHP `mbstring` extension
 * PHP `gd` extension
 * WordPress 5.0+
@@ -12,6 +13,7 @@
 **Minimum**
 * PHP 5.4+
 * PHP `curl` extension
+* PHP `simplexml` extension
 * WordPress 4.8+
  
 ## Links
