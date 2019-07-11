@@ -344,9 +344,10 @@ function wpra_run()
 
         $plugin->run($container);
         do_action('wpra_after_run', $container, $plugin);
+    } catch (Throwable $throwable) {
+        wpra_error_handler($throwable);
     } catch (Exception $exception) {
-        wpra_exception_handler($exception);
-        do_action('wpra_error', $exception);
+        wpra_error_handler($exception);
     }
 }
 
@@ -466,35 +467,37 @@ function wpra_load_module($key, $module)
 }
 
 /**
- * Handles soft exceptions, caught from {@link wpra_run()}.
+ * Handles catchable errors, caught from {@link wpra_run()}.
  *
  * @since [*next-version*]
  *
- * @param Exception $exception The caught exception.
+ * @param Exception|Throwable $error The caught exception or throwable instance.
  */
-function wpra_exception_handler($exception)
+function wpra_error_handler($error)
 {
-    add_action('all_admin_notices', function () use ($exception) {
+    add_action('all_admin_notices', function () use ($error) {
         $message = __(
             '<b>WP RSS Aggregator</b> has encountered an error. If this problem persists, kindly contact customer support and provide the following details:',
             'wprss'
         );
         ?>
         <div class="notice notice-error">
-            <?php echo wpra_display_error($message, $exception) ?>
+            <?php echo wpra_display_error($message, $error) ?>
         </div>
         <?php
     });
+
+    do_action('wpra_error', $error);
 }
 
 /**
  * Handles critical errors.
  *
- * This function is passed as a callback to the {@link ErrorHandler}.
+ * This function is used as a callback in the {@link ErrorHandler}.
  *
  * @since [*next-version*]
  *
- * @param Exception|Throwable $error The encountered error.
+ * @param Exception|Throwable $error The encountered error or throwable instance.
  */
 function wpra_critical_error_handler($error)
 {
@@ -520,6 +523,8 @@ function wpra_critical_error_handler($error)
         'wprss'
     );
     $errorDisplay = wpra_display_error($message, $error);
+
+    do_action('wpra_critical_error', $error);
 
     wp_die(
         $errorDisplay . $deactivateForm,
@@ -640,8 +645,10 @@ function wprss() {
 
 try {
     $instance = wprss();
+} catch (Throwable $t) {
+    wpra_error_handler($t);
 } catch (Exception $e) {
-    wpra_exception_handler($e);
+    wpra_error_handler($e);
 }
 
 add_action( 'init', 'wprss_init' );
