@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.14.1] - YYYY-MM-DD
 ### Added
 * New error handling for catchable PHP7 `Throwable` errors.
+* New option to enable feed caching for better performance.
 
 ### Fixed
 * Feed sources had image importing wrongly enabled by default.
