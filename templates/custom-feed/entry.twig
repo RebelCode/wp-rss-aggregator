@@ -10,6 +10,12 @@
     {% if item.author|length > 0 %}
         <author>
             <name>{{ item.author }}</name>
+            {% if item.author_email|length > 0 %}
+                <email>{{ item.author_email }}</email>
+            {% endif %}
+            {% if item.author_link|length > 0 %}
+                <uri>{{ item.author_link }}</uri>
+            {% endif %}
         </author>
     {% endif %}
 </entry>

@@ -678,8 +678,10 @@ function wprss_get_feed_cache_dir()
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 
 		$author = $item->get_author();
-		if ( $author ) {
+		if ($author instanceof SimplePie_Author) {
 			update_post_meta( $inserted_ID, 'wprss_item_author', $author->get_name() );
+			update_post_meta( $inserted_ID, 'wprss_item_author_email', $author->get_email() );
+			update_post_meta( $inserted_ID, 'wprss_item_author_link', $author->get_link() );
 		}
 
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
