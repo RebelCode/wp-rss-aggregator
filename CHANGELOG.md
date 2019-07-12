@@ -8,9 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * New error handling for catchable PHP7 `Throwable` errors.
 * New option to enable feed caching for better performance.
+* New option to import source name and URL for each item individually.
+* The custom feed now includes source info for every item.
+
+### Changed
+* Improved some exception messages to better indicate the cause of certain problems.
 
 ### Fixed
 * Feed sources had image importing wrongly enabled by default.
+* Downloading the debug log triggered an error.
+* The custom feed self URL ignored the settings and was incorrect.
+* Items in the custom feed had a missing `rel` attribute for their `<link>` element.
 
 ## [4.14] - 2019-07-09
 ### Added
