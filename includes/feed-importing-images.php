@@ -456,6 +456,10 @@ function wpra_get_item_itunes_images($item)
 {
     $tags = $item->get_item_tags(Wpra_Rss_Namespace::ITUNES,'image');
 
+    if (!is_array($tags) || empty($tags)) {
+        return [];
+    }
+
     $images = [];
     foreach ($tags as $tag) {
         if (empty($tag['attribs']) || empty($tag['attribs'][''])) {
