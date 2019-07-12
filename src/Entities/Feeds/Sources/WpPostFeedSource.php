@@ -77,6 +77,7 @@ class WpPostFeedSource extends WpCptDataSet
     protected function getDefaultMetaData()
     {
         return new ArrayDataSet([
+            'import_source' => '0',
             'import_ft_images' => '',
             'download_images' => '0',
             'siphon_ft_image' => '0',

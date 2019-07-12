@@ -677,6 +677,24 @@ function wprss_get_feed_cache_dir()
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 
+		/* @var $item SimplePie_Item */
+        $feed = $item->get_feed();
+
+        // Get the source from the RSS item
+		$source = $item->get_source();
+
+		// Get the source name if available. If empty, default to the feed source CPT title
+		$source_name = ($source === null) ? '' : $source->get_title();
+		$source_name = empty($source_name) ? $feed->get_title() : $source_name;
+
+		// Get the source URL if available. If empty, default to the RSS feed's URL
+		$source_url = ($source === null) ? '' : $source->get_permalink();
+		$source_url = empty($source_url) ? $feed->get_permalink() : $source_url;
+
+        update_post_meta( $inserted_ID, 'wprss_item_source_name', $source_name);
+        update_post_meta( $inserted_ID, 'wprss_item_source_url', $source_url);
+        update_post_meta( $inserted_ID, 'wprss_item_source_update', $source_updated);
+
 		$author = $item->get_author();
 		if ($author instanceof SimplePie_Author) {
 			update_post_meta( $inserted_ID, 'wprss_item_author', $author->get_name() );
