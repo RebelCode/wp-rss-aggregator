@@ -80,7 +80,7 @@ class TwigTemplate implements TemplateInterface
             );
         } catch (Exception $ex) {
             throw new TemplateRenderException(
-                __('An error occurred while rendering the twig template: ', WPRSS_TEXT_DOMAIN) . $ex->getMessage(),
+                __('Could not render twig template: ', WPRSS_TEXT_DOMAIN) . $ex->getMessage(),
                 null,
                 $ex,
                 $this,
