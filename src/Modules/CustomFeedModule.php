@@ -76,6 +76,7 @@ class CustomFeedModule implements ModuleInterface
 
                 return new RenderCustomFeedHandler(
                     $c->get('wpra/feeds/items/collection'),
+                    $c->get('wpra/custom_feed/settings'),
                     $templates['custom-feed/main.twig']
                 );
             }

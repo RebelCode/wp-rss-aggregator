@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Handlers\CustomFeed;
 
 use Dhii\Output\TemplateInterface;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RebelCode\Wpra\Core\Data\DataSetInterface;
 
 /**
  * The handler that renders the custom feed.
@@ -27,19 +28,28 @@ class RenderCustomFeedHandler
     protected $template;
 
     /**
-     * Constructor.
+     * The settings for the custom feed.
      *
-     * @todo Inject the required wp-options dataset, when it's available as a service
+     * @since [*next-version*]
+     *
+     * @var DataSetInterface
+     */
+    protected $settings;
+
+    /**
+     * Constructor.
      *
      * @since 4.14
      *
      * @param CollectionInterface $items    The items to include in the feed.
+     * @param DataSetInterface    $settings The settings for the custom feed.
      * @param TemplateInterface   $template The template to use for rendering the feed.
      */
-    public function __construct(CollectionInterface $items, TemplateInterface $template)
+    public function __construct(CollectionInterface $items, DataSetInterface $settings, TemplateInterface $template)
     {
         $this->items = $items;
         $this->template = $template;
+        $this->settings = $settings;
     }
 
     /**
@@ -70,7 +80,7 @@ class RenderCustomFeedHandler
             'title' => $title,
             'subtitle' => $title,
             'site_url' => trailingslashit(get_site_url()),
-            'self_url' => trailingslashit(get_feed_link('wprss')),
+            'self_url' => trailingslashit(get_feed_link($this->settings['custom_feed_url'])),
             'updated_date' => date(DATE_ATOM),
             'generator' => [
                 'name' => 'WP RSS Aggregator',
