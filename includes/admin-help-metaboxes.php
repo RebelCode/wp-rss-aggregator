@@ -40,11 +40,11 @@
 
 ' .                                           'This option only applies when using the shortcode to output feed items.', WPRSS_TEXT_DOMAIN),
 
-                'wprss_import_source'   => __('Tick this box to import the feed source name and URL for each item from the RSS feed.
+                'wprss_import_source'   => __('Tick this box to import the feed source name and URL for each item individually.
 
 ' .                                         'This option is useful when importing from aggregated RSS feeds that have items from different sources.
 
-' .                                         'If items in the feed do not provide this information, the name and URL that you have given for the feed source will be used instead.'
+' .                                         'If the RSS feed does not provide source information for its items, the name and URL that you have given for the feed source will be used instead.'
                                             , 'wprss'),
 
 				/* -------------------------
