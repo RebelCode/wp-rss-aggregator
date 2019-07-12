@@ -35,6 +35,9 @@ class ImporterModule implements ModuleInterface
                     ]
                 );
             },
+            'wpra/importer/cache/dir' => function () {
+                return get_temp_dir() . 'wprss/simplepie/';
+            },
         ];
     }
 
