@@ -167,6 +167,10 @@
             )
         );
 
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === FALSE ) {
+            unset( $settings['import']['limit-feed-items-db'] );
+        }
+
         $settings['styles']  = array(
             'styles-disable' => array(
                 'label'     =>  __( 'Disable Styles', 'wprss' ),
