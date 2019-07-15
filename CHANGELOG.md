@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Improved some exception messages to better indicate the cause of certain problems.
+* Re-organized settings into multiple tabs.
 
 ### Fixed
 * Feed sources had image importing wrongly enabled by default.

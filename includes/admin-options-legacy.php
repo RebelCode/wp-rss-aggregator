@@ -3,7 +3,6 @@
 add_action('plugins_loaded', function () {
     if (defined('WPRSS_ET_VERSION')) {
         add_filter('wprss_settings_sections_array', 'wpra_add_legacy_display_settings_sections');
-        add_filter('wprss_settings_array', 'wpra_add_legacy_display_settings_fields');
     }
 });
 
@@ -18,94 +17,85 @@ add_action('plugins_loaded', function () {
  */
 function wpra_add_legacy_display_settings_sections($sections)
 {
-    $sections['display'] = __('Display settings', 'wprss');
-    $sections['source'] = __('Source Display settings', 'wprss');
-    $sections['date'] = __('Date Display settings', 'wprss');
+    $sections['display'] = [
+        'title' => __('Display settings', 'wprss'),
+        'fields' => [
+            'link-enable' => [
+                'label' => __('Link title', 'wprss'),
+                'callback' => 'wprss_setting_title_link_callback',
+            ],
+            'title-limit' => [
+                'label' => __('Title maximum length', 'wprss'),
+                'callback' => 'wprss_setting_title_length_callback',
+            ],
+            'authors-enable' => [
+                'label' => __('Show authors', 'wprss'),
+                'callback' => 'wprss_setting_authors_enable_callback',
+            ],
+            'video-links' => [
+                'label' => __('For video feed items use', 'wprss'),
+                'callback' => 'wprss_setting_video_links_callback',
+            ],
+            'pagination' => [
+                'label' => __('Pagination type', 'wprss'),
+                'callback' => 'wprss_setting_pagination_type_callback',
+            ],
+            'feed-limit' => [
+                'label' => __('Feed display limit', 'wprss'),
+                'callback' => 'wprss_setting_feed_limit_callback',
+            ],
+            'open-dd' => [
+                'label' => __('Open links behaviour', 'wprss'),
+                'callback' => 'wprss_setting_open_dd_callback',
+            ],
+            'follow-dd' => [
+                'label' => __('Set links as nofollow', 'wprss'),
+                'callback' => 'wprss_setting_follow_dd_callback',
+            ],
+        ],
+    ];
+
+    $sections['source'] = [
+        'title' => __('Source Display settings', 'wprss'),
+        'fields' => [
+            'source-enable' => [
+                'label' => __('Show source', 'wprss'),
+                'callback' => 'wprss_setting_source_enable_callback',
+            ],
+            'text-preceding-source' => [
+                'label' => __('Text preceding source', 'wprss'),
+                'callback' => 'wprss_setting_text_preceding_source_callback',
+            ],
+            'source-link' => [
+                'label' => __('Link source', 'wprss'),
+                'callback' => 'wprss_setting_source_link_callback',
+            ],
+        ],
+    ];
+
+    $sections['date'] = [
+        'title' => __('Date Display settings', 'wprss'),
+        'fields' => [
+            'date-enable' => [
+                'label' => __('Show date', 'wprss'),
+                'callback' => 'wprss_setting_date_enable_callback',
+            ],
+            'text-preceding-date' => [
+                'label' => __('Text preceding date', 'wprss'),
+                'callback' => 'wprss_setting_text_preceding_date_callback',
+            ],
+            'date-format' => [
+                'label' => __('Date format', 'wprss'),
+                'callback' => 'wprss_setting_date_format_callback',
+            ],
+            'time-ago-format-enable' => [
+                'label' => __('Time ago format', 'wprss'),
+                'callback' => 'wprss_setting_time_ago_format_enable_callback',
+            ],
+        ],
+    ];
 
     return $sections;
-}
-
-/**
- * Adds the legacy display settings.
- *
- * @since 4.13
- *
- * @param array $settings The settings fields.
- *
- * @return array
- */
-function wpra_add_legacy_display_settings_fields($settings)
-{
-    $settings['display'] = [
-        'link-enable' => [
-            'label' => __('Link title', 'wprss'),
-            'callback' => 'wprss_setting_title_link_callback',
-        ],
-        'title-limit' => [
-            'label' => __('Title maximum length', 'wprss'),
-            'callback' => 'wprss_setting_title_length_callback',
-        ],
-        'authors-enable' => [
-            'label' => __('Show authors', 'wprss'),
-            'callback' => 'wprss_setting_authors_enable_callback',
-        ],
-        'video-links' => [
-            'label' => __('For video feed items use', 'wprss'),
-            'callback' => 'wprss_setting_video_links_callback',
-        ],
-        'pagination' => [
-            'label' => __('Pagination type', 'wprss'),
-            'callback' => 'wprss_setting_pagination_type_callback',
-        ],
-        'feed-limit' => [
-            'label' => __('Feed display limit', 'wprss'),
-            'callback' => 'wprss_setting_feed_limit_callback',
-        ],
-        'open-dd' => [
-            'label' => __('Open links behaviour', 'wprss'),
-            'callback' => 'wprss_setting_open_dd_callback',
-        ],
-        'follow-dd' => [
-            'label' => __('Set links as nofollow', 'wprss'),
-            'callback' => 'wprss_setting_follow_dd_callback',
-        ],
-    ];
-
-    $settings['source'] = [
-        'source-enable' => [
-            'label' => __('Show source', 'wprss'),
-            'callback' => 'wprss_setting_source_enable_callback',
-        ],
-        'text-preceding-source' => [
-            'label' => __('Text preceding source', 'wprss'),
-            'callback' => 'wprss_setting_text_preceding_source_callback',
-        ],
-        'source-link' => [
-            'label' => __('Link source', 'wprss'),
-            'callback' => 'wprss_setting_source_link_callback',
-        ],
-    ];
-
-    $settings['date'] = [
-        'date-enable' => [
-            'label' => __('Show date', 'wprss'),
-            'callback' => 'wprss_setting_date_enable_callback',
-        ],
-        'text-preceding-date' => [
-            'label' => __('Text preceding date', 'wprss'),
-            'callback' => 'wprss_setting_text_preceding_date_callback',
-        ],
-        'date-format' => [
-            'label' => __('Date format', 'wprss'),
-            'callback' => 'wprss_setting_date_format_callback',
-        ],
-        'time-ago-format-enable' => [
-            'label' => __('Time ago format', 'wprss'),
-            'callback' => 'wprss_setting_time_ago_format_enable_callback',
-        ],
-    ];
-
-    return $settings;
 }
 
 /**
