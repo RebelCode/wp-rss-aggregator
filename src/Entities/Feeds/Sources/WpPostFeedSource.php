@@ -5,6 +5,7 @@ namespace RebelCode\Wpra\Core\Entities\Feeds\Sources;
 use OutOfRangeException;
 use RebelCode\Wpra\Core\Data\AliasingDataSet;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
 use WP_Post;
@@ -58,7 +59,7 @@ class WpPostFeedSource extends WpCptDataSet
     protected function createMetaDataSet($postOrId)
     {
         $meta =  parent::createMetaDataSet($postOrId);
-        $defaults = $this->getDefaultMetaData();
+        $defaults = $this->getDefaultMetaData($meta);
         $fullMeta = new MergedDataSet($meta, $defaults);
 
         return new MergedDataSet($fullMeta, new ArrayDataSet([
@@ -72,11 +73,14 @@ class WpPostFeedSource extends WpCptDataSet
      *
      * @since 4.14
      *
+     * @param DataSetInterface $meta The existing meta data.
+     *
      * @return ArrayDataSet The data set containing the default meta data.
      */
-    protected function getDefaultMetaData()
+    protected function getDefaultMetaData($meta)
     {
         return new ArrayDataSet([
+            'site_url' => $meta['url'],
             'import_source' => '0',
             'import_ft_images' => '',
             'download_images' => '0',
