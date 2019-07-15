@@ -25,9 +25,15 @@
             </p>
             <p>
                 {% trans %}
-                    With this update the plugin will no longer import images, but unfortunately any imported images will
-                    remain in your media gallery. If you find that there are too many to delete manually, you can
-                    delete and re-import your feed items, which should cause WordPress to automatically delete the images.
+                    With this update the plugin will no longer import images, but unfortunately the images will remain
+                    in your media gallery. If there are too many to delete manually, you can delete and re-import your
+                    feed items to have WordPress automatically delete their attached images. Note that if you do so,
+                    items that are no longer given by the RSS feed won't be re-imported.
+                {% endtrans %}
+            </p>
+            <p>
+                {% trans %}
+                    If you have the <b>Feed to Post</b> add-on, you should not have been affected by this bug.
                 {% endtrans %}
             </p>
             <p>
