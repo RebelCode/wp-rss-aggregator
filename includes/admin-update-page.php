@@ -40,7 +40,7 @@ function wprss_render_update_page()
     $parsedown = wpra_get('parsedown');
 
     echo wprss_render_template('admin/update-page.twig', array(
-        'title' => __('What\'s new in WP RSS Aggregator 4.14', WPRSS_TEXT_DOMAIN),
+        'title' => __('What\'s new in WP RSS Aggregator', 'wprss'),
         'version' => WPRSS_VERSION,
         'url' => array(
             'main' => admin_url('edit.php?post_type=wprss_feed'),
@@ -51,7 +51,7 @@ function wprss_render_update_page()
         'path' => array(
             'images' => WPRSS_IMG,
         ),
-        'changelog' => $parsedown->text($changelog['4.14']['raw'])
+        'changelog' => $parsedown->text($changelog['4.15']['raw'])
     ));
 }
 
