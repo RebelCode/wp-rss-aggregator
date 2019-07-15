@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.14.1] - YYYY-MM-DD
+## [4.15] - YYYY-MM-DD
 ### Added
 * New error handling for catchable PHP7 `Throwable` errors.
 * New option to enable feed caching for better performance.
