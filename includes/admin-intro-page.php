@@ -317,6 +317,16 @@ function wprss_import_feed_sources_array($array)
  */
 function wprss_feed_source_name_from_url($url)
 {
+    $feed = new SimplePie($url);
+    $feed->enable_cache(false);
+    $feed->init();
+
+    $name = $feed->get_title();
+
+    if (!empty($name)) {
+        return $name;
+    }
+
     $name = parse_url($url, PHP_URL_HOST);
     $name = ($name === null) ? $url : $name;
 
