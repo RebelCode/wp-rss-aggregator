@@ -167,7 +167,7 @@
             )
         );
 
-        if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === FALSE ) {
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', false ) === false ) {
             unset( $settings['import']['limit-feed-items-db'] );
         }
 
@@ -178,7 +178,7 @@
             )
         );
 
-        if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === FALSE ) {
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', false ) === false ) {
             unset( $settings['general']['limit-feed-items-db'] );
         }
 
