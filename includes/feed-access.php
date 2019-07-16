@@ -14,6 +14,7 @@ class WPRSS_Feed_Access
 
     const SETTING_KEY_CERTIFICATE_PATH = 'certificate-path';
     const SETTING_KEY_FEED_REQUEST_USERAGENT = 'feed_request_useragent';
+    const SETTING_KEY_CACHE = 'feed_cache_enabled';
 
     protected static $_instance;
 
@@ -201,11 +202,16 @@ class WPRSS_Feed_Access
 			'label'			=> __( 'Certificate path', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_certificate_path_setting' )
 		);
-        /** @since 4.8.2 */
+        /* @since 4.8.2 */
 		$settings['advanced'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
 			'label'			=> __( 'Feed request useragent', WPRSS_TEXT_DOMAIN ),
 			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
 		);
+        /* @since 4.14.1 */
+        $settings['advanced'][ self::SETTING_KEY_CACHE ] = array(
+            'label'			=> __( 'Enable feed cache', WPRSS_TEXT_DOMAIN ),
+            'callback'		=> array( $this, 'render_feed_cache_setting' )
+        );
 
 		return $settings;
 	}
@@ -272,6 +278,27 @@ class WPRSS_Feed_Access
         ?>
 		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $value ?>" placeholder="<?php echo __('Default', WPRSS_TEXT_DOMAIN) ?>" />
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
+
+    /**
+     * Renders the setting field for the feed cache option.
+     *
+     * @since 4.15
+     *
+     * @param array $field The information for this field.
+     */
+    public function render_feed_cache_setting( $field )
+    {
+        $value = (int) wprss_get_general_setting($field['field_id']);
+        ?>
+        <input name="wprss_settings_general[<?= $field['field_id'] ?>]" type="hidden" value="0" />
+        <input id="<?= $field['field_id'] ?>"
+            name="wprss_settings_general[<?= $field['field_id'] ?>]"
+            type="checkbox"
+            value="1"
+            <?= checked(1, $value, false) ?>
+            />
+        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /**

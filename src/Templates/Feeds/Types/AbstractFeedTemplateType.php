@@ -55,7 +55,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
             return $this->getTemplate()->render($prepCtx);
         } catch (Exception $ex) {
             throw $this->_createTemplateRenderException(
-                __('An error occurred while rendering the twig template', WPRSS_TEXT_DOMAIN), null, $ex, $this, $prepCtx
+                $ex->getMessage(), null, $ex, $this, $prepCtx
             );
         }
     }

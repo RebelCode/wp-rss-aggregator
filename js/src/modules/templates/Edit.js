@@ -223,7 +223,7 @@ export default {
           <span class="dashicons dashicons-arrow-left-alt"></span>
           Templates
         </RouteLink>
-        <h1 class="wp-heading-inline">
+        <h1>
           {this.router.params.id ? (this.changes.model.name || this.changes.model.slug) : 'Create a New Template'}
         </h1>
         {shortcode}

@@ -15,6 +15,36 @@
     <hr class="wp-header-end">
 
     <div id="wpra-update-app">
+        <div class="notice notice-warning">
+            <h3>{% trans "Important!" %}</h3>
+            <p>
+                {% trans %}
+                    Version <code>4.14</code> had an unfortunate bug that caused it to import images into your WordPress
+                    media gallery. We're very sorry about that!
+                {% endtrans %}
+            </p>
+            <p>
+                {% trans %}
+                    With this update the plugin will no longer import images, but unfortunately the images will remain
+                    in your media gallery. If there are too many to delete manually, you can delete and re-import your
+                    feed items to have WordPress automatically delete their attached images. Note that if you do so,
+                    items that are no longer given by the RSS feed won't be re-imported.
+                {% endtrans %}
+            </p>
+            <p>
+                {% trans %}
+                    If you have the <b>Feed to Post</b> add-on, you should not have been affected by this bug.
+                {% endtrans %}
+            </p>
+            <p>
+                {% trans %}
+                    We apologize for this inconvience and thank you for using WP RSS Aggregator.
+                    <br/>
+                    <i>-The WP RSS Aggregator Team</i>
+                {% endtrans %}
+            </p>
+        </div>
+
         <div class="postbox">
             <div class="inside wpra-update-feature">
                 <div class="wpra-update-feature__text">

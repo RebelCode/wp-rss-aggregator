@@ -227,13 +227,11 @@
 	function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
 		// Add filters and actions prior to fetching the feed items
 		add_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
-		add_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 
 		/* Fetch the feed from the soure URL specified */
 		$feed = wprss_fetch_feed( $feed_url, $source, $force_feed );
 
 		// Remove previously added filters and actions
-		remove_action( 'wp_feed_options', 'wprss_do_not_cache_feeds' );
 		remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 
 		if ( !is_wp_error( $feed ) ) {
@@ -273,6 +271,47 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
     return ($cron_request_array) ;
 }
 
+/**
+ * Checks if feed caching is enabled.
+ *
+ * This function will only return true if the cache option is enabled in the settings AND the cache directory exists
+ * or can be successfully created and is writable.
+ *
+ * @since 4.15
+ *
+ * @return bool
+ */
+function wprss_is_feed_cache_enabled()
+{
+    $cacheOption = wprss_get_general_setting('feed_cache_enabled');
+    $cacheOption = filter_var($cacheOption, FILTER_VALIDATE_BOOLEAN);
+
+    if (!$cacheOption) {
+        return false;
+    }
+
+    $cacheDir = wprss_get_feed_cache_dir();
+
+    if (!file_exists($cacheDir)) {
+        @mkdir($cacheDir);
+    }
+
+    return is_writable($cacheDir);
+}
+
+/**
+ * Retrieves the feed cache directory.
+ *
+ * @since 4.15
+ *
+ * @return string
+ */
+function wprss_get_feed_cache_dir()
+{
+    return wpra_container()->get('wpra/importer/cache/dir');
+}
+
+
 	/**
 	 * A clone of the function 'fetch_feed' in wp-includes/feed.php [line #529]
 	 *
@@ -308,7 +347,12 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
         $fetch_time_limit = wprss_get_feed_fetch_time_limit();
         $feed->set_timeout($fetch_time_limit);
 
-        $feed->enable_cache(false);
+        $cacheEnabled = wprss_is_feed_cache_enabled();
+        $feed->enable_cache($cacheEnabled);
+
+        if ($cacheEnabled) {
+            $feed->set_cache_location(wprss_get_feed_cache_dir());
+        }
 
         // Reference array action hook, for the feed object and the URL
         do_action_ref_array('wp_feed_options', array(&$feed, $url));
@@ -633,9 +677,28 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 
+		/* @var $item SimplePie_Item */
+        $feed = $item->get_feed();
+
+        // Get the source from the RSS item
+		$source = $item->get_source();
+
+		// Get the source name if available. If empty, default to the feed source CPT title
+		$source_name = ($source === null) ? '' : $source->get_title();
+		$source_name = empty($source_name) ? $feed->get_title() : $source_name;
+
+		// Get the source URL if available. If empty, default to the RSS feed's URL
+		$source_url = ($source === null) ? '' : $source->get_permalink();
+		$source_url = empty($source_url) ? $feed->get_permalink() : $source_url;
+
+        update_post_meta( $inserted_ID, 'wprss_item_source_name', $source_name);
+        update_post_meta( $inserted_ID, 'wprss_item_source_url', $source_url);
+
 		$author = $item->get_author();
-		if ( $author ) {
+		if ($author instanceof SimplePie_Author) {
 			update_post_meta( $inserted_ID, 'wprss_item_author', $author->get_name() );
+			update_post_meta( $inserted_ID, 'wprss_item_author_email', $author->get_email() );
+			update_post_meta( $inserted_ID, 'wprss_item_author_link', $author->get_link() );
 		}
 
 		update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);

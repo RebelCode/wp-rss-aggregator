@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.15] - 2019-07-16
+### Added
+* New error handling for catchable PHP7 `Throwable` errors.
+* New option to enable feed caching for better performance.
+* New option to import source name and URL for each item individually.
+* The custom feed now includes source info for every item.
+
+### Changed
+* Improved some exception messages to better indicate the cause of certain problems.
+* Re-organized settings into multiple tabs.
+* Added the current site URL to the custom feed URL option's label.
+
+### Fixed
+* Feed sources had image importing wrongly enabled by default.
+* Downloading the debug log triggered an error.
+* The custom feed self URL ignored the settings and was incorrect.
+* Items in the custom feed had a missing `rel` attribute for their `<link>` element.
+* Fixed placement of WordPress notices on the Templates List and Edit page.
+* Fixed WordPress notices disappearing after moving between Templates list and edit page.
+
 ## [4.14] - 2019-07-09
 ### Added
 * YouTube channel URLs are now supported.

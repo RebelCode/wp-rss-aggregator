@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Handlers\Logger;
 
 use RebelCode\Wpra\Core\Logger\LogReaderInterface;
+use WP_Post;
 
 /**
  * Handles log download requests.
@@ -50,6 +51,27 @@ class DownloadLogHandler
             return;
         }
 
-        wprss_download_log();
+        $logs = $this->reader->getLogs();
+
+        $output = '';
+        foreach ($logs as $log) {
+            $feed = isset($log['feed_id'])
+                ? get_post($log['feed_id'])
+                : null;
+            $feedName = ($feed instanceof WP_Post)
+                ? ' ' . $feed->post_title . ':'
+                : '';
+            $output .= sprintf('[%s] (%s)%s %s', $log['date'], $log['level'], $feedName, $log['message']) . PHP_EOL;
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-type: text/plain');
+        header('Content-Disposition: attachment; filename="wpra-log.txt"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . strlen($output));
+        echo $output;
+        exit;
     }
 }

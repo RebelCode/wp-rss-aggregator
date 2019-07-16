@@ -4,7 +4,7 @@ namespace RebelCode\Wpra\Core\Templates;
 
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
-use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
+use Dhii\Output\Exception\TemplateRenderException;
 use Dhii\Output\TemplateInterface;
 use Exception;
 use Twig\Environment;
@@ -20,9 +20,6 @@ class TwigTemplate implements TemplateInterface
 {
     /* @since 4.13 */
     use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use CreateTemplateRenderExceptionCapableTrait;
 
     /* @since 4.13 */
     use StringTranslatingTrait;
@@ -69,11 +66,11 @@ class TwigTemplate implements TemplateInterface
         try {
             return $this->env->load($this->path)->render($ctx);
         } catch (LoaderError $loaderEx) {
-            throw $this->_createTemplateRenderException(
+            throw new TemplateRenderException(
                 __('Could not load template', WPRSS_TEXT_DOMAIN), null, $loaderEx, $this, $ctx
             );
         } catch (SyntaxError $synEx) {
-            throw $this->_createTemplateRenderException(
+            throw new TemplateRenderException(
                 sprintf(
                     __('Syntax error in template at line %d: %s', WPRSS_TEXT_DOMAIN),
                     $synEx->getTemplateLine(),
@@ -82,8 +79,12 @@ class TwigTemplate implements TemplateInterface
                 null, $synEx, $this, $ctx
             );
         } catch (Exception $ex) {
-            throw $this->_createTemplateRenderException(
-                __('An error occurred while rendering the twig template', WPRSS_TEXT_DOMAIN), null, $ex, $this, $ctx
+            throw new TemplateRenderException(
+                __('Could not render twig template: ', WPRSS_TEXT_DOMAIN) . $ex->getMessage(),
+                null,
+                $ex,
+                $this,
+                $ctx
             );
         }
     }

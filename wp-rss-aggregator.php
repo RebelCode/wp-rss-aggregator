@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.14
+ * Version: 4.15
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -67,7 +67,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.14' );
+    define( 'WPRSS_VERSION', '4.15' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -344,9 +344,10 @@ function wpra_run()
 
         $plugin->run($container);
         do_action('wpra_after_run', $container, $plugin);
+    } catch (Throwable $throwable) {
+        wpra_error_handler($throwable);
     } catch (Exception $exception) {
-        wpra_exception_handler($exception);
-        do_action('wpra_error', $exception);
+        wpra_error_handler($exception);
     }
 }
 
@@ -466,35 +467,37 @@ function wpra_load_module($key, $module)
 }
 
 /**
- * Handles soft exceptions, caught from {@link wpra_run()}.
+ * Handles catchable errors, caught from {@link wpra_run()}.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
- * @param Exception $exception The caught exception.
+ * @param Exception|Throwable $error The caught exception or throwable instance.
  */
-function wpra_exception_handler($exception)
+function wpra_error_handler($error)
 {
-    add_action('all_admin_notices', function () use ($exception) {
+    add_action('all_admin_notices', function () use ($error) {
         $message = __(
             '<b>WP RSS Aggregator</b> has encountered an error. If this problem persists, kindly contact customer support and provide the following details:',
             'wprss'
         );
         ?>
         <div class="notice notice-error">
-            <?php echo wpra_display_error($message, $exception) ?>
+            <?php echo wpra_display_error($message, $error) ?>
         </div>
         <?php
     });
+
+    do_action('wpra_error', $error);
 }
 
 /**
  * Handles critical errors.
  *
- * This function is passed as a callback to the {@link ErrorHandler}.
+ * This function is used as a callback in the {@link ErrorHandler}.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
- * @param Exception|Throwable $error The encountered error.
+ * @param Exception|Throwable $error The encountered error or throwable instance.
  */
 function wpra_critical_error_handler($error)
 {
@@ -521,6 +524,8 @@ function wpra_critical_error_handler($error)
     );
     $errorDisplay = wpra_display_error($message, $error);
 
+    do_action('wpra_critical_error', $error);
+
     wp_die(
         $errorDisplay . $deactivateForm,
         __('WP RSS Aggregator Error', 'wprss')
@@ -530,7 +535,7 @@ function wpra_critical_error_handler($error)
 /**
  * Generates common display for WP RSS Aggregator errors.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
  * @param string              $message The message to show.
  * @param Exception|Throwable $error   The error.
@@ -571,7 +576,7 @@ function wpra_display_error($message, $error)
  *
  * This function is intended to be called from error handlers that give users the option to deactivate the plugin.
  *
- * @since [*next-version*]
+ * @since 4.15
  */
 function wpra_safe_deactivate()
 {
@@ -600,7 +605,7 @@ function wpra_safe_deactivate()
 /**
  * Retrieves the list of full paths to the main files of activated addons.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
  * @return string[]
  */
@@ -640,8 +645,10 @@ function wprss() {
 
 try {
     $instance = wprss();
+} catch (Throwable $t) {
+    wpra_error_handler($t);
 } catch (Exception $e) {
-    wpra_exception_handler($e);
+    wpra_error_handler($e);
 }
 
 add_action( 'init', 'wprss_init' );

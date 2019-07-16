@@ -307,8 +307,6 @@ export default {
         />
       </p>
 
-      <hr class="wp-header-end"/>
-
       <VueTable
         onChecked={this.setChecked}
         onPagination={page => {

@@ -24,6 +24,167 @@
         return ( ( isset( $options[ $option_name ] ) )? $options[$option_name] : $defaults[$option_name] );
     }
 
+    /**
+     * Build the plugin settings page, used to save general settings like whether a link should be follow or no follow
+     * @since 1.1
+     */
+    function wprss_settings_page_display() {
+
+        ?>
+        <div class="wrap">
+            <div id="wpra-settings-app"></div>
+
+            <h2><?php _e( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ); ?></h2>
+
+            <?php settings_errors(); ?>
+
+            <?php $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general_settings'; ?>
+
+            <?php
+
+            $tabs = array(
+                array(
+                    'label' => __( 'General', WPRSS_TEXT_DOMAIN ),
+                    'slug'  => 'general_settings',
+                ),
+                array(
+                    'label' => __( 'Custom Feed', WPRSS_TEXT_DOMAIN ),
+                    'slug'  => 'custom_feed_settings',
+                ),
+            );
+
+            $tabs = apply_filters( 'wprss_options_tabs', $tabs );
+
+            $tabs[] = array(
+                'label' => __( 'Advanced', WPRSS_TEXT_DOMAIN ),
+                'slug'  => 'advanced_settings',
+            );
+
+            if (count(wprss_get_addons()) > 0) {
+                $tabs[] = array(
+                    'label' => __( 'Licenses', WPRSS_TEXT_DOMAIN ),
+                    'slug'  => 'licenses_settings'
+                );
+            }
+
+            $show_tabs = ( count( $tabs ) > 1 ) || apply_filters( 'wprss_show_settings_tabs_condition', FALSE );
+
+            if ( $show_tabs ) { ?>
+            <h2 class="nav-tab-wrapper">
+                <?php
+                foreach ( $tabs as $tab => $tab_property ) { ?>
+                    <a href="?post_type=wprss_feed&page=wprss-aggregator-settings&tab=<?php echo esc_attr( $tab_property['slug'] ); ?>"
+                       class="nav-tab <?php echo $active_tab == $tab_property['slug']  ? 'nav-tab-active' : ''; ?>"><?php echo esc_html( $tab_property['label'] ); ?></a>
+                <?php } ?>
+                <?php } ?>
+            </h2>
+
+            <form action="options.php" method="post">
+
+                <?php
+
+                if ( $active_tab === 'general_settings' ) {
+                    settings_fields( 'wprss_settings_general' );
+                    do_settings_sections( 'wprss_settings_general' );
+                }
+                elseif ( $active_tab === 'advanced_settings' ) {
+                    settings_fields( 'wprss_settings_advanced' );
+                    do_settings_sections( 'wprss_settings_advanced' );
+                }
+                elseif ( $active_tab === 'custom_feed_settings' ) {
+                    settings_fields( 'wprss_settings_custom_feed' );
+                    do_settings_sections( 'wprss_settings_custom_feed' );
+                }
+                elseif ( $show_tabs ) {
+
+                    if ( $active_tab === 'licenses_settings' ) {
+                        settings_fields( 'wprss_settings_license_keys' );
+                        do_settings_sections( 'wprss_settings_license_keys' );
+                    }
+
+                    do_action( 'wprss_add_settings_fields_sections', $active_tab );
+                }
+
+                submit_button( __( 'Save Settings', WPRSS_TEXT_DOMAIN ) );
+
+                ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    function wprss_settings_fields_array()
+    {
+        // Define the settings per section
+        $settings = apply_filters(
+            'wprss_settings_array',
+            array(
+                'import'   =>  array(
+                    'cron-interval' => array(
+                        'label'     =>  __( 'Update interval', 'wprss' ),
+                        'callback'  =>  'wprss_setting_cron_interval_callback'
+                    ),
+                    'unique-titles' => array(
+                        'label'     =>  __( 'Unique titles only', 'wprss'),
+                        'callback'  =>  'wprss_setting_unique_titles'
+                    ),
+                    'feed_items_import_order' => array(
+                        'label'     => __( 'Import order', 'wprss' ),
+                        'callback'  => 'wprss_setting_feed_items_import_order_callback'
+                    ),
+                    'limit-feed-items-by-age' => array(
+                        'label'     =>  __( 'Limit items by age', 'wprss' ),
+                        'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
+                    ),
+                    'limit-feed-items-imported' => array(
+                        'label'     => __( 'Limit feed items stored per feed', 'wprss' ),
+                        'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
+                    ),
+                    'limit-feed-items-db' => array(
+                        'label'     => __( 'Limit feed items stored', 'wprss' ),
+                        'callback'  => 'wprss_setting_limit_feed_items_callback'
+                    ),
+                    'limit_feed_items_per_import' => array(
+                        'label'     => __( 'Limit feed items per import', 'wprss' ),
+                        'callback'  => 'wprss_setting_limit_feed_items_per_import_callback'
+                    ),
+                ),
+
+                'custom_feed' => array(
+                    'custom-feed-url' => array(
+                        'label'     =>  __( 'Custom feed URL', 'wprss' ),
+                        'callback'  =>  'wprss_settings_custom_feed_url_callback'
+                    ),
+                    'custom-feed-title' => array(
+                        'label'     =>  __( 'Custom feed title', 'wprss' ),
+                        'callback'  =>  'wprss_settings_custom_feed_title_callback'
+                    ),
+                    'custom-feed-limit' => array(
+                        'label'     =>  __( 'Custom feed limit', 'wprss' ),
+                        'callback'  =>  'wprss_settings_custom_feed_limit_callback'
+                    ),
+                ),
+            )
+        );
+
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', false ) === false ) {
+            unset( $settings['import']['limit-feed-items-db'] );
+        }
+
+        $settings['styles']  = array(
+            'styles-disable' => array(
+                'label'     =>  __( 'Disable Styles', 'wprss' ),
+                'callback'  =>  'wprss_setting_styles_disable_callback'
+            )
+        );
+
+        if ( apply_filters( 'wprss_use_fixed_feed_limit', false ) === false ) {
+            unset( $settings['general']['limit-feed-items-db'] );
+        }
+
+        return $settings;
+    }
+
     
     add_action( 'admin_init', 'wprss_admin_init' );
     /**
@@ -35,130 +196,97 @@
      * the way EDD builds the settings pages, cleaner method.
      */
     function wprss_admin_init() {
+        $fields = wprss_settings_fields_array();
 
-        register_setting(
-            'wprss_settings_general',                       // A settings group name.
-            'wprss_settings_general',                       // The name of an option to sanitize and save.
-            'wprss_settings_general_validate'               // A callback function that sanitizes the option's value.
-        );
-
-        // Licensing of add-ons
-        register_setting(
-            'wprss_settings_license_keys',
-            'wprss_settings_license_keys',
-            'wprss_settings_license_keys_validate'
-        );
-
-        $sections = apply_filters(
-            'wprss_settings_sections_array',
-            array(
-                'general'  =>  __( 'General Plugin Settings', WPRSS_TEXT_DOMAIN ),
-                'custom_feed'  =>  __( 'Create a Custom RSS Feed', WPRSS_TEXT_DOMAIN ),
-                'advanced' =>  __( 'Advanced Settings', WPRSS_TEXT_DOMAIN ),
-                'styles'   =>  __( 'Styles', WPRSS_TEXT_DOMAIN ),
-            )
-        );
-
-        // Define the settings per section
-        $settings = apply_filters(
-            'wprss_settings_array',
-            array(
-                'general'   =>  array(
-                    'limit-feed-items-by-age' => array(
-                        'label'     =>  __( 'Limit items by age', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_setting_limit_feed_items_age_callback'
-                    ),
-                    'limit-feed-items-imported' => array(
-                        'label'     => __( 'Limit feed items stored per feed', WPRSS_TEXT_DOMAIN ),
-                        'callback'  => 'wprss_setting_limit_feed_items_imported_callback'
-                    ),
-                    'limit-feed-items-db' => array(
-                        'label'     => __( 'Limit feed items stored', WPRSS_TEXT_DOMAIN ),
-                        'callback'  => 'wprss_setting_limit_feed_items_callback'
-                    ),
-                    'limit_feed_items_per_import' => array(
-                        'label'     => __( 'Limit feed items per import', WPRSS_TEXT_DOMAIN ),
-                        'callback'  => 'wprss_setting_limit_feed_items_per_import_callback'
-                    ),
-                    'feed_items_import_order' => array(
-                        'label'     => __( 'Import order', WPRSS_TEXT_DOMAIN ),
-                        'callback'  => 'wprss_setting_feed_items_import_order_callback'
-                    ),
-                    'cron-interval' => array(
-                        'label'     =>  __( 'Update interval', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_setting_cron_interval_callback'
-                    ),
-                    'unique-titles' => array(
-                        'label'     =>  __( 'Unique titles only', WPRSS_TEXT_DOMAIN),
-                        'callback'  =>  'wprss_setting_unique_titles'
-                    ),
+        // page => sections -> fields
+        $settings = [
+            'general' => [
+                'sections' => apply_filters(
+                    'wprss_settings_sections_array',
+                    [
+                        'import'  =>  [
+                            'title' => __( 'Import Settings', 'wprss' ),
+                            'fields' => $fields['import'],
+                        ],
+                    ]
                 ),
+                'option' => 'wprss_settings_general',
+                'callback' => 'wprss_settings_general_validate',
+            ],
+            'custom_feed' => [
+                'sections' => [
+                    'custom_feed' => [
+                        'title' => __('Custom RSS Feed', 'wprss'),
+                        'fields' => $fields['custom_feed'],
+                    ],
+                ],
+                'option' => 'wprss_settings_general',
+                'callback' => 'wprss_settings_general_validate',
+            ],
+            'advanced' => [
+                'sections' => [
+                    'advanced' => [
+                        'title' => __('Advanced Settings', 'wprss'),
+                        'fields' => $fields['advanced'],
+                    ],
+                    'styles' => [
+                        'title' => __('Styles', 'wprss'),
+                        'fields' => $fields['styles'],
+                    ],
+                ],
+                'option' => 'wprss_settings_general',
+                'callback' => 'wprss_settings_general_validate',
+            ],
+            'license_keys' => [
+                'sections' => [],
+                'option' => 'wprss_settings_license_keys',
+                'callback' => 'wprss_settings_license_keys_validate',
+            ],
+        ];
 
-                'custom_feed' => array(
-                    'custom-feed-url' => array(
-                        'label'     =>  __( 'Custom feed URL', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_settings_custom_feed_url_callback'
-                    ),
-                    'custom-feed-title' => array(
-                        'label'     =>  __( 'Custom feed title', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_settings_custom_feed_title_callback'
-                    ),
-                    'custom-feed-limit' => array(
-                        'label'     =>  __( 'Custom feed limit', WPRSS_TEXT_DOMAIN ),
-                        'callback'  =>  'wprss_settings_custom_feed_limit_callback'
-                    ),
-                ),
-            )
-        );
+        $setting_field_id_prefix = 'wprss-settings-';
 
-        $settings['styles']  = array(
-            'styles-disable' => array(
-                'label'     =>  __( 'Disable Styles', WPRSS_TEXT_DOMAIN ),
-                'callback'  =>  'wprss_setting_styles_disable_callback'
-            )
-        );
+        foreach ($settings as $pageKey => $page) {
+            $groupId = "wprss_settings_${pageKey}";
 
-        if ( apply_filters( 'wprss_use_fixed_feed_limit', FALSE ) === FALSE ) {
-            unset( $settings['general']['limit-feed-items-db'] );
-        }
-
-		$setting_field_id_prefix = 'wprss-settings-';
-
-
-        // Loop through each setting field and register it
-        foreach( $settings as $section => $fields ) {
-            if ( count( $fields ) === 0 ) {
-                continue;
-            }
-
-            add_settings_section(
-                "wprss_settings_${section}_section",
-                $sections[ $section ],
-                "wprss_settings_${section}_callback",
-                'wprss_settings_general'
+            register_setting(
+                $groupId,
+                $page['option'],
+                $page['callback']
             );
 
-            foreach ( $fields as $id => $data ) {
-                /**
-                 * This will be passed to the field callback as the only argument
-                 * @see http://codex.wordpress.org/Function_Reference/add_settings_field#Parameters
-                 */
-                $callback_args = array(
-                    'field_id'				=> $id,
-                    'field_id_prefix'		=> $setting_field_id_prefix,
-                    'section_id'			=> $section,
-                    'field_label'			=> isset( $data['label'] ) ? $data['label'] : null,
-                    'tooltip'				=> isset( $data['tooltip'] ) ? $data['tooltip'] : null
+            foreach ($page['sections'] as $sectionKey => $section) {
+                $sectionId = "wprss_settings_${sectionKey}_section";
+
+                add_settings_section(
+                    $sectionId,
+                    $section['title'],
+                    "wprss_settings_${sectionKey}_callback",
+                    $groupId
                 );
 
-                add_settings_field(
-                    $setting_field_id_prefix . $id,
-                    $data['label'],
-                    $data['callback'],
-                    'wprss_settings_general',
-                    "wprss_settings_${section}_section",
-                    $callback_args
-                );
+                foreach ($section['fields'] as $fieldId => $field) {
+                    /**
+                     * This will be passed to the field callback as the only argument
+                     * @see http://codex.wordpress.org/Function_Reference/add_settings_field#Parameters
+                     */
+                    $callback_args = array(
+                        'field_id'				=> $fieldId,
+                        'field_id_prefix'		=> $setting_field_id_prefix,
+                        'section_id'			=> $sectionKey,
+                        'field_label'			=> isset( $field['label'] ) ? $field['label'] : null,
+                        'tooltip'				=> isset( $field['tooltip'] ) ? $field['tooltip'] : null
+                    );
+
+                    add_settings_field(
+                        $setting_field_id_prefix . $fieldId,
+                        $field['label'],
+                        $field['callback'],
+                        $groupId,
+                        $sectionId,
+                        $callback_args
+                    );
+                }
             }
         }
 
@@ -242,87 +370,13 @@
 	}
 
 
-    /**
-     * Build the plugin settings page, used to save general settings like whether a link should be follow or no follow
-     * @since 1.1
-     */ 
-    function wprss_settings_page_display() {
-
-        ?>
-        <div class="wrap">
-            <div id="wpra-settings-app"></div>
-
-            <h2><?php _e( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ); ?></h2>
-
-            <?php settings_errors(); ?> 
-
-            <?php $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general_settings'; ?>
-
-            <?php
-
-            $tabs = array(
-				array(
-					'label' => __( 'General', WPRSS_TEXT_DOMAIN ),
-					'slug'  => 'general_settings',
-				),
-            );
-
-            $tabs = apply_filters( 'wprss_options_tabs', $tabs );
-
-            if (count(wprss_get_addons()) > 0) {
-                $tabs[] = array(
-                    'label' => __( 'Licenses', WPRSS_TEXT_DOMAIN ),
-                    'slug'  => 'licenses_settings'
-                );
-            }
-
-            $show_tabs = ( count( $tabs ) > 1 ) || apply_filters( 'wprss_show_settings_tabs_condition', FALSE );
-
-            if ( $show_tabs ) { ?>
-            <h2 class="nav-tab-wrapper">
-                <?php 
-                foreach ( $tabs as $tab => $tab_property ) { ?>
-                    <a href="?post_type=wprss_feed&page=wprss-aggregator-settings&tab=<?php echo esc_attr( $tab_property['slug'] ); ?>"
-                        class="nav-tab <?php echo $active_tab == $tab_property['slug']  ? 'nav-tab-active' : ''; ?>"><?php echo esc_html( $tab_property['label'] ); ?></a>
-                <?php } ?>
-            <?php } ?>                
-            </h2>            
-
-            <form action="options.php" method="post">   
-            
-                <?php
-
-                if ( $active_tab === 'general_settings' ) {
-                    settings_fields( 'wprss_settings_general' ); 
-                    //settings_fields( 'wprss_secure_reset' );
-                    do_settings_sections( 'wprss_settings_general' );
-                }
-                elseif ( $show_tabs ) {
-
-                    if ( $active_tab === 'licenses_settings' ) {
-                        settings_fields( 'wprss_settings_license_keys' );
-                        do_settings_sections( 'wprss_settings_license_keys' );
-                    }
-
-                    do_action( 'wprss_add_settings_fields_sections', $active_tab );
-                }
-
-                submit_button( __( 'Save Settings', WPRSS_TEXT_DOMAIN ) );
-
-                ?>
-            </form>
-        </div>
-        <?php
-    }
-
-
     /** 
      * General settings section header
      *
      * @since 3.0
      */
-    function wprss_settings_general_callback() {
-        echo wpautop( __( 'These are the general settings for WP RSS Aggregator.', WPRSS_TEXT_DOMAIN ) );
+    function wprss_settings_import_callback() {
+        echo wpautop( __( 'Configure how WP RSS Aggregator imports RSS feed items.', 'wprss' ) );
     }
 
 
@@ -332,7 +386,7 @@
      * @since 4.13
      */
     function wprss_settings_custom_feed_callback() {
-        echo wpautop( __( 'WP RSS Aggregator creates a custom RSS feed for you that includes any items imported by the plugin. Use the below options to set it up.', WPRSS_TEXT_DOMAIN ) );
+        echo wpautop( __( 'WP RSS Aggregator creates a custom RSS feed on your site that includes all of your imported items. Use the below options to set it up.', 'wprss' ) );
     }
 
     /**
@@ -464,9 +518,15 @@
      * @since 3.3
      */
     function wprss_settings_custom_feed_url_callback( $field ) {
+        $siteUrl = get_site_url();
         $custom_feed_url = wprss_get_general_setting( 'custom_feed_url' );
         ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[custom_feed_url]" type="text" value="<?php echo $custom_feed_url ?>" />
+		<code><?= $siteUrl ?>/</code>
+        <input id="<?php echo $field['field_id'] ?>"
+               name="wprss_settings_general[custom_feed_url]"
+               type="text"
+               value="<?php echo $custom_feed_url ?>" />
+
 		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
@@ -788,61 +848,31 @@
         $current_cron_interval = wprss_get_general_setting( 'cron_interval');
 
         // Create our array for storing the validated options
-        $output = array();
-        
-        // Loop through each of the incoming options
-        foreach( $input as $key => $value ) {
-            
-            // Check to see if the current option has a value. If so, process it.
-            if( isset( $input[ $key ] ) ) {
-            
-                // Strip all HTML and PHP tags and properly handle quoted strings
-                $output[ $key ] = strip_tags( stripslashes( $input[ $key ] ) );
-                
-            } // end if
-            
-        } // end foreach
+        $output = get_option('wprss_settings_general', []);
 
-        // If limit_feed_items_age_unit is not set or it set to zero, set it to empty
-        if ( ! isset( $input['limit_feed_items_age'] ) || strval( $input['limit_feed_items_age'] ) == '0' ) {
-            $output['limit_feed_items_age'] = '';
+        // Loop through each of the incoming options
+        foreach ($input as $key => $value) {
+            // Check to see if the current option has a value. If so, process it.
+            if (!isset($input[$key])) {
+                continue;
+            }
+
+            // Strip all HTML and PHP tags and properly handle quoted strings
+            $output[$key] = strip_tags(stripslashes($input[$key]));
         }
 
-        if (  ! isset( $input['title_link'] )  ||  $input['title_link'] != '1' ) 
-            $output['title_link'] = 0; 
-        else 
-            $output['title_link'] = 1;  
+        if ( isset($input['styles_disable']) ) {
+            $output['styles_disable'] = (int) $input['styles_disable'];
+        }
 
-        if (  ! isset( $input['source_enable'] )  ||  $input['source_enable'] != '1' ) 
-            $output['source_enable'] = 0; 
-        else 
-            $output['source_enable'] = 1;        
+        if ( isset($input['unique_titles']) ) {
+            $output['unique_titles'] = (int) $input['unique_titles'];
+        }
 
-        if ( ! isset( $input['date_enable'] ) || $input['date_enable'] != '1' )
-            $output['date_enable'] = 0;
-        else
-            $output['date_enable'] = 1;      
-
-        if ( ! isset( $input['styles_disable'] ) || $input['styles_disable'] != '1' )
-            $output['styles_disable'] = 0;
-        else
-            $output['styles_disable'] = 1;     
-        
-		if ( ! isset( $input['video_link'] ) || strtolower( $input['video_link'] ) !== 'true' )
-			$output['video_link'] = 'false';
-		else
-			$output['video_link'] = 'true';
-		
         if ( isset($input['cron_interval']) && $input['cron_interval'] != $current_cron_interval ) {
-            wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );    
+            wp_clear_scheduled_hook( 'wprss_fetch_all_feeds_hook' );
             wp_schedule_event( time(), $input['cron_interval'], 'wprss_fetch_all_feeds_hook' );
         }
-
-        if ( ! isset( $input['unique_titles'] ) || $input['unique_titles'] !== '1' )
-            $output['unique_titles'] = 0;
-        else
-            $output['unique_titles'] = 1;
-
 
         // Return the array processing any additional functions filtered by this action
         return apply_filters( 'wprss_settings_general_validate', $output, $input );

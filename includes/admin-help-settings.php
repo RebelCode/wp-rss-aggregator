@@ -165,7 +165,12 @@ function wprss_settings_add_tooltips() {
 '.                                          'Some servers react in unexpected ways to the default value. In such cases, try changing this to something else.
 
 '.                                          'The default value is determined by the SimplePie library, and reflects its name, version and build numbers, and some other information.'),
-		
+		        'feed_cache_enabled' => __( 'Tick this box to enable caching for a small performance gain.
+
+'.                                          'When enabled, websites may ignore the plugin if their RSS feed did not change. So we suggest testing it out first to ensure that your RSS feeds work well with this option enabled.
+
+'.                                          'If you encounter problems or weird behavior, we suggest turning this option off.',
+                                            'wprss')
 		);
 		$help->add_tooltips( $tooltips, $prefix );
 

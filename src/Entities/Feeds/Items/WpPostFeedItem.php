@@ -137,12 +137,15 @@ class WpPostFeedItem extends WpCptDataSet
     protected function wrapPostMetaDataSet(WP_Post $post, DataSetInterface $meta)
     {
         $source = new WpPostFeedSource($meta['source_id']);
+        $importSource = filter_var($source['import_source'], FILTER_VALIDATE_BOOLEAN);
 
         $wrapperData = [
             static::SOURCE_KEY    => $source,
             static::TIMESTAMP_KEY => strtotime($post->post_date_gmt),
             static::FT_IMAGE_KEY => $this->getFtImageUrl($post),
             static::URL_KEY => $this->getItemUrl($post, $meta, $source),
+            'source_name' => $importSource ? $meta['source_name'] : $source['title'],
+            'source_url' => $importSource ? $meta['source_url'] : $source['site_url'],
         ];
 
         // For non-WPRSS feed items, use the real WordPress post author if the meta author does not exist

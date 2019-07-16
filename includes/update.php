@@ -294,6 +294,9 @@
                 // From 4.13
                 'custom_css' => '',
                 'html_classes' => '',
+
+                // From 4.14.1
+                'feed_cache_enabled' => 0,
 			)
 		);
 
