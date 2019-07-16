@@ -277,7 +277,7 @@ function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
  * This function will only return true if the cache option is enabled in the settings AND the cache directory exists
  * or can be successfully created and is writable.
  *
- * @4.15
+ * @since 4.15
  *
  * @return bool
  */
@@ -302,7 +302,7 @@ function wprss_is_feed_cache_enabled()
 /**
  * Retrieves the feed cache directory.
  *
- * @4.15
+ * @since 4.15
  *
  * @return string
  */

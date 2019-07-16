@@ -283,7 +283,7 @@ class WPRSS_Feed_Access
     /**
      * Renders the setting field for the feed cache option.
      *
-     * @4.15
+     * @since 4.15
      *
      * @param array $field The information for this field.
      */
