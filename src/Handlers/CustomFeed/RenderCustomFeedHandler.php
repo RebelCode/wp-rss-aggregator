@@ -30,7 +30,7 @@ class RenderCustomFeedHandler
     /**
      * The settings for the custom feed.
      *
-     * @since [*next-version*]
+     * @4.15
      *
      * @var DataSetInterface
      */
