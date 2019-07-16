@@ -469,7 +469,7 @@ function wpra_load_module($key, $module)
 /**
  * Handles catchable errors, caught from {@link wpra_run()}.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
  * @param Exception|Throwable $error The caught exception or throwable instance.
  */
@@ -495,7 +495,7 @@ function wpra_error_handler($error)
  *
  * This function is used as a callback in the {@link ErrorHandler}.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
  * @param Exception|Throwable $error The encountered error or throwable instance.
  */
@@ -535,7 +535,7 @@ function wpra_critical_error_handler($error)
 /**
  * Generates common display for WP RSS Aggregator errors.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
  * @param string              $message The message to show.
  * @param Exception|Throwable $error   The error.
@@ -576,7 +576,7 @@ function wpra_display_error($message, $error)
  *
  * This function is intended to be called from error handlers that give users the option to deactivate the plugin.
  *
- * @since [*next-version*]
+ * @since 4.15
  */
 function wpra_safe_deactivate()
 {
@@ -605,7 +605,7 @@ function wpra_safe_deactivate()
 /**
  * Retrieves the list of full paths to the main files of activated addons.
  *
- * @since [*next-version*]
+ * @since 4.15
  *
  * @return string[]
  */
