@@ -693,7 +693,6 @@ function wprss_get_feed_cache_dir()
 
         update_post_meta( $inserted_ID, 'wprss_item_source_name', $source_name);
         update_post_meta( $inserted_ID, 'wprss_item_source_url', $source_url);
-        update_post_meta( $inserted_ID, 'wprss_item_source_update', $source_updated);
 
 		$author = $item->get_author();
 		if ($author instanceof SimplePie_Author) {
