@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.15] - 2019-07-15
+## [4.15] - 2019-07-16
 ### Added
 * New error handling for catchable PHP7 `Throwable` errors.
 * New option to enable feed caching for better performance.
