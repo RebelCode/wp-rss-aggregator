@@ -284,7 +284,7 @@ export default {
     })
 
     let content = <div>
-      <h1>Templates</h1>
+      <h1 class="wp-heading-inline">Templates</h1>
       <a class="page-title-action"
          href="#"
          onClick={e => {
@@ -306,8 +306,6 @@ export default {
                onClick={this.submitFilter}
         />
       </p>
-
-      <hr class="wp-header-end"/>
 
       <VueTable
         onChecked={this.setChecked}

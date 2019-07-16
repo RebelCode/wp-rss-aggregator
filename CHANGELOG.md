@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Downloading the debug log triggered an error.
 * The custom feed self URL ignored the settings and was incorrect.
 * Items in the custom feed had a missing `rel` attribute for their `<link>` element.
-* Fixed placement of WordPress notices on the Templates edit page.
+* Fixed placement of WordPress notices on the Templates List and Edit page.
 * Fixed WordPress notices disappearing after moving between Templates list and edit page.
 
 ## [4.14] - 2019-07-09
