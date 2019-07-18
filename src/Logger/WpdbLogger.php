@@ -203,7 +203,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
         }
 
         if ($prop === static::LOG_LEVEL) {
-            return $level;
+            return (string) $level;
         }
 
         if ($prop === static::LOG_MESSAGE) {
