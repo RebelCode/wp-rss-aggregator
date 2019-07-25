@@ -507,9 +507,9 @@
      */
     function wprss_setting_unique_titles( $field ) {
         $unique_titles = wprss_get_general_setting( 'unique_titles' );
-        ?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[unique_titles]" type="checkbox" value="1" <?php echo checked( 1, $unique_titles, false ) ?> />
-        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+
+        echo wprss_options_render_checkbox( $field['field_id'], 'unique_titles', $unique_titles );
+        echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -558,9 +558,8 @@
      */
     function wprss_setting_styles_disable_callback( $field ) {
         $styles_disable = wprss_get_general_setting( 'styles_disable' );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[styles_disable]" type="checkbox" value="1" <?php echo checked( 1, $styles_disable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+        echo wprss_options_render_checkbox( $field['field_id'], 'styles_disable', $styles_disable );
+        echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /**
@@ -981,4 +980,31 @@
                 'years'
             )
         );
+    }
+
+    /**
+     * Renders a checkbox with a hidden field for the default value (when unchecked).
+     *
+     * @param string $id
+     * @param string $name
+     * @param string $value
+     * @param string $checked_value
+     * @param string $default_value
+     *
+     * @return string
+     */
+    function wprss_options_render_checkbox($id, $name, $value, $checked_value = '1', $default_value = '0') {
+        $nameAttr = esc_attr(sprintf('wprss_settings_general[%s]', $name));
+        ob_start();
+
+        ?>
+        <input type="hidden" name="<?= $nameAttr; ?>" value="<?= esc_attr($default_value) ?>"/>
+        <input type="checkbox"
+               id="<?= $id ?>"
+               name="<?= $nameAttr ?>"
+               value="<?= esc_attr($checked_value) ?>"
+               <?= checked( $checked_value, $value, false ) ?> />
+        <?php
+
+        return ob_get_clean();
     }
