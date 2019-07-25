@@ -2,6 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Modules;
 
+use Exception;
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Database\NullTable;
 use RebelCode\Wpra\Core\Database\WpdbTable;
@@ -13,6 +14,7 @@ use RebelCode\Wpra\Core\Handlers\Logger\TruncateLogsCronHandler;
 use RebelCode\Wpra\Core\Handlers\ScheduleCronJobHandler;
 use RebelCode\Wpra\Core\Logger\ConditionalLogger;
 use RebelCode\Wpra\Core\Logger\FeedLoggerDataSet;
+use RebelCode\Wpra\Core\Logger\ProblemLogger;
 use RebelCode\Wpra\Core\Logger\WpdbLogger;
 
 /**
@@ -44,10 +46,14 @@ class LoggerModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/logging/logger' => function (ContainerInterface $c) {
-                return new ConditionalLogger(
-                    $c->get('wpra/logging/wpdb_logger'),
-                    $c->get('wpra/logging/enabled')
-                );
+                try {
+                    return new ConditionalLogger(
+                        $c->get('wpra/logging/wpdb_logger'),
+                        $c->get('wpra/logging/enabled')
+                    );
+                }  catch (Exception $exception) {
+                    return new ProblemLogger($exception->getMessage());
+                }
             },
             /*
              * The WPDB logger instance.
@@ -55,11 +61,15 @@ class LoggerModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/logging/wpdb_logger' => function (ContainerInterface $c) {
-                return new WpdbLogger(
-                    $c->get('wpra/logging/log_table'),
-                    $c->get('wpra/logging/log_table_columns'),
-                    $c->get('wpra/logging/log_table_extra')
-                );
+                try {
+                    return new WpdbLogger(
+                        $c->get('wpra/logging/log_table'),
+                        $c->get('wpra/logging/log_table_columns'),
+                        $c->get('wpra/logging/log_table_extra')
+                    );
+                }  catch (Exception $exception) {
+                    return new ProblemLogger($exception->getMessage());
+                }
             },
             /*
              * The log reader instance.
@@ -165,14 +175,18 @@ class LoggerModule implements ModuleInterface
              */
             'wpra/logging/feed_logger_factory' => function (ContainerInterface $c) {
                 return function ($feedId) use ($c) {
-                    return new ConditionalLogger(
-                        new WpdbLogger(
-                            $c->get('wpra/logging/log_table'),
-                            $c->get('wpra/logging/log_table_columns'),
-                            ['feed_id' => $feedId]
-                        ),
-                        $c->get('wpra/logging/enabled')
-                    );
+                    try {
+                        return new ConditionalLogger(
+                            new WpdbLogger(
+                                $c->get('wpra/logging/log_table'),
+                                $c->get('wpra/logging/log_table_columns'),
+                                ['feed_id' => $feedId]
+                            ),
+                            $c->get('wpra/logging/enabled')
+                        );
+                    } catch (Exception $exception) {
+                        return new ProblemLogger($exception->getMessage());
+                    }
                 };
             },
             /*
