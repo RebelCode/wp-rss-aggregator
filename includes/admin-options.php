@@ -650,21 +650,6 @@
 
 
     /**
-     * Tracking checkbox
-     * @since 3.6
-     */
-    function wprss_tracking_callback( $field ) {
-        $tracking = wprss_get_general_setting( 'tracking' );
-        ?>
-		<input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[tracking]" value="1" <?php echo checked( 1, $tracking, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>">
-            <?php _e( 'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics. No sensitive data is collected.', WPRSS_TEXT_DOMAIN ) ?>
-        </label>
-		<?php
-    }
-
-    /**
      * Gets options that should go in a dropdown which represents a
      * feed-source-specific boolean setting.
      *
