@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [next-version] - YYYY-MM-DD
+### Fixed
+* PHP notice for "undefined index enclosure" when a feed cannot be fetched.
+
 ## [4.15] - 2019-07-16
 ### Added
 * New error handling for catchable PHP7 `Throwable` errors.

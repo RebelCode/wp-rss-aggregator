@@ -107,19 +107,19 @@ function wpra_import_item_images($itemId, $item, $sourceId)
             break;
 
         case 'enclosure':
-            if (is_array($images['enclosure']) && !empty($images['enclosure'])) {
+            if (isset($images['enclosure']) && !empty($images['enclosure'])) {
                 $ftImageUrl = reset($images['enclosure']);
             }
             break;
 
         case 'content':
-            if (is_array($images['content']) && !empty($images['content'])) {
+            if (isset($images['content']) && !empty($images['content'])) {
                 $ftImageUrl = reset($images['content']);
             }
             break;
 
         case 'itunes':
-            if (is_array($images['itunes']) && !empty($images['itunes'])) {
+            if (isset($images['itunes']) && !empty($images['itunes'])) {
                 $ftImageUrl = reset($images['itunes']);
             }
             break;
