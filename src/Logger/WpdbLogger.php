@@ -83,10 +83,11 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
      * @param array          $columns A mapping of log data keys to column names. The `COL_*` constants may be used to
      *                                map standard log properties and any non-standard properties may also be included
      *                                to insert fixed values with the $extra parameter.
-     * @param array          $extra   A mapping of log properties and the values to insert for them. Beware that the
-     *                                standard log properties MAY be overridden if specified as keys for this
-     *                                parameter. All non-standard data is stored in the table as VARCHAR with a limit
-     *                                of 100 characters.
+     * @param array          $extra   A mapping of log properties and the values to insert for them. The values may be
+     *                                functions, which will be invoked during insertion. Beware that the standard log
+     *                                properties, "id", "level", "message" and "date", will be overridden if those keys
+     *                                are given in this array.All non-standard data is stored in the table as VARCHAR
+     *                                with a limit of 100 characters.
      */
     public function __construct(TableInterface $table, $columns = [], $extra = [])
     {
@@ -210,9 +211,15 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
             return $message;
         }
 
-        return isset($this->extra[$prop])
-            ? $this->extra[$prop]
-            : null;
+        if (!isset($this->extra[$prop])) {
+            return null;
+        }
+
+        if (is_callable($this->extra[$prop])) {
+            return call_user_func_array($this->extra[$prop], [$prop, $level, $message, $this->extra]);
+        }
+
+        return $this->extra[$prop];
     }
 
     /**
