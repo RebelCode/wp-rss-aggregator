@@ -101,11 +101,11 @@ function wprss_reset_log()
  *
  * @since 3.9.6
  */
-function wprss_log($message, $src = null, $log_level = LogLevel::ERROR)
+function wprss_log($message, $src = null, $log_level = null)
 {
-    wpra_get_logger()->log($log_level, $message);
+    $log_level = ($log_level) ? LogLevel::ERROR : $log_level;
 
-    return;
+    wpra_get_logger()->log($log_level, $message);
 }
 
 /**
