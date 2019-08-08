@@ -68,7 +68,7 @@ class RenderCustomFeedHandler
         $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
         header("$protocol 200 OK");
         // Send content header and start ATOM output
-        header('Content-Type: application/rss+xml');
+        header('Content-Type: application/atom+xml');
         // Disabling caching
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
         header('Pragma: no-cache'); // HTTP 1.0.
