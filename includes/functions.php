@@ -9,6 +9,48 @@ use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
  */
 
 /**
+ * WP RSS Aggregator's version of {@link wp_remote_get()}.
+ *
+ * It ensures that the feed request useragent is used as the HTTP request's User Agent String.
+ *
+ * @since [*next-version*]
+ *
+ * @see https://developer.wordpress.org/reference/classes/WP_Http/request/ Information on the $args array parameter.
+ *
+ * @param string $url The URL
+ * @param array $args The arguments.
+ *
+ * @return array|WP_Error
+ */
+function wpra_remote_get($url, $args)
+{
+    $args['user-agent'] = wprss_get_general_setting('feed_request_useragent');
+
+    return wp_remote_get($url, $args);
+}
+
+/**
+ * WP RSS Aggregator's version of {@link wp_safe_remote_get()}.
+ *
+ * It ensures that the feed request useragent is used as the HTTP request's User Agent String.
+ *
+ * @since [*next-version*]
+ *
+ * @see https://developer.wordpress.org/reference/classes/WP_Http/request/ Information on the $args array parameter.
+ *
+ * @param string $url The URL
+ * @param array $args The arguments.
+ *
+ * @return array|WP_Error
+ */
+function wpra_safe_remote_get($url, $args)
+{
+    $args['user-agent'] = wprss_get_general_setting('feed_request_useragent');
+
+    return wp_safe_remote_get($url, $args);
+}
+
+/**
  * Returns a representation of an HTML expression that matches all representations of that HTML.
  *
  * @since 4.14
