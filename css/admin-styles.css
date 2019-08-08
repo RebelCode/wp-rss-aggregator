@@ -738,7 +738,7 @@ i.wprss-updating-feed-icon.wprss-show {
     border: 1px solid #E5E5E5;
     position: relative;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-    padding-bottom: 60px;
+    min-height: 320px;
 }
 
 #add-ons .add-on h3 {

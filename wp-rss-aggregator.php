@@ -54,6 +54,7 @@ use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
+use RebelCode\Wpra\Core\Modules\MoreFeaturesModule;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
@@ -255,9 +256,6 @@ require_once ( WPRSS_INC . 'opml-importer.php' );
 /* Load the admin debugging page file */
 require_once ( WPRSS_INC . 'admin-debugging.php' );
 
-/* Load the addons page file */
-require_once ( WPRSS_INC . 'admin-addons.php' );
-
 /* Load the admin display-related functions */
 require_once ( WPRSS_INC . 'admin-display.php' );
 
@@ -398,6 +396,7 @@ function wpra_modules()
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
+        'more_features' => new MoreFeaturesModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),
