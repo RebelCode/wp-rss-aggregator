@@ -3,6 +3,7 @@
 // Save item image info during import
 use Psr\Log\LoggerInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Logger\FeedLoggerInterface;
 
 class Wpra_Rss_Namespace {
     const ITUNES = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
@@ -46,6 +47,24 @@ function wpra_detect_item_type($itemId, $item, $sourceId)
 }
 
 /**
+ * Retrieves the logger instance to use for image importing.
+ *
+ * @since [*next-version*]
+ *
+ * @param int $feedId Optional feed source ID to log messages specifically for that feed source.
+ *
+ * @return LoggerInterface
+ */
+function wpra_get_images_logger($feedId = null)
+{
+    $logger = wpra_container()->get('wpra/images/logging/logger');
+
+    return ($feedId !== null && $logger instanceof FeedLoggerInterface)
+        ? $logger->forFeedSource($sourceId)
+        : $logger;
+}
+
+/**
  * Imports images for a feed item.
  *
  * The "import" process here basically just fetches the images from the item's content/excerpt, the media:thumbnail
@@ -61,10 +80,8 @@ function wpra_import_item_images($itemId, $item, $sourceId)
     update_post_meta($itemId, 'wprss_images', []);
     update_post_meta($itemId, 'wprss_best_image', '');
 
-    /* @var $logger LoggerInterface */
-    $container = wpra_container();
-    $loggerDataSet = $container->get('wpra/images/logging/feed_logger_dataset');
-    $logger = $loggerDataSet[$sourceId];
+    /* @var $logger FeedLoggerInterface */
+    $logger = wpra_get_images_logger($sourceId);
 
     $title = $item->get_title();
     $logger->debug('Importing images for item "{title}"', ['title' => $title]);

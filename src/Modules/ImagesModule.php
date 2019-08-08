@@ -14,8 +14,6 @@ use RebelCode\Wpra\Core\Handlers\RegisterMetaBoxHandler;
 use RebelCode\Wpra\Core\Handlers\RenderTemplateHandler;
 use RebelCode\Wpra\Core\Importer\Images\FbImageContainer;
 use RebelCode\Wpra\Core\Importer\Images\ImageContainer;
-use RebelCode\Wpra\Core\Logger\ConditionalLogger;
-use RebelCode\Wpra\Core\Logger\FeedLoggerDataSet;
 use WPRSS_Help;
 
 /**
@@ -55,55 +53,15 @@ class ImagesModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/images/logging/logger' => function (ContainerInterface $c) {
-                // Get the original logger from WPRA's logger module, if available
-                $logger = $c->has('wpra/logging/logger')
-                    ? $c->get('wpra/logging/logger')
-                    : new NullLogger();
-
-                // Get the decorator
-                $decorator = $c->get('wpra/images/logging/decorator');
-
-                // Decorate the original logger and return it
-                return $decorator($logger);
-            },
-            /*
-             * The decorator for decorating other loggers for image import logging.
-             *
-             * @since 4.14
-             */
-            'wpra/images/logging/decorator' => function (ContainerInterface $c) {
-                return function($logger) use ($c) {
-                    return new ConditionalLogger($logger, $c->get('wpra/images/logging/enabled'));
-                };
-            },
-            /*
-             * The data set that contains the image import logger instances for each feed source.
-             *
-             * @since 4.14
-             */
-            'wpra/images/logging/feed_logger_dataset' => function (ContainerInterface $c) {
-                return new FeedLoggerDataSet($c->get('wpra/images/logging/feed_logger_factory'));
-            },
-            /*
-             * The factory that creates image importing logger instances for specific feeds.
-             *
-             * @since 4.14
-             */
-            'wpra/images/logging/feed_logger_factory' => function (ContainerInterface $c) {
-                $factory = $c->has('wpra/logging/feed_logger_factory')
-                    ? $c->get('wpra/logging/feed_logger_factory')
-                    : null;
-
-                if ($factory === null) {
-                    return $c->get('wpra/images/logging/logger');
+                // If image logging is disabled, return a null logger
+                if (!$c->get('wpra/images/logging/enabled')) {
+                    return new NullLogger();
                 }
 
-                // Get the decorator
-                $decorator = $c->get('wpra/images/logging/decorator');
-
-                return function($feedId) use ($c, $factory, $decorator) {
-                    return $decorator($factory($feedId));
-                };
+                // Get the original logger from WPRA's logger module, if available
+                return $c->has('wpra/logging/logger')
+                    ? $c->get('wpra/logging/logger')
+                    : new NullLogger();
             },
             /*
              * Whether the feature to import featured images is enabled or not.

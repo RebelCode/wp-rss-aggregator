@@ -55,11 +55,11 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
     /**
      * A mapping of log properties to table column names.
      *
-     * @see   COL_DATE
-     * @see   COL_LEVEL
-     * @see   COL_MESSAGE
-     *
      * @since 4.13
+     *
+     * @see   WpdbLogger::LOG_DATE
+     * @see   WpdbLogger::LOG_LEVEL
+     * @see   WpdbLogger::LOG_MESSAGE
      *
      * @var string[]
      */
@@ -84,10 +84,11 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
      *                                map standard log properties and any non-standard properties may also be included
      *                                to insert fixed values with the $extra parameter.
      * @param array          $extra   A mapping of log properties and the values to insert for them. The values may be
-     *                                functions, which will be invoked during insertion. Beware that the standard log
-     *                                properties, "id", "level", "message" and "date", will be overridden if those keys
-     *                                are given in this array.All non-standard data is stored in the table as VARCHAR
-     *                                with a limit of 100 characters.
+     *                                functions, which will be invoked during insertion. The function will receive the
+     *                                level, message and this $extra argument array as arguments.
+     *                                Be aware that the standard log properties, "id", "level", "message" and "date",
+     *                                will be overridden if those keys are given in this array.All non-standard data
+     *                                is stored in the table as VARCHAR with a limit of 100 characters.
      */
     public function __construct(TableInterface $table, $columns = [], $extra = [])
     {
@@ -216,7 +217,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
         }
 
         if (is_callable($this->extra[$prop])) {
-            return call_user_func_array($this->extra[$prop], [$prop, $level, $message, $this->extra]);
+            return call_user_func_array($this->extra[$prop], [$level, $message, $this->extra]);
         }
 
         return $this->extra[$prop];
