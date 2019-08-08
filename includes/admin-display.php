@@ -657,7 +657,11 @@
      *
      * @since 2.0
      */
-    function wprss_custom_feed_item_bulk_actions( $actions ){
+    function wprss_custom_feed_item_bulk_actions( $actions ) {
+        if (!wpra_is_dev_mode()) {
+            unset($actions['edit']);
+        }
+
         return apply_filters( 'wprss_custom_feed_item_bulk_actions', $actions );
     }
 
