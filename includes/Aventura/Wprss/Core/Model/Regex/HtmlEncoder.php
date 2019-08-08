@@ -555,11 +555,18 @@ class HtmlEncoder extends AbstractRegex
             $symPrefix = $this->getSymPrefix();
         }
 
+        if (count($matches) === 0) {
+            return $matches;
+        }
+
         /**
          * Iterating through all matches.
          * http://php.net/manual/en/control-structures.foreach.php#88578
          */
-        while (list($key, $value) = each($matches))  {
+        reset($matches);
+        do {
+            $key = key($matches);
+            $value = current($matches);
             // Is this a symmetrical char match key?
             if (!$this->isSymKey($key, $symPrefix)) {
                 continue;
@@ -577,7 +584,7 @@ class HtmlEncoder extends AbstractRegex
             }
             // Remove the symmetric char match
             unset($matches[$key]);
-        }
+        } while (next($matches) !== false && key($matches) !== null);
 
         $matches = array_merge($matches);
         return $matches;

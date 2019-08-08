@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Items with future dates where marked as "scheduled" by WordPress.
 * PHP notice for "undefined index enclosure" when a feed cannot be fetched.
+* Deprecation notice on PHP 7.2 or later for "each" function.
 
 ## [4.15] - 2019-07-16
 ### Added
