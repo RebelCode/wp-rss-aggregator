@@ -676,14 +676,18 @@ function wprss_get_feed_cache_dir()
 		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
 	}
 
-
-	/**
-	 * Inserts the appropriate post meta for feed items.
-	 *
-	 * Called from 'wprss_items_insert_post'
-	 *
-	 * @since 2.3
-	 */
+    /**
+     * Inserts the appropriate post meta for feed items.
+     *
+     * Called from 'wprss_items_insert_post'
+     *
+     * @since 2.3
+     *
+     * @param int            $inserted_ID   The inserted post ID.
+     * @param SimplePie_Item $item          The SimplePie item object.
+     * @param string         $permalink     The item's permalink.
+     * @param string         $enclosure_url The URL to the item's enclosure.
+     */
 	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
         update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date(DATE_ISO8601) );
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
