@@ -23,6 +23,7 @@
 
 		<div class="wrap">
 			<h2><?php _e( 'Help & Support', WPRSS_TEXT_DOMAIN ); ?></h2>
+            <?php do_action('wpra/help_page/after_title') ?>
 			<h3><?php _e( 'Knowledge Base', WPRSS_TEXT_DOMAIN ) ?></h3>
 			<?php
 				printf(
