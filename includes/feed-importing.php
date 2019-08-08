@@ -6,9 +6,7 @@
      * @package WPRSSAggregator
      */
 
-    use Psr\Log\LogLevel;
-
-	// Warning: Order may be important
+    // Warning: Order may be important
     add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix', 8);
 	add_filter('wprss_normalize_permalink', 'wprss_bing_news_url_fix', 9);
 	add_filter('wprss_normalize_permalink', 'wprss_google_alerts_url_fix', 10);
