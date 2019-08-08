@@ -53,6 +53,7 @@ use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
+use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\MoreFeaturesModule;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
@@ -397,6 +398,7 @@ function wpra_modules()
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'more_features' => new MoreFeaturesModule(),
+        'lorem' => new LoremModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),
