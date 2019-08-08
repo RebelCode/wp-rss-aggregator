@@ -9,6 +9,18 @@ use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
  */
 
 /**
+ * Checks if developer mode is enabled.
+ *
+ * @since [*next-version*]
+ *
+ * @return bool
+ */
+function wpra_is_dev_mode()
+{
+    return apply_filters('wpra_dev_mode', false) === true;
+}
+
+/**
  * WP RSS Aggregator's version of {@link wp_remote_get()}.
  *
  * It ensures that the feed request useragent is used as the HTTP request's User Agent String.

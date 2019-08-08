@@ -402,7 +402,7 @@ class ImagesModule implements ModuleInterface
             }
 
             // Show the developer images meta box for feed items, if the developer filter is enabled
-            if (apply_filters('wpra_dev_mode', false) === true) {
+            if (wpra_is_dev_mode()) {
                 add_action('add_meta_boxes', $c->get('wpra/images/items/dev_meta_box/handler'));
             }
 
