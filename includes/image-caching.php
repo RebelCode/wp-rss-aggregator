@@ -488,7 +488,7 @@ class WPRSS_Image_Cache {
 	 * @see WPRSS_Image_Cache_Image::get_current_path()
 	 * @see get_tmp_dir()
 	 * @see wp_mkdir_p()
-	 * @see wp_safe_remote_get()
+	 * @see wpra_safe_remote_get()
 	 * @see verify_file_md5()
 	 * @param WPRSS_Image_Cache_Image|string $image An instance of a cache file, or the URL to download.
 	 * @param int|null $request_timeout The timeout for the download request.
@@ -544,7 +544,14 @@ class WPRSS_Image_Cache {
 		require_once( $file_lib_path );
 
 		// Retrieving the remote resource
-		$response = wp_safe_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname ) );
+		$response = wpra_remote_get(
+			$url,
+			array(
+				'timeout' => $timeout,
+				'stream' => true,
+				'filename' => $tmpfname
+			)
+		);
 
 		// Could not retrieve
 		if ( is_wp_error( $response ) ) {
