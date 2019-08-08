@@ -285,7 +285,7 @@
                 'expiration_notice_period'  => '2 weeks',
 
                 // From 4.8.2
-                'feed_request_useragent'    => 'WordPress',
+                'feed_request_useragent'    => 'Mozilla/5.0 (Linux 10.0; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
 
                 // From 4.11.2
                 'limit_feed_items_per_import'   => null,
