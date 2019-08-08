@@ -140,6 +140,15 @@ class MoreFeaturesModule implements ModuleInterface
              */
             'wpra/more_features_page/items' => function (ContainerInterface $c) {
                 $stateFn = $c->get('wpra/more_features_page/plugin_state_fn');
+                $activateUrlFn = $c->get('wpra/more_features_page/activate_plugin_url_fn');
+
+                $f2pBaseName = 'wp-rss-feed-to-post/wp-rss-feed-to-post.php';
+                $ftrBaseName = 'wp-rss-full-text-feeds/wp-rss-full-text.php';
+                $tmpBaseName = 'wp-rss-templates/wp-rss-templates.php';
+                $kwfBaseName = 'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php';
+                $catBaseName = 'wp-rss-categories/wp-rss-categories.php';
+                $waiBaseName = 'wp-rss-wordai/wp-rss-wordai.php';
+                $spcBaseName = 'wp-rss-spinnerchief/wp-rss-spinnerchief.php';
 
                 return apply_filters('wprss_extra_addons', [
                         [
@@ -151,7 +160,8 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/feed-to-post/',
-                            'state' => call_user_func_array($stateFn, ['wp-rss-feed-to-post/wp-rss-feed-to-post.php']),
+                            'state' => call_user_func_array($stateFn, [$f2pBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$f2pBaseName]),
                         ],
                         [
                             'code' => 'ftr',
@@ -162,7 +172,8 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/full-text-rss-feeds/',
-                            'state' => call_user_func_array($stateFn, ['wp-rss-full-text-feeds/wp-rss-full-text.php']),
+                            'state' => call_user_func_array($stateFn, [$ftrBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$ftrBaseName]),
                         ],
                         [
                             'code' => 'tmp',
@@ -173,7 +184,8 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/templates/',
-                            'state' => call_user_func_array($stateFn, ['wp-rss-templates/wp-rss-templates.php']),
+                            'state' => call_user_func_array($stateFn, [$tmpBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$tmpBaseName]),
                         ],
                         [
                             'code' => 'kf',
@@ -184,11 +196,11 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/keyword-filtering/',
-                            'state' => call_user_func_array($stateFn,
-                                ['wp-rss-keyword-filtering/wp-rss-keyword-filtering.php']),
+                            'state' => call_user_func_array($stateFn, [$kwfBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$kwfBaseName]),
                         ],
                         [
-                            'code' => 'c',
+                            'code' => 'cat',
                             'type' => 'add-on',
                             'title' => 'Source Categories',
                             'desc' => __(
@@ -196,7 +208,8 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/categories/',
-                            'state' => call_user_func_array($stateFn, ['wp-rss-categories/wp-rss-categories.php']),
+                            'state' => call_user_func_array($stateFn, [$catBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$catBaseName]),
                         ],
                         [
                             'code' => 'wai',
@@ -207,7 +220,8 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/wordai/',
-                            'state' => call_user_func_array($stateFn, ['wp-rss-wordai/wp-rss-wordai.php']),
+                            'state' => call_user_func_array($stateFn, [$waiBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$waiBaseName]),
                         ],
                         [
                             'code' => 'spc',
@@ -218,7 +232,8 @@ class MoreFeaturesModule implements ModuleInterface
                                 'wprss'
                             ),
                             'url' => 'https://www.wprssaggregator.com/extension/spinnerchief/',
-                            'state' => call_user_func_array($stateFn, ['wp-rss-spinnerchief/wp-rss-spinnerchief.php']),
+                            'state' => call_user_func_array($stateFn, [$spcBaseName]),
+                            'activateUrl' => call_user_func_array($activateUrlFn, [$spcBaseName]),
                         ],
                     ]
                 );
@@ -242,6 +257,19 @@ class MoreFeaturesModule implements ModuleInterface
 
                     // NOT INSTALLED
                     return 0;
+                };
+            },
+            /*
+             * Utillity function for generating a URL that activates a plugin.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/more_features_page/activate_plugin_url_fn' => function () {
+                return function ($basename) {
+                    return wp_nonce_url(
+                        sprintf('plugins.php?action=activate&amp;plugin=%s', $basename),
+                        sprintf('activate-plugin_%s', $basename)
+                    );
                 };
             },
         );
