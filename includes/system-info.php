@@ -70,15 +70,29 @@ WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 <?php echo $browser ; ?>
 
 PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
-MySQL Version:            <?php if ( $server_info = wprss_sysinfo_get_db_server() )
-									echo sprintf( '%1$s (%2$s)', $server_info['server_info'], $server_info['extension'] );
-								else
+MySQL Version:            <?php $server_info = wprss_sysinfo_get_db_server();
+								if ( $server_info ) {
+									if (isset($server_info['warning'])) {
+										echo $server_info['extension'] . ' - ' . $server_info['warning'];
+									} else {
+										echo sprintf(
+												'%1$s (%2$s)',
+												$server_info['server_info'],
+												$server_info['extension']
+											);
+										}
+								} else {
 									_e( 'Could not determine database driver version', WPRSS_TEXT_DOMAIN );
-						  ?>
+								}
+							?>
 
 Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
 
-PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? "Yes" : "No\n"; ?>
+PHP Safe Mode:            <?php if (version_compare(PHP_VERSION, '5.4', '>=')) {
+									echo "No\n";
+								} else {
+									echo ini_get( 'safe_mode' ) ? "Yes" : "No\n";
+								} ?>
 PHP Memory Limit:         <?php echo ini_get( 'memory_limit' ) . "\n"; ?>
 PHP Post Max Size:        <?php echo ini_get( 'post_max_size' ) . "\n"; ?>
 PHP Time Limit:           <?php echo ini_get( 'max_execution_time' ) . "\n"; ?>
@@ -285,8 +299,18 @@ foreach ($extensions as $extension) {
 		}
 		
 		if ( function_exists( 'mysql_connect' ) ) {
+			if (version_compare(PHP_VERSION, '7.0', '>=')) {
+				$result['warning'] = __(
+					'The mysql extension is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead',
+					'wprss'
+				);
+				$result['extension'] = 'mysql';
+				$result['server_info'] = '';
+				return $result;
+			}
+
 			if ( $port ) $host = implode ( ':', array( $host, $port ) );
-			
+
 			$mysql = mysql_connect( $host, $username, $password );
 			$result['extension'] = 'mysql';
 			$result['server_info'] = mysql_get_server_info( $mysql );
