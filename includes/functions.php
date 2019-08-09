@@ -4,7 +4,7 @@ use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
 
 /**
  * Helper and misc functions.
- * 
+ *
  * @todo Make this part of Core instead
  */
 
@@ -60,6 +60,48 @@ function wpra_safe_remote_get($url, $args)
     $args['user-agent'] = wprss_get_general_setting('feed_request_useragent');
 
     return wp_safe_remote_get($url, $args);
+}
+
+/**
+ * Utility function for checking a plugin's state, even if it's inactive.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $basename The basename of the plugin.
+ *
+ * @return int 0 if the plugin is not installed, 1 if installed but not activated, 2 if installed and activated.
+ */
+function wpra_get_plugin_state($basename)
+{
+    // ACTIVE
+    if (is_plugin_active($basename)) {
+        return 2;
+    }
+
+    // INSTALLED & INACTIVE
+    if (file_exists(WP_PLUGIN_DIR . '/' . $basename) && is_plugin_inactive($basename)) {
+        return 1;
+    }
+
+    // NOT INSTALLED
+    return 0;
+}
+
+/**
+ * Utillity function for generating a URL that activates a plugin.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $basename The basename of the plugin.
+ *
+ * @return string
+ */
+function wpra_get_activate_plugin_url($basename)
+{
+    return wp_nonce_url(
+        sprintf('plugins.php?action=activate&amp;plugin=%s', $basename),
+        sprintf('activate-plugin_%s', $basename)
+    );
 }
 
 /**
@@ -171,7 +213,7 @@ if (!function_exists('uri_is_absolute')) {
 
     /**
      * Check if the URI is absolute.
-     * 
+     *
      * Check is made based on whether or not there's a '//' sequence
      * somewhere in the beginning.
      *

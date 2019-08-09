@@ -113,7 +113,7 @@ class LoremModule implements ModuleInterface
              *
              * @since [*next-version*]
              */
-            'wpra/more_features_page/items' => function (ContainerInterface $c, $items) {
+            'wpra/upsell/items' => function (ContainerInterface $c, $items) {
                 $items[] = $c->get('wpra/lorem/more_features_page/item');
 
                 return $items;

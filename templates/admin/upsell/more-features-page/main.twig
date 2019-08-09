@@ -14,7 +14,7 @@
     <div id="add-ons" class="clearfix">
         <div class="add-on-group clearfix">
             {% for item in items %}
-                {{ include('admin/more-features/' ~ item.type ~ '.twig') }}
+                {{ include('admin/upsell/more-features-page/' ~ item.type ~ '.twig') }}
             {% endfor %}
         </div>
     </div>
