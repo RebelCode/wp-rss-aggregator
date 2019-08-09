@@ -190,7 +190,6 @@
     /**
      * Register and define options and settings
      * @since 2.0
-     * @todo add option for cron frequency
      *
      * Note: In the future might change to
      * the way EDD builds the settings pages, cleaner method.
