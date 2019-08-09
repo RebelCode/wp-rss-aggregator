@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * PHP notice for "undefined index enclosure" when a feed cannot be fetched.
 * Deprecation notice on PHP 7.2 or later for "each" function.
 * Warnings when the `wprss_log` function is used incorrectly.
+* PHP notice for "property of non-object" when using YoastSEO.
 
 ## [4.15] - 2019-07-16
 ### Added

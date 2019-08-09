@@ -65,6 +65,10 @@ class RenderTemplateContentHandler
     {
         global $post;
 
+        if (!$post) {
+            return $content;
+        }
+
         // Check if current post type is a WPRA template
         if ($post->post_type !== $this->cpt) {
             return $content;
