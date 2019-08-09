@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [next-version] - YYYY-MM-DD
+### Added
+* Added a link to the custom feed in the "Custom Feed" settings page.
+
 ### Changed
 * Updated the logging system to no longer cause VaultPress to trigger false positive warnings.
 

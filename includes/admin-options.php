@@ -517,16 +517,24 @@
      * @since 3.3
      */
     function wprss_settings_custom_feed_url_callback( $field ) {
-        $siteUrl = get_site_url();
+        $siteUrl = trailingslashit(get_site_url());
         $custom_feed_url = wprss_get_general_setting( 'custom_feed_url' );
+        $fullUrl = $siteUrl . $custom_feed_url;
         ?>
-		<code><?= $siteUrl ?>/</code>
+		<code><?= $siteUrl ?></code>
         <input id="<?php echo $field['field_id'] ?>"
                name="wprss_settings_general[custom_feed_url]"
                type="text"
                value="<?php echo $custom_feed_url ?>" />
 
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ); ?>
+
+        <p style="font-style: normal">
+            <a href="<?php echo esc_attr($fullUrl); ?>" target="_blank">
+                <?php _e('Open custom feed', 'wprss') ?>
+            </a>
+        </p>
+        <?php
     }
 
     /**
