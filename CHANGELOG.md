@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Deprecation notice on PHP 7.2 or later for "each" function.
 * Warnings when the `wprss_log` function is used incorrectly.
 * PHP notice for "property of non-object" when using YoastSEO.
+* After using the Templates add-on, images would continue to be imported after the add-on was deactivated.
 
 ## [4.15] - 2019-07-16
 ### Added
