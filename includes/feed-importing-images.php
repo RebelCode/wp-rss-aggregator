@@ -60,7 +60,7 @@ function wpra_get_images_logger($feedId = null)
     $logger = wpra_container()->get('wpra/images/logging/logger');
 
     return ($feedId !== null && $logger instanceof FeedLoggerInterface)
-        ? $logger->forFeedSource($sourceId)
+        ? $logger->forFeedSource($feedId)
         : $logger;
 }
 
