@@ -108,82 +108,85 @@ function wpra_import_item_images($itemId, $item, $sourceId)
     // Process the images, removing duds, and find the best image
     $images = wpra_process_images($allImages, $source, $bestImage);
 
-    $ftImageUrl = null;
-    switch ($ftImageOpt)
-    {
-        case 'auto':
-            if (!empty($bestImage)) {
-                $ftImageUrl = $bestImage;
-            }
-            break;
+    // If the featured image importing feature is enabled, import the featured image
+    if (wpra_image_feature_enabled('import_ft_images')) {
+        $ftImageUrl = null;
+        switch ($ftImageOpt)
+        {
+            case 'auto':
+                if (!empty($bestImage)) {
+                    $ftImageUrl = $bestImage;
+                }
+                break;
 
-        case 'media':
-            if (isset($images['media'])) {
-                $ftImageUrl = $images['media'];
-            }
-            break;
+            case 'media':
+                if (isset($images['media'])) {
+                    $ftImageUrl = $images['media'];
+                }
+                break;
 
-        case 'enclosure':
-            if (isset($images['enclosure']) && !empty($images['enclosure'])) {
-                $ftImageUrl = reset($images['enclosure']);
-            }
-            break;
+            case 'enclosure':
+                if (isset($images['enclosure']) && !empty($images['enclosure'])) {
+                    $ftImageUrl = reset($images['enclosure']);
+                }
+                break;
 
-        case 'content':
-            if (isset($images['content']) && !empty($images['content'])) {
-                $ftImageUrl = reset($images['content']);
-            }
-            break;
+            case 'content':
+                if (isset($images['content']) && !empty($images['content'])) {
+                    $ftImageUrl = reset($images['content']);
+                }
+                break;
 
-        case 'itunes':
-            if (isset($images['itunes']) && !empty($images['itunes'])) {
-                $ftImageUrl = reset($images['itunes']);
-            }
-            break;
+            case 'itunes':
+                if (isset($images['itunes']) && !empty($images['itunes'])) {
+                    $ftImageUrl = reset($images['itunes']);
+                }
+                break;
 
-        case 'default':
-        default:
-            $ftImageUrl = '';
-            break;
-    }
-
-    if (empty($ftImageUrl)) {
-        // If not always using the default image, and items must have an image, delete the item
-        if ($ftImageOpt !== 'default' && wpra_image_feature_enabled('must_have_ft_image') && $source['must_have_ft_image']) {
-            $logger->debug('Rejecting item "{title}" due to a lack of a featured image.', [
-                'title' => get_post($itemId)->post_title,
-            ]);
-
-            wp_delete_post($itemId, true);
-        } else {
-            // Get the feed source's default featured image
-            $defaultFtImage = get_post_thumbnail_id($sourceId);
-            // Assign it to the feed item
-            $defaultSuccessful = set_post_thumbnail($itemId, $defaultFtImage);
-            // The feed item is classified as using the default image if:
-            // - the default image was successfully assigned
-            // - the user did NOT explicitly want to use the default
-            $usedDefault = $defaultSuccessful && $ftImageOpt !== 'default';
-
-            if ($usedDefault) {
-                update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
-                $logger->notice('Used the feed source\'s default featured image for "{title}"', ['title' => $title]);
-            } else {
-                $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
-            }
+            case 'default':
+            default:
+                $ftImageUrl = '';
+                break;
         }
-    } else {
-        $logger->info('Set featured image from URL: "{url}"', ['url' => $ftImageUrl]);
-        wpra_set_featured_image_from_url($itemId, $ftImageUrl);
 
-        if (wpra_image_feature_enabled('siphon_ft_image') && $source['siphon_ft_image']) {
-            $content = get_post($itemId)->post_content;
-            $newContent = wpra_remove_image_from_content($content, $ftImageUrl);
+        if (empty($ftImageUrl)) {
+            // If not always using the default image, and items must have an image, delete the item
+            if ($ftImageOpt !== 'default' && wpra_image_feature_enabled('must_have_ft_image') && $source['must_have_ft_image']) {
+                $logger->debug('Rejecting item "{title}" due to a lack of a featured image.', [
+                    'title' => get_post($itemId)->post_title,
+                ]);
 
-            wp_update_post([
-                'ID' => $itemId,
-                'post_content' => $newContent
-            ]);
+                wp_delete_post($itemId, true);
+            } else {
+                // Get the feed source's default featured image
+                $defaultFtImage = get_post_thumbnail_id($sourceId);
+                // Assign it to the feed item
+                $defaultSuccessful = set_post_thumbnail($itemId, $defaultFtImage);
+                // The feed item is classified as using the default image if:
+                // - the default image was successfully assigned
+                // - the user did NOT explicitly want to use the default
+                $usedDefault = $defaultSuccessful && $ftImageOpt !== 'default';
+
+                if ($usedDefault) {
+                    update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
+                    $logger->notice('Used the feed source\'s default featured image for "{title}"', ['title' => $title]);
+                } else {
+                    $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
+                }
+            }
+        } else {
+            $logger->info('Set featured image from URL: "{url}"', ['url' => $ftImageUrl]);
+            wpra_set_featured_image_from_url($itemId, $ftImageUrl);
+
+            if (wpra_image_feature_enabled('siphon_ft_image') && $source['siphon_ft_image']) {
+                $content = get_post($itemId)->post_content;
+                $newContent = wpra_remove_image_from_content($content, $ftImageUrl);
+
+                wp_update_post([
+                    'ID' => $itemId,
+                    'post_content' => $newContent
+                ]);
+            }
         }
     }
 
