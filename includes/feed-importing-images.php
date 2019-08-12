@@ -149,6 +149,9 @@ function wpra_import_item_images($itemId, $item, $sourceId)
                 break;
         }
 
+        // Filter the featured image URL
+        $ftImageUrl = apply_filters('wpra/importer/images/ft_image_url', $ftImageUrl, $item, $sourceId);
+
         if (empty($ftImageUrl)) {
             // If not always using the default image, and items must have an image, delete the item
             if ($ftImageOpt !== 'default' && wpra_image_feature_enabled('must_have_ft_image') && $source['must_have_ft_image']) {
