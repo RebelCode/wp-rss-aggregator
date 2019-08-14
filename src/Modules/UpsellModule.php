@@ -12,14 +12,14 @@ use RebelCode\Wpra\Core\Util\NullFunction;
  * Specifically, it adds UI elements such as the the "More Features" page, and the upselling of the addons in the
  * "Share The Love" metabox in the Feed Source new/edit page.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  */
 class UpsellModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      */
     public function run(ContainerInterface $c)
     {
@@ -37,7 +37,7 @@ class UpsellModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      */
     public function getFactories()
     {
@@ -45,7 +45,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The items to upsell.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/items' => function (ContainerInterface $c) {
                 $f2pBaseName = 'wp-rss-feed-to-post/wp-rss-feed-to-post.php';
@@ -147,7 +147,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The function that registers the "More Features" page and menu.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/register' => function (ContainerInterface $c) {
                 return new RegisterSubMenuPageHandler([
@@ -162,7 +162,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The slug of the "More Features"'s parent page.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/parent' => function () {
                 return 'edit.php?post_type=wprss_feed';
@@ -170,7 +170,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The slug of the "More Features" page.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/slug' => function () {
                 return 'wprss_addons';
@@ -178,7 +178,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The title for the "More Features" page.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/title' => function () {
                 return __('More Features', 'wprss');
@@ -186,7 +186,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The required admin capability for viewing the "More Features" page.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/capability' => function () {
                 return apply_filters('wprss_capability', 'manage_feed_settings');
@@ -194,7 +194,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The label for the "More Features" menu.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/menu_label' => function (ContainerInterface $c) {
                 return $c->get('wpra/upsell/more_features_page/title') . $c->get('wpra/upsell/more_features_page/menu_icon');
@@ -202,7 +202,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The icon for the "More Features" menu.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/menu_icon' => function () {
                 return '<span class="dashicons dashicons-star-filled wprss-more-features-glyph"></span>';
@@ -210,7 +210,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The position of the "More Features" menu.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/menu_pos' => function () {
                 return 50;
@@ -218,7 +218,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The function to use for rendering the "More Features" page.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/render_fn' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/twig/collection')) {
@@ -236,7 +236,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The path to the template to use when rendering the "More Features" page.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/more_features_page/template' => function () {
                 return 'admin/upsell/more-features-page/main.twig';
@@ -244,7 +244,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The path to the template to use when rendering the add-on list in the "Share the Love" metabox.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/share_the_love/addon_list_template' => function () {
                 return 'admin/upsell/add-on-list.twig';
@@ -252,7 +252,7 @@ class UpsellModule implements ModuleInterface
             /*
              * The function for rendering the add-on list in the "Share the Love" metabox.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/upsell/share_the_love/render_addon_list_fn' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/twig/collection')) {
@@ -275,7 +275,7 @@ class UpsellModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      */
     public function getExtensions()
     {

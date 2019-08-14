@@ -53,7 +53,7 @@ class LoggerModule implements ModuleInterface
             /*
              * The WPDB logger instance.
              *
-             * @since [*next-version*]
+             * @since 4.15.1
              */
             'wpra/logging/main_logger' => function (ContainerInterface $c) {
                 try {

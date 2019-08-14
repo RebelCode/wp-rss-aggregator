@@ -49,7 +49,7 @@ function wpra_detect_item_type($itemId, $item, $sourceId)
 /**
  * Retrieves the logger instance to use for image importing.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @param int $feedId Optional feed source ID to log messages specifically for that feed source.
  *

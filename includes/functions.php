@@ -11,7 +11,7 @@ use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
 /**
  * Checks if developer mode is enabled.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @return bool
  */
@@ -25,7 +25,7 @@ function wpra_is_dev_mode()
  *
  * It ensures that the feed request useragent is used as the HTTP request's User Agent String.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @see https://developer.wordpress.org/reference/classes/WP_Http/request/ Information on the $args array parameter.
  *
@@ -46,7 +46,7 @@ function wpra_remote_get($url, $args)
  *
  * It ensures that the feed request useragent is used as the HTTP request's User Agent String.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @see https://developer.wordpress.org/reference/classes/WP_Http/request/ Information on the $args array parameter.
  *
@@ -65,7 +65,7 @@ function wpra_safe_remote_get($url, $args)
 /**
  * Utility function for checking a plugin's state, even if it's inactive.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @param string $basename The basename of the plugin.
  *
@@ -90,7 +90,7 @@ function wpra_get_plugin_state($basename)
 /**
  * Utillity function for generating a URL that activates a plugin.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @param string $basename The basename of the plugin.
  *
