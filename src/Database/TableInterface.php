@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Database;
 
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RuntimeException;
 
 /**
  * Interface for objects that represent a database table.
@@ -50,6 +51,8 @@ interface TableInterface extends CollectionInterface
      * Creates the table if it does not exist in the database.
      *
      * @since 4.13
+     *
+     * @throws RuntimeException If the table could not be created.
      */
     public function create();
 
@@ -57,6 +60,8 @@ interface TableInterface extends CollectionInterface
      * Drops the table if it exists in the database.
      *
      * @since 4.13
+     *
+     * @throws RuntimeException If the table could not be dropped.
      */
     public function drop();
 }

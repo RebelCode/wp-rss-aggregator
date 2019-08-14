@@ -2,7 +2,9 @@
 
 namespace RebelCode\Wpra\Core\Modules;
 
+use Exception;
 use Psr\Container\ContainerInterface;
+use Psr\Log\NullLogger;
 use RebelCode\Wpra\Core\Database\NullTable;
 use RebelCode\Wpra\Core\Database\WpdbTable;
 use RebelCode\Wpra\Core\Handlers\Logger\ClearLogHandler;
@@ -11,9 +13,9 @@ use RebelCode\Wpra\Core\Handlers\Logger\RenderLogHandler;
 use RebelCode\Wpra\Core\Handlers\Logger\SaveLogOptionsHandler;
 use RebelCode\Wpra\Core\Handlers\Logger\TruncateLogsCronHandler;
 use RebelCode\Wpra\Core\Handlers\ScheduleCronJobHandler;
-use RebelCode\Wpra\Core\Logger\ConditionalLogger;
-use RebelCode\Wpra\Core\Logger\FeedLoggerDataSet;
+use RebelCode\Wpra\Core\Logger\ProblemLogger;
 use RebelCode\Wpra\Core\Logger\WpdbLogger;
+use RebelCode\Wpra\Core\Logger\WpraLogger;
 
 /**
  * A module that adds a logger to WP RSS Aggregator.
@@ -44,22 +46,25 @@ class LoggerModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/logging/logger' => function (ContainerInterface $c) {
-                return new ConditionalLogger(
-                    $c->get('wpra/logging/wpdb_logger'),
-                    $c->get('wpra/logging/enabled')
-                );
+                return $c->get('wpra/logging/enabled')
+                    ? $c->get('wpra/logging/main_logger')
+                    : new NullLogger();
             },
             /*
              * The WPDB logger instance.
              *
-             * @since 4.13
+             * @since 4.15.1
              */
-            'wpra/logging/wpdb_logger' => function (ContainerInterface $c) {
-                return new WpdbLogger(
-                    $c->get('wpra/logging/log_table'),
-                    $c->get('wpra/logging/log_table_columns'),
-                    $c->get('wpra/logging/log_table_extra')
-                );
+            'wpra/logging/main_logger' => function (ContainerInterface $c) {
+                try {
+                    return new WpraLogger(
+                        $c->get('wpra/logging/log_table'),
+                        $c->get('wpra/logging/log_table_columns'),
+                        $c->get('wpra/logging/log_table_extra')
+                    );
+                }  catch (Exception $exception) {
+                    return new ProblemLogger($exception->getMessage());
+                }
             },
             /*
              * The log reader instance.
@@ -67,7 +72,7 @@ class LoggerModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/logging/reader' => function (ContainerInterface $c) {
-                return $c->get('wpra/logging/wpdb_logger');
+                return $c->get('wpra/logging/main_logger');
             },
             /*
              * The log clearer instance.
@@ -75,7 +80,7 @@ class LoggerModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/logging/clearer' => function (ContainerInterface $c) {
-                return $c->get('wpra/logging/wpdb_logger');
+                return $c->get('wpra/logging/main_logger');
             },
             /*
              * The table where logs are stored.
@@ -146,34 +151,7 @@ class LoggerModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/logging/log_table_extra' => function () {
-                return [
-                    'feed_id' => '',
-                ];
-            },
-            /*
-             * The data set that contains the logger instances for each feed source.
-             *
-             * @since 4.13
-             */
-            'wpra/logging/feed_logger_dataset' => function (ContainerInterface $c) {
-                return new FeedLoggerDataSet($c->get('wpra/logging/feed_logger_factory'));
-            },
-            /*
-             * The factory that creates logger instances for specific feeds.
-             *
-             * @since 4.13
-             */
-            'wpra/logging/feed_logger_factory' => function (ContainerInterface $c) {
-                return function ($feedId) use ($c) {
-                    return new ConditionalLogger(
-                        new WpdbLogger(
-                            $c->get('wpra/logging/log_table'),
-                            $c->get('wpra/logging/log_table_columns'),
-                            ['feed_id' => $feedId]
-                        ),
-                        $c->get('wpra/logging/enabled')
-                    );
-                };
+                return [];
             },
             /*
              * The scheduler for the log truncation cron job.

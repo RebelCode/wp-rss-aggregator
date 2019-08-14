@@ -3,6 +3,7 @@
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use RebelCode\Wpra\Core\Logger\ClearableLoggerInterface;
+use RebelCode\Wpra\Core\Logger\FeedLoggerInterface;
 use RebelCode\Wpra\Core\Logger\LogReaderInterface;
 
 define('WPRSS_OPTION_CODE_LOG_LEVEL', 'log_level');
@@ -26,14 +27,11 @@ define('WPRSS_LOG_LEVEL_DEFAULT', WPRSS_LOG_LEVEL_NONE);
  */
 function wpra_get_logger($feed_id = null)
 {
-    if ($feed_id === null) {
-        return wpra_container()->get('wpra/logging/logger');
-    }
+    $logger = wpra_container()->get('wpra/logging/logger');
 
-    $dataset = wpra_container()->get('wpra/logging/feed_logger_dataset');
-    $logger = $dataset[$feed_id];
-
-    return $logger;
+    return ($feed_id !== null && $logger instanceof FeedLoggerInterface)
+        ? $logger->forFeedSource($feed_id)
+        : $logger;
 }
 
 /**
@@ -54,7 +52,9 @@ function wpra_get_logger($feed_id = null)
  */
 function wprss_log_read($length = null, $start = null)
 {
-    $logs = wpra_get_logger()->getLogs($length, $start);
+    /* @var $reader LogReaderInterface */
+    $reader = wpra_container()->get('wpra/logging/reader');
+    $logs = $reader->getLogs($length, $start);
 
     $output = '';
     foreach ($logs as $log) {
@@ -81,7 +81,9 @@ function wprss_get_log()
  */
 function wprss_clear_log()
 {
-    wpra_get_logger()->clearLogs();
+    /* @var $clearer ClearableLoggerInterface */
+    $clearer = wpra_container()->get('wpra/logging/clearer');
+    $clearer->clearLogs();
 }
 
 /**
@@ -101,11 +103,11 @@ function wprss_reset_log()
  *
  * @since 3.9.6
  */
-function wprss_log($message, $src = null, $log_level = LogLevel::ERROR)
+function wprss_log($message, $src = null, $log_level = null)
 {
-    wpra_get_logger()->log($log_level, $message);
+    $log_level = ($log_level) ? LogLevel::ERROR : $log_level;
 
-    return;
+    wpra_get_logger()->log($log_level, $message);
 }
 
 /**

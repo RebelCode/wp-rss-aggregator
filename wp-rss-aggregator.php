@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.15
+ * Version: 4.15.1
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -53,11 +53,13 @@ use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
+use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
+use RebelCode\Wpra\Core\Modules\UpsellModule;
 use RebelCode\Wpra\Core\Modules\WpModule;
 use RebelCode\Wpra\Core\Plugin;
 
@@ -67,7 +69,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.15' );
+    define( 'WPRSS_VERSION', '4.15.1' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -255,9 +257,6 @@ require_once ( WPRSS_INC . 'opml-importer.php' );
 /* Load the admin debugging page file */
 require_once ( WPRSS_INC . 'admin-debugging.php' );
 
-/* Load the addons page file */
-require_once ( WPRSS_INC . 'admin-addons.php' );
-
 /* Load the admin display-related functions */
 require_once ( WPRSS_INC . 'admin-display.php' );
 
@@ -398,6 +397,8 @@ function wpra_modules()
         'rest_api' => new RestApiModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
+        'upsell' => new UpsellModule(),
+        // 'lorem' => new LoremModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),

@@ -190,7 +190,6 @@
     /**
      * Register and define options and settings
      * @since 2.0
-     * @todo add option for cron frequency
      *
      * Note: In the future might change to
      * the way EDD builds the settings pages, cleaner method.
@@ -507,9 +506,9 @@
      */
     function wprss_setting_unique_titles( $field ) {
         $unique_titles = wprss_get_general_setting( 'unique_titles' );
-        ?>
-        <input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[unique_titles]" type="checkbox" value="1" <?php echo checked( 1, $unique_titles, false ) ?> />
-        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+
+        echo wprss_options_render_checkbox( $field['field_id'], 'unique_titles', $unique_titles );
+        echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
 
@@ -518,16 +517,24 @@
      * @since 3.3
      */
     function wprss_settings_custom_feed_url_callback( $field ) {
-        $siteUrl = get_site_url();
+        $siteUrl = trailingslashit(get_site_url());
         $custom_feed_url = wprss_get_general_setting( 'custom_feed_url' );
+        $fullUrl = $siteUrl . $custom_feed_url;
         ?>
-		<code><?= $siteUrl ?>/</code>
+		<code><?= $siteUrl ?></code>
         <input id="<?php echo $field['field_id'] ?>"
                name="wprss_settings_general[custom_feed_url]"
                type="text"
                value="<?php echo $custom_feed_url ?>" />
 
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ); ?>
+
+        <p style="font-style: normal">
+            <a href="<?php echo esc_attr($fullUrl); ?>" target="_blank">
+                <?php _e('Open custom feed', 'wprss') ?>
+            </a>
+        </p>
+        <?php
     }
 
     /**
@@ -558,9 +565,8 @@
      */
     function wprss_setting_styles_disable_callback( $field ) {
         $styles_disable = wprss_get_general_setting( 'styles_disable' );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[styles_disable]" type="checkbox" value="1" <?php echo checked( 1, $styles_disable, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+        echo wprss_options_render_checkbox( $field['field_id'], 'styles_disable', $styles_disable );
+        echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /**
@@ -649,21 +655,6 @@
         <?php
     }
 
-
-    /**
-     * Tracking checkbox
-     * @since 3.6
-     */
-    function wprss_tracking_callback( $field ) {
-        $tracking = wprss_get_general_setting( 'tracking' );
-        ?>
-		<input type="checkbox" id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[tracking]" value="1" <?php echo checked( 1, $tracking, false ) ?> />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] ) ?>
-        <label class="description" for="<?php echo $field['field_id'] ?>">
-            <?php _e( 'Please help us improve WP RSS Aggregator by allowing us to gather anonymous usage statistics. No sensitive data is collected.', WPRSS_TEXT_DOMAIN ) ?>
-        </label>
-		<?php
-    }
 
     /**
      * Gets options that should go in a dropdown which represents a
@@ -981,4 +972,31 @@
                 'years'
             )
         );
+    }
+
+    /**
+     * Renders a checkbox with a hidden field for the default value (when unchecked).
+     *
+     * @param string $id
+     * @param string $name
+     * @param string $value
+     * @param string $checked_value
+     * @param string $default_value
+     *
+     * @return string
+     */
+    function wprss_options_render_checkbox($id, $name, $value, $checked_value = '1', $default_value = '0') {
+        $nameAttr = esc_attr(sprintf('wprss_settings_general[%s]', $name));
+        ob_start();
+
+        ?>
+        <input type="hidden" name="<?= $nameAttr; ?>" value="<?= esc_attr($default_value) ?>"/>
+        <input type="checkbox"
+               id="<?= $id ?>"
+               name="<?= $nameAttr ?>"
+               value="<?= esc_attr($checked_value) ?>"
+               <?= checked( $checked_value, $value, false ) ?> />
+        <?php
+
+        return ob_get_clean();
     }

@@ -38,10 +38,6 @@
     }, 40);
 
     add_action('admin_menu', function () {
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'More Features', WPRSS_TEXT_DOMAIN ), __( 'More Features', WPRSS_TEXT_DOMAIN ) . '<span class="dashicons dashicons-star-filled wprss-more-features-glyph"></span>', apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-addons', 'wprss_addons_page_display' );
-    }, 50);
-
-    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', WPRSS_TEXT_DOMAIN ), __( 'Help & Support', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );
     }, 60);
 

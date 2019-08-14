@@ -6,9 +6,7 @@
      * @package WPRSSAggregator
      */
 
-    use Psr\Log\LogLevel;
-
-	// Warning: Order may be important
+    // Warning: Order may be important
     add_filter('wprss_normalize_permalink', 'wprss_google_news_url_fix', 8);
 	add_filter('wprss_normalize_permalink', 'wprss_bing_news_url_fix', 9);
 	add_filter('wprss_normalize_permalink', 'wprss_google_alerts_url_fix', 10);
@@ -100,10 +98,17 @@
                     }
                 }
 
+                $unique_titles_only = get_post_meta($feed_ID, 'wprss_unique_titles', true);
+                $unique_titles_only = ($unique_titles_only === '')
+                    ? wprss_get_general_setting('unique_titles')
+                    : $unique_titles_only;
+                $unique_titles_only = filter_var($unique_titles_only, FILTER_VALIDATE_BOOLEAN);
+                // Gather the titles of the items that are imported
+                // The import process will check not only the titles in the DB but the titles currently in the feed
+                $existing_titles = [];
+
                 // Gather the permalinks of existing feed item's related to this feed source
                 $existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
-                // Gather the titles of the items that are imported
-                $existing_titles = [];
 
                 // Generate a list of items fetched, that are not already in the DB
                 $new_items = array();
@@ -113,31 +118,33 @@
                     $permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
                     $logger->debug('Checking item "{0}"', [$item_title]);
 
-                    // Check if not blacklisted and not already imported
-                    $is_blacklisted = wprss_is_blacklisted( $permalink );
-                    $permalink_exists = array_key_exists( $permalink, $existing_permalinks );
-                    $title_exists_db = wprss_item_title_exists( $item->get_title() );
-                    $title_exists_feed = array_key_exists($item_title, $existing_titles);
-                    $title_exists = $title_exists_db || $title_exists_feed;
-
-                    $existing_titles[$item_title] = 1;
-
-                    if ($is_blacklisted) {
+                    // Check if blacklisted
+                    if (wprss_is_blacklisted($permalink)) {
                         $logger->debug('Item "{0}" is blacklisted', [$item_title]);
 
                         continue;
                     }
 
-                    if ($permalink_exists) {
+                    // Check if already imported
+                    if (array_key_exists($permalink, $existing_permalinks)) {
                         $logger->debug('Item "{0}" already exists in the database', [$item_title]);
 
                         continue;
                     }
 
-                    if ($title_exists) {
-                        $logger->debug('An item with the title "{0}" already exists', [$item_title]);
+                    // Check if title exists (if the option is enabled)
+                    if ($unique_titles_only) {
+                        $title_exists_db = wprss_item_title_exists($item->get_title());
+                        $title_exists_feed = array_key_exists($item_title, $existing_titles);
+                        $title_exists = $title_exists_db || $title_exists_feed;
+                        // Add this item's title to the list to check against
+                        $existing_titles[$item_title] = 1;
 
-                        continue;
+                        if ($title_exists) {
+                            $logger->debug('An item with the title "{0}" already exists', [$item_title]);
+
+                            continue;
+                        }
                     }
 
                     $new_items[] = $item;
@@ -230,6 +237,9 @@
 
 		/* Fetch the feed from the soure URL specified */
 		$feed = wprss_fetch_feed( $feed_url, $source, $force_feed );
+
+		update_post_meta( $source, 'wprss_site_url', $feed->get_permalink() );
+		update_post_meta( $source, 'wprss_feed_image', $feed->get_image_url() );
 
 		// Remove previously added filters and actions
 		remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
@@ -547,7 +557,7 @@ function wprss_get_feed_cache_dir()
 		// Count of items inserted
 		$items_inserted = 0;
 
-		foreach ( $items as $item ) {
+		foreach ( $items as $i => $item ) {
 
 			// Normalize the URL
             $permalink = $item->get_permalink(); // Link or enclosure URL
@@ -590,8 +600,13 @@ function wprss_get_feed_cache_dir()
 					$format    = 'Y-m-d H:i:s';
 					$has_date  = $item->get_date( 'U' ) ? TRUE : FALSE;
 					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
-					$date      = date( $format, $timestamp );
-					$date_gmt  = gmdate( $format, $timestamp );
+
+					if (apply_filters('wpra/importer/allow_scheduled_items', false) !== true) {
+						$timestamp = min(time() - $i, $timestamp);
+					}
+
+					$date     = date( $format, $timestamp );
+					$date_gmt = gmdate( $format, $timestamp );
 
                     // Do not let WordPress sanitize the excerpt
                     // WordPress sanitizes the excerpt because it's expected to be typed by a user and sent in a POST
@@ -665,15 +680,20 @@ function wprss_get_feed_cache_dir()
 		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
 	}
 
-
-	/**
-	 * Inserts the appropriate post meta for feed items.
-	 *
-	 * Called from 'wprss_items_insert_post'
-	 *
-	 * @since 2.3
-	 */
+    /**
+     * Inserts the appropriate post meta for feed items.
+     *
+     * Called from 'wprss_items_insert_post'
+     *
+     * @since 2.3
+     *
+     * @param int            $inserted_ID   The inserted post ID.
+     * @param SimplePie_Item $item          The SimplePie item object.
+     * @param string         $permalink     The item's permalink.
+     * @param string         $enclosure_url The URL to the item's enclosure.
+     */
 	function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
+        update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date(DATE_ISO8601) );
 		update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
 		update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
 

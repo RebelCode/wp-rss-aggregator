@@ -1,0 +1,21 @@
+<div class="wrap">
+    <h2>{% trans "More Features With Our Premium Add-Ons" %}</h2>
+    <p>
+        {% trans %}
+            The following addons are available to increase the functionality of the WP RSS Aggregator plugin.
+        {% endtrans %}
+    <p>
+    <p>
+        {% trans %}
+            Check out our pricing plans for bigger savings!
+        {% endtrans %}
+    </p>
+
+    <div id="add-ons" class="clearfix">
+        <div class="add-on-group clearfix">
+            {% for item in items %}
+                {{ include('admin/upsell/more-features-page/' ~ item.type ~ '.twig') }}
+            {% endfor %}
+        </div>
+    </div>
+</div>

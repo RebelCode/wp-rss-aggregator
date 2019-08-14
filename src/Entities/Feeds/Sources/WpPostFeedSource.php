@@ -8,7 +8,6 @@ use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Data\MergedDataSet;
 use RebelCode\Wpra\Core\Data\Wp\WpCptDataSet;
-use SimplePie;
 use WP_Post;
 
 /**
@@ -61,14 +60,6 @@ class WpPostFeedSource extends WpCptDataSet
     {
         $meta = parent::createMetaDataSet($postOrId);
         $url = isset($meta['url']) ? $meta['url'] : '';
-
-        if (!isset($meta['site_url']) && ($feed = wprss_fetch_feed($url)) instanceof SimplePie) {
-            $meta['site_url'] = $feed->get_permalink();
-            $meta['feed_image'] = $feed->get_image_url();
-        } else {
-            $meta['site_url'] = $url;
-            $meta['feed_image'] = '';
-        }
 
         $defaults = $this->getDefaultMetaData($meta);
         $fullMeta = new MergedDataSet($meta, $defaults);

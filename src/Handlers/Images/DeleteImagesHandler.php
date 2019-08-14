@@ -36,18 +36,21 @@ class DeleteImagesHandler
      *
      * @since 4.14
      */
-    public function __invoke($post_id)
+    public function __invoke($postId)
     {
         try {
-            $item = $this->importedItems[$post_id];
+            $item = $this->importedItems[$postId];
         } catch (Exception $e) {
-            // Item is not imported by WPRA or does not exist
-            return;
+            // Item may not be imported by WPRA or does not exist
+            // Here we do a manual post meta check, just to be safe
+            if (get_post_meta($postId, 'wprss_feed_id', true) === '') {
+                return;
+            }
         }
 
         // Get the attachments
         $attachments = get_children([
-            'post_parent' => $item['id'],
+            'post_parent' => $postId,
             'post_type' => 'attachment',
             'post_mime_type' => 'image',
         ]);

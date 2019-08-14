@@ -395,7 +395,7 @@
 
         $page = isset( $_GET['paged'] )? '&paged=' . $_GET['paged'] : '';
         if ( get_post_type($post) === 'wprss_feed_item' )  {
-            if ( apply_filters('wpra_dev_mode', false) === false ) {
+            if (!wpra_is_dev_mode()) {
                 unset($actions['edit']);
             }
             unset( $actions[ 'view' ] );
@@ -657,7 +657,11 @@
      *
      * @since 2.0
      */
-    function wprss_custom_feed_item_bulk_actions( $actions ){
+    function wprss_custom_feed_item_bulk_actions( $actions ) {
+        if (!wpra_is_dev_mode()) {
+            unset($actions['edit']);
+        }
+
         return apply_filters( 'wprss_custom_feed_item_bulk_actions', $actions );
     }
 

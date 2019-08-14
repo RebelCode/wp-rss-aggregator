@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.15.1] - 2019-08-14
+### Added
+* New link to the custom feed in the "Custom Feed" settings page.
+
+### Changed
+* Updated the logging system to no longer cause VaultPress to trigger false positive warnings.
+* The date format in the custom feed now uses the "RFC3339 Extended" format.
+
+### Fixed
+* Items with the same title were not being imported even when "Unique titles only" was turned off.
+* Items with future dates where marked as "scheduled" by WordPress.
+* The custom feed's "Content-Type" header was set for RSS 2.0 instead of Atom.
+* Imported images were not being deleted from the media library when the imported item is deleted.
+* PHP notice for "undefined index enclosure" when a feed cannot be fetched.
+* Deprecation notice on PHP 7.2 or later for "each" function.
+* Warnings when the `wprss_log` function is used incorrectly.
+* PHP notice for "property of non-object" when using YoastSEO.
+* After using the Templates add-on, images would continue to be imported after the add-on was deactivated.
+
 ## [4.15] - 2019-07-16
 ### Added
 * New error handling for catchable PHP7 `Throwable` errors.

@@ -4,9 +4,105 @@ use Aventura\Wprss\Core\Model\Regex\HtmlEncoder;
 
 /**
  * Helper and misc functions.
- * 
+ *
  * @todo Make this part of Core instead
  */
+
+/**
+ * Checks if developer mode is enabled.
+ *
+ * @since 4.15.1
+ *
+ * @return bool
+ */
+function wpra_is_dev_mode()
+{
+    return apply_filters('wpra_dev_mode', false) === true;
+}
+
+/**
+ * WP RSS Aggregator's version of {@link wp_remote_get()}.
+ *
+ * It ensures that the feed request useragent is used as the HTTP request's User Agent String.
+ *
+ * @since 4.15.1
+ *
+ * @see https://developer.wordpress.org/reference/classes/WP_Http/request/ Information on the $args array parameter.
+ *
+ * @param string $url The URL
+ * @param array $args The arguments.
+ *
+ * @return array|WP_Error
+ */
+function wpra_remote_get($url, $args)
+{
+    $args['user-agent'] = wprss_get_general_setting('feed_request_useragent');
+
+    return wp_remote_get($url, $args);
+}
+
+/**
+ * WP RSS Aggregator's version of {@link wp_safe_remote_get()}.
+ *
+ * It ensures that the feed request useragent is used as the HTTP request's User Agent String.
+ *
+ * @since 4.15.1
+ *
+ * @see https://developer.wordpress.org/reference/classes/WP_Http/request/ Information on the $args array parameter.
+ *
+ * @param string $url The URL
+ * @param array $args The arguments.
+ *
+ * @return array|WP_Error
+ */
+function wpra_safe_remote_get($url, $args)
+{
+    $args['user-agent'] = wprss_get_general_setting('feed_request_useragent');
+
+    return wp_safe_remote_get($url, $args);
+}
+
+/**
+ * Utility function for checking a plugin's state, even if it's inactive.
+ *
+ * @since 4.15.1
+ *
+ * @param string $basename The basename of the plugin.
+ *
+ * @return int 0 if the plugin is not installed, 1 if installed but not activated, 2 if installed and activated.
+ */
+function wpra_get_plugin_state($basename)
+{
+    // ACTIVE
+    if (is_plugin_active($basename)) {
+        return 2;
+    }
+
+    // INSTALLED & INACTIVE
+    if (file_exists(WP_PLUGIN_DIR . '/' . $basename) && is_plugin_inactive($basename)) {
+        return 1;
+    }
+
+    // NOT INSTALLED
+    return 0;
+}
+
+/**
+ * Utillity function for generating a URL that activates a plugin.
+ *
+ * @since 4.15.1
+ *
+ * @param string $basename The basename of the plugin.
+ *
+ * @return string
+ */
+function wpra_get_activate_plugin_url($basename)
+{
+    return wp_nonce_url(
+        sprintf('plugins.php?action=activate&amp;plugin=%s', $basename),
+        sprintf('activate-plugin_%s', $basename)
+    );
+}
 
 /**
  * Returns a representation of an HTML expression that matches all representations of that HTML.
@@ -117,7 +213,7 @@ if (!function_exists('uri_is_absolute')) {
 
     /**
      * Check if the URI is absolute.
-     * 
+     *
      * Check is made based on whether or not there's a '//' sequence
      * somewhere in the beginning.
      *

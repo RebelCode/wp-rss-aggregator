@@ -2,7 +2,7 @@
     <id>{{ item.permalink }}</id>
     <title type="html">{{ item.title }}</title>
     <link href="{{ item.permalink }}" rel="alternate" />
-    <updated>{{ item.timestamp|date('Y-m-d\\TH:i:sP') }}</updated>
+    <updated>{{ item.timestamp|date('Y-m-d\\TH:i:s.vP') }}</updated>
     <summary>{{ item.excerpt }}</summary>
     <content type="html">
         <![CDATA[{{ item.content|raw|close_tags }}]]>

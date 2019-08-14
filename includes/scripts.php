@@ -51,11 +51,6 @@
             'pause'     =>  __( 'Pause', WPRSS_TEXT_DOMAIN )
         ));
 
-        wp_register_script( 'wprss-custom-bulk-actions-feed-item', WPRSS_JS . 'admin-custom-bulk-actions-feed-item.js', array( 'jquery' ), $version );
-        wp_localize_script( 'wprss-custom-bulk-actions-feed-item', 'wprss_admin_bulk_feed_item', array(
-            'trash' => __( 'Move to Trash', WPRSS_TEXT_DOMAIN )
-        ));
-
         wp_register_script( 'wprss-feed-source-table-heartbeat', WPRSS_JS .'heartbeat.js', array(), $version );
         wp_localize_script( 'wprss-feed-source-table-heartbeat', 'wprss_admin_heartbeat', array(
             'ago'   =>  __( 'ago', WPRSS_TEXT_DOMAIN )
