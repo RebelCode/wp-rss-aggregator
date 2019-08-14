@@ -7,14 +7,14 @@ use Psr\Log\NullLogger;
 /**
  * A special null logger that is used when an error occurs and the original logger cannot be used.
  *
- * @since [*next-version*]
+ * @since 4.15
  */
 class ProblemLogger extends NullLogger implements LogReaderInterface, ClearableLoggerInterface
 {
     /**
      * The error.
      *
-     * @since [*next-version*]
+     * @since 4.15
      *
      * @var string
      */
@@ -35,7 +35,7 @@ class ProblemLogger extends NullLogger implements LogReaderInterface, ClearableL
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15
      */
     public function clearLogs()
     {
@@ -44,7 +44,7 @@ class ProblemLogger extends NullLogger implements LogReaderInterface, ClearableL
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15
      */
     public function getLogs($num = null, $page = 1)
     {
