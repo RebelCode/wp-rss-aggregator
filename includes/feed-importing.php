@@ -557,7 +557,7 @@ function wprss_get_feed_cache_dir()
 		// Count of items inserted
 		$items_inserted = 0;
 
-		foreach ( $items as $item ) {
+		foreach ( $items as $i => $item ) {
 
 			// Normalize the URL
             $permalink = $item->get_permalink(); // Link or enclosure URL
@@ -602,7 +602,7 @@ function wprss_get_feed_cache_dir()
 					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
 
 					if (apply_filters('wpra/importer/allow_scheduled_items', false) !== true) {
-						$timestamp = min(time(), $timestamp);
+						$timestamp = min(time() - $i, $timestamp);
 					}
 
 					$date     = date( $format, $timestamp );
