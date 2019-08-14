@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.15.1] - YYYY-MM-DD
 ### Added
 * New link to the custom feed in the "Custom Feed" settings page.
-* New links for guidance, setup and customizations provided by Lorem.
 
 ### Changed
 * Updated the logging system to no longer cause VaultPress to trigger false positive warnings.
