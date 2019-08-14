@@ -600,9 +600,13 @@ function wprss_get_feed_cache_dir()
 					$format    = 'Y-m-d H:i:s';
 					$has_date  = $item->get_date( 'U' ) ? TRUE : FALSE;
 					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
-					$timestamp = min(time(), $timestamp);
-					$date      = date( $format, $timestamp );
-					$date_gmt  = gmdate( $format, $timestamp );
+
+					if (apply_filters('wpra/importer/allow_scheduled_items', false) !== true) {
+						$timestamp = min(time(), $timestamp);
+					}
+
+					$date     = date( $format, $timestamp );
+					$date_gmt = gmdate( $format, $timestamp );
 
                     // Do not let WordPress sanitize the excerpt
                     // WordPress sanitizes the excerpt because it's expected to be typed by a user and sent in a POST
