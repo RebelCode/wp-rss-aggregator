@@ -81,7 +81,8 @@
                 <?php wp_nonce_field('wprss_hs_beacon_enabled'); ?>
             </form>
 		</div>
-	<?php
+	    <?php
+        do_action('wpra/help_page/bottom');
 	}
 
 	// Handler to update the HS beacon enabled option
