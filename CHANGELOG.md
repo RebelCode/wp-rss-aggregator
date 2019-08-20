@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [*next-version*] - YYYY-MM-DD
+### Added
+* Links and integrations with Lorem for custom developer work.
+
 ## [4.15.1] - 2019-08-14
 ### Added
 * New link to the custom feed in the "Custom Feed" settings page.
