@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * Links and integrations with Lorem for custom developer work.
 
+### Fixed
+* Multisite installations only allowed the main site to have activated licenses.
+
 ## [4.15.1] - 2019-08-14
 ### Added
 * New link to the custom feed in the "Custom Feed" settings page.
