@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed checkbox legacy display options not saving correctly.
 * A saved empty useragent string in the settings caused the internal default to not be used.
 * The certificate path option was not defaulting correctly.
+* Media thumbnail images were not being detected properly.
 
 ## [4.15.1] - 2019-08-14
 ### Added

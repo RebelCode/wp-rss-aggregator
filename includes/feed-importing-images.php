@@ -120,8 +120,8 @@ function wpra_import_item_images($itemId, $item, $sourceId)
                 break;
 
             case 'media':
-                if (isset($images['media'])) {
-                    $ftImageUrl = $images['media'];
+                if (isset($images['media']) && !empty($images['media'])) {
+                    $ftImageUrl = reset($images['media']);
                 }
                 break;
 
