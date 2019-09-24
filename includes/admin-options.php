@@ -14,14 +14,22 @@
     /**
      * Returns the given general setting option value form the database, or the default value if it is not found.
      *
-     * @param option_name The name of the option to get
+     * @param string $option_name The name of the option to get
+     * @param bool $not_empty If true, the default value will be returned if the option exists but is empty.
      * @return mixed
      * @since 3.7.1
      */
-    function wprss_get_general_setting( $option_name ) {
+    function wprss_get_general_setting( $option_name, $not_empty = false ) {
         $options = get_option( 'wprss_settings_general', array() );
         $defaults = wprss_get_default_settings_general();
-        return ( ( isset( $options[ $option_name ] ) )? $options[$option_name] : $defaults[$option_name] );
+
+        $value = isset($options[$option_name])
+            ? $options[$option_name]
+            : $defaults[$option_name];
+
+        return ($not_empty && empty($value))
+            ? $defaults[$option_name]
+            : $value;
     }
 
     /**

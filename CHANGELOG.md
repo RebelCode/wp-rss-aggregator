@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Blacklist items would occassionally be saved without a permalink.
 * Older versions of add-ons triggered errors when trying to log messages with the default log type.
 * Fixed checkbox legacy display options not saving correctly.
+* A saved empty useragent string in the settings caused the internal default to not be used.
 
 ## [4.15.1] - 2019-08-14
 ### Added

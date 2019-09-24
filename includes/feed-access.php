@@ -111,7 +111,7 @@ class WPRSS_Feed_Access
      */
     public function get_useragent_setting()
     {
-		return wprss_get_general_setting( self::SETTING_KEY_FEED_REQUEST_USERAGENT );
+		return wprss_get_general_setting( self::SETTING_KEY_FEED_REQUEST_USERAGENT, true );
     }
 
     /**
