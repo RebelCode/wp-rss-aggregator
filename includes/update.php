@@ -286,6 +286,7 @@
 
                 // From 4.8.2
                 'feed_request_useragent'    => 'Mozilla/5.0 (Linux 10.0; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
+                'certificate-path' => implode( '/', array( WPINC, 'certificates', 'ca-bundle.crt' ) ),
 
                 // From 4.11.2
                 'limit_feed_items_per_import'   => null,

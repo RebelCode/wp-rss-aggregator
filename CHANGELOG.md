@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Older versions of add-ons triggered errors when trying to log messages with the default log type.
 * Fixed checkbox legacy display options not saving correctly.
 * A saved empty useragent string in the settings caused the internal default to not be used.
+* The certificate path option was not defaulting correctly.
 
 ## [4.15.1] - 2019-08-14
 ### Added
