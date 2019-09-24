@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Multisite installations only allowed the main site to have activated licenses.
 * Blacklist items would occassionally be saved without a permalink.
 * Older versions of add-ons triggered errors when trying to log messages with the default log type.
+* Fixed checkbox legacy display options not saving correctly.
 
 ## [4.15.1] - 2019-08-14
 ### Added

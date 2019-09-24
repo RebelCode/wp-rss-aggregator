@@ -746,7 +746,7 @@
         $attributes = [];
 
         if ($checked) {
-            $attributes['checked'] = 'checked';
+            $attributes['checked'] = '';
         }
 
         return wprss_settings_render_input($id, $name, $value, 'checkbox', $attributes);
