@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Multisite installations only allowed the main site to have activated licenses.
+* Blacklist items would occassionally be saved without a permalink.
 
 ## [4.15.1] - 2019-08-14
 ### Added
