@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * A saved empty useragent string in the settings caused the internal default to not be used.
 * The certificate path option was not defaulting correctly.
 * Media thumbnail images were not being detected properly.
+* An invalid feed would trigger false positive errors on fetch.
 
 ## [4.15.1] - 2019-08-14
 ### Added

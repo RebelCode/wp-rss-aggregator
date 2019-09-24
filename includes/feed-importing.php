@@ -238,23 +238,22 @@
 		/* Fetch the feed from the soure URL specified */
 		$feed = wprss_fetch_feed( $feed_url, $source, $force_feed );
 
+		if (is_wp_error($feed)) {
+			wpra_get_logger($source)->error('Failed to fetch the feed from {0}. Error: {1}', [
+				$feed_url,
+				$feed->get_error_message()
+			]);
+
+			return NULL;
+		}
+
 		update_post_meta( $source, 'wprss_site_url', $feed->get_permalink() );
 		update_post_meta( $source, 'wprss_feed_image', $feed->get_image_url() );
 
 		// Remove previously added filters and actions
 		remove_filter( 'wp_feed_cache_transient_lifetime' , 'wprss_feed_cache_lifetime' );
 
-		if ( !is_wp_error( $feed ) ) {
-			// Return the items in the feed.
-			return @$feed->get_items();
-		}
-
-		wpra_get_logger($source)->error('Failed to fetch the feed from {0}. Error: {1}', [
-            $feed_url,
-            $feed->get_error_message()
-        ]);
-
-        return NULL;
+		return @$feed->get_items();
 	}
 
 //add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10, 2) ;
