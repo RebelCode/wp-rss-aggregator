@@ -200,6 +200,8 @@ $options_table = $wpdb->prefix . 'options';
 $options_query = sprintf('SELECT * FROM %s WHERE `option_name` LIKE "wprss%%"', $options_table);
 $options = $wpdb->get_results($options_query, OBJECT_K);
 
+$options = apply_filters('wpra/debug/sysinfo/options', $options);
+
 foreach ($options as $option) {
     $unserialized = @unserialize($option->option_value);
 
