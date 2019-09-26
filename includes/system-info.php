@@ -204,8 +204,13 @@ $options = apply_filters('wpra/debug/sysinfo/options', $options);
 
 foreach ($options as $option) {
     $unserialized = @unserialize($option->option_value);
+    $value = apply_filters('wpra/debug/sysinfo/option_value', $unserialized, $option->option_name);
 
-    if (!$unserialized || is_scalar($unserialized)) {
+    if ($value === null) {
+        continue;
+    }
+
+    if (!$value || is_scalar($value)) {
         printf(
             '%s %s',
             str_pad($option->option_name, 30),
@@ -216,7 +221,7 @@ foreach ($options as $option) {
     }
 
     printf('[%s]: ', $option->option_name);
-    print_r($unserialized);
+    print_r($value);
 }
 
 ?>
