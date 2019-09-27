@@ -197,7 +197,10 @@ SETTINGS:
 
 <?php
 $options_table = $wpdb->prefix . 'options';
-$options_query = sprintf('SELECT * FROM %s WHERE `option_name` LIKE "wprss%%"', $options_table);
+$options_query = sprintf(
+    'SELECT * FROM %s WHERE `option_name` LIKE "wprss%%" OR `option_name` LIKE "wpra%%"',
+    $options_table
+);
 $options = $wpdb->get_results($options_query, OBJECT_K);
 
 $options = apply_filters('wpra/debug/sysinfo/options', $options);
