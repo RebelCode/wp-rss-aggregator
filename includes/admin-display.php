@@ -230,40 +230,42 @@
         if ( !is_admin() || !$query->is_main_query() || $query->get('post_type') !== 'wprss_feed' ) {
             return;
         }
-		// Check if the orderby query variable is set
-		if ( !( $orderby = $query->get( 'orderby' ) ) ) return;
 
-		// We will be sorting using the meta value (unless sorting by title)
-		$query->set('orderby', 'meta_value' );
-		// Get the current order
-		$order = strtoupper( $query->get( 'order' ) );
-		// Check if it is valid
-		$got_order = $order === 'ASC' || $order === 'DESC';
+		// Get the sorting query args
+		$order = strtoupper($query->get('order'));
+		$orderby = $query->get('orderby');
+
+		// If order is not specified, default to ascending
+		if ($order !== 'ASC' && $order !== 'DESC') {
+			$order = 'ASC';
+		}
+
+		$query->set('order', $order);
+
+		// If not explicitly sorting or sorting by title, sort by title
+		if (!$orderby || $orderby === 'title') {
+			$query->set('orderby', 'title');
+		}
 
 		// Check what we are sorting by
 		switch ( $orderby ) {
-			case 'title':
-				$query->set( 'orderby', 'title' );
-				break;
 			case 'state':
 				$query->set('meta_key', 'wprss_state');
+				$query->set('orderby', 'meta_value');
 				break;
+
 			case 'updates':
 				$query->set('meta_key', 'wprss_next_update');
-				$query->set('orderby', 'meta_value' );
-				if ( !$got_order ) $query->set( 'order', 'ASC' );
+				$query->set('orderby', 'meta_value');
+
 				break;
 			case 'feed-count':
 				$query->set('meta_key', 'wprss_items_imported');
-				$query->set('orderby', 'meta_value_num' );
-				if ( !$got_order ) $query->set( 'order', 'DESC' );
+				$query->set('orderby', 'meta_value_num');
+
 				break;
 		}
-
-		if ( !$got_order ){
-			$query->set( 'order', 'ASC' );
-		}
-    }
+	}
 
 
     add_filter( 'manage_wprss_feed_item_posts_columns', 'wprss_set_feed_item_custom_columns', 20, 1 );

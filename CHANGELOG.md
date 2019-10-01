@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * The default logging type is now "debug".
+- Feeds are now sorted alphabetically by default.
 
 ### Fixed
 * Multisite installations only allowed the main site to have activated licenses.
