@@ -2,7 +2,7 @@
     <div class="wpra-update wpra-text-center">
         <div class="wpra-update__logo">
             <img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/wp_rss_logo.png"
-                alt="WP RSS Aggregator Logo">
+                 alt="WP RSS Aggregator Logo">
         </div>
         <div class="wpra-update-head__copy">
             <div class="wpra-update-head__title">{{ title }}</div>
@@ -15,116 +15,45 @@
     <hr class="wp-header-end">
 
     <div id="wpra-update-app">
-        <div class="notice notice-warning">
-            <h3>{% trans "Important!" %}</h3>
-            <p>
-                {% trans %}
-                    Version <code>4.14</code> had an unfortunate bug that caused it to import images into your WordPress
-                    media gallery. We're very sorry about that!
-                {% endtrans %}
-            </p>
-            <p>
-                {% trans %}
-                    With this update the plugin will no longer import images, but unfortunately the images will remain
-                    in your media gallery. If there are too many to delete manually, you can delete and re-import your
-                    feed items to have WordPress automatically delete their attached images. Note that if you do so,
-                    items that are no longer given by the RSS feed won't be re-imported.
-                {% endtrans %}
-            </p>
-            <p>
-                {% trans %}
-                    If you have the <b>Feed to Post</b> add-on, you should not have been affected by this bug.
-                {% endtrans %}
-            </p>
-            <p>
-                {% trans %}
-                    We apologize for this inconvience and thank you for using WP RSS Aggregator.
-                    <br/>
-                    <i>-The WP RSS Aggregator Team</i>
-                {% endtrans %}
-            </p>
-        </div>
-
-        <div class="postbox">
+        <div class="postbox centered">
             <div class="inside wpra-update-feature">
                 <div class="wpra-update-feature__text">
-                    <h3>{% trans "Better Youtube Feed Support" %}</h3>
+                    <center>
+                        <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/09/wp-rss-aggregator-lorem-announcement.jpg"
+                             alt="Lorem announcement">
+                    </center>
+                    <h3>{% trans "Introducing Lorem: A New WP RSS Aggregator Partner" %}</h3>
                     <p>
                         {% trans %}
-                            We've made it easier to import videos from YouTube using WP RSS Aggregator. You can now
-                            paste the URL of any YouTube channel or user as your feed source URL and the plugin takes
-                            care of the rest.
+                            Over the years we have partnered up with a few trusted companies to offer customisations that go beyond
+                            our premium support services. Being a small team, we don’t always have the time to offer the level
+                            of customisation that some of you may need or want. That’s why partnering up with others who excel
+                            in this area was the logical next step.
                         {% endtrans %}
                     </p>
                     <p>
                         {% trans %}
-                            This makes displaying a feed of YouTube videos much easier. You will now be able to show an
-                            embedded video in the lightbox, and with the introduction of the new Templates add-on you
-                            will also be able to show the video thumbnails and even add the embedded YouTube video
-                            player directly on your site!
+                            Lorem is a platform through which you can hire expert designers, developers, marketers and more at
+                            affordable rates. They have a dedicated team that guides you from the moment you start a
+                            conversation to the moment that a project is delivered.
                         {% endtrans %}
                     </p>
                     <p>
                         {% trans %}
-                            This is the first of many exciting updates to come, that will make WP RSS Aggregator
-                            integrate better with popular multimedia and social media platforms!
+                            We chose to work with Lorem in order to provide customisation works as well as support in terms of
+                            setting up WP RSS Aggregator to meet your exact needs.
                         {% endtrans %}
                     </p>
-                    <div class="wpra-inline-form">
-                        <a class="button button-large button-icon" target="wpra-kb-youtube"
-                           href="https://kb.wprssaggregator.com/article/211-importing-from-youtube-feeds">
+                    <p>
+                        <a href="" target="_blank">
                             {% trans "Learn more" %}
-                            <span class="dashicons dashicons-arrow-right-alt2"></span>
                         </a>
-                    </div>
-                </div>
-                <div class="wpra-update-feature__image">
-                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/07/wpra-core-4.14-youtube_source.png"
-                         alt="Import and Display Youtube Feeds">
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div class="postbox">
-            <div class="inside wpra-update-feature">
-                <div class="wpra-update-feature__text">
-                    <h3>{% trans "Feed Sources Page Improvements" %}</h3>
-                    <p>
-                        {% trans %}
-                            The <b>Feed Sources</b> page has received a major update. We've tweaked the design of the
-                            feed list to make it more informative at a glance, helping you better manage your feed
-                            sources.
-                        {% endtrans %}
-                    </p>
-                    <p>
-                        {% trans %}
-                            We've also added a few new things, such as a new toggle switch for activating and pausing
-                            feeds and an icon to help distinguish between RSS feeds and Youtube feeds. We will be adding
-                            more icons in the future as we start adding support for more kinds of feeds.
-                        {% endtrans %}
-                    </p>
-                    <p>
-                        {% trans %}
-                        What's more, the page is now fully asynchronous! This means that your actions on the page -
-                        activating or pausing a feed, fetching items, deleting items - no longer cause the
-                        page to reload. Updates and errors are now reliably added to the page, making it feel more like
-                        a live dashboard.
-                        {% endtrans %}
-                    </p>
-                    <div class="wpra-inline-form">
-                        <a class="button button-large button-icon" href="https://kb.wprssaggregator.com/article/472-feed-sources-list" target="wpra-kb-block">
-                            Learn more
-                            <span class="dashicons dashicons-arrow-right-alt2"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="wpra-update-feature__image">
-                    <img src="https://www.wprssaggregator.com/wp-content/uploads/2019/07/wpra-core-4.14-feed_sources_list.png" alt="Feed Sources Page Improvements">
-                </div>
-            </div>
-        </div>
-
-        <div class="postbox">
+        <div class="postbox centered">
             <div class="inside">
                 <h2>{% trans "Full Changelog" %}</h2>
                 <div class="wpra-updates">
@@ -169,3 +98,14 @@
         });
     })(jQuery);
 </script>
+
+<style type="text/css">
+    .postbox.centered {
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .postbox.centered center > img {
+        max-width: 100%;
+    }
+</style>
