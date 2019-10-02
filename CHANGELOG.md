@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Multisite installations only allowed the main site to have activated licenses.
+* License notices now only appear on the main site if the site is a multisite network.
 * Blacklist items would occassionally be saved without a permalink.
 * Older versions of add-ons triggered errors when trying to log messages with the default log type.
 * Fixed checkbox legacy display options not saving correctly.
