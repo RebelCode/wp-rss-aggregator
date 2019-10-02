@@ -51,7 +51,7 @@ function wprss_render_update_page()
         'path' => array(
             'images' => WPRSS_IMG,
         ),
-        'changelog' => $parsedown->text($changelog['4.15']['raw'])
+        'changelog' => $parsedown->text($changelog[WPRSS_VERSION]['raw'])
     ));
 }
 
