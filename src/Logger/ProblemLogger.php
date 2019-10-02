@@ -23,7 +23,7 @@ class ProblemLogger extends NullLogger implements LogReaderInterface, ClearableL
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.15
      *
      * @param string $error The error.
      */

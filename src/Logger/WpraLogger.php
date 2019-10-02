@@ -11,7 +11,7 @@ use RebelCode\Wpra\Core\Database\TableInterface;
  * By implementing the {@link FeedLoggerInterface}, it is able to yield new instances that log messages spefific to
  * that feed source.
  *
- * @since [*next-version*]
+ * @since 4.15.1
  *
  * @see   WpdbLogger
  * @see   FeedLoggerInterface
@@ -21,14 +21,14 @@ class WpraLogger extends WpdbLogger implements FeedLoggerInterface
     /**
      * The key of the extra feed ID column in the logs table.
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      */
     CONST LOG_FEED_ID = 'feed_id';
 
     /**
      * The ID of the feed for which messages are being logged.
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      *
      * @var string
      */
@@ -37,7 +37,7 @@ class WpraLogger extends WpdbLogger implements FeedLoggerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      */
     public function __construct(TableInterface $table, $columns = [], $extra = [])
     {
@@ -50,7 +50,7 @@ class WpraLogger extends WpdbLogger implements FeedLoggerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      */
     public function forFeedSource($feedId)
     {
@@ -65,7 +65,7 @@ class WpraLogger extends WpdbLogger implements FeedLoggerInterface
      *
      * Also updates the callback for the extra feed ID table column.
      *
-     * @since [*next-version*]
+     * @since 4.15.1
      *
      * @param int $feedId The ID of the feed source.
      */
