@@ -16,7 +16,7 @@
         "ext-curl": "*",
         "ext-simplexml": "*",
         "psr/log": "^1.1",
-        "twig/twig": "^1.39.0",
+        "twig/twig": "1.39.0",
         "twig/extensions": "^1.5.4",
         "php-di/php-di": "^5.2",
         "dhii/di": "^0.1.1",
@@ -34,8 +34,7 @@
         "rebelcode/composer-cleanup-plugin": "dev-master"
     },
     "require-dev": {
-        "johnpbloch/wordpress-core": "^4.4 | ^5.0",
-        "phing/phing": "^2.0"
+        "johnpbloch/wordpress-core": "^4.4 | ^5.0"
     },
     "autoload": {
         "psr-4": {

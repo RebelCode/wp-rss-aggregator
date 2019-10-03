@@ -18,8 +18,14 @@
             {% endif %}
         </author>
     {% endif %}
-    <source>
-        <id>{{ item.source_url }}</id>
-        <title>{{ item.source_name }}</title>
-    </source>
+    {% if item.source_url|length > 0 or item.source_name|length > 0 %}
+        <source>
+        {% if item.source_url|length > 0 %}
+            <id>{{ item.source_url }}</id>
+        {% endif %}
+        {% if item.source_name|length > 0 %}
+            <title>{{ item.source_name }}</title>
+        {% endif %}
+        </source>
+    {% endif %}
 </entry>

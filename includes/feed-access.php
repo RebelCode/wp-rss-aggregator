@@ -49,7 +49,6 @@ class WPRSS_Feed_Access
             $wprss = wprss();
             add_action( 'wprss_fetch_feed_before', array( $this, 'set_feed_options' ), 10, 2 );
             add_action( 'wprss_settings_array', array( $this, 'add_settings' ) );
-            add_action( 'wprss_default_settings_general', array( $this, 'add_default_settings' ) );
             $wprss->on('fields', array($this, 'add_feed_source_fields'));
 	}
 
@@ -111,7 +110,7 @@ class WPRSS_Feed_Access
      */
     public function get_useragent_setting()
     {
-		return wprss_get_general_setting( self::SETTING_KEY_FEED_REQUEST_USERAGENT );
+		return wprss_get_general_setting( self::SETTING_KEY_FEED_REQUEST_USERAGENT, true );
     }
 
     /**
@@ -235,21 +234,6 @@ class WPRSS_Feed_Access
 
             return $fields;
         }
-
-
-	/**
-	 * @since 4.7
-	 * @param array $settings The array of settings, where key is
-	 * @return array The new array of default settings
-	 */
-	public function add_default_settings( $settings ) {
-		$settings[ self::SETTING_KEY_CERTIFICATE_PATH ] = implode( '/', array( WPINC, 'certificates', 'ca-bundle.crt' ) );
-        /** @since 4.8.2 */
-        $settings[ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = '';
-
-		return $settings;
-	}
-
 
 	/**
 	 * Renders the setting field for the certificate path.

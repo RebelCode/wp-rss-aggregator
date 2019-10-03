@@ -105,7 +105,7 @@ abstract class AbstractSavePostHandler
         $this->saving = true;
 
         // Parse the meta
-        $metaData = $this->parseArgsWithSchema($_REQUEST, $this->getMetaSchema());
+        $metaData = $this->parseArgsWithSchema($_REQUEST, $this->getMetaSchema($post));
         // Check if the post is an auto draft
         $autoDraft = ($post->post_status === 'auto-draft');
 
@@ -194,5 +194,5 @@ abstract class AbstractSavePostHandler
      *
      * @return array The schema.
      */
-    abstract protected function getMetaSchema();
+    abstract protected function getMetaSchema(WP_Post $post);
 }

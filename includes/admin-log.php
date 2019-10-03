@@ -105,7 +105,9 @@ function wprss_reset_log()
  */
 function wprss_log($message, $src = null, $log_level = null)
 {
-    $log_level = ($log_level) ? LogLevel::ERROR : $log_level;
+    $log_level = ($log_level === null)
+        ? LogLevel::DEBUG
+        : $log_level;
 
     wpra_get_logger()->log($log_level, $message);
 }
@@ -115,7 +117,7 @@ function wprss_log($message, $src = null, $log_level = null)
  *
  * @since 3.9.6
  */
-function wprss_log_obj($message, $obj, $src = '', $log_level = LogLevel::ERROR)
+function wprss_log_obj($message, $obj, $src = '', $log_level = null)
 {
     $message = sprintf('%s: %s', $message, print_r($obj, true));
 

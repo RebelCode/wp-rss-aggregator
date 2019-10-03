@@ -541,7 +541,7 @@ class Manager {
             'edd_action'            => null,
             'license'               => null,
             'item_name'             => null,
-            'url'                   => network_site_url(),
+            'url'                   => network_home_url(),
             'time'                  => time(),
         );
 

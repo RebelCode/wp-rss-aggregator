@@ -39,6 +39,9 @@ class SaveBlacklistHandler extends AbstractSavePostHandler
             ];
         }
 
+        // Save the the blacklisted permalink
+        update_post_meta($post->ID, 'wprss_permalink', $meta['wprss_permalink']);
+
         // Empty titles default to the URL
         if (empty($post->post_title)) {
             wp_update_post([
@@ -55,11 +58,12 @@ class SaveBlacklistHandler extends AbstractSavePostHandler
      *
      * @since 4.13
      */
-    protected function getMetaSchema()
+    protected function getMetaSchema(WP_Post $post)
     {
         return [
             'wprss_permalink' => [
-                'filter' => FILTER_VALIDATE_URL,
+                'filter' => FILTER_SANITIZE_URL,
+                'default' => get_post_meta($post->ID, 'wprss_permalink', true)
             ],
         ];
     }

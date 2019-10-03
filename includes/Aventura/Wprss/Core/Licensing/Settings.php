@@ -112,6 +112,11 @@ class Settings {
         if ( ! isset( $args['addon'] ) ) {
             return false;
         }
+
+        if (!is_main_site()) {
+            return false;
+        }
+
         $license = $this->getManager()->getLicense( $args['addon'] );
 
         return is_null($license) || strlen( $license->getKey() ) === 0;

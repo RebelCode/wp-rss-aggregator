@@ -25,7 +25,7 @@ class LoremModule implements ModuleInterface
         add_action('wprss_admin_exclusive_scripts_styles', $c->get('wpra/lorem/script/enqueue_fn'));
 
         // Adds the Lorem embed on the "Help & Support" page, after the page title.
-        add_action('wpra/help_page/after_title', function () use ($c) {
+        add_action('wpra/help_page/bottom', function () use ($c) {
             echo $c->get('wpra/lorem/help_page/html');
         });
     }
@@ -95,7 +95,7 @@ class LoremModule implements ModuleInterface
              * @since 4.15.1
              */
             'wpra/lorem/help_page/html' => function (ContainerInterface $c) {
-                return '<div data-lorem-embed-id="rss-help-and-support"></div>';
+                return '<div style="margin-top: 10px;" data-lorem-embed-id="rss-help-and-support-with-prefabs"></div>';
             },
         ];
     }

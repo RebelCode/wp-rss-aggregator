@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.15.2] - 2019-10-03
+### Added
+* Links and integrations with Lorem for custom developer work.
+
+### Changed
+* The default logging type is now "debug".
+- Feeds are now sorted alphabetically by default.
+
+### Fixed
+* Multisite installations only allowed the main site to have activated licenses.
+* License notices now only appear on the main site if the site is a multisite network.
+* Blacklist items would occassionally be saved without a permalink.
+* Older versions of add-ons triggered errors when trying to log messages with the default log type.
+* Fixed checkbox legacy display options not saving correctly.
+* A saved empty useragent string in the settings caused the internal default to not be used.
+* The certificate path option was not defaulting correctly.
+* Media thumbnail images were not being detected properly.
+* An invalid feed would trigger false positive errors on fetch.
+
 ## [4.15.1] - 2019-08-14
 ### Added
 * New link to the custom feed in the "Custom Feed" settings page.

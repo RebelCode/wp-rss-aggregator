@@ -147,13 +147,12 @@ function wprss_settings_date_callback()
 function wprss_setting_title_link_callback($field)
 {
     $title_link = wprss_get_general_setting('title_link');
-    $checked = ($title_link == '1');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[title_link]',
-        '1',
-        $checked
+        'title_link',
+        $title_link,
+        '1'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
@@ -192,13 +191,12 @@ function wprss_setting_title_length_callback($field)
 function wprss_setting_authors_enable_callback($field)
 {
     $authors_enable = wprss_get_general_setting('authors_enable');
-    $checked = ($authors_enable == '1');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[authors_enable]',
-        '1',
-        $checked
+        'authors_enable',
+        $authors_enable,
+        '1'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
@@ -291,13 +289,12 @@ function wprss_setting_open_dd_callback($field)
 function wprss_setting_follow_dd_callback($field)
 {
     $follow_dd = wprss_get_general_setting('follow_dd');
-    $checked = ($follow_dd === 'no_follow');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[follow_dd]',
-        'no_follow',
-        $checked
+        'follow_dd',
+        $follow_dd,
+        'no_follow'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
@@ -312,13 +309,12 @@ function wprss_setting_follow_dd_callback($field)
 function wprss_setting_source_enable_callback($field)
 {
     $source_enable = wprss_get_general_setting('source_enable');
-    $checked = ($source_enable == '1');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[source_enable]',
-        '1',
-        $checked
+        'source_enable',
+        $source_enable,
+        '1'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
@@ -352,13 +348,12 @@ function wprss_setting_text_preceding_source_callback($field)
 function wprss_setting_source_link_callback($field)
 {
     $source_link = wprss_get_general_setting('source_link');
-    $checked = ($source_link == '1');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[source_link]',
-        '1',
-        $checked
+        'source_link',
+        $source_link,
+        '1'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
@@ -373,13 +368,12 @@ function wprss_setting_source_link_callback($field)
 function wprss_setting_date_enable_callback($field)
 {
     $date_enable = wprss_get_general_setting('date_enable');
-    $checked = ($date_enable == '1');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[date_enable]',
-        '1',
-        $checked
+        'date_enable',
+        $date_enable,
+        '1'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
@@ -438,13 +432,12 @@ function wprss_setting_date_format_callback($field)
 function wprss_setting_time_ago_format_enable_callback($field)
 {
     $time_ago_format = wprss_get_general_setting('time_ago_format_enable');
-    $checked = ($time_ago_format == '1');
 
-    echo wprss_settings_render_checkbox(
+    echo wprss_options_render_checkbox(
         $field['field_id'],
-        'wprss_settings_general[time_ago_format_enable]',
-        '1',
-        $checked
+        'time_ago_format_enable',
+        $time_ago_format,
+        '1'
     );
     echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 }
