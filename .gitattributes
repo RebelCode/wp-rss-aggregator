@@ -3,6 +3,7 @@ nbproject export-ignore
 build export-ignore
 releases export-ignore
 node_modules export-ignore
+tests export-ignore
 .babelrc export-ignore
 .codeclimate.yml export-ignore
 .gitignore export-ignore

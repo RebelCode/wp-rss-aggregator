@@ -34,11 +34,20 @@
         "rebelcode/composer-cleanup-plugin": "dev-master"
     },
     "require-dev": {
-        "johnpbloch/wordpress-core": "^4.4 | ^5.0"
+        "johnpbloch/wordpress-core": "^4.4 | ^5.0",
+        "phpunit/phpunit": "^4.8",
+        "10up/wp_mock": "^0.1.1"
     },
     "autoload": {
         "psr-4": {
-            "RebelCode\\Wpra\\Core\\": "src"
+            "RebelCode\\Wpra\\Core\\": "src",
+            "RebelCode\\Entities\\": "lib/Entities"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RebelCode\\Wpra\\Core\\UnitTests\\": "test/unit",
+            "RebelCode\\Wpra\\Core\\FuncTests\\": "test/functional"
         }
     },
     "config": {
