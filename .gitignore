@@ -8,6 +8,7 @@
 /node_modules/
 /js/build/
 /css/build/
+test/log
 *.!sync
 log.txt
 log-*.txt

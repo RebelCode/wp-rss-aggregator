@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Handlers\FeedSources;
 
-use RebelCode\Wpra\Core\Entities\Feeds\Sources\WpPostFeedSource;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use WP_Post;
 
 /**
@@ -13,12 +13,44 @@ use WP_Post;
 class FeedSourceSaveMetaHandler
 {
     /**
+     * @since [*next-version*]
+     *
+     * @var CollectionInterface
+     */
+    protected $collection;
+
+    /**
+     * @since [*next-version*]
+     *
+     * @var bool
+     */
+    protected $locked;
+
+    /**
+     * Constructor.
+     *
+     * @since [*next-version*]
+     *
+     * @param CollectionInterface $collection The feed sources collection.
+     */
+    public function __construct(CollectionInterface $collection)
+    {
+        $this->collection = $collection;
+        $this->locked = false;
+    }
+
+    /**
      * @inheritdoc
      *
      * @since 4.14
      */
     public function __invoke($postId, WP_Post $post)
     {
+        // If the handler is locked (already running), stop to prevent an infinite loop
+        if ($this->locked) {
+            return;
+        }
+
         // Verify the nonce to ensure that the data is coming from the feed source edit page
         $nonce = filter_input(INPUT_POST, 'wprss_meta_box_nonce');
         if (!wp_verify_nonce($nonce, 'wpra_feed_source')) {
@@ -44,11 +76,18 @@ class FeedSourceSaveMetaHandler
             return;
         }
 
+        // Prevent infinite loop
+        $this->locked = true;
+
         // Get the feed source model object
-        $feed = new WpPostFeedSource($post);
+        $feed = $this->collection[$post->ID];
         // Save the meta to the feed
         foreach ($meta as $key => $value) {
-            $feed[$key] = $value;
+            if (isset($feed[$key])) {
+                $feed[$key] = $value;
+            }
         }
+
+        $this->locked = false;
     }
 }
