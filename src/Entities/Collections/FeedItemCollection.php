@@ -1,38 +1,27 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Entities\Feeds\Items;
+namespace RebelCode\Wpra\Core\Entities\Collections;
 
-use RebelCode\Wpra\Core\Data\Collections\WpPostCollection;
-use WP_Post;
+use RebelCode\Entities\Api\SchemaInterface;
 
 /**
  * A collection implementation that is specific to WP RSS Aggregator feed items.
  *
  * @since 4.13
  */
-class WpPostFeedItemCollection extends WpPostCollection
+class FeedItemCollection extends WpEntityCollection
 {
     /**
      * Constructor.
      *
-     * @since 4.13
+     * @since 4.14
      *
-     * @param string     $postType The name of the post type.
-     * @param array|null $filter   Optional filter to restrict the collection query.
+     * @param string          $postType The name of the post type.
+     * @param SchemaInterface $schema   The schema for feed item entities.
      */
-    public function __construct($postType, $filter = null)
+    public function __construct($postType, SchemaInterface $schema)
     {
-        parent::__construct($postType, [], $filter);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since 4.13
-     */
-    protected function createModel(WP_Post $post)
-    {
-        return new WpPostFeedItem($post);
+        parent::__construct($postType, $schema);
     }
 
     /**
@@ -95,15 +84,5 @@ class WpPostFeedItemCollection extends WpPostCollection
         }
 
         return $r;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since 4.13
-     */
-    protected function createSelfWithFilter($filter)
-    {
-        return new static($this->postType, $filter);
     }
 }

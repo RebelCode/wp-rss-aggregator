@@ -1,8 +1,10 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Entities\Feeds\Templates;
+namespace RebelCode\Wpra\Core\Entities\Collections;
 
-use RebelCode\Wpra\Core\Data\Collections\WpPostCollection;
+use RebelCode\Entities\Api\EntityInterface;
+use RebelCode\Entities\Api\SchemaInterface;
+use RebelCode\Entities\Entity;
 use WP_Post;
 
 /**
@@ -10,7 +12,7 @@ use WP_Post;
  *
  * @since 4.13
  */
-class WpPostFeedTemplateCollection extends WpPostCollection
+class FeedTemplateCollection extends WpEntityCollection
 {
     /**
      * The default template's type.
@@ -22,35 +24,28 @@ class WpPostFeedTemplateCollection extends WpPostCollection
     protected $defType;
 
     /**
+     * @since [*next-version*]
+     *
+     * @var callable
+     */
+    protected $builtInStoreFactory;
+
+    /**
      * Constructor.
      *
      * @since 4.13
      *
-     * @param string     $postType The name of the post type.
-     * @param string     $defType  The default template's type.
-     * @param array|null $filter   Optional filter to restrict the collection query.
+     * @param string          $postType            The name of the post type.
+     * @param string          $defType             The default template's type.
+     * @param SchemaInterface $schema              The schema for feed template entities.
+     * @param callable        $builtInStoreFactory The factory that creates stores for builtin templates.
      */
-    public function __construct($postType, $defType, $filter = null)
+    public function __construct($postType, SchemaInterface $schema, $defType, callable $builtInStoreFactory)
     {
-        parent::__construct($postType, [], $filter);
+        parent::__construct($postType, $schema);
 
         $this->defType = $defType;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @since 4.13
-     */
-    protected function createModel(WP_Post $post)
-    {
-        $model = new WpPostFeedTemplate($post);
-
-        if (isset($model['type']) && $model['type'] === $this->defType) {
-            return new BuiltInFeedTemplate($post);
-        }
-
-        return $model;
+        $this->builtInStoreFactory = $builtInStoreFactory;
     }
 
     /**
@@ -72,7 +67,7 @@ class WpPostFeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * Overridden to ensure that the slug updates with the title and that the status is still "publish".
+     * Overridden to ensure that the slug updates with the title.
      *
      * @since 4.13
      */
@@ -80,8 +75,7 @@ class WpPostFeedTemplateCollection extends WpPostCollection
     {
         $post = parent::getUpdatePostData($key, $data);
         // Clear the slug so WordPress re-generates it
-        $post['post_name'] = '';
-        $post['post_status'] = 'publish';
+        $post['slug'] = '';
 
         return $post;
     }
@@ -89,7 +83,7 @@ class WpPostFeedTemplateCollection extends WpPostCollection
     /**
      * {@inheritdoc}
      *
-     * Overridden to sort the templates by title, with builtin templates served at the very top of the list.
+     * Overridden to sort the templates by title, with built in templates at the very top of the list.
      *
      * @since 4.13
      */
@@ -97,16 +91,16 @@ class WpPostFeedTemplateCollection extends WpPostCollection
     {
         $posts = parent::queryPosts($key);
 
-        usort($posts, function (WP_Post $a, WP_Post $b) {
-            if ($a->wprss_template_type === '__built_in') {
+        usort($posts, function (EntityInterface $a, EntityInterface $b) {
+            if ($a->get('type') === '__built_in') {
                 return -1;
             }
 
-            if ($b->wprss_template_type === '__built_in') {
+            if ($b->get('type') === '__built_in') {
                 return 1;
             }
 
-            return strcmp($a->post_title, $b->post_title);
+            return strcmp($a->get('name'), $b->get('name'));
         });
 
         return $posts;
@@ -122,12 +116,12 @@ class WpPostFeedTemplateCollection extends WpPostCollection
         $r = parent::handleFilter($queryArgs, $key, $value);
 
         if ($key === 'type') {
-            $subQuery =  [
+            $subQuery = [
                 'relation' => 'or',
                 [
                     'key' => 'wprss_template_type',
                     'value' => $value,
-                ]
+                ],
             ];
             if ($value === 'list') {
                 $subQuery[] = [
@@ -145,12 +139,20 @@ class WpPostFeedTemplateCollection extends WpPostCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @since 4.13
+     * @since [*next-version*]
      */
-    protected function createSelfWithFilter($filter)
+    protected function createEntity(WP_Post $post)
     {
-        return new static($this->postType, $this->defType, $filter);
+        $type = get_post_meta($post->ID, 'wprss_template_type', true);
+
+        if ($type === $this->defType) {
+            $store = call_user_func_array($this->builtInStoreFactory, [$post]);
+
+            return new Entity($this->schema, $store);
+        }
+
+        return parent::createEntity($post);
     }
 }

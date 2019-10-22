@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Entities\Feeds\Items\ImportedItemsCollection;
+use RebelCode\Wpra\Core\Entities\Collections\ImportedItemsCollection;
 
 /**
  * The WP RSS Aggregator importer module.
@@ -20,8 +20,8 @@ class ImporterModule implements ModuleInterface
     public function getFactories()
     {
         return [
-            'wpra/importer/items/collection' => function () {
-                return new ImportedItemsCollection(
+            'wpra/importer/items/collection' => function (ContainerInterface $c) {
+                $collection = new ImportedItemsCollection(
                     [
                         'relation' => 'AND',
                         [
@@ -29,6 +29,10 @@ class ImporterModule implements ModuleInterface
                             'compare' => 'EXISTS',
                         ],
                     ],
+                    $c->get('wpra/feeds/items/schema')
+                );
+
+                return $collection->filter(
                     [
                         'order_by' => 'date',
                         'order'    => 'DESC',
