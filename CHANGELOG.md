@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Incompatibility with other plugins that use similar import/export mechanisms.
+* Incompatibility with PolyLang, causing the block and shortcode to show no feed items.
 * Timeout and infinite loop when saving a feed source.
 
 ## [4.15.2] - 2019-10-03
