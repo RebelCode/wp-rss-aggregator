@@ -56,6 +56,7 @@ use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
+use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
@@ -403,6 +404,7 @@ function wpra_modules()
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),
         'parsedown' => new ParsedownModule(),
+        'polylang_compat' => new PolyLangCompatModule(),
     ]);
 }
 
