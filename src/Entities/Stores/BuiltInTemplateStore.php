@@ -52,7 +52,11 @@ class BuiltInTemplateStore extends WpPostStore
         $aliases = $this->getSettingsAliases();
         $sanitizers = $this->getSettingsSanitizers();
 
-        $options = parent::get($key);
+        // Get the options from the post's meta
+        $options = parent::has($key)
+            ? parent::get($key)
+            : [];
+
         foreach ($aliases as $alias => $key) {
             if (!isset($this->settings[$key])) {
                 continue;
