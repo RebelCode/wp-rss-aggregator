@@ -32,8 +32,8 @@ class DefaultingProperty implements PropertyInterface
      *
      * @since [*next-version*]
      *
-     * @param array $keys
-     * @param string $fn
+     * @param array    $keys
+     * @param callable $fn
      */
     public function __construct(array $keys, callable $fn = null)
     {

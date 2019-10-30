@@ -1,9 +1,10 @@
 <?php
 
-namespace RebelCode\Entities\Properties;
+namespace RebelCode\Wpra\Core\Entities\Properties;
 
 use RebelCode\Entities\Api\EntityInterface;
 use RebelCode\Entities\Api\PropertyInterface;
+use RebelCode\Entities\Properties\AbstractDecoratorProperty;
 
 /**
  * A decorator property that translates a datetime string property into a timestamp when reading and writes timestamps

@@ -10,7 +10,7 @@ use RebelCode\Entities\Api\PropertyInterface;
  *
  * @since [*next-version*]
  */
-class DecoratorProperty implements PropertyInterface
+class CallbackDecoratorProperty implements PropertyInterface
 {
     /**
      * @since [*next-version*]
