@@ -10,12 +10,12 @@ use RebelCode\Wpra\Core\Util\SanitizerInterface;
 /**
  * An implementation of a property that decorates another property and uses a sanitizer.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class SanitizedProperty extends AbstractDecoratorProperty
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var SanitizerInterface
      */
@@ -24,7 +24,7 @@ class SanitizedProperty extends AbstractDecoratorProperty
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param PropertyInterface  $property  The original property instance.
      * @param SanitizerInterface $sanitizer The sanitizer to use after reading and before writing.
@@ -39,7 +39,7 @@ class SanitizedProperty extends AbstractDecoratorProperty
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getter(EntityInterface $entity, $prev)
     {
@@ -49,7 +49,7 @@ class SanitizedProperty extends AbstractDecoratorProperty
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function setter(EntityInterface $entity, $value)
     {

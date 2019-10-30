@@ -8,19 +8,19 @@ use RebelCode\Entities\Api\StoreInterface;
 /**
  * A store implementation for an array stored in WordPress' wp_options table.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class WpOptionsArrayStore implements StoreInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var string
      */
     protected $option;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var array
      */
@@ -29,7 +29,7 @@ class WpOptionsArrayStore implements StoreInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param string $option The name of the option.
      */
@@ -42,7 +42,7 @@ class WpOptionsArrayStore implements StoreInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function get($key)
     {
@@ -56,7 +56,7 @@ class WpOptionsArrayStore implements StoreInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function has($key)
     {
@@ -66,7 +66,7 @@ class WpOptionsArrayStore implements StoreInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function set(array $data)
     {

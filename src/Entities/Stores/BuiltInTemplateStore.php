@@ -12,12 +12,12 @@ use WP_Post;
  * A custom store implementation built specifically for builtin templates. This implementation intercerpts read and
  * write operations for the template's "options" key to store redundant information in the legacy display settings.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class BuiltInTemplateStore extends WpPostStore
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var DataSetInterface
      */
@@ -26,7 +26,7 @@ class BuiltInTemplateStore extends WpPostStore
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param WP_Post          $wpPost   The post instance.
      * @param DataSetInterface $settings The settings dataset.
@@ -41,7 +41,7 @@ class BuiltInTemplateStore extends WpPostStore
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function get($key)
     {
@@ -77,7 +77,7 @@ class BuiltInTemplateStore extends WpPostStore
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function set(array $data)
     {
@@ -100,7 +100,7 @@ class BuiltInTemplateStore extends WpPostStore
     /**
      * Retrieves the settings options aliases.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @return string[]
      */
@@ -132,7 +132,7 @@ class BuiltInTemplateStore extends WpPostStore
     /**
      * Retrieves the sanitizers for the settings options.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @return SanitizerInterface[]
      */

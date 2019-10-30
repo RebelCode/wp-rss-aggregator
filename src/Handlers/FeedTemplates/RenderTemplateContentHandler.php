@@ -43,7 +43,7 @@ class RenderTemplateContentHandler
     /**
      * The collection of templates.
      *
-     * @since [*next-version*]
+     * @since [*some-version*]
      *
      * @var CollectionInterface
      */

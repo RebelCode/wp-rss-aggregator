@@ -7,26 +7,26 @@ use RebelCode\Wpra\Core\Util\SanitizerInterface;
 /**
  * A sanitizer implementation for any native PHP filters.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class PhpFilterSanitizer implements SanitizerInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var int
      */
     protected $filter;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var int
      */
     protected $flags;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var array
      */
@@ -35,7 +35,7 @@ class PhpFilterSanitizer implements SanitizerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param int   $filter  The filter.
      * @param int   $flags   The filter flags.
@@ -51,7 +51,7 @@ class PhpFilterSanitizer implements SanitizerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function sanitize($value)
     {

@@ -13,14 +13,14 @@ use WP_Post;
 class FeedSourceSaveMetaHandler
 {
     /**
-     * @since [*next-version*]
+     * @since [*some-version*]
      *
      * @var CollectionInterface
      */
     protected $collection;
 
     /**
-     * @since [*next-version*]
+     * @since [*some-version*]
      *
      * @var bool
      */
@@ -29,7 +29,7 @@ class FeedSourceSaveMetaHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since [*some-version*]
      *
      * @param CollectionInterface $collection The feed sources collection.
      */

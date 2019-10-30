@@ -77,7 +77,7 @@ class PaginatedIterator extends LimitIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function next()
     {

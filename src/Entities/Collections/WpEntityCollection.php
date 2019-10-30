@@ -60,7 +60,7 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
     /**
      * The entity schema.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var SchemaInterface
      */
@@ -345,7 +345,7 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Queries posts from the database and creates the data sets.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param int|string|null $key Optional ID or slug which, if not null, narrows down the query to only that post.
      *
@@ -366,7 +366,7 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
     /**
      * Creates an entity instance for a given WordPress post.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param WP_Post $post The WordPress post instance.
      *

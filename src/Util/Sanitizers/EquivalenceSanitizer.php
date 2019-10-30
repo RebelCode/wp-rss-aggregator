@@ -8,19 +8,19 @@ use RebelCode\Wpra\Core\Util\SanitizerInterface;
  * A sanitizer that compares values against another static literal value and yields booleans, with support for negated
  * equivalence checking.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class EquivalenceSanitizer implements SanitizerInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var mixed
      */
     protected $value;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var bool
      */
@@ -29,7 +29,7 @@ class EquivalenceSanitizer implements SanitizerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param mixed $value    The value to compare against.
      * @param bool  $notEqual Whether to use negated equivalence.
@@ -43,7 +43,7 @@ class EquivalenceSanitizer implements SanitizerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function sanitize($value)
     {

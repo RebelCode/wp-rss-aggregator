@@ -7,14 +7,14 @@ use Psr\Container\ContainerInterface;
 /**
  * A module that adds compatibility with the PolyLang plugin.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class PolyLangCompatModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getFactories()
     {
@@ -22,7 +22,7 @@ class PolyLangCompatModule implements ModuleInterface
             /*
              * The filter handler that registers the feed item CPT.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/polylang/handlers/register_feed_item_cpt' => function (ContainerInterface $c) {
                 return function ($postTypes) use ($c) {
@@ -44,7 +44,7 @@ class PolyLangCompatModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getExtensions()
     {
@@ -54,7 +54,7 @@ class PolyLangCompatModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function run(ContainerInterface $c)
     {

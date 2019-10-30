@@ -10,17 +10,17 @@ use RebelCode\Wpra\Core\Util\IteratorDelegateTrait;
 /**
  * A data set adapter for entity instances.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class EntityDataSet implements DataSetInterface, EntityInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      */
     use IteratorDelegateTrait;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var EntityInterface
      */
@@ -29,7 +29,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param EntityInterface $entity The entity instance.
      */
@@ -41,7 +41,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function offsetExists($offset)
     {
@@ -57,7 +57,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function offsetGet($offset)
     {
@@ -67,7 +67,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function offsetSet($offset, $value)
     {
@@ -77,7 +77,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function offsetUnset($offset)
     {
@@ -87,7 +87,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     protected function getIterator()
     {
@@ -97,7 +97,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function get($key)
     {
@@ -107,7 +107,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function set(array $data)
     {
@@ -117,7 +117,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getStore()
     {
@@ -127,7 +127,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getSchema()
     {
@@ -137,7 +137,7 @@ class EntityDataSet implements DataSetInterface, EntityInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function export()
     {

@@ -14,26 +14,26 @@ use WP_Post;
  * A property implementation that transforms a post ID into an entity instance when reading, and vice-versa when
  * writing.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class WpPostEntityProperty implements PropertyInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var string
      */
     protected $idKey;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var SchemaInterface
      */
     protected $schema;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var callable|null
      */
@@ -42,7 +42,7 @@ class WpPostEntityProperty implements PropertyInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param string          $idKey   The data store key where the post ID is stored.
      * @param SchemaInterface $schema  The schema to use for created entities.
@@ -60,7 +60,7 @@ class WpPostEntityProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getValue(EntityInterface $entity)
     {
@@ -80,7 +80,7 @@ class WpPostEntityProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function setValue(EntityInterface $entity, $value)
     {

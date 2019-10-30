@@ -52,7 +52,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The properties for feed template entities.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/templates/properties' => function () {
                 return [
@@ -66,7 +66,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The default values for feed template entities.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/templates/defaults' => function () {
                 return [
@@ -80,7 +80,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The schema for feed templates.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/templates/schema' => function (ContainerInterface $c) {
                 return new Schema(
@@ -91,7 +91,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The store to use for built in templates.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/templates/builtin_store_factory' => function (ContainerInterface $c) {
                 $settings = $c->get('wpra/feeds/templates/display_settings');
@@ -103,7 +103,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * The data set that contains the legacy display settings.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/templates/display_settings' => function (ContainerInterface $c) {
                 if ($c->has('wpra/settings/general/dataset')) {

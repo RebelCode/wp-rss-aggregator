@@ -11,19 +11,19 @@ use RebelCode\Entities\Api\PropertyInterface;
  *
  * The defaulting mechanism only works for read operations. All write operations are made to the feed item's property.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class WpraSourceDefaultProperty implements PropertyInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var string
      */
     protected $key;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var string
      */
@@ -32,7 +32,7 @@ class WpraSourceDefaultProperty implements PropertyInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param string $key     The data store key to read from and write to.
      * @param string $feedKey The key in feed source entities to default to.
@@ -46,7 +46,7 @@ class WpraSourceDefaultProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getValue(EntityInterface $entity)
     {
@@ -72,7 +72,7 @@ class WpraSourceDefaultProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function setValue(EntityInterface $entity, $value)
     {

@@ -9,12 +9,12 @@ use RebelCode\Entities\Api\PropertyInterface;
  * An implementation of a property that transforms a WordPress featured image ID into a URL when reading, and
  * vice-versa when writing.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class WpFtImageUrlProperty implements PropertyInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class WpFtImageUrlProperty implements PropertyInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param string $ftImageIdKey The data store key where the featured image ID is stored.
      */
@@ -35,7 +35,7 @@ class WpFtImageUrlProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getValue(EntityInterface $entity)
     {
@@ -48,7 +48,7 @@ class WpFtImageUrlProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function setValue(EntityInterface $entity, $value)
     {

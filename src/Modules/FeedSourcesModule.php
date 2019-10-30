@@ -37,7 +37,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The properties for feed source entities.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/sources/properties' => function (ContainerInterface $c) {
                 return [
@@ -98,7 +98,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The default values for feed source entities.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/sources/defaults' => function (ContainerInterface $c) {
                 return [
@@ -122,7 +122,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The schema for feed source entities.
              *
-             * @since [*next-version*]
+             * @since 4.16
              */
             'wpra/feeds/sources/schema' => function (ContainerInterface $c) {
                 return new Schema(

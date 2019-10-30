@@ -7,14 +7,14 @@ use RebelCode\Wpra\Core\Util\SanitizerInterface;
 /**
  * A sanitizer implementation that sanitizes boolean values.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class BoolSanitizer implements SanitizerInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function sanitize($value)
     {

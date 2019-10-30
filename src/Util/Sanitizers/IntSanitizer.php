@@ -7,26 +7,26 @@ use RebelCode\Wpra\Core\Util\SanitizerInterface;
 /**
  * A sanitizer implementation that sanitizes integer values, with configuration for range control and a default value.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class IntSanitizer implements SanitizerInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var int
      */
     protected $default;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var int|null
      */
     protected $min;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var int|null
      */
@@ -35,7 +35,7 @@ class IntSanitizer implements SanitizerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param int      $default The default value to return if a value is not an integer or is not inside the range.
      * @param int|null $min     Optional minimum value for range control.
@@ -51,7 +51,7 @@ class IntSanitizer implements SanitizerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function sanitize($value)
     {

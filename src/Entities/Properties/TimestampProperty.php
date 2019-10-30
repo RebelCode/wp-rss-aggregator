@@ -10,12 +10,12 @@ use RebelCode\Entities\Properties\AbstractDecoratorProperty;
  * A decorator property that translates a datetime string property into a timestamp when reading and writes timestamps
  * as date time strings.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class TimestampProperty extends AbstractDecoratorProperty
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var string
      */
@@ -24,7 +24,7 @@ class TimestampProperty extends AbstractDecoratorProperty
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param PropertyInterface $property The property instance to decorate.
      * @param string            $format   The datetime format to use when writing to the data store.
@@ -39,7 +39,7 @@ class TimestampProperty extends AbstractDecoratorProperty
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     protected function getter(EntityInterface $entity, $prev)
     {
@@ -49,7 +49,7 @@ class TimestampProperty extends AbstractDecoratorProperty
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     protected function setter(EntityInterface $entity, $value)
     {

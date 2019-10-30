@@ -7,12 +7,12 @@ use RebelCode\Wpra\Core\Util\SanitizerInterface;
 /**
  * A sanitizer implementation that uses callbacks for sanitization.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class CallbackSanitizer implements SanitizerInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var callable
      */
@@ -21,7 +21,7 @@ class CallbackSanitizer implements SanitizerInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param callable $callback The callback function. Recieves the value as argument and should return the
      *                           sanitized value.
@@ -34,7 +34,7 @@ class CallbackSanitizer implements SanitizerInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function sanitize($value)
     {

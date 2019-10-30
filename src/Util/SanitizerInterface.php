@@ -5,14 +5,14 @@ namespace RebelCode\Wpra\Core\Util;
 /**
  * Interface for objects that can sanitize values.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 interface SanitizerInterface
 {
     /**
      * Sanitizes a given value.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param mixed $value The value to sanitize.
      *

@@ -9,12 +9,12 @@ use WP_Post;
 /**
  * An implementation of a store that uses a WordPress post instance for storage. Supports both post data and meta data.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class WpPostStore implements StoreInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var array
      */
@@ -23,7 +23,7 @@ class WpPostStore implements StoreInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param WP_Post $wpPost The post instance.
      */
@@ -35,7 +35,7 @@ class WpPostStore implements StoreInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function get($key)
     {
@@ -55,7 +55,7 @@ class WpPostStore implements StoreInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function has($key)
     {
@@ -65,7 +65,7 @@ class WpPostStore implements StoreInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function set(array $data)
     {

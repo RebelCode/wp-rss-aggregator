@@ -8,19 +8,19 @@ use OuterIterator;
 /**
  * A decorator iterator that passes each value yielded from the inner iterator through a callback before yielding.
  *
- * @since [*next-version*]
+ * @since 4.16
  */
 class CallbackIterator implements OuterIterator
 {
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var Iterator
      */
     protected $inner;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var callable
      */
@@ -29,7 +29,7 @@ class CallbackIterator implements OuterIterator
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @param Iterator $inner    The inner iterator.
      * @param callable $callback The callback function to run for each element. Receives the original element from the
@@ -44,7 +44,7 @@ class CallbackIterator implements OuterIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function getInnerIterator()
     {
@@ -54,7 +54,7 @@ class CallbackIterator implements OuterIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function rewind()
     {
@@ -64,7 +64,7 @@ class CallbackIterator implements OuterIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function key()
     {
@@ -74,7 +74,7 @@ class CallbackIterator implements OuterIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function current()
     {
@@ -84,7 +84,7 @@ class CallbackIterator implements OuterIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function next()
     {
@@ -94,7 +94,7 @@ class CallbackIterator implements OuterIterator
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     public function valid()
     {

@@ -24,7 +24,7 @@ class FeedTemplateCollection extends WpEntityCollection
     protected $defType;
 
     /**
-     * @since [*next-version*]
+     * @since 4.16
      *
      * @var callable
      */
@@ -141,7 +141,7 @@ class FeedTemplateCollection extends WpEntityCollection
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.16
      */
     protected function createEntity(WP_Post $post)
     {
