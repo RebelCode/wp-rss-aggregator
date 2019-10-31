@@ -4,8 +4,12 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
+use RebelCode\Entities\Properties\Property;
+use RebelCode\Entities\Schemas\Schema;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\Collections\NullCollection;
-use RebelCode\Wpra\Core\Entities\Feeds\Templates\WpPostFeedTemplateCollection;
+use RebelCode\Wpra\Core\Entities\Collections\FeedTemplateCollection;
+use RebelCode\Wpra\Core\Entities\Stores\BuiltInTemplateStore;
 use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Handlers\FeedTemplates\AjaxRenderFeedsTemplateHandler;
 use RebelCode\Wpra\Core\Handlers\FeedTemplates\CreateDefaultFeedTemplateHandler;
@@ -28,6 +32,7 @@ use RebelCode\Wpra\Core\Templates\Feeds\TemplateTypeTemplate;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\ListTemplateType;
 use RebelCode\Wpra\Core\Wp\Asset\ScriptAsset;
 use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
+use WP_Post;
 
 /**
  * The templates module for WP RSS Aggregator.
@@ -44,6 +49,69 @@ class FeedTemplatesModule implements ModuleInterface
     public function getFactories()
     {
         return [
+            /*
+             * The properties for feed template entities.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/templates/properties' => function () {
+                return [
+                    'id' => new Property('ID'),
+                    'name' => new Property('post_title'),
+                    'slug' => new Property('post_name'),
+                    'type' => new Property('wprss_template_type'),
+                    'options' => new Property('wprss_template_options'),
+                ];
+            },
+            /*
+             * The default values for feed template entities.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/templates/defaults' => function () {
+                return [
+                    'id' => null,
+                    'name' => '',
+                    'slug' => '',
+                    'type' => '',
+                    'options' => [],
+                ];
+            },
+            /*
+             * The schema for feed templates.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/templates/schema' => function (ContainerInterface $c) {
+                return new Schema(
+                    $c->get('wpra/feeds/templates/properties'),
+                    $c->get('wpra/feeds/templates/defaults')
+                );
+            },
+            /*
+             * The store to use for built in templates.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/templates/builtin_store_factory' => function (ContainerInterface $c) {
+                $settings = $c->get('wpra/feeds/templates/display_settings');
+
+                return function(WP_Post $post) use ($settings) {
+                    return new BuiltInTemplateStore($post, $settings);
+                };
+            },
+            /*
+             * The data set that contains the legacy display settings.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/templates/display_settings' => function (ContainerInterface $c) {
+                if ($c->has('wpra/settings/general/dataset')) {
+                    return $c->get('wpra/settings/general/dataset');
+                }
+
+                return new ArrayDataSet([]);
+            },
             /*
              * The name of the feeds template CPT.
              *
@@ -295,9 +363,11 @@ class FeedTemplatesModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/feeds/templates/collection' => function (ContainerInterface $c) {
-                return new WpPostFeedTemplateCollection(
+                return new FeedTemplateCollection(
                     $c->get('wpra/feeds/templates/cpt/name'),
-                    $c->get('wpra/feeds/templates/default_template_type')
+                    $c->get('wpra/feeds/templates/schema'),
+                    $c->get('wpra/feeds/templates/default_template_type'),
+                    $c->get('wpra/feeds/templates/builtin_store_factory')
                 );
             },
             /*
@@ -564,7 +634,8 @@ class FeedTemplatesModule implements ModuleInterface
                 return new RenderTemplateContentHandler(
                     $c->get('wpra/feeds/templates/cpt/name'),
                     $c->get('wpra/feeds/templates/master_template'),
-                    $c->get('wpra/feeds/templates/generic_template')
+                    $c->get('wpra/feeds/templates/generic_template'),
+                    $c->get('wpra/feeds/templates/collection')
                 );
             },
             /*
@@ -710,7 +781,7 @@ class FeedTemplatesModule implements ModuleInterface
                     '/templates(?:/(?P<id>[^/]+))?',
                     ['GET'],
                     $c->get('wpra/feeds/templates/rest_api/v1/get_endpoint'),
-                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                    null //$c->get('wpra/rest_api/v1/auth/user_is_admin')
                 );
                 $endPoints['patch_templates'] = new EndPoint(
                     '/templates/(?P<id>[^/]+)',

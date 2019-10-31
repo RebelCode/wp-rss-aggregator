@@ -3,7 +3,10 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Entities\Feeds\Sources\WpPostFeedSourceCollection;
+use RebelCode\Entities\Properties\Property;
+use RebelCode\Entities\Schemas\Schema;
+use RebelCode\Wpra\Core\Entities\Collections\FeedSourceCollection;
+use RebelCode\Wpra\Core\Entities\Properties\SanitizedProperty;
 use RebelCode\Wpra\Core\Handlers\AddCapabilitiesHandler;
 use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Handlers\FeedSources\FeedSourceSaveMetaHandler;
@@ -12,6 +15,9 @@ use RebelCode\Wpra\Core\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
+use RebelCode\Wpra\Core\Util\Sanitizers\BoolSanitizer;
+use RebelCode\Wpra\Core\Util\Sanitizers\CallbackSanitizer;
+use RebelCode\Wpra\Core\Util\Sanitizers\IntSanitizer;
 
 /**
  * The feed sources module for WP RSS Aggregator.
@@ -29,12 +35,100 @@ class FeedSourcesModule implements ModuleInterface
     {
         return [
             /*
-             * The name of the feed sources CPT.
+             * The properties for feed source entities.
              *
-             * @since 4.13
+             * @since 4.16
              */
-            'wpra/feeds/sources/cpt/name' => function () {
-                return 'wprss_feed';
+            'wpra/feeds/sources/properties' => function (ContainerInterface $c) {
+                return [
+                    // == Basic info ==
+                    'id' => new Property('ID'),
+                    'name' => new Property('post_title'),
+                    'active' => new SanitizedProperty(
+                        new Property('wprss_state'),
+                        new CallbackSanitizer(function ($state) {
+                            return empty($state) || strtolower($state) === 'active';
+                        })
+                    ),
+                    // == Import options ==
+                    'url' => new Property('wprss_url'),
+                    'import_source' => new SanitizedProperty(
+                        new Property('wprss_import_source'),
+                        new BoolSanitizer()
+                    ),
+                    'import_limit' => new SanitizedProperty(
+                        new Property('wprss_limit'),
+                        new IntSanitizer(0, 0)
+                    ),
+                    'unique_titles_only' => new SanitizedProperty(
+                        new Property('wprss_unique_titles'),
+                        new BoolSanitizer()
+                    ),
+                    // == Image options ==
+                    'def_ft_image' => new Property('_thumbnail_id'),
+                    'import_ft_images' => new Property('wprss_import_ft_images'),
+                    'download_images' => new SanitizedProperty(
+                        new Property('wprss_download_images'),
+                        new BoolSanitizer()
+                    ),
+                    'download_srcset' => new SanitizedProperty(
+                        new Property('wprss_download_srcset'),
+                        new BoolSanitizer()
+                    ),
+                    'siphon_ft_image' => new SanitizedProperty(
+                        new Property('wprss_siphon_ft_image'),
+                        new BoolSanitizer()
+                    ),
+                    'must_have_ft_image' => new SanitizedProperty(
+                        new Property('wprss_must_have_ft_image'),
+                        new BoolSanitizer()
+                    ),
+                    'image_min_width' => new SanitizedProperty(
+                        new Property('wprss_image_min_width'),
+                        new IntSanitizer(0, 0)
+                    ),
+                    'image_min_height' => new SanitizedProperty(
+                        new Property('wprss_image_min_height'),
+                        new IntSanitizer(0, 0)
+                    ),
+                    // @todo remove after templates 0.2
+                    'title' => new Property('post_title'),
+                ];
+            },
+            /*
+             * The default values for feed source entities.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/sources/defaults' => function (ContainerInterface $c) {
+                return [
+                    'id' => null,
+                    'name' => '',
+                    'active' => true,
+                    'url' => '',
+                    'import_source' => false,
+                    'import_limit' => 0,
+                    'unique_titles_only' => false,
+                    'def_ft_image' => null,
+                    'import_ft_images' => '',
+                    'download_images' => false,
+                    'download_srcset' => false,
+                    'siphon_ft_image' => false,
+                    'must_have_ft_image' => false,
+                    'image_min_width' => 150,
+                    'image_min_height' => 150,
+                ];
+            },
+            /*
+             * The schema for feed source entities.
+             *
+             * @since 4.16
+             */
+            'wpra/feeds/sources/schema' => function (ContainerInterface $c) {
+                return new Schema(
+                    $c->get('wpra/feeds/sources/properties'),
+                    $c->get('wpra/feeds/sources/defaults')
+                );
             },
             /*
              * The collection for feed sources.
@@ -42,7 +136,18 @@ class FeedSourcesModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/feeds/sources/collection' => function (ContainerInterface $c) {
-                return new WpPostFeedSourceCollection($c->get('wpra/feeds/sources/cpt/name'));
+                return new FeedSourceCollection(
+                    $c->get('wpra/feeds/sources/cpt/name'),
+                    $c->get('wpra/feeds/sources/schema')
+                );
+            },
+            /*
+             * The name of the feed sources CPT.
+             *
+             * @since 4.13
+             */
+            'wpra/feeds/sources/cpt/name' => function () {
+                return 'wprss_feed';
             },
             /*
              * The labels for the feed sources CPT.
@@ -201,7 +306,9 @@ class FeedSourcesModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/feeds/sources/meta_box/save_handler' => function (ContainerInterface $c) {
-                return new FeedSourceSaveMetaHandler();
+                return new FeedSourceSaveMetaHandler(
+                    $c->get('wpra/feeds/sources/collection')
+                );
             },
         ];
     }

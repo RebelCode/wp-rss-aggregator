@@ -71,8 +71,18 @@ class PaginatedIterator extends LimitIterator
             ? parent::key()
             : $this->keyCount;
 
-        $this->keyCount++;
-
         return $key;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @since 4.16
+     */
+    public function next()
+    {
+        parent::next();
+
+        $this->keyCount++;
     }
 }

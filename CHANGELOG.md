@@ -4,13 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.16] - 2019-10-31
+### Changed
+* Overhauled the data set system with a more robust entity system.
+* Various database optimizations for better performance.
+
+### Fixed
+* Incompatibility with other plugins that use similar import/export mechanisms.
+* Incompatibility with PolyLang, causing the block and shortcode to show no feed items.
+* Timeout and infinite loop when saving a feed source.
+
 ## [4.15.2] - 2019-10-03
 ### Added
 * Links and integrations with Lorem for custom developer work.
 
 ### Changed
 * The default logging type is now "debug".
-- Feeds are now sorted alphabetically by default.
+* Feeds are now sorted alphabetically by default.
 
 ### Fixed
 * Multisite installations only allowed the main site to have activated licenses.

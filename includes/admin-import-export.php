@@ -44,17 +44,30 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
      * @since 3.1
      */
     function wp_rss_aggregator_export() {
-        if ( isset( $_POST['export'] ) && check_admin_referer( 'wprss-settings-export' ) ) {
-            $blogname = str_replace( " ", "", get_option( 'blogname' ) );
-            $date = date( "m-d-Y" );
-            $json_name = $blogname . "-" . $date; // Naming the filename that will be generated.
-
-            header( 'Content-Description: File Transfer' );
-            header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
-            header( "Content-Disposition: attachment; filename=$json_name.json" );
-            wp_rss_set_export_data();
-            die();
+        if (!isset($_POST['wpra-export'])) {
+            return;
         }
+
+        $adminurl  = strtolower( admin_url() );
+        $referer   = strtolower( wp_get_referer() );
+        $nonce     = 'wprss-settings-export';
+        $result    = isset($_POST['_wpnonce'])
+            ? wp_verify_nonce($_POST['_wpnonce'], 'wprss-settings-export')
+            : false;
+
+        if ($result === false) {
+            return;
+        }
+
+        $blogname = str_replace( " ", "", get_option( 'blogname' ) );
+        $date = date( "m-d-Y" );
+        $json_name = $blogname . "-" . $date; // Naming the filename that will be generated.
+
+        header( 'Content-Description: File Transfer' );
+        header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
+        header( "Content-Disposition: attachment; filename=$json_name.json" );
+        wp_rss_set_export_data();
+        die();
     }
 
 
@@ -126,16 +139,20 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
             return;
         }
         elseif ( $pagenow == 'edit.php' ) {
-            if ( isset( $_FILES['import'] ) && check_admin_referer( 'wprss-settings-import' ) ) {
-                if ( $_FILES['import']['error'] > 0) {
-                    wp_die( "Error during import" );
+            if (isset($_POST['wpra-import']) && isset($_FILES['wpra-import-file'])) {
+                check_admin_referer( 'wprss-settings-import' );
+
+                $import = $_FILES['wpra-import-file'];
+
+                if ( $import['error'] > 0) {
+                    wp_die( __('Error during import. Please upload a file', 'wprss') );
                 } else {
-                    $file_name = $_FILES['import']['name'];
+                    $file_name = $import['name'];
                     $file_name_parts = explode( ".", $file_name );
                     $file_ext = strtolower( end( $file_name_parts ) );
-                    $file_size = $_FILES['import']['size'];
+                    $file_size = $import['size'];
                     if ( ( $file_ext == "json" ) && ( $file_size < 500000 ) ) {
-                        $encode_options = file_get_contents( $_FILES['import']['tmp_name'] );
+                        $encode_options = file_get_contents( $import['tmp_name'] );
                         $options = json_decode( $encode_options, true );
                         foreach ( $options as $key => $value ) {
                             update_option( $key, $value );
@@ -184,7 +201,10 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
                 <form method="post">
                     <p class="submit">
                         <?php wp_nonce_field( 'wprss-settings-export' ); ?>
-                        <input type="submit" name="export" value="<?php _e( 'Export Settings', WPRSS_TEXT_DOMAIN ); ?>"  class="button" />
+                        <input type="submit"
+                               name="wpra-export"
+                               value="<?php _e( 'Export Settings', WPRSS_TEXT_DOMAIN); ?>"
+                               class="button" />
                     </p>
                 </form>
 
@@ -195,8 +215,11 @@ use Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider;
                 <form method='post' enctype='multipart/form-data'>
                     <p class="submit">
                         <?php wp_nonce_field( 'wprss-settings-import' ); ?>
-                        <input type='file' name='import' />
-                        <input type='submit' name='import' value="<?php _e( 'Import Settings', WPRSS_TEXT_DOMAIN ); ?>" class="button" />
+                        <input type='file' name='wpra-import-file' />
+                        <input type='submit'
+                               name='wpra-import'
+                               value="<?php _e( 'Import Settings', WPRSS_TEXT_DOMAIN ); ?>"
+                               class="button" />
                     </p>
                 </form>
 

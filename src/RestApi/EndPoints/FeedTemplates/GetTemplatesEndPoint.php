@@ -2,10 +2,10 @@
 
 namespace RebelCode\Wpra\Core\RestApi\EndPoints\FeedTemplates;
 
+use Iterator;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\RestApi\EndPoints\AbstractRestApiEndPoint;
 use RebelCode\Wpra\Core\Util\PaginatedIterator;
-use Traversable;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -119,7 +119,7 @@ class GetTemplatesEndPoint extends AbstractRestApiEndPoint
      * @param WP_REST_Request     $request    The request.
      * @param CollectionInterface $collection The collection to paginate.
      *
-     * @return Traversable The pagination collection iterable.
+     * @return Iterator The pagination collection iterator.
      */
     protected function paginateCollection(WP_REST_Request $request, CollectionInterface $collection)
     {

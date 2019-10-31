@@ -3,7 +3,7 @@
 namespace RebelCode\Wpra\Core\Handlers\FeedTemplates;
 
 use Dhii\Output\TemplateInterface;
-use RebelCode\Wpra\Core\Entities\Feeds\Templates\WpPostFeedTemplate;
+use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 
 /**
  * The handler that renders the template content, by rendering the template itself as would be done through normal
@@ -41,19 +41,34 @@ class RenderTemplateContentHandler
     protected $previewTemplate;
 
     /**
+     * The collection of templates.
+     *
+     * @since [*some-version*]
+     *
+     * @var CollectionInterface
+     */
+    protected $collection;
+
+    /**
      * Constructor.
      *
      * @since 4.13
      *
-     * @param string            $cpt      The name of the templates CPT.
-     * @param TemplateInterface $template The master template to use for rendering.
-     * @param TemplateInterface $previewTemplate The template to use for rendering previews.
+     * @param string              $cpt             The name of the templates CPT.
+     * @param TemplateInterface   $template        The master template to use for rendering.
+     * @param TemplateInterface   $previewTemplate The template to use for rendering previews.
+     * @param CollectionInterface $collection      The collection of templates.
      */
-    public function __construct($cpt, TemplateInterface $template, TemplateInterface $previewTemplate)
-    {
+    public function __construct(
+        $cpt,
+        TemplateInterface $template,
+        TemplateInterface $previewTemplate,
+        CollectionInterface $collection
+    ) {
         $this->cpt = $cpt;
         $this->masterTemplate = $template;
         $this->previewTemplate = $previewTemplate;
+        $this->collection = $collection;
     }
 
     /**
@@ -75,7 +90,7 @@ class RenderTemplateContentHandler
         }
 
         // Get the template instance
-        $template = new WpPostFeedTemplate($post);
+        $template = $this->collection[$post->ID];
 
         // Check if this is a preview, determined by serialized options in the GET param
         $options = filter_input(INPUT_GET, 'options', FILTER_DEFAULT);
@@ -84,11 +99,10 @@ class RenderTemplateContentHandler
             $options = json_decode(base64_decode($options), true);
             $options = empty($options) ? [] : (array) $options;
 
-
             // Render the preview
             return $this->previewTemplate->render([
                 'type' => $template['type'],
-                'options' => $options
+                'options' => $options,
             ]);
         }
 

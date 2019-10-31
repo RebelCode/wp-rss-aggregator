@@ -1,7 +1,8 @@
 <?php
 
-namespace RebelCode\Wpra\Core\Entities\Feeds\Items;
+namespace RebelCode\Wpra\Core\Entities\Collections;
 
+use RebelCode\Entities\Api\SchemaInterface;
 use RuntimeException;
 
 /**
@@ -9,19 +10,19 @@ use RuntimeException;
  *
  * @since 4.13
  */
-class ImportedItemsCollection extends WpPostFeedItemCollection
+class ImportedItemsCollection extends FeedItemCollection
 {
     /**
      * Constructor.
      *
      * @since 4.13
      *
-     * @param array      $metaQuery The meta query.
-     * @param array|null $filter    Optional filter to restrict the collection query.
+     * @param array           $metaQuery The meta query.
+     * @param SchemaInterface $schema    The schema for imported item entities.
      */
-    public function __construct($metaQuery = [], $filter = null)
+    public function __construct($metaQuery, SchemaInterface $schema)
     {
-        parent::__construct(null, $filter);
+        parent::__construct(null, $schema);
 
         $this->metaQuery = $metaQuery;
     }

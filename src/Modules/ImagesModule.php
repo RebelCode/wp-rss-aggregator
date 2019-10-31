@@ -276,15 +276,16 @@ class ImagesModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/images/items/dev_meta_box/handler' => function (ContainerInterface $c) {
-                $templates = $c->get('wpra/twig/collection');
+                $items = $c->get('wpra/feeds/items/collection');
+                $template = $c->get('wpra/twig/collection')['admin/items/images-meta-box.twig'];
 
                 return new RegisterMetaBoxHandler(
                     'wpra-dev-items-images',
                     __('Images', 'wprss'),
-                    new RenderTemplateHandler($templates['admin/items/images-meta-box.twig'], function () {
+                    new RenderTemplateHandler($template, function () use ($items) {
                         global $post;
                         return [
-                            'item' => new WpPostFeedItem($post),
+                            'item' => $items[$post->ID],
                         ];
                     }, true),
                     'wprss_feed_item'
