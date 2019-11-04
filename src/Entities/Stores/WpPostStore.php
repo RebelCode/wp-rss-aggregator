@@ -45,7 +45,7 @@ class WpPostStore implements StoreInterface
 
         $meta = get_post_meta($this->post['ID'], $key);
 
-        if (count($meta) > 0) {
+        if (is_array($meta) && count($meta) > 0) {
             return reset($meta);
         }
 

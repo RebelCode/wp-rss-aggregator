@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [[*next-version]] YYYY-MM-DD
+### Fixed
+* Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
+
 ## [4.16] - 2019-10-31
 ### Changed
 * Overhauled the data set system with a more robust entity system.
