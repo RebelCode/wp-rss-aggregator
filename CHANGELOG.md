@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [[*next-version]] YYYY-MM-DD
 ### Changed
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
+* Updated some styles to match the new WordPress 5.3 aesthetic.
 
 ### Fixed
 * The "Import Source" option did not work.
