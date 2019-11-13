@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * The "Import Source" option did not work.
+* Items that are imported as posts now link to the local post instead of the original article.
 * Feed items no longer require PolyLang translations to show up in the shortcode.
 * PHP notices were triggered when trying to download invalid images.
 * The feed item count in the "Feed Sources" page would show zero when certain add-ons are installed.

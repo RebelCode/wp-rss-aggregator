@@ -12,8 +12,9 @@ use RebelCode\Wpra\Core\Entities\Collections\FeedItemCollection;
 use RebelCode\Wpra\Core\Entities\Properties\TimestampProperty;
 use RebelCode\Wpra\Core\Entities\Properties\WpFtImageUrlProperty;
 use RebelCode\Wpra\Core\Entities\Properties\WpPostEntityProperty;
+use RebelCode\Wpra\Core\Entities\Properties\WpPostPermalinkProperty;
 use RebelCode\Wpra\Core\Entities\Properties\WpraItemSourceProperty;
-use RebelCode\Wpra\Core\Entities\Properties\WpraSourceDefaultProperty;
+use RebelCode\Wpra\Core\Entities\Properties\WpraPostTypeDependentProperty;
 use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
@@ -41,13 +42,21 @@ class FeedItemsModule implements ModuleInterface
             'wpra/feeds/items/properties' => function (ContainerInterface $c) {
                 $sourceSchema = $c->get('wpra/feeds/sources/schema');
 
+                $idProp = new Property('ID');
+
+                $urlProp = new WpraPostTypeDependentProperty(
+                    $idProp,
+                    new Property('wprss_item_permalink'),
+                    new WpPostPermalinkProperty($idProp)
+                );
+
                 return [
-                    'id' => new Property('ID'),
+                    'id' => $idProp,
                     'title' => new Property('post_title'),
                     'content' => new DefaultingProperty(['post_content', 'post_excerpt']),
                     'excerpt' => new DefaultingProperty(['post_excerpt', 'post_content']),
-                    'url' => new Property('wprss_item_permalink'),
-                    'permalink' => new Property('wprss_item_permalink'),
+                    'url' => $urlProp,
+                    'permalink' => $urlProp,
                     'enclosure' => new Property('wprss_item_enclosure'),
                     'author' => new Property('wprss_item_author'),
                     'date' => new Property('wprss_item_date'),
