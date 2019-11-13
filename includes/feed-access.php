@@ -442,7 +442,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 					$parser = new SimplePie_HTTP_Parser( $this->headers );
 					if ( $parser->parse() ) {
 						$this->headers = $parser->headers;
-						$this->body = $parser->body;
+						$this->body = $this->_processBody($parser->body);
 						$this->status_code = $parser->status_code;
 						if ( (in_array( $this->status_code, array( 300, 301, 302, 303, 307 ) ) || $this->status_code > 307 && $this->status_code < 400) && isset( $this->headers['location'] ) && $this->redirects < $redirects ) {
 							$this->redirects++;
@@ -506,7 +506,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 						$parser = new SimplePie_HTTP_Parser( $this->headers );
 						if ( $parser->parse() ) {
 							$this->headers = $parser->headers;
-							$this->body = $parser->body;
+							$this->body = $this->_processBody($parser->body);
 							$this->status_code = $parser->status_code;
 							if ( (in_array( $this->status_code, array( 300, 301, 302, 303, 307 ) ) || $this->status_code > 307 && $this->status_code < 400) && isset( $this->headers['location'] ) && $this->redirects < $redirects ) {
 								$this->redirects++;
@@ -523,7 +523,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 											$this->error = 'Unable to decode HTTP "gzip" stream';
 											$this->success = false;
 										} else {
-											$this->body = $decoder->data;
+											$this->body = $this->_processBody($decoder->data);
 										}
 										break;
 
@@ -538,6 +538,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 											$this->error = 'Unable to decode HTTP "deflate" stream';
 											$this->success = false;
 										}
+										$this->body = $this->_processBody($this->body);
 										break;
 
 									default:
@@ -555,13 +556,26 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 			}
 		} else {
 			$this->method = SIMPLEPIE_FILE_SOURCE_LOCAL | SIMPLEPIE_FILE_SOURCE_FILE_GET_CONTENTS;
-			if ( !$this->body = file_get_contents( $url ) ) {
+            $this->body = $this->_processBody(file_get_contents($url));
+			if ( !$this->body ) {
 				$this->error = 'file_get_contents could not read the file';
 				$this->success = false;
 			}
 		}
 	}
 
+    /**
+     * Processes the raw response body for an RSS feed.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $body The raw HTTP response body string.
+     *
+     * @return string The processed response body string.
+     */
+	protected function _processBody($body) {
+	    return trim($body);
+    }
 
 	/**
 	 * Additional preparation of the curl request.

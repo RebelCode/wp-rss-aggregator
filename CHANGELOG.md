@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version]] YYYY-MM-DD
+### Changed
+* RSS feeds that are invalid due to leading whitespace may now be imported anyway.
+
 ### Fixed
 * The "Import Source" option did not work.
 * Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
