@@ -577,6 +577,7 @@ function wprss_get_feed_cache_dir()
 				set_time_limit( $time_limit );
 
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
+                $ogItem = $item;
 				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
 
 				// Check if the imported count should still be updated, even if the item is NULL
@@ -655,12 +656,10 @@ function wprss_get_feed_cache_dir()
 				// increment the inserted counter
 				elseif ( ( is_bool($item) && $item === TRUE ) || ( $still_update_count === TRUE && $item !== FALSE ) ) {
 					$items_inserted++;
-				}
+				} else {
+                    $logger->error('Failed to save item "{0}"', [$ogItem->get_title()]);
+                }
 			}
-
-			if (!is_object($item) || is_wp_error($item)) {
-                $logger->error('Failed to save item "{0}"', [$item->get_title()]);
-            }
 		}
 
 		update_post_meta( $feed_ID, 'wprss_last_update_items', $items_inserted );
