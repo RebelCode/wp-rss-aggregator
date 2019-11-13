@@ -74,7 +74,7 @@
         $args = apply_filters(
             'wprss_get_feed_items_for_source_args',
             array(
-                'post_type'             => 'wprss_feed_item',
+                'post_type'             => get_post_types(),
                 'cache_results'         => false,   // Disable caching, used for one-off queries
                 'no_found_rows'         => true,    // We don't need pagination, so disable it
                 'posts_per_page'        => -1,

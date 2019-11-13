@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * The "Import Source" option did not work.
+* The feed item count in the "Feed Sources" page would show zero when certain add-ons are installed.
 * Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
 
 ## [4.16] - 2019-10-31
