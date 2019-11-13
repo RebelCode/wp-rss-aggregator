@@ -70,8 +70,6 @@
                 else $feed_limit = $global_limit;
             }
 
-            $logger->debug('Feed item import limit: {0}', [$feed_limit]);
-
             // Filter the URL for validaty
             if ( ! wprss_validate_url( $feed_url ) ) {
                 $logger->error('Feed URL is not valid!');
@@ -91,7 +89,7 @@
                         $items_to_insert = $items;
                     } else {
                         $items_to_insert = array_slice( $items, 0, $feed_limit );
-                        $logger->info('Fetched {0} items. Got {1} items after applying limit', [
+                        $logger->debug('{0} items in the feed, {1} items after applying limit', [
                             count($items),
                             count($items_to_insert)
                         ]);
@@ -114,9 +112,7 @@
                 $new_items = array();
                 foreach ( $items_to_insert as $item ) {
                     $item_title = $item->get_title();
-
                     $permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
-                    $logger->debug('Checking item "{0}"', [$item_title]);
 
                     // Check if blacklisted
                     if (wprss_is_blacklisted($permalink)) {
@@ -160,7 +156,6 @@
                 $items_to_insert = $new_items;
                 $per_import = wprss_get_general_setting('limit_feed_items_per_import');
                 if (!empty($per_import)) {
-                    $logger->debug('Applying per-import item limit of {0} items', [$per_import]);
                     $items_to_insert = array_slice( $items_to_insert, 0, $per_import );
                 }
 
@@ -191,7 +186,7 @@
                     }
 
                     if ($num_items_deleted > 0) {
-                        $logger->info('Deleted the oldest {0} items from the database', [$num_items_deleted]);
+                        $logger->info('Deleted the oldest {0} items', [$num_items_deleted]);
                     }
                 }
 
@@ -562,22 +557,16 @@ function wprss_get_feed_cache_dir()
             $permalink = $item->get_permalink(); // Link or enclosure URL
             $permalink = htmlspecialchars_decode( $permalink ); // SimplePie encodes HTML special chars
 
-            $logger->debug('Beginning import for "{0}"', [$item->get_title()]);
+            $logger->debug('Saving item "{0}"', [$item->get_title()]);
 
 			$permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
 			// Save the enclosure URL
 			$enclosure_url = '';
-			if ( $enclosure = $item->get_enclosure(0) ) {
+            $enclosure = $item->get_enclosure(0);
 
-				if ( $enclosure->get_link() ) {
-					$enclosure_url = $enclosure->get_link();
-
-                    $logger->debug('Item "{0}" has an enclosure link: {1}', [
-                        $item->get_title(),
-                        $enclosure_url
-                    ]);
-				}
+			if ($enclosure && $enclosure->get_link()) {
+                $enclosure_url = $enclosure->get_link();
 			}
 
 			// Check if newly fetched item already present in existing feed items,
@@ -631,8 +620,6 @@ function wprss_get_feed_cache_dir()
 						@include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
 					if ( defined('ICL_LANGUAGE_CODE') ) {
 						$_POST['icl_post_language'] = $language_code = ICL_LANGUAGE_CODE;
-
-						$logger->debug('Detected WPML with language code {0]', [$language_code]);
 					}
 
 					// Create and insert post object into the DB
@@ -671,8 +658,8 @@ function wprss_get_feed_cache_dir()
 				}
 			}
 
-			if (is_object($item) && !is_wp_error($item)) {
-                $logger->info('Imported "{0}"', [$item->get_title()]);
+			if (!is_object($item) || is_wp_error($item)) {
+                $logger->error('Failed to save item "{0}"', [$item->get_title()]);
             }
 		}
 

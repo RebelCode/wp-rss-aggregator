@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core;
 
 use Dhii\I18n\StringTranslatingTrait;
 use Exception;
+use Psr\Log\LogLevel;
 use Throwable;
 
 /**
@@ -24,11 +25,11 @@ class ErrorHandler
      * The callback to invoke.
      *
      * @since 4.14
-     * 
+     *
      * @var callable
      */
     protected $callback;
-    
+
     /*
      * The previous exception handler.
      *
@@ -98,7 +99,7 @@ class ErrorHandler
             return;
         }
 
-        if ($this->errorOriginInRootDir($throwable->getFile())) {
+        if ($this->isErrorFromRootDir($throwable->getFile())) {
             $this->handleError($throwable);
 
             return;
@@ -106,31 +107,59 @@ class ErrorHandler
 
         // Detect an exception thrown from within the root directory
         foreach ($throwable->getTrace() as $trace) {
-            if ($this->errorOriginInRootDir($trace['file'])) {
+            if ($this->isErrorFromRootDir($trace['file'])) {
                 $this->handleError($throwable);
             }
         }
     }
 
-    protected function errorOriginInRootDir($path)
+    /**
+     * Checks if an error path is from the root directory.
+     *
+     * @since 4.14
+     *
+     * @param string $path The path of the error.
+     *
+     * @return bool
+     */
+    protected function isErrorFromRootDir($path)
     {
         return stripos($path, $this->rootDir) === 0;
     }
 
     /**
+     * Handles errors.
+     *
+     * @since 4.14
+     *
      * @param Exception|Throwable $throwable
      */
     protected function handleError($throwable)
     {
+        // Attemt to log the error
+        try {
+            wpra_get_logger()->log(
+                LogLevel::ERROR,
+                'Exception: "{msg}", at {file} line {line}',
+                [
+                    'msg' => $throwable->getMessage(),
+                    'file' => $throwable->getFile(),
+                    'line' => $throwable->getLine(),
+                ]
+            );
+        } catch (Exception $exception) {
+            // Ignore
+        }
+
         if (defined('REST_REQUEST')) {
             wp_send_json_error(['error' => $throwable->getMessage(), 'trace' => $throwable->getTrace()], 500);
 
             return;
         }
-        
+
         if (is_callable($this->callback)) {
             call_user_func_array($this->callback, [$throwable]);
-            
+
             return;
         }
 
