@@ -7,7 +7,7 @@ use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
-use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
+use RebelCode\Wpra\Core\Util\SanitizeCommaListCapableTrait;
 
 /**
  * Abstract implementation of a standard WP RSS Aggregator feed template type.
@@ -33,7 +33,7 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     use ParseArgsWithSchemaCapableTrait;
 
     /* @since 4.13 */
-    use SanitizeIdCommaListCapableTrait;
+    use SanitizeCommaListCapableTrait;
 
     /**
      * The name of the root templates directory.

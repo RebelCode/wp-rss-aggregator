@@ -14,7 +14,7 @@ use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
-use RebelCode\Wpra\Core\Util\SanitizeIdCommaListCapableTrait;
+use RebelCode\Wpra\Core\Util\SanitizeCommaListCapableTrait;
 use stdClass;
 use Traversable;
 
@@ -37,7 +37,7 @@ class MasterFeedsTemplate implements TemplateInterface
     use ParseArgsWithSchemaCapableTrait;
 
     /* @since 4.13 */
-    use SanitizeIdCommaListCapableTrait;
+    use SanitizeCommaListCapableTrait;
 
     /* @since 4.13 */
     use NormalizeArrayCapableTrait;
