@@ -55,6 +55,11 @@ function wprss_settings_add_tooltips() {
 
 '.                                           'Default: <em>Latest items first</em>',
                                              WPRSS_TEXT_DOMAIN),
+				// Schedule future items
+                'schedule_future_items'     => __('If ticked, items with future dates will be scheduled to be published later. Leave unticked to always publish items immediately.
+                                                 <hr/>
+                                                 Default: <em>Off</em>',
+                                                'wprss'),
 				// Feed processing interval
 				'cron-interval'             => __('How frequently should the feed sources (that do not have their own update interval) check for updates and fetch items accordingly.
 

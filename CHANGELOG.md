@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version]] YYYY-MM-DD
+### Added
+* New option to control whether items with future dates are scheduled or published.
+
 ### Changed
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
 * Updated some styles to match the new WordPress 5.3 aesthetic.

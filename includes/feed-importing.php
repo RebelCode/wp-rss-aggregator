@@ -585,14 +585,27 @@ function wprss_get_feed_cache_dir()
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL && !is_bool($item) ) {
+				    $post_status = 'publish';
+
 					// Get the date and GTM date and normalize if not valid dor not present
 					$format    = 'Y-m-d H:i:s';
 					$has_date  = $item->get_date( 'U' ) ? TRUE : FALSE;
 					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
 
-					if (apply_filters('wpra/importer/allow_scheduled_items', false) !== true) {
-						$timestamp = min(time() - $i, $timestamp);
-					}
+					// Item has a future timestamp
+					if ($timestamp > time()) {
+					    $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
+					    $schedule_items_option = wprss_get_general_setting('schedule_future_items');
+
+                        if ($schedule_items_filter || $schedule_items_option) {
+					        // If can schedule future items, set the post status to "future" (aka scheduled)
+                            $post_status = 'future';
+                        } else {
+                            // If cannot schedule future items, clamp the timestamp to the currrent time minus
+                            // 1 second for each iteration done so far
+                            $timestamp = min(time() - $i, $timestamp);
+                        }
+                    }
 
 					$date     = date( $format, $timestamp );
 					$date_gmt = gmdate( $format, $timestamp );
@@ -609,7 +622,7 @@ function wprss_get_feed_cache_dir()
 							'post_title'     => html_entity_decode( $item->get_title() ),
 							'post_content'   => $item->get_content(),
 							'post_excerpt'   => wprss_sanitize_excerpt($item->get_description()),
-							'post_status'    => 'publish',
+							'post_status'    => $post_status,
 							'post_type'      => 'wprss_feed_item',
 							'post_date'      => $date,
 							'post_date_gmt'  => $date_gmt
