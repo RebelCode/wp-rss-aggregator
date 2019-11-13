@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * The feed item count in the "Feed Sources" page would show zero when certain add-ons are installed.
 * Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
 
+### Removed
+* A WordPress 5.1 function was being used to check for ready cron jobs, now replaced with a custom function.
+
 ## [4.16] - 2019-10-31
 ### Changed
 * Overhauled the data set system with a more robust entity system.

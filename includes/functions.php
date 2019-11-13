@@ -284,3 +284,45 @@ if (!function_exists('array_pick')) {
         return array_intersect_key($array, array_flip($keys));
     }
 }
+
+/**
+ * Retrieve cron jobs ready to be run.
+ *
+ * @since [*next-version*]
+ *
+ * @return array Cron jobs ready to be run.
+ */
+function wpra_get_ready_cron_jobs() {
+    if (function_exists('wp_get_ready_cron_jobs')) {
+        return wp_get_ready_cron_jobs();
+    }
+
+    $pre = apply_filters('pre_get_ready_cron_jobs', null);
+    if ($pre !== null) {
+        return $pre;
+    }
+
+    $crons = _get_cron_array();
+
+    if ($crons === false) {
+        return [];
+    }
+
+    $keys = array_keys($crons);
+    $gmt_time = microtime(true);
+
+    if (isset($keys[0]) && $keys[0] > $gmt_time) {
+        return [];
+    }
+
+    $results = [];
+    foreach ($crons as $timestamp => $cronhooks) {
+        if ($timestamp > $gmt_time) {
+            break;
+        }
+
+        $results[$timestamp] = $cronhooks;
+    }
+
+    return $results;
+}

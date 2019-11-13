@@ -513,7 +513,7 @@
             }
 
             // Schedule the event for 5 seconds from now
-            $offset = floor(count(wp_get_ready_cron_jobs()) / 2);
+            $offset = floor(count(wpra_get_ready_cron_jobs()) / 2);
             $success = wp_schedule_single_event( time() + $offset, 'wprss_fetch_single_feed_hook', $schedule_args );
             if (!$success) {
                 throw new Exception(__('Failed to schedule cron', 'wprss'));
@@ -562,7 +562,7 @@
             }
 
             // Schedule a job that runs this function with the source id parameter
-            $offset = floor(count(wp_get_ready_cron_jobs()) / 2);
+            $offset = floor(count(wpra_get_ready_cron_jobs()) / 2);
             $success = wp_schedule_single_event( time() + $offset, 'wprss_delete_feed_items_from_source_hook', array( $id ) );
             if (!$success) {
                 throw new Exception(__('Failed to schedule cron', 'wprss'));
