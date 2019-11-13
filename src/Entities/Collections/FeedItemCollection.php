@@ -33,6 +33,7 @@ class FeedItemCollection extends WpEntityCollection
     {
         $args = parent::getBasePostQueryArgs();
         $args['post_status'] = 'publish';
+        $args['lang'] = ''; // Disble PolyLang's query filtering
 
         return $args;
     }
