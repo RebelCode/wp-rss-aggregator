@@ -1364,7 +1364,7 @@ class WPRSS_Image_Cache_Image {
 
             if( !$this->_size && function_exists( 'gd_info' ) ) {
 				$image = file_get_contents( $path );
-				$image = imagecreatefromstring( $image );
+				$image = @imagecreatefromstring( $image );
 
 				if ($image !== false) {
                     $width = imagesx($image);
