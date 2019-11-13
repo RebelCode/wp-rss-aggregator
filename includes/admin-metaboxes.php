@@ -120,7 +120,7 @@
         );
 
         $wprss_meta_fields[ 'import_source' ] = array(
-            'label'   => __( 'Import source info', WPRSS_TEXT_DOMAIN ),
+            'label'   => __( 'Use source info', WPRSS_TEXT_DOMAIN ),
             'id'      => $prefix . 'import_source',
             'type'    => 'checkbox',
         );

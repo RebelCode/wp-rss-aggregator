@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version]] YYYY-MM-DD
 ### Fixed
+* The "Import Source" option did not work.
 * Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
 
 ## [4.16] - 2019-10-31

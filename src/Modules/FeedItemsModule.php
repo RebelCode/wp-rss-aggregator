@@ -12,6 +12,7 @@ use RebelCode\Wpra\Core\Entities\Collections\FeedItemCollection;
 use RebelCode\Wpra\Core\Entities\Properties\TimestampProperty;
 use RebelCode\Wpra\Core\Entities\Properties\WpFtImageUrlProperty;
 use RebelCode\Wpra\Core\Entities\Properties\WpPostEntityProperty;
+use RebelCode\Wpra\Core\Entities\Properties\WpraItemSourceProperty;
 use RebelCode\Wpra\Core\Entities\Properties\WpraSourceDefaultProperty;
 use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
@@ -51,9 +52,6 @@ class FeedItemsModule implements ModuleInterface
                     'author' => new Property('wprss_item_author'),
                     'date' => new Property('wprss_item_date'),
                     'timestamp' => new TimestampProperty(new Property('post_date_gmt'), 'Y-m-d H:i:s'),
-                    'source_id' => new Property('wprss_feed_id'),
-                    'source_name' => new WpraSourceDefaultProperty('wprss_source_name', 'post_title'),
-                    'source_url' => new WpraSourceDefaultProperty('wprss_source_url', 'wprss_url'),
                     'ft_image' => new Property('_thumbnail_id'),
                     'ft_image_url' => new WpFtImageUrlProperty('_thumbnail_id'),
                     'is_using_def_image' => new Property('wprss_item_is_using_def_image'),
@@ -62,6 +60,17 @@ class FeedItemsModule implements ModuleInterface
                     'embed_url' => new Property('wprss_item_embed_url'),
                     'is_yt' => new Property('wprss_item_is_yt'),
                     'yt_embed_url' => new Property('wprss_item_yt_embed_url'),
+                    'source_id' => new Property('wprss_feed_id'),
+                    'source_name' => new WpraItemSourceProperty(
+                        new Property('wprss_item_source_name'),
+                        new Property('post_title'),
+                        new Property('import_source')
+                    ),
+                    'source_url' => new WpraItemSourceProperty(
+                        new Property('wprss_item_source_url'),
+                        new Property('wprss_url'),
+                        new Property('import_source')
+                    ),
                     // @todo remove after templates 0.2
                     'source' => new WpPostEntityProperty('wprss_feed_id', $sourceSchema, function ($schema, $store) {
                         return new EntityDataSet(new Entity($schema, $store));
