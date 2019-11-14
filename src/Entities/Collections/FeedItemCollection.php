@@ -62,6 +62,19 @@ class FeedItemCollection extends WpEntityCollection
     {
         $r = parent::handleFilter($queryArgs, $key, $value);
 
+        if ($key === 'feeds') {
+            $slugs = $this->_normalizeArray($value);
+            $posts = get_posts([
+                'post_name__in' => $slugs,
+                'post_type' => 'wprss_feed'
+            ]);
+            $ids = array_map(function ($post) {
+                return $post->ID;
+            }, $posts);
+
+            return $this->handleFilter($queryArgs, 'sources', $ids);
+        }
+
         if ($key === 'sources') {
             $queryArgs['meta_query']['relation'] = 'AND';
             $queryArgs['meta_query'][] = [

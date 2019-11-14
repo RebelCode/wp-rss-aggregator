@@ -181,6 +181,12 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
                     return $this->sanitizeIdCommaList($value);
                 },
             ],
+            'feeds' => [
+                'key' => 'filters/feeds',
+                'filter' => function ($value, $args) {
+                    return $this->sanitizeCommaList($value);
+                },
+            ],
             'sources' => [
                 'key' => 'filters/sources',
                 'filter' => function ($value, $args) {
