@@ -27,7 +27,7 @@ span.wp-rss-footer-text {
     float: left;
     width: 95px !important;
 }
-    
+
 .wprss-input input {
     height: 28px;
     margin-bottom: 0;
@@ -109,7 +109,7 @@ div#force-feed-container {
 
 
 
-body.post-type-wprss_feed_item .add-new-h2, 
+body.post-type-wprss_feed_item .add-new-h2,
 body.post-type-wprss_feed_item .tablenav select[name="m"],
 body.post-type-wprss_feed_item #post-query-submit
 { display: none; }
@@ -148,7 +148,7 @@ color: darkGreen;
     color: red;
 }
 
-#preview_meta_box .rss-date { 
+#preview_meta_box .rss-date {
     color: #666;
 
 }
@@ -167,9 +167,9 @@ color: darkGreen;
 input#default-thumbnail,
 input#wprss-et-license-key,
 input#wprss-c-license-key,
-input#wprss-kf-license-key, 
-input#wprss-ftp-license-key { 
-    width: 300px; 
+input#wprss-kf-license-key,
+input#wprss-ftp-license-key {
+    width: 300px;
 }
 
 input#thumbnails-height,
@@ -220,7 +220,7 @@ input#thumbnails-width {
     text-shadow: 0 0 0 transparent !important;
 }
 
-#system-info-textarea, 
+#system-info-textarea,
 #wprss-error-log-textarea {
     width: 800px;
     height: 400px;
@@ -451,7 +451,7 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
 input#thumbnails-height,
 input#thumbnails-width {
     margin-right: 2px;
-} 
+}
 
 label[for=thumbnails-height],
 label[for=thumbnails-width] {
@@ -688,13 +688,13 @@ i.wprss-updating-feed-icon.wprss-show {
 #add-ons .add-on-group {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: #F5F5F5 solid 1px;  
+    border-top: #F5F5F5 solid 1px;
 }
 
 #add-ons .add-on-group:first-child {
     margin-top: 0;
     padding-top: 0;
-    border-top: 0 none; 
+    border-top: 0 none;
 }
 
 #add-ons .add-on {
@@ -1131,4 +1131,17 @@ input:checked + .wprss-switch-slider:before {
     -webkit-transform: translateX(14px);
     -ms-transform: translateX(14px);
     transform: translateX(14px);
+}
+
+.postbox .inside .wpra-feed-save-meta-box {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin: 0 -10px;
+    margin-top: -11px;
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+.postbox .inside .wpra-feed-save-meta-box input[type="text"] {
+    text-align: left !important;
 }
