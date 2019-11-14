@@ -1,5 +1,22 @@
 <?php
 
+    add_action( 'add_meta_boxes', function () {
+        // Remove some plugin's metaboxes because they're not relevant to the wprss_feed post type.
+        wprss_remove_unrelated_meta_boxes();
+
+        // Remove the default WordPress Publish box, because we will be using custom ones
+        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
+        // Custom Publish box
+        add_meta_box(
+            'submitdiv',
+            __( 'Save Feed Source', WPRSS_TEXT_DOMAIN ),
+            'post_submit_meta_box',
+            'wprss_feed',
+            'side',
+            'high'
+        );
+    });
+
     add_action( 'add_meta_boxes', 'wprss_add_meta_boxes', 99);
     /**
      * Set up the input boxes for the wprss_feed post type
@@ -8,21 +25,6 @@
      */
     function wprss_add_meta_boxes() {
         global $wprss_meta_fields;
-
-        // Remove the default WordPress Publish box, because we will be using custom ones
-        remove_meta_box( 'submitdiv', 'wprss_feed', 'side' );
-
-        // Remove some plugin's metaboxes because they're not relevant to the wprss_feed post type.
-        wprss_remove_unrelated_meta_boxes();
-
-        add_meta_box(
-            'submitdiv',                            // $id
-            __( 'Save Feed Source', WPRSS_TEXT_DOMAIN ),      // $title
-            'post_submit_meta_box',                 // $callback
-            'wprss_feed',                           // $page
-            'side',                                 // $context
-            'high'                                   // $priority
-        );
 
         add_meta_box(
             'preview_meta_box',
