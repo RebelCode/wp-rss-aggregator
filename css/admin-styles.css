@@ -1142,6 +1142,11 @@ input:checked + .wprss-switch-slider:before {
     background: #fff;
 }
 
+.postbox .inside .wpra-feed-save-meta-box label span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .postbox .inside .wpra-feed-save-meta-box input[type="text"] {
     text-align: left !important;
 }
