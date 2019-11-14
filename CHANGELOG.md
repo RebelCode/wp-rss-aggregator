@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [[*next-version]] YYYY-MM-DD
 ### Added
 * New option to control whether items with future dates are scheduled or published.
+* New shortcode parameter to select feed sources by their slug names.
+* The Edit Feed Source page now allows the slug to be edited.
 
 ### Changed
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
