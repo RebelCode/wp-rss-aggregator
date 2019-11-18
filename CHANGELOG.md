@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
 * Updated some styles to match the new WordPress 5.3 aesthetic.
 * Removed some log messages and fatal errors are now always logged.
+* Optimized cron-related functionality.
 
 ### Fixed
 * The "Import Source" option did not work.
