@@ -47,7 +47,7 @@
     "vue-tippy": "^2.1.2",
     "vue-toasted": "^1.1.26",
     "webpack": "^3.10.0",
-    "webpack-bundle-analyzer": "^3.0.2"
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "author": "",
   "license": "ISC",
