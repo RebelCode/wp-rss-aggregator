@@ -51,17 +51,15 @@ class RenderItemsImageColumnHandler
         }
 
         $feedItem = $this->feedItems[$postId];
-        $ftImageId = $feedItem['ft_image'];
+        $ftImageUrl = $feedItem['ft_image_url'];
 
-        $url = wp_get_attachment_url($ftImageId, '');
-
-        if (empty($url)) {
+        if (empty($ftImageUrl)) {
             return;
         }
 
         printf(
             '<div><img src="%1$s" alt="%2$s" title="%2$s" class="wpra-item-ft-image" /></div>',
-            $url,
+            $ftImageUrl,
             __('Feed item image', 'wprss')
         );
     }
