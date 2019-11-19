@@ -247,6 +247,10 @@ function wprss_delete_schedule($name)
  */
 function wprss_strtotime($str)
 {
+    if (empty($str)) {
+        return 0;
+    }
+
     $parts = explode(' ', $str);
     $date = explode('/', $parts[0]);
     $time = explode(':', $parts[1]);
