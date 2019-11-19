@@ -62,7 +62,7 @@ class FeedItemsModule implements ModuleInterface
                     'date' => new Property('wprss_item_date'),
                     'timestamp' => new TimestampProperty(new Property('post_date_gmt'), 'Y-m-d H:i:s'),
                     'ft_image' => new Property('_thumbnail_id'),
-                    'ft_image_url' => new WpFtImageUrlProperty('_thumbnail_id'),
+                    'ft_image_url' => new WpFtImageUrlProperty('_thumbnail_id', 'wprss_item_thumbnail'),
                     'is_using_def_image' => new Property('wprss_item_is_using_def_image'),
                     'images' => new Property('wprss_images'),
                     'best_image' => new Property('wprss_best_image'),
