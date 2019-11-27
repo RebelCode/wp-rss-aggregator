@@ -73,12 +73,12 @@ class FeedItemsModule implements ModuleInterface
                     'source_name' => new WpraItemSourceProperty(
                         new Property('wprss_item_source_name'),
                         new Property('post_title'),
-                        new Property('import_source')
+                        'wprss_import_source'
                     ),
                     'source_url' => new WpraItemSourceProperty(
                         new Property('wprss_item_source_url'),
                         new Property('wprss_url'),
-                        new Property('import_source')
+                        'wprss_import_source'
                     ),
                     // @todo remove after templates 0.2
                     'source' => new WpPostEntityProperty('wprss_feed_id', $sourceSchema, function ($schema, $store) {

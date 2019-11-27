@@ -36,7 +36,7 @@ class WpraItemSourceProperty implements PropertyInterface
     /**
      * @since [*next-version*]
      *
-     * @var PropertyInterface
+     * @var string
      */
     protected $controlProp;
 
@@ -45,14 +45,14 @@ class WpraItemSourceProperty implements PropertyInterface
      *
      * @since [*next-version*]
      *
-     * @param PropertyInterface $itemProp The feed item property.
-     * @param PropertyInterface $sourceProp The feed source property.
-     * @param PropertyInterface $controlProp The control property.
+     * @param PropertyInterface $itemProp    The feed item property.
+     * @param PropertyInterface $sourceProp  The feed source property.
+     * @param string            $controlProp The control property.
      */
     public function __construct(
         PropertyInterface $itemProp,
         PropertyInterface $sourceProp,
-        PropertyInterface $controlProp
+        $controlProp
     ) {
         $this->itemProp = $itemProp;
         $this->sourceProp = $sourceProp;
@@ -69,9 +69,8 @@ class WpraItemSourceProperty implements PropertyInterface
         $feed = $item->get('source');
 
         try {
-            $value = $this->controlProp->getValue($item)
-                ? $this->itemProp->getValue($item)
-                : null;
+            $control = $feed->get($this->controlProp);
+            $value = $control ? $this->itemProp->getValue($item) : null;
 
             if (!empty($value)) {
                 return $value;
