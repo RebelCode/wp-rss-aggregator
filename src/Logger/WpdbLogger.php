@@ -180,7 +180,13 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
 
         // Iterate the columns and retrieve the data to insert for each
         foreach ($this->columns as $prop => $col) {
-            $data[$col] = $this->getLogPropData($prop, $level, $message);
+            $value = $this->getLogPropData($prop, $level, $message);
+
+            if ($value === null) {
+                continue;
+            }
+
+            $data[$col] = $value;
         }
 
         return $data;
