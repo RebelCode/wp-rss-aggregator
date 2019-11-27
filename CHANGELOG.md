@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Updated some styles to match the new WordPress 5.3 aesthetic.
 * Removed some log messages and fatal errors are now always logged.
 * Optimized cron-related functionality.
+* The plugin will no longer register cron schedules that already exist.
 
 ### Fixed
 * The "Import Source" option did not work.

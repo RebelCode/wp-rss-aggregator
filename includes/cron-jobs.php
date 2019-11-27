@@ -191,40 +191,68 @@ function wpra_reschedule($timestamp, $event, $recurrence = null, $args = [])
 }
 
 /**
- * Adding a few more handy cron schedules to the default ones
+ * Retrieves the cron schedules that WPRA uses.
+ *
+ * @since [*next-version*]
+ *
+ * @return array
+ */
+function wpra_get_cron_schedules()
+{
+    return [
+        'five_min' => array(
+            'display' => __('Once every 5 minutes', 'wprss'),
+            'interval' => MINUTE_IN_SECONDS * 5,
+        ),
+        'ten_min' => array(
+            'display' => __('Once every 10 minutes', 'wprss'),
+            'interval' => MINUTE_IN_SECONDS * 10,
+        ),
+        'fifteen_min' => array(
+            'display' => __('Once every 15 minutes', 'wprss'),
+            'interval' => MINUTE_IN_SECONDS * 15,
+        ),
+        'thirty_min' => array(
+            'display' => __('Once every 30 minutes', 'wprss'),
+            'interval' => MINUTE_IN_SECONDS * 30,
+        ),
+        'two_hours' => array(
+            'display' => __('Once every 2 hours', 'wprss'),
+            'interval' => HOUR_IN_SECONDS * 2,
+        ),
+        'weekly' => array(
+            'display' => __('Once weekly', 'wprss'),
+            'interval' => WEEK_IN_SECONDS,
+        ),
+    ];
+}
+
+/**
+ * Registers the cron schedules to WordPress, avoiding duplicates.
  *
  * @since 3.0
  */
 function wprss_filter_cron_schedules($schedules)
 {
-    $frequencies = array(
-        'five_min' => array(
-            'interval' => 5 * MINUTE_IN_SECONDS,
-            'display' => __('Once every five minutes', WPRSS_TEXT_DOMAIN),
-        ),
-        'ten_min' => array(
-            'interval' => 10 * MINUTE_IN_SECONDS,
-            'display' => __('Once every ten minutes', WPRSS_TEXT_DOMAIN),
-        ),
-        'fifteen_min' => array(
-            'interval' => 15 * MINUTE_IN_SECONDS,
-            'display' => __('Once every fifteen minutes', WPRSS_TEXT_DOMAIN),
-        ),
-        'thirty_min' => array(
-            'interval' => 30 * MINUTE_IN_SECONDS,
-            'display' => __('Once every thirty minutes', WPRSS_TEXT_DOMAIN),
-        ),
-        'two_hours' => array(
-            'interval' => 2 * HOUR_IN_SECONDS,
-            'display' => __('Once every two hours', WPRSS_TEXT_DOMAIN),
-        ),
-        'one_week' => array(
-            'display' => __('Once every week', 'wprss'),
-            'interval' => WEEK_IN_SECONDS,
-        ),
-    );
+    // Pluck out the intervals
+    $intervals = array_map(function ($schedule) {
+        return $schedule['interval'];
+    }, $schedules);
+    // Get a map of intervals -> keys for fast interval lookup
+    $intervalsMap = array_flip($intervals);
 
-    return array_merge($schedules, $frequencies);
+    // Register each WPRA schedule
+    $wpraSchedules = wpra_get_cron_schedules();
+    foreach ($wpraSchedules as $key => $schedule) {
+        // If the interval already exists, skip the schedule
+        if (array_key_exists($schedule['interval'], $intervalsMap)) {
+            continue;
+        }
+
+        $schedules[$key] = $schedule;
+    }
+
+    return $schedules;
 }
 
 /**
