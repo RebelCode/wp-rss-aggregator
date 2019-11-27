@@ -218,6 +218,10 @@ function wprss_filter_cron_schedules($schedules)
             'interval' => 2 * HOUR_IN_SECONDS,
             'display' => __('Once every two hours', WPRSS_TEXT_DOMAIN),
         ),
+        'one_week' => array(
+            'display' => __('Once every week', 'wprss'),
+            'interval' => WEEK_IN_SECONDS,
+        ),
     );
 
     return array_merge($schedules, $frequencies);

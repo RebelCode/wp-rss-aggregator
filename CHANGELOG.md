@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * New option to control whether items with future dates are scheduled or published.
 * New shortcode parameter to select feed sources by their slug names.
+* New "1 week" update interval option to update feeds once every week.
 * The Edit Feed Source page now allows the slug to be edited.
 
 ### Changed
