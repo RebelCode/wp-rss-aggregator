@@ -79,7 +79,7 @@ class WpraPostTypeDependentProperty implements PropertyInterface
         $id = $this->idProp->getValue($entity);
         $type = get_post_type($id);
 
-        return ($type === 'wpra_feed_item')
+        return ($type === 'wprss_feed_item')
             ? $this->itemProp->getValue($entity)
             : $this->postProp->getValue($entity);
     }
