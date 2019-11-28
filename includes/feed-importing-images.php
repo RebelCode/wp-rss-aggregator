@@ -702,153 +702,162 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
         return new WP_Error('missing', "Need a valid URL and post ID...");
     }
 
-    if (!wpra_container()->has('wpra/images/container')) {
-        return new WP_Error('Images module is not loaded');
-    }
-
-    $logger = wpra_get_logger();
-    $images = wpra_container()->get('wpra/images/container');
-
-    try {
-        /* @var $img WPRSS_Image_Cache_Image */
-        $img = $images->get($url);
-    } catch (Exception $e) {
-        return new WP_Error('could_not_load_image', $e->getMessage(), $url);
-    }
-
-    $logger->debug('Image from cache: {url} -> {path}', [
-        'url' => $img->get_url(),
-        'path' => $img->get_local_path(),
+    // Check if the image already exists in the media library
+    $existing = get_posts([
+        'post_type' => 'attachment',
+        'meta_key' => 'wprss_og_image_url',
+        'meta_value' => $url,
     ]);
-
-    // Get the path
-    $tmp = $img->get_local_path();
-
-    // Required for wp_tempnam() function
-    require_once(ABSPATH . 'wp-admin/includes/file.php');
-
-    // media_handle_sideload() will move the file, but we need the cache to remain
-    copy($tmp, $tmp = wp_tempnam());
-    $tmpPath = pathinfo($tmp);
-    $ext = isset($tmpPath['extension']) ? trim($tmpPath['extension']) : null;
-    $url_filename = $img->get_unique_name();
-
-    $logger->debug('Copied cached image to {path}', [
-        'path' => $tmp,
-    ]);
-
-    // override filename if given, reconstruct server path
-    if (!empty($filename)) {
-        $filename = sanitize_file_name($filename);
-        // build new path
-        $new = $tmpPath['dirname'] . "/" . $filename . "." . $ext;
-        // renames temp file on server
-        rename($tmp, $new);
-        // push new filename (in path) to be used in file array later
-        $tmp = $new;
-    }
-
-    // determine file type (ext and mime/type)
-    $url_type = wp_check_filetype($url_filename);
-
-    // If the wp_check_filetype function fails to determine the MIME type
-    if (empty($url_type['type'])) {
-        $url_type = wpra_check_file_type($tmp, $url);
-    }
-    $ext = $url_type['ext'];
-
-    // assemble file data (should be built like $_FILES since wp_handle_sideload() will be using)
-    $file_array = [];
-    // full server path to temp file
-    $file_array['tmp_name'] = $tmp;
-    $url = trim($img->get_url());
-    $parts = parse_url($url);
-    $baseName = uniqid($parts['host']);
-
-    if (!empty($filename)) {
-        // user given filename for title, add original URL extension
-        $baseName = $filename . "." . $ext;
+    // If so, use the existing image's ID
+    if (!empty($existing)) {
+        $att_id = reset($existing)->ID;
     } else {
-        // The original basename, falling back to auto-generated based on domain
-        $base = basename($parts['path']);
-        if (strlen($baseName) || trim($baseName) !== '/') {
-            $baseName = $base;
+        if (!wpra_container()->has('wpra/images/container')) {
+            return new WP_Error('Images module is not loaded');
         }
-    }
 
-    $file_array['name'] = $baseName;
+        $logger = wpra_get_logger();
+        $images = wpra_container()->get('wpra/images/container');
 
-    // set additional wp_posts columns
-    if (empty($post_data['post_title'])) {
-        // just use the original filename (no extension)
-        $post_data['post_title'] = $file_array['name'];
-    }
-
-    // make sure gets tied to parent
-    if (empty($post_data['post_parent'])) {
-        $post_data['post_parent'] = $post_id;
-    }
-
-    // required files for WP media_handle_sideload
-    require_once(ABSPATH . 'wp-admin/includes/media.php');
-    require_once(ABSPATH . 'wp-admin/includes/image.php');
-
-    // NO FILENAME FIX
-    // WordPress does not allow file images that are not in the form of a filename
-    // ex: http://domain.com/thoufiqadsjucpqwuamoshfjnax8mtrh/iorqhewufjasj
-
-    if (apply_filters('wpra_override_upload_security', true) === true) {
-        // If we successfully retrieved the MIME type
-        if ($url_type !== false && isset($url_type['type']) && !empty($url_type['type'])) {
-            $mime_to_ext = wpra_get_mime_type_ext_mapping();
-
-            $mime_type = $url_type['type'];
-            $file_ext = isset($mime_to_ext[$mime_type])
-                ? $mime_to_ext[$mime_type]
-                : null;
-
-            // If no file extension, check if the mime type begins with "image/" and if so default to "png"
-            $mime_type_parts = explode('/', $mime_type);
-            if ($file_ext === null && count($mime_type_parts) > 1 && $mime_type_parts[0] === 'image') {
-                $file_ext = 'png';
-            }
-
-            // Add a filter to ensure that the image ext and mime type get passed through WordPress' security
-            add_filter('wp_check_filetype_and_ext', function ($image) use ($file_ext, $mime_type) {
-                $image['ext'] = empty($image['ext']) ? $file_ext : $image['ext'];
-                $image['type'] = empty($image['type']) ? $mime_type : $image['type'];
-
-                return $image;
-            }, 10);
+        try {
+            /* @var $img WPRSS_Image_Cache_Image */
+            $img = $images->get($url);
+        } catch (Exception $e) {
+            return new WP_Error('could_not_load_image', $e->getMessage(), $url);
         }
-    }
 
-    // do the validation and storage stuff
-    // For some reason, deep down filesize() returned 0 for the temporary file without this
-    clearstatcache(false, $file_array['tmp_name']);
-
-    // $post_data can override the items saved to wp_posts table,
-    // like post_mime_type, guid, post_parent, post_title, post_content, post_status
-    $att_id = media_handle_sideload( $file_array, $post_id, '', $post_data);
-
-    // If error storing permanently, unlink
-    if (is_wp_error($att_id)) {
-        $logger->warning('Failed to download and attach image to post #{id}. Image URL: {url}', [
-            'id' => $post_id,
-            'url' => $url,
+        $logger->debug('Image from cache: {url} -> {path}', [
+            'url' => $img->get_url(),
+            'path' => $img->get_local_path(),
         ]);
 
-        // Delete the cache copy needed for media_handle_sideload()
-        $img->delete();
-        @unlink($tmp);
+        // Get the path
+        $tmp = $img->get_local_path();
 
-        return $att_id;
+        // Required for wp_tempnam() function
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+        // media_handle_sideload() will move the file, but we need the cache to remain
+        copy($tmp, $tmp = wp_tempnam());
+        $tmpPath = pathinfo($tmp);
+        $ext = isset($tmpPath['extension']) ? trim($tmpPath['extension']) : null;
+        $url_filename = $img->get_unique_name();
+
+        // override filename if given, reconstruct server path
+        if (!empty($filename)) {
+            $filename = sanitize_file_name($filename);
+            // build new path
+            $new = $tmpPath['dirname'] . "/" . $filename . "." . $ext;
+            // renames temp file on server
+            rename($tmp, $new);
+            // push new filename (in path) to be used in file array later
+            $tmp = $new;
+        }
+
+        // determine file type (ext and mime/type)
+        $url_type = wp_check_filetype($url_filename);
+
+        // If the wp_check_filetype function fails to determine the MIME type
+        if (empty($url_type['type'])) {
+            $url_type = wpra_check_file_type($tmp, $url);
+        }
+        $ext = $url_type['ext'];
+
+        // assemble file data (should be built like $_FILES since wp_handle_sideload() will be using)
+        $file_array = [];
+        // full server path to temp file
+        $file_array['tmp_name'] = $tmp;
+        $parts = parse_url(trim($img->get_url()));
+        $baseName = uniqid($parts['host']);
+
+        if (!empty($filename)) {
+            // user given filename for title, add original URL extension
+            $baseName = $filename . "." . $ext;
+        } else {
+            // The original basename, falling back to auto-generated based on domain
+            $base = basename($parts['path']);
+            if (strlen($baseName) || trim($baseName) !== '/') {
+                $baseName = $base;
+            }
+        }
+
+        $file_array['name'] = $baseName;
+
+        // set additional wp_posts columns
+        if (empty($post_data['post_title'])) {
+            // just use the original filename (no extension)
+            $post_data['post_title'] = $file_array['name'];
+        }
+
+        // make sure gets tied to parent
+        if (empty($post_data['post_parent'])) {
+            $post_data['post_parent'] = $post_id;
+        }
+
+        // required files for WP media_handle_sideload
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+        // NO FILENAME FIX
+        // WordPress does not allow file images that are not in the form of a filename
+        // ex: http://domain.com/thoufiqadsjucpqwuamoshfjnax8mtrh/iorqhewufjasj
+
+        if (apply_filters('wpra_override_upload_security', true) === true) {
+            // If we successfully retrieved the MIME type
+            if ($url_type !== false && isset($url_type['type']) && !empty($url_type['type'])) {
+                $mime_to_ext = wpra_get_mime_type_ext_mapping();
+
+                $mime_type = $url_type['type'];
+                $file_ext = isset($mime_to_ext[$mime_type])
+                    ? $mime_to_ext[$mime_type]
+                    : null;
+
+                // If no file extension, check if the mime type begins with "image/" and if so default to "png"
+                $mime_type_parts = explode('/', $mime_type);
+                if ($file_ext === null && count($mime_type_parts) > 1 && $mime_type_parts[0] === 'image') {
+                    $file_ext = 'png';
+                }
+
+                // Add a filter to ensure that the image ext and mime type get passed through WordPress' security
+                add_filter('wp_check_filetype_and_ext', function ($image) use ($file_ext, $mime_type) {
+                    $image['ext'] = empty($image['ext']) ? $file_ext : $image['ext'];
+                    $image['type'] = empty($image['type']) ? $mime_type : $image['type'];
+
+                    return $image;
+                }, 10);
+            }
+        }
+
+        // do the validation and storage stuff
+        // For some reason, deep down filesize() returned 0 for the temporary file without this
+        clearstatcache(false, $file_array['tmp_name']);
+
+        // $post_data can override the items saved to wp_posts table,
+        // like post_mime_type, guid, post_parent, post_title, post_content, post_status
+        $att_id = media_handle_sideload($file_array, $post_id, '', $post_data);
+
+        // If error storing permanently, unlink
+        if (is_wp_error($att_id)) {
+            $logger->warning('Failed to download and attach image to post #{id}. Image URL: {url}', [
+                'id' => $post_id,
+                'url' => $url,
+            ]);
+
+            // Delete the cache copy needed for media_handle_sideload()
+            $img->delete();
+            @unlink($tmp);
+
+            return $att_id;
+        }
     }
 
     // set as post thumbnail if desired
     if ($attach) {
         set_post_thumbnail( $post_id, $att_id );
     }
+
+    // Save the original image URL in the attachment's meta data
+    update_post_meta($att_id, 'wprss_og_image_url', $url);
 
     return $att_id;
 }

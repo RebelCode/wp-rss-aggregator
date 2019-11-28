@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
+* Images that have the same URL are now downloaded to the media library only once.
 * Updated some styles to match the new WordPress 5.3 aesthetic.
 * Removed some log messages and fatal errors are now always logged.
 * Optimized cron-related functionality.
