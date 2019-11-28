@@ -514,6 +514,9 @@ class WPRSS_Image_Cache {
 			throw new Exception( sprintf( __( 'Invalid URL provided: "%1$s"' ), $url ) );
 		}
 
+		// Since image URLs may be found from "src" attributes of <img> tags, HTML entities may need to be decoded
+		$url = html_entity_decode($url);
+
 		if ( !is_null( $target_path ) ) {
 			$path = $target_path;
 		}
