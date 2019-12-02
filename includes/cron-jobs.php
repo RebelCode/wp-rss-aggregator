@@ -24,7 +24,7 @@ function wpra_on_cron_do($cron, $callback)
 // Cron events
 wpra_on_cron_do(WPRA_FETCH_ALL_FEEDS_HOOK, 'wprss_fetch_insert_all_feed_items_from_cron');
 wpra_on_cron_do(WPRA_TRUNCATE_ITEMS_HOOK, 'wprss_truncate_posts');
-wpra_on_cron_do(WPRA_TRUNCATE_ITEMS_HOOK, 'wprss_activate_feed_source', 10, 1);
+wpra_on_cron_do(WPRA_ACTIVATE_FEED_HOOK, 'wprss_activate_feed_source', 10, 1);
 wpra_on_cron_do(WPRA_PAUSE_FEED_HOOK, 'wprss_pause_feed_source', 10, 1);
 
 // Initialize crons that must always be scheduled
