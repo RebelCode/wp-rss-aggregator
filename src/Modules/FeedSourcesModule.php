@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Entities\Properties\AliasProperty;
 use RebelCode\Entities\Properties\Property;
 use RebelCode\Entities\Schemas\Schema;
 use RebelCode\Wpra\Core\Entities\Collections\FeedSourceCollection;
@@ -58,6 +59,7 @@ class FeedSourcesModule implements ModuleInterface
                         new Property('wprss_import_source'),
                         new BoolSanitizer()
                     ),
+                    'use_source_info' => new AliasProperty('import_source'),
                     'import_limit' => new SanitizedProperty(
                         new Property('wprss_limit'),
                         new IntSanitizer(0, 0)
