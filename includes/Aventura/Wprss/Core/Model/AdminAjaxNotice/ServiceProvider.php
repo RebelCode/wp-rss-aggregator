@@ -207,7 +207,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'id'                => 'settings_import_success',
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
             'condition'         => $this->_getCommandIsWprssPage($c),
-            'content'           => $this->_autoParagraph($this->__('All options are restored successfully.')),
+            'content'           => $this->_autoParagraph(__('Your settings were imported successfully', 'wprss')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
 

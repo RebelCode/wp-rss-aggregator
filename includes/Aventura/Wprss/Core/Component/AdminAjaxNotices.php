@@ -204,7 +204,7 @@ class AdminAjaxNotices extends Core\Plugin\ComponentAbstract
      *
      * @see wprss_admin_notice_add()
      *
-     * @param array $notice Data of the notice
+     * @param array|string $notice Data of the notice
      *
      * @return bool|WP_Error True if notice added, false if collection unavailable, or WP_Error if something went wrong.
      */

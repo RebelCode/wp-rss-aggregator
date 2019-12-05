@@ -24,11 +24,6 @@
         </style>
     <?php }
 
-
-    add_action('admin_menu', function () {
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', WPRSS_TEXT_DOMAIN ), __( 'Import & Export', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );
-    }, 20);
-
     add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ), __( 'Settings', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );
     }, 30);

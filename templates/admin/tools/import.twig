@@ -1,0 +1,14 @@
+<h3>{% trans "Import Settings" %}</h3>
+<p>{% trans "Upload an exported settings file to import your settings for WP RSS Aggregator and its add-ons" %}</p>
+
+<form method='post' enctype='multipart/form-data'>
+    <p class="submit">
+        {{ wp_nonce_field('wpra_import_settings', 'wpra_import_settings_nonce') }}
+
+        <input type="file" name="wpra_import_file" />
+        <input type="submit"
+               name="wpra_import"
+               value="{{ "Import Settings"|trans|e('html_attr') }}"
+               class="button" />
+    </p>
+</form>

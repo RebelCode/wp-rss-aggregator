@@ -240,9 +240,6 @@ require_once ( WPRSS_INC . 'admin-options.php' );
 /* Load the legacy admin options functions file. */
 require_once ( WPRSS_INC . 'admin-options-legacy.php' );
 
-/* Load the settings import/export file */
-require_once ( WPRSS_INC . 'admin-import-export.php' );
-
 /* Load the debugging file */
 require_once ( WPRSS_INC . 'system-info.php' );
 
