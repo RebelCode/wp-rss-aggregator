@@ -29,10 +29,6 @@
     }, 30);
 
     add_action('admin_menu', function () {
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', WPRSS_TEXT_DOMAIN ), __( 'Debugging', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );
-    }, 40);
-
-    add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', WPRSS_TEXT_DOMAIN ), __( 'Help & Support', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );
     }, 60);
 

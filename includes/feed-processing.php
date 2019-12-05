@@ -376,22 +376,28 @@
      * @since 3.0
      */
     function wprss_delete_all_feed_items() {
-		wprss_log( sprintf( 'Deleting all feed items...'), __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM );
-        $args = array(
-                'post_type'      => 'wprss_feed_item',
-                'cache_results'  => false,   // Disable caching, used for one-off queries
-                'no_found_rows'  => true,    // We don't need pagination, so disable it
-                'fields'         => 'ids',   // Returns post IDs only
-                'posts_per_page' => -1,
-        );
+        wprss_log('Deleting all feed items...', __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM);
+        $args = [
+            'cache_results' => false,   // Disable caching, used for one-off queries
+            'no_found_rows' => true,    // We don't need pagination, so disable it
+            'fields' => 'ids',   // Returns post IDs only
+            'posts_per_page' => -1,
+            'meta_query' => [
+                'relation' => 'AND',
+                [
+                    'key' => 'wprss_feed_id',
+                    'compare' => 'EXISTS',
+                ],
+            ],
+        ];
 
-        $feed_item_ids = get_posts( $args );
-        foreach( $feed_item_ids as $feed_item_id )  {
-                $purge = wp_delete_post( $feed_item_id, true ); // delete the feed item, skipping trash
+        $items = get_posts($args);
+        foreach ($items as $item) {
+            $purge = wp_delete_post($item, true);
         }
         wp_reset_postdata();
-		wprss_log( sprintf( 'All feed items deleted: %1$d', count($feed_item_ids) ), __FUNCTION__, WPRSS_LOG_LEVEL_INFO );
-		do_action('wprss_delete_all_feed_items_after', $feed_item_ids);
+
+        wprss_log(sprintf('All feed items deleted: %1$d', count($items)), __FUNCTION__, WPRSS_LOG_LEVEL_INFO);
     }
 
 

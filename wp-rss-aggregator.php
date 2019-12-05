@@ -60,6 +60,7 @@ use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
+use RebelCode\Wpra\Core\Modules\ResetToolModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
 use RebelCode\Wpra\Core\Modules\SysInfoToolModule;
@@ -257,9 +258,6 @@ require_once ( WPRSS_INC . 'OPML.php' );
 /* Load the OPML Importer file */
 require_once ( WPRSS_INC . 'opml-importer.php' );
 
-/* Load the admin debugging page file */
-require_once ( WPRSS_INC . 'admin-debugging.php' );
-
 /* Load the admin display-related functions */
 require_once ( WPRSS_INC . 'admin-display.php' );
 
@@ -403,6 +401,7 @@ function wpra_modules()
         'tools/import_export' => new ImportExportToolsModule(),
         'tools/logs' => new LogsToolModule(),
         'tools/sys_info' => new SysInfoToolModule(),
+        'tools/reset' => new ResetToolModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'upsell' => new UpsellModule(),
