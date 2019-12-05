@@ -62,6 +62,7 @@ use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
+use RebelCode\Wpra\Core\Modules\SysInfoToolModule;
 use RebelCode\Wpra\Core\Modules\ToolsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
 use RebelCode\Wpra\Core\Modules\UpsellModule;
@@ -401,6 +402,7 @@ function wpra_modules()
         'tools/bulk_add' => new BulkAddToolModule(),
         'tools/import_export' => new ImportExportToolsModule(),
         'tools/logs' => new LogsToolModule(),
+        'tools/sys_info' => new SysInfoToolModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'upsell' => new UpsellModule(),

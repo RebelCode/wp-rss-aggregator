@@ -257,8 +257,6 @@ use Psr\Log\LogLevel;
 
             do_action( 'wprss_debugging_after' );
 
-            wprss_system_info();
-			
 			if ( count($bottom) > 0 ) {
 				foreach( $bottom as $id => $data ) {
 					if ( !isset( $data['render'] ) ) continue;

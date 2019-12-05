@@ -220,7 +220,7 @@ input#thumbnails-width {
     text-shadow: 0 0 0 transparent !important;
 }
 
-#system-info-textarea,
+#wpra-system-info-textarea,
 #wprss-error-log-textarea {
     width: 800px;
     height: 400px;
@@ -228,6 +228,15 @@ input#thumbnails-width {
     white-space: pre;
     overflow: auto;
     display: block;
+}
+
+#wpra-system-info-textarea {
+    display: block;
+    width: 100%;
+    height: 600px;
+    font-family: Menlo, Monaco, monospace;
+    white-space: pre;
+    overflow: auto;
 }
 
 .wprss-error-log-action {

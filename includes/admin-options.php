@@ -301,11 +301,6 @@
             }
         }
 
-        // If user requested to download system info, generate the download.
-        if ( isset( $_POST['wprss-sysinfo'] ) ) {
-            do_action('wprss_download_sysinfo');
-        }
-
         do_action( 'wprss_admin_init' );
     }
 	
