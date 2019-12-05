@@ -206,7 +206,7 @@ $options = $wpdb->get_results($options_query, OBJECT_K);
 $options = apply_filters('wpra/debug/sysinfo/options', $options);
 
 foreach ($options as $option) {
-    $unserialized = @unserialize($option->option_value);
+    $unserialized = maybe_unserialize($option->option_value);
     $value = apply_filters('wpra/debug/sysinfo/option_value', $unserialized, $option->option_name);
 
     if ($value === null) {

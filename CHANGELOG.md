@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
 * Thumbnails imported by Excerpts & Thumbnails were not showing in templates.
 * Some databases would report the following error during logging: "Column 'date' cannot be null".
+* Unserializing the options for the system info triggered PHP notices.
 
 ### Removed
 * A WordPress 5.1 function was being used to check for ready cron jobs, now replaced with a custom function.
