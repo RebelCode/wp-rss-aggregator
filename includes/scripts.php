@@ -76,6 +76,8 @@
         ));
 
         wp_register_script( 'wprss-gallery-js', WPRSS_JS . 'gallery.js', array('jquery'), $version, true );
+
+        wp_register_script('wpra-tools', WPRSS_JS . 'tools.js', ['jquery'], $version, true);
     }
 
 
@@ -160,6 +162,10 @@
 
         if ($pageBase === 'wprss_feed_page_wprss-help') {
             wp_enqueue_script( 'wprss-admin-help' );
+        }
+
+        if ($pageBase === 'wprss_feed_page_wpra_tools') {
+            wp_enqueue_script('wpra-tools');
         }
 
         if (wprss_is_help_beacon_enabled()) {

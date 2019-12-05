@@ -39,6 +39,7 @@ use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\AssetsModule;
+use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
@@ -51,6 +52,7 @@ use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
+use RebelCode\Wpra\Core\Modules\ImportExportToolsModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\LoremModule;
@@ -59,6 +61,7 @@ use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
+use RebelCode\Wpra\Core\Modules\ToolsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
 use RebelCode\Wpra\Core\Modules\UpsellModule;
 use RebelCode\Wpra\Core\Modules\WpModule;
@@ -393,6 +396,9 @@ function wpra_modules()
         'images' => new ImagesModule(),
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
+        'tools' => new ToolsModule(),
+        'tools/bulk_add' => new BulkAddToolModule(),
+        'tools/import_export' => new ImportExportToolsModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'upsell' => new UpsellModule(),
