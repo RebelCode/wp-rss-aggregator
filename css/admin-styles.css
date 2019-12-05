@@ -235,8 +235,9 @@ input#thumbnails-width {
     margin: 15px 5px 15px 0;
 }
 
+#wprss-clear-error-log-form,
 #wprss-download-error-log-form {
-    float: right;
+    display: inline-block;
 }
 
 form.wprss-error-log-action input[type="submit"]:active {
@@ -244,8 +245,8 @@ form.wprss-error-log-action input[type="submit"]:active {
 }
 /* The debug log root element */
 div.wpra-log {
-    display: none;
-    width: 800px;
+    display: block;
+    width: 100%;
 }
 
 /* The "Filters" label */
@@ -317,8 +318,10 @@ div.wpra-log-container {
 div.wpra-log-container,
 .notice.wpra-empty-log-notice {
     display: block;
-    width: 800px;
     box-sizing: border-box;
+}
+.notice.wpra-empty-log-notice {
+    width: 400px;
 }
 
 /* The log table */
@@ -335,8 +338,8 @@ div.wpra-log-container > table > tbody > tr {
 div.wpra-log-container > table > tbody > tr > td {
     color: #cbcdda;
     vertical-align: baseline;
-    padding: 1px 10px;
-    border-bottom: 1px solid transparent;
+    padding: 4px 10px;
+    border-bottom: 2px solid #222833;
 }
 
 /* Log table: row on hover */
@@ -358,7 +361,7 @@ div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
     width: 60px;
 }
 div.wpra-log-container > table > tbody > tr > td.wpra-log-feed {
-    width: 80px;
+    width: 150px;
 }
 
 /* Log table: styling for DEBUG log messages */
@@ -384,43 +387,6 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
     color: white;
     background-color: #b90000;
     font-weight: bold;
-}
-
-#wprss-error-log-options {
-    display: none;
-    margin: 10px 0;
-    padding: 10px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-}
-
-#wprss-error-log-options form {
-    display: block;
-}
-
-#wprss-error-log-options label {
-    display: inline-block;
-    line-height: 1;
-    font-size: 1em;
-    margin: 3px 0;
-}
-
-#wprss-error-log-options label > span:first-child {
-    display: inline-block;
-    font-weight: bold;
-    width: 200px;
-}
-
-#wprss-log-options-form input[name="logging_limit_days"] {
-    width: 80px;
-}
-
-#wpra-log-options-submit-wrap {
-    text-align: right;
-}
-#wpra-log-options-submit-wrap > button {
-    text-align: center;
 }
 
 @media screen and (min-width: 782px) {
@@ -1149,4 +1115,53 @@ input:checked + .wprss-switch-slider:before {
 
 .postbox .inside .wpra-feed-save-meta-box input[type="text"] {
     text-align: left !important;
+}
+
+/* -- SLIDE BOX -- */
+
+div.wpra-slide-box {
+    display: none;
+    margin: 10px 0;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+div.wpra-slide-box form {
+    display: block;
+}
+
+div.wpra-slide-box form label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 1;
+    font-size: 1em;
+    margin: 5px;
+}
+
+div.wpra-slide-box label > * {
+    flex-grow: 1;
+}
+
+div.wpra-slide-box label > span {
+    display: inline-block;
+    flex-grow: 0;
+    font-weight: bold;
+    width: 200px;
+}
+
+div.wpra-slide-box div.wpra-submit-wrap.right {
+    text-align: right;
+}
+
+div.wpra-slide-box div.wpra-submit-wrap > button {
+    text-align: center;
+}
+
+/* -- ERROR LOG OPTIONS (SLIDE BOX) -- */
+
+#wprss-log-options-form input[name="logging_limit_days"] {
+    width: 80px;
 }

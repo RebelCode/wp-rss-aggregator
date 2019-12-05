@@ -1,7 +1,7 @@
 <h3>
     {% trans "Debug Log" %}
 
-    {% if show_options %}
+    {% if logs.show_options %}
         <small id="wpra-log-options-link-wrap">
             <a id="wprss-error-log-options-link" href="javascript:void(0)">
                 {% trans "Options" %}
@@ -10,32 +10,33 @@
     {% endif %}
 </h3>
 
-{% set numLogs = logs|length %}
+{% set numLogs = logs.entries|length %}
 
 <div class="wpra-log">
 
-    {% if show_options %}
-        <div id="wprss-error-log-options">
+    {% if logs.show_options %}
+        <div id="wprss-error-log-options" class="wpra-slide-box">
             <form id="wprss-log-options-form" method="POST">
-                {{ wp_nonce_field(nonce_name) }}
+                {{ wp_nonce_field(logs.nonce) }}
                 <label>
                     <span>{% trans "Enable logging" %}</span>
-                    <input type="checkbox" name="logging_enabled"
-                           value="1" {% if config['logging/enabled'] %} checked {% endif %} />
+                    <div>
+                        <input type="checkbox" name="logging_enabled"
+                               value="1" {% if logs.config['logging/enabled'] %} checked {% endif %} />
+                    </div>
                 </label>
-
-                <br/>
-
                 <label>
                     <span>{% trans "Auto delete logs older than" %}</span>
-                    <input type="number" name="logging_limit_days" value="{{ config['logging/limit_days'] }}" min="0"/>
-                    <span>{% trans "days" %}</span>
-                    <i>{% trans "(Once per day, logs older than the set amount of days are deleted)" %}</i>
+                    <div>
+                        <input type="number" name="logging_limit_days" value="{{ logs.config['logging/limit_days'] }}" min="0"/>
+                        <span>{% trans "days" %}</span>
+                        <i>{% trans "(Once per day, logs older than the set amount of days are deleted)" %}</i>
+                    </div>
                 </label>
 
                 <hr/>
 
-                <div id="wpra-log-options-submit-wrap">
+                <div class="wpra-submit-wrap">
                     <button type="submit" name="wpra-log-options" class="button button-primary" value="1">
                         {% trans "Save Log Options" %}
                     </button>
@@ -45,7 +46,7 @@
     {% endif %}
 
     {# logging disabled message #}
-    {% if not config['logging/enabled'] %}
+    {% if not logs.config['logging/enabled'] %}
         <section class="notice notice-warning notice-inline wpra-log-disabled">
             <p>{% trans "Logging is disabled" %}</p>
         </section>
@@ -58,7 +59,7 @@
         </section>
     {% else %}
 
-        {% if config['logging/enabled'] %}
+        {% if logs.config['logging/enabled'] %}
             <p>
                 <i>{{ "Showing the most recent %d log messages."|trans|format(numLogs) }}</i>
             </p>
@@ -68,28 +69,28 @@
             <strong>{% trans "Filters:" %}</strong>
 
             <span class="wpra-toggle-logs" data-level="all">
-                <a href="#">{% trans "All" %}</a>
+                <a href="javascript: void(0)">{% trans "All" %}</a>
             </span>
             <span class="wpra-toggle-logs wpra-selected" data-level="error">
-                <a href="#">{% trans "Errors" %}</a>
+                <a href="javascript: void(0)">{% trans "Errors" %}</a>
             </span>
             <span class="wpra-toggle-logs wpra-selected" data-level="info">
-                <a href="#">{% trans "Info" %}</a>
+                <a href="javascript: void(0)">{% trans "Info" %}</a>
             </span>
             <span class="wpra-toggle-logs" data-level="notice">
-                <a href="#">{% trans "Notice" %}</a>
+                <a href="javascript: void(0)">{% trans "Notice" %}</a>
             </span>
             <span class="wpra-toggle-logs" data-level="warning">
-                <a href="#">{% trans "Warnings" %}</a>
+                <a href="javascript: void(0)">{% trans "Warnings" %}</a>
             </span>
             <span class="wpra-toggle-logs" data-level="debug">
-                <a href="#">{% trans "Debug" %}</a>
+                <a href="javascript: void(0)">{% trans "Debug" %}</a>
             </span>
         </p>
         <div class="wpra-log-container">
             <table>
                 <tbody>
-                {% for log in logs %}
+                {% for log in logs.entries %}
                     <tr class="{{ "wpra-log-" ~ log.level }}">
                         <td class="wpra-log-date">{{ log.date }}</td>
                         <td class="wpra-log-level">{{ log.level|title }}</td>
@@ -101,19 +102,19 @@
             </table>
         </div>
 
-        <form id="wprss-clear-error-log-form" method="POST" class="wprss-error-log-action">
-            {{ wp_nonce_field(nonce_name) }}
-            <button type="submit" name="wpra-clear-log" class="button button-red" value="1">
-                <i class="fa fa-trash-o"></i>
-                {% trans "Clear log" %}
-            </button>
-        </form>
-
-        <form id="wprss-download-error-log-form" method="POST" class="wprss-error-log-action">
-            {{ wp_nonce_field(nonce_name) }}
+        <form id="wprss-download-error-log-form" method="POST">
+            {{ wp_nonce_field(logs.nonce) }}
             <button type="submit" name="wpra-download-log" class="button button-primary" value="1">
                 <i class="fa fa-download"></i>
                 {% trans "Download log" %}
+            </button>
+        </form>
+
+        <form id="wprss-clear-error-log-form" method="POST" class="wprss-error-log-action">
+            {{ wp_nonce_field(logs.nonce) }}
+            <button type="submit" name="wpra-clear-log" class="button button-red" value="1">
+                <i class="fa fa-trash-o"></i>
+                {% trans "Clear log" %}
             </button>
         </form>
 

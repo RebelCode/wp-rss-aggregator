@@ -3,25 +3,6 @@
 use Interop\Container\Exception\NotFoundException as ServiceNotFoundException;
 use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 use Psr\Log\LogLevel;
-
-/**
-     * Plugin debugging
-     *
-     * @package    WPRSSAggregator
-     * @subpackage Includes
-     * @since      3.0
-     * @author     Jean Galea <info@jeangalea.com>
-     * @copyright  Copyright(c) 2012-2015, Jean Galea
-     * @link       http://www.wprssaggregator.com
-     * @license    http://www.gnu.org/licenses/gpl.html
-     */
-
-    /*
-    //allow redirection, even if my theme starts to send output to the browser
-    add_action( 'admin_init', 'wprss_do_output_buffer' );
-    function wprss_do_output_buffer() {
-        //ob_start();
-    }*/
     
 
     /**
@@ -288,7 +269,6 @@ use Psr\Log\LogLevel;
 			?>
         </div>
     <?php
-        wp_enqueue_script('wpra-admin-debug-js', WPRSS_JS . 'admin-debug.js', ['jquery'], WPRSS_VERSION, true);
     }       
 
 

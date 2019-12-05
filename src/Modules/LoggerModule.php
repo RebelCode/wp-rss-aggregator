@@ -191,68 +191,6 @@ class LoggerModule implements ModuleInterface
             'wpra/logging/trunc_logs_cron/first_run' => function (ContainerInterface $c) {
                 return time() + DAY_IN_SECONDS;
             },
-            /**
-             * The URL of the page where the log is found.
-             *
-             * @since 4.14
-             */
-            'wpra/logging/page/url' => function () {
-                return admin_url('edit.php?post_type=wprss_feed&page=wprss-debugging');
-            },
-            /**
-             * The name of the nonce used in the debug page to verify the referer of log-related requests.
-             *
-             * @since 4.14
-             */
-            'wpra/logging/page/nonce_name' => function () {
-                return 'wprss-debug-log';
-            },
-            /**
-             * The handler that renders the log.
-             *
-             * @since 4.14
-             */
-            'wpra/logging/handlers/render_log' => function (ContainerInterface $c) {
-                return new RenderLogHandler(
-                    $c->get('wpra/logging/reader'),
-                    $c->get('wpra/twig/collection')['admin/debug/log.twig'],
-                    $c->get('wpra/core/config'),
-                    $c->get('wpra/logging/page/nonce_name')
-                );
-            },
-            /**
-             * TThe handler that processes the clear log request.
-             *
-             * @since 4.14
-             */
-            'wpra/logging/handlers/clear_log' => function (ContainerInterface $c) {
-                return new ClearLogHandler(
-                    $c->get('wpra/logging/clearer'),
-                    $c->get('wpra/logging/page/nonce_name')
-                );
-            },
-            /**
-             * The handler that processes the log download request.
-             *
-             * @since 4.14
-             */
-            'wpra/logging/handlers/download_log' => function (ContainerInterface $c) {
-                return new DownloadLogHandler(
-                    $c->get('wpra/logging/reader'),
-                    $c->get('wpra/logging/page/nonce_name')
-                );
-            },
-            /**
-             * The handler that processes log option saving request.
-             *
-             * @since 4.14
-             */
-            'wpra/logging/handlers/save_options' => function (ContainerInterface $c) {
-                return new SaveLogOptionsHandler(
-                    $c->get('wpra/core/config'),
-                    $c->get('wpra/logging/page/nonce_name')
-                );
-            },
             /*
              * The handler for the log truncation cron job.
              *
@@ -306,26 +244,5 @@ class LoggerModule implements ModuleInterface
     {
         // Hook in the scheduler for the truncate logs cron job
         add_action('init', $c->get('wpra/logging/trunc_logs_cron/scheduler'));
-
-        // Renders the log on the debugging page
-        add_filter('wprss_debug_operations', function ($operations) use ($c) {
-            $operations['render-error-log'] = apply_filters(
-                'wprss_render_error_log_operation',
-                [
-                    'nonce' => null,
-                    'run' => null,
-                    'render' => $c->get('wpra/logging/handlers/render_log'),
-                ]
-            );
-
-            return $operations;
-        });
-
-        // Register the clear log handler
-        add_action('admin_init', $c->get('wpra/logging/handlers/clear_log'));
-        // Register the download log handler
-        add_action('admin_init', $c->get('wpra/logging/handlers/download_log'));
-        // Register the save log options handler
-        add_action('admin_init', $c->get('wpra/logging/handlers/save_options'));
     }
 }

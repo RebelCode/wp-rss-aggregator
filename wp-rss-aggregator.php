@@ -55,6 +55,7 @@ use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\ImportExportToolsModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
+use RebelCode\Wpra\Core\Modules\LogsToolModule;
 use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
@@ -399,6 +400,7 @@ function wpra_modules()
         'tools' => new ToolsModule(),
         'tools/bulk_add' => new BulkAddToolModule(),
         'tools/import_export' => new ImportExportToolsModule(),
+        'tools/logs' => new LogsToolModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'upsell' => new UpsellModule(),
