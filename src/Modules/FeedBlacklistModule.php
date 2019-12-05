@@ -3,10 +3,13 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Entities\Properties\Property;
+use RebelCode\Entities\Schemas\Schema;
+use RebelCode\Wpra\Core\Entities\Collections\FeedBlacklistCollection;
 use RebelCode\Wpra\Core\Handlers\AddCptMetaCapsHandler;
-use RebelCode\Wpra\Core\Handlers\FeedBlacklist\SaveBlacklistHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Ui\BlacklistTable;
 
 /**
  * The feed blacklist module for WP RSS Aggregator.
@@ -83,7 +86,7 @@ class FeedBlacklistModule implements ModuleInterface
                     'public' => false,
                     'exclude_from_search' => true,
                     'show_ui' => true,
-                    'show_in_menu' => 'edit.php?post_type=wprss_feed',
+                    'show_in_menu' => false,
                     'capability_type' => $c->get('wpra/feeds/blacklist/cpt/capability'),
                     'map_meta_cap' => true,
                     'supports' => ['title'],
@@ -120,13 +123,51 @@ class FeedBlacklistModule implements ModuleInterface
                 );
             },
             /*
-             * The handler for saving custom feed item blacklist posts.
+             * The properties for blacklist entities.
              *
-             * @since 4.13
+             * @since [*next-version*]
              */
-            'wpra/feeds/blacklist/handlers/save_blacklist_item' => function (ContainerInterface $c) {
-                return new SaveBlacklistHandler($c->get('wpra/feeds/blacklist/cpt/name'));
-            }
+            'wpra/feeds/blacklist/properties' => function () {
+                return [
+                    'id' => new Property('ID'),
+                    'title' => new Property('post_title'),
+                    'url' => new Property('wprss_permalink'),
+                ];
+            },
+            /*
+             * The default values for blacklist entity properties.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/blacklist/defaults' => function () {
+                return [
+                    'id' => null,
+                    'title' => '',
+                    'url' => '',
+                ];
+            },
+            /*
+             * The schema for blacklist entities.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/blacklist/schema' => function (ContainerInterface $c) {
+                return new Schema(
+                    $c->get('wpra/feeds/blacklist/properties'),
+                    $c->get('wpra/feeds/blacklist/defaults')
+                );
+            },
+            /*
+             * The collection for blacklist entities.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/blacklist/collection' => function (ContainerInterface $c) {
+                return new FeedBlacklistCollection(
+                    $c->get('wpra/feeds/blacklist/cpt/name'),
+                    $c->get('wpra/feeds/blacklist/schema')
+                );
+            },
         ];
     }
 
@@ -149,6 +190,5 @@ class FeedBlacklistModule implements ModuleInterface
     {
         add_action('init', $c->get('wpra/feeds/blacklist/handlers/register_cpt'), 11);
         add_action('admin_init', $c->get('wpra/feeds/blacklist/handlers/add_cpt_capabilities'));
-        add_action('save_post', $c->get('wpra/feeds/blacklist/handlers/save_blacklist_item'));
     }
 }

@@ -1174,3 +1174,16 @@ div.wpra-slide-box div.wpra-submit-wrap > button {
 #wprss-log-options-form input[name="logging_limit_days"] {
     width: 80px;
 }
+
+/* -- BLACKLIST TOOL -- */
+
+#wpra-add-blacklist-btn {
+    position: relative;
+    vertical-align: baseline;
+    top: -1px;
+    margin-left: 3px;
+}
+
+#wpra-add-blacklist-container form label span:first-child {
+    width: 90px;
+}

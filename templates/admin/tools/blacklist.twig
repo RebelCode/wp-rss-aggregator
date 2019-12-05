@@ -1,0 +1,43 @@
+<h3 style="display: inline-block">
+    {% trans "Blacklist" %}
+</h3>
+
+<button class="button" id="wpra-add-blacklist-btn">
+    {% trans "Blacklist a URL" %}
+</button>
+
+{# Add blacklist form #}
+<div class="wpra-slide-box" id="wpra-add-blacklist-container">
+    <form method="post">
+        {{ wp_nonce_field('wpra_add_blacklist', 'wpra_add_blacklist_nonce') }}
+        <input type="hidden" name="wpra_add_blacklist" value="1" />
+        <label>
+            <span>{% trans "Name" %}</span>
+            <div>
+                <input type="text" name="wpra_blacklist_title" placeholder="{{ "Give it a name"|trans }}" />
+            </div>
+        </label>
+        <label>
+            <span>{% trans "URL" %}</span>
+            <input type="text" name="wpra_blacklist_url" placeholder="{{ "Enter a URL to blacklist it"|trans }}" />
+        </label>
+        <hr/>
+        <div class="wpra-submit-wrap">
+            <button class="button button-primary" type="submit">{% trans "Add to blacklist" %}</button>
+        </div>
+    </form>
+</div>
+
+<p>{% trans "The blacklist is a list of feed item URLs. Any items with a URL from this list will be not be imported." %}</p>
+
+{# Blacklist table #}
+<form method="post">
+    <input type="hidden" name="wpra_blacklist_bulk" value="1" />
+    {{ blacklist.list_table|raw }}
+</form>
+
+{# Delete blacklist form #}
+<form method="POST" id="wpra-delete-blacklist-form">
+    <input id="wpra-delete-blacklist-id" type="hidden" name="wpra_delete_blacklist" value="" />
+    {{ wp_nonce_field('wpra_delete_blacklist', 'wpra_delete_blacklist_nonce') }}
+</form>

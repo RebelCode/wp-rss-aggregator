@@ -39,6 +39,7 @@ use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\AssetsModule;
+use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
 use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
@@ -399,6 +400,7 @@ function wpra_modules()
         'tools' => new ToolsModule(),
         'tools/bulk_add' => new BulkAddToolModule(),
         'tools/import_export' => new ImportExportToolsModule(),
+        'tools/blacklist' => new BlackListToolModule(),
         'tools/logs' => new LogsToolModule(),
         'tools/sys_info' => new SysInfoToolModule(),
         'tools/reset' => new ResetToolModule(),
