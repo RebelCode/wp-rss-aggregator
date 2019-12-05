@@ -316,8 +316,6 @@ require_once ( WPRSS_INC . 'polyfills.php' );
 /* Load the youtube functionality */
 require_once ( WPRSS_INC . 'youtube.php' );
 
-do_action('wprss_pre_init');
-
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
@@ -344,6 +342,7 @@ function wpra_run()
         do_action('wpra_loaded', $container, $plugin);
 
         $plugin->run($container);
+        do_action('wprss_pre_init');
         do_action('wpra_after_run', $container, $plugin);
     } catch (Throwable $throwable) {
         wpra_error_handler($throwable);
