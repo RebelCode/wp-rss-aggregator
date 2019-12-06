@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * The Edit Feed Source page now allows the slug to be edited.
 
 ### Changed
+* The "Blacklist", "Import/Export" and "Debugging" page have been combined into a single "Tools" page.
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
 * Images that have the same URL are now downloaded to the media library only once.
 * Updated some styles to match the new WordPress 5.3 aesthetic.
