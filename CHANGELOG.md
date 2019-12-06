@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * RSS feeds that are invalid due to leading whitespace may now be imported anyway.
 * Images that have the same URL are now downloaded to the media library only once.
 * Updated some styles to match the new WordPress 5.3 aesthetic.
-* Removed some log messages and fatal errors are now always logged.
+* Removed some log messages.
+* Fatal errors are now always logged.
 * Optimized cron-related functionality.
 * The plugin will no longer register cron schedules that already exist.
 * License-related notices are now only shown to users who have access to the Licenses settings page.
