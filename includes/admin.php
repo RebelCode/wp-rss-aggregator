@@ -89,7 +89,7 @@
      */
     function wprss_change_title_text($original) {
         if (get_post_type() === 'wprss_feed') {
-            return __('Name this feed (e.g. WP Mayor)', WPRSS_TEXT_DOMAIN);
+            return __('Name this feed', WPRSS_TEXT_DOMAIN);
         }
 
         return $original;
