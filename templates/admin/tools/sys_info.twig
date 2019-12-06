@@ -2,11 +2,11 @@
     {% trans "System Info" %}
 </h3>
 
-<form method="post" class="wpra-stealth-form">
+<form method="post" class="wpra-header-form">
     {{ wp_nonce_field('wpra_dl_sys_info', 'wpra_dl_sys_info_nonce') }}
     <input type="hidden" name="wpra_dl_sysinfo" value="1" />
 
-    <button type="submit" id="wprss-download-sysinfo" class="button wpra-header-button">
+    <button type="submit" id="wprss-download-sysinfo" class="button button-primary wpra-header-button">
         <i class="fa fa-download"></i>
         {% trans "Download" %}
     </button>
