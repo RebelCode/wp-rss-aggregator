@@ -6,14 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version]] YYYY-MM-DD
 ### Added
-* New option to control whether items with future dates are scheduled or published.
-* New shortcode parameter to select feed sources by their slug names.
+* New "Tools" that replaces the "Blacklist", "Import/Export" and "Debugging" pages.
+* New option to control whether items with future dates are scheduled or published with truncated dates.
+* New "feeds" shortcode parameter to select feed sources by their slug names.
 * New "1 week" update interval option to update feeds once every week.
-* The Edit Feed Source page now allows the slug to be edited.
+* The "Edit Feed Source" page now allows the slug to be edited.
+* The "Edit Feed Source" page now shows shortcode snippets.
 
 ### Changed
-* The "Blacklist", "Import/Export" and "Debugging" page have been combined into a single "Tools" page.
-* RSS feeds that are invalid due to leading whitespace may now be imported anyway.
+* RSS feeds that are invalid due to leading whitespace are now trimmed and may now be imported.
 * Images that have the same URL are now downloaded to the media library only once.
 * Updated some styles to match the new WordPress 5.3 aesthetic.
 * Removed some log messages.
@@ -24,13 +25,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * The "Import Source" option did not work.
-* Items that are imported as posts now link to the local post instead of the original article.
+* Templates now link imported posts to the local post instead of to the original article.
 * Images with HTML entities in the URL could not be downloaded.
-* Feed items no longer require PolyLang translations to show up in the shortcode.
+* Feed items without a PolyLang translation did not show up in templates.
 * PHP notices were triggered when trying to download invalid images.
 * The feed item count in the "Feed Sources" page would show zero when certain add-ons are installed.
-* Removed a warning (about reset() expecting an array) that is shown by the shortcode or block.
-* Thumbnails imported by Excerpts & Thumbnails were not showing in templates.
+* Removed a warning shown in templates about `reset()` expecting an array.
+* Thumbnails imported by Excerpts & Thumbnails were not shown in templates.
 * Some databases would report the following error during logging: "Column 'date' cannot be null".
 * Unserializing the options for the system info triggered PHP notices.
 
