@@ -30,7 +30,7 @@ class BulkAddToolModule implements ModuleInterface
              */
             'wpra/admin/tools/bulk_add/info' => function (ContainerInterface $c) {
                 return [
-                    'name' => __('Add Bulk', 'wprss'),
+                    'name' => __('Bulk Add Sources', 'wprss'),
                     'template' => $c->has('wpra/twig/collection')
                         ? $c->get('wpra/twig/collection')['admin/tools/bulk_add.twig']
                         : new NullTemplate(),
