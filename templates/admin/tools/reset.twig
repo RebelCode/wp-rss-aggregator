@@ -1,6 +1,8 @@
 <h3>{% trans "Delete all imported items" %}</h3>
-<p>{% trans "Click the red button below to delete all imported items (and posts)." %}</p>
-<p><em>{% trans "This can take a long time if you have a lot of feed sources." %}</em></p>
+<p>{% trans "Click the button below to delete all imported items and posts." %}</p>
+<p>
+    {% trans "Kindly note that old items may no longer be present in their respective RSS feeds, meaning that you may be unable to re-import them later." %}
+</p>
 
 <form method="post" id="wpra-delete-items-form">
     {{ wp_nonce_field('wpra_delete_all_items', 'wpra_delete_all_items_nonce') }}
@@ -15,7 +17,7 @@
 <h3>{% trans 'Restore Default Settings' %}</h3>
 
 <p>{% trans 'Click the red button to reset the plugin settings to default.' %}</p>
-<p>{% trans '<em><strong>Note:</strong> This cannot be undone. Once the settings have been reset, your old settings cannot be restored.</em>' %}</p>
+<p>{% trans 'It is recommended to export your settings before resetting them, in case you need to rollback.' %}</p>
 
 <form method="post" id="wpra-reset-settings-form">
     {{ wp_nonce_field('wpra_reset_settings', 'wpra_reset_settings_nonce') }}
