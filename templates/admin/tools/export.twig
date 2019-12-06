@@ -5,10 +5,12 @@
 <form method="post">
     <p class="submit">
         {{ wp_nonce_field('wpra_export_settings', 'wpra_export_settings_nonce') }}
-        <input type="submit"
-               class="button button-secondary"
-               name="wpra_export"
-               value="{{ "Export Settings"|trans|e('html_attr') }}"
-        />
+
+        <input type="hidden" name="wpra_export" value="1" />
+
+        <button type="submit" class="button button-secondary">
+            <i class="fa fa-download"></i>
+            {% trans "Export Settings" %}
+        </button>
     </p>
 </form>

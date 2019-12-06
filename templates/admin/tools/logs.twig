@@ -1,16 +1,13 @@
-<h3>
+<h3 class="wpra-inline-header">
     {% trans "Debug Log" %}
-
-    {% if logs.show_options %}
-        <small id="wpra-log-options-link-wrap">
-            <a id="wprss-error-log-options-link" href="javascript:void(0)">
-                {% trans "Options" %}
-            </a>
-        </small>
-    {% endif %}
 </h3>
 
-{% set numLogs = logs.entries|length %}
+{% if logs.show_options %}
+    <button id="wprss-error-log-options-link" class="button wpra-header-button" href="javascript:void(0)">
+        <i class="fa fa-wrench"></i>
+        {% trans "Options" %}
+    </button>
+{% endif %}
 
 <div class="wpra-log">
 
@@ -53,6 +50,7 @@
     {% endif %}
 
     {# log is empty message #}
+    {% set numLogs = logs.entries|length %}
     {% if numLogs == 0 %}
         <section class="notice notice-success notice-inline wpra-empty-log-notice">
             <p>{% trans "The log is empty" %}</p>

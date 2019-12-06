@@ -1,20 +1,19 @@
-<h3>{% trans "System Info" %}</h3>
+<h3 class="wpra-inline-header">
+    {% trans "System Info" %}
+</h3>
 
-<form method="post">
+<form method="post" class="wpra-stealth-form">
     {{ wp_nonce_field('wpra_dl_sys_info', 'wpra_dl_sys_info_nonce') }}
-
     <input type="hidden" name="wpra_dl_sysinfo" value="1" />
 
-    <p>
-        <button type="submit" id="wprss-download-sysinfo" class="button button-primary">
-            <i class="fa fa-download"></i>
-            {% trans "Download System Info" %}
-        </button>
-    </p>
-
-    <textarea id="wpra-system-info-textarea"
-              name="wpra_sysinfo"
-              title="{% trans "To copy the system info, double click it and then press Ctrl + C (PC) or Cmd + C (Mac)." %}"
-              readonly="readonly"
-              ondblclick="this.focus();this.select()">{{ sys_info|raw }}</textarea>
+    <button type="submit" id="wprss-download-sysinfo" class="button wpra-header-button">
+        <i class="fa fa-download"></i>
+        {% trans "Download" %}
+    </button>
 </form>
+
+<textarea id="wpra-system-info-textarea"
+          name="wpra_sysinfo"
+          title="{% trans "To copy the system info, double click it and then press Ctrl + C (PC) or Cmd + C (Mac)." %}"
+          readonly="readonly"
+          ondblclick="this.focus();this.select()">{{ sys_info|raw }}</textarea>

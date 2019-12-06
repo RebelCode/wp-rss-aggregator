@@ -1126,6 +1126,34 @@ input:checked + .wprss-switch-slider:before {
     text-align: left !important;
 }
 
+/* -- INLINE STYLES -- */
+
+form.wpra-inline-form {
+    display: inline-block;
+}
+
+form.wpra-stealth-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+h1.wpra-inline-header,
+h2.wpra-inline-header,
+h3.wpra-inline-header,
+h4.wpra-inline-header
+{
+    display: inline-block;
+}
+
+button.button.wpra-header-button {
+    position: relative;
+    vertical-align: baseline;
+    top: -1px;
+    margin-left: 3px;
+}
+
 /* -- SLIDE BOX -- */
 
 div.wpra-slide-box {
@@ -1176,13 +1204,6 @@ div.wpra-slide-box div.wpra-submit-wrap > button {
 }
 
 /* -- BLACKLIST TOOL -- */
-
-#wpra-add-blacklist-btn {
-    position: relative;
-    vertical-align: baseline;
-    top: -1px;
-    margin-left: 3px;
-}
 
 #wpra-add-blacklist-container form label span:first-child {
     width: 90px;
