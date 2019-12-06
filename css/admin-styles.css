@@ -241,12 +241,14 @@ input#thumbnails-width {
 
 .wprss-error-log-action {
     display: inline-block;
-    margin: 15px 5px 15px 0;
 }
 
-#wprss-clear-error-log-form,
-#wprss-download-error-log-form {
+#wprss-clear-error-log-form {
     display: inline-block;
+}
+#wprss-clear-error-log-form,
+#wprss-clear-error-log-form > button {
+    vertical-align: baseline;
 }
 
 form.wprss-error-log-action input[type="submit"]:active {
@@ -255,6 +257,7 @@ form.wprss-error-log-action input[type="submit"]:active {
 /* The debug log root element */
 div.wpra-log {
     display: block;
+    position: relative;
     width: 100%;
 }
 
@@ -265,7 +268,7 @@ div.wpra-log > p > strong:first-child {
 }
 
 /* The debug log filters separator */
-div.wpra-log .wpra-toggle-logs:not(:last-child)::after {
+div.wpra-log .wpra-toggle-logs:not(:last-of-type)::after {
     content: ' | ';
     color: #3c3c3c;
     pointer-events: none;
@@ -316,9 +319,11 @@ div.wpra-log .wpra-toggle-logs.wpra-log-filter-disabled a {
 
 /* The debug log */
 div.wpra-log-container {
+    width: 100%;
     max-height: 600px;
     border: 1px solid #d1d1d1;
     padding: 5px;
+    margin-bottom: 15px;
     overflow: auto;
     background: #222833;
 }
@@ -1132,7 +1137,7 @@ form.wpra-inline-form {
     display: inline-block;
 }
 
-form.wpra-stealth-form {
+form.wpra-header-form {
     display: inline-block;
     margin: 0;
     padding: 0;
@@ -1145,13 +1150,13 @@ h3.wpra-inline-header,
 h4.wpra-inline-header
 {
     display: inline-block;
+    margin-right: 5px;
 }
 
 button.button.wpra-header-button {
     position: relative;
     vertical-align: baseline;
     top: -1px;
-    margin-left: 3px;
 }
 
 /* -- SLIDE BOX -- */
@@ -1165,6 +1170,10 @@ div.wpra-slide-box {
     border-radius: 2px;
 }
 
+div.wpra-slide-box.wpra-slide-box-open {
+    display: block;
+}
+
 div.wpra-slide-box form {
     display: block;
 }
@@ -1175,7 +1184,7 @@ div.wpra-slide-box form label {
     align-items: center;
     line-height: 1;
     font-size: 1em;
-    margin: 5px;
+    margin: 5px 0;
 }
 
 div.wpra-slide-box label > * {
@@ -1207,4 +1216,24 @@ div.wpra-slide-box div.wpra-submit-wrap > button {
 
 #wpra-add-blacklist-container form label span:first-child {
     width: 90px;
+}
+
+/* -- LOG TOOL -- */
+
+#wprss-error-log-options {
+    margin: 15px 0;
+}
+
+#wprss-clear-error-log-form {
+    float: right;
+    position: relative;
+    top: -3px;
+}
+
+.wpra-log-filters {
+    padding: 2px 0;
+    margin: 0;
+}
+p.wpra-logs-shown-msg {
+    margin: 5px 0;
 }
