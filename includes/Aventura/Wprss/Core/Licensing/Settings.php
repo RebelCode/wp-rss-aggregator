@@ -109,6 +109,10 @@ class Settings {
      * @return boolean True if the notice is to be shown, false if not.
      */
     public function emptyLicenseKeyNoticeCondition( $args ) {
+        if (!current_user_can('manage_options')) {
+            return false;
+        }
+
         if ( ! isset( $args['addon'] ) ) {
             return false;
         }
@@ -129,6 +133,10 @@ class Settings {
      * @return boolean True if the notice is to be shown, false if not.
      */
     public function savedInactiveLicenseNoticeCondition( $args ) {
+        if (!current_user_can('manage_options')) {
+            return false;
+        }
+
         if ( ! isset( $args['addon'] ) ) {
             return false;
         }
@@ -143,6 +151,10 @@ class Settings {
      * @return boolean True if the notice is to be shown, false if not.
      */
     public function soonToExpireLicenseNoticeCondition( $args ) {
+        if (!current_user_can('manage_options')) {
+            return false;
+        }
+
         if ( ! isset( $args['addon'] ) ) return false;
                 $manager = $this->getManager();
                 if ( !($license = $manager->getLicense( $args['addon'] )) ) {

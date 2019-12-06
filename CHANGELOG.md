@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Removed some log messages and fatal errors are now always logged.
 * Optimized cron-related functionality.
 * The plugin will no longer register cron schedules that already exist.
+* License-related notices are now only shown to users who have access to the Licenses settings page.
 
 ### Fixed
 * The "Import Source" option did not work.
