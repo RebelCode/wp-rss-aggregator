@@ -2,7 +2,7 @@
 <p>{% trans "Click the red button below to delete all imported items (and posts)." %}</p>
 <p><em>{% trans "This can take a long time if you have a lot of feed sources." %}</em></p>
 
-<form method="post">
+<form method="post" id="wpra-delete-items-form">
     {{ wp_nonce_field('wpra_delete_all_items', 'wpra_delete_all_items_nonce') }}
 
     <input type="submit"
@@ -17,7 +17,7 @@
 <p>{% trans 'Click the red button to reset the plugin settings to default.' %}</p>
 <p>{% trans '<em><strong>Note:</strong> This cannot be undone. Once the settings have been reset, your old settings cannot be restored.</em>' %}</p>
 
-<form method="post">
+<form method="post" id="wpra-reset-settings-form">
     {{ wp_nonce_field('wpra_reset_settings', 'wpra_reset_settings_nonce') }}
 
     <input type="submit"
