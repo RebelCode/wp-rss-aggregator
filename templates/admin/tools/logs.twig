@@ -90,6 +90,7 @@
         <div id="wprss-error-log-options" class="wpra-slide-box wpra-slide-box-open">
             <form id="wprss-log-options-form" method="POST">
                 {{ wp_nonce_field(logs.nonce) }}
+                <h4>{% trans "Log Options" %}</h4>
                 <label>
                     <span>{% trans "Enable logging" %}</span>
                     <div>
@@ -106,8 +107,6 @@
                         <i>{% trans "(Once per day, logs older than the set amount of days are deleted)" %}</i>
                     </div>
                 </label>
-
-                <hr />
 
                 <div class="wpra-submit-wrap">
                     <button type="submit" name="wpra-log-options" class="button" value="1">

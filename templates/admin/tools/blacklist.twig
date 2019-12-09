@@ -7,10 +7,15 @@
     {% trans "Blacklist a URL" %}
 </button>
 
+<p class="wpra-no-margin">
+    {% trans "The blacklist is a list of feed item URLs. Any items with a URL from this list will be not be imported." %}
+</p>
+
 {# Add blacklist form #}
 <div class="wpra-slide-box" id="wpra-add-blacklist-container">
     <form method="post">
         {{ wp_nonce_field('wpra_add_blacklist', 'wpra_add_blacklist_nonce') }}
+        <h4>{% trans "Add to Blacklist" %}</h4>
         <input type="hidden" name="wpra_add_blacklist" value="1" />
         <label>
             <span>{% trans "Name" %}</span>
@@ -22,14 +27,12 @@
             <span>{% trans "URL" %}</span>
             <input type="text" name="wpra_blacklist_url" placeholder="{{ "Enter a URL to blacklist it"|trans }}" />
         </label>
-        <hr/>
+
         <div class="wpra-submit-wrap">
             <button class="button button-primary" type="submit">{% trans "Add to blacklist" %}</button>
         </div>
     </form>
 </div>
-
-<p>{% trans "The blacklist is a list of feed item URLs. Any items with a URL from this list will be not be imported." %}</p>
 
 {# Blacklist table #}
 <form method="post">
