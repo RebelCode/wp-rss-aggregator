@@ -342,7 +342,6 @@ function wpra_run()
         do_action('wpra_loaded', $container, $plugin);
 
         $plugin->run($container);
-        do_action('wprss_pre_init');
         do_action('wpra_after_run', $container, $plugin);
     } catch (Throwable $throwable) {
         wpra_error_handler($throwable);
@@ -654,6 +653,7 @@ function wprss() {
 }
 
 try {
+    do_action('wprss_pre_init');
     $instance = wprss();
 } catch (Throwable $t) {
     wpra_error_handler($t);

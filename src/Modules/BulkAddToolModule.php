@@ -91,15 +91,5 @@ class BulkAddToolModule implements ModuleInterface
     {
         // Register the Bulk Add handler
         add_action('admin_init', $c->get('wpra/admin/tools/bulk_add/handler'));
-
-        // Adds the bulk import service provider to the old Aventura container
-        add_filter('wprss_core_container_init', function (WritableContainerInterface $container) {
-            $serviceProvider = new ServiceProvider(array(
-                'notice_service_id_prefix' => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
-                'service_id_prefix' => \WPRSS_SERVICE_ID_PREFIX,
-                'event_prefix' => \WPRSS_EVENT_PREFIX,
-            ));
-            $container->register($serviceProvider);
-        });
     }
 }
