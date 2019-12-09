@@ -376,11 +376,11 @@
      * @since 3.0
      */
     function wprss_delete_all_feed_items() {
-        wprss_log('Deleting all feed items...', __FUNCTION__, WPRSS_LOG_LEVEL_SYSTEM);
         $args = [
-            'cache_results' => false,   // Disable caching, used for one-off queries
-            'no_found_rows' => true,    // We don't need pagination, so disable it
-            'fields' => 'ids',   // Returns post IDs only
+            'post_type' => get_post_types(),
+            'suppress_filters' => true,
+            'cache_results' => false,
+            'fields' => 'ids',
             'posts_per_page' => -1,
             'meta_query' => [
                 'relation' => 'AND',
@@ -395,9 +395,8 @@
         foreach ($items as $item) {
             $purge = wp_delete_post($item, true);
         }
-        wp_reset_postdata();
 
-        wprss_log(sprintf('All feed items deleted: %1$d', count($items)), __FUNCTION__, WPRSS_LOG_LEVEL_INFO);
+        wp_reset_postdata();
     }
 
 
@@ -721,13 +720,12 @@
 
 
     /**
-     * Deletes all imported feeds and re-imports everything
+     * Deletes all imported feeds.
      *
      * @since 3.0
      */
     function wprss_feed_reset() {
         wp_schedule_single_event( time(), 'wprss_delete_all_feed_items_hook' );
-		set_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING, true );
     }
 
 
@@ -740,7 +738,6 @@
 		delete_transient( WPRSS_TRANSIENT_NAME_IS_REIMPORTING );
 		wprss_fetch_insert_all_feed_items( TRUE );
 	}
-	add_action('wprss_delete_all_feed_items_after', 'wprss_schedule_reimport_all');
 
 
     /**
