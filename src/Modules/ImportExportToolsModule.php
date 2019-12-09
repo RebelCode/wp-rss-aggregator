@@ -99,21 +99,26 @@ class ImportExportToolsModule implements ModuleInterface
                         ? $_FILES['wpra_import_file']
                         : ['error' => UPLOAD_ERR_NO_FILE];
 
-                    switch ($fileInfo['error']) {
-                        case UPLOAD_ERR_OK:
-                            break;
-                        case UPLOAD_ERR_NO_FILE:
-                            wp_die(__('No file was uploaded. Please select a file.', 'wprss'));
-                            exit;
-                        case UPLOAD_ERR_INI_SIZE:
-                        case UPLOAD_ERR_FORM_SIZE:
-                            wp_die(__('Upload file is too large.', 'wprss'));
-                            exit;
-                        case UPLOAD_ERR_PARTIAL:
-                            wp_die(__('The file was not fully uploaded.', 'wprss'));
-                            exit;
-                        default:
-                            wp_die(__('The file upload failed. Please try again.', 'wprss'));
+                    if ($fileInfo['error'] !== UPLOAD_ERR_OK) {
+                        switch ($fileInfo['error']) {
+                            case UPLOAD_ERR_NO_FILE:
+                                $message = __('No file was uploaded. Please select a file.', 'wprss');
+                                break;
+                            case UPLOAD_ERR_INI_SIZE:
+                            case UPLOAD_ERR_FORM_SIZE:
+                                $message = __('Upload file is too large.', 'wprss');
+                                break;
+                            case UPLOAD_ERR_PARTIAL:
+                                $message = __('The file was not fully uploaded.', 'wprss');
+                                break;
+                            default:
+                                $message = __('The file upload failed. Please try again.', 'wprss');
+                                break;
+                        }
+
+                        wp_die($message, __('Upload error', 'wprss'), ['back_link' => true]);
+
+                        exit;
                     }
 
                     $importFile = $_FILES['wpra_import_file'];
