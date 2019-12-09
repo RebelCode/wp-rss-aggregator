@@ -56,8 +56,6 @@ class BulkAddToolModule implements ModuleInterface
 
                     $results = $importer->import($feeds);
                     wprss()->getAdminAjaxNotices()->addNotice('bulk_feed_import');
-
-                    exit;
                 };
             },
         ];
