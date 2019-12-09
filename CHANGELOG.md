@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Images that have the same URL are now downloaded to the media library only once.
 * Updated some styles to match the new WordPress 5.3 aesthetic.
 * Optimized template saving to be more performant and less error prone.
+* Improved error messages in REST API responses.
 * Removed some log messages.
 * Fatal errors are now always logged.
 * Optimized cron-related functionality.

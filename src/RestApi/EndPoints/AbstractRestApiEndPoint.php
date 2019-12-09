@@ -33,13 +33,7 @@ abstract class AbstractRestApiEndPoint
             // Handle the request and get the response
             $response = $this->handle($request);
         } catch (Exception $exception) {
-            // In the event of an exception, the response is set to be a 500 Internal Server error
-            $response = new WP_Error('wprss_rest_api_error', $exception->getMessage(), ['status' => 500]);
-        }
-
-        // If the response is an error or no transformer should be used, return the response "as is"
-        if ($response instanceof WP_Error) {
-            return $response;
+            return $this->exceptionResponse($exception);
         }
 
         // Retrieve the data
@@ -71,6 +65,45 @@ abstract class AbstractRestApiEndPoint
     protected function getTransformer()
     {
         return new RecursiveToArrayTransformer();
+    }
+
+    /**
+     * Creates an erroneous response from an exception.
+     *
+     * @since [*next-version*]
+     *
+     * @param Exception $exception The exception from which to create the response.
+     *
+     * @return WP_Error The erreneous response.
+     */
+    protected function exceptionResponse(Exception $exception)
+    {
+        $message = $exception->getMessage();
+        $data = [
+            'status' => 500,
+            'trace' => [],
+        ];
+
+        foreach ($exception->getTrace() as $trace) {
+            $file = basename($trace['file']);
+            $line = $trace['line'];
+            $fn = $trace['function'];
+            $args = array_map(function ($arg) {
+                if (is_scalar($arg)) {
+                    return $arg;
+                }
+
+                return is_object($arg)
+                    ? get_class($arg)
+                    : gettype($arg);
+            }, $trace['args']);
+
+            $argsStr = implode(', ', $args);
+
+            $data['trace'][] = sprintf('%s(%s) @ %s:%s', $fn, $argsStr, $file, $line);
+        }
+
+        return new WP_Error('wprss_rest_api_error', $message, $data);
     }
 
     /**
