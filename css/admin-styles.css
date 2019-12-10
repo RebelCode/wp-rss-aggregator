@@ -1179,7 +1179,7 @@ div.wpra-slide-box form {
 }
 
 div.wpra-slide-box h4 {
-    font-size: 18px;
+    font-size: 16px;
     margin: 0;
     margin-bottom: 15px;
     padding-bottom: 5px;
@@ -1203,7 +1203,14 @@ div.wpra-slide-box label > span {
     display: inline-block;
     flex-grow: 0;
     width: 200px;
-    font-size: 14px;
+    font-size: 1em;
+}
+div.wpra-slide-box label input[type="text"],
+div.wpra-slide-box label input[type="number"],
+div.wpra-slide-box label input[type="text"]
+{
+    height: 28px;
+    min-height: 28px;
 }
 
 div.wpra-slide-box div.wpra-submit-wrap {
@@ -1226,7 +1233,7 @@ div.wpra-slide-box div.wpra-submit-wrap > button {
 /* -- BLACKLIST TOOL -- */
 
 #wpra-add-blacklist-container form label span:first-child {
-    width: 90px;
+    width: 120px;
 }
 
 /* -- LOG TOOL -- */

@@ -18,14 +18,14 @@
         <h4>{% trans "Add to Blacklist" %}</h4>
         <input type="hidden" name="wpra_add_blacklist" value="1" />
         <label>
-            <span>{% trans "Name" %}</span>
+            <span>{% trans "Give it a name" %}</span>
             <div>
-                <input type="text" name="wpra_blacklist_title" placeholder="{{ "Give it a name"|trans }}" />
+                <input type="text" name="wpra_blacklist_title" />
             </div>
         </label>
         <label>
-            <span>{% trans "URL" %}</span>
-            <input type="text" name="wpra_blacklist_url" placeholder="{{ "Enter a URL to blacklist it"|trans }}" />
+            <span>{% trans "URL to blacklist" %}</span>
+            <input type="text" name="wpra_blacklist_url" />
         </label>
 
         <div class="wpra-submit-wrap">
