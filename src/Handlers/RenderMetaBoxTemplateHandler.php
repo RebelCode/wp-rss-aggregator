@@ -34,6 +34,13 @@ class RenderMetaBoxTemplateHandler
     protected $entityKey;
 
     /**
+     * @since [*next-version*]
+     *
+     * @var string[]|null
+     */
+    protected $postTypes;
+
+    /**
      * Constructor.
      *
      * @since 4.17
@@ -42,11 +49,16 @@ class RenderMetaBoxTemplateHandler
      * @param CollectionInterface $collection
      * @param string              $entityKey
      */
-    public function __construct(TemplateInterface $template, CollectionInterface $collection, $entityKey = 'entity')
-    {
+    public function __construct(
+        TemplateInterface $template,
+        CollectionInterface $collection,
+        $postTypes = [],
+        $entityKey = 'entity'
+    ) {
         $this->template = $template;
         $this->collection = $collection;
         $this->entityKey = $entityKey;
+        $this->postTypes = $postTypes;
     }
 
     /**
@@ -56,6 +68,10 @@ class RenderMetaBoxTemplateHandler
      */
     public function __invoke($post, $args = [])
     {
+        if (!empty($this->postTypes) && !in_array($post->post_type, $this->postTypes)) {
+            return;
+        }
+
         $entity = isset($this->collection[$post->ID])
             ? $this->collection[$post->ID]
             : [];

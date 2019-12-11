@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [[*next-version*]] - YYYY-MM-DD
+### Fixed
+* The new slug option was appearing on the edit pages for posts of all types.
+
 ## [4.17] - 2019-12-11
 ### Added
 * New "Tools" that replaces the "Blacklist", "Import/Export" and "Debugging" pages.

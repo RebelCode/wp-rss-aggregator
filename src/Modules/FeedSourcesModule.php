@@ -313,6 +313,7 @@ class FeedSourcesModule implements ModuleInterface
                 return new RenderMetaBoxTemplateHandler(
                     $c->get('wpra/twig/collection')['admin/feeds/save-meta-box.twig'],
                     $c->get('wpra/feeds/sources/collection'),
+                    ['wprss_feed'],
                     'feed'
                 );
             },
@@ -325,6 +326,7 @@ class FeedSourcesModule implements ModuleInterface
                 return new RenderMetaBoxTemplateHandler(
                     $c->get('wpra/twig/collection')['admin/feeds/shortcode.twig'],
                     $c->get('wpra/feeds/sources/collection'),
+                    ['wprss_feed'],
                     'feed'
                 );
             },
