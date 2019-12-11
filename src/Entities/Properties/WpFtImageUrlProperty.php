@@ -21,15 +21,24 @@ class WpFtImageUrlProperty implements PropertyInterface
     protected $ftImageIdKey;
 
     /**
+     * @since 4.17
+     *
+     * @var string
+     */
+    protected $metaFallback;
+
+    /**
      * Constructor.
      *
      * @since 4.16
      *
      * @param string $ftImageIdKey The data store key where the featured image ID is stored.
+     * @param string $metaFallback Optional meta key to fallback to.
      */
-    public function __construct($ftImageIdKey)
+    public function __construct($ftImageIdKey, $metaFallback = '')
     {
         $this->ftImageIdKey = $ftImageIdKey;
+        $this->metaFallback = $metaFallback;
     }
 
     /**
@@ -39,10 +48,19 @@ class WpFtImageUrlProperty implements PropertyInterface
      */
     public function getValue(EntityInterface $entity)
     {
-        $ftImageId = $entity->getStore()->get($this->ftImageIdKey);
-        $ftImageUrl = wp_get_attachment_image_url($ftImageId, '');
+        $store = $entity->getStore();
 
-        return $ftImageUrl;
+        $ftImageId = $store->has($this->ftImageIdKey)
+            ? $store->get($this->ftImageIdKey)
+            : null;
+
+        if (empty($ftImageId)) {
+            return !empty($this->metaFallback) && $store->has($this->metaFallback)
+                ? $store->get($this->metaFallback)
+                : null;
+        }
+
+        return wp_get_attachment_image_url($ftImageId, '');
     }
 
     /**

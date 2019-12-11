@@ -199,7 +199,7 @@ class WPRSS_MBString {
 	 * @param $text The string to run the operation on.
 	 * @return string The string in lowercase.
 	 */
-	public function mb_strtolower( $text ) {
+	public static function mb_strtolower( $text ) {
 		if ( function_exists( 'mb_strtolower' ) )
 			return mb_strtolower( $text );
 		
@@ -219,7 +219,7 @@ class WPRSS_MBString {
 	 * @return array The Latin-1 version of the array of matches.
 	 * @see mb_strtolower()
 	 */
-	public function _unicode_caseflip( $matches ) {
+	public static function _unicode_caseflip( $matches ) {
 		return $matches[0][0] . chr( ord( $matches[0][1] ) ^ 32 );
 	}
 

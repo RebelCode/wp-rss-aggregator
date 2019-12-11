@@ -27,7 +27,7 @@ span.wp-rss-footer-text {
     float: left;
     width: 95px !important;
 }
-    
+
 .wprss-input input {
     height: 28px;
     margin-bottom: 0;
@@ -109,7 +109,7 @@ div#force-feed-container {
 
 
 
-body.post-type-wprss_feed_item .add-new-h2, 
+body.post-type-wprss_feed_item .add-new-h2,
 body.post-type-wprss_feed_item .tablenav select[name="m"],
 body.post-type-wprss_feed_item #post-query-submit
 { display: none; }
@@ -148,7 +148,7 @@ color: darkGreen;
     color: red;
 }
 
-#preview_meta_box .rss-date { 
+#preview_meta_box .rss-date {
     color: #666;
 
 }
@@ -167,9 +167,9 @@ color: darkGreen;
 input#default-thumbnail,
 input#wprss-et-license-key,
 input#wprss-c-license-key,
-input#wprss-kf-license-key, 
-input#wprss-ftp-license-key { 
-    width: 300px; 
+input#wprss-kf-license-key,
+input#wprss-ftp-license-key {
+    width: 300px;
 }
 
 input#thumbnails-height,
@@ -181,79 +181,46 @@ input#thumbnails-width {
 /* Red Button */
 
 .wp-core-ui .button-red {
-    background-color: #9B2124;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#C5292E), to(#9B2124));
-    background-image: -webkit-linear-gradient(top, #C5292E, #9B2124);
-    background-image:    -moz-linear-gradient(top, #C5292E, #9B2124);
-    background-image:     -ms-linear-gradient(top, #C5292E, #9B2124);
-    background-image:      -o-linear-gradient(top, #C5292E, #9B2124);
-    background-image:   linear-gradient(to bottom, #C5292E, #9B2124);
-    border-color: #9B2124;
-    border-bottom-color: #8D1F21;
-    -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
-    box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+    background: #BD2B2B;
+    border-color: transparent;
     color: #fff;
     text-decoration: none;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.1);
-    /*float: right;*/
+    text-shadow: none;
 }
 
 .wp-core-ui .button-red.hover,
-.wp-core-ui .button-red:hover,
-.wp-core-ui .button-red.focus,
-.wp-core-ui .button-red:focus {
-    background-color: #B72629;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#D22E30), to(#9B2124));
-    background-image: -webkit-linear-gradient(top, #D22E30, #9B2124);
-    background-image:    -moz-linear-gradient(top, #D22E30, #9B2124);
-    background-image:     -ms-linear-gradient(top, #D22E30, #9B2124);
-    background-image:      -o-linear-gradient(top, #D22E30, #9B2124);
-    background-image:   linear-gradient(to bottom, #D22E30, #9B2124);
-    border-color: #7F1C1F;
-    -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
-    box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+.wp-core-ui .button-red:hover {
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+    border-color: transparent;
+    background-color: #AC0F0F;
 }
 
 .wp-core-ui .button-red.focus,
 .wp-core-ui .button-red:focus {
-    border-color: #500F0E;
-    -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
-    box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+    color: #fff;
+    background-color: #AC0F0F;
+    border-color: transparent;
+    box-shadow: 0 0 0 1px #fff,0 0 0 3px #AC0F0F;
 }
 
 .wp-core-ui .button-red.active,
-.wp-core-ui .button-red.active:hover,
-.wp-core-ui .button-red.active:focus,
 .wp-core-ui .button-red:active {
-    background: #7F1C1F;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#9B2124), to(#B72629));
-    background-image: -webkit-linear-gradient(top, #9B2124, #B72629);
-    background-image:    -moz-linear-gradient(top, #9B2124, #B72629);
-    background-image:     -ms-linear-gradient(top, #9B2124, #B72629);
-    background-image:      -o-linear-gradient(top, #9B2124, #B72629);
-    background-image:   linear-gradient(to bottom, #9B2124, #B72629);
-    border-color: #601312 #AE2426 #AE2426 #AE2426;
-    color: rgba(255,255,255,0.95);
-    -webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
-    text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    color: #fff;
+    background-color: #A20909;
+    border-color: transparent;
 }
 
 .wp-core-ui .button-red[disabled],
 .wp-core-ui .button-red:disabled,
 .wp-core-ui .button-red-disabled {
-    color: #E79496 !important;
-    background: #BA292B !important;
-    border-color: #7F1C1F !important;
-    -webkit-box-shadow: none !important;
-    box-shadow:         none !important;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
-    cursor: default;
+    color: #fba6a8 !important;
+    background: #DD383A !important;
+    box-shadow: 0 0 0 transparent !important;
+    border-color: transparent !important;
+    text-shadow: 0 0 0 transparent !important;
 }
 
-#system-info-textarea, 
+#wpra-system-info-textarea,
 #wprss-error-log-textarea {
     width: 800px;
     height: 400px;
@@ -263,13 +230,25 @@ input#thumbnails-width {
     display: block;
 }
 
-.wprss-error-log-action {
-    display: inline-block;
-    margin: 15px 5px 15px 0;
+#wpra-system-info-textarea {
+    display: block;
+    width: 100%;
+    height: 600px;
+    font-family: Menlo, Monaco, monospace;
+    white-space: pre;
+    overflow: auto;
 }
 
-#wprss-download-error-log-form {
-    float: right;
+.wprss-error-log-action {
+    display: inline-block;
+}
+
+#wprss-clear-error-log-form {
+    display: inline-block;
+}
+#wprss-clear-error-log-form,
+#wprss-clear-error-log-form > button {
+    vertical-align: baseline;
 }
 
 form.wprss-error-log-action input[type="submit"]:active {
@@ -277,8 +256,9 @@ form.wprss-error-log-action input[type="submit"]:active {
 }
 /* The debug log root element */
 div.wpra-log {
-    display: none;
-    width: 800px;
+    display: block;
+    position: relative;
+    width: 100%;
 }
 
 /* The "Filters" label */
@@ -288,7 +268,7 @@ div.wpra-log > p > strong:first-child {
 }
 
 /* The debug log filters separator */
-div.wpra-log .wpra-toggle-logs:not(:last-child)::after {
+div.wpra-log .wpra-toggle-logs:not(:last-of-type)::after {
     content: ' | ';
     color: #3c3c3c;
     pointer-events: none;
@@ -339,9 +319,11 @@ div.wpra-log .wpra-toggle-logs.wpra-log-filter-disabled a {
 
 /* The debug log */
 div.wpra-log-container {
+    width: 100%;
     max-height: 600px;
     border: 1px solid #d1d1d1;
     padding: 5px;
+    margin-bottom: 15px;
     overflow: auto;
     background: #222833;
 }
@@ -350,8 +332,10 @@ div.wpra-log-container {
 div.wpra-log-container,
 .notice.wpra-empty-log-notice {
     display: block;
-    width: 800px;
     box-sizing: border-box;
+}
+.notice.wpra-empty-log-notice {
+    width: 400px;
 }
 
 /* The log table */
@@ -368,8 +352,8 @@ div.wpra-log-container > table > tbody > tr {
 div.wpra-log-container > table > tbody > tr > td {
     color: #cbcdda;
     vertical-align: baseline;
-    padding: 1px 10px;
-    border-bottom: 1px solid transparent;
+    padding: 4px 10px;
+    border-bottom: 2px solid #222833;
 }
 
 /* Log table: row on hover */
@@ -391,7 +375,7 @@ div.wpra-log-container > table > tbody > tr > td.wpra-log-level {
     width: 60px;
 }
 div.wpra-log-container > table > tbody > tr > td.wpra-log-feed {
-    width: 80px;
+    width: 150px;
 }
 
 /* Log table: styling for DEBUG log messages */
@@ -417,43 +401,6 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
     color: white;
     background-color: #b90000;
     font-weight: bold;
-}
-
-#wprss-error-log-options {
-    display: none;
-    margin: 10px 0;
-    padding: 10px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-}
-
-#wprss-error-log-options form {
-    display: block;
-}
-
-#wprss-error-log-options label {
-    display: inline-block;
-    line-height: 1;
-    font-size: 1em;
-    margin: 3px 0;
-}
-
-#wprss-error-log-options label > span:first-child {
-    display: inline-block;
-    font-weight: bold;
-    width: 200px;
-}
-
-#wprss-log-options-form input[name="logging_limit_days"] {
-    width: 80px;
-}
-
-#wpra-log-options-submit-wrap {
-    text-align: right;
-}
-#wpra-log-options-submit-wrap > button {
-    text-align: center;
 }
 
 @media screen and (min-width: 782px) {
@@ -484,7 +431,7 @@ div.wpra-log-container > table > tbody > tr.wpra-log-error > td {
 input#thumbnails-height,
 input#thumbnails-width {
     margin-right: 2px;
-} 
+}
 
 label[for=thumbnails-height],
 label[for=thumbnails-width] {
@@ -721,13 +668,13 @@ i.wprss-updating-feed-icon.wprss-show {
 #add-ons .add-on-group {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: #F5F5F5 solid 1px;  
+    border-top: #F5F5F5 solid 1px;
 }
 
 #add-ons .add-on-group:first-child {
     margin-top: 0;
     padding-top: 0;
-    border-top: 0 none; 
+    border-top: 0 none;
 }
 
 #add-ons .add-on {
@@ -1164,4 +1111,152 @@ input:checked + .wprss-switch-slider:before {
     -webkit-transform: translateX(14px);
     -ms-transform: translateX(14px);
     transform: translateX(14px);
+}
+
+.postbox .inside .wpra-feed-save-meta-box {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin: 0 -10px;
+    margin-top: -11px;
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+.postbox .inside .wpra-feed-save-meta-box label span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.postbox .inside .wpra-feed-save-meta-box input[type="text"] {
+    text-align: left !important;
+}
+
+/* -- INLINE STYLES -- */
+
+form.wpra-inline-form {
+    display: inline-block;
+}
+
+form.wpra-header-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+h1.wpra-inline-header,
+h2.wpra-inline-header,
+h3.wpra-inline-header,
+h4.wpra-inline-header
+{
+    display: inline-block;
+    margin-right: 5px;
+}
+
+button.button.wpra-header-button {
+    position: relative;
+    vertical-align: baseline;
+    top: -1px;
+}
+
+/* -- SLIDE BOX -- */
+
+div.wpra-slide-box {
+    display: none;
+    margin: 10px 0;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+div.wpra-slide-box.wpra-slide-box-open {
+    display: block;
+}
+
+div.wpra-slide-box form {
+    display: block;
+}
+
+div.wpra-slide-box h4 {
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+div.wpra-slide-box form label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 1;
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+div.wpra-slide-box label > * {
+    flex-grow: 1;
+}
+
+div.wpra-slide-box label > span {
+    display: inline-block;
+    flex-grow: 0;
+    width: 200px;
+    font-size: 1em;
+}
+div.wpra-slide-box label input[type="text"],
+div.wpra-slide-box label input[type="number"],
+div.wpra-slide-box label input[type="text"]
+{
+    height: 28px;
+    min-height: 28px;
+}
+
+div.wpra-slide-box div.wpra-submit-wrap {
+    margin-top: 10px;
+}
+div.wpra-slide-box div.wpra-submit-wrap.right {
+    text-align: right;
+}
+
+div.wpra-slide-box div.wpra-submit-wrap > button {
+    text-align: center;
+}
+
+/* -- ERROR LOG OPTIONS (SLIDE BOX) -- */
+
+#wprss-log-options-form input[name="logging_limit_days"] {
+    width: 80px;
+}
+
+/* -- BLACKLIST TOOL -- */
+
+#wpra-add-blacklist-container form label span:first-child {
+    width: 120px;
+}
+
+/* -- LOG TOOL -- */
+
+#wprss-error-log-options {
+    margin: 15px 0;
+}
+
+#wprss-clear-error-log-form {
+    float: right;
+    position: relative;
+    top: -3px;
+}
+
+.wpra-log-filters {
+    padding: 2px 0;
+    margin: 0;
+}
+p.wpra-logs-shown-msg {
+    margin: 5px 0;
+}
+
+/* -- MISC -- */
+.wpra-no-margin {
+    margin: 0;
 }

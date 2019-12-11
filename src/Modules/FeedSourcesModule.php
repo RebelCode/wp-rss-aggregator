@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
+use RebelCode\Entities\Properties\AliasProperty;
 use RebelCode\Entities\Properties\Property;
 use RebelCode\Entities\Schemas\Schema;
 use RebelCode\Wpra\Core\Entities\Collections\FeedSourceCollection;
@@ -14,6 +15,7 @@ use RebelCode\Wpra\Core\Handlers\FeedSources\RenderFeedSourceContentHandler;
 use RebelCode\Wpra\Core\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
+use RebelCode\Wpra\Core\Handlers\RenderMetaBoxTemplateHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
 use RebelCode\Wpra\Core\Util\Sanitizers\BoolSanitizer;
 use RebelCode\Wpra\Core\Util\Sanitizers\CallbackSanitizer;
@@ -44,6 +46,7 @@ class FeedSourcesModule implements ModuleInterface
                     // == Basic info ==
                     'id' => new Property('ID'),
                     'name' => new Property('post_title'),
+                    'slug' => new Property('post_name'),
                     'active' => new SanitizedProperty(
                         new Property('wprss_state'),
                         new CallbackSanitizer(function ($state) {
@@ -56,6 +59,7 @@ class FeedSourcesModule implements ModuleInterface
                         new Property('wprss_import_source'),
                         new BoolSanitizer()
                     ),
+                    'use_source_info' => new AliasProperty('import_source'),
                     'import_limit' => new SanitizedProperty(
                         new Property('wprss_limit'),
                         new IntSanitizer(0, 0)
@@ -301,6 +305,30 @@ class FeedSourcesModule implements ModuleInterface
                 ]);
             },
             /*
+             * The handler that renders the source info meta box on the edit page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/meta_boxes/save/renderer' => function (ContainerInterface $c) {
+                return new RenderMetaBoxTemplateHandler(
+                    $c->get('wpra/twig/collection')['admin/feeds/save-meta-box.twig'],
+                    $c->get('wpra/feeds/sources/collection'),
+                    'feed'
+                );
+            },
+            /*
+             * The handler that renders the shortcode on the edit page.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/sources/meta_boxes/shortcode/renderer' => function (ContainerInterface $c) {
+                return new RenderMetaBoxTemplateHandler(
+                    $c->get('wpra/twig/collection')['admin/feeds/shortcode.twig'],
+                    $c->get('wpra/feeds/sources/collection'),
+                    'feed'
+                );
+            },
+            /*
              * The handler that saves meta data for feed sources when saved through the edit page.
              *
              * @since 4.14
@@ -334,5 +362,10 @@ class FeedSourcesModule implements ModuleInterface
         add_filter('the_content', $c->get('wpra/feeds/sources/handlers/render_content'));
         add_action('admin_init', $c->get('wpra/feeds/sources/add_capabilities_handler'));
         add_action('save_post', $c->get('wpra/feeds/sources/meta_box/save_handler'), 20, 2);
+
+        // Show shortcode under feed title input field on the edit page
+        add_action('edit_form_after_title', $c->get('wpra/feeds/sources/meta_boxes/shortcode/renderer'));
+        // Show extra options in the save metabox on the edit page
+        add_action('post_submitbox_start', $c->get('wpra/feeds/sources/meta_boxes/save/renderer'));
     }
 }

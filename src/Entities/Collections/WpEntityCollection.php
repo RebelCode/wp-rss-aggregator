@@ -213,7 +213,7 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
      */
     public function clear()
     {
-        foreach ($this->getIterator() as $post) {
+        foreach ($this->doWpQuery() as $post) {
             $this->delete($post->ID);
         }
     }
@@ -258,6 +258,13 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
     {
         $post = $this->get($key);
         $data = $this->getUpdatePostData($key, $data);
+
+        // Optimization for entities, that can update their properties in bulk
+        if ($post instanceof EntityInterface) {
+            $post->set($data);
+
+            return;
+        }
 
         foreach ($data as $k => $v) {
             $post[$k] = $v;

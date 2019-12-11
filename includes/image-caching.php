@@ -514,6 +514,9 @@ class WPRSS_Image_Cache {
 			throw new Exception( sprintf( __( 'Invalid URL provided: "%1$s"' ), $url ) );
 		}
 
+		// Since image URLs may be found from "src" attributes of <img> tags, HTML entities may need to be decoded
+		$url = html_entity_decode($url);
+
 		if ( !is_null( $target_path ) ) {
 			$path = $target_path;
 		}
@@ -549,7 +552,7 @@ class WPRSS_Image_Cache {
 			array(
 				'timeout' => $timeout,
 				'stream' => true,
-				'filename' => $tmpfname
+				'filename' => $tmpfname,
 			)
 		);
 
@@ -1358,13 +1361,14 @@ class WPRSS_Image_Cache_Image {
 			if ( !$this->is_readable() ) throw new Exception( sprintf( '%1$s: image file is not readable', $path ) );
 
 			// Trying simplest way
-			if ( $size = getimagesize( $path ) ) {
-                $this->_size = [0 => $size[0], 1 => $size[1]];
-            }
+			$size = @getimagesize( $path );
+			if ( $size ) {
+				$this->_size = [0 => $size[0], 1 => $size[1]];
+			}
 
             if( !$this->_size && function_exists( 'gd_info' ) ) {
 				$image = file_get_contents( $path );
-				$image = imagecreatefromstring( $image );
+				$image = @imagecreatefromstring( $image );
 
 				if ($image !== false) {
                     $width = imagesx($image);

@@ -32,10 +32,19 @@ class RegisterSubMenuPageHandler
      *                             - menu_label
      *                             - capability
      *                             - callback
+     *                             - position
      */
     public function __construct($info)
     {
-        $this->info = (array) $info;
+        $this->info = wp_parse_args((array) $info, [
+            'parent' => null,
+            'slug' => null,
+            'page_title' => null,
+            'menu_label' => null,
+            'capability' => null,
+            'callback' => null,
+            'position' => null,
+        ]);
     }
 
     /**
@@ -49,7 +58,8 @@ class RegisterSubMenuPageHandler
             $this->info['menu_label'],
             $this->info['capability'],
             $this->info['slug'],
-            $this->info['callback']
+            $this->info['callback'],
+            $this->info['position']
         );
     }
 }

@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.16
+ * Version: 4.17
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -39,6 +39,8 @@ use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\AssetsModule;
+use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
+use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
@@ -51,14 +53,19 @@ use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
 use RebelCode\Wpra\Core\Modules\I18nModule;
 use RebelCode\Wpra\Core\Modules\ImagesModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
+use RebelCode\Wpra\Core\Modules\ImportExportToolsModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
+use RebelCode\Wpra\Core\Modules\LogsToolModule;
 use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
+use RebelCode\Wpra\Core\Modules\ResetToolModule;
 use RebelCode\Wpra\Core\Modules\RestApiModule;
 use RebelCode\Wpra\Core\Modules\SettingsModule;
+use RebelCode\Wpra\Core\Modules\SysInfoToolModule;
+use RebelCode\Wpra\Core\Modules\ToolsModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
 use RebelCode\Wpra\Core\Modules\UpsellModule;
 use RebelCode\Wpra\Core\Modules\WpModule;
@@ -70,7 +77,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.16' );
+    define( 'WPRSS_VERSION', '4.17' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -240,9 +247,6 @@ require_once ( WPRSS_INC . 'admin-options.php' );
 /* Load the legacy admin options functions file. */
 require_once ( WPRSS_INC . 'admin-options-legacy.php' );
 
-/* Load the settings import/export file */
-require_once ( WPRSS_INC . 'admin-import-export.php' );
-
 /* Load the debugging file */
 require_once ( WPRSS_INC . 'system-info.php' );
 
@@ -254,9 +258,6 @@ require_once ( WPRSS_INC . 'OPML.php' );
 
 /* Load the OPML Importer file */
 require_once ( WPRSS_INC . 'opml-importer.php' );
-
-/* Load the admin debugging page file */
-require_once ( WPRSS_INC . 'admin-debugging.php' );
 
 /* Load the admin display-related functions */
 require_once ( WPRSS_INC . 'admin-display.php' );
@@ -314,8 +315,6 @@ require_once ( WPRSS_INC . 'polyfills.php' );
 
 /* Load the youtube functionality */
 require_once ( WPRSS_INC . 'youtube.php' );
-
-do_action('wprss_pre_init');
 
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
@@ -396,6 +395,13 @@ function wpra_modules()
         'images' => new ImagesModule(),
         'custom_feed' => new CustomFeedModule(),
         'rest_api' => new RestApiModule(),
+        'tools' => new ToolsModule(),
+        'tools/bulk_add' => new BulkAddToolModule(),
+        'tools/blacklist' => new BlackListToolModule(),
+        'tools/import_export' => new ImportExportToolsModule(),
+        'tools/logs' => new LogsToolModule(),
+        'tools/sys_info' => new SysInfoToolModule(),
+        'tools/reset' => new ResetToolModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'upsell' => new UpsellModule(),
@@ -647,6 +653,7 @@ function wprss() {
 }
 
 try {
+    do_action('wprss_pre_init');
     $instance = wprss();
 } catch (Throwable $t) {
     wpra_error_handler($t);

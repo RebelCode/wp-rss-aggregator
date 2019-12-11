@@ -24,18 +24,9 @@
         </style>
     <?php }
 
-
-    add_action('admin_menu', function () {
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Export & Import Settings', WPRSS_TEXT_DOMAIN ), __( 'Import & Export', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-import-export-settings', 'wprss_import_export_settings_page_display' );
-    }, 20);
-
     add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'WP RSS Aggregator Settings', WPRSS_TEXT_DOMAIN ), __( 'Settings', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings' ), 'wprss-aggregator-settings', 'wprss_settings_page_display' );
     }, 30);
-
-    add_action('admin_menu', function () {
-        add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Debugging', WPRSS_TEXT_DOMAIN ), __( 'Debugging', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-debugging', 'wprss_debugging_page_display' );
-    }, 40);
 
     add_action('admin_menu', function () {
         add_submenu_page( 'edit.php?post_type=wprss_feed', __( 'Help & Support', WPRSS_TEXT_DOMAIN ), __( 'Help & Support', WPRSS_TEXT_DOMAIN ), apply_filters( 'wprss_capability', 'manage_feed_settings'), 'wprss-help', 'wprss_help_page_display' );
@@ -98,7 +89,7 @@
      */
     function wprss_change_title_text($original) {
         if (get_post_type() === 'wprss_feed') {
-            return __('Name this feed (e.g. WP Mayor)', WPRSS_TEXT_DOMAIN);
+            return __('Name this feed', WPRSS_TEXT_DOMAIN);
         }
 
         return $original;

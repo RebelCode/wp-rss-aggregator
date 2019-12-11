@@ -156,6 +156,10 @@
                         'label'     => __( 'Limit feed items per import', 'wprss' ),
                         'callback'  => 'wprss_setting_limit_feed_items_per_import_callback'
                     ),
+                    'schedule_future_items' => array(
+                        'label'     => __( 'Schedule future items', 'wprss' ),
+                        'callback'  => 'wprss_setting_schedule_future_items_callback'
+                    ),
                 ),
 
                 'custom_feed' => array(
@@ -295,11 +299,6 @@
                     );
                 }
             }
-        }
-
-        // If user requested to download system info, generate the download.
-        if ( isset( $_POST['wprss-sysinfo'] ) ) {
-            do_action('wprss_download_sysinfo');
         }
 
         do_action( 'wprss_admin_init' );
@@ -596,6 +595,22 @@
         ));
         ?>
         <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+    }
+
+    /**
+     * Renders the `limit_feed_items_per_import` setting.
+     *
+     * @since 4.17
+     *
+     * @param array $field Field data.
+     */
+    function wprss_setting_schedule_future_items_callback($field)
+    {
+        $id = $field['field_id'];
+        $value = wprss_get_general_setting($id);
+
+        echo wprss_options_render_checkbox( $field['field_id'], 'schedule_future_items', $value );
+        echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
     }
 
     /**

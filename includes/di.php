@@ -3,13 +3,13 @@
  * The DI module
  */
 
+use Aventura\Wprss\Core\CompositeContainer as WpraCompositeContainer;
+use Aventura\Wprss\Core\Container;
+use Aventura\Wprss\Core\ServiceProvider;
 use Dhii\Di\CompositeContainer;
 use Dhii\Di\CompositeContainerInterface;
 use Dhii\Di\WritableCompositeContainerInterface;
-use Aventura\Wprss\Core\CompositeContainer as WpraCompositeContainer;
-use Aventura\Wprss\Core\ServiceProvider;
-use Aventura\Wprss\Core\Container;
-use Dhii\Di\FactoryInterface;
+use Dhii\Di\WritableContainerInterface;
 
 define('WPRSS_SERVICE_ID_PREFIX', \WPRSS_PLUGIN_CODE . '.');
 
@@ -128,4 +128,14 @@ add_action('wprss_container_init', function(WritableCompositeContainerInterface 
     $container = wprss_core_container();
 
     $parent->add($container);
+});
+
+// Adds the bulk import service provider to the old Aventura container
+add_filter('wprss_core_container_init', function (WritableContainerInterface $container) {
+    $serviceProvider = new \Aventura\Wprss\Core\Model\BulkSourceImport\ServiceProvider(array(
+        'notice_service_id_prefix' => \WPRSS_NOTICE_SERVICE_ID_PREFIX,
+        'service_id_prefix' => \WPRSS_SERVICE_ID_PREFIX,
+        'event_prefix' => \WPRSS_EVENT_PREFIX,
+    ));
+    $container->register($serviceProvider);
 });

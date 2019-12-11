@@ -298,6 +298,9 @@
 
                 // From 4.14.1
                 'feed_cache_enabled' => 0,
+
+                // From 4.17
+                'schedule_future_items' => 0,
 			)
 		);
 

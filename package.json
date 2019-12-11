@@ -36,7 +36,7 @@
     "fast-deep-equal": "^2.0.1",
     "fast-sass-loader": "^1.4.6",
     "imports-loader": "^0.8.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.13.0",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.23.0",
     "vue": "^2.5.17",
