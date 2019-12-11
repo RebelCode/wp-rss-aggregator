@@ -307,7 +307,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that renders the source info meta box on the edit page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/sources/meta_boxes/save/renderer' => function (ContainerInterface $c) {
                 return new RenderMetaBoxTemplateHandler(
@@ -319,7 +319,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that renders the shortcode on the edit page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/sources/meta_boxes/shortcode/renderer' => function (ContainerInterface $c) {
                 return new RenderMetaBoxTemplateHandler(

@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The module that adds the "Reset" tool to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class ResetToolModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class ResetToolModule implements ModuleInterface
             /*
              * Information about the "Reset" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/reset/info' => function (ContainerInterface $c) {
                 return [
@@ -36,7 +36,7 @@ class ResetToolModule implements ModuleInterface
             /*
              * The handler that listens to items delete requests and deletes the imported items.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/reset/items_handler' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -57,7 +57,7 @@ class ResetToolModule implements ModuleInterface
             /*
              * The handler that listens to settings reset requests and resets the settings.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/reset/settings_handler' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -82,7 +82,7 @@ class ResetToolModule implements ModuleInterface
             /*
              * The notice to show when the items are being deleted.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/reset/items_notice' => function () {
                 return sprintf(
@@ -93,7 +93,7 @@ class ResetToolModule implements ModuleInterface
             /*
              * The notice to show when the settings have been reset.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/reset/settings_notice' => function () {
                 return sprintf(
@@ -121,7 +121,7 @@ class ResetToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -129,7 +129,7 @@ class ResetToolModule implements ModuleInterface
             /*
              * Registers the "Reset" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function (ContainerInterface $c, $tools) {
                 return $tools + ['reset' => $c->get('wpra/admin/tools/reset/info')];
@@ -140,7 +140,7 @@ class ResetToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

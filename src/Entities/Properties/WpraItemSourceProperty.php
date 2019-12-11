@@ -15,26 +15,26 @@ use RebelCode\Entities\Api\PropertyInterface;
  * no value for the property, the feed source property is used instead. All set operations will be handled using the
  * feed item property.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class WpraItemSourceProperty implements PropertyInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var PropertyInterface
      */
     protected $itemProp;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var PropertyInterface
      */
     protected $sourceProp;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var string
      */
@@ -43,7 +43,7 @@ class WpraItemSourceProperty implements PropertyInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param PropertyInterface $itemProp    The feed item property.
      * @param PropertyInterface $sourceProp  The feed source property.
@@ -62,7 +62,7 @@ class WpraItemSourceProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getValue(EntityInterface $item)
     {
@@ -85,7 +85,7 @@ class WpraItemSourceProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function setValue(EntityInterface $entity, $value)
     {

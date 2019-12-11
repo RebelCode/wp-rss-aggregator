@@ -36,7 +36,7 @@ class RenderMetaBoxTemplateHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param TemplateInterface   $template
      * @param CollectionInterface $collection
@@ -52,7 +52,7 @@ class RenderMetaBoxTemplateHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function __invoke($post, $args = [])
     {

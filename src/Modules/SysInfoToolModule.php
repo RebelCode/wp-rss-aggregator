@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The module that adds the "System Info" tool to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class SysInfoToolModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class SysInfoToolModule implements ModuleInterface
             /*
              * Information about the "System Info" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/sys_info/info' => function (ContainerInterface $c) {
                 return [
@@ -36,7 +36,7 @@ class SysInfoToolModule implements ModuleInterface
             /*
              * The handler that listens to the system info download request.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/sys_info/dl_handler' => function (ContainerInterface $c) {
                 return function () {
@@ -61,7 +61,7 @@ class SysInfoToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -69,7 +69,7 @@ class SysInfoToolModule implements ModuleInterface
             /*
              * Registers the "System Info" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function (ContainerInterface $c, $tools) {
                 return $tools + ['sys_info' => $c->get('wpra/admin/tools/sys_info/info')];
@@ -77,7 +77,7 @@ class SysInfoToolModule implements ModuleInterface
             /*
              * Adds the system information to the render context on the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page/context' => function (ContainerInterface $c, $ctx) {
                 return $ctx + ['sys_info' => wpra_get_sys_info()];
@@ -88,7 +88,7 @@ class SysInfoToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

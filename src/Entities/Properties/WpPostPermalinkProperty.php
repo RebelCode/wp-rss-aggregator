@@ -8,12 +8,12 @@ use RebelCode\Entities\Api\PropertyInterface;
 /**
  * A property for WordPress post permalinks. Read-only.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class WpPostPermalinkProperty implements PropertyInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var PropertyInterface
      */
@@ -22,7 +22,7 @@ class WpPostPermalinkProperty implements PropertyInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param PropertyInterface $idProp The property for the WP Post instance or ID.
      */
@@ -34,7 +34,7 @@ class WpPostPermalinkProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getValue(EntityInterface $entity)
     {
@@ -44,7 +44,7 @@ class WpPostPermalinkProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function setValue(EntityInterface $entity, $value)
     {
