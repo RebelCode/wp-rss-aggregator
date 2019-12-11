@@ -7,14 +7,14 @@ use RebelCode\Entities\Api\SchemaInterface;
 /**
  * A collection implementation that is specific to WP RSS Aggregator blacklisted items.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class FeedBlacklistCollection extends WpEntityCollection
 {
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param string          $postType The name of the post type.
      * @param SchemaInterface $schema   The schema for feed item entities.
@@ -27,7 +27,7 @@ class FeedBlacklistCollection extends WpEntityCollection
     /**
      * {@inheritdoc}
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     protected function getBasePostQueryArgs()
     {
@@ -42,7 +42,7 @@ class FeedBlacklistCollection extends WpEntityCollection
      *
      * Overridden to ensure that the status is "publish".
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     protected function getNewPostData($data)
     {

@@ -600,7 +600,7 @@
     /**
      * Renders the `limit_feed_items_per_import` setting.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param array $field Field data.
      */

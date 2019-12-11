@@ -11,14 +11,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The module that adds the "Bulk Add" tool to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class BulkAddToolModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -26,7 +26,7 @@ class BulkAddToolModule implements ModuleInterface
             /*
              * Information about the "Bulk Add" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/bulk_add/info' => function (ContainerInterface $c) {
                 return [
@@ -39,7 +39,7 @@ class BulkAddToolModule implements ModuleInterface
             /*
              * The handler that listens to the bulk add request and creates the feed sources.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/bulk_add/handler' => function (ContainerInterface $c) {
                 return function () {
@@ -64,7 +64,7 @@ class BulkAddToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -72,7 +72,7 @@ class BulkAddToolModule implements ModuleInterface
             /*
              * Registers the "Bulk Add" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function (ContainerInterface $c, $tools) {
                 return $tools + ['bulk_add' => $c->get('wpra/admin/tools/bulk_add/info')];
@@ -83,7 +83,7 @@ class BulkAddToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

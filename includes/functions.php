@@ -288,7 +288,7 @@ if (!function_exists('array_pick')) {
 /**
  * Retrieve cron jobs ready to be run.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @return array Cron jobs ready to be run.
  */

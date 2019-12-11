@@ -12,7 +12,7 @@ trait SanitizeCommaListCapableTrait
     /**
      * Sanitizes a list of strings.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param string|array $value A comma separated string list or an array.
      *

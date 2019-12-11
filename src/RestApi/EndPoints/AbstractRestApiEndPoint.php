@@ -70,7 +70,7 @@ abstract class AbstractRestApiEndPoint
     /**
      * Creates an erroneous response from an exception.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param Exception $exception The exception from which to create the response.
      *

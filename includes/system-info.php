@@ -3,7 +3,7 @@
 /**
  * Retrieves the system information.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @return string
  */

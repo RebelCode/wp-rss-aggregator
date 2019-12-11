@@ -9,14 +9,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The module that adds the "Tools" page to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class ToolsModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -24,7 +24,7 @@ class ToolsModule implements ModuleInterface
             /*
              * The list of available tools.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function () {
                 return [];
@@ -32,7 +32,7 @@ class ToolsModule implements ModuleInterface
             /*
              * Information about the "Tools" menu.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/menu' => function () {
                 return [
@@ -45,7 +45,7 @@ class ToolsModule implements ModuleInterface
             /*
              * Information about the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page' => function () {
                 return [
@@ -56,7 +56,7 @@ class ToolsModule implements ModuleInterface
             /*
              * The template for the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page/template' => function (ContainerInterface $c) {
                 if (!$c->has('wpra/twig/collection')) {
@@ -68,7 +68,7 @@ class ToolsModule implements ModuleInterface
             /*
              * The template context for the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page/context' => function (ContainerInterface $c) {
                 return [];
@@ -76,7 +76,7 @@ class ToolsModule implements ModuleInterface
             /*
              * The render function for the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page/render_fn' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -98,7 +98,7 @@ class ToolsModule implements ModuleInterface
             /*
              * The handler that registers the "Tools" menu.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/menu/register_handler' => function (ContainerInterface $c) {
                 $menu = $c->get('wpra/admin/tools/menu');
@@ -121,7 +121,7 @@ class ToolsModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -131,7 +131,7 @@ class ToolsModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

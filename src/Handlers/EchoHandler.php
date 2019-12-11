@@ -5,12 +5,12 @@ namespace RebelCode\Wpra\Core\Handlers;
 /**
  * A simple handler that echoes a string.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class EchoHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var string
      */
@@ -19,7 +19,7 @@ class EchoHandler
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param string $string The string to output.
      */
@@ -31,7 +31,7 @@ class EchoHandler
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function __invoke()
     {

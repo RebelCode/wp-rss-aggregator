@@ -21,7 +21,7 @@ class WpFtImageUrlProperty implements PropertyInterface
     protected $ftImageIdKey;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var string
      */

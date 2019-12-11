@@ -11,14 +11,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The module that adds the "Logs" tool to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class LogsToolModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -26,7 +26,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * Information about the "Logs" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/logs/info' => function (ContainerInterface $c) {
                 return [
@@ -39,7 +39,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * The number of logs to show in the "logs" tool page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/logs/num_logs' => function () {
                 return 200;
@@ -47,7 +47,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * Additional context to add to the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/logs/context' => function (ContainerInterface $c) {
                 $numLogs = $c->get('wpra/admin/tools/logs/num_logs');
@@ -80,7 +80,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * The handler that listens to log clear requests and clears the log.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/logs/clear_handler' => function (ContainerInterface $c) {
                 return new ClearLogHandler(
@@ -91,7 +91,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * The handler that listens to log download requests and sends the log file.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/logs/download_handler' => function (ContainerInterface $c) {
                 return new DownloadLogHandler(
@@ -102,7 +102,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * The handler that listens to log config save requests and saves the logging config.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/logs/save_config_handler' => function (ContainerInterface $c) {
                 return new SaveLogOptionsHandler(
@@ -116,7 +116,7 @@ class LogsToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -124,7 +124,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * Registers the "Logs" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function (ContainerInterface $c, $tools) {
                 return $tools + ['logs' => $c->get('wpra/admin/tools/logs/info')];
@@ -132,7 +132,7 @@ class LogsToolModule implements ModuleInterface
             /*
              * Adds the logs to the render context on the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page/context' => function (ContainerInterface $c, $ctx) {
                 return $ctx + $c->get('wpra/admin/tools/logs/context');
@@ -143,7 +143,7 @@ class LogsToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

@@ -13,17 +13,24 @@ if (!class_exists('WP_List_Table')) {
 /**
  * A custom list table for WP RSS Aggregator blacklisted items.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class BlacklistTable extends WP_List_Table
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var CollectionInterface
      */
     protected $collection;
 
+    /**
+     * Constructor.
+     *
+     * @since 4.17
+     *
+     * @param CollectionInterface $collection The collection of blacklist items.
+     */
     public function __construct(CollectionInterface $collection)
     {
         parent::__construct([
@@ -38,7 +45,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function no_items()
     {
@@ -48,7 +55,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function has_items() {
         return $this->collection->getCount() > 0;
@@ -57,7 +64,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function get_columns()
     {
@@ -71,7 +78,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     protected function get_sortable_columns()
     {
@@ -81,7 +88,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * Retrieves the list of hidden columns.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @return string[]
      */
@@ -93,7 +100,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     protected function column_cb($item)
     {
@@ -105,7 +112,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * Renders row content for cells under the "title" column.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param EntityInterface $item The blacklist item.
      */
@@ -134,7 +141,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * Renders row content for cells under the "url" column.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param EntityInterface $item The blacklist item.
      */
@@ -146,7 +153,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     protected function column_default($item, $column)
     {
@@ -156,7 +163,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     protected function get_bulk_actions()
     {
@@ -170,7 +177,7 @@ class BlacklistTable extends WP_List_Table
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function prepare_items()
     {

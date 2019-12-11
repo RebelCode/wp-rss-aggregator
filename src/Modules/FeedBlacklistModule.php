@@ -125,7 +125,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The properties for blacklist entities.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/blacklist/properties' => function () {
                 return [
@@ -137,7 +137,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The default values for blacklist entity properties.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/blacklist/defaults' => function () {
                 return [
@@ -149,7 +149,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The schema for blacklist entities.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/blacklist/schema' => function (ContainerInterface $c) {
                 return new Schema(
@@ -160,7 +160,7 @@ class FeedBlacklistModule implements ModuleInterface
             /*
              * The collection for blacklist entities.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/blacklist/collection' => function (ContainerInterface $c) {
                 return new FeedBlacklistCollection(

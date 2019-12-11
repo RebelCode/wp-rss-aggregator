@@ -11,7 +11,7 @@ define('WPRA_TRUNCATE_ITEMS_INTERVAL', 'daily');
 /**
  * Alias for add_action, primarily used for readability to distinguish between cron-events and normal hooks.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @param string   $cron     The cron hook event.
  * @param callable $callback The callback to invoke for the cron.
@@ -42,7 +42,7 @@ add_filter('cron_schedules', 'wprss_filter_cron_schedules');
 /**
  * Initializes the cron jobs.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 function wpra_init_crons()
 {
@@ -168,7 +168,7 @@ function wprss_get_next_feed_source_update($feed_id)
 /**
  * Reschedules a cron event, unscheduling any existing matching crons.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @param int         $timestamp  The timestamp.
  * @param string      $event      The hook event.
@@ -193,7 +193,7 @@ function wpra_reschedule($timestamp, $event, $recurrence = null, $args = [])
 /**
  * Retrieves the cron schedules that WPRA uses.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @return array
  */

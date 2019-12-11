@@ -14,33 +14,33 @@ use RebelCode\Entities\Properties\Property;
  *
  * This implementation can be configured to save values to either the "item" or the "post" properties.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class WpraPostTypeDependentProperty implements PropertyInterface
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var PropertyInterface
      */
     protected $idProp;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var PropertyInterface
      */
     protected $itemProp;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var PropertyInterface
      */
     protected $postProp;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var bool
      */
@@ -49,7 +49,7 @@ class WpraPostTypeDependentProperty implements PropertyInterface
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param Property          $idProp    The property for reading the post ID.
      * @param PropertyInterface $itemProp  The feed item property.
@@ -72,7 +72,7 @@ class WpraPostTypeDependentProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getValue(EntityInterface $entity)
     {
@@ -87,7 +87,7 @@ class WpraPostTypeDependentProperty implements PropertyInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function setValue(EntityInterface $entity, $value)
     {

@@ -567,7 +567,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
     /**
      * Processes the raw response body for an RSS feed.
      *
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @param string $body The raw HTTP response body string.
      *

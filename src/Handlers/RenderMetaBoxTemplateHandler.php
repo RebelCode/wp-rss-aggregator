@@ -8,26 +8,26 @@ use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 /**
  * A generic handler for rendering the contents of a WordPress meta box.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class RenderMetaBoxTemplateHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var TemplateInterface
      */
     protected $template;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var CollectionInterface
      */
     protected $collection;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17
      *
      * @var string
      */
