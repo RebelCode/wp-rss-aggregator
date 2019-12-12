@@ -11,14 +11,14 @@ use RebelCode\Wpra\Core\Ui\BlacklistTable;
 /**
  * The module that adds the "Blacklist" tool to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class BlacklistToolModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -26,7 +26,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * Information about the "Blacklist" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/info' => function (ContainerInterface $c) {
                 return [
@@ -39,7 +39,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The context to add to the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/page/context' => function (ContainerInterface $c) {
                 ob_start();
@@ -55,7 +55,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The list table to show on the "Blacklist" tool page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/page/list_table' => function (ContainerInterface $c) {
                 return new BlacklistTable($c->get('wpra/admin/tools/blacklist/collection'));
@@ -63,7 +63,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The notice to show when a URL is being added to the blacklist with an empty URL.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/empty_url_notice' => function () {
                 return sprintf(
@@ -74,7 +74,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The notice to show when a URL has been added to the blacklist.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/added_notice' => function () {
                 return sprintf(
@@ -85,7 +85,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The handler that listens to requests for adding URLs to the blacklist.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/add_handler' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -125,7 +125,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The handler that listens to blacklist deletion requests.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/delete_handler' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -145,7 +145,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * The handlerthat listens to bulk blacklist deletion requests.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/bulk_delete_handler' => function (ContainerInterface $c) {
                 return function () use ($c) {
@@ -170,7 +170,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * Alias for the blacklist entity collection, if it exists.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/blacklist/collection' => function (ContainerInterface $c) {
                 return $c->has('wpra/feeds/blacklist/collection')
@@ -183,7 +183,7 @@ class BlacklistToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -191,7 +191,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * Registers the "Blacklist" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function (ContainerInterface $c, $tools) {
                 return $tools + ['blacklist' => $c->get('wpra/admin/tools/blacklist/info')];
@@ -199,7 +199,7 @@ class BlacklistToolModule implements ModuleInterface
             /*
              * Adds the context for the "Blacklist" tool on the "Tools" page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/page/context' => function (ContainerInterface $c, $ctx) {
                 return $ctx + ['blacklist' => $c->get('wpra/admin/tools/blacklist/page/context')];
@@ -210,7 +210,7 @@ class BlacklistToolModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

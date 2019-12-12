@@ -307,24 +307,26 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * The handler that renders the source info meta box on the edit page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/sources/meta_boxes/save/renderer' => function (ContainerInterface $c) {
                 return new RenderMetaBoxTemplateHandler(
                     $c->get('wpra/twig/collection')['admin/feeds/save-meta-box.twig'],
                     $c->get('wpra/feeds/sources/collection'),
+                    ['wprss_feed'],
                     'feed'
                 );
             },
             /*
              * The handler that renders the shortcode on the edit page.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/feeds/sources/meta_boxes/shortcode/renderer' => function (ContainerInterface $c) {
                 return new RenderMetaBoxTemplateHandler(
                     $c->get('wpra/twig/collection')['admin/feeds/shortcode.twig'],
                     $c->get('wpra/feeds/sources/collection'),
+                    ['wprss_feed'],
                     'feed'
                 );
             },

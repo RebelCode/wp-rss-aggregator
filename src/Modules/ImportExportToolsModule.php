@@ -8,14 +8,14 @@ use RebelCode\Wpra\Core\Templates\NullTemplate;
 /**
  * The module that adds the "Import" and "Export" tools to WP RSS Aggregator.
  *
- * @since [*next-version*]
+ * @since 4.17
  */
 class ImportExportToolsModule implements ModuleInterface
 {
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getFactories()
     {
@@ -23,7 +23,7 @@ class ImportExportToolsModule implements ModuleInterface
             /*
              * Information about the "Export" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/export/info' => function (ContainerInterface $c) {
                 return [
@@ -36,7 +36,7 @@ class ImportExportToolsModule implements ModuleInterface
             /*
              * Information about the "Import" tool.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/import/info' => function (ContainerInterface $c) {
                 return [
@@ -49,7 +49,7 @@ class ImportExportToolsModule implements ModuleInterface
             /*
              * The handler that listens to the export request and creates the export file.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/export/handler' => function (ContainerInterface $c) {
                 return function () {
@@ -84,7 +84,7 @@ class ImportExportToolsModule implements ModuleInterface
             /*
              * The handler that listens to import upload requests and imports settings from the uploaded file.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools/import/handler' => function (ContainerInterface $c) {
                 return function () {
@@ -144,7 +144,7 @@ class ImportExportToolsModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function getExtensions()
     {
@@ -152,7 +152,7 @@ class ImportExportToolsModule implements ModuleInterface
             /*
              * Registers the "Export" and "Import" tools.
              *
-             * @since [*next-version*]
+             * @since 4.17
              */
             'wpra/admin/tools' => function (ContainerInterface $c, $tools) {
                 return $tools + [
@@ -166,7 +166,7 @@ class ImportExportToolsModule implements ModuleInterface
     /**
      * @inheritdoc
      *
-     * @since [*next-version*]
+     * @since 4.17
      */
     public function run(ContainerInterface $c)
     {

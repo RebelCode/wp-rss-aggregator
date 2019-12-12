@@ -1,4 +1,4 @@
-{% if not feed.slug == "" %}
+{% if feed.slug|length > 0 %}
     <div>
         <p class="wpra-feed-shortcodes">
             <strong>{% trans "Shortcode:" %}</strong>
