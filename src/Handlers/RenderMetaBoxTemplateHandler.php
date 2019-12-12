@@ -34,7 +34,7 @@ class RenderMetaBoxTemplateHandler
     protected $entityKey;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17.1
      *
      * @var string[]|null
      */
