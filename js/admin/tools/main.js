@@ -84,7 +84,13 @@
     // Set the current tool and updates the DOM
     function setCurrentTool(tool)
     {
+        $(document).trigger('wpra/tools/on_leaving_tool', [currTool]);
+        $(document).trigger('wpra/tools/on_leaving_from_' + currTool);
+
         showTool(currTool = tool);
+
+        $(document).trigger('wpra/tools/on_switched_to_' + currTool);
+        $(document).trigger('wpra/tools/on_switched_tool', [currTool]);
     }
 
     // Updates the DOM to show a particular tool
