@@ -68,6 +68,9 @@ class FeedSourcesModule implements ModuleInterface
                         new Property('wprss_unique_titles'),
                         new BoolSanitizer()
                     ),
+                    // == Cron options ==
+                    'update_interval' => new Property('wprss_update_interval'),
+                    'update_time' => new Property('wprss_update_time'),
                     // == Image options ==
                     'def_ft_image' => new Property('_thumbnail_id'),
                     'import_ft_images' => new Property('wprss_import_ft_images'),
