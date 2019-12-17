@@ -536,6 +536,7 @@
         $activate = get_post_meta( $post->ID, 'wprss_activate_feed', TRUE );
         $pause = get_post_meta( $post->ID, 'wprss_pause_feed', TRUE );
         $update_interval = get_post_meta( $post->ID, 'wprss_update_interval', TRUE );
+        $update_time = get_post_meta( $post->ID, 'wprss_update_time', TRUE );
 
         $age_limit = get_post_meta( $post->ID, 'wprss_age_limit', true );
         $age_unit = get_post_meta( $post->ID, 'wprss_age_unit', true );
@@ -634,6 +635,9 @@
                     <option value="<?php echo $value; ?>" <?php selected( $update_interval, $value ); ?> ><?php echo $text; ?></option>
                 <?php endforeach; ?>
                 </select>
+                <label>
+                    <input type="time" name="wpra_feed[update_time]" value="<?php echo esc_attr($update_time); ?>">
+                </label>
             </div>
         </div>
 
