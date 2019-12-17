@@ -42,6 +42,7 @@ use RebelCode\Wpra\Core\Modules\AssetsModule;
 use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
 use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
+use RebelCode\Wpra\Core\Modules\CronsToolModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
@@ -399,6 +400,7 @@ function wpra_modules()
         'tools/bulk_add' => new BulkAddToolModule(),
         'tools/blacklist' => new BlackListToolModule(),
         'tools/import_export' => new ImportExportToolsModule(),
+        'tools/crons' => new CronsToolModule(),
         'tools/logs' => new LogsToolModule(),
         'tools/sys_info' => new SysInfoToolModule(),
         'tools/reset' => new ResetToolModule(),
