@@ -16,6 +16,8 @@ use RebelCode\Wpra\Core\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Handlers\RenderMetaBoxTemplateHandler;
+use RebelCode\Wpra\Core\RestApi\EndPoints\EndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\Handlers\GetEntityHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
 use RebelCode\Wpra\Core\Util\Sanitizers\BoolSanitizer;
 use RebelCode\Wpra\Core\Util\Sanitizers\CallbackSanitizer;
@@ -353,7 +355,23 @@ class FeedSourcesModule implements ModuleInterface
      */
     public function getExtensions()
     {
-        return [];
+        return [
+            /*
+             * Extends the list of REST API endpoints to register the feed sources endpoints.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c, $endpoints) {
+                $endpoints['get_sources'] = new EndPoint(
+                    '/sources(?:/(?P<id>[^/]+))?',
+                    ['GET'],
+                    new GetEntityHandler($c->get('wpra/feeds/sources/collection'), 'id', []),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+
+                return $endpoints;
+            }
+        ];
     }
 
     /**
