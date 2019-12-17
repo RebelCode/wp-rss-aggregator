@@ -45,6 +45,8 @@
                 });
             }
         });
+
+        $(document).trigger('wpra/tools/on_loaded', [currTool]);
     });
 
     // Get the tab for a given tool key
