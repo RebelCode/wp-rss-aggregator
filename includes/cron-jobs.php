@@ -68,6 +68,24 @@ function wprss_schedule_fetch_all_feeds_cron()
 }
 
 /**
+ * Gets the time of the global fetch cron.
+ *
+ * @since [*next-version*]
+ *
+ * @return false|string A time string in the form `H:i`
+ */
+function wprss_get_global_update_time()
+{
+    // If the global fetch cron is not scheduled, schedule it
+    wprss_schedule_fetch_all_feeds_cron();
+
+    // Get the timestamp for the next run
+    $next = wp_next_scheduled(WPRA_FETCH_ALL_FEEDS_HOOK);
+
+    return date('H:i', $next);
+}
+
+/**
  * Creates the cron to truncate wprss_feed_item posts daily
  *
  * @since 2.0
