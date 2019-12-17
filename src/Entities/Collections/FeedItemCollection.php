@@ -66,7 +66,8 @@ class FeedItemCollection extends WpEntityCollection
             $slugs = $this->_normalizeArray($value);
             $posts = get_posts([
                 'post_name__in' => $slugs,
-                'post_type' => 'wprss_feed'
+                'post_type' => 'wprss_feed',
+                'posts_per_page' => -1,
             ]);
             $ids = array_map(function ($post) {
                 return $post->ID;
