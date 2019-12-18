@@ -115,11 +115,13 @@
             'type'  => 'checkbox'
         );
 
-        $wprss_meta_fields[ 'source_link' ] = array(
-            'label' => __( 'Link source', WPRSS_TEXT_DOMAIN ),
-            'id'    => $prefix . 'source_link',
-            'type'  => 'boolean_fallback'
-        );
+        if (wprss_is_et_active()) {
+            $wprss_meta_fields[ 'source_link' ] = array(
+                'label' => __( 'Link source', WPRSS_TEXT_DOMAIN ),
+                'id'    => $prefix . 'source_link',
+                'type'  => 'boolean_fallback'
+            );
+        }
 
         $wprss_meta_fields[ 'import_source' ] = array(
             'label'   => __( 'Use source info', WPRSS_TEXT_DOMAIN ),
