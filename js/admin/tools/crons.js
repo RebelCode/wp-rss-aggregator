@@ -1,4 +1,4 @@
-(function ($, Config) {
+(function ($, Config, undefined) {
 
     // Update the table only when the tool is shown
     $(document).on('wpra/tools/on_loaded', function (event, tool) {
@@ -17,35 +17,112 @@
      * Initializes the crons tool.
      */
     function init() {
+        Loading.init();
         Pagination.init();
         Table.init();
         Timeline.init();
         Info.init();
-        Store.init();
+
+        // Show the loading message with an empty progress bar
+        Loading.setProgress(0).show().update();
+
+        var currPage = 1;
+        var loadNextPage = function () {
+            // Update the loading
+            Loading.setProgress(currPage / Store.numPages).update();
+
+            // If reached the last page, hide the progress bar
+            if (currPage >= Store.numPages) {
+                setTimeout(function () {
+                    Loading.hide().update();
+
+                    Pagination.update();
+                    Table.update();
+                    Timeline.update();
+                    Info.update();
+                }, 500);
+
+                return;
+            }
+
+            // Increment the page
+            currPage++;
+
+            // Fetch the page
+            Store.fetchSources(currPage, loadNextPage);
+        };
+
+        // Load the first page
+        Store.fetchSources(1, loadNextPage);
     }
+
+    /**
+     * The loading component.
+     */
+    var Loading = {
+        element: null,
+        wrapper: null,
+        shown: false,
+        progress: null,
+        maxWidth: 100,
+        init: function () {
+            Loading.element = $('.wpra-crons-loading');
+            Loading.wrapper = $('.wpra-crons-wrap');
+            Loading.bar = Loading.element.find('.wpra-crons-loading-bar');
+
+            Loading.hide().update();
+        },
+        update: function () {
+            Loading.element.toggle(Loading.shown);
+            Loading.wrapper.toggle(!Loading.shown);
+
+            Loading.bar.css({
+                width: (Loading.progress * Loading.maxWidth) + '%'
+            });
+        },
+        setProgress: function (progress) {
+            Loading.progress = progress;
+
+            return Loading;
+        },
+        show: function () {
+            Loading.shown = true;
+
+            return Loading;
+        },
+        hide: function () {
+            Loading.shown = false;
+            Loading.progress = 0;
+
+            return Loading;
+        },
+    };
 
     /**
      * The data store.
      */
     var Store = {
-        feeds: null,
+        feeds: [],
         count: 0,
         isLoaded: false,
         page: 1,
+        numPages: 1,
 
         init: function () {
             Store.fetchSources();
         },
 
-        fetchSources: function (callback) {
+        fetchSources: function (page, callback) {
             Pagination.showLoading();
+
+            page = (page === null || page === undefined) ? Store.page : page;
 
             $.ajax({
                 url: 'http://dev.wpra/wp-json/wpra/v1/sources',
                 method: 'GET',
                 data: {
                     num: Config.perPage,
-                    page: Store.page
+                    page: page
                 },
                 beforeSend: function (request) {
                     request.setRequestHeader("X-WP-NONCE", Config.restApiNonce);
@@ -53,15 +130,18 @@
                 success: function (response) {
                     if (response && response.items) {
                         Store.count = response.count;
-                        Store.feeds = response.items.sort(function (a, b) {
+                        Store.feeds = Store.feeds.concat(response.items);
+
+                        if (!Store.isLoaded) {
+                            Store.numPages = Math.ceil(Store.count / Store.feeds.length);
+                        }
+
+                        Store.feeds = Store.feeds.sort(function (a, b) {
                             return Util.compareTimeObjs(Feed.getUpdateTime(a), Feed.getUpdateTime(b));
                         });
-                    }
 
-                    Pagination.update();
-                    Table.update();
-                    Timeline.update();
-                    Info.update();
+                        Store.isLoaded = true;
+                    }
 
                     if (callback) {
                         callback();
@@ -148,7 +228,10 @@
     var Table = {
         element: null,
         body: null,
+        page: 1,
+        numPerPage: Config.perPage,
         hovered: null,
+        highlightedGroup: null,
         init: function () {
             if (Table.element === null) {
                 Table.element = $('#wpra-crons-tool-table');
@@ -169,7 +252,7 @@
             $('<td></td>').appendTo(elRow).addClass('wpra-crons-interval-col').text(interval);
             $('<td></td>').appendTo(elRow).addClass('wpra-crons-time-col').text(timeStr ? timeStr : '');
 
-            elRow.on('click', function (e) {
+            elRow.on('hover', function (e) {
                 Table.body.find('.wpra-crons-highlighted-feed').removeClass('wpra-crons-highlighted-feed');
 
                 if (Table.hovered === id) {
@@ -187,8 +270,13 @@
         update: function () {
             Table.body.empty();
 
-            for (var i in Store.feeds) {
-                Table.body.append(Table.createRow(Store.feeds[i]));
+            var pagedFeeds = Store.feeds.slice(
+                Table.numPerPage * (Table.page - 1),
+                Table.numPerPage * Table.page
+            );
+
+            for (var i in pagedFeeds) {
+                Table.body.append(Table.createRow(pagedFeeds[i]));
             }
         },
     };
@@ -216,28 +304,26 @@
         },
         // Updates the pagination component
         update: function () {
-            Pagination.nextBtn.prop('disabled', Store.page >= Pagination.getNumPages());
-            Pagination.prevBtn.prop('disabled', Store.page <= 1);
+            Pagination.nextBtn.prop('disabled', Table.page >= Store.numPages);
+            Pagination.prevBtn.prop('disabled', Table.page <= 1);
 
             Pagination.numFeeds.text(Store.count);
             Pagination.numFeeds.parent().toggle(Store.count > 0);
         },
-        // Calculates the number of pages
-        getNumPages: function () {
-            return Math.ceil(Store.count / Config.perPage);
-        },
         // Switches to the next page
         nextPage: function () {
-            Pagination.changePage(Math.min(Store.page + 1, Pagination.getNumPages()));
+            Pagination.changePage(Math.min(Table.page + 1, Store.numPages));
         },
         // Switches to the previous page
         prevPage: function () {
-            Pagination.changePage(Math.max(Store.page - 1, 1));
+            Pagination.changePage(Math.max(Table.page - 1, 1));
         },
         // Switches to a specific page
         changePage: function (page) {
-            Store.page = page;
-            Store.fetchSources();
+            Table.page = page;
+
+            Table.update();
+            Pagination.update();
         },
         // Shows the loading text
         showLoading: function () {
