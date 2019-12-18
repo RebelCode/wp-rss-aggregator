@@ -197,12 +197,17 @@
     var Pagination = {
         nextBtn: null,
         prevBtn: null,
+        numFeeds: null,
         loadingText: null,
         // Initializes the pagination
         init: function () {
             Pagination.nextBtn = $('#wpra-crons-next-page');
             Pagination.prevBtn = $('#wpra-crons-prev-page');
+            Pagination.numFeeds = $('.wpra-crons-num-feeds');
             Pagination.loadingText = $('#wpra-crons-loading');
+
+            // Hide the feed counter until the component updates
+            Pagination.numFeeds.parent().hide();
 
             Pagination.nextBtn.click(Pagination.nextPage);
             Pagination.prevBtn.click(Pagination.prevPage);
@@ -211,6 +216,9 @@
         update: function () {
             Pagination.nextBtn.prop('disabled', Store.page >= Pagination.getNumPages());
             Pagination.prevBtn.prop('disabled', Store.page <= 1);
+
+            Pagination.numFeeds.text(Store.count);
+            Pagination.numFeeds.parent().toggle(Store.count > 0);
         },
         // Calculates the number of pages
         getNumPages: function () {
@@ -243,12 +251,10 @@
      * The info component.
      */
     var Info = {
-        elNumFeeds: null,
         elGlobalInterval: null,
         elGlobalTime: null,
         elDownloadTimeline: null,
         init: function () {
-            Info.elNumFeeds = $('.wpra-crons-num-feeds');
             Info.elGlobalInterval = $('.wpra-crons-global-interval');
             Info.elGlobalTime = $('.wpra-crons-global-time');
             Info.elDownloadTimeline = $('.wpra-crons-download-timeline');
@@ -260,7 +266,6 @@
             });
         },
         update: function () {
-            Info.elNumFeeds.text(Store.count);
             Info.elGlobalInterval.text(Util.getIntervalName(Config.globalInterval));
             Info.elGlobalTime.text(Config.globalTime);
         }
