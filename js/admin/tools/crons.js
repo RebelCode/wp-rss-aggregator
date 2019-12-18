@@ -496,81 +496,77 @@
 
             // Draw the indicators
             {
-                if (Store.feeds && Store.feeds.length) {
-                    var minuteWidth = width / (24 * 60),
-                        fetchDuration = 5, // in minutes
-                        fetchWidth = fetchDuration * minuteWidth;
+                var minuteWidth = width / (24 * 60),
+                    fetchDuration = 5, // in minutes
+                    fetchWidth = fetchDuration * minuteWidth;
 
-                    var groups = Store.getGroupedFeeds();
-                    var drawLater = {};
+                var drawLater = {};
 
-                    var drawFn = function (group, timeStr, highlighted) {
-                        var time = Util.parseTimeStr(timeStr),
-                            groupX = (time.hours * hourWidth) + (time.minutes / 60 * hourWidth),
-                            count = group.length,
-                            color = bubbleColor,
-                            bgColor = "#fff",
-                            textColor = color;
+                var drawFn = function (group, timeStr, highlighted) {
+                    var time = Util.parseTimeStr(timeStr),
+                        groupX = (time.hours * hourWidth) + (time.minutes / 60 * hourWidth),
+                        count = group.length,
+                        color = bubbleColor,
+                        bgColor = "#fff",
+                        textColor = color;
 
-                        if (highlighted) {
-                            color = bubbleHighlightColor;
-                            bgColor = color;
-                            textColor = "#fff";
-                        } else if (count > 10) {
-                            color = bubbleSeriousColor;
-                        } else if (count > 5) {
-                            color = bubbleWarningColor;
-                        }
-
-                        // Draw the indicator line
-                        ctx.save();
-                        ctx.beginPath();
-                        ctx.moveTo(groupX, lineY);
-                        ctx.lineTo(groupX, bubbleTop);
-                        ctx.lineCap = "square";
-                        ctx.lineWidth = 2;
-                        ctx.strokeStyle = color;
-                        ctx.stroke();
-                        ctx.restore();
-
-                        // Draw the bubble
-                        ctx.save();
-                        ctx.beginPath();
-                        ctx.arc(groupX, bubbleRadius + bubbleTopOffset, bubbleRadius, 0, 2 * Math.PI);
-                        ctx.fillStyle = bgColor;
-                        ctx.fill();
-                        ctx.lineWidth = 2;
-                        ctx.strokeStyle = color;
-                        ctx.stroke();
-                        ctx.restore();
-
-                        // Draw the feed count
-                        ctx.save();
-                        ctx.font = "12px sans-serif";
-                        ctx.textAlign = "center";
-                        ctx.textBaseline = "middle";
-                        ctx.fillStyle = textColor;
-                        ctx.fillText(count, groupX, bubbleRadius + bubbleTopOffset + 1);
-                        ctx.restore();
-                    };
-
-                    for (var timeStr in groups) {
-                        var group = groups[timeStr];
-
-                        var hasHighlightedFeed = Table.hovered !== null && group.find(function (feed) {
-                            return feed.id === Table.hovered;
-                        });
-
-                        if (hasHighlightedFeed) {
-                            drawLater[timeStr] = group;
-                        }
-
-                        drawFn(group, timeStr);
+                    if (highlighted) {
+                        bgColor = color = bubbleHighlightColor;
+                        textColor = "#fff";
+                    } else if (count > 10) {
+                        textColor = color = bubbleSeriousColor;
+                    } else if (count > 5) {
+                        textColor = color = bubbleWarningColor;
                     }
 
-                    for (var timeStr in drawLater) {
-                        drawFn(drawLater[timeStr], timeStr, true);
+                    // Draw the indicator line
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(groupX, lineY);
+                    ctx.lineTo(groupX, bubbleTop);
+                    ctx.lineCap = "square";
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = color;
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Draw the bubble
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(groupX, bubbleRadius + bubbleTopOffset, bubbleRadius, 0, 2 * Math.PI);
+                    ctx.fillStyle = bgColor;
+                    ctx.fill();
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = color;
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Draw the feed count
+                    ctx.save();
+                    ctx.font = "12px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = textColor;
+                    ctx.fillText(count, groupX, bubbleRadius + bubbleTopOffset + 1);
+                    ctx.restore();
+                };
+
+                for (var timeStr in Store.groups) {
+                    var group = Store.groups[timeStr];
+
+                    var hasHighlightedFeed = Table.hovered !== null && group.find(function (feed) {
+                        return feed.id === Table.hovered;
+                    });
+
+                    if (hasHighlightedFeed) {
+                        drawLater[timeStr] = group;
                     }
+
+                    drawFn(group, timeStr);
+                }
+
+                for (var timeStr in drawLater) {
+                    drawFn(drawLater[timeStr], timeStr, true);
                 }
             }
 
