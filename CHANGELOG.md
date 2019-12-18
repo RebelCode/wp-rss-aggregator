@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.17.2] - YYYY-MM-DD
+### Changed
+* The obsolete "Link Source" option is now only shown when the Excerpts & Thumbnails add-on is active.
+
+### Fixed
+* The new "feeds" shortcode parameter only showed feed items for the first 10 feed sources.
+
 ## [4.17.1] - 2019-12-12
 ### Fixed
 * The new slug option was appearing on the edit pages for posts of all types.
