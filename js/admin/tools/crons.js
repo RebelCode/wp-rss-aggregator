@@ -113,8 +113,6 @@
         },
 
         fetchSources: function (page, callback) {
-            Pagination.showLoading();
-
             page = (page === null || page === undefined) ? Store.page : page;
 
             $.ajax({
@@ -150,9 +148,6 @@
                 error: function (response) {
                     console.error(response);
                 },
-                complete: function () {
-                    Pagination.hideLoading();
-                }
             });
         },
 
@@ -285,30 +280,51 @@
      * The pagination component.
      */
     var Pagination = {
+        numFeeds: null,
         nextBtn: null,
         prevBtn: null,
-        numFeeds: null,
-        loadingText: null,
+        firstPageBtn: null,
+        lastPageBtn: null,
+        currPageSpan: null,
+        numPagesSpan: null,
         // Initializes the pagination
         init: function () {
             Pagination.nextBtn = $('#wpra-crons-next-page');
             Pagination.prevBtn = $('#wpra-crons-prev-page');
+            Pagination.firstPageBtn = $('#wpra-crons-first-page');
+            Pagination.lastPageBtn = $('#wpra-crons-last-page');
+            Pagination.currPageSpan = $('.wpra-crons-curr-page');
+            Pagination.numPagesSpan = $('.wpra-crons-num-pages');
             Pagination.numFeeds = $('.wpra-crons-num-feeds');
-            Pagination.loadingText = $('#wpra-crons-loading');
 
             // Hide the feed counter until the component updates
             Pagination.numFeeds.parent().hide();
 
             Pagination.nextBtn.click(Pagination.nextPage);
             Pagination.prevBtn.click(Pagination.prevPage);
+            Pagination.firstPageBtn.click(Pagination.firstPage);
+            Pagination.lastPageBtn.click(Pagination.lastPage);
         },
         // Updates the pagination component
         update: function () {
+            Pagination.currPageSpan.text(Table.page);
+            Pagination.numPagesSpan.text(Store.numPages);
+
             Pagination.nextBtn.prop('disabled', Table.page >= Store.numPages);
             Pagination.prevBtn.prop('disabled', Table.page <= 1);
 
+            Pagination.firstPageBtn.prop('disabled', Table.page <= 1);
+            Pagination.lastPageBtn.prop('disabled', Table.page === Store.numPages);
+
             Pagination.numFeeds.text(Store.count);
             Pagination.numFeeds.parent().toggle(Store.count > 0);
+        },
+        // Switches to a specific page
+        changePage: function (page) {
+            Table.page = page;
+
+            Table.update();
+            Pagination.update();
         },
         // Switches to the next page
         nextPage: function () {
@@ -318,20 +334,13 @@
         prevPage: function () {
             Pagination.changePage(Math.max(Table.page - 1, 1));
         },
-        // Switches to a specific page
-        changePage: function (page) {
-            Table.page = page;
-
-            Table.update();
-            Pagination.update();
+        // Switches to the first page
+        firstPage: function () {
+            Pagination.changePage(1);
         },
-        // Shows the loading text
-        showLoading: function () {
-            Pagination.loadingText.show();
-        },
-        // Hides the loading text
-        hideLoading: function () {
-            Pagination.loadingText.hide();
+        // Switches to the last page
+        lastPage: function () {
+            Pagination.changePage(Store.numPages);
         },
     };
 

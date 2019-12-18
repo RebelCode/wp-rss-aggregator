@@ -23,9 +23,9 @@
                     <button id="wpra-crons-first-page" class="button" disabled>&laquo;</button>
                     <button id="wpra-crons-prev-page" class="button" disabled>&lsaquo;</button>
                     <span class="wpra-crons-page-indicator">
-                    <span class="wpra-crons-curr-page">1</span>
-                    {% trans "of" %}
-                    <span class="wpra-crons-num-pages">2</span>
+                    {% set currPageSpan = '<span class="wpra-crons-curr-page">1</span>' %}
+                    {% set numPagesSpan = '<span class="wpra-crons-num-pages">1</span>' %}
+                    {{ "{page} of {pages}"|trans|replace({'{page}': currPageSpan, '{pages}': numPagesSpan})|raw }}
                 </span>
                     <button id="wpra-crons-next-page" class="button" disabled>&rsaquo;</button>
                     <button id="wpra-crons-last-page" class="button" disabled>&raquo;</button>
