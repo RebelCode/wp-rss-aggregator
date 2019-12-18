@@ -283,8 +283,8 @@
         },
 
         update: function () {
-            // Update the width of the canvas
-            Timeline.canvas.width = Math.max(Timeline.minWidth, Timeline.element.offsetWidth);
+            // Update the width of the canvas to match its parent (-2 for the border of the parent)
+            Timeline.canvas.width = Math.max(Timeline.minWidth, Timeline.element.offsetWidth - 2);
 
             // Get canvas properties
             var canvas = Timeline.canvas,
