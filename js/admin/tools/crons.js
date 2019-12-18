@@ -23,37 +23,7 @@
         Timeline.init();
         Info.init();
 
-        // Show the loading message with an empty progress bar
-        Loading.setProgress(0).show().update();
-
-        var currPage = 1;
-        var loadNextPage = function () {
-            // Update the loading
-            Loading.setProgress(currPage / Store.numPages).update();
-
-            // If reached the last page, hide the progress bar
-            if (currPage >= Store.numPages) {
-                setTimeout(function () {
-                    Loading.hide().update();
-
-                    Pagination.update();
-                    Table.update();
-                    Timeline.update();
-                    Info.update();
-                }, 500);
-
-                return;
-            }
-
-            // Increment the page
-            currPage++;
-
-            // Fetch the page
-            Store.fetchSources(currPage, loadNextPage);
-        };
-
-        // Load the first page
-        Store.fetchSources(1, loadNextPage);
+        Store.init();
     }
 
     /**
@@ -103,13 +73,47 @@
      */
     var Store = {
         feeds: [],
+        groups: {},
         count: 0,
         isLoaded: false,
         page: 1,
         numPages: 1,
 
         init: function () {
-            Store.fetchSources();
+            // Show the loading message with an empty progress bar
+            Loading.setProgress(0).show().update();
+
+            var currPage = 1;
+            var loadNextPage = function () {
+                // Update the loading
+                Loading.setProgress(currPage / Store.numPages).update();
+
+                // If reached the last page, hide the progress bar
+                if (currPage >= Store.numPages) {
+                    // Generate the groups
+                    Store.groupFeeds();
+
+                    // Update the components
+                    setTimeout(function () {
+                        Loading.hide().update();
+                        Pagination.update();
+                        Table.update();
+                        Timeline.update();
+                        Info.update();
+                    }, 500);
+
+                    return;
+                }
+
+                // Increment the page
+                currPage++;
+
+                // Fetch the page
+                Store.fetchSources(currPage, loadNextPage);
+            };
+
+            // Load the first page
+            Store.fetchSources(1, loadNextPage);
         },
 
         fetchSources: function (page, callback) {
@@ -157,31 +161,31 @@
                 : interval;
         },
 
-        getGroupedFeeds: function () {
-            var grouped = {};
+        groupFeeds: function () {
+            Store.groups = {};
 
             for (var i in Store.feeds) {
                 var feed = Store.feeds[i];
                 var time = Feed.getUpdateTime(feed),
                     timeStr = Util.formatTimeObj(time);
 
-                if (!grouped[timeStr]) {
-                    grouped[timeStr] = [];
+                if (!Store.groups[timeStr]) {
+                    Store.groups[timeStr] = [];
                 }
 
-                grouped[timeStr].push(feed);
+                Store.groups[timeStr].push(feed);
             }
 
             var collapsed = {};
-            for (var timeStr in grouped) {
+            for (var timeStr in Store.groups) {
                 // Get the time object and string for the previous minute
-                var group = grouped[timeStr],
+                var group = Store.groups[timeStr],
                     time = Util.parseTimeStr(timeStr),
                     prevTime = Util.addTime(time, {hours: 0, minutes: -1}),
                     prevTimeStr = Util.formatTimeObj(prevTime);
 
                 // The key to use - either this group's time string or a time string for 1 minute less
-                var key = grouped.hasOwnProperty(prevTimeStr)
+                var key = Store.groups.hasOwnProperty(prevTimeStr)
                     ? prevTimeStr
                     : timeStr;
 
@@ -194,7 +198,7 @@
                 collapsed[key] = collapsed[key].concat(group);
             }
 
-            return Object.keys(collapsed).sort().reduce((acc, key) => (acc[key] = collapsed[key], acc), {});
+            Store.groups = Object.keys(collapsed).sort().reduce((acc, key) => (acc[key] = collapsed[key], acc), {});
         },
     };
 
