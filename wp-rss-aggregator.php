@@ -400,7 +400,7 @@ function wpra_modules()
         'tools/bulk_add' => new BulkAddToolModule(),
         'tools/blacklist' => new BlackListToolModule(),
         'tools/import_export' => new ImportExportToolsModule(),
-        'tools/crons' => new CronsToolModule(),
+        // 'tools/crons' => new CronsToolModule(),
         'tools/logs' => new LogsToolModule(),
         'tools/sys_info' => new SysInfoToolModule(),
         'tools/reset' => new ResetToolModule(),
