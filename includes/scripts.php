@@ -88,7 +88,7 @@
             'globalInterval' => wprss_get_general_setting('cron_interval'),
             'globalTime' => wprss_get_global_update_time(),
             'globalWord' => __('Global', 'wprss'),
-            'perPage' => 25
+            'perPage' => 30
         ]);
 
         wp_register_script('wpra-reset-tool', WPRSS_JS . 'admin/tools/reset.js', ['jquery'], $version, true);
