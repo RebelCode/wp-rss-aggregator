@@ -230,7 +230,6 @@
         page: 1,
         numPerPage: Config.perPage,
         hovered: null,
-        highlightedGroup: null,
         init: function () {
             if (Table.element === null) {
                 Table.element = $('#wpra-crons-tool-table');
@@ -254,14 +253,18 @@
             elRow.on('hover', function (e) {
                 Table.body.find('.wpra-crons-highlighted-feed').removeClass('wpra-crons-highlighted-feed');
 
-                if (Table.hovered === id) {
-                    Table.hovered = null;
-                } else {
-                    $(this).addClass('wpra-crons-highlighted-feed');
-                    Table.hovered = id;
-                }
+                $(this).addClass('wpra-crons-highlighted-feed');
+                Table.hovered = id;
 
                 Timeline.update();
+            });
+            elRow.on('mouseout', function (e) {
+                if (Table.hovered === id) {
+                    $(this).removeClass('wpra-crons-highlighted-feed');
+                    Table.hovered = null;
+
+                    Timeline.update();
+                }
             });
 
             return elRow;
