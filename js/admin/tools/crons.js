@@ -21,6 +21,7 @@
         Table.init();
         Timeline.init();
         Info.init();
+        Store.init();
     }
 
     /**
@@ -31,6 +32,10 @@
         count: 0,
         isLoaded: false,
         page: 1,
+
+        init: function () {
+            Store.fetchSources();
+        },
 
         fetchSources: function (callback) {
             Pagination.showLoading();
@@ -148,9 +153,6 @@
             if (Table.element === null) {
                 Table.element = $('#wpra-crons-tool-table');
                 Table.body = Table.element.find('tbody');
-            }
-            if (Store.feeds === null) {
-                Store.fetchSources();
             }
         },
         createRow: function (feed) {
