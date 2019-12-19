@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.17.2] - YYYY-MM-DD
+## [4.17.2] - 2019-12-19
 ### Changed
 * The obsolete "Link Source" option is now only shown when the Excerpts & Thumbnails add-on is active.
 
