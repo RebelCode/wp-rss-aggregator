@@ -750,14 +750,14 @@
 
             return hours + ":" + minutes;
         },
-        parse: function(str) {
+        parse: function (str) {
             var parts = str.split(':');
             var hours = parseInt(parts[0]);
             var mins = parseInt(parts[1]);
 
             return Time.create(hours, mins);
         },
-        toSeconds: function(time) {
+        toSeconds: function (time) {
             return time.hours * 3600 + time.minutes * 60;
         },
         fromSeconds: function (seconds) {
