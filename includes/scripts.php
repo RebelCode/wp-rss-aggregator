@@ -81,14 +81,22 @@
         wp_register_script('wpra-logs-tool', WPRSS_JS . 'admin/tools/logs.js', ['jquery'], $version, true);
         wp_register_script('wpra-blacklist-tool', WPRSS_JS . 'admin/tools/blacklist.js', ['jquery'], $version, true);
 
+        $wpSchedules = wp_get_schedules();
+        $globSchedule = wprss_get_general_setting('cron_interval');
+        $customSchedule = [
+            'display' => __('Use Global Cron', 'wprss'),
+            'interval' => $wpSchedules[$globSchedule]['interval'],
+        ];
+        $schedules = array_merge(['global' => $customSchedule], $wpSchedules);
+
         wp_register_script('wpra-crons-tool', WPRSS_JS . 'admin/tools/crons.js', ['jquery'], $version, true);
         wp_localize_script('wpra-crons-tool', 'WpraCronsTool', [
             'restApiNonce' => wp_create_nonce('wp_rest'),
-            'schedules' => wp_get_schedules(),
-            'globalInterval' => wprss_get_general_setting('cron_interval'),
+            'globalInterval' => $globSchedule,
             'globalTime' => wprss_get_global_update_time(),
             'globalWord' => __('Global', 'wprss'),
-            'perPage' => 30
+            'perPage' => 30,
+            'schedules' => $schedules
         ]);
 
         wp_register_script('wpra-reset-tool', WPRSS_JS . 'admin/tools/reset.js', ['jquery'], $version, true);

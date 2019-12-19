@@ -1,5 +1,8 @@
 (function ($, Config, undefined) {
 
+    // The length of a day in seconds
+    var DAY_IN_SECONDS = 24 * 60 * 60;
+
     // Update the table only when the tool is shown
     $(document).on('wpra/tools/on_loaded', function (event, tool) {
         if (tool === 'crons') {
@@ -116,6 +119,17 @@
             Store.fetchSources(1, loadNextPage);
         },
 
+        update: function (delegateUpate) {
+            // Re-group the feeds
+            Store.groupFeeds();
+
+            // Update the table and timeline
+            if (delegateUpate !== false) {
+                Table.update();
+                Timeline.update();
+            }
+        },
+
         fetchSources: function (page, callback) {
             page = (page === null || page === undefined) ? Store.page : page;
 
@@ -138,11 +152,25 @@
                             Store.numPages = Math.ceil(Store.count / Store.feeds.length);
                         }
 
+                        // Save the original cron information
+                        Store.feeds = Store.feeds.map(function (feed) {
+                            feed.original = {
+                                active: feed.active,
+                                update_time: feed.update_time,
+                                update_interval: feed.update_interval,
+                            };
+
+                            return feed;
+                        });
+
+                        // Sort the feeds
                         Store.feeds = Store.feeds.sort(function (a, b) {
-                            return Util.compareTimeObjs(Feed.getUpdateTime(a), Feed.getUpdateTime(b));
+                            return Time.compare(Feed.getUpdateTime(a), Feed.getUpdateTime(b));
                         });
 
                         Store.isLoaded = true;
+
+                        Store.update();
                     }
 
                     if (callback) {
@@ -167,22 +195,52 @@
             for (var i in Store.feeds) {
                 var feed = Store.feeds[i];
                 var time = Feed.getUpdateTime(feed),
-                    timeStr = Util.formatTimeObj(time);
+                    timeStr = Time.format(time);
 
                 if (!Store.groups[timeStr]) {
                     Store.groups[timeStr] = [];
                 }
 
                 Store.groups[timeStr].push(feed);
+
+                // Get the interval time in seconds
+                var interval = Config.schedules[Feed.getUpdateInterval(feed)]['interval'];
+                var intervalObj = Time.fromSeconds(interval);
+
+                // Add recurrences for feeds that fetch more than once a day
+                if (interval < DAY_IN_SECONDS) {
+                    var t = {
+                        hours: time.hours,
+                        minutes: time.minutes,
+                    };
+
+                    var numRepeats = Math.floor(DAY_IN_SECONDS / interval) - 1;
+                    for (var i = 0; i < numRepeats; ++i) {
+                        // Add the interval to the temporary time
+                        t = Time.add(t, intervalObj);
+
+                        // Convert to seconds, clamp to 24 hours and convert back to an object
+                        // This lets us format it into a time string without having 24+ hours
+                        var t2 = Time.fromSeconds(Time.toSeconds(t) % DAY_IN_SECONDS);
+                        // Get the time string for the clamped time
+                        var str = Time.format(t2);
+
+                        // Add the recurrence to the groups
+                        if (!Store.groups[str]) {
+                            Store.groups[str] = [];
+                        }
+                        Store.groups[str].push(feed);
+                    }
+                }
             }
 
             var collapsed = {};
             for (var timeStr in Store.groups) {
                 // Get the time object and string for the previous minute
                 var group = Store.groups[timeStr],
-                    time = Util.parseTimeStr(timeStr),
-                    prevTime = Util.addTime(time, {hours: 0, minutes: -1}),
-                    prevTimeStr = Util.formatTimeObj(prevTime);
+                    time = Time.parse(timeStr),
+                    prevTime = Time.add(time, {hours: 0, minutes: -1}),
+                    prevTimeStr = Time.format(prevTime);
 
                 // The key to use - either this group's time string or a time string for 1 minute less
                 var key = Store.groups.hasOwnProperty(prevTimeStr)
@@ -210,14 +268,12 @@
             return feed.active ? 'active' : 'paused';
         },
         getUpdateInterval: function (feed) {
-            return (feed.update_interval === 'global')
-                ? Config.globalWord
-                : feed.update_interval;
+            return feed.update_interval;
         },
         getUpdateTime: function (feed) {
             return (feed.update_time)
-                ? Util.parseTimeStr(feed.update_time)
-                : Util.parseTimeStr(Config.globalTime);
+                ? Time.parse(feed.update_time)
+                : Time.parse(Config.globalTime);
         },
     };
 
@@ -229,7 +285,7 @@
         body: null,
         page: 1,
         numPerPage: Config.perPage,
-        hovered: null,
+        highlighted: null,
         init: function () {
             if (Table.element === null) {
                 Table.element = $('#wpra-crons-tool-table');
@@ -254,14 +310,14 @@
                 Table.body.find('.wpra-crons-highlighted-feed').removeClass('wpra-crons-highlighted-feed');
 
                 $(this).addClass('wpra-crons-highlighted-feed');
-                Table.hovered = id;
+                Table.highlighted = id;
 
                 Timeline.update();
             });
             elRow.on('mouseout', function (e) {
-                if (Table.hovered === id) {
+                if (Table.highlighted === id) {
                     $(this).removeClass('wpra-crons-highlighted-feed');
-                    Table.hovered = null;
+                    Table.highlighted = null;
 
                     Timeline.update();
                 }
@@ -414,10 +470,10 @@
                 lineWidth = 2,
                 evenTextColor = "#444",
                 oddTextColor = "#888",
-                bubbleColor = "#658c6f",
-                bubbleWarningColor = "#b18e76",
-                bubbleSeriousColor = "#915759",
-                bubbleHighlightColor = "#1a83de",
+                bubbleColor = "#317596",
+                bubbleWarningColor = "#b97d50",
+                bubbleSeriousColor = "#9b3832",
+                bubbleBlurColor = "#c5c5c5",
                 bubbleRadius = 12,
                 bubbleTopOffset = 5,
                 bubbleTop = (bubbleRadius * 2) + bubbleTopOffset;
@@ -503,23 +559,30 @@
                     fetchDuration = 5, // in minutes
                     fetchWidth = fetchDuration * minuteWidth;
 
-                var drawLater = {};
-
+                // The function for drawing a group
                 var drawFn = function (group, timeStr, highlighted) {
-                    var time = Util.parseTimeStr(timeStr),
+                    var time = Time.parse(timeStr),
                         groupX = (time.hours * hourWidth) + (time.minutes / 60 * hourWidth),
                         count = group.length,
                         color = bubbleColor,
                         bgColor = "#fff",
                         textColor = color;
 
-                    if (highlighted) {
-                        bgColor = color = bubbleHighlightColor;
-                        textColor = "#fff";
-                    } else if (count > 10) {
+                    if (count > 10) {
                         textColor = color = bubbleSeriousColor;
                     } else if (count > 5) {
                         textColor = color = bubbleWarningColor;
+                    }
+
+                    // If highlighted is `true`, draw highlighted group
+                    // If highlighted is `false`, draw blurred group
+                    // If highlighted is anything else, draw normally
+                    if (highlighted === true) {
+                        bgColor = color;
+                        textColor = "#fff";
+                    } else if (highlighted === false) {
+                        color = bubbleBlurColor;
+                        textColor = bubbleBlurColor;
                     }
 
                     // Draw the indicator line
@@ -554,18 +617,34 @@
                     ctx.restore();
                 };
 
+                // Stores groups to be drawn later, for a higher "z index"
+                var drawLater = {};
+
+                // Draw the groups
                 for (var timeStr in Store.groups) {
                     var group = Store.groups[timeStr];
 
-                    var hasHighlightedFeed = Table.hovered !== null && group.find(function (feed) {
-                        return feed.id === Table.hovered;
-                    });
+                    // If no group is highlighted, draw normally
+                    if (Table.highlighted === null) {
+                        drawFn(group, timeStr);
 
-                    if (hasHighlightedFeed) {
-                        drawLater[timeStr] = group;
+                        continue;
                     }
 
-                    drawFn(group, timeStr);
+                    // Check if the group contains the highlighted feed
+                    var hasHighlightedFeed = group.find(function (feed) {
+                        return feed.id === Table.highlighted;
+                    });
+
+                    // If so, draw it later
+                    if (hasHighlightedFeed) {
+                        drawLater[timeStr] = group;
+
+                        continue;
+                    }
+
+                    // If not, draw it as blurred
+                    drawFn(group, timeStr, false);
                 }
 
                 for (var timeStr in drawLater) {
@@ -575,9 +654,78 @@
 
             ctx.translate(0, 0);
         },
+    };
 
-        drawLollipop: function () {
 
+    /**
+     * Time related functions.
+     */
+    var Time = {
+        create: function (h, m) {
+            return {
+                hours: h,
+                minutes: m
+            };
+        },
+        format: function (time) {
+            if (!time) {
+                return "";
+            }
+
+            var hours = time.hours < 10 ? "0" + time.hours : time.hours;
+            var minutes = time.minutes < 10 ? "0" + time.minutes : time.minutes;
+
+            return hours + ":" + minutes;
+        },
+        parse: function(str) {
+            var parts = str.split(':');
+            var hours = parseInt(parts[0]);
+            var mins = parseInt(parts[1]);
+
+            return Time.create(hours, mins);
+        },
+        toSeconds: function(time) {
+            return time.hours * 3600 + time.minutes * 60;
+        },
+        fromSeconds: function (seconds) {
+            var hours = Math.floor(seconds / 3600);
+            var minutes = (seconds - (hours * 3600)) / 60;
+
+            return Time.create(hours, minutes);
+        },
+        add: function (time1, time2, clamp) {
+            var newObj = {
+                hours: time1.hours + time2.hours,
+                minutes: time1.minutes + time2.minutes
+            };
+
+            // Add overflowing minutes to the hours
+            newObj.hours += Math.floor(newObj.minutes / 60);
+            // Clamp the minutes
+            newObj.minutes = newObj.minutes % 60;
+
+            // If clamping is on, clamp the hours to 24
+            if (clamp !== false) {
+                newObj.hours = newObj.hours % 23;
+            }
+
+            return newObj;
+        },
+        diff: function (time1, time2, clamp) {
+            return Time.add(time1, {
+                hours: -(time2.hours),
+                minutes: -(time2.minutes),
+            }, clamp);
+        },
+        compare(a, b) {
+            var an = Time.toSeconds(a);
+            var bn = Time.toSeconds(b);
+
+            if (an === bn) {
+                return 0;
+            }
+
+            return (an < bn) ? -1 : 1;
         },
     };
 
@@ -590,44 +738,6 @@
                 ? Config.schedules[interval]['display']
                 : interval;
         },
-        formatTimeObj: function (obj) {
-            if (!obj) {
-                return "";
-            }
-
-            var hours = obj.hours < 10 ? "0" + obj.hours : obj.hours;
-            var minutes = obj.minutes < 10 ? "0" + obj.minutes : obj.minutes;
-
-            return hours + ":" + minutes;
-        },
-        parseTimeStr: function (timeStr) {
-            var parts = timeStr.split(':');
-            var hours = parseInt(parts[0]);
-            var mins = parseInt(parts[1]);
-
-            return {hours: hours, minutes: mins};
-        },
-        addTime: function (obj1, obj2) {
-            var newObj = {
-                hours: obj1.hours + obj2.hours,
-                minutes: obj1.minutes + obj2.minutes
-            };
-
-            newObj.hours = (newObj.hours + Math.floor(newObj.minutes / 60)) % 23;
-            newObj.minutes = newObj.minutes % 60;
-
-            return newObj;
-        },
-        compareTimeObjs(a, b) {
-            var an = (a.hours * 60) + a.minutes;
-            var bn = (b.hours * 60) + b.minutes;
-
-            if (an === bn) {
-                return 0;
-            }
-
-            return (an < bn) ? -1 : 1;
-        }
     };
 
 })(jQuery, WpraCronsTool);
