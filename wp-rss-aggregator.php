@@ -570,6 +570,10 @@ function wpra_display_error($message, $error)
                 <br/>
                 <pre><?php echo $error->getMessage(); ?></pre>
 
+                <strong><?php _e('Occurred at:', 'wprss'); ?></strong>
+                <br/>
+                <pre><?php echo $error->getFile(); ?> (<?php echo $error->getLine() ?>)</pre>
+
                 <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
                 <br/>
                 <pre><?php echo $error->getTraceAsString(); ?></pre>

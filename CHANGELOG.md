@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.17.2] - 2019-12-19
+### Added
+* The error handler now includes the file and line where the error occurred.
+
 ### Changed
 * The obsolete "Link Source" option is now only shown when the Excerpts & Thumbnails add-on is active.
 
