@@ -569,18 +569,19 @@
 
             // Pad along the x-axis so that the numbers are not exactly at the edges
             ctx.translate(axisOffset, 0);
+            var availWidth = width - (axisOffset * 2);
 
             // Draw the numbers and dotted lines
             {
-                var hourWidth = width / 24,
+                var hourWidth = availWidth / 24,
                     minFontSize = 12,
                     maxFontSize = 18,
                     fontSizeRatio = 0.011,
-                    fontSize = Math.max(Math.min(width * fontSizeRatio, maxFontSize), minFontSize);
+                    fontSize = Math.max(Math.min(availWidth * fontSizeRatio, maxFontSize), minFontSize);
 
                 ctx.font = fontSize + "px sans-serif";
                 ctx.textBaseline = "hanging";
-                for (var hour = 0; hour < 24; ++hour) {
+                for (var hour = 0; hour <= 24; ++hour) {
                     var hourStr = (hour < 10) ? "0" + hour : hour,
                         text = hourStr + ":00",
                         even = (hour % 2 === 0),
@@ -590,15 +591,16 @@
                         ty = y + 3,
                         color = (even) ? evenTextColor : oddTextColor;
 
-                    ctx.save();
-
-                    ctx.translate(tx, ty);
-                    ctx.rotate(Math.PI / 5);
-                    ctx.fillStyle = color;
-                    ctx.textAlign = "left";
-                    ctx.fillText(text, 0, 0);
-
-                    ctx.restore();
+                    // Do not draw the hour text for 24:00 or later
+                    if (hour < 24) {
+                        ctx.save();
+                        ctx.translate(tx, ty);
+                        ctx.rotate(Math.PI / 5);
+                        ctx.fillStyle = color;
+                        ctx.textAlign = "left";
+                        ctx.fillText(text, 0, 0);
+                        ctx.restore();
+                    }
 
                     // The hour guide lines
                     ctx.save();
@@ -628,7 +630,7 @@
 
             // Draw the indicators
             {
-                var minuteWidth = width / (24 * 60),
+                var minuteWidth = availWidth / (24 * 60),
                     fetchDuration = 5, // in minutes
                     fetchWidth = fetchDuration * minuteWidth;
 
@@ -779,7 +781,7 @@
 
             // If clamping is on, clamp the hours to 24
             if (clamp !== false) {
-                newObj.hours = newObj.hours % 23;
+                newObj.hours = newObj.hours % 24;
             }
 
             return newObj;
