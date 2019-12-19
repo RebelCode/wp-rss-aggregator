@@ -296,30 +296,103 @@
             var id = feed.id,
                 state = Feed.getState(feed),
                 name = feed.name,
-                interval = Util.getIntervalName(Feed.getUpdateInterval(feed)),
-                timeStr = Util.formatTimeObj(Feed.getUpdateTime(feed));
+                interval = Feed.getUpdateInterval(feed),
+                timeStr = Time.format(Feed.getUpdateTime(feed));
 
             var elRow = $('<tr></tr>').addClass('wpra-crons-feed-' + Feed.getState(feed));
 
-            $('<td></td>').appendTo(elRow).addClass('wpra-crons-feed-id-col').text('#' + id);
-            $('<td></td>').appendTo(elRow).addClass('wpra-crons-feed-name-col').text(name);
-            $('<td></td>').appendTo(elRow).addClass('wpra-crons-interval-col').text(interval);
-            $('<td></td>').appendTo(elRow).addClass('wpra-crons-time-col').text(timeStr ? timeStr : '');
+            var idCol = $('<td></td>').appendTo(elRow).addClass('wpra-crons-feed-id-col').text('#' + id);
+            var nameCol = $('<td></td>').appendTo(elRow).addClass('wpra-crons-feed-name-col').text(name);
+            var intervalCol = $('<td></td>').appendTo(elRow).addClass('wpra-crons-interval-col');
+            var timeCol = $('<td></td>').appendTo(elRow).addClass('wpra-crons-time-col');
+
+            {
+                // The interval selector
+                var intervalSelect = $('<select>').appendTo(intervalCol);
+                // The reset time button
+                var resetIntervalBtn = $('<a>').appendTo(intervalCol)
+                    .attr('href', 'javascript:void(0)')
+                    .addClass('wpra-crons-reset-interval')
+                    .text('Reset')
+                    .toggle(feed.update_interval !== feed.original.update_interval);
+
+                // Add the options to the interval selector
+                for (var i in Config.schedules) {
+                    var option = $('<option>')
+                        .val(i)
+                        .text(Config.schedules[i]['display'])
+                        .prop('selected', i === interval);
+
+                    intervalSelect.append(option);
+                }
+
+                // Event for when the selected interval changes
+                intervalSelect.on('change', function () {
+                    var newInterval = $(this).val();
+
+                    // Show the reset button if the value is different from the original
+                    resetIntervalBtn.toggle(newInterval !== feed.original.update_interval);
+
+                    // Update the time in the store
+                    feed.update_interval = newInterval;
+                    Store.update(false);
+                    Timeline.update();
+                });
+
+                // Event for when the reset interval button is clicked
+                resetIntervalBtn.click(function () {
+                    feed.update_interval = feed.original.update_interval;
+                    Store.update();
+                });
+            }
+
+            {
+                // The time field
+                var timeField = $('<input />').appendTo(timeCol).attr({type: 'time', value: timeStr});
+                // The reset time button
+                var resetTimeBtn = $('<a>').appendTo(timeCol)
+                    .attr('href', 'javascript:void(0)')
+                    .addClass('wpra-crons-reset-time')
+                    .text('Reset')
+                    .toggle(feed.update_time !== feed.original.update_time);
+
+
+                // When the time field's value changes, update the store and timeline
+                // (But not the table, otherwise the field will lose focus)
+                timeField.on('change', function (e) {
+                    var newTime = $(this).val();
+
+                    // Show the reset button if the value is different from the original
+                    resetTimeBtn.toggle(newTime !== feed.original.update_time);
+
+                    // Update the time in the store
+                    feed.update_time = newTime;
+                    Store.update(false);
+                    Timeline.update();
+                });
+
+                // Event for when the reset time button is clicked
+                resetTimeBtn.click(function () {
+                    feed.update_time = feed.original.update_time;
+                    Store.update();
+                });
+            }
 
             elRow.on('hover', function (e) {
-                Table.body.find('.wpra-crons-highlighted-feed').removeClass('wpra-crons-highlighted-feed');
+                if (e.type === "mouseenter") {
+                    Table.body.find('.wpra-crons-highlighted-feed').removeClass('wpra-crons-highlighted-feed');
 
-                $(this).addClass('wpra-crons-highlighted-feed');
-                Table.highlighted = id;
-
-                Timeline.update();
-            });
-            elRow.on('mouseout', function (e) {
-                if (Table.highlighted === id) {
-                    $(this).removeClass('wpra-crons-highlighted-feed');
-                    Table.highlighted = null;
+                    $(this).addClass('wpra-crons-highlighted-feed');
+                    Table.highlighted = id;
 
                     Timeline.update();
+                } else {
+                    if (Table.highlighted === id) {
+                        $(this).removeClass('wpra-crons-highlighted-feed');
+                        Table.highlighted = null;
+
+                        Timeline.update();
+                    }
                 }
             });
 
