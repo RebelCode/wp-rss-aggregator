@@ -77,10 +77,21 @@
 
         wp_register_script( 'wprss-gallery-js', WPRSS_JS . 'gallery.js', array('jquery'), $version, true );
 
-        wp_register_script('wpra-tools', WPRSS_JS . 'tools.js', ['jquery'], $version, true);
-        wp_register_script('wpra-logs-tool', WPRSS_JS . 'logs-tool.js', ['jquery'], $version, true);
-        wp_register_script('wpra-blacklist-tool', WPRSS_JS . 'blacklist-tool.js', ['jquery'], $version, true);
-        wp_register_script('wpra-reset-tool', WPRSS_JS . 'reset-tool.js', ['jquery'], $version, true);
+        wp_register_script('wpra-tools', WPRSS_JS . 'admin/tools/main.js', ['jquery'], $version, true);
+        wp_register_script('wpra-logs-tool', WPRSS_JS . 'admin/tools/logs.js', ['jquery'], $version, true);
+        wp_register_script('wpra-blacklist-tool', WPRSS_JS . 'admin/tools/blacklist.js', ['jquery'], $version, true);
+
+        wp_register_script('wpra-crons-tool', WPRSS_JS . 'admin/tools/crons.js', ['jquery'], $version, true);
+        wp_localize_script('wpra-crons-tool', 'WpraCronsTool', [
+            'restApiNonce' => wp_create_nonce('wp_rest'),
+            'schedules' => wp_get_schedules(),
+            'globalInterval' => wprss_get_general_setting('cron_interval'),
+            'globalTime' => wprss_get_global_update_time(),
+            'globalWord' => __('Global', 'wprss'),
+            'perPage' => 25
+        ]);
+
+        wp_register_script('wpra-reset-tool', WPRSS_JS . 'admin/tools/reset.js', ['jquery'], $version, true);
         wp_localize_script('wpra-reset-tool', 'WpraResetTool', [
             'message' => __('Are you sure you want to do this? This operation cannot be undone.', 'wprss')
         ]);
@@ -174,6 +185,7 @@
             wp_enqueue_script('wpra-tools');
             wp_enqueue_script('wpra-logs-tool');
             wp_enqueue_script('wpra-blacklist-tool');
+            wp_enqueue_script('wpra-crons-tool');
             wp_enqueue_script('wpra-reset-tool');
         }
 

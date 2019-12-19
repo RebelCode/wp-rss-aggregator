@@ -16,6 +16,8 @@ use RebelCode\Wpra\Core\Handlers\MultiHandler;
 use RebelCode\Wpra\Core\Handlers\NullHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterCptHandler;
 use RebelCode\Wpra\Core\Handlers\RenderMetaBoxTemplateHandler;
+use RebelCode\Wpra\Core\RestApi\EndPoints\EndPoint;
+use RebelCode\Wpra\Core\RestApi\EndPoints\Handlers\GetEntityHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
 use RebelCode\Wpra\Core\Util\Sanitizers\BoolSanitizer;
 use RebelCode\Wpra\Core\Util\Sanitizers\CallbackSanitizer;
@@ -68,6 +70,9 @@ class FeedSourcesModule implements ModuleInterface
                         new Property('wprss_unique_titles'),
                         new BoolSanitizer()
                     ),
+                    // == Cron options ==
+                    'update_interval' => new Property('wprss_update_interval'),
+                    'update_time' => new Property('wprss_update_time'),
                     // == Image options ==
                     'def_ft_image' => new Property('_thumbnail_id'),
                     'import_ft_images' => new Property('wprss_import_ft_images'),
@@ -350,7 +355,23 @@ class FeedSourcesModule implements ModuleInterface
      */
     public function getExtensions()
     {
-        return [];
+        return [
+            /*
+             * Extends the list of REST API endpoints to register the feed sources endpoints.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c, $endpoints) {
+                $endpoints['get_sources'] = new EndPoint(
+                    '/sources(?:/(?P<id>[^/]+))?',
+                    ['GET'],
+                    new GetEntityHandler($c->get('wpra/feeds/sources/collection'), 'id', []),
+                    $c->get('wpra/rest_api/v1/auth/user_is_admin')
+                );
+
+                return $endpoints;
+            }
+        ];
     }
 
     /**
