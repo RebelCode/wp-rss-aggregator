@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.17.1
+ * Version: 4.17.2
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -78,7 +78,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.17.1' );
+    define( 'WPRSS_VERSION', '4.17.2' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -400,7 +400,7 @@ function wpra_modules()
         'tools/bulk_add' => new BulkAddToolModule(),
         'tools/blacklist' => new BlackListToolModule(),
         'tools/import_export' => new ImportExportToolsModule(),
-        'tools/crons' => new CronsToolModule(),
+        // 'tools/crons' => new CronsToolModule(),
         'tools/logs' => new LogsToolModule(),
         'tools/sys_info' => new SysInfoToolModule(),
         'tools/reset' => new ResetToolModule(),
@@ -569,6 +569,10 @@ function wpra_display_error($message, $error)
                 <strong><?php _e('Error Message:', 'wprss'); ?></strong>
                 <br/>
                 <pre><?php echo $error->getMessage(); ?></pre>
+
+                <strong><?php _e('Occurred at:', 'wprss'); ?></strong>
+                <br/>
+                <pre><?php echo $error->getFile(); ?> (<?php echo $error->getLine() ?>)</pre>
 
                 <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
                 <br/>
