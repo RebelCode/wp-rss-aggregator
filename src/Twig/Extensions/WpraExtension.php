@@ -158,10 +158,13 @@ class WpraExtension extends AbstractExtension
     protected function getWpraLinkAttrsFunction()
     {
         $name = 'wpra_link_attrs';
+        $options = [
+            'is_safe' => ['html'],
+        ];
 
         return new TwigFunction($name, function ($url, $options, $className = '') {
-            return $this->prepareLinkAttrs($url, $options, $className);
-        });
+            return  ' ' . $this->prepareLinkAttrs($url, $options, $className);
+        }, $options);
     }
 
     /**

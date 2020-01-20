@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * When revisions are enabled, an error would prevent feed sources from being saved.
 * Translations were being loaded from an invalid path.
 * The default featured image in the New/Edit Feed Source page did not preview after saving the feed source.
+* Missing space between the link `a` tag and the `href` attribute on PHP 7.4
 
 ### Removed
 * Removed warning when trying to blacklist a non-imported post.
