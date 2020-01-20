@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Updated code to fix deprecation warnings on PHP version 7.4 and later.
 * Updated the Twig library to version `1.41.0` to fix deprecation warnings on PHP version 7.4 and later.
 
+### Fixed
+* Removed a false-positive error from the log.
+
 ### Removed
 * Removed warning when trying to blacklist a non-imported post.
 
