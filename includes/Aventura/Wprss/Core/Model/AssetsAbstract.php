@@ -482,7 +482,7 @@ abstract class AssetsAbstract extends Core\Plugin\ComponentAbstract implements A
         $prefix = $this->_getHandlePrefix();
         return is_null($handle)
             ? $prefix
-            : static::stringHadPrefix($handle) ? $handle : "{$prefix}{$handle}";
+            : (static::stringHadPrefix($handle) ? $handle : "{$prefix}{$handle}");
     }
 
     /**
