@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [[next-version]] - YYYY-MM-DD
+## [4.17.3] - YYYY-MM-DD
 ### Changed
 * Updated code to fix deprecation warnings on PHP version 7.4 and later.
 * Updated the Twig library to version `1.41.0` to fix deprecation warnings on PHP version 7.4 and later.
