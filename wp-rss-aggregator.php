@@ -248,7 +248,7 @@ require_once ( WPRSS_INC . 'admin-options.php' );
 /* Load the legacy admin options functions file. */
 require_once ( WPRSS_INC . 'admin-options-legacy.php' );
 
-/* Load the debugging file */
+/* Load the system info file */
 require_once ( WPRSS_INC . 'system-info.php' );
 
 /* Load the miscellaneous functions file */
