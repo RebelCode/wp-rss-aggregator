@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Removed a false-positive error from the log.
+* Localization in Twig templates did not work.
 
 ### Removed
 * Removed warning when trying to blacklist a non-imported post.

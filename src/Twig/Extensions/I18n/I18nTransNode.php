@@ -18,6 +18,6 @@ class I18nTransNode extends Twig_Extensions_Node_Trans
      */
     protected function getTransFunction($plural)
     {
-        return $plural ? '_n' : '__';
+        return ($plural) ? 'wprss_translate_n' : 'wprss_translate';
     }
 }
