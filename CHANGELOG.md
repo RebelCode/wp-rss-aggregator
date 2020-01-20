@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Localization in Twig templates did not work.
 * When revisions are enabled, an error would prevent feed sources from being saved.
 * Translations were being loaded from an invalid path.
+* The default featured image in the New/Edit Feed Source page did not preview after saving the feed source.
 
 ### Removed
 * Removed warning when trying to blacklist a non-imported post.
