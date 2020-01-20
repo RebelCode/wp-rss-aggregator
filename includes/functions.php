@@ -330,7 +330,7 @@ function wpra_get_ready_cron_jobs() {
 /**
  * Retrieves the translation for some text from the "wprss" domain.
  *
- * @since [*next-version*]
+ * @since 4.17.3
  *
  * @param string $text The text whose translation to retrieve.
  *

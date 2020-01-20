@@ -81,7 +81,7 @@ class CoreModule implements ModuleInterface
             /*
              * The name of the WP RSS Aggregator plugin directory.
              *
-             * @since [*next-version*]
+             * @since 4.17.3
              */
             'wpra/core/plugin_dir_name' => function (ContainerInterface $c) {
                 return basename(plugin_dir_path($c->get('wpra/core/plugin_file_path')));
