@@ -223,13 +223,14 @@ class ImagesModule implements ModuleInterface
                     global $post;
 
                     $collection = $c->get('wpra/feeds/sources/collection');
-                    $entity = isset($collection[$post->ID])
-                        ? $collection[$post->ID]
+                    $info = isset($collection[$post->ID])
+                        ? $collection[$post->ID]->export()
                         : [];
-                    $info = $entity->export();
 
                     // Get the URL for the default ft. image and add it to the info
-                    $info['def_ft_image_url'] = wp_get_attachment_url($info['def_ft_image']);
+                    if (array_key_exists('def_ft_image', $info)) {
+                        $info['def_ft_image_url'] = wp_get_attachment_url($info['def_ft_image']);
+                    }
 
                     return [
                         'feed' => $info,
