@@ -12,33 +12,33 @@ use WP_REST_Response;
 /**
  * A generic endpoint handler for entity collections.
  *
- * @since [*next-version*]
+ * @since 4.17.2
  */
 class GetEntityHandler extends AbstractRestApiEndPoint
 {
     /**
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @var CollectionInterface
      */
     protected $collection;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @var string
      */
     protected $idKey;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @var callable[]
      */
     protected $filters;
 
     /**
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @var int
      */
@@ -47,7 +47,7 @@ class GetEntityHandler extends AbstractRestApiEndPoint
     /**
      * Constructor.
      *
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @param CollectionInterface $collection The entity collection.
      * @param string              $idKey      The key in requests for IDs, for responding with single entities.
@@ -67,7 +67,7 @@ class GetEntityHandler extends AbstractRestApiEndPoint
     /**
      * @inheritDoc
      *
-     * @since [*next-version*]
+     * @since 4.17.2
      */
     protected function handle(WP_REST_Request $request)
     {
@@ -89,7 +89,7 @@ class GetEntityHandler extends AbstractRestApiEndPoint
     /**
      * Applies filters to the collection based on the request.
      *
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @param WP_REST_Request     $request    The request.
      * @param CollectionInterface $collection The collection to filter.
@@ -112,7 +112,7 @@ class GetEntityHandler extends AbstractRestApiEndPoint
     /**
      * Paginates the collection.
      *
-     * @since [*next-version*]
+     * @since 4.17.2
      *
      * @param WP_REST_Request     $request    The request.
      * @param CollectionInterface $collection The collection to paginate.

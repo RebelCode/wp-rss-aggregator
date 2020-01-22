@@ -31,7 +31,7 @@ class I18nModule implements ModuleInterface
             /*
              * The name of the languages' parent directory.
              *
-             * @since [*next-version*]
+             * @since 4.17.3
              */
             'wpra/i18n/languages/parent_dir' => function (ContainerInterface $c) {
                 return $c->has('wpra/core/plugin_dir_name')
@@ -44,8 +44,7 @@ class I18nModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/i18n/languages_rel_dir' => function (ContainerInterface $c) {
-                $s = $c->get('wpra/i18n/languages/parent_dir') . '/languages';
-                return $s;
+                return $c->get('wpra/i18n/languages/parent_dir') . '/languages';
             },
             /*
              * The handler that loads the plugin's text domain.

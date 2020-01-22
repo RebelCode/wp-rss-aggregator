@@ -346,7 +346,7 @@ function wprss_translate($text)
 /**
  * Retrieves the singular or plural translation for some text from the "wprss" domain.
  *
- * @since [*next-version*]
+ * @since 4.17.3
  *
  * @param string $single The singular text.
  * @param string $plural The plural text.
