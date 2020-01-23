@@ -65,6 +65,11 @@ class FeedSourceSaveMetaHandler
         // Get the post type object.
         $post_type = get_post_type_object($post->post_type);
 
+        // Check if a revision. If so, stop
+        if ($post->post_type === 'revision') {
+            return;
+        }
+
         // Check if the current user has permission to edit the post.
         if (!current_user_can($post_type->cap->edit_post, $postId)) {
             return;

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.17.3] - 2020-01-23
+### Changed
+* Updated code to fix deprecation warnings on PHP version 7.4 and later.
+* Updated the Twig library to version `1.41.0` to fix deprecation warnings on PHP version 7.4 and later.
+* Updated the default translation files to contain up-to-date text.
+
+### Fixed
+* Removed a false-positive error from the log.
+* Localization in Twig templates did not work.
+* When revisions are enabled, an error would prevent feed sources from being saved.
+* Translations were being loaded from an invalid path.
+* The default featured image in the New/Edit Feed Source page did not preview after saving the feed source.
+* Missing space between the link `a` tag and the `href` attribute on PHP 7.4
+
+### Removed
+* Removed warning when trying to blacklist a non-imported post.
+
 ## [4.17.2] - 2019-12-19
 ### Added
 * The error handler now includes the file and line where the error occurred.

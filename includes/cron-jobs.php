@@ -70,7 +70,7 @@ function wprss_schedule_fetch_all_feeds_cron()
 /**
  * Gets the time of the global fetch cron.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @return false|string A time string in the form `H:i`
  */

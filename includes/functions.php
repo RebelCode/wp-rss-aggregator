@@ -326,3 +326,37 @@ function wpra_get_ready_cron_jobs() {
 
     return $results;
 }
+
+/**
+ * Retrieves the translation for some text from the "wprss" domain.
+ *
+ * @since 4.17.3
+ *
+ * @param string $text The text whose translation to retrieve.
+ *
+ * @return string
+ */
+function wprss_translate($text)
+{
+    $translations = get_translations_for_domain('wprss');
+
+    return $translations->translate($text);
+}
+
+/**
+ * Retrieves the singular or plural translation for some text from the "wprss" domain.
+ *
+ * @since 4.17.3
+ *
+ * @param string $single The singular text.
+ * @param string $plural The plural text.
+ * @param int    $number The amount, used to determine whether the singular or plural translation will be retrieved.
+ *
+ * @return string
+ */
+function wprss_translate_n($single, $plural, $number)
+{
+    $translations = get_translations_for_domain('wprss');
+
+    return $translations->translate_plural($single, $plural, $number);
+}

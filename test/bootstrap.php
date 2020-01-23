@@ -8,7 +8,7 @@ require_once $vendorDir . 'autoload.php';
 /**
  * Loads a WordPress file.
  *
- * @since [*next-version*]
+ * @since 4.17
  *
  * @param string $relPath The path relative to a WordPress installation's root directory.
  */

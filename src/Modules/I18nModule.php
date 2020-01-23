@@ -29,12 +29,22 @@ class I18nModule implements ModuleInterface
                 return WPRSS_TEXT_DOMAIN;
             },
             /*
+             * The name of the languages' parent directory.
+             *
+             * @since 4.17.3
+             */
+            'wpra/i18n/languages/parent_dir' => function (ContainerInterface $c) {
+                return $c->has('wpra/core/plugin_dir_name')
+                    ? $c->get('wpra/core/plugin_dir_name')
+                    : '';
+            },
+            /*
              * The path to the languages directory.
              *
              * @since 4.13
              */
-            'wpra/i18n/languages_dir_path' => function () {
-                return WPRSS_LANG;
+            'wpra/i18n/languages_rel_dir' => function (ContainerInterface $c) {
+                return $c->get('wpra/i18n/languages/parent_dir') . '/languages';
             },
             /*
              * The handler that loads the plugin's text domain.
@@ -44,9 +54,9 @@ class I18nModule implements ModuleInterface
             'wpra/i18n/load_text_domain_handler' => function (ContainerInterface $c) {
                 return new LoadTextDomainHandler(
                     $c->get('wpra/i18n/domain'),
-                    $c->get('wpra/i18n/languages_dir_path')
+                    $c->get('wpra/i18n/languages_rel_dir')
                 );
-            }
+            },
         ];
     }
 

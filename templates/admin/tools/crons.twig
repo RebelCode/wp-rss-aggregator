@@ -1,82 +1,130 @@
-<h3>{% trans "Crons" %}</h3>
-
 <div id="wpra-crons">
-
-    {# the timeline diagram #}
-    <div id="wpra-crons-timeline">
-        <canvas id="wpra-crons-timeline-canvas" height="150"></canvas>
+    <div class="wpra-crons-loading">
+        <span class="wpra-crons-loading-text">Loading</span>
+        <div class="wpra-crons-loading-bar-container">
+            <div class="wpra-crons-loading-bar"></div>
+        </div>
     </div>
 
-    {# Toolbar #}
-    <div id="wpra-crons-toolbar">
-        {# Pagination #}
-        <div class="wpra-crons-pagination">
-            <div class="wpra-crons-pagination-info">
-                {{ "{number} feeds"|trans|replace({'{number}': '<span class="wpra-crons-num-feeds"></span>'})|raw }}
-            </div>
-            <div class="wpra-crons-pagination-buttons">
-                <button id="wpra-crons-first-page" class="button" disabled>&laquo;</button>
-                <button id="wpra-crons-prev-page" class="button" disabled>&lsaquo;</button>
-                <span class="wpra-crons-page-indicator">
-                    <span class="wpra-crons-curr-page">1</span>
-                    {% trans "of" %}
-                    <span class="wpra-crons-num-pages">2</span>
-                </span>
-                <button id="wpra-crons-next-page" class="button" disabled>&rsaquo;</button>
-                <button id="wpra-crons-last-page" class="button" disabled>&raquo;</button>
-            </div>
+    <div class="wpra-crons-wrap">
+        {# the timeline diagram #}
+        <div id="wpra-crons-timeline">
+            <canvas id="wpra-crons-timeline-canvas" height="150"></canvas>
         </div>
 
-        {# Loading text #}
-        <span id="wpra-crons-loading">{% trans "Loading" %}</span>
+        {# Toolbar #}
+        <div id="wpra-crons-toolbar">
+            {# Pagination #}
+            <div class="wpra-crons-pagination">
+                <div class="wpra-crons-pagination-info">
+                    {{ "{number} feeds"|trans|replace({'{number}': '<span class="wpra-crons-num-feeds"></span>'})|raw }}
+                </div>
+                <div class="wpra-crons-pagination-buttons">
+                    <button id="wpra-crons-first-page" class="button" disabled>&laquo;</button>
+                    <button id="wpra-crons-prev-page" class="button" disabled>&lsaquo;</button>
+                    <span class="wpra-crons-page-indicator">
+                    {% set currPageSpan = '<span class="wpra-crons-curr-page">1</span>' %}
+                    {% set numPagesSpan = '<span class="wpra-crons-num-pages">1</span>' %}
+                    {{ "{page} of {pages}"|trans|replace({'{page}': currPageSpan, '{pages}': numPagesSpan})|raw }}
+                </span>
+                    <button id="wpra-crons-next-page" class="button" disabled>&rsaquo;</button>
+                    <button id="wpra-crons-last-page" class="button" disabled>&raquo;</button>
+                </div>
+            </div>
 
-        {# Info panel #}
-        <div class="wpra-crons-info">
+            {# Loading text #}
+            <span id="wpra-crons-loading">{% trans "Loading" %}</span>
+
+            {# Info panel #}
+            <div class="wpra-crons-info">
             <span>
                 <strong>{% trans "Global Interval:" %}</strong>
                 <code class="wpra-crons-global-interval"></code>
             </span>
-            <span>
+                <span>
                 <strong>{% trans "Global Time:" %}</strong>
                 <code class="wpra-crons-global-time"></code>
             </span>
 
-            <span>
+                <span>
                 <a class="button wpra-crons-download-timeline">
                     {% trans "Download Timeline Image" %}
                 </a>
             </span>
+            </div>
         </div>
-    </div>
 
-    {# The table #}
-    <table id="wpra-crons-tool-table" class="widefat fixed striped">
-        <thead>
-            <tr>
-                <th class="wpra-crons-feed-id-col"></th>
-                <th class="wpra-crons-feed-name-col">{% trans "Feed" %}</th>
-                <th class="wpra-crons-interval-col">{% trans "Interval" %}</th>
-                <th class="wpra-crons-time-col">{% trans "Time" %}</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+        {# The table #}
+        <table id="wpra-crons-tool-table" class="widefat fixed striped">
+            <thead>
+                <tr>
+                    <th class="wpra-crons-feed-id-col"></th>
+                    <th class="wpra-crons-feed-name-col">{% trans "Feed" %}</th>
+                    <th class="wpra-crons-interval-col">{% trans "Interval" %}</th>
+                    <th class="wpra-crons-time-col">{% trans "Time" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <style type="text/css">
+    #wpra-crons {
+        position: relative;
+    }
+
+    .wpra-crons-loading {
+        display: none;
+        position: relative;
+        width: 30%;
+        margin: 30px auto 20px;
+        text-align: center;
+    }
+
+    .wpra-crons-loading-text {
+        font-size: 20px;
+        color: #999;
+        font-weight: bold;
+        text-shadow: 0 1px 0 #fff;
+    }
+
+    .wpra-crons-loading-bar-container,
+    .wpra-crons-loading-bar {
+        display: block;
+        width: 100%;
+        height: 6px;
+        margin: 10px auto;
+        border-radius: 3px;
+    }
+
+    .wpra-crons-loading-bar-container {
+        background-color: #ccc;
+    }
+
+    .wpra-crons-loading-bar {
+        background-color: #0073AA;
+        transition: 0.1s linear width;
+    }
+
+    .wpra-crons-loading-text,
+    .wpra-crons-loading-bar {
+        animation: 0.8s ease-in-out infinite wpra-crons-loading-anim;
+    }
+
     #wpra-crons-toolbar {
         display: block;
-        position: sticky;
-        top: 32px;
         width: 100%;
-        padding: 10px 10px 0;
-        margin-bottom: 5px;
+        padding: 0;
+        margin: 10px 0 5px;
         line-height: 30px;
         box-sizing: border-box;
     }
 
     #wpra-crons-timeline {
+        position: sticky;
+        top: 32px;
         display: block;
         width: 100%;
         overflow-x: auto;
@@ -85,8 +133,9 @@
         padding: 10px 0;
         background: #fff;
         border: 1px solid #ccd0d4;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
+        z-index: 100;
     }
 
     #wpra-crons-timeline-canvas {
@@ -96,6 +145,7 @@
     #wpra-crons-tool-table tbody tr {
         cursor: pointer;
     }
+
     #wpra-crons-tool-table tbody tr td {
         border-width: 1px 0;
         border-style: solid;
@@ -142,14 +192,21 @@
         color: #999;
     }
 
+    .wpra-crons-reset-interval,
+    .wpra-crons-reset-time {
+        margin-left: 8px;
+    }
+
     .wpra-crons-pagination {
         display: inline-block;
         float: right;
     }
+
     .wpra-crons-pagination-info,
     .wpra-crons-pagination-buttons {
         display: inline-block;
     }
+
     .wpra-crons-pagination-buttons {
         margin-left: 5px;
     }

@@ -669,8 +669,14 @@ function wprss_get_feed_cache_dir()
 				// increment the inserted counter
 				elseif ( ( is_bool($item) && $item === TRUE ) || ( $still_update_count === TRUE && $item !== FALSE ) ) {
 					$items_inserted++;
-				} else {
-                    $logger->error('Failed to save item "{0}"', [$ogItem->get_title()]);
+				} elseif (has_filter('wprss_insert_post_item_conditionals', 'wprss_kf_check_post_item_keywords')) {
+                    $logger->info('Item "{0}" was rejected by your keyword or tag filtering.', [
+                        $ogItem->get_title()
+                    ]);
+                } else {
+                    $logger->notice('Item "{0}" was rejected by an add-on.', [
+                        $ogItem->get_title()
+                    ]);
                 }
 			}
 		}
