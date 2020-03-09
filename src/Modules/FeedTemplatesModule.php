@@ -327,7 +327,7 @@ class FeedTemplatesModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/feeds/templates/master_template_logger' => function (ContainerInterface $c) {
-                if ($c->has('wpra/logging/logger')) {
+                if (!$c->has('wpra/logging/logger')) {
                     return new NullLogger();
                 }
 
