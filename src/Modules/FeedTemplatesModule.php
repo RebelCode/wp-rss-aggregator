@@ -838,7 +838,7 @@ class FeedTemplatesModule implements ModuleInterface
 
         // This ensures that there is always at least one template available, by constructing the core list template
         // from the old general display settings.
-        add_action('init', $c->get('wpra/feeds/templates/create_default_template_handler'));
+        add_action('wpra/admin_init', $c->get('wpra/feeds/templates/create_default_template_handler'));
 
         // Filters the front-end content for templates to render them
         add_action('the_content', $c->get('wpra/feeds/templates/handlers/render_content'));
