@@ -65,7 +65,7 @@ class CreateUpdateTemplateEndPoint extends AbstractRestApiEndPoint
         }
 
         $data = $request->get_params();
-        unset($data['id']);
+        $data = array_intersect_key($data, ['name' => null, 'slug' => null, 'type' => null, 'options' => null]);
 
         $this->collection[$id] = $data;
 
