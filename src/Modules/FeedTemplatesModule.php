@@ -389,7 +389,6 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/feeds/templates/default_template_data' => function (ContainerInterface $c) {
                 return [
                     'name' => __('Default', 'wprss'),
-                    'slug' => $c->get('wpra/feeds/templates/default_template_slug'),
                     'type' => $c->get('wpra/feeds/templates/default_template_type'),
                 ];
             },
