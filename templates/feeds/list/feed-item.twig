@@ -9,9 +9,9 @@
 
 {# Show the title #}
 {% if options.title_is_link %}
-    <a {{ wpra_link_attrs(item_url, options)|raw }}>{{ item_title }}</a>
+    <a {{ wpra_link_attrs(item_url, options)|raw }}>{{ item_title|raw }}</a>
 {% else %}
-    {{ item_title }}
+    {{ item_title|raw }}
 {% endif %}
 
 {{ options.title_after }}
