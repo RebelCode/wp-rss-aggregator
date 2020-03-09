@@ -85,20 +85,24 @@ abstract class AbstractRestApiEndPoint
         ];
 
         foreach ($exception->getTrace() as $trace) {
-            $file = basename($trace['file']);
-            $line = $trace['line'];
-            $fn = $trace['function'];
-            $args = array_map(function ($arg) {
-                if (is_scalar($arg)) {
-                    return $arg;
-                }
+            $file = array_key_exists('file', $trace) ? basename($trace['file']) : '<unknown>';
+            $line = array_key_exists('line', $trace) ? $trace['line'] : '<unknown>';
+            $fn = array_key_exists('function', $trace) ? $trace['function'] : '<unknown>';
 
-                return is_object($arg)
-                    ? get_class($arg)
-                    : gettype($arg);
-            }, $trace['args']);
+            if (array_key_exists('args', $trace)) {
+                $args = array_map(function ($arg) {
+                    if (is_scalar($arg)) {
+                        return $arg;
+                    }
 
-            $argsStr = implode(', ', $args);
+                    return is_object($arg)
+                        ? get_class($arg)
+                        : gettype($arg);
+                }, $trace['args']);
+                $argsStr = implode(', ', $args);
+            } else {
+                $argsStr = '<unknown>';
+            }
 
             $data['trace'][] = sprintf('%s(%s) @ %s:%s', $fn, $argsStr, $file, $line);
         }
