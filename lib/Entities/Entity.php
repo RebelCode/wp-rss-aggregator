@@ -91,7 +91,9 @@ class Entity implements EntityInterface
 
         foreach ($data as $key => $value) {
             if (!array_key_exists($key, $this->props)) {
-                throw new OutOfBoundsException();
+                throw new OutOfBoundsException(
+                    sprintf("Entity does not have key \"%s\" in: %s", $key, json_encode($data))
+                );
             }
 
             try {

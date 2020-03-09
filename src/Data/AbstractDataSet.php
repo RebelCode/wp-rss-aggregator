@@ -29,7 +29,7 @@ abstract class AbstractDataSet implements DataSetInterface
             }
         } catch (Exception $exception) {
             throw new RuntimeException(
-                sprintf('An error occurred while reading the value for the "%s" key', $key), null, $exception
+                sprintf('Key read error ("%s"): %s', $key, $exception->getMessage()), null, $exception
             );
         }
 
@@ -47,7 +47,7 @@ abstract class AbstractDataSet implements DataSetInterface
             return $this->has($key);
         } catch (Exception $exception) {
             throw new RuntimeException(
-                sprintf('An error occurred while looking up the "%s" key', $key), null, $exception
+                sprintf('Key read error ("%s"): %s', $key, $exception->getMessage()), null, $exception
             );
         }
     }
@@ -63,7 +63,7 @@ abstract class AbstractDataSet implements DataSetInterface
             $this->set($key, $value);
         } catch (Exception $exception) {
             throw new RuntimeException(
-                sprintf('An error occurred while writing to the "%s" key', $key), null, $exception
+                sprintf('Key write error ("%s"): %s', $key, $exception->getMessage()), null, $exception
             );
         }
     }
@@ -79,7 +79,7 @@ abstract class AbstractDataSet implements DataSetInterface
             $this->delete($key);
         } catch (Exception $exception) {
             throw new RuntimeException(
-                sprintf('An error occurred while deleting the "%s" key', $key), null, $exception
+                sprintf('Key delete error ("%s"): %s', $key, $exception->getMessage()), null, $exception
             );
         }
     }
