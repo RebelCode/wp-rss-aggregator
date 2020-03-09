@@ -68,17 +68,20 @@ class WpraItemSourceProperty implements PropertyInterface
     {
         $feed = $item->get('source');
 
-        try {
-            $control = $feed->get($this->controlProp);
-            $value = $control ? $this->itemProp->getValue($item) : null;
+        if ($feed) {
+            try {
+                $control = $feed->get($this->controlProp);
+                $value = $control ? $this->itemProp->getValue($item) : null;
 
-            if (!empty($value)) {
-                return $value;
+                if (!empty($value)) {
+                    return $value;
+                }
+            } catch (OutOfBoundsException $exception) {
+                // Do nothing
             }
-        } catch (OutOfBoundsException $exception) {
-            // Do nothing
         }
 
+        // Default to value from feed source
         return $this->sourceProp->getValue($feed);
     }
 
