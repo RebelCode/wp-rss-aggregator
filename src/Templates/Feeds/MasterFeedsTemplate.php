@@ -66,15 +66,6 @@ class MasterFeedsTemplate implements TemplateInterface
     const CTX_OPTIONS_KEY = 'options';
 
     /**
-     * The ID of the template to use by default.
-     *
-     * @since 4.13
-     *
-     * @var string
-     */
-    protected $default;
-
-    /**
      * An associative array of template type instances.
      *
      * @since 4.13
@@ -133,7 +124,6 @@ class MasterFeedsTemplate implements TemplateInterface
      *
      * @since 4.13
      *
-     * @param string              $default            The name of the template to use by default.
      * @param array               $templateTypes      The available template types.
      * @param CollectionInterface $templateCollection The collection of templates.
      * @param CollectionInterface $feedItemCollection The collection of feed items.
@@ -142,7 +132,6 @@ class MasterFeedsTemplate implements TemplateInterface
      * @param LoggerInterface     $logger             The logger instance to use for recording errors.
      */
     public function __construct(
-        $default,
         $templateTypes,
         CollectionInterface $templateCollection,
         CollectionInterface $feedItemCollection,
@@ -151,7 +140,6 @@ class MasterFeedsTemplate implements TemplateInterface
         LoggerInterface $logger
     ) {
         $this->types = $templateTypes;
-        $this->default = $default;
         $this->templateCollection = $templateCollection;
         $this->feedItemCollection = $feedItemCollection;
         $this->containerTemplate = $containerTemplate;
@@ -273,20 +261,26 @@ class MasterFeedsTemplate implements TemplateInterface
      */
     protected function getTemplateModel($slug)
     {
-        // If the template slug is empty, use the default slug
-        $slug = empty($slug) ? $this->default : $slug;
+        $model = null;
 
-        try {
-            // Get the template model instance
-            $model = $this->templateCollection[$slug];
-        } catch (Exception $exception) {
+        // Get the template model instance
+        if (!empty($slug)) {
+            try {
+                $model = $this->templateCollection[$slug];
+            } catch (Exception $exception) {
+                // Include warning in log that the template with the given slug was not found
+                $this->logger->warning(
+                    __('Template "{0}" does not exist or could not be loaded. The default template was used instead.'),
+                    [$slug]
+                );
+            }
+        }
+
+        // If the slug is empty or failed to get the template
+        if (empty($model)) {
             // Fetch the default template
-            $model = $this->templateCollection[$this->default];
-            // Include warning in log that the template was not found
-            $this->logger->warning(
-                __('Template "{0}" does not exist or could not be loaded. The "{1}" template was used is instead.'),
-                [$slug, $this->default]
-            );
+            $builtIn = $this->templateCollection->filter(['type' => '__built_in']);
+            $model = $builtIn[0];
         }
 
         return $model;

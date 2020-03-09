@@ -265,7 +265,6 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/feeds/templates/master_template' => function (ContainerInterface $c) {
                 return new MasterFeedsTemplate(
-                    $c->get('wpra/feeds/templates/default_template'),
                     $c->get('wpra/feeds/templates/template_types'),
                     $c->get('wpra/feeds/templates/collection'),
                     $c->get('wpra/feeds/templates/feed_item_collection'),
@@ -684,7 +683,7 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/feeds/templates/handlers/sync_default_template' => function (ContainerInterface $c) {
                 return new ReSaveTemplateHandler(
                     $c->get('wpra/feeds/templates/collection'),
-                    $c->get('wpra/feeds/templates/default_template')
+                    $c->get('wpra/feeds/templates/default_template_data')
                 );
             },
 
