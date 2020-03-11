@@ -66,6 +66,47 @@
 
 
     /**
+     * Retrieves the query to use for retrieving imported items.
+     *
+     * @since 4.17.4
+     */
+    function wprss_get_imported_items_query($source_id = null) {
+        $args = [
+            'post_type'             => array_values(get_post_types()),
+            'post_status'           => 'any',
+            'cache_results'         => false,
+            'no_found_rows'         => true,
+            'posts_per_page'        => -1,
+            'ignore_sticky_posts'   => 'true',
+            'orderby'               => 'date',
+            'order'                 => 'DESC',
+            'meta_query'            => [
+                'relation' => 'AND',
+            ],
+            'suppress_filters'  => 1
+        ];
+
+        if ($source_id !== null) {
+            $args['meta_query'][] = [
+                'key'       => 'wprss_feed_id',
+                'value'     => (string) $source_id,
+                'compare'   => '=',
+            ];
+        }
+
+        return apply_filters('wprss_get_feed_items_for_source_args', $args, $source_id);
+    }
+
+    /**
+     * Queries for imported items.
+     *
+     * @since 4.17.4
+     */
+    function wprss_get_imported_items($source_id = null) {
+        return new WP_Query(wprss_get_imported_items_query($source_id));
+    }
+
+    /**
      * Returns all the feed items of a source.
      *
      * @since 3.8
