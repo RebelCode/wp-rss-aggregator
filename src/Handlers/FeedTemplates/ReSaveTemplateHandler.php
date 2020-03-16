@@ -21,13 +21,13 @@ class ReSaveTemplateHandler
     protected $collection;
 
     /**
-     * The slug name of the template.
+     * The default template info.
      *
-     * @since 4.13
+     * @since 4.17.4
      *
-     * @var string
+     * @var array
      */
-    protected $slug;
+    protected $info;
 
     /**
      * Constructor.
@@ -35,12 +35,12 @@ class ReSaveTemplateHandler
      * @since 4.13
      *
      * @param DataSetInterface $collection The template collection.
-     * @param string           $slug       The slug name of the template.
+     * @param array            $info       The default template info.
      */
-    public function __construct(DataSetInterface $collection, $slug)
+    public function __construct(DataSetInterface $collection, $info)
     {
         $this->collection = $collection;
-        $this->slug = $slug;
+        $this->info = $info;
     }
 
     /**
@@ -50,7 +50,11 @@ class ReSaveTemplateHandler
      */
     public function __invoke()
     {
-        $template = $this->collection[$this->slug];
+        $builtIn = $this->collection->filter([
+            'type' => $this->info['type'],
+        ]);
+
+        $template = $builtIn[0];
 
         foreach ($template as $key => $value) {
             $template[$key] = $value;

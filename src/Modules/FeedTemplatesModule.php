@@ -265,7 +265,6 @@ class FeedTemplatesModule implements ModuleInterface
              */
             'wpra/feeds/templates/master_template' => function (ContainerInterface $c) {
                 return new MasterFeedsTemplate(
-                    $c->get('wpra/feeds/templates/default_template'),
                     $c->get('wpra/feeds/templates/template_types'),
                     $c->get('wpra/feeds/templates/collection'),
                     $c->get('wpra/feeds/templates/feed_item_collection'),
@@ -327,7 +326,7 @@ class FeedTemplatesModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/feeds/templates/master_template_logger' => function (ContainerInterface $c) {
-                if ($c->has('wpra/logging/logger')) {
+                if (!$c->has('wpra/logging/logger')) {
                     return new NullLogger();
                 }
 
@@ -389,7 +388,6 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/feeds/templates/default_template_data' => function (ContainerInterface $c) {
                 return [
                     'name' => __('Default', 'wprss'),
-                    'slug' => $c->get('wpra/feeds/templates/default_template_slug'),
                     'type' => $c->get('wpra/feeds/templates/default_template_type'),
                 ];
             },
@@ -685,7 +683,7 @@ class FeedTemplatesModule implements ModuleInterface
             'wpra/feeds/templates/handlers/sync_default_template' => function (ContainerInterface $c) {
                 return new ReSaveTemplateHandler(
                     $c->get('wpra/feeds/templates/collection'),
-                    $c->get('wpra/feeds/templates/default_template')
+                    $c->get('wpra/feeds/templates/default_template_data')
                 );
             },
 
@@ -838,7 +836,7 @@ class FeedTemplatesModule implements ModuleInterface
 
         // This ensures that there is always at least one template available, by constructing the core list template
         // from the old general display settings.
-        add_action('init', $c->get('wpra/feeds/templates/create_default_template_handler'));
+        add_action('wpra/admin_init', $c->get('wpra/feeds/templates/create_default_template_handler'));
 
         // Filters the front-end content for templates to render them
         add_action('the_content', $c->get('wpra/feeds/templates/handlers/render_content'));

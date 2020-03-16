@@ -48,9 +48,11 @@ class CreateDefaultFeedTemplateHandler
      */
     public function __invoke()
     {
-        $slug = $this->data['slug'];
+        $builtInTemplates = $this->collection->filter([
+            'type' => $this->data['type']
+        ]);
 
-        if (!isset($this->collection[$slug])) {
+        if ($builtInTemplates->getCount() === 0) {
             $this->collection[] = $this->data;
         }
     }

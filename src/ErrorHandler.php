@@ -107,7 +107,7 @@ class ErrorHandler
 
         // Detect an exception thrown from within the root directory
         foreach ($throwable->getTrace() as $trace) {
-            if ($this->isErrorFromRootDir($trace['file'])) {
+            if (array_key_exists('file', $trace) && $this->isErrorFromRootDir($trace['file'])) {
                 $this->handleError($throwable);
             }
         }

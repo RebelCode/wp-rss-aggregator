@@ -16,7 +16,7 @@
         "ext-curl": "*",
         "ext-simplexml": "*",
         "psr/log": "^1.1",
-        "twig/twig": "1.41.0",
+        "twig/twig": "1.41.0 | ^2.10",
         "twig/extensions": "^1.5.4",
         "php-di/php-di": "^5.2",
         "dhii/di": "^0.1.1",

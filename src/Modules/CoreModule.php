@@ -233,5 +233,11 @@ class CoreModule implements ModuleInterface
     public function run(ContainerInterface $c)
     {
         do_action('wpra/init');
+
+        add_action('admin_init', function () {
+            if (wprss_is_wprss_page()) {
+                do_action('wpra/admin_init');
+            }
+        });
     }
 }
