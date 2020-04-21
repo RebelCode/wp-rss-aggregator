@@ -806,7 +806,7 @@ class Manager {
     /**
      * Retrieves the value for an option from the database.
      *
-     * @since [*next-version*]
+     * @since 4.17.5
      *
      * @param string $name The name of the option to retrieve.
      * @param mixed $default Optional default value if the option does not exist.
@@ -822,7 +822,7 @@ class Manager {
     /**
      * Updates an option in the database.
      *
-     * @since [*next-version*]
+     * @since 4.17.5
      *
      * @param string $name The name of the option.
      * @param mixed $value The value to set to the option.
@@ -840,7 +840,7 @@ class Manager {
      *
      * If the current installation is not a multi-site, the function will run normally.
      *
-     * @since [*next-version*]
+     * @since 4.17.5
      *
      * @param callable $function The function to run on the main site.
      *

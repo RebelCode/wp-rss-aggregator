@@ -71,7 +71,7 @@ class CustomFeedModule implements ModuleInterface
              * The collection of items to display in the feed.
              * Attempts to use the imported items collection, if it is available.
              *
-             * @since [*next-version*]
+             * @since 4.17.5
              */
             'wpra/custom_feed/items/collection' => function (ContainerInterface $c) {
                 if ($c->has('wpra/importer/items/collection')) {
