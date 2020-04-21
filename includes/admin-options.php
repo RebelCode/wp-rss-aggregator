@@ -105,7 +105,17 @@
                 }
                 elseif ( $show_tabs ) {
 
-                    if ( $active_tab === 'licenses_settings' ) {
+                    if ( $active_tab === 'licenses_settings') {
+
+                        if (!is_main_site()) {
+                            printf(
+                                '<p><strong>%s</strong></p>',
+                                __('You do not have access to this page', 'wprss')
+                            );
+
+                            return;
+                        }
+
                         settings_fields( 'wprss_settings_license_keys' );
                         do_settings_sections( 'wprss_settings_license_keys' );
                     }
