@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [[*next-version*]] - YYYY-MM-DD
+### Changed
+* Licenses are now managed by the main site. Child sites do not have access to the licenses page.
+
+### Fixed
+* The custom feed did not include items imported as posts or other post types.
+
 ## [4.17.4] - 2020-03-16
 ### Changed
 * The default template is now created based on type, not slug.
