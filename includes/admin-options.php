@@ -68,7 +68,7 @@
                 'slug'  => 'advanced_settings',
             );
 
-            if (count(wprss_get_addons()) > 0) {
+            if (count(wprss_get_addons()) > 0 && is_main_site()) {
                 $tabs[] = array(
                     'label' => __( 'Licenses', WPRSS_TEXT_DOMAIN ),
                     'slug'  => 'licenses_settings'
