@@ -42,7 +42,6 @@ use RebelCode\Wpra\Core\Modules\AssetsModule;
 use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
 use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
-use RebelCode\Wpra\Core\Modules\CronsToolModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
@@ -58,7 +57,6 @@ use RebelCode\Wpra\Core\Modules\ImportExportToolsModule;
 use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\LoggerModule;
 use RebelCode\Wpra\Core\Modules\LogsToolModule;
-use RebelCode\Wpra\Core\Modules\LoremModule;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 use RebelCode\Wpra\Core\Modules\ParsedownModule;
 use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
@@ -407,7 +405,6 @@ function wpra_modules()
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
         'upsell' => new UpsellModule(),
-        'lorem' => new LoremModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),
