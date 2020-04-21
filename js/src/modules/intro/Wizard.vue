@@ -120,22 +120,31 @@
 
                 <div class="wizard_content" :key="activeScreen" v-if="active('finish')">
                     <div class="wizard_hello">
-                        You’ve successfully set up your first feed source 😄
+                        That's it! Your first feed source is ready to go.
                     </div>
 
                     <div class="wpra-cols-title">
-                        Do more with WP RSS Aggregator - here is what we did at CryptoHeadlines.com.
+                        Do more with your content. Here's what Erik Tozier is doing on Personal Finance Blogs.
                     </div>
 
                     <div class="wpra-cols">
                         <div class="col">
-                            <p>CryptoHeadlines.com displays latest news, Youtube videos, podcasts, jobs and more from the Cryptocurrency industry.</p>
-                            <p>It uses Feed to Post to import articles, Youtube videos, and podcast links.</p>
-                            <p>Full Text RSS Feeds is used to fetch the full content of the job listings to present more information to the potential applicant.</p>
-                            <p>Keyword Filtering is used to filter out content that contains profanity and keywords or phrases deemed as inappropriate.</p>
+                            <p>
+                                Erik created Personal Finance Blogs in 2019 and grew it rapidly in just a few months
+                                purely by curating content from the personal finance space.
+                            </p>
+                            <p>
+                                The flexibility of the <a :href="proPlanUrl">WP RSS Aggregator Pro Plan</a> gave Erik
+                                greater visual customization to keep his readers engaged, with Keyword Filtering
+                                helping to control the quality of the content.
+                            </p>
+                            <p>
+                                Erik was also quoted as saying that "the support has been great", which is something we
+                               pride ourselves on at WP RSS Aggregator.
+                            </p>
                             <div style="margin-bottom: .5rem">
-                                <a :href="addOnsUrl" class="button" target="_blank">
-                                    Browse Add-ons ⭐️
+                                <a :href="proPlanCtaUrl" class="button" target="_blank">
+                                    Check out our Pro Plan
                                 </a>
                             </div>
                             <div>
@@ -152,7 +161,7 @@
                                 <!--</div>-->
                                 <div class="wpra-feedback__copy">
                                     <div class="wpra-feedback__text">
-                                        This plugin has made my life a lot easier, and the support has been great as well.
+                                        We’ve seen some strong traffic growth month over month. And so yeah, we’re up to over 10,000 page views a month – which is great for a new blog.
                                     </div>
                                     <div class="wpra-feedback__rating">
                                         <span class="dashicons dashicons-star-filled"></span>
@@ -162,8 +171,8 @@
                                         <span class="dashicons dashicons-star-filled"></span>
                                     </div>
                                     <div class="wpra-feedback__by">
-                                        <a :href="feedbackUrl" target="_blank">
-                                            Review by officeinnovator
+                                        <a :href="caseStudyUrl" target="_blank">
+                                            Erik Tozier - Read the full case study
                                         </a>
                                     </div>
                                 </div>
@@ -235,7 +244,7 @@
           }
         }, {
           id: 'finish',
-          title: _('Complete introduction'),
+          title: _('All done!'),
           description: false,
           next: this.completeIntroduction,
           completed: () => {
@@ -264,10 +273,12 @@
           items: [],
         },
         previewUrl: CONFIG.previewUrl,
+        proPlanUrl: CONFIG.proPlanUrl,
+        proPlanCtaUrl: CONFIG.proPlanCtaUrl,
         addOnsUrl: CONFIG.addOnsUrl,
         supportUrl: CONFIG.supportUrl,
         demoImageUrl: CONFIG.demoImageUrl,
-        feedbackUrl: CONFIG.feedbackUrl,
+        caseStudyUrl: CONFIG.caseStudyUrl,
         knowledgeBaseUrl: CONFIG.knowledgeBaseUrl,
       }
     },
