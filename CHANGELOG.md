@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.17.5] - 2020-04-DD
+## [4.17.5] - 2020-04-22
 ### Changed
 * Now showing a case study of a site using the Pro Plan in the on-boarding wizard.
 * Licenses are now managed by the main site. Child sites do not have access to the licenses page.
