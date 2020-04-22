@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
+use RebelCode\Wpra\Core\Data\Collections\NullCollection;
 use RebelCode\Wpra\Core\Handlers\CustomFeed\RegisterCustomFeedHandler;
 use RebelCode\Wpra\Core\Handlers\CustomFeed\RenderCustomFeedHandler;
 
@@ -67,6 +68,19 @@ class CustomFeedModule implements ModuleInterface
                 ]);
             },
             /*
+             * The collection of items to display in the feed.
+             * Attempts to use the imported items collection, if it is available.
+             *
+             * @since 4.17.5
+             */
+            'wpra/custom_feed/items/collection' => function (ContainerInterface $c) {
+                if ($c->has('wpra/importer/items/collection')) {
+                    return $c->get('wpra/importer/items/collection');
+                }
+
+                return new NullCollection();
+            },
+            /*
              * The handler that renders the custom feed.
              *
              * @since 4.13
@@ -75,7 +89,7 @@ class CustomFeedModule implements ModuleInterface
                 $templates = $c->get('wpra/twig/collection');
 
                 return new RenderCustomFeedHandler(
-                    $c->get('wpra/feeds/items/collection'),
+                    $c->get('wpra/custom_feed/items/collection'),
                     $c->get('wpra/custom_feed/settings'),
                     $templates['custom-feed/main.twig']
                 );

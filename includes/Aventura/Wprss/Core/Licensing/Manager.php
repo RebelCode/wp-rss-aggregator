@@ -717,7 +717,7 @@ class Manager {
             $_key = sprintf( self::DB_LICENSE_KEYS_OPTION_PATTERN, $_addonId );
             $keys[ $_key ] = $_license->getKey();
         }
-        update_option( self::DB_LICENSE_KEYS_OPTION_NAME, $keys );
+        static::_updateOption( self::DB_LICENSE_KEYS_OPTION_NAME, $keys );
 
         return $this;
     }
@@ -734,7 +734,7 @@ class Manager {
             $statuses[ $_status ] = $_license->getStatus();
             $statuses[ $_expires ] = $_license->getExpiry();
         }
-        update_option( self::DB_LICENSE_STATUSES_OPTION_NAME, $statuses );
+        static::_updateOption( self::DB_LICENSE_STATUSES_OPTION_NAME, $statuses );
 
         return $this;
     }
@@ -746,7 +746,7 @@ class Manager {
      * @return array
      */
     public function getLicenseKeysDbOption() {
-        return get_option( $this->getLicenseKeysOptionName(), array() );
+        return self::_getOption( $this->getLicenseKeysOptionName(), array() );
     }
 
 
@@ -756,7 +756,7 @@ class Manager {
      * @return array
      */
     public function getLicenseStatusesDbOption() {
-        return get_option( $this->getLicenseStatusesOptionName(), array() );
+        return self::_getOption( $this->getLicenseStatusesOptionName(), array() );
     }
 
 
@@ -801,6 +801,65 @@ class Manager {
         }
 
         return $this->_licenseStatusesOptionName;
+    }
+
+    /**
+     * Retrieves the value for an option from the database.
+     *
+     * @since 4.17.5
+     *
+     * @param string $name The name of the option to retrieve.
+     * @param mixed $default Optional default value if the option does not exist.
+     *
+     * @return mixed The value for hte option, or the given $default if the option does not exist.
+     */
+    protected static function _getOption($name, $default = null) {
+        return static::_performOnMainSite(function () use ($name, $default) {
+            return get_option($name, $default);
+        });
+    }
+
+    /**
+     * Updates an option in the database.
+     *
+     * @since 4.17.5
+     *
+     * @param string $name The name of the option.
+     * @param mixed $value The value to set to the option.
+     *
+     * @return mixed True on success, false on failure.
+     */
+    protected static function _updateOption($name, $value) {
+        return static::_performOnMainSite(function () use ($name, $value) {
+            return update_option($name, $value);
+        });
+    }
+
+    /**
+     * Runs a function on the main site of a WordPress multi site installation.
+     *
+     * If the current installation is not a multi-site, the function will run normally.
+     *
+     * @since 4.17.5
+     *
+     * @param callable $function The function to run on the main site.
+     *
+     * @return mixed The return value of the function.
+     */
+    protected static function _performOnMainSite(callable $function) {
+        $mustSwitch = !is_main_site();
+
+        if ($mustSwitch) {
+            switch_to_blog(get_main_site_id());
+        }
+
+        $value = $function();
+
+        if ($mustSwitch) {
+            restore_current_blog();
+        }
+
+        return $value;
     }
 
 

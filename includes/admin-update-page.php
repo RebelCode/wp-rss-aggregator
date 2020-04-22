@@ -77,7 +77,8 @@ function wprss_get_update_page_url()
  */
 function wprss_should_do_update_page()
 {
-    return !wprss_is_new_user() && current_user_can('manage_options') && wprss_user_had_previous_version();
+    // Temporarily disabled
+    return false && !wprss_is_new_user() && current_user_can('manage_options') && wprss_user_had_previous_version();
 }
 
 /**

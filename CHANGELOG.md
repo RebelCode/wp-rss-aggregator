@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.17.5] - 2020-04-22
+### Changed
+* Now showing a case study of a site using the Pro Plan in the on-boarding wizard.
+* Licenses are now managed by the main site. Child sites do not have access to the licenses page.
+
+### Fixed
+* The custom feed did not include items imported as posts or other post types.
+
+### Removed
+* Temporarily disabled the "What's New" page.
+* Removed the integration with Lorem on the "Help & Support" page.
+* Removed the integration with Lorem on the "More Features" page.
+
 ## [4.17.4] - 2020-03-16
 ### Changed
 * The default template is now created based on type, not slug.

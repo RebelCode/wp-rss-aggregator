@@ -1029,7 +1029,7 @@ function wprss_get_feed_cache_dir()
      *
      * @param string $url The URL to parse.
      *
-     * @return string
+     * @return array
      */
     function wpra_parse_url($url)
     {

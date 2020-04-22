@@ -55,8 +55,10 @@ function wprss_render_intro_page()
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
         'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_addons_button&utm_content=addons_button',
         'supportUrl' => 'https://www.wprssaggregator.com/contact/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_support_link&utm_content=support_link',
-        'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.png',
-        'feedbackUrl' => 'https://wordpress.org/support/topic/does-everything-i-need-16/',
+        'proPlanUrl' => 'https://www.wprssaggregator.com/pricing/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_content_link',
+        'proPlanCtaUrl' => 'https://www.wprssaggregator.com/pricing/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_cta_button',
+        'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.jpg',
+        'caseStudyUrl' => 'https://www.wprssaggregator.com/case-study-personal-finance-blogs-content-curation/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_case_study_button',
         'knowledgeBaseUrl' => 'https://kb.wprssaggregator.com/',
         'feedEndpoint' => array(
             'url' => admin_url('admin-ajax.php'),
