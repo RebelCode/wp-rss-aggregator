@@ -383,9 +383,9 @@
         foreach ( $meta_fields as $field ) {
             $old = get_post_meta( $post_id, $field[ 'id' ], true );
             $new = trim( $_POST[ $field[ 'id' ] ] );
-            if ( $new !== '' && $new != $old ) {
+            if ( $new !== $old || empty($old) ) {
                 update_post_meta( $post_id, $field[ 'id' ], $new );
-            } elseif ( '' == $new && $old ) {
+            } elseif ( empty($new) && !empty($old) ) {
                 delete_post_meta( $post_id, $field[ 'id' ], $old );
             }
         } // end foreach
