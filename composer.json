@@ -31,7 +31,8 @@
         "dhii/validation-base": "^0.2",
         "dhii/exception": "^0.1-alpha5",
         "erusev/parsedown": "^1.7",
-        "rebelcode/composer-cleanup-plugin": "dev-master"
+        "rebelcode/composer-cleanup-plugin": "dev-master",
+        "symfony/translation": "^2.8"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^4.4 | ^5.0",
