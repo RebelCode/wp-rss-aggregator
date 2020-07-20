@@ -195,7 +195,7 @@
 
         $settings['styles']  = array(
             'styles-disable' => array(
-                'label'     =>  __( 'Disable Styles', 'wprss' ),
+                'label'     =>  __( 'Disable styles', 'wprss' ),
                 'callback'  =>  'wprss_setting_styles_disable_callback'
             )
         );

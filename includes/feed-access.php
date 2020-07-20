@@ -228,7 +228,7 @@ class WPRSS_Feed_Access
 
             $fields[self::SETTING_KEY_FEED_REQUEST_USERAGENT] = array(
                 'id'            => self::SETTING_KEY_FEED_REQUEST_USERAGENT,
-                'label'         => $wprss->__('Feed Request Useragent'),
+                'label'         => $wprss->__('Feed request useragent'),
                 'placeholder'   => $wprss->__('Leave blank to inherit general setting')
             );
 
