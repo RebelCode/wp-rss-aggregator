@@ -109,9 +109,11 @@
 	vertical-align: top;
 }
 
-#validate-feed-link {
+.wprss-after-url-link {
 	font-size: 0.85em;
 	text-decoration: none;
+}
+#validate-feed-link {
 	margin-left: 3px;
 }
 

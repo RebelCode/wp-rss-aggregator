@@ -93,7 +93,7 @@
             'label'			=> __( 'URL', WPRSS_TEXT_DOMAIN ),
             'id'			=> $prefix .'url',
             'type'			=> 'url',
-            'after'			=> 'wprss_validate_feed_link',
+            'after'			=> 'wprss_after_url',
 			'placeholder'	=>	'https://'
         );
 
@@ -289,14 +289,20 @@
 
 
     /**
-     * Adds the link that validates the feed
+     * Renders content after the URL field
+     *
      * @since 3.9.5
      */
-    function wprss_validate_feed_link() {
+    function wprss_after_url() {
         ?>
             <i id="wprss-url-spinner" class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
             <div id="wprss-url-error" style="color:red"></div>
-            <a href="#" id="validate-feed-link">Validate feed</a>
+            <a href="#" id="validate-feed-link" class="wprss-after-url-link">Validate feed</a>
+            <span> | </span>
+            <a href="https://kb.wprssaggregator.com/article/55-how-to-find-an-rss-feed" class="wprss-after-url-link">
+                <?= __('How to find an RSS feed', 'wprss') ?>
+            </a>
+            <script type="text/javascript">
             <script type="text/javascript">
                 (function($){
                     // When the DOM is ready
