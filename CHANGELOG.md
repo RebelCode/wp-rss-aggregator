@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - 2020-YY-DD
+### Added
+* A link in the New/Edit Feed Source page on how to find an RSS feed.
+
 ## Changed
 * The "Force feed" option turns off SSL verification.
 * Improved wording on the Help page.
