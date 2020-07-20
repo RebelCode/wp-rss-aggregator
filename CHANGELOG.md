@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [[*next-version*]] - 2020-YY-DD
+## Changed
+* The "Force feed" option turns off SSL verification.
+* Improved wording on the Help page.
+
+## Removed
+* A `gettext` filter that changes the text for saving feeds, for performance reasons.
+
 ## [4.17.5] - 2020-04-22
 ### Changed
 * Now showing a case study of a site using the Pro Plan in the on-boarding wizard.
