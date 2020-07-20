@@ -112,7 +112,12 @@
         $wprss_meta_fields[ 'unique_titles' ] = array(
             'label' => __( 'Unique titles only', WPRSS_TEXT_DOMAIN ),
             'id'    => $prefix . 'unique_titles',
-            'type'  => 'checkbox'
+            'type'  => 'select',
+            'options' => [
+                ['value' => '', 'label' => 'Default'],
+                ['value' => '1', 'label' => 'Yes'],
+                ['value' => '0', 'label' => 'No'],
+            ]
         );
 
         if (wprss_is_et_active()) {

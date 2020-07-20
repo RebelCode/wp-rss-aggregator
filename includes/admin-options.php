@@ -890,7 +890,7 @@
         }
 
         if ( isset($input['unique_titles']) ) {
-            $output['unique_titles'] = (int) $input['unique_titles'];
+            $output['unique_titles'] = $input['unique_titles'];
         }
 
         if ( isset($input['cron_interval']) && $input['cron_interval'] != $current_cron_interval ) {

@@ -117,7 +117,7 @@ class FeedSourcesModule implements ModuleInterface
                     'url' => '',
                     'import_source' => false,
                     'import_limit' => 0,
-                    'unique_titles_only' => false,
+                    'unique_titles_only' => wprss_get_general_setting('unique_titles'),
                     'def_ft_image' => null,
                     'import_ft_images' => '',
                     'download_images' => false,

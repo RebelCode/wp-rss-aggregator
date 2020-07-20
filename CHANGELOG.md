@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * The "Force feed" option turns off SSL verification.
 * Improved wording on the Help page.
 * Dates in templates can now be translated.
+* The "Unique Titles" feed option can now be set to default to the global setting.
 
 ## Fixed
 * Rewrite rules would always get flushed when plugins tamper with them, such as Polylang Pro.
