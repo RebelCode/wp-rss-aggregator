@@ -344,6 +344,9 @@ function wprss_get_feed_cache_dir()
             // If turned on, force the feed
             if ($force_feed == 'true' || $param_force_feed) {
                 $feed->force_feed(true);
+
+                global $wpraNoSslVerification;
+                $wpraNoSslVerification = true;
             }
         }
 

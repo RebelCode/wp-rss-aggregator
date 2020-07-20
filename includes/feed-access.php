@@ -424,6 +424,11 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 					curl_setopt( $fp, CURLOPT_MAXREDIRS, $redirects );
 				}
 
+				global $wpraNoSslVerification;
+				if ($wpraNoSslVerification) {
+				    curl_setopt( $fp, CURLOPT_SSL_VERIFYPEER, 0 );
+                }
+
 				$this->_before_curl_exec( $fp, $url );
 
 				$this->headers = curl_exec( $fp );
