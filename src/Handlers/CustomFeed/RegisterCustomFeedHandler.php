@@ -103,13 +103,8 @@ class RegisterCustomFeedHandler
 
         // If there are existing rules
         if (is_array($rules)) {
-            // Get all the array keys that match the given pattern
-            // The resulting array will only contain the second part of each matching key ($matches[1])
-            $feeds = array_keys($rules, 'index.php?&feed=$matches[1]');
-
-            // Check if the rewrite rule for the custom feed is already registered
-            foreach ($feeds as $feed) {
-                if (strpos($feed, $customFeedUrl) !== false) {
+            foreach ($rules as $key => $value) {
+                if (strpos($key, $customFeedUrl) !== false && preg_match('/[?&]feed=\$matches\[\d]/', $value)) {
                     return true;
                 }
             }
