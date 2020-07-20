@@ -103,12 +103,6 @@
             'type'  => 'number'
         );
 
-        $wprss_meta_fields[ 'enclosure' ] = array(
-            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
-            'id'    => $prefix . 'enclosure',
-            'type'  => 'checkbox'
-        );
-
         $wprss_meta_fields[ 'unique_titles' ] = array(
             'label' => __( 'Unique titles only', WPRSS_TEXT_DOMAIN ),
             'id'    => $prefix . 'unique_titles',
@@ -118,6 +112,12 @@
                 ['value' => '1', 'label' => 'Yes'],
                 ['value' => '0', 'label' => 'No'],
             ]
+        );
+
+        $wprss_meta_fields[ 'enclosure' ] = array(
+            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'enclosure',
+            'type'  => 'checkbox'
         );
 
         if (wprss_is_et_active()) {
