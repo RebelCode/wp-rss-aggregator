@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * The "Force feed" option turns off SSL verification.
 * Improved wording on the Help page.
 
+## Fixed
+* Rewrite rules would always get flushed when plugins tamper with them, such as Polylang Pro.
+
 ## Removed
 * A `gettext` filter that changes the text for saving feeds, for performance reasons.
 
