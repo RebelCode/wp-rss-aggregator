@@ -8,16 +8,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * A link in the New/Edit Feed Source page on how to find an RSS feed.
 
-## Changed
+### Changed
 * The "Force feed" option turns off SSL verification.
 * Improved wording on the Help page.
 * Dates in templates can now be translated.
 * The "Unique Titles" feed option can now be set to default to the global setting.
 
-## Fixed
+### Fixed
 * Rewrite rules would always get flushed when plugins tamper with them, such as Polylang Pro.
 
-## Removed
+### Removed
 * A `gettext` filter that changes the text for saving feeds, for performance reasons.
 
 ## [4.17.5] - 2020-04-22
