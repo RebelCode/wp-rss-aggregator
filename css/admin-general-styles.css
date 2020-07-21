@@ -22,3 +22,8 @@ table.plugins tbody tr.wprss-et-plugin-row-msg > td > div > p::before {
     content: "\f348";
     color: #00a0d2;
 }
+
+/* Hide the image options in the new/edit page */
+.postbox-container #wpra-images {
+    display: none;
+}
