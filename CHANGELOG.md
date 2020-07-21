@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Rewrite rules would always get flushed when plugins tamper with them, such as Polylang Pro.
+* The "Delete All Imported Items" reset option was deleting all posts on the site.
 
 ### Removed
 * A `gettext` filter that changes the text for saving feeds, for performance reasons.
