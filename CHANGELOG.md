@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * The "Force feed" option turns off SSL verification.
 * Improved wording on the Help page.
 * Dates in templates can now be translated.
+* The link to the article on how to find an RSS feed now links to an article from the plugin's knowledge base.
 * The "Unique Titles" feed option can now be set to default to the global setting.
 
 ### Fixed

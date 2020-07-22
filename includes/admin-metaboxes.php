@@ -496,7 +496,12 @@
                     <?php wprss_log_obj( 'Failed to preview feed.', $feed->get_error_message(), NULL, WPRSS_LOG_LEVEL_INFO ); ?>
                 </span>
 				<?php
-				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'https://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
+				echo wpautop(
+				        sprintf(
+				                __('Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide.', 'wprss'),
+                                'https://kb.wprssaggregator.com/article/55-how-to-find-an-rss-feed'
+                        )
+                );
             }
             
         }
