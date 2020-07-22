@@ -84,8 +84,8 @@ class TwigDateTranslator implements TranslatorInterface
         // Prepare the format. These strings can and should be made available for translation. The tokens are expected
         // to still be present after translation.
         $format = ($type === 'ago')
-            ? _x('{number} {unit} ago', 'Format for past feed item dates, example: "5 hours ago"', 'wprss')
-            : _x('in {number} {unit}', 'Format for future feed item dates, example: "in 2 days"', 'wprss');
+            ? _nx('{number} {unit} ago', '{number} {unit} ago', $number, 'Format for past feed item dates, example: "5 hours ago"', 'wprss')
+            : _nx('in {number} {unit}', 'in {number} {unit}', $number, 'Format for future feed item dates, example: "in 2 days"', 'wprss');
 
         // Replace tokens in the format and return the resulting translating and interpolated string
         return strtr($format, [
