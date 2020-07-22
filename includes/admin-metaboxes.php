@@ -299,7 +299,9 @@
             <div id="wprss-url-error" style="color:red"></div>
             <a href="#" id="validate-feed-link" class="wprss-after-url-link">Validate feed</a>
             <span> | </span>
-            <a href="https://kb.wprssaggregator.com/article/55-how-to-find-an-rss-feed" class="wprss-after-url-link">
+            <a href="https://kb.wprssaggregator.com/article/55-how-to-find-an-rss-feed"
+               class="wprss-after-url-link"
+                target="_blank">
                 <?= __('How to find an RSS feed', 'wprss') ?>
             </a>
             <script type="text/javascript">
