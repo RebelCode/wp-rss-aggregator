@@ -180,7 +180,7 @@ class Settings {
             // License key field
             add_settings_field(
                 sprintf( 'wprss_settings_%s_license', $_addonId ),
-                __( 'License Key', WPRSS_TEXT_DOMAIN ),
+                __( 'License key', WPRSS_TEXT_DOMAIN ),
                 array( $this, 'renderLicenseKeyField' ),
                 'wprss_settings_license_keys',
                 sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
@@ -189,7 +189,7 @@ class Settings {
             // Activate license button
             add_settings_field(
                 sprintf( 'wprss_settings_%s_activate_license', $_addonId ),
-                __( 'Activate License', WPRSS_TEXT_DOMAIN ),
+                __( 'Activate license', WPRSS_TEXT_DOMAIN ),
                 array( $this, 'renderActivateLicenseButton' ),
                 'wprss_settings_license_keys',
                 sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
@@ -297,7 +297,7 @@ class Settings {
         if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 
         $valid = $status == 'valid';
-        $btnText = $valid ? 'Deactivate License' : 'Activate License';
+        $btnText = $valid ? 'Deactivate license' : 'Activate license';
         $btnName = "wprss_{$addonId}_license_" . ( $valid? 'deactivate' : 'activate' );
         $btnClass = "button-" . ( $valid ? 'deactivate' : 'activate' ) . "-license";
         wp_nonce_field( "wprss_{$addonId}_license_nonce", "wprss_{$addonId}_license_nonce", false ); ?>

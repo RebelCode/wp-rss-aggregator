@@ -92,6 +92,11 @@
                 'value'     => (string) $source_id,
                 'compare'   => '=',
             ];
+        } else {
+            $args['meta_query'][] = [
+                'key'       => 'wprss_feed_id',
+                'compare'   => 'EXISTS',
+            ];
         }
 
         return apply_filters('wprss_get_feed_items_for_source_args', $args, $source_id);

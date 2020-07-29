@@ -60,11 +60,10 @@
             <form method="POST">
                 <p>
                     <?php _e('The help beacon is an interactive button that appears on the bottom-right section of WP RSS Aggregator admin pages.', WPRSS_TEXT_DOMAIN); ?>
-                    <?php _e('It provides access to our documentation and (if you have a valid license for any of our add-ons) you can also contact our support team directly.', WPRSS_TEXT_DOMAIN); ?>
+                    <?php _e('It provides access to our extensive knowledge base where you can find the answers to the most commonly asked questions.', WPRSS_TEXT_DOMAIN); ?>
                 </p>
                 <p>
-                    <?php _e('The beacon tracks what pages you were on before clicking it. This helps it provide relevant help results and also helps the support team better understand the problem you are facing.', WPRSS_TEXT_DOMAIN); ?>
-                    <?php _e('The beacon only works on WP RSS Aggregator admin pages and does not track your mouse clicks and keyboard input.', WPRSS_TEXT_DOMAIN); ?>
+                    <?php _e('The beacon only works on WP RSS Aggregator admin pages and does not track your mouse clicks and/or keyboard input.', WPRSS_TEXT_DOMAIN); ?>
                 </p>
                 <?php if (wprss_is_help_beacon_enabled()): ?>
                     <p><?php _e('The support beacon is currently <b>enabled</b>.', WPRSS_TEXT_DOMAIN); ?></p>

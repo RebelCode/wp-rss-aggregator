@@ -664,22 +664,6 @@
     }
 
 
-    add_filter( 'gettext', 'wprss_change_publish_button_text', 10, 2 );
-    /**
-     * Modify 'Publish' button text when adding a new feed source
-     *
-     * @since 2.0
-     */
-    function wprss_change_publish_button_text( $translation, $text ) {
-        if ( 'wprss_feed' == get_post_type()) {
-            if ( $text == 'Publish' )
-                return __( 'Publish Feed', WPRSS_TEXT_DOMAIN );
-        }
-        return apply_filters( 'wprss_change_publish_button_text', $translation );
-    }
-
-
-
     add_action( 'wp_before_admin_bar_render', 'wprss_modify_admin_bar' );
     /**
      * Removes the old "View Source" menu item from the admin bar and adds a new

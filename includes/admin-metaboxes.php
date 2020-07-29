@@ -93,7 +93,7 @@
             'label'			=> __( 'URL', WPRSS_TEXT_DOMAIN ),
             'id'			=> $prefix .'url',
             'type'			=> 'url',
-            'after'			=> 'wprss_validate_feed_link',
+            'after'			=> 'wprss_after_url',
 			'placeholder'	=>	'https://'
         );
 
@@ -103,15 +103,20 @@
             'type'  => 'number'
         );
 
-        $wprss_meta_fields[ 'enclosure' ] = array(
-            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
-            'id'    => $prefix . 'enclosure',
-            'type'  => 'checkbox'
-        );
-
         $wprss_meta_fields[ 'unique_titles' ] = array(
             'label' => __( 'Unique titles only', WPRSS_TEXT_DOMAIN ),
             'id'    => $prefix . 'unique_titles',
+            'type'  => 'select',
+            'options' => [
+                ['value' => '', 'label' => 'Default'],
+                ['value' => '1', 'label' => 'Yes'],
+                ['value' => '0', 'label' => 'No'],
+            ]
+        );
+
+        $wprss_meta_fields[ 'enclosure' ] = array(
+            'label' => __( 'Link to enclosure', WPRSS_TEXT_DOMAIN ),
+            'id'    => $prefix . 'enclosure',
             'type'  => 'checkbox'
         );
 
@@ -284,14 +289,22 @@
 
 
     /**
-     * Adds the link that validates the feed
+     * Renders content after the URL field
+     *
      * @since 3.9.5
      */
-    function wprss_validate_feed_link() {
+    function wprss_after_url() {
         ?>
             <i id="wprss-url-spinner" class="fa fa-fw fa-refresh fa-spin wprss-updating-feed-icon" title="<?php _e( 'Updating feed source', WPRSS_TEXT_DOMAIN ) ?>"></i>
             <div id="wprss-url-error" style="color:red"></div>
-            <a href="#" id="validate-feed-link">Validate feed</a>
+            <a href="#" id="validate-feed-link" class="wprss-after-url-link">Validate feed</a>
+            <span> | </span>
+            <a href="https://kb.wprssaggregator.com/article/55-how-to-find-an-rss-feed"
+               class="wprss-after-url-link"
+                target="_blank">
+                <?= __('How to find an RSS feed', 'wprss') ?>
+            </a>
+            <script type="text/javascript">
             <script type="text/javascript">
                 (function($){
                     // When the DOM is ready
@@ -378,9 +391,9 @@
         foreach ( $meta_fields as $field ) {
             $old = get_post_meta( $post_id, $field[ 'id' ], true );
             $new = trim( $_POST[ $field[ 'id' ] ] );
-            if ( $new !== '' && $new != $old ) {
+            if ( $new !== $old || empty($old) ) {
                 update_post_meta( $post_id, $field[ 'id' ], $new );
-            } elseif ( '' == $new && $old ) {
+            } elseif ( empty($new) && !empty($old) ) {
                 delete_post_meta( $post_id, $field[ 'id' ], $old );
             }
         } // end foreach
@@ -485,7 +498,12 @@
                     <?php wprss_log_obj( 'Failed to preview feed.', $feed->get_error_message(), NULL, WPRSS_LOG_LEVEL_INFO ); ?>
                 </span>
 				<?php
-				echo wpautop( sprintf( __( 'Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide. ', WPRSS_TEXT_DOMAIN ), 'https://webtrends.about.com/od/webfeedsyndicationrss/ss/rss_howto.htm' ) );
+				echo wpautop(
+				        sprintf(
+				                __('Not sure where to find the RSS feed on a website? <a target="_blank" href="%1$s">Click here</a> for a visual guide.', 'wprss'),
+                                'https://kb.wprssaggregator.com/article/55-how-to-find-an-rss-feed'
+                        )
+                );
             }
             
         }

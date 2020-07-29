@@ -195,7 +195,7 @@
 
         $settings['styles']  = array(
             'styles-disable' => array(
-                'label'     =>  __( 'Disable Styles', 'wprss' ),
+                'label'     =>  __( 'Disable styles', 'wprss' ),
                 'callback'  =>  'wprss_setting_styles_disable_callback'
             )
         );
@@ -890,7 +890,7 @@
         }
 
         if ( isset($input['unique_titles']) ) {
-            $output['unique_titles'] = (int) $input['unique_titles'];
+            $output['unique_titles'] = $input['unique_titles'];
         }
 
         if ( isset($input['cron_interval']) && $input['cron_interval'] != $current_cron_interval ) {

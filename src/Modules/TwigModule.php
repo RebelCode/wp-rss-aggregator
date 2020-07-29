@@ -4,8 +4,10 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Data\Collections\TwigTemplateCollection;
+use RebelCode\Wpra\Core\Twig\Extensions\Date\TwigDateTranslator;
 use RebelCode\Wpra\Core\Twig\Extensions\I18n\WpI18nExtension;
 use RebelCode\Wpra\Core\Twig\Extensions\WpraExtension;
+use Symfony\Component\Translation\TranslatorInterface;
 use Twig\Environment as TwigEnvironment;
 use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
@@ -128,7 +130,7 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/extensions/date' => function (ContainerInterface $c) {
-                return new DateExtension();
+                return new DateExtension(new TwigDateTranslator());
             },
             /*
              * The text extension for Twig.

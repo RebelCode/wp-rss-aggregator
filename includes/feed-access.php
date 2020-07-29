@@ -228,7 +228,7 @@ class WPRSS_Feed_Access
 
             $fields[self::SETTING_KEY_FEED_REQUEST_USERAGENT] = array(
                 'id'            => self::SETTING_KEY_FEED_REQUEST_USERAGENT,
-                'label'         => $wprss->__('Feed Request Useragent'),
+                'label'         => $wprss->__('Feed request useragent'),
                 'placeholder'   => $wprss->__('Leave blank to inherit general setting')
             );
 
@@ -423,6 +423,11 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 					curl_setopt( $fp, CURLOPT_FOLLOWLOCATION, 1 );
 					curl_setopt( $fp, CURLOPT_MAXREDIRS, $redirects );
 				}
+
+				global $wpraNoSslVerification;
+				if ($wpraNoSslVerification) {
+				    curl_setopt( $fp, CURLOPT_SSL_VERIFYPEER, 0 );
+                }
 
 				$this->_before_curl_exec( $fp, $url );
 
