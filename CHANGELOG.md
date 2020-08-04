@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [[*next-version*]] - 2020-MM-DD
+### Changed
+* FeedBurner feeds no longer need to have "format=xml" at the end of the URL.
+
 ## [4.17.6] - 2020-07-29
 ### Added
 * A link in the New/Edit Feed Source page on how to find an RSS feed.

@@ -225,6 +225,9 @@ require_once ( WPRSS_INC . 'feed-importing.php' );
 /* Load the feed image importing functions file */
 require_once ( WPRSS_INC . 'feed-importing-images.php' );
 
+/* Load the site-specific importing functions file */
+require_once ( WPRSS_INC . 'feed-importing-sites.php' );
+
 /* Load the feed states functions file */
 require_once ( WPRSS_INC . 'feed-states.php' );
 
