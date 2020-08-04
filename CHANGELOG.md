@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - 2020-MM-DD
+### Added
+* New HTML classes for pagination buttons.
+
 ### Changed
 * FeedBurner feeds no longer need to have "format=xml" at the end of the URL.
 
