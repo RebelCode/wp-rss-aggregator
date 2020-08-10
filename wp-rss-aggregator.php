@@ -76,7 +76,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.17.6' );
+    define( 'WPRSS_VERSION', '4.17.7' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
