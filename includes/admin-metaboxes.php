@@ -371,7 +371,11 @@
         if ( defined( 'DOING_CRON' ) && DOING_CRON )
             return;
 
-        if ( isset($_POST['wpra_feed_def_ft_image']) ) {
+        $postType = class_exists('WPRSS_FTP_Meta')
+            ? WPRSS_FTP_Meta::get_instance()->get($post_id, 'post_type')
+            : 'wprss_feed_item';
+
+        if ($postType === 'wprss_feed_item' && isset($_POST['wpra_feed_def_ft_image']) ) {
             $def_ft_image_id = $_POST['wpra_feed_def_ft_image'];
 
             if (empty($def_ft_image_id)) {
