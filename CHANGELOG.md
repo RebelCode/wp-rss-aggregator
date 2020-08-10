@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * New HTML classes for pagination buttons.
 
+### Fixed
+* The featured image when using the Feed to Post add-on was not being saved.
+
 ### Changed
 * FeedBurner feeds no longer need to have "format=xml" at the end of the URL.
 
