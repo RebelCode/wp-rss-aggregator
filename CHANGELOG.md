@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.17.7] - 2020-MM-DD
+## [4.17.7] - 2020-08-12
 ### Added
 * New HTML classes for pagination buttons.
 
