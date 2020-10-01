@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.17.8] - YYYY-MM-DD
+### Changed
+* Disabled SimplePie's HTML sanitization.
+
 ### Fixed
 * WooCommerce Product type dropdown and accompanying options disappear while WP RSS Aggregator is active.
 * Addressed notices about `register_rest_route` being called incorrectly.
