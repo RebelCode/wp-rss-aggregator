@@ -80,7 +80,9 @@ class EndPointManager
     protected function getPermissionCallback(ValidatorInterface $authValidator = null)
     {
         if ($authValidator === null) {
-            return null;
+            return function () {
+                return true;
+            };
         }
 
         return function (WP_REST_Request $request) use ($authValidator) {
