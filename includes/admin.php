@@ -48,18 +48,16 @@
     {
         // Current action
         if ( is_admin() && isset($_GET['action']) ) {
-            $classes .= 'action-'.$_GET['action'];
+            $classes .= ' action-'.$_GET['action'];
         }
         // Current post ID
         if ( is_admin() && isset($_GET['post']) ) {
-            $classes .= ' ';
-            $classes .= 'post-'.$_GET['post'];
+            $classes .= ' post-'.$_GET['post'];
         }
         // New post type & listing page
         if ( isset($_GET['post_type']) ) $post_type = $_GET['post_type'];
         if ( isset($post_type) ) {
-            $classes .= ' ';
-            $classes .= 'post-type-'.$post_type;
+            $classes .= ' post-type-'.$post_type;
         }
         // Editting a post type
         if ( isset( $_GET['post'] ) ) {
@@ -69,8 +67,7 @@
             $current_post_edit = get_post($post_query);
             $current_post_type = $current_post_edit->post_type;
             if ( !empty($current_post_type) ) {
-                $classes .= ' ';
-                $classes .= 'post-type-'.$current_post_type;
+                $classes .= ' post-type-'.$current_post_type;
             }
         }
         // Return the $classes array
