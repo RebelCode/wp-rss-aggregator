@@ -73,8 +73,12 @@ function wpra_safe_remote_get($url, $args)
  */
 function wpra_get_plugin_state($basename)
 {
+    if (!function_exists('is_plugin_active') && file_exists(ABSPATH . 'wp-admin/includes/plugin.php')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
     // ACTIVE
-    if (is_plugin_active($basename)) {
+    if (function_exists('is_plugin_active') && is_plugin_active($basename)) {
         return 2;
     }
 

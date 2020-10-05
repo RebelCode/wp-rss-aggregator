@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * WooCommerce Product type dropdown and accompanying options disappear while WP RSS Aggregator is active.
 * Addressed notices about `register_rest_route` being called incorrectly.
 * The "Validate feed" link did not work.
+* Sites on a multi-site network would see an error about a function not existing.
 
 ## [4.17.7] - 2020-08-12
 ### Added
