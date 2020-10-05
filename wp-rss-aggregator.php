@@ -568,11 +568,15 @@ function wpra_display_error($message, $error)
             <div style="padding-top: 10px; overflow-x: scroll;">
                 <strong><?php _e('Error Message:', 'wprss'); ?></strong>
                 <br/>
-                <pre><?php echo $error->getMessage(); ?></pre>
+                <pre><?= $error->getMessage(); ?> (<?= wprss_error_path($error) ?>)</pre>
 
-                <strong><?php _e('Occurred at:', 'wprss'); ?></strong>
-                <br/>
-                <pre><?php echo $error->getFile(); ?> (<?php echo $error->getLine() ?>)</pre>
+                <?php
+                $prev = $error;
+                while ($prev = $prev->getPrevious()) : ?>
+                  <strong><?php _e('Caused by:', 'wprss'); ?></strong>
+                  <br/>
+                  <pre><?= $prev->getMessage(); ?> (<?= wprss_error_path($prev) ?>)</pre>
+                <?php endwhile; ?>
 
                 <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
                 <br/>
@@ -584,6 +588,34 @@ function wpra_display_error($message, $error)
     <?php
 
     return ob_get_clean();
+}
+
+/**
+ * @since [*next-version*]
+ *
+ * @param Exception|Error $exception
+ *
+ * @return string
+ */
+function wprss_error_path($exception)
+{
+    $file = $exception->getFile();
+
+    $pos = stripos($file, 'wp-content');
+
+    if ($pos === false) {
+        $pos = stripos($file, 'wp-includes');
+    }
+
+    if ($pos === false) {
+        $pos = stripos($file, 'wp-admin');
+    }
+
+    if ($pos !== false) {
+        $file = substr($file, $pos);
+    }
+
+    return $file . ':' . $exception->getLine();
 }
 
 /**
