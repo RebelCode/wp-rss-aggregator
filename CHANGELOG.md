@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Disabled SimplePie's HTML sanitization.
 * Images without an extension can now be imported.
 * The image importing function now allows the image URL and local path to be changed via filters.
+* Changed how item importing is logged in the debugging log. The log now shows what hooks can reject an item.
 
 ### Fixed
 * WooCommerce Product type dropdown and accompanying options disappear while WP RSS Aggregator is active.
