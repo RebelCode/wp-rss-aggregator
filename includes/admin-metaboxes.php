@@ -305,7 +305,6 @@
                 <?= __('How to find an RSS feed', 'wprss') ?>
             </a>
             <script type="text/javascript">
-            <script type="text/javascript">
                 (function($){
                     // When the DOM is ready
                     $(document).ready( function(){
