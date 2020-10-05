@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.17.8] - YYYY-MM-DD
 ### Changed
 * Disabled SimplePie's HTML sanitization.
+* Updated jQuery code to be compatible with the upcoming update in WordPress.
 * Images without an extension can now be imported.
 * The image importing function now allows the image URL and local path to be changed via filters.
 * Changed how item importing is logged in the debugging log. The log now shows what hooks can reject an item.
