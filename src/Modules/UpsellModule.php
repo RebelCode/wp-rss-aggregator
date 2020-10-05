@@ -42,6 +42,35 @@ class UpsellModule implements ModuleInterface
     public function getFactories()
     {
         return array(
+            /**
+             * Retrieves the base names of known addons.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/upsell/known_addons' => function () {
+                return [
+                    'wp-rss-feed-to-post/wp-rss-feed-to-post.php',
+                    'wp-rss-full-text-feeds/wp-rss-full-text.php',
+                    'wp-rss-templates/wp-rss-templates.php',
+                    'wp-rss-keyword-filtering/wp-rss-keyword-filtering.php',
+                    'wp-rss-categories/wp-rss-categories.php',
+                    'wp-rss-wordai/wp-rss-wordai.php',
+                    'wp-rss-spinnerchief/wp-rss-spinnerchief.php',
+                ];
+            },
+            /**
+             * Retrieves the base names of installed addons, irrespective of whether they are active or not.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/upsell/installed_addons' => function (ContainerInterface $c) {
+                $addons = $c->get('wpra/upsell/known_addons');
+
+                return array_filter($addons, function ($basename) {
+                    return wpra_get_plugin_state($basename) > 0;
+                });
+            },
+
             /*
              * The items to upsell.
              *
@@ -197,7 +226,15 @@ class UpsellModule implements ModuleInterface
              * @since 4.15.1
              */
             'wpra/upsell/more_features_page/menu_label' => function (ContainerInterface $c) {
-                return $c->get('wpra/upsell/more_features_page/title') . $c->get('wpra/upsell/more_features_page/menu_icon');
+                $installed = $c->get('wpra/upsell/installed_addons');
+
+                $label = count($installed) > 0
+                    ? $c->get('wpra/upsell/more_features_page/title')
+                    : __('Upgrade', 'wprss');
+
+                $icon = $c->get('wpra/upsell/more_features_page/menu_icon');
+
+                return $label . $icon;
             },
             /*
              * The icon for the "More Features" menu.
