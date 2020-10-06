@@ -45,7 +45,7 @@ class UpsellModule implements ModuleInterface
             /**
              * Retrieves the base names of known addons.
              *
-             * @since [*next-version*]
+             * @since 4.17.8
              */
             'wpra/upsell/known_addons' => function () {
                 return [
@@ -61,7 +61,7 @@ class UpsellModule implements ModuleInterface
             /**
              * Retrieves the base names of installed addons, irrespective of whether they are active or not.
              *
-             * @since [*next-version*]
+             * @since 4.17.8
              */
             'wpra/upsell/installed_addons' => function (ContainerInterface $c) {
                 $addons = $c->get('wpra/upsell/known_addons');
