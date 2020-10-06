@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.17.8] - YYYY-MM-DD
+## [4.17.8] - 2020-10-06
 ### Changed
 * Disabled SimplePie's HTML sanitization.
 * Updated jQuery code to be compatible with the upcoming update in WordPress.
