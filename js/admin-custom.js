@@ -160,8 +160,7 @@ function toggle_feed_state_ajax_callback(e) {
 
 
 
-jQuery(window).load( function(){
-
+jQuery(window).on('load', function() {
 
     function wprssParseDate(str){
         var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -285,7 +284,7 @@ jQuery(window).load( function(){
  * WP-like collapsing settings in metabox 
  */
 (function($, wprss_admin_custom){
-    $(window).load( function(){
+    $(window).on('load', function() {
 
 		// Adds the Bulk Add button
 		$('<a>').text( wprss_admin_custom.bulk_add ).attr('href', wprss_urls.import_export).addClass('add-new-h2').insertAfter( $('.add-new-h2') );
@@ -443,7 +442,7 @@ if ( !String.prototype.trim ) {
 
 // For add-ons page
 (function($) {
-    $(window).load(function(){                
+    $(window).on('load', function() {
         $('#add-ons .add-on-group').each(function(){                
             var $el = $(this),
                 h = 0;                                        
@@ -492,7 +491,7 @@ if ( !String.prototype.trim ) {
             linkEl.text(linkEl.text() + ' (' + count + ')')
 
             // If there are no logs for this filter, disable it
-            if (count == 0) {
+            if (count === 0) {
                 filterEl.addClass('wpra-log-filter-disabled');
                 return;
             }

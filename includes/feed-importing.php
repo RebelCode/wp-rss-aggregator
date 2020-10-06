@@ -563,7 +563,7 @@ function wprss_get_feed_cache_dir()
             $permalink = $item->get_permalink(); // Link or enclosure URL
             $permalink = htmlspecialchars_decode( $permalink ); // SimplePie encodes HTML special chars
 
-            $logger->debug('Saving item "{0}"', [$item->get_title()]);
+            $logger->debug('Beginning import for item "{0}"', [$item->get_title()]);
 
 			$permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
@@ -582,6 +582,23 @@ function wprss_get_feed_cache_dir()
 				$time_limit = wprss_get_item_import_time_limit();
 				set_time_limit( $time_limit );
 
+				global $wp_filter;
+				if (isset($wp_filter['wprss_insert_post_item_conditionals'])) {
+				    $hook = $wp_filter['wprss_insert_post_item_conditionals'];
+
+				    if (count($hook->callbacks) > 0) {
+                        $logger->debug('Hooks for `wprss_insert_post_item_conditionals`:');
+                    }
+
+				    foreach ($hook->callbacks as $list) {
+				        foreach ($list as $callback) {
+                            $logger->debug('-> {0}', [wprss_format_hook_callback($callback)]);
+                        }
+                    }
+                }
+
+                $logger->debug('Checking conditionals ...');
+
 				// Apply filters that determine if the feed item should be inserted into the DB or not.
                 $ogItem = $item;
 				$item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
@@ -592,6 +609,8 @@ function wprss_get_feed_cache_dir()
 
 				// If the item is not NULL, continue to inserting the feed item post into the DB
 				if ( $item !== NULL && !is_bool($item) ) {
+                    $logger->debug('Resuming insertion into DB');
+
 				    $post_status = 'publish';
 
 					// Get the date and GTM date and normalize if not valid dor not present
@@ -675,13 +694,16 @@ function wprss_get_feed_cache_dir()
 				// If the item is TRUE, then a hook function in the filter inserted the item.
 				// increment the inserted counter
 				elseif ( ( is_bool($item) && $item === TRUE ) || ( $still_update_count === TRUE && $item !== FALSE ) ) {
+                    $logger->debug('Item "{0}" was imported by an add-on or filter', [
+                        $ogItem->get_title(),
+                    ]);
 					$items_inserted++;
 				} elseif (has_filter('wprss_insert_post_item_conditionals', 'wprss_kf_check_post_item_keywords')) {
                     $logger->info('Item "{0}" was rejected by your keyword or tag filtering.', [
                         $ogItem->get_title()
                     ]);
                 } else {
-                    $logger->notice('Item "{0}" was rejected by an add-on.', [
+                    $logger->notice('Item "{0}" was rejected by an add-on or filter.', [
                         $ogItem->get_title()
                     ]);
                 }

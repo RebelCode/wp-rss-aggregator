@@ -716,6 +716,10 @@
         $difference = $age - $max_age;
 
         if ( $difference <= 0 ) {
+            wpra_get_logger()->debug('Item "{0}" was rejected by age limit settings.', [
+                $item->get_title()
+            ]);
+
             return NULL;
         } else {
             return $item;

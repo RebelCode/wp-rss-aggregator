@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.17.8] - 2020-10-06
+### Changed
+* Disabled SimplePie's HTML sanitization.
+* Updated jQuery code to be compatible with the upcoming update in WordPress.
+* Images without an extension can now be imported.
+* The image importing function now allows the image URL and local path to be changed via filters.
+* Changed how item importing is logged in the debugging log. The log now shows what hooks can reject an item.
+
+### Fixed
+* WooCommerce Product type dropdown and accompanying options disappear while WP RSS Aggregator is active.
+* Addressed notices about `register_rest_route` being called incorrectly.
+* The "Validate feed" link did not work.
+* Sites on a multi-site network would see an error about a function not existing.
+* Errors would not be properly rendered for non-fatal notices and warnings.
+
 ## [4.17.7] - 2020-08-12
 ### Added
 * New HTML classes for pagination buttons.

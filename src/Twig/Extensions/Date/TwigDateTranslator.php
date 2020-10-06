@@ -7,7 +7,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 /**
  * Translator for Twig dates.
  *
- * @since [*next-version*]
+ * @since 4.17.6
  */
 class TwigDateTranslator implements TranslatorInterface
 {
@@ -25,7 +25,7 @@ class TwigDateTranslator implements TranslatorInterface
     /**
      * @inheritDoc
      *
-     * @since [*next-version*]
+     * @since 4.17.6
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
@@ -35,7 +35,7 @@ class TwigDateTranslator implements TranslatorInterface
     /**
      * @inheritDoc
      *
-     * @since [*next-version*]
+     * @since 4.17.6
      */
     public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
     {
@@ -97,7 +97,7 @@ class TwigDateTranslator implements TranslatorInterface
     /**
      * @inheritDoc
      *
-     * @since [*next-version*]
+     * @since 4.17.6
      */
     public function setLocale($locale)
     {
@@ -106,7 +106,7 @@ class TwigDateTranslator implements TranslatorInterface
     /**
      * @inheritDoc
      *
-     * @since [*next-version*]
+     * @since 4.17.6
      */
     public function getLocale()
     {
