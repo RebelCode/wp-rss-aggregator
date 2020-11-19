@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Removed referer header from feed requests, fixed importing for some feeds.
+* Feeds that contain items without titles no longer only import just the first item.
 * Cron jobs are properly added/removed when the plugin is activated/deactivated, respectively.
 
 ## [4.17.8] - 2020-10-06
