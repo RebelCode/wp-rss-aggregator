@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [*next-version*] - YYYY-MM-DD
 ### Changed
 * Auto image detection is now able to find the feed channel image.
+* SimplePie auto-discovery is turned off when the "Force feed" option is enabled.
 
 ### Fixed
 * Removed referer header from feed requests, fixed importing for some feeds.
+* Cron jobs are properly added/removed when the plugin is activated/deactivated, respectively.
 
 ## [4.17.8] - 2020-10-06
 ### Changed
