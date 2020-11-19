@@ -198,7 +198,7 @@ class FeedSourcesModule implements ModuleInterface
                     'publicly_queryable' => false,
                     'show_in_nav_menus' => false,
                     'show_in_admin_bar' => true,
-                    'public' => true,
+                    'public' => false,
                     'show_ui' => true,
                     'query_var' => 'feed_source',
                     'menu_position' => 100,

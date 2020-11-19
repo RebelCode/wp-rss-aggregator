@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 * Auto image detection is now able to find the feed channel image.
 * SimplePie auto-discovery is turned off when the "Force feed" option is enabled.
+* The Feed Source post type is no longer public.
 
 ### Fixed
 * Removed referer header from feed requests, fixed importing for some feeds.
