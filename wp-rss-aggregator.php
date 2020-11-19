@@ -573,9 +573,9 @@ function wpra_display_error($message, $error)
                 <?php
                 $prev = $error;
                 while ($prev = $prev->getPrevious()) : ?>
-                  <strong><?php _e('Caused by:', 'wprss'); ?></strong>
-                  <br/>
-                  <pre><?= $prev->getMessage(); ?> (<?= wprss_error_path($prev) ?>)</pre>
+                    <strong><?php _e('Caused by:', 'wprss'); ?></strong>
+                    <br/>
+                    <pre><?= $prev->getMessage(); ?> (<?= wprss_error_path($prev) ?>)</pre>
                 <?php endwhile; ?>
 
                 <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
@@ -916,7 +916,7 @@ function wprss_enable() {
 }
 
 
- /**
+/**
  * Utility filter function that returns FALSE;
  *
  * @since 3.8
