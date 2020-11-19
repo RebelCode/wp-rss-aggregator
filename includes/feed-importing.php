@@ -344,6 +344,7 @@ function wprss_get_feed_cache_dir()
             // If turned on, force the feed
             if ($force_feed == 'true' || $param_force_feed) {
                 $feed->force_feed(true);
+                $feed->set_autodiscovery_level(SIMPLEPIE_LOCATOR_NONE);
 
                 global $wpraNoSslVerification;
                 $wpraNoSslVerification = true;
