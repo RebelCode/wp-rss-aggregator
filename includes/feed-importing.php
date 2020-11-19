@@ -658,11 +658,14 @@ function wprss_get_feed_cache_dir()
                     // request. However, our excerpt is being inserted as a raw string with custom sanitization.
                     remove_all_filters( 'excerpt_save_pre' );
 
+                    $title = trim(html_entity_decode($item->get_title()));
+                    $title = empty($title) ? $item->get_id() : $title;
+
 					// Prepare the item data
 					$feed_item = apply_filters(
 						'wprss_populate_post_data',
 						array(
-							'post_title'     => html_entity_decode( $item->get_title() ),
+							'post_title'     => $title,
 							'post_content'   => $item->get_content(),
 							'post_excerpt'   => wprss_sanitize_excerpt($item->get_description()),
 							'post_status'    => $post_status,
