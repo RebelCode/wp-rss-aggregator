@@ -696,14 +696,28 @@ function wprss_get_feed_cache_dir()
 							}
 						}
 
-						// Increment the inserted items counter
-						$items_inserted++;
+                        $logger->debug('Item "{0}" was inserted into DB, ID: {1}', [
+                            $ogItem->get_title(),
+                            $inserted_ID,
+                        ]);
 
 						// Create and insert post meta into the DB
 						wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );
 
+                        $logger->debug('Inserted meta data for item #{0}', [
+                            $inserted_ID,
+                        ]);
+
 						// Remember newly added permalink
 						$existing_permalinks[$permalink] = 1;
+
+						// Increment the inserted items counter
+						$items_inserted++;
+
+                        $logger->notice('Finished import for item {0}, ID {1}', [
+                            $ogItem->get_title(),
+                            $inserted_ID,
+                        ]);
 					}
 					else {
 						update_post_meta( $feed_ID, 'wprss_error_last_import', 'An error occurred while inserting a feed item into the database.' );
