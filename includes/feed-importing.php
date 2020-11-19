@@ -614,28 +614,44 @@ function wprss_get_feed_cache_dir()
 
 				    $post_status = 'publish';
 
-					// Get the date and GTM date and normalize if not valid dor not present
+					// Get the date and GMT date and normalize if not valid or not given by the feed
 					$format    = 'Y-m-d H:i:s';
-					$has_date  = $item->get_date( 'U' ) ? TRUE : FALSE;
-					$timestamp = $has_date ? $item->get_date( 'U' ) : date( 'U' );
+					$timestamp = $item->get_date( 'U' );
+					$has_date  = $timestamp ? true : false;
 
-					// Item has a future timestamp
-					if ($timestamp > time()) {
-					    $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
-					    $schedule_items_option = wprss_get_general_setting('schedule_future_items');
+					if ($has_date) {
+                        $logger->debug('Feed item "{0}" date: {1}', [$item->get_title(), $item->get_date($format)]);
 
-                        if ($schedule_items_filter || $schedule_items_option) {
-					        // If can schedule future items, set the post status to "future" (aka scheduled)
-                            $post_status = 'future';
-                        } else {
-                            // If cannot schedule future items, clamp the timestamp to the currrent time minus
-                            // 1 second for each iteration done so far
-                            $timestamp = min(time() - $i, $timestamp);
+                        if ($timestamp > time()) {
+                            // Item has a future timestamp ...
+                            $logger->debug('Item "{0}" has a future date', [$item->get_title()]);
+
+                            $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
+                            $schedule_items_option = wprss_get_general_setting('schedule_future_items');
+
+                            if ($schedule_items_filter || $schedule_items_option) {
+                                // If can schedule future items, set the post status to "future" (aka scheduled)
+                                $post_status = 'future';
+
+                                $logger->debug('Setting future status');
+                            } else {
+                                // If cannot schedule future items, clamp the timestamp to the current time minus
+                                // 1 second for each iteration done so far
+                                $timestamp = min(time() - $i, $timestamp);
+
+                                $logger->debug('Date was clamped to present time');
+                            }
                         }
+                    } else {
+                        // Item has no date ...
+                        $logger->debug('Item "{0}" has no date. Using current time', [$item->get_title()]);
+                        $timestamp = time();
                     }
 
 					$date     = date( $format, $timestamp );
-					$date_gmt = gmdate( $format, $timestamp );
+					$date_gmt = gmdate( $format, $item->get_gmdate( 'U' ) );
+
+                    $logger->debug('Date for "{0}" will be {1}', [$item->get_title(), $date]);
 
                     // Do not let WordPress sanitize the excerpt
                     // WordPress sanitizes the excerpt because it's expected to be typed by a user and sent in a POST
