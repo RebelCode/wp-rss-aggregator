@@ -134,7 +134,7 @@
             page = (page === null || page === undefined) ? Store.page : page;
 
             $.ajax({
-                url: Config.restUrl + '/wpra/v1/sources',
+                url: Config.restUrl + 'wpra/v1/sources',
                 method: 'GET',
                 data: {
                     num: Config.perPage,
