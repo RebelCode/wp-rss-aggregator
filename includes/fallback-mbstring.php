@@ -196,7 +196,7 @@ class WPRSS_MBString {
 	 * Taken from {@link https://github.com/drupal/drupal/blob/9.x/core/includes/unicode.inc#L432 here}.
 	 *
 	 * @since 4.7
-	 * @param $text The string to run the operation on.
+	 * @param string $text The string to run the operation on.
 	 * @return string The string in lowercase.
 	 */
 	public static function mb_strtolower( $text ) {
