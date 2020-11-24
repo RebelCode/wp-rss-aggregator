@@ -129,7 +129,7 @@ class WpraExtension extends AbstractExtension
      *
      * @since 4.13
      *
-     * @return TwigFilter The filter instance.
+     * @return TwigFilter The function instance.
      */
     protected function getWpraLinkFilter()
     {
@@ -153,7 +153,7 @@ class WpraExtension extends AbstractExtension
      *
      * @since 4.14
      *
-     * @return TwigFunction The filter instance.
+     * @return TwigFunction The function instance.
      */
     protected function getWpraLinkAttrsFunction()
     {
@@ -172,7 +172,7 @@ class WpraExtension extends AbstractExtension
      *
      * @since 4.14
      *
-     * @return TwigFilter The filter instance.
+     * @return TwigFilter The function instance.
      */
     protected function getWordsLimitFilter()
     {
@@ -194,7 +194,7 @@ class WpraExtension extends AbstractExtension
      *
      * @since 4.14
      *
-     * @return TwigFunction The filter instance.
+     * @return TwigFunction The function instance.
      */
     protected function getHtmlEntitiesDecodeFunction()
     {
