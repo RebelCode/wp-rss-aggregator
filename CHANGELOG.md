@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [*next-version*] - YYYY-MM-DD
+## [4.17.9] - 2020-11-25
 ### Changed
 * Auto image detection is now able to find the feed channel image.
 * SimplePie auto-discovery is turned off when the "Force feed" option is enabled.
