@@ -211,7 +211,7 @@ function wpra_reschedule($timestamp, $event, $recurrence = null, $args = [])
 /**
  * Clears all events scheduled to a particular hook, regardless of their args.
  *
- * @since [*next-version*]
+ * @since 4.17.9
  *
  * @param string $hook
  */
@@ -229,7 +229,7 @@ function wpra_clear_all_scheduled_hooks($hook)
 /**
  * Retrieves all cron jobs from WordPress.
  *
- * @since [*next-version*]
+ * @since 4.17.9
  *
  * @return array A mapping of hook names to sub-arrays of even objects.
  */

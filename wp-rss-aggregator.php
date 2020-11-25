@@ -591,7 +591,7 @@ function wpra_display_error($message, $error)
 }
 
 /**
- * @since [*next-version*]
+ * @since 4.17.9
  *
  * @param Exception|Error $exception
  *
