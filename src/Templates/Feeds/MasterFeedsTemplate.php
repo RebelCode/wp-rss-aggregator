@@ -10,8 +10,11 @@ use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use RebelCode\Entities\Entity;
+use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
+use RebelCode\Wpra\Core\Data\EntityDataSet;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeCommaListCapableTrait;
@@ -279,8 +282,45 @@ class MasterFeedsTemplate implements TemplateInterface
         // If the slug is empty or failed to get the template
         if (empty($model)) {
             // Fetch the default template
-            $builtIn = $this->templateCollection->filter(['type' => '__built_in']);
-            $model = $builtIn[0];
+            $builtInCollection = $this->templateCollection->filter(['type' => '__built_in']);
+            $builtInCollection->rewind();
+
+            if ($builtInCollection->getCount() > 0) {
+                $model = $builtInCollection->current();
+            } else {
+                $model = [
+                    'id' => '0',
+                    'name' => 'Fallback',
+                    'slug' => 'wpra-fallback-template',
+                    'type' => '__built_in',
+                    'options' => [
+                        'limit' => 15,
+                        'title_max_length' => 0,
+                        'title_is_link' => true,
+                        'pagination' => false,
+                        'pagination_type' => 'default',
+                        'source_enabled' => true,
+                        'source_prefix' => __('Source:', 'wprss'),
+                        'source_is_link' => true,
+                        'author_enabled' => false,
+                        'author_prefix' => __('By', 'wprss'),
+                        'date_enabled' => true,
+                        'date_prefix' => __('Published on:', 'wprss'),
+                        'date_format' => 'Y-m-d',
+                        'date_use_time_ago' => false,
+                        'links_behavior' => 'blank',
+                        'links_nofollow' => false,
+                        'links_video_embed_page' => false,
+                        'bullets_enabled' => true,
+                        'bullet_type' => 'default',
+                        'custom_css_classname' => '',
+                    ],
+                ];
+            }
+
+            if (is_array($model)) {
+                $model = new ArrayDataSet($model);
+            }
         }
 
         return $model;

@@ -270,6 +270,7 @@ function wpra_get_item_images($item)
     $images['enclosure'] = wpra_get_item_enclosure_images($item);
     $images['content'] = wpra_get_item_content_images($item);
     $images['itunes'] = wpra_get_item_itunes_images($item);
+    $images['feed'] = [$item->get_feed()->get_image_url()];
 
     return $images;
 }

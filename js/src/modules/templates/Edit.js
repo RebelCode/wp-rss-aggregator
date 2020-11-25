@@ -258,7 +258,7 @@ export default {
                         <span class="dashicons dashicons-info"/>
                       </div>
                       <div class="wpra-info-box__text">
-                        This is the default template for WP RSS Aggregator. It is used as the fallback template when one is not selected via the shortcode or block. To create a new one, please go back to the Templates List.
+                        This is the default template for WP RSS Aggregator. It is used as the fallback template when one is not selected via the shortcode or block. To create a new one, please go back to the templates list page.
                       </div>
                     </div>
                     :

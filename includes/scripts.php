@@ -91,7 +91,7 @@
 
         wp_register_script('wpra-crons-tool', WPRSS_JS . 'admin/tools/crons.js', ['jquery'], $version, true);
         wp_localize_script('wpra-crons-tool', 'WpraCronsTool', [
-            'restUrl' => rest_url(),
+            'restUrl' => trailingslashit(rest_url()),
             'restApiNonce' => wp_create_nonce('wp_rest'),
             'globalInterval' => $globSchedule,
             'globalTime' => wprss_get_global_update_time(),

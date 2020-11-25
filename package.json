@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=dev ./node_modules/webpack/bin/webpack.js --watch",
-    "build": "./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p",
-    "prepublish": "npm run build"
+    "dev": "cross-env NODE_ENV=dev webpack --watch",
+    "build": "cross-env NODE_ENV=production webpack -p"
   },
   "devDependencies": {
     "@rebelcode/ui-framework": "^0.2.2",

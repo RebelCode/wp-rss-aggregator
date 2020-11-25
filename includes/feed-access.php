@@ -430,7 +430,6 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 				curl_setopt( $fp, CURLOPT_RETURNTRANSFER, 1 );
 				curl_setopt( $fp, CURLOPT_TIMEOUT, $timeout );
 				curl_setopt( $fp, CURLOPT_CONNECTTIMEOUT, $timeout );
-				curl_setopt( $fp, CURLOPT_REFERER, $url );
 				curl_setopt( $fp, CURLOPT_USERAGENT, $useragent );
 				curl_setopt( $fp, CURLOPT_HTTPHEADER, $headers2 );
 				if ( !ini_get( 'open_basedir' ) && !ini_get( 'safe_mode' ) && version_compare( SimplePie_Misc::get_curl_version(), '7.15.2', '>=' ) ) {
