@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Auto image detection is now able to find the feed channel image.
 * SimplePie auto-discovery is turned off when the "Force feed" option is enabled.
 * The Feed Source post type is no longer public.
+* Meta box styling has been updated to match WordPress 5.3's updated styles.
 
 ### Fixed
 * Removed referer header from feed requests, fixed importing for some feeds.
 * Feeds that contain items without titles no longer only import just the first item.
 * Cron jobs are properly added/removed when the plugin is activated/deactivated, respectively.
+* Problems with the default template no longer trigger a fatal error.
 
 ## [4.17.8] - 2020-10-06
 ### Changed
