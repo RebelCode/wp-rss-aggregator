@@ -318,6 +318,9 @@ require_once ( WPRSS_INC . 'polyfills.php' );
 /* Load the youtube functionality */
 require_once ( WPRSS_INC . 'youtube.php' );
 
+/* Load the Templates v0.2.1 update path */
+require_once ( WPRSS_INC . 'templates-update.php' );
+
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
