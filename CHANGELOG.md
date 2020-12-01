@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.17.10] - 2020-12-01
+### Fixed
+* After updating the Templates add-on from v0.2, the add-on would be deactivated.
+
 ## [4.17.9] - 2020-11-25
 ### Changed
 * Auto image detection is now able to find the feed channel image.
