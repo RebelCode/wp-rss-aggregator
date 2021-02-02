@@ -256,5 +256,12 @@ class FeedItemsModule implements ModuleInterface
     {
         add_action('init', $c->get('wpra/feeds/items/handlers/register_cpt'));
         add_action('admin_init', $c->get('wpra/feeds/items/handlers/add_cpt_capabilities'));
+
+        // Set the public permalink of feed items to be equal to the URL to the original article
+        add_filter('post_type_link', function($url, $post) {
+            return (get_post_type($post->ID) === 'wprss_feed_item')
+                ? get_post_meta($post->ID, 'wprss_item_permalink', true)
+                : $url;
+        }, 10, 2);
     }
 }
