@@ -13,6 +13,13 @@ use WP_Post;
 class FeedSourceSaveMetaHandler
 {
     /**
+     * @since [*next-version*]
+     *
+     * @var string
+     */
+    protected $postType;
+
+    /**
      * @since [*some-version*]
      *
      * @var CollectionInterface
@@ -31,10 +38,12 @@ class FeedSourceSaveMetaHandler
      *
      * @since [*some-version*]
      *
+     * @param string              $postType   The feed source post type.
      * @param CollectionInterface $collection The feed sources collection.
      */
-    public function __construct(CollectionInterface $collection)
+    public function __construct($postType, CollectionInterface $collection)
     {
+        $this->postType = $postType;
         $this->collection = $collection;
         $this->locked = false;
     }
@@ -46,6 +55,14 @@ class FeedSourceSaveMetaHandler
      */
     public function __invoke($postId, WP_Post $post)
     {
+        // Get the post type object.
+        $post_type = get_post_type_object($post->post_type);
+
+        // Check if a valid post type
+        if ($post->post_type !== $this->postType) {
+            return;
+        }
+
         // If the handler is locked (already running), stop to prevent an infinite loop
         if ($this->locked) {
             return;
@@ -59,14 +76,6 @@ class FeedSourceSaveMetaHandler
 
         // Stop if doing AJAX, cron or an auto save
         if (wp_doing_ajax() || wp_doing_cron() || defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
-
-        // Get the post type object.
-        $post_type = get_post_type_object($post->post_type);
-
-        // Check if a revision. If so, stop
-        if ($post->post_type === 'revision') {
             return;
         }
 

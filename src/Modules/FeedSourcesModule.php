@@ -342,6 +342,7 @@ class FeedSourcesModule implements ModuleInterface
              */
             'wpra/feeds/sources/meta_box/save_handler' => function (ContainerInterface $c) {
                 return new FeedSourceSaveMetaHandler(
+                    $c->get('wpra/feeds/sources/cpt/name'),
                     $c->get('wpra/feeds/sources/collection')
                 );
             },
