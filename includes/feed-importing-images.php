@@ -849,6 +849,9 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
         // For some reason, deep down filesize() returned 0 for the temporary file without this
         clearstatcache(false, $file_array['tmp_name']);
 
+        // Allocate more time for WordPress to process the image
+        set_time_limit(60);
+
         // $post_data can override the items saved to wp_posts table,
         // like post_mime_type, guid, post_parent, post_title, post_content, post_status
         $att_id = media_handle_sideload($file_array, $post_id, '', $post_data);
