@@ -251,7 +251,9 @@
 		return @$feed->get_items();
 	}
 
-//add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10, 2) ;
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10, 2) ;
+}
 
 /**
  * Allow debugging of wp_cron jobs
