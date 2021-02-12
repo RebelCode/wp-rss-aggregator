@@ -226,6 +226,8 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
  * Called from 'wprss_fetch_insert_single_feed_items'
  *
  * @since 3.0
+ *
+ * @return SimplePie_Item[]|null
  */
 function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
     // Add filters and actions prior to fetching the feed items
@@ -398,7 +400,7 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
 /**
  * Normalizes the given permalink.
  *
- * @param $permalink The permalink to normalize
+ * @param string $permalink The permalink to normalize
  * @return string The normalized permalink
  * @since 4.2.3
  */
