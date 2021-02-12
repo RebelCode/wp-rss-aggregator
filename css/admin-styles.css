@@ -765,16 +765,15 @@ i.wprss-updating-feed-icon.wprss-show {
     border-top: #F5F5F5 solid 1px;
 }
 
-
 /*== BLACKLIST */
 body.post-type-wprss_blacklist .add-new-h2,
 body.post-type-wprss_blacklist ul.subsubsub,
 body.post-type-wprss_blacklist .alignleft.actions {
-	display: none;
+    display: none;
 }
 
 body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
-	display: inline-block;
+    display: inline-block;
 }
 
 .wprss-header-small {
@@ -849,31 +848,26 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 /* For non settings page screens */
 @media only screen and (max-width: 850px) {
 
-    body:not(.wprss_feed_page_wprss-aggregator-settings)
-        .wprss-tooltip-handle {
-            color: #999;
-            font-size: 1em;
-            padding: 6px 10px;
-            margin-left: 0;
-            background: #e5e5e5;
-            border-radius: 3px;
-            vertical-align: middle;
+    body:not(.wprss_feed_page_wprss-aggregator-settings) .wprss-tooltip-handle {
+        color: #999;
+        font-size: 1em;
+        padding: 6px 10px;
+        margin-left: 0;
+        background: #e5e5e5;
+        border-radius: 3px;
+        vertical-align: middle;
     }
 
-    body:not(.wprss_feed_page_wprss-aggregator-settings)
-        select + .wprss-tooltip-handle,
-    body:not(.wprss_feed_page_wprss-aggregator-settings)
-        input[type="input"] + .wprss-tooltip-handle,
-    body:not(.wprss_feed_page_wprss-aggregator-settings)
-        input[type="password"] + .wprss-tooltip-handle {
-            margin-top: 5px;
+    body:not(.wprss_feed_page_wprss-aggregator-settings) select + .wprss-tooltip-handle,
+    body:not(.wprss_feed_page_wprss-aggregator-settings) input[type="input"] + .wprss-tooltip-handle,
+    body:not(.wprss_feed_page_wprss-aggregator-settings) input[type="password"] + .wprss-tooltip-handle {
+        margin-top: 5px;
     }
 
-    body:not(.wprss_feed_page_wprss-aggregator-settings)
-        .wprss-tooltip-handle:after {
-            content: 'Help';
-            margin-left: 5px;
-            font-family: 'Open Sans', sans-serif;
+    body:not(.wprss_feed_page_wprss-aggregator-settings) .wprss-tooltip-handle:after {
+        content: 'Help';
+        margin-left: 5px;
+        font-family: 'Open Sans', sans-serif;
     }
 
 }
@@ -882,31 +876,26 @@ body.post-type-wprss_blacklist .alignleft.actions.bulkactions {
 /* For settings page screens */
 @media only screen and (max-width: 782px) {
 
-    body.wprss_feed_page_wprss-aggregator-settings
-        .wprss-tooltip-handle {
-            color: #999;
-            font-size: 1em;
-            padding: 6px 10px;
-            margin-left: 0;
-            background: #e5e5e5;
-            border-radius: 3px;
-            vertical-align: middle;
+    body.wprss_feed_page_wprss-aggregator-settings .wprss-tooltip-handle {
+        color: #999;
+        font-size: 1em;
+        padding: 6px 10px;
+        margin-left: 0;
+        background: #e5e5e5;
+        border-radius: 3px;
+        vertical-align: middle;
     }
 
-    body.wprss_feed_page_wprss-aggregator-settings
-        select + .wprss-tooltip-handle,
-    body.wprss_feed_page_wprss-aggregator-settings
-        input[type="input"] + .wprss-tooltip-handle,
-    body.wprss_feed_page_wprss-aggregator-settings
-        input[type="password"] + .wprss-tooltip-handle {
-            margin-top: 5px;
+    body.wprss_feed_page_wprss-aggregator-settings select + .wprss-tooltip-handle,
+    body.wprss_feed_page_wprss-aggregator-settings input[type="input"] + .wprss-tooltip-handle,
+    body.wprss_feed_page_wprss-aggregator-settings input[type="password"] + .wprss-tooltip-handle {
+        margin-top: 5px;
     }
 
-    body.wprss_feed_page_wprss-aggregator-settings
-        .wprss-tooltip-handle:after {
-            content: 'Help';
-            margin-left: 5px;
-            font-family: 'Open Sans', sans-serif;
+    body.wprss_feed_page_wprss-aggregator-settings .wprss-tooltip-handle:after {
+        content: 'Help';
+        margin-left: 5px;
+        font-family: 'Open Sans', sans-serif;
     }
 
 }
