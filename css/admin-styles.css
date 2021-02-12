@@ -666,30 +666,34 @@ i.wprss-updating-feed-icon.wprss-show {
 }
 
 #add-ons .add-on-group {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: #F5F5F5 solid 1px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 #add-ons .add-on-group:first-child {
     margin-top: 0;
     padding-top: 0;
-    border-top: 0 none;
 }
 
 #add-ons .add-on {
-    float: left;
+    display: inline-block;
+    position: relative;
+    flex: 0 0 220px;
     width: 220px;
     margin: 10px 20px 10px 0;
     background: #FFFFFF;
     border: 1px solid #E5E5E5;
-    position: relative;
+    border-radius: 3px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
     min-height: 320px;
+    overflow: hidden;
 }
 
 #add-ons .add-on h3 {
-    margin-top: 0.5em;
+    margin: 0.5em 0 1.5em;
 }
 
 #add-ons .add-on h3 a {
@@ -699,24 +703,55 @@ i.wprss-updating-feed-icon.wprss-show {
 
 #add-ons .add-on .inner {
     min-height: 170px;
-    padding: 15px;
+    padding: 20px 15px;
 }
 
 #add-ons .add-on .footer {
-    background: #F5F5F5;
-    border-top: 1px solid #E1E1E1;
     overflow: hidden;
     position: absolute;
     width: 100%;
     bottom: 0;
-    padding-top: 15px;
-    height: 45px;
+    padding: 15px 0;
 }
 
 #add-ons .add-on .footer .button {
     float: left;
     margin-left: 15px;
 }
+
+.add-on .corner-ribbon {
+    position: absolute;
+    top: 18px;
+    right: -47px;
+    font-size: 12px;
+    width: 150px;
+    padding: 2px 0;
+    color: #fff;
+    background: #333;
+    text-align: center;
+    transform: rotate(45deg);
+    transform-origin: center center;
+}
+
+#add-ons .add-on.bundle-plan {
+    border: 2px solid #ff792b;
+    box-shadow: 0 0 25px -12px rgba(255, 121, 43, 0.6);
+}
+
+#add-ons .add-on.bundle-plan .corner-ribbon {
+    background: #ff792b;
+}
+
+#add-ons .add-on.spotlight .corner-ribbon {
+    background: #DD234B;
+}
+
+#add-ons .add-on.bundle-plan .footer,
+#add-ons .add-on.spotlight .footer {
+    background: transparent;
+    border-top: 0;
+}
+
 
 #add-ons .add-on-active .button-disabled:focus,
 #add-ons .add-on-active .button-disabled:active {
