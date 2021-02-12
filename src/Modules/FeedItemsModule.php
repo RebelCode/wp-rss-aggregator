@@ -50,6 +50,12 @@ class FeedItemsModule implements ModuleInterface
                     new WpPostPermalinkProperty($idProp)
                 );
 
+                $enclosureProp = new WpraPostTypeDependentProperty(
+                    $idProp,
+                    new Property('wprss_item_enclosure'),
+                    new Property('wprss_ftp_enclosure_link')
+                );
+
                 return [
                     'id' => $idProp,
                     'title' => new Property('post_title'),
@@ -57,7 +63,8 @@ class FeedItemsModule implements ModuleInterface
                     'excerpt' => new DefaultingProperty(['post_excerpt', 'post_content']),
                     'url' => $urlProp,
                     'permalink' => $urlProp,
-                    'enclosure' => new Property('wprss_item_enclosure'),
+                    'enclosure' => $enclosureProp,
+                    'enclosure_type' => new Property('wprss_item_enclosure_type'),
                     'author' => new Property('wprss_item_author'),
                     'date' => new Property('wprss_item_date'),
                     'timestamp' => new TimestampProperty(new Property('post_date_gmt'), 'Y-m-d H:i:s'),
