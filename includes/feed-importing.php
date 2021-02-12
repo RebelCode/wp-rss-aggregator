@@ -34,8 +34,9 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
 
     $importFn = function ($feed_ID) {
         $logger = wpra_get_logger($feed_ID);
-
         $logger->info('Starting import of feed {id}', ['id' => $feed_ID]);
+
+        $t = microtime(true);
 
         // Check if the feed source is active.
         if ( ! wprss_is_feed_source_active( $feed_ID ) && ! wprss_feed_source_force_next_fetch( $feed_ID ) ) {
@@ -207,8 +208,9 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             $logger->info('Scheduled next update');
         }
 
-        $logger->info('Import completed!');
+        $t = microtime(true) - $t;
 
+        $logger->info(sprintf('Import completed in %.2f seconds!', $t));
     };
 
     $importFn($feed_ID);
