@@ -45,6 +45,9 @@
 			var updatesCol = row.find('td.column-updates');
 			var itemsCol = row.find('td.column-feed-count');
 
+			// Toggle the state checkbox
+			row.find('input.wprss-toggle-feed-state').prop('checked', feed_source['active']);
+
 			// Update the next update time
 			updatesCol.find('code.next-update').text( feed_source['next-update'] );
 
