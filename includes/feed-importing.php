@@ -707,7 +707,7 @@ function wprss_items_insert_post( $items, $feed_ID ) {
                     ]);
 
                     // Create and insert post meta into the DB
-                    wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url );
+                    wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink );
 
                     $logger->debug('Inserted meta data for item #{0}', [
                         $inserted_ID,
@@ -762,12 +762,24 @@ function wprss_items_insert_post( $items, $feed_ID ) {
  * @param int            $inserted_ID   The inserted post ID.
  * @param SimplePie_Item $item          The SimplePie item object.
  * @param string         $permalink     The item's permalink.
- * @param string         $enclosure_url The URL to the item's enclosure.
  */
-function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink, $enclosure_url ) {
+function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink ) {
     update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date(DATE_ISO8601) );
     update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
-    update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosure_url );
+
+    $enclosure = $item->get_enclosure(0);
+    $enclosureUrl = $enclosure ? $enclosure->get_link() : null;
+
+    if ($enclosureUrl) {
+        $enclosureType = $enclosure->get_type();
+
+        update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosureUrl );
+        update_post_meta( $inserted_ID, 'wprss_item_enclosure_type', $enclosureType );
+
+        if (stripos($enclosureType, 'audio')) {
+            update_post_meta( $inserted_ID, 'wprss_item_audio', $enclosureUrl );
+        }
+    }
 
     /* @var $item SimplePie_Item */
     $feed = $item->get_feed();
