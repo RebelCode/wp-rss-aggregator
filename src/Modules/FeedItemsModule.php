@@ -76,6 +76,7 @@ class FeedItemsModule implements ModuleInterface
                     'embed_url' => new Property('wprss_item_embed_url'),
                     'is_yt' => new Property('wprss_item_is_yt'),
                     'yt_embed_url' => new Property('wprss_item_yt_embed_url'),
+                    'audio_url' => new Property('wprss_item_audio'),
                     'source_id' => new Property('wprss_feed_id'),
                     'source_name' => new WpraItemSourceProperty(
                         new Property('wprss_item_source_name'),
