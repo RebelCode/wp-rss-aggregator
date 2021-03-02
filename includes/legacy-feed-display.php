@@ -115,6 +115,7 @@
 
         // Prepare the title
         $feed_item_title = get_the_title();
+        $feed_item_title = wprss_shorten_title($feed_item_title, $ID);
         $feed_item_title_link = ( $link_enclosure === 'true' && $enclosure !== '' )? $enclosure : $permalink;
 
         // Prepare the text that precedes the source
@@ -453,23 +454,29 @@
     }
 
 
-    add_filter( 'the_title', 'wprss_shorten_title', 10, 2 );
     /**
-     * Checks the title limit option and shortens the title when necassary.
+     * Checks the title limit option and shortens the title when necessary.
      *
      * @since 1.0
+     *
+     * @param string          $title The title of tge feed item.
+     * @param int|string|null $id    The ID of the feed item.
+     *
+     * @return string
      */
     function wprss_shorten_title( $title, $id = null ) {
-        if ( $id === null ) return $title;
-        // Get the option. If does not exist, use 0, which is ignored.
-        $general_settings = get_option( 'wprss_settings_general' );
-        $title_limit = isset( $general_settings['title_limit'] )? intval( $general_settings['title_limit'] ) : 0;
-        // Check if the title is for a wprss_feed_item, and check if trimming is needed
-        if ( isset( $id ) && get_post_type( $id ) === 'wprss_feed_item' && $title_limit > 0 && strlen( $title ) > $title_limit ) {
-            // Return the trimmed version of the title
-            return substr( $title, 0, $title_limit ) . apply_filters( 'wprss_shortened_title_ending', '...' );
+        if (isset($id) && get_post_type($id) === 'wprss_feed_item') {
+            $settings = get_option('wprss_settings_general');
+            $limit = isset($settings['title_limit'])
+                ? intval($settings['title_limit'])
+                : 0;
+
+            if ($limit > 0 && strlen($title) > $limit) {
+                $suffix = apply_filters('wprss_shortened_title_ending', '...');
+                $title = substr($title, 0, $limit) . $suffix;
+            }
         }
-        // Otherwise, return the same title
+
         return $title;
     }
 
