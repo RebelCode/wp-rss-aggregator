@@ -255,7 +255,7 @@ function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
 }
 
 if (defined('WP_DEBUG') && WP_DEBUG) {
-    add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10, 2) ;
+    add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10) ;
 }
 
 /**
@@ -266,7 +266,7 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
  *
  * @return array $cron_request_array with the current XDEBUG_SESSION cookie added if set
  */
-function wpse_cron_add_xdebug_cookie ($cron_request_array, $doing_wp_cron)
+function wpse_cron_add_xdebug_cookie ($cron_request_array)
 {
     if (empty ($_COOKIE['XDEBUG_SESSION'])) {
         return ($cron_request_array) ;
