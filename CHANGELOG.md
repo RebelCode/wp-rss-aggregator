@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18] - 2021-MM-DD
+### Added
+* The total import time is now recorded in the debug log.
+
+### Changed
+* Omitting dev files from the plugin, reducing its size.
+* Redesigned the "More Features" page.
+* Feed items link to the original article when shown without a template and in RSS feeds.
+
+### Fixed
+* Images with HTML entities in the URL resulted in broken images and missing featured images.
+* The code that checks when a feed is saved no longer runs unnecessarily.
+* Fixed styling issues with the "Save" button in the Templates edit page.
+
 ## [4.17.10] - 2020-12-01
 ### Fixed
 * After updating the Templates add-on from v0.2, the add-on would be deactivated.
