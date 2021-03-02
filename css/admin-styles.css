@@ -66,12 +66,15 @@ div#force-feed-container {
 
 /* FORM TABLES */
 .wprss-form-table th {
-    width: 135px;
-    max-width: 135px;
-    padding: 7px 10px 10px 0;
+    width: 160px;
+    max-width: 200px;
+    padding: 10px;
+}
+.wprss-form-table th label {
+    padding-top: 7px;
 }
 .wprss-form-table td {
-    padding: 7px 10px;
+    padding: 8px 10px;
 }
 .wprss-form-table td label {
     line-height: 15px;
