@@ -435,3 +435,23 @@ function wprss_format_hook_callback(array $callback)
 
     return $callback['name'];
 }
+
+/**
+ * Retrieves the file extension from a URI.
+ *
+ * @since [*next-version*]
+ *
+ * @param string $uri The URI
+ *
+ * @return string|null The file extension or null if it could not be determined.
+ */
+function wpra_get_uri_extension($uri)
+{
+    $path = parse_url($uri, PHP_URL_PATH);
+
+    if (!$path || empty($path)) {
+        return null;
+    }
+
+    return strtolower(pathinfo($path, PATHINFO_EXTENSION));
+}
