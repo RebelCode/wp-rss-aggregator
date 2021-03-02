@@ -451,7 +451,7 @@ function wpra_get_item_content_images($item)
     $i = 0;
     $images = [];
     while (!empty($matches[1][$i])) {
-        $imageUrl = urldecode(trim($matches[1][$i]));
+        $imageUrl = urldecode(trim(html_entity_decode($matches[1][$i])));
         // Increment early to allow the iteration body to use "continue" statements
         $i++;
 
