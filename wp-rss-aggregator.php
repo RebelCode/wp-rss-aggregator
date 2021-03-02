@@ -318,6 +318,9 @@ require_once ( WPRSS_INC . 'polyfills.php' );
 /* Load the youtube functionality */
 require_once ( WPRSS_INC . 'youtube.php' );
 
+/* Load the multi-media file */
+require_once ( WPRSS_INC . 'multimedia.php' );
+
 /* Load the Templates v0.2.1 update path */
 require_once ( WPRSS_INC . 'templates-update.php' );
 
