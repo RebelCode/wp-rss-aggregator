@@ -53,8 +53,12 @@ class FeedSourceSaveMetaHandler
      *
      * @since 4.14
      */
-    public function __invoke($postId, WP_Post $post)
+    public function __invoke($postId, $post)
     {
+        if (!($post instanceof WP_Post)) {
+            return;
+        }
+
         // Get the post type object.
         $post_type = get_post_type_object($post->post_type);
 
