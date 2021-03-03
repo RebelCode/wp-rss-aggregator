@@ -590,6 +590,14 @@ class FeedTemplatesModule implements ModuleInterface
                 return $script;
             },
             /*
+             * Whether audio features are enabled.
+             *
+             * @since [*next-version*]
+             */
+            'wpra/feeds/templates/audio_features_enabled' => function () {
+                return false;
+            },
+            /*
              * The state for the templates script.
              *
              * @since 4.14
@@ -601,6 +609,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'options' => $c->get('wpra/feeds/templates/template_options'),
                     'modules' => $c->get('wpra/feeds/templates/admin/js_modules'),
                     'base_url' => rest_url('/wpra/v1/templates'),
+                    'audio_features_enabled' => $c->get('wpra/feeds/templates/audio_features_enabled'),
                 ];
             },
             /*

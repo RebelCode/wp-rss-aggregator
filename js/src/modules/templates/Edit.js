@@ -398,15 +398,17 @@ export default {
                   />
                 </div>
 
-                <div id={'wpra-list-template-media'} style={{paddingTop: '10px'}}>
-                  <Input type="checkbox"
-                         label={'Show audio player'}
-                         value={this.model.options.audio_player_enabled}
-                         onInput={(e) => this.model.options.audio_player_enabled = e}
-                         style={{fontWeight: 'bold'}}
-                         title={this.tooltips.options.audio_player_enabled}
-                  />
-                </div>
+                {WpraTemplates.audio_features_enabled &&
+                  <div id={'wpra-list-template-media'} style={{paddingTop: '10px'}}>
+                    <Input type="checkbox"
+                           label={'Show audio player'}
+                           value={this.model.options.audio_player_enabled}
+                           onInput={(e) => this.model.options.audio_player_enabled = e}
+                           style={{fontWeight: 'bold'}}
+                           title={this.tooltips.options.audio_player_enabled}
+                    />
+                  </div>
+                }
               </Postbox>
             </Main>
             <Sidebar>
