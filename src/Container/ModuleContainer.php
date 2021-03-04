@@ -62,17 +62,26 @@ class ModuleContainer implements ContainerInterface
      */
     public function get($id)
     {
+        static $stack = [];
+
         // If no definition for the given ID, throw an exception
         if (!$this->has($id)) {
+            $stackStr = implode("\n", $stack);
             throw new NotFoundException(
-                sprintf(__('Service "%s" was not found', 'wprss'), $id)
+                sprintf(__('Service "%s" was not found; stack: %s', 'wprss'), $id, "\n$stackStr")
             );
         }
 
-        // Invoke the definition and save the service in cache, if needed
-        if (!array_key_exists($id, $this->cache)) {
-            $container = ($this->proxy === null) ? $this : $this->proxy;
-            $this->cache[$id] = call_user_func_array($this->definitions[$id], [$container]);
+        $stack[] = $id;
+
+        try {
+            // Invoke the definition and save the service in cache, if needed
+            if (!array_key_exists($id, $this->cache)) {
+                $container = ($this->proxy === null) ? $this : $this->proxy;
+                $this->cache[$id] = call_user_func_array($this->definitions[$id], [$container]);
+            }
+        } finally {
+            array_pop($stack);
         }
 
         return $this->cache[$id];
