@@ -439,7 +439,7 @@ function wprss_format_hook_callback(array $callback)
 /**
  * Retrieves the file extension from a URI.
  *
- * @since [*next-version*]
+ * @since 4.18
  *
  * @param string $uri The URI
  *

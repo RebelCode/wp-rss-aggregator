@@ -171,7 +171,7 @@ function wprss_feed_source_update_stop_schedule($feed_id)
 /**
  * Returns the timestamp for the next global update
  *
- * @since [*next-version*]
+ * @since 4.18
  *
  * @return int The timestamp of the next global update operation, or false if no update is scheduled.
  */

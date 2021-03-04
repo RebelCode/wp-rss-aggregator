@@ -13,7 +13,7 @@ use WP_Post;
 class FeedSourceSaveMetaHandler
 {
     /**
-     * @since [*next-version*]
+     * @since 4.18
      *
      * @var string
      */

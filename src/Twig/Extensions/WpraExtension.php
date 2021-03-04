@@ -171,7 +171,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the "wpra_is_audio_url" Twig function.
      *
-     * @since [*next-version*]
+     * @since 4.18
      *
      * @return TwigFunction The function instance.
      */

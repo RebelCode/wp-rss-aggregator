@@ -111,7 +111,7 @@ function wpra_get_activate_plugin_url($basename)
 /**
  * Retrieves the callbacks that are attached to a hook.
  *
- * @since [*next-version*]
+ * @since 4.18
  *
  * @param string $hook The hook name.
  *

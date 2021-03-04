@@ -3,7 +3,7 @@
 /**
  * Checks if a URI points to an audio file.
  *
- * @since [*next-version*]
+ * @since 4.18
  *
  * @param string $uri The URI to check.
  *
@@ -38,7 +38,7 @@ function wpra_is_audio_file($uri)
 /**
  * Checks if a URI points to a video file.
  *
- * @since [*next-version*]
+ * @since 4.18
  *
  * @param string $uri The URI to check.
  *

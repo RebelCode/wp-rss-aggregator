@@ -41,7 +41,7 @@ function wprss_remove_caps()
 /**
  * Gets the core post type capabilities.
  *
- * @since [*next-version*]
+ * @since 4.18
  */
 function wprss_get_core_caps()
 {

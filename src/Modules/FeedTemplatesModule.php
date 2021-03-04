@@ -592,7 +592,7 @@ class FeedTemplatesModule implements ModuleInterface
             /*
              * Whether audio features are enabled.
              *
-             * @since [*next-version*]
+             * @since 4.18
              */
             'wpra/feeds/templates/audio_features_enabled' => function () {
                 return false;
