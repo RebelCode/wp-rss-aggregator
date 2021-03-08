@@ -109,6 +109,34 @@ function wpra_get_activate_plugin_url($basename)
 }
 
 /**
+ * Retrieves the callbacks that are attached to a hook.
+ *
+ * @since 4.18
+ *
+ * @param string $hook The hook name.
+ *
+ * @return callable[] A list of callbacks.
+ */
+function wpra_get_hook_callbacks($hook)
+{
+    global $wp_filter;
+
+    $results = [];
+
+    if (isset($wp_filter[$hook])) {
+        $hook = $wp_filter[$hook];
+
+        foreach ($hook->callbacks as $list) {
+            foreach ($list as $callback) {
+                $results[] = $callback;
+            }
+        }
+    }
+
+    return $results;
+}
+
+/**
  * Returns a representation of an HTML expression that matches all representations of that HTML.
  *
  * @since 4.14

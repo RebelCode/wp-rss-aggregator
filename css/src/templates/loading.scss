@@ -60,6 +60,7 @@ a.disabled {
 .loading-button {
   pointer-events: none;
   position: relative;
+
   &:before {
     display: block;
     content: '';
@@ -69,12 +70,13 @@ a.disabled {
     box-sizing: border-box;
     height: 16px;
     width: 16px;
-    border: 0px solid #fff;
+    border: 0 solid #aaa;
     border-radius: 50%;
-    box-shadow: 0 -4px 0 6px #fff inset;
+    box-shadow: 0 -4px 0 6px #aaa inset;
     animation: rotate 1s infinite linear;
     z-index: 3;
   }
+
   &:after {
     display: block;
     content: '';

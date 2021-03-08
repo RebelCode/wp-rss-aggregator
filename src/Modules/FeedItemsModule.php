@@ -50,6 +50,12 @@ class FeedItemsModule implements ModuleInterface
                     new WpPostPermalinkProperty($idProp)
                 );
 
+                $enclosureProp = new WpraPostTypeDependentProperty(
+                    $idProp,
+                    new Property('wprss_item_enclosure'),
+                    new Property('wprss_ftp_enclosure_link')
+                );
+
                 return [
                     'id' => $idProp,
                     'title' => new Property('post_title'),
@@ -57,7 +63,8 @@ class FeedItemsModule implements ModuleInterface
                     'excerpt' => new DefaultingProperty(['post_excerpt', 'post_content']),
                     'url' => $urlProp,
                     'permalink' => $urlProp,
-                    'enclosure' => new Property('wprss_item_enclosure'),
+                    'enclosure' => $enclosureProp,
+                    'enclosure_type' => new Property('wprss_item_enclosure_type'),
                     'author' => new Property('wprss_item_author'),
                     'date' => new Property('wprss_item_date'),
                     'timestamp' => new TimestampProperty(new Property('post_date_gmt'), 'Y-m-d H:i:s'),
@@ -69,6 +76,7 @@ class FeedItemsModule implements ModuleInterface
                     'embed_url' => new Property('wprss_item_embed_url'),
                     'is_yt' => new Property('wprss_item_is_yt'),
                     'yt_embed_url' => new Property('wprss_item_yt_embed_url'),
+                    'audio_url' => new Property('wprss_item_audio'),
                     'source_id' => new Property('wprss_feed_id'),
                     'source_name' => new WpraItemSourceProperty(
                         new Property('wprss_item_source_name'),
@@ -256,5 +264,12 @@ class FeedItemsModule implements ModuleInterface
     {
         add_action('init', $c->get('wpra/feeds/items/handlers/register_cpt'));
         add_action('admin_init', $c->get('wpra/feeds/items/handlers/add_cpt_capabilities'));
+
+        // Set the public permalink of feed items to be equal to the URL to the original article
+        add_filter('post_type_link', function($url, $post) {
+            return (get_post_type($post->ID) === 'wprss_feed_item')
+                ? get_post_meta($post->ID, 'wprss_item_permalink', true)
+                : $url;
+        }, 10, 2);
     }
 }

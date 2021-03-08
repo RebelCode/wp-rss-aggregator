@@ -447,6 +447,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'bullets_enabled' => true,
                         'bullet_type' => 'default',
                         'custom_css_classname' => '',
+                        'audio_player_enabled' => false,
                     ],
                 ];
             },
@@ -480,6 +481,7 @@ class FeedTemplatesModule implements ModuleInterface
                         'bullets_enabled' => __('Enable this option to show bullets next to feed items.', 'wprss'),
                         'bullet_type' => __('The bullet type to use for feed items.', 'wprss'),
                         'custom_css_classname' => __('You can add your own HTML class name to the template output. This lets you customize your template further using custom CSS styling or custom JS functionality.'),
+                        'audio_player_enabled' => __('If the feed item or post has an audio attachment, you can choose to show an audio player that plays the attached audio file.'),
                     ],
                 ];
             },
@@ -588,6 +590,14 @@ class FeedTemplatesModule implements ModuleInterface
                 return $script;
             },
             /*
+             * Whether audio features are enabled.
+             *
+             * @since 4.18
+             */
+            'wpra/feeds/templates/audio_features_enabled' => function () {
+                return false;
+            },
+            /*
              * The state for the templates script.
              *
              * @since 4.14
@@ -599,6 +609,7 @@ class FeedTemplatesModule implements ModuleInterface
                     'options' => $c->get('wpra/feeds/templates/template_options'),
                     'modules' => $c->get('wpra/feeds/templates/admin/js_modules'),
                     'base_url' => rest_url('/wpra/v1/templates'),
+                    'audio_features_enabled' => $c->get('wpra/feeds/templates/audio_features_enabled'),
                 ];
             },
             /*

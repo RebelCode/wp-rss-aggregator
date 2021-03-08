@@ -169,18 +169,41 @@ function wprss_feed_source_update_stop_schedule($feed_id)
 }
 
 /**
+ * Returns the timestamp for the next global update
+ *
+ * @since 4.18
+ *
+ * @return int The timestamp of the next global update operation, or false if no update is scheduled.
+ */
+function wprss_get_next_global_update()
+{
+    return wp_next_scheduled(WPRA_FETCH_ALL_FEEDS_HOOK, []);
+}
+
+/**
  * Returns the timestamp for the next feed source update
  *
  * @since 3.9
  *
- * @param int $feed_id The ID of the feed source ( wprss_feed )
+ * @param int  $feed_id  The ID of the feed source ( wprss_feed )
+ * @param bool $explicit If true, the function won't default to the global update if the feed doesn't use its own
+ *                       update interval.
  *
- * @return int The timestamp of the next update operation, or false is no
- *          update is scheduled.
+ * @return int The timestamp of the next update operation, or false if no update is scheduled.
  */
-function wprss_get_next_feed_source_update($feed_id)
+function wprss_get_next_feed_source_update($feed_id, $explicit = true)
 {
-    return wp_next_scheduled(WPRA_FETCH_FEED_HOOK, [strval($feed_id)]);
+    $next = wp_next_scheduled(WPRA_FETCH_FEED_HOOK, [strval($feed_id)]);
+
+    if ($explicit) {
+        return $next;
+    }
+
+    $meta = get_post_meta($feed_id, 'wprss_update_interval', true);
+
+    return (empty($meta) || $meta === wprss_get_default_feed_source_update_interval())
+        ? wprss_get_next_global_update()
+        : $next;
 }
 
 /**

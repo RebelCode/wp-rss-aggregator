@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "182675f8ea177644e81fbe74b900c68c",
+    "content-hash": "481fb558bb592f6b51a6b125ab16f99a",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1512,26 +1512,27 @@
         },
         {
             "name": "rebelcode/composer-cleanup-plugin",
-            "version": "dev-master",
+            "version": "v0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RebelCode/composer-cleanup-plugin.git",
-                "reference": "d035eb045eeb88b5029c2974e14e328f250ff25a"
+                "reference": "3677eb752eb8ca042ba6f725b33f419b93857a62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RebelCode/composer-cleanup-plugin/zipball/d035eb045eeb88b5029c2974e14e328f250ff25a",
-                "reference": "d035eb045eeb88b5029c2974e14e328f250ff25a",
+                "url": "https://api.github.com/repos/RebelCode/composer-cleanup-plugin/zipball/3677eb752eb8ca042ba6f725b33f419b93857a62",
+                "reference": "3677eb752eb8ca042ba6f725b33f419b93857a62",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0"
+                "composer-plugin-api": "^2.0"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0"
             },
             "type": "composer-plugin",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1-dev"
-                },
+                "branch-alias": [],
                 "class": "RebelCode\\Composer\\CleanupPlugin"
             },
             "autoload": {
@@ -1545,16 +1546,19 @@
             ],
             "authors": [
                 {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                },
-                {
                     "name": "RebelCode",
                     "email": "dev@rebelcode.com"
+                },
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
                 }
             ],
             "description": "A composer cleanup plugin, to remove tests and documentation to save space",
-            "time": "2019-05-29T12:49:11+00:00"
+            "support": {
+                "source": "https://github.com/RebelCode/composer-cleanup-plugin/tree/v0.2"
+            },
+            "time": "2021-02-09T13:24:28+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -3074,9 +3078,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "rebelcode/composer-cleanup-plugin": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -3088,5 +3090,5 @@
     "platform-overrides": {
         "php": "5.4"
     },
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

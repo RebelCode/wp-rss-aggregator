@@ -135,6 +135,10 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
                 'options' => ['default', 'numbers'],
                 'default' => 'default',
             ],
+            'audio_player_enabled' => [
+                'filter' => FILTER_VALIDATE_BOOLEAN,
+                'default' => false,
+            ]
         ];
     }
 }

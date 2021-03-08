@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.17.10
+ * Version: 4.18
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -76,7 +76,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.17.10' );
+    define( 'WPRSS_VERSION', '4.18' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -317,6 +317,9 @@ require_once ( WPRSS_INC . 'polyfills.php' );
 
 /* Load the youtube functionality */
 require_once ( WPRSS_INC . 'youtube.php' );
+
+/* Load the multi-media file */
+require_once ( WPRSS_INC . 'multimedia.php' );
 
 /* Load the Templates v0.2.1 update path */
 require_once ( WPRSS_INC . 'templates-update.php' );

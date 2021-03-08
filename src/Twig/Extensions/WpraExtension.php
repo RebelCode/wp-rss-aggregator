@@ -45,6 +45,7 @@ class WpraExtension extends AbstractExtension
             $this->getWpraTooltipFunction(),
             $this->getHtmlEntitiesDecodeFunction(),
             $this->getWpraItemUrlFunction(),
+            $this->getWpraIsAudioFunction(),
         ];
     }
 
@@ -163,8 +164,20 @@ class WpraExtension extends AbstractExtension
         ];
 
         return new TwigFunction($name, function ($url, $options, $className = '') {
-            return  ' ' . $this->prepareLinkAttrs($url, $options, $className);
+            return ' ' . $this->prepareLinkAttrs($url, $options, $className);
         }, $options);
+    }
+
+    /**
+     * Retrieves the "wpra_is_audio_url" Twig function.
+     *
+     * @since 4.18
+     *
+     * @return TwigFunction The function instance.
+     */
+    protected function getWpraIsAudioFunction()
+    {
+        return new TwigFunction('wpra_is_audio_url', 'wpra_is_audio_file');
     }
 
     /**

@@ -342,6 +342,7 @@ class FeedSourcesModule implements ModuleInterface
              */
             'wpra/feeds/sources/meta_box/save_handler' => function (ContainerInterface $c) {
                 return new FeedSourceSaveMetaHandler(
+                    $c->get('wpra/feeds/sources/cpt/name'),
                     $c->get('wpra/feeds/sources/collection')
                 );
             },
@@ -359,7 +360,7 @@ class FeedSourcesModule implements ModuleInterface
             /*
              * Extends the list of REST API endpoints to register the feed sources endpoints.
              *
-             * @since [*next-version*]
+             * @since 4.18
              */
             'wpra/rest_api/v1/endpoints' => function (ContainerInterface $c, $endpoints) {
                 $endpoints['get_sources'] = new EndPoint(

@@ -27,6 +27,16 @@ div.wpra-list-template .wpra-item-list > li.wpra-item > div.wprss-feed-meta > sp
 	list-style: decimal;
 }
 
+/* Audio player */
+.wpra-feed-audio {
+	display: block;
+	margin: 0 5px;
+}
+
+.wpra-feed-audio audio {
+	width: 100%;
+}
+
 /**
  * Old styles
  */

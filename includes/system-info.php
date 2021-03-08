@@ -157,13 +157,8 @@ endif;
 CURRENT THEME:
 
 <?php
-if ( get_bloginfo( 'version' ) < '3.4' ) {
-    $theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
-    echo $theme_data['Name'] . ': ' . $theme_data['Version'];
-} else {
-    $theme_data = wp_get_theme();
-    echo $theme_data->Name . ': ' . $theme_data->Version;
-}
+$theme_data = wp_get_theme();
+echo $theme_data->Name . ': ' . $theme_data->Version;
 ?>
 
 
@@ -232,7 +227,7 @@ foreach ($extensions as $extension) {
  * @param null|string $host The address of the database host, to which to connect.
  *	May contain the port number in standard URI format.
  *  Default: value of the DB_HOST constant, if defined, otherwise null.
- * @param null|string $username The username to be used for connecting to the databse.
+ * @param null|string $username The username to be used for connecting to the database.
  *  Default: value of the DB_USER constant, if defined, otherwise null.
  * @param null|string $password The password to be used for connecting to the database.
  *	Default: value of the DB_PASSWORD constant, if defined, otherwise null.
@@ -259,25 +254,6 @@ function wprss_sysinfo_get_db_server( $host = null, $username = null, $password 
         $mysqli = new mysqli( $host, $username, $password, '', $port );
         $result['extension'] = 'mysqli';
         $result['server_info'] = $mysqli->server_info;
-        return $result;
-    }
-
-    if ( function_exists( 'mysql_connect' ) ) {
-        if (version_compare(PHP_VERSION, '7.0', '>=')) {
-            $result['warning'] = __(
-                'The mysql extension is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead',
-                'wprss'
-            );
-            $result['extension'] = 'mysql';
-            $result['server_info'] = '';
-            return $result;
-        }
-
-        if ( $port ) $host = implode ( ':', array( $host, $port ) );
-
-        $mysql = mysql_connect( $host, $username, $password );
-        $result['extension'] = 'mysql';
-        $result['server_info'] = mysql_get_server_info( $mysql );
         return $result;
     }
 
