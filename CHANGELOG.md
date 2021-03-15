@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Using a single store URL for addon license verification.
-* Increased the time limits
+* Increased the PHP execution time limits for image downloads.
 
 ### Fixed
 * Licenses for the Templates addon could not be verified.
