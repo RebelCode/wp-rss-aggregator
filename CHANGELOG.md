@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.1] - 2021-03-15
+### Added
+* New filters to change the time limits during image downloads.
+
+### Changed
+* Using a single store URL for addon license verification.
+* Increased the time limits
+
+### Fixed
+* Licenses for the Templates addon could not be verified.
+
 ## [4.18] - 2021-03-08
 ### Added
 * The total import time is now recorded in the debug log.
