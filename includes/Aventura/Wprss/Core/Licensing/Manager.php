@@ -476,27 +476,30 @@ class Manager {
 
         // Prepare constants names
         $itemNameConstant = sprintf( 'WPRSS_%s_SL_ITEM_NAME', $addonUid );
-        $storeUrlConstant = sprintf( 'WPRSS_%s_SL_STORE_URL', $addonUid );
 
         // Check for existence of constants
-        if ( !defined($itemNameConstant) || !defined($storeUrlConstant) ) {
+        if ( !defined($itemNameConstant) ) {
             return null;
         }
 
         // Get constant values
         $itemName = constant( $itemNameConstant );
-        $storeUrl = constant( $storeUrlConstant );
         // Correct item name for lifetime variants
         $itemName = ($isLifetime)
             ? sprintf(static::LIFETIME_ITEM_NAME_PATTERN, $itemName)
             : $itemName;
 
+        $requestData = [
+            'edd_action' => $action,
+            'license'    => $license,
+            'item_name'  => $itemName,
+        ];
+
+        $storeUrl = apply_filters('wpra/licensing/store_url', WPRSS_SL_STORE_URL, $addonId, $action, $license);
+        $requestData = apply_filters('wpra/licensing/request', $requestData, $addonId, $action, $license);
+
         try {
-            $licenseData = $this->api($storeUrl, $requestData = array(
-                'edd_action'            => $action,
-                'license'               => $license,
-                'item_name'             => $itemName,
-            ));
+            $licenseData = $this->api($storeUrl, $requestData);
         }
         catch ( RequestException $e ) {
             wprss_log( sprintf( 'Could not retrieve licensing data from "%1$s": %2$s', $storeUrl, $e->getMessage() ), __FUNCTION__, WPRSS_LOG_LEVEL_WARNING );
