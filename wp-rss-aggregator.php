@@ -139,7 +139,7 @@ if( !defined( 'WPRSS_LOG_FILE_EXT' ) )
     define( 'WPRSS_LOG_FILE_EXT', '.txt' );
 
 if ( !defined('WPRSS_SL_STORE_URL') ) {
-    define( 'WPRSS_SL_STORE_URL', 'https://www.wprssaggregator.com' );
+    define( 'WPRSS_SL_STORE_URL', 'https://www.wprssaggregator.com/edd-sl-api/' );
 }
 
 if ( !defined( 'WPRSS_TEXT_DOMAIN' ) ) {
