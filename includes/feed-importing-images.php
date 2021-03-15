@@ -704,7 +704,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
     }
 
     // Allow 10 seconds prior to beginning the actual download
-    set_time_limit(10);
+    set_time_limit(apply_filters('wpra/images/time_limit/prepare', 10));
 
     // Check if the image already exists in the media library
     $existing = get_posts([
@@ -728,7 +728,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
             $url = apply_filters('wpra/images/url_to_download', $url);
 
             // Allow 30 seconds for the download process
-            set_time_limit(30);
+            set_time_limit(apply_filters('wpra/images/time_limit/download', 30));
 
             $img = $images->get($url);
         } catch (Exception $e) {
@@ -859,7 +859,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
         clearstatcache(false, $file_array['tmp_name']);
 
         // Allocate 10 for WordPress to copy and process the image
-        set_time_limit(10);
+        set_time_limit(apply_filters('wpra/images/time_limit/copy', 10));
 
         // $post_data can override the items saved to wp_posts table,
         // like post_mime_type, guid, post_parent, post_title, post_content, post_status
