@@ -65,7 +65,7 @@ class WpraExtension extends AbstractExtension
     /**
      * Retrieves the wp_filter twig function.
      *
-     * @since [*next-version*]
+     * @since 4.18.2
      *
      * @return TwigFunction
      */
