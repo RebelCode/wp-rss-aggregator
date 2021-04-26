@@ -2,8 +2,7 @@ var WPRSS_TMCE_PLUGIN_ID = 'wprss';
 var WPRSS_ED = null;
 var wprss_dialog_submit = null;
 
-jQuery( document ).ready( function($) {
-
+(function($) {
 	wprss_dialog_submit = function() {
 		this.focus();
 
@@ -159,4 +158,4 @@ jQuery( document ).ready( function($) {
 		}
 	});
 	tinymce.PluginManager.add( WPRSS_TMCE_PLUGIN_ID, tinymce.plugins.wprss );
-});
+})(jQuery);
