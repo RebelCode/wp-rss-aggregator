@@ -40,6 +40,7 @@ class WpraExtension extends AbstractExtension
     {
         return [
             $this->getWpraFunction(),
+            $this->getWpFilterFunction(),
             $this->getWpraLinkAttrsFunction(),
             $this->getWpNonceFieldFunction(),
             $this->getWpraTooltipFunction(),
@@ -59,6 +60,26 @@ class WpraExtension extends AbstractExtension
     protected function getWpraFunction()
     {
         return new TwigFunction('wpra', 'wpra_container');
+    }
+
+    /**
+     * Retrieves the wp_filter twig function.
+     *
+     * @since [*next-version*]
+     *
+     * @return TwigFunction
+     */
+    protected function getWpFilterFunction()
+    {
+        return new TwigFunction(
+            'wp_filter',
+            function ($name) {
+                return apply_filters('wpra/' . $name, '');
+            },
+            [
+                'is_safe' => ['html'],
+            ]
+        );
     }
 
     /**
