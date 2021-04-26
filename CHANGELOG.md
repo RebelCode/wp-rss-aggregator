@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.2] - 2021-04-26
+### Changed
+* Audio players no longer preload the audio file. Audio is now loaded only the play button is clicked.
+
+### Fixed
+* Pagination would sometimes cause the page to scroll upwards.
+* Images were wrongly determined to be from Facebook and were being renamed incorrectly.
+* Invalid cron schedules no longer cause a fatal error.
+* The shortcode icon in the classic editor would sometimes not be shown.
+
 ## [4.18.1] - 2021-03-15
 ### Added
 * New filters to change the time limits during image downloads.
