@@ -793,7 +793,11 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
         }
 
         // Fix for Facebook images that come from a PHP endpoint
-        $baseName = str_replace($baseName, 'safe_image.php', 'fb_image.jpeg');
+        if (stripos($baseName, 'safe_image.php') !== false) {
+            $hash = crc32(trim($img->get_url()));
+
+            $baseName = str_replace('safe_image.php', $hash . '.jpeg', $baseName);
+        }
 
         $file_array['name'] = $baseName;
 

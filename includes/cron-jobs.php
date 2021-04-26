@@ -319,8 +319,12 @@ function wprss_filter_cron_schedules($schedules)
 {
     // Pluck out the intervals
     $intervals = array_map(function ($schedule) {
-        return $schedule['interval'];
+        return (isset($schedule['interval']) && is_numeric($schedule['interval']))
+            ? $schedule['interval']
+            : null;
     }, $schedules);
+    // Remove null values
+    $intervals = array_filter($intervals);
     // Get a map of intervals -> keys for fast interval lookup
     $intervalsMap = array_flip($intervals);
 

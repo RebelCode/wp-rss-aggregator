@@ -25,6 +25,8 @@
     {% set date_class = "time-ago" %}
 {% endif %}
 
+{{ wp_filter('template/list/before_item') }}
+
 <div class="wprss-feed-meta">
     {% if options.source_enabled %}
         <span class="feed-source">
@@ -52,3 +54,5 @@
 </div>
 
 {% include "feeds/_parts/audio-player.twig" %}
+
+{{ wp_filter('template/list/after_item') }}

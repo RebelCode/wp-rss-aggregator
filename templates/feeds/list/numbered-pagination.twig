@@ -9,7 +9,7 @@
 <div class="nav-links">
     {% if isNewerVisible %}
         <div class="nav-previous alignleft wpra-feed-prev-page">
-            <a href="#" data-wpra-page="{{ pagination.page - 1 }}">
+            <a data-wpra-page="{{ pagination.page - 1 }}">
                 {% trans "Previous" %}
             </a>
         </div>
@@ -24,7 +24,7 @@
             </span>
         {% else %}
             <div class="nav-next alignleft wpra-feed-page">
-                <a href="#" data-wpra-page="{{ page }}">
+                <a data-wpra-page="{{ page }}">
                     {{ page }}
                 </a>
             </div>
@@ -35,7 +35,7 @@
     {% endif %}
     {% if isOlderVisible %}
         <div class="nav-next alignleft wpra-feed-next-pages">
-            <a href="#" data-wpra-page="{{ pagination.page + 1 }}">
+            <a data-wpra-page="{{ pagination.page + 1 }}">
                 {% trans "Next" %}
             </a>
         </div>
