@@ -13,7 +13,7 @@
  */
 
 /**
- * @copyright   Copyright (c) 2012-2019, RebelCode Ltd.
+ * @copyright   Copyright (c) 2012-2021, RebelCode Ltd.
  * @link        https://www.wprssaggregator.com/
  * @license     http://www.gnu.org/licenses/gpl.html
  *
