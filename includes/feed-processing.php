@@ -579,6 +579,8 @@
             ? $source->ID
             : $source;
 
+        $logger = wpra_get_logger($id);
+
         // Get the max age setting for this feed source
         $max_age = wprss_get_max_age_for_feed_source( $id );
 
@@ -597,6 +599,8 @@
 
         // Extend the timeout time limit for the deletion of the feed items
         set_time_limit( wprss_get_item_import_time_limit() );
+
+        $logger->debug('Truncating existing items');
 
         // For each feed item
         while ( $feed_items->have_posts() ) {
