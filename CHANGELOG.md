@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased] - YYYY-MM-DD
+### Added
+* Support for importing images from `<image>` tags.
+
 ## [4.18.2] - 2021-04-26
 ### Changed
 * Audio players no longer preload the audio file. Audio is now loaded only the play button is clicked.

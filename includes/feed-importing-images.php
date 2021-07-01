@@ -262,17 +262,15 @@ function wpra_download_item_images($images, $postId)
  */
 function wpra_get_item_images($item)
 {
-    // Detect images and save them
-    $images = [];
-
-    // Add the media thumbnail image
-    $images['media'] = [wpra_get_item_media_thumbnail_image($item)];
-    $images['enclosure'] = wpra_get_item_enclosure_images($item);
-    $images['content'] = wpra_get_item_content_images($item);
-    $images['itunes'] = wpra_get_item_itunes_images($item);
-    $images['feed'] = [$item->get_feed()->get_image_url()];
-
-    return $images;
+    return apply_filters('wpra/images/detect_from_item', [
+        'thumbnail' => [$item->get_thumbnail()],
+        'image' => wpra_get_item_rss_images($item),
+        'media' => [wpra_get_item_media_thumbnail_image($item)],
+        'enclosure' => wpra_get_item_enclosure_images($item),
+        'content' => wpra_get_item_content_images($item),
+        'itunes' => wpra_get_item_itunes_images($item),
+        'feed' => [$item->get_feed()->get_image_url()],
+    ], $item);
 }
 
 /**
@@ -360,6 +358,28 @@ function wpra_process_images($images, $source, &$bestImage = null)
     }
 
     return $finalImages;
+}
+
+/**
+ * Returns the images from the RSS <image> tags for the given feed item.
+ *
+ * @param SimplePie_Item $item The feed item
+ *
+ * @return array The string URLs of the images.
+ */
+function wpra_get_item_rss_images($item)
+{
+    if (isset($item->data['child']['']['image'])) {
+        $imageTags = $item->data['child']['']['image'];
+
+        $urls = array_map(function ($tag) {
+            return isset($tag['data']) ? $tag['data'] : null;
+        }, $imageTags);
+
+        return array_filter($urls);
+    }
+
+    return [];
 }
 
 /**
