@@ -213,7 +213,12 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
         $logger->info(sprintf('Import completed in %.2f seconds!', $t));
     };
 
-    $importFn($feed_ID);
+    try {
+        $importFn($feed_ID);
+    } catch (Exception $e) {
+        wpra_get_logger($feed_ID)->error($e->getMessage());
+        throw $e;
+    }
 
     delete_transient('wpra/feeds/importing/' . $feed_ID);
     wprss_flag_feed_as_idle($feed_ID);
