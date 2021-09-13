@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "481fb558bb592f6b51a6b125ab16f99a",
+    "content-hash": "abc961dc0ef71692e4e9f9222efdbdee",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -35,6 +35,10 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "support": {
+                "issues": "https://github.com/container-interop/container-interop/issues",
+                "source": "https://github.com/container-interop/container-interop/tree/master"
+            },
             "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
@@ -67,6 +71,10 @@
             ],
             "description": "Promoting container interoperability through standard service providers",
             "homepage": "https://github.com/container-interop/service-provider",
+            "support": {
+                "issues": "https://github.com/container-interop/service-provider/issues",
+                "source": "https://github.com/container-interop/service-provider/tree/master"
+            },
             "time": "2016-05-16T07:42:22+00:00"
         },
         {
@@ -110,6 +118,10 @@
                 }
             ],
             "description": "A collections library",
+            "support": {
+                "issues": "https://github.com/Dhii/collections-abstract/issues",
+                "source": "https://github.com/Dhii/collections-abstract/tree/master"
+            },
             "time": "2016-11-10T19:29:24+00:00"
         },
         {
@@ -152,6 +164,10 @@
                 }
             ],
             "description": "Collection base classes that do not depend on other non-collection packages, on which there is a dependency of other collection packages that depend on this package. This is done to avoid circular reference in the collection toolchain",
+            "support": {
+                "issues": "https://github.com/Dhii/collections-abstract-base/issues",
+                "source": "https://github.com/Dhii/collections-abstract-base/tree/master"
+            },
             "abandoned": "dhii/collections",
             "time": "2016-11-10T15:09:37+00:00"
         },
@@ -194,6 +210,10 @@
                 }
             ],
             "description": "Interfaces for collections",
+            "support": {
+                "issues": "https://github.com/Dhii/collections-interface/issues",
+                "source": "https://github.com/Dhii/collections-interface/tree/master"
+            },
             "time": "2016-11-16T14:45:08+00:00"
         },
         {
@@ -243,6 +263,10 @@
                 }
             ],
             "description": "Helper functionality for working with container.",
+            "support": {
+                "issues": "https://github.com/Dhii/container-helper-base/issues",
+                "source": "https://github.com/Dhii/container-helper-base/tree/develop"
+            },
             "time": "2018-07-30T09:59:15+00:00"
         },
         {
@@ -297,6 +321,10 @@
                 "dependency injection",
                 "di"
             ],
+            "support": {
+                "issues": "https://github.com/Dhii/di/issues",
+                "source": "https://github.com/Dhii/di/tree/master"
+            },
             "abandoned": "dhii/containers",
             "time": "2017-02-03T13:33:48+00:00"
         },
@@ -343,6 +371,10 @@
                 }
             ],
             "description": "Base abstract classes for DI container implementations",
+            "support": {
+                "issues": "https://github.com/Dhii/di-abstract/issues",
+                "source": "https://github.com/Dhii/di-abstract/tree/master"
+            },
             "time": "2017-02-02T18:30:06+00:00"
         },
         {
@@ -387,6 +419,10 @@
                 }
             ],
             "description": "Interfaces for DI container implementations",
+            "support": {
+                "issues": "https://github.com/Dhii/di-interface/issues",
+                "source": "https://github.com/Dhii/di-interface/tree/master"
+            },
             "time": "2017-02-02T13:12:09+00:00"
         },
         {
@@ -441,6 +477,10 @@
                 }
             ],
             "description": "Standards-compliant exception classes",
+            "support": {
+                "issues": "https://github.com/Dhii/exception/issues",
+                "source": "https://github.com/Dhii/exception/tree/develop"
+            },
             "time": "2018-04-02T15:18:58+00:00"
         },
         {
@@ -489,6 +529,10 @@
                 }
             ],
             "description": "Interfaces for most common exceptions",
+            "support": {
+                "issues": "https://github.com/Dhii/exception-interface/issues",
+                "source": "https://github.com/Dhii/exception-interface/tree/develop"
+            },
             "time": "2018-08-29T10:42:04+00:00"
         },
         {
@@ -539,6 +583,11 @@
                 }
             ],
             "description": "Interfaces for working with factories.",
+            "support": {
+                "issues": "https://github.com/Dhii/factory-interface/issues",
+                "source": "https://github.com/Dhii/factory-interface/tree/master"
+            },
+            "abandoned": true,
             "time": "2018-08-29T11:15:09+00:00"
         },
         {
@@ -587,6 +636,10 @@
                 }
             ],
             "description": "A base for internationalization consumers",
+            "support": {
+                "issues": "https://github.com/Dhii/i18n-helper-base/issues",
+                "source": "https://github.com/Dhii/i18n-helper-base/tree/develop"
+            },
             "abandoned": true,
             "time": "2018-03-07T22:38:07+00:00"
         },
@@ -632,6 +685,10 @@
                 }
             ],
             "description": "Interfaces for internationalization.",
+            "support": {
+                "issues": "https://github.com/Dhii/i18n-interface/issues",
+                "source": "https://github.com/Dhii/i18n-interface/tree/master"
+            },
             "time": "2017-03-15T16:01:39+00:00"
         },
         {
@@ -685,6 +742,10 @@
                 }
             ],
             "description": "Common functionality for working with iterables",
+            "support": {
+                "issues": "https://github.com/Dhii/iterator-helper-base/issues",
+                "source": "https://github.com/Dhii/iterator-helper-base/tree/develop"
+            },
             "time": "2018-03-22T11:25:07+00:00"
         },
         {
@@ -733,6 +794,10 @@
                 }
             ],
             "description": "Functionality for normalizing values.",
+            "support": {
+                "issues": "https://github.com/Dhii/normalization-helper-base/issues",
+                "source": "https://github.com/Dhii/normalization-helper-base/tree/develop"
+            },
             "time": "2018-06-04T08:55:31+00:00"
         },
         {
@@ -788,6 +853,10 @@
                 }
             ],
             "description": "Common abstract functionality for output renderers.",
+            "support": {
+                "issues": "https://github.com/Dhii/output-renderer-abstract/issues",
+                "source": "https://github.com/Dhii/output-renderer-abstract/tree/develop"
+            },
             "abandoned": true,
             "time": "2018-05-10T12:31:09+00:00"
         },
@@ -843,6 +912,10 @@
                 }
             ],
             "description": "Base concrete functionality for output rendering.",
+            "support": {
+                "issues": "https://github.com/Dhii/output-renderer-base/issues",
+                "source": "https://github.com/Dhii/output-renderer-base/tree/v0.1-alpha1"
+            },
             "abandoned": true,
             "time": "2018-04-05T13:32:07+00:00"
         },
@@ -898,6 +971,10 @@
                 }
             ],
             "description": "An interface for objects that can perform rendering.",
+            "support": {
+                "issues": "https://github.com/Dhii/output-renderer-interface/issues",
+                "source": "https://github.com/Dhii/output-renderer-interface/tree/develop"
+            },
             "time": "2019-11-14T11:20:00+00:00"
         },
         {
@@ -940,6 +1017,10 @@
                 }
             ],
             "description": "Abstract base for stats",
+            "support": {
+                "issues": "https://github.com/Dhii/stats-abstract/issues",
+                "source": "https://github.com/Dhii/stats-abstract/tree/master"
+            },
             "time": "2016-11-10T18:55:43+00:00"
         },
         {
@@ -979,6 +1060,10 @@
                 }
             ],
             "description": "Interfaces for stats",
+            "support": {
+                "issues": "https://github.com/Dhii/stats-interface/issues",
+                "source": "https://github.com/Dhii/stats-interface/tree/master"
+            },
             "time": "2016-11-10T15:38:37+00:00"
         },
         {
@@ -1021,6 +1106,11 @@
                 }
             ],
             "description": "Interoperability interface for objects that can be cast to string",
+            "support": {
+                "issues": "https://github.com/Dhii/stringable-interface/issues",
+                "source": "https://github.com/Dhii/stringable-interface/tree/master"
+            },
+            "abandoned": "symfony/polyfill-php80",
             "time": "2017-01-23T15:08:20+00:00"
         },
         {
@@ -1070,6 +1160,10 @@
                 }
             ],
             "description": "Interfaces for data transformation",
+            "support": {
+                "issues": "https://github.com/Dhii/transformer-interface/issues",
+                "source": "https://github.com/Dhii/transformer-interface/tree/v0.1-alpha1"
+            },
             "time": "2018-05-15T16:59:05+00:00"
         },
         {
@@ -1126,6 +1220,10 @@
                 }
             ],
             "description": "Common abstract functionality for validation.",
+            "support": {
+                "issues": "https://github.com/Dhii/validation-abstract/issues",
+                "source": "https://github.com/Dhii/validation-abstract/tree/develop"
+            },
             "time": "2018-03-07T21:05:39+00:00"
         },
         {
@@ -1179,6 +1277,10 @@
                 }
             ],
             "description": "Base concrete functionality for validation.",
+            "support": {
+                "issues": "https://github.com/Dhii/validation-base/issues",
+                "source": "https://github.com/Dhii/validation-base/tree/develop"
+            },
             "time": "2018-04-02T13:31:36+00:00"
         },
         {
@@ -1229,6 +1331,10 @@
                 }
             ],
             "description": "A base interface for validators",
+            "support": {
+                "issues": "https://github.com/Dhii/validation-interface/issues",
+                "source": "https://github.com/Dhii/validation-interface/tree/master"
+            },
             "time": "2018-08-29T11:39:22+00:00"
         },
         {
@@ -1275,144 +1381,11 @@
                 "markdown",
                 "parser"
             ],
+            "support": {
+                "issues": "https://github.com/erusev/parsedown/issues",
+                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
+            },
             "time": "2019-12-30T22:54:17+00:00"
-        },
-        {
-            "name": "php-di/invoker",
-            "version": "1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-DI/Invoker.git",
-                "reference": "1f4ca63b9abc66109e53b255e465d0ddb5c2e3f7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/1f4ca63b9abc66109e53b255e465d0ddb5c2e3f7",
-                "reference": "1f4ca63b9abc66109e53b255e465d0ddb5c2e3f7",
-                "shasum": ""
-            },
-            "require": {
-                "container-interop/container-interop": "~1.1"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "phpunit/phpunit": "~4.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Invoker\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Generic and extensible callable invoker",
-            "homepage": "https://github.com/PHP-DI/Invoker",
-            "keywords": [
-                "callable",
-                "dependency",
-                "dependency-injection",
-                "injection",
-                "invoke",
-                "invoker"
-            ],
-            "time": "2016-07-14T13:09:58+00:00"
-        },
-        {
-            "name": "php-di/php-di",
-            "version": "5.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "f574bcc841201ab04587b1c6da1234d4044f67d8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/f574bcc841201ab04587b1c6da1234d4044f67d8",
-                "reference": "f574bcc841201ab04587b1c6da1234d4044f67d8",
-                "shasum": ""
-            },
-            "require": {
-                "container-interop/container-interop": "~1.0",
-                "php": ">=5.4.0",
-                "php-di/invoker": "^1.1.1",
-                "php-di/phpdoc-reader": "^2.0.1"
-            },
-            "replace": {
-                "mnapoli/php-di": "*"
-            },
-            "require-dev": {
-                "doctrine/annotations": "~1.2",
-                "doctrine/cache": "~1.4",
-                "mnapoli/phpunit-easymock": "~0.2.0",
-                "ocramius/proxy-manager": "~1.0",
-                "phpunit/phpunit": "~4.5"
-            },
-            "suggest": {
-                "doctrine/annotations": "Install it if you want to use annotations (version ~1.2)",
-                "doctrine/cache": "Install it if you want to use the cache (version ~1.4)",
-                "ocramius/proxy-manager": "Install it if you want to use lazy injection (version ~1.0)"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DI\\": "src/DI/"
-                },
-                "files": [
-                    "src/DI/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The dependency injection container for humans",
-            "homepage": "http://php-di.org/",
-            "keywords": [
-                "container",
-                "dependency injection",
-                "di"
-            ],
-            "time": "2016-02-09T22:00:00+00:00"
-        },
-        {
-            "name": "php-di/phpdoc-reader",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-DI/PhpDocReader.git",
-                "reference": "15678f7451c020226807f520efb867ad26fbbfcf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/15678f7451c020226807f520efb867ad26fbbfcf",
-                "reference": "15678f7451c020226807f520efb867ad26fbbfcf",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpDocReader\\": "src/PhpDocReader"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PhpDocReader parses @var and @param values in PHP docblocks (supports namespaced class names with the same resolution rules as PHP)",
-            "keywords": [
-                "phpdoc",
-                "reflection"
-            ],
-            "time": "2019-09-26T11:24:58+00:00"
         },
         {
             "name": "psr/container",
@@ -1461,20 +1434,24 @@
                 "container-interop",
                 "psr"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
             "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.1.2",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
                 "shasum": ""
             },
             "require": {
@@ -1498,7 +1475,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for logging libraries",
@@ -1508,7 +1485,10 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2019-11-01T11:05:21+00:00"
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
+            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "rebelcode/composer-cleanup-plugin",
@@ -1562,16 +1542,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.13.1",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3"
+                "reference": "aed596913b70fae57be53d86faa2e9ef85a2297b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
-                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/aed596913b70fae57be53d86faa2e9ef85a2297b",
+                "reference": "aed596913b70fae57be53d86faa2e9ef85a2297b",
                 "shasum": ""
             },
             "require": {
@@ -1583,7 +1563,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-main": "1.19-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -1616,20 +1600,37 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2019-11-27T13:56:44+00:00"
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.19.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-23T09:01:57+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.17.1",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "7110338d81ce1cbc3e273136e4574663627037a7"
+                "reference": "b5f7b932ee6fa802fc792eabd77c4c88084517ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7110338d81ce1cbc3e273136e4574663627037a7",
-                "reference": "7110338d81ce1cbc3e273136e4574663627037a7",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b5f7b932ee6fa802fc792eabd77c4c88084517ce",
+                "reference": "b5f7b932ee6fa802fc792eabd77c4c88084517ce",
                 "shasum": ""
             },
             "require": {
@@ -1641,7 +1642,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-main": "1.19-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -1679,6 +1680,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.19.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -1693,7 +1697,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-06T08:46:27+00:00"
+            "time": "2020-10-23T09:01:57+00:00"
         },
         {
             "name": "symfony/translation",
@@ -1757,6 +1761,9 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/translation/tree/v2.8.50"
+            },
             "time": "2018-11-24T21:16:41+00:00"
         },
         {
@@ -1812,6 +1819,11 @@
                 "i18n",
                 "text"
             ],
+            "support": {
+                "issues": "https://github.com/twigphp/Twig-extensions/issues",
+                "source": "https://github.com/twigphp/Twig-extensions/tree/master"
+            },
+            "abandoned": true,
             "time": "2018-12-05T18:34:18+00:00"
         },
         {
@@ -1878,6 +1890,10 @@
             "keywords": [
                 "templating"
             ],
+            "support": {
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/1.x"
+            },
             "time": "2019-05-14T11:59:08+00:00"
         }
     ],
@@ -1918,6 +1934,10 @@
                 "GPL-2.0+"
             ],
             "description": "A mocking library to take the pain out of unit testing for WordPress",
+            "support": {
+                "issues": "https://github.com/10up/wp_mock/issues",
+                "source": "https://github.com/10up/wp_mock/tree/master"
+            },
             "time": "2015-03-31T18:55:45+00:00"
         },
         {
@@ -1958,6 +1978,10 @@
                 "runkit",
                 "testing"
             ],
+            "support": {
+                "issues": "https://github.com/antecedent/patchwork/issues",
+                "source": "https://github.com/antecedent/patchwork/tree/master"
+            },
             "time": "2016-07-02T04:25:33+00:00"
         },
         {
@@ -2012,6 +2036,10 @@
                 "constructor",
                 "instantiate"
             ],
+            "support": {
+                "issues": "https://github.com/doctrine/instantiator/issues",
+                "source": "https://github.com/doctrine/instantiator/tree/master"
+            },
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
@@ -2057,6 +2085,10 @@
             "keywords": [
                 "test"
             ],
+            "support": {
+                "issues": "https://github.com/hamcrest/hamcrest-php/issues",
+                "source": "https://github.com/hamcrest/hamcrest-php/tree/master"
+            },
             "time": "2015-05-11T14:41:42+00:00"
         },
         {
@@ -2097,6 +2129,13 @@
                 "cms",
                 "wordpress"
             ],
+            "support": {
+                "forum": "http://wordpress.org/support/",
+                "irc": "irc://irc.freenode.net/wordpress",
+                "issues": "http://core.trac.wordpress.org/",
+                "source": "http://core.trac.wordpress.org/browser",
+                "wiki": "http://codex.wordpress.org/"
+            },
             "time": "2019-06-18T17:57:57+00:00"
         },
         {
@@ -2162,6 +2201,10 @@
                 "test double",
                 "testing"
             ],
+            "support": {
+                "issues": "https://github.com/mockery/mockery/issues",
+                "source": "https://github.com/mockery/mockery/tree/0.9"
+            },
             "time": "2019-02-12T16:07:13+00:00"
         },
         {
@@ -2211,28 +2254,32 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
+            "support": {
+                "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/release/2.x"
+            },
             "time": "2016-01-25T08:17:30+00:00"
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.10.1",
+            "version": "v1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc"
+                "reference": "451c3cd1418cf640de218914901e51b064abb093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/451c3cd1418cf640de218914901e51b064abb093",
+                "reference": "451c3cd1418cf640de218914901e51b064abb093",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
-                "sebastian/comparator": "^1.2.3|^2.0|^3.0",
-                "sebastian/recursion-context": "^1.0|^2.0|^3.0"
+                "sebastian/comparator": "^1.2.3|^2.0|^3.0|^4.0",
+                "sebastian/recursion-context": "^1.0|^2.0|^3.0|^4.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^2.5 || ^3.2",
@@ -2274,7 +2321,11 @@
                 "spy",
                 "stub"
             ],
-            "time": "2019-12-22T21:05:45+00:00"
+            "support": {
+                "issues": "https://github.com/phpspec/prophecy/issues",
+                "source": "https://github.com/phpspec/prophecy/tree/v1.10.3"
+            },
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2336,6 +2387,11 @@
                 "testing",
                 "xunit"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/2.2"
+            },
             "time": "2015-10-06T15:47:00+00:00"
         },
         {
@@ -2383,6 +2439,11 @@
                 "filesystem",
                 "iterator"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/1.4.5"
+            },
             "time": "2017-11-27T13:52:08+00:00"
         },
         {
@@ -2424,6 +2485,10 @@
             "keywords": [
                 "template"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-text-template/issues",
+                "source": "https://github.com/sebastianbergmann/php-text-template/tree/1.2.1"
+            },
             "time": "2015-06-21T13:50:34+00:00"
         },
         {
@@ -2473,6 +2538,10 @@
             "keywords": [
                 "timer"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-timer/issues",
+                "source": "https://github.com/sebastianbergmann/php-timer/tree/master"
+            },
             "time": "2017-02-26T11:10:40+00:00"
         },
         {
@@ -2522,6 +2591,11 @@
             "keywords": [
                 "tokenizer"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-token-stream/issues",
+                "source": "https://github.com/sebastianbergmann/php-token-stream/tree/1.4"
+            },
+            "abandoned": true,
             "time": "2017-12-04T08:55:13+00:00"
         },
         {
@@ -2594,6 +2668,10 @@
                 "testing",
                 "xunit"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/phpunit/issues",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/4.8.36"
+            },
             "time": "2017-06-21T08:07:12+00:00"
         },
         {
@@ -2650,6 +2728,11 @@
                 "mock",
                 "xunit"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/phpunit-mock-objects/issues",
+                "source": "https://github.com/sebastianbergmann/phpunit-mock-objects/tree/2.3"
+            },
             "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
@@ -2715,6 +2798,10 @@
                 "compare",
                 "equality"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/comparator/issues",
+                "source": "https://github.com/sebastianbergmann/comparator/tree/1.2"
+            },
             "time": "2017-01-29T09:50:25+00:00"
         },
         {
@@ -2767,6 +2854,10 @@
             "keywords": [
                 "diff"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/diff/issues",
+                "source": "https://github.com/sebastianbergmann/diff/tree/1.4"
+            },
             "time": "2017-05-22T07:24:03+00:00"
         },
         {
@@ -2817,6 +2908,10 @@
                 "environment",
                 "hhvm"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/environment/issues",
+                "source": "https://github.com/sebastianbergmann/environment/tree/1.3"
+            },
             "time": "2016-08-18T05:49:44+00:00"
         },
         {
@@ -2884,6 +2979,10 @@
                 "export",
                 "exporter"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/exporter/issues",
+                "source": "https://github.com/sebastianbergmann/exporter/tree/master"
+            },
             "time": "2016-06-17T09:04:28+00:00"
         },
         {
@@ -2935,6 +3034,10 @@
             "keywords": [
                 "global state"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/global-state/issues",
+                "source": "https://github.com/sebastianbergmann/global-state/tree/1.1.1"
+            },
             "time": "2015-10-12T03:26:01+00:00"
         },
         {
@@ -2988,6 +3091,10 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/master"
+            },
             "time": "2016-10-03T07:41:43+00:00"
         },
         {
@@ -3023,6 +3130,10 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/version/issues",
+                "source": "https://github.com/sebastianbergmann/version/tree/1.0.6"
+            },
             "time": "2015-06-21T13:59:46+00:00"
         },
         {
@@ -3073,6 +3184,9 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v2.8.52"
+            },
             "time": "2018-11-11T11:18:13+00:00"
         }
     ],
@@ -3090,5 +3204,5 @@
     "platform-overrides": {
         "php": "5.4"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
