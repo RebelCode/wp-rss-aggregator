@@ -269,7 +269,7 @@ function wpra_get_item_images($item)
         'enclosure' => wpra_get_item_enclosure_images($item),
         'content' => wpra_get_item_content_images($item),
         'itunes' => wpra_get_item_itunes_images($item),
-        'feed' => [$item->get_feed()->get_image_url()],
+        'feed' => array_filter([$item->get_feed()->get_image_url()]),
     ], $item);
 }
 
@@ -325,6 +325,9 @@ function wpra_process_images($images, $source, &$bestImage = null)
 
     foreach ($images as $group => $urls) {
         foreach ($urls as $imageUrl) {
+            if (empty($imageUrl)) {
+                continue;
+            }
             try {
                 /* @var $tmp_img WPRSS_Image_Cache_Image */
                 $tmp_img = $imgContainer->get($imageUrl);
@@ -391,7 +394,7 @@ function wpra_get_item_rss_images($item)
         $imageTags = $item->data['child']['']['image'];
 
         $urls = array_map(function ($tag) {
-            return isset($tag['data']) ? $tag['data'] : null;
+            return isset($tag['data']) ? trim($tag['data']) : null;
         }, $imageTags);
 
         return array_filter($urls);
