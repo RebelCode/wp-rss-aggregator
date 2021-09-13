@@ -254,5 +254,5 @@
         wp_register_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-general-styles', WPRSS_CSS . 'admin-general-styles.css', array(), $version );
         wp_register_style( 'wprss-hs-beacon-css', WPRSS_CSS . 'beacon.css', array(), $version );
-        wp_register_style( 'jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
+        wp_register_style( 'jquery-style', WPRSS_CSS . 'jquery-ui-smoothness.css', array(), $version );
     }

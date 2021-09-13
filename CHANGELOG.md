@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Changed
 * Exceptions thrown during an import and caught and logged.
 * More details are now logged when a fatal error occurs during an import.
+* Using local versions of images and stylesheets.
 
 ## Fixed
 * Importing would sometimes fail when trying to fetch the media:thumbnail image.
