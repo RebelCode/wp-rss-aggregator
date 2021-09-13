@@ -908,10 +908,18 @@ function wprss_detect_exec_timeout() {
         return;
     }
 
+    $errorDetails = $error['message'];
+    if (!empty($error['file'])) {
+        $errorDetails .= ' in ' . $error['file'];
+    }
+    if (!empty($error['line'])) {
+        $errorDetails .= ' on line ' . $error['line'];
+    }
+
     $msg = sprintf(
         __('The importing process failed after %d seconds with the message: "%s"', 'wprss'),
         wprss_get_item_import_time_limit(),
-        $error['message']
+        $errorDetails
     );
     // Save the error in the feed source's meta and the plugin log
     update_post_meta($feed_ID, 'wprss_error_last_import', $msg);
