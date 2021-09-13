@@ -263,7 +263,7 @@ function wpra_download_item_images($images, $postId)
 function wpra_get_item_images($item)
 {
     return apply_filters('wpra/images/detect_from_item', [
-        'thumbnail' => [$item->get_thumbnail()],
+        'thumbnail' => array_filter([wpra_get_sp_thumbnail_image($item)]),
         'image' => wpra_get_item_rss_images($item),
         'media' => [wpra_get_item_media_thumbnail_image($item)],
         'enclosure' => wpra_get_item_enclosure_images($item),
@@ -271,6 +271,24 @@ function wpra_get_item_images($item)
         'itunes' => wpra_get_item_itunes_images($item),
         'feed' => [$item->get_feed()->get_image_url()],
     ], $item);
+}
+
+/**
+ * Retrieves the thumbnail as determined by SimplePie.
+ *
+ * @param SimplePie_Item $item
+ *
+ * @return string|null
+ */
+function wpra_get_sp_thumbnail_image($item)
+{
+    $thumbnail = $item->get_thumbnail();
+
+    if (!is_array($thumbnail) || !isset($thumbnail['url'])) {
+        return null;
+    }
+
+    return $thumbnail['url'];
 }
 
 /**
