@@ -295,7 +295,7 @@ function wpra_get_sp_thumbnail_image($item)
  * Processes a list of image URLs to strip away images that are unreachable or too small, as well as identify which
  * image in the list is the best image (in terms of dimensions and aspect ratio).
  *
- * @param array                  $images The image URLs.
+ * @param array $images The image URLs.
  * @param array|DataSetInterface $source The feed source data set.
  * @param string|null $bestImage This variable given as this parameter will be set to the URL of
  *                               the best found image.
@@ -329,7 +329,7 @@ function wpra_process_images($images, $source, &$bestImage = null)
                 continue;
             }
             try {
-                /* @var $tmp_img WPRSS_Image_Cache_Image */
+                /* @var WPRSS_Image_Cache_Image $tmp_img */
                 $tmp_img = $imgContainer->get($imageUrl);
 
                 $dimensions = ($tmp = $tmp_img->get_local_path())
