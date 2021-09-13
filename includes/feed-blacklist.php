@@ -88,28 +88,38 @@ function wprss_check_if_blacklist_item()
     }
 
     // Get the ID from the GET param
-    $ID = $_GET['wprss_blacklist'];
+    $id = filter_input(INPUT_GET, 'wprss_blacklist', FILTER_VALIDATE_INT);
+
     // If the post does not exist, stop. Show a message
-    if (get_post($ID) === null) {
+    $post = (is_int($id) && $id > 0)
+        ? get_post($id)
+        : null;
+    if ($post === null) {
         wp_die(__('The item you are trying to blacklist does not exist', 'wprss'));
     }
 
     // If the post type is not correct,
-    if (get_post_meta($ID, 'wprss_item_permalink', true) === '' || get_post_status($ID) !== 'trash') {
+    if (get_post_meta($id, 'wprss_item_permalink', true) === '' || $post->post_status !== 'trash') {
         wp_die(__('The item you are trying to blacklist is not valid!', 'wprss'));
     }
 
-    check_admin_referer('blacklist-item-' . $ID, 'wprss_blacklist_item');
-    wprss_blacklist_item($ID);
+    check_admin_referer('blacklist-item-' . $id, 'wprss_blacklist_item');
+    wprss_blacklist_item($id);
 
     // Get the current post type for the current page
-    $post_type = isset($_GET['post_type']) ? $_GET['post_type'] : 'post';
+    $postType = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
+    $postType = $postType ? $postType : 'post';
+
     // Check the current page, and generate the URL query string for the page
-    $paged = isset($_GET['paged']) ? '&paged=' . $_GET['paged'] : '';
+    $paged = filter_input(INPUT_GET, 'paged', FILTER_VALIDATE_INT);
+    $pagedArg = $paged
+        ? '&paged=' . urlencode($paged)
+        : '';
+
     // Set the notice transient
     set_transient('wprss_item_blacklist_notice', 'true');
     // Refresh the page without the GET parameter
-    wp_redirect(admin_url("edit.php?post_type=$post_type&post_status=trash" . $paged));
+    wp_redirect(admin_url("edit.php?post_type=$postType&post_status=trash" . $pagedArg));
 
     exit;
 }
@@ -144,8 +154,9 @@ function wprss_check_notice_transient()
 function wprss_blacklist_row_actions($actions)
 {
     // Check the current page, and generate the URL query string for the page
-    $paged = isset($_GET['paged'])
-        ? sprintf('&paged=%s', $_GET['paged'])
+    $paged = filter_input(INPUT_GET, 'paged', FILTER_VALIDATE_INT);
+    $pagedArg = is_int($paged) && $paged > 0
+        ? '&paged=' . urlencode($paged)
         : '';
 
     // Check the post type
@@ -170,7 +181,7 @@ function wprss_blacklist_row_actions($actions)
         admin_url("edit.php?post_type=$post_type&wprss_blacklist=$ID"),
         $ID
     );
-    $plain_url = $plain_url . $paged;
+    $plain_url = $plain_url . $pagedArg;
     // Add a nonce to the URL
     $nonced_url = wp_nonce_url($plain_url, 'blacklist-item-' . $ID, 'wprss_blacklist_item');
 
