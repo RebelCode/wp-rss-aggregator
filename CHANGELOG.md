@@ -4,12 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.19] - 2019-07-06
-### Added
-* Support for importing images from `<image>` tags.
-
+## [4.19.1] - YYYY-MM-DD
 ## Changed
-* Exceptions thrown during an import and caught and logged.
 * More details are now logged when a fatal error occurs during an import.
 * Using local versions of images and stylesheets.
 
@@ -17,6 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Importing would sometimes fail when trying to fetch the media:thumbnail image.
 * Some request data was not filtered and/or sanitized properly.
 * Some plugin-generated content was not properly escaped for use in HTML.
+
+## [4.19] - 2021-07-06
+### Added
+* Support for importing images from `<image>` tags.
+
+## Changed
+* Exceptions thrown during an import and caught and logged.
 
 ## [4.18.2] - 2021-04-26
 ### Changed
