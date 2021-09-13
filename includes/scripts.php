@@ -116,11 +116,6 @@
     function wprss_admin_scripts_styles()
     {
         $isWpraScreen = wprss_is_wprss_page();
-        $screen = get_current_screen();
-        $pageBase = $screen->base;
-        $postType = $screen->post_type;
-        $page = isset( $_GET['page'] )? $_GET['page'] : '';
-        $version = wprss()->getVersion();
 
         // On all admin screens
         wp_enqueue_style( 'wprss-admin-editor-styles' );
@@ -145,8 +140,6 @@
         $screen = get_current_screen();
         $pageBase = $screen->base;
         $postType = $screen->post_type;
-        $page = isset( $_GET['page'] )? $_GET['page'] : '';
-        $version = wprss()->getVersion();
 
         wp_enqueue_style( 'wprss-admin-styles' );
         wp_enqueue_style( 'wprss-fa' );
