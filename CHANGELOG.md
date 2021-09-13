@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Fixed
 * Importing would sometimes fail when trying to fetch the media:thumbnail image.
 * Some request data was not filtered and/or sanitized properly.
+* Some plugin-generated content was not properly escaped for use in HTML.
 
 ## [4.18.2] - 2021-04-26
 ### Changed

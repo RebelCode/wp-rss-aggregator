@@ -42,18 +42,22 @@ HOME_URL:                 <?php echo home_url() . "\n"; ?>
 Plugin Version:           <?php echo WPRSS_VERSION . "\n"; ?>
 WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 
-<?php echo $browser ; ?>
+<?php echo htmlspecialchars((string) $browser) ; ?>
 
 PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
 MySQL Version:            <?php $server_info = wprss_sysinfo_get_db_server();
                                 if ( $server_info ) {
                                     if (isset($server_info['warning'])) {
-                                        echo $server_info['extension'] . ' - ' . $server_info['warning'];
+                                        printf(
+                                            '%s - %s',
+                                            htmlspecialchars($server_info['extension']),
+                                            htmlspecialchars($server_info['warning'])
+                                        );
                                     } else {
-                                        echo sprintf(
+                                        printf(
                                                 '%1$s (%2$s)',
-                                                $server_info['server_info'],
-                                                $server_info['extension']
+                                                htmlspecialchars($server_info['server_info']),
+                                                htmlspecialchars($server_info['extension'])
                                             );
                                         }
                                 } else {
@@ -61,7 +65,7 @@ MySQL Version:            <?php $server_info = wprss_sysinfo_get_db_server();
                                 }
                             ?>
 
-Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
+Web Server Info:          <?php echo htmlspecialchars($_SERVER['SERVER_SOFTWARE']) . "\n"; ?>
 
 PHP Safe Mode:            <?php if (version_compare(PHP_VERSION, '5.4', '>=')) {
                                     echo "No\n";
@@ -74,7 +78,15 @@ PHP Time Limit:           <?php echo ini_get( 'max_execution_time' ) . "\n"; ?>
 
 WP_DEBUG:                 <?php echo defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ?>
 
-WP Table Prefix:          <?php echo "Length: ". strlen( $wpdb->prefix ); echo " Status:"; if ( strlen( $wpdb->prefix )>16 ) {echo " ERROR: Too Long";} else {echo " Acceptable";} echo "\n"; ?>
+WP Table Prefix:          <?php
+                                $wpdbPrefixLen = strlen($wpdb->prefix);
+                                echo 'Length: ' . $wpdbPrefixLen;
+                                echo ' | Status: ';
+                                echo ($wpdbPrefixLen > 16)
+                                    ? 'ERROR: Too Long'
+                                    : 'Acceptable';
+                                echo "\n";
+                            ?>
 
 Show On Front:            <?php echo get_option( 'show_on_front' ) . "\n" ?>
 Page On Front:            <?php $id = get_option( 'page_on_front' ); echo get_the_title( $id ) . ' #' . $id . "\n" ?>
@@ -97,7 +109,7 @@ PLUGIN MODULES:
 
 <?php
 foreach (wpra_modules() as $key => $module) {
-    echo ' - ' . $key . PHP_EOL;
+    echo ' - ' . htmlspecialchars($key) . PHP_EOL;
 }
 ?>
 
@@ -105,21 +117,19 @@ ACTIVE PLUGINS:
 
 <?php
 $plugins = get_plugins();
-$active_plugins = get_option( 'active_plugins', array() );
-$inactive_plugins = array();
-foreach ( $plugins as $plugin_path => $plugin ):
+$active_plugins = get_option('active_plugins', []);
+$inactive_plugins = [];
+foreach ($plugins as $plugin_path => $plugin) {
     // If the plugin isn't active, don't show it.
-    if ( ! in_array( $plugin_path, $active_plugins ) ) {
+    if (!in_array($plugin_path, $active_plugins)) {
         $inactive_plugins[] = $plugin;
         continue;
     }
 
-echo $plugin['Name']; ?>: <?php echo $plugin['Version'] ."\n";
+    echo htmlspecialchars($plugin['Name']) . ': ' . htmlspecialchars($plugin['Version']) . "\n";
+}
 
-endforeach;
-
-if ( is_multisite() ) :
-?>
+if (is_multisite()): ?>
 
 NETWORK ACTIVE PLUGINS:
 
@@ -137,7 +147,7 @@ foreach ( $plugins as $plugin_path ) {
 
     $plugin = get_plugin_data( $plugin_path );
 
-    echo $plugin['Name'] . ': ' . $plugin['Version'] ."\n";
+    echo htmlspecialchars($plugin['Name']) . ': ' . htmlspecialchars($plugin['Version']) . "\n";
 }
 
 endif;
@@ -147,8 +157,8 @@ if ( !is_multisite() ) : ?>
 DEACTIVATED PLUGINS:
 
 <?php
-    foreach ( $inactive_plugins as $inactive_plugin ) {
-        echo $inactive_plugin['Name']; ?>: <?php echo $inactive_plugin['Version'] . "\n";
+    foreach ( $inactive_plugins as $plugin ) {
+        echo htmlspecialchars($plugin['Name']) . ': ' . htmlspecialchars($plugin['Version']) . "\n";
     }
 
 endif;
@@ -158,7 +168,7 @@ CURRENT THEME:
 
 <?php
 $theme_data = wp_get_theme();
-echo $theme_data->Name . ': ' . $theme_data->Version;
+echo htmlspecialchars($theme_data->Name) . ': ' . htmlspecialchars($theme_data->Version);
 ?>
 
 
@@ -212,7 +222,7 @@ foreach ($extensions as $extension) {
 
 ### End System Info ###
 <?php
-    }
+}
 
 
 /**
