@@ -401,13 +401,26 @@
             }
         } // end foreach
 
-        $force_feed = ( isset( $_POST['wprss_force_feed'] ) )? $_POST['wprss_force_feed'] : 'false';
-        $state = ( isset( $_POST['wprss_state'] ) )? $_POST['wprss_state'] : 'active';
-        $activate = ( isset( $_POST['wprss_activate_feed'] ) )? stripslashes( $_POST['wprss_activate_feed'] ) : '';
-        $pause = ( isset( $_POST['wprss_pause_feed'] ) )? stripslashes( $_POST['wprss_pause_feed'] ) : '';
-        $age_limit = ( isset( $_POST['wprss_age_limit'] ) )? stripslashes( $_POST['wprss_age_limit'] ) : '';
-        $age_unit = ( isset( $_POST['wprss_age_unit'] ) )? stripslashes( $_POST['wprss_age_unit'] ) : '';
-        $update_interval = ( isset( $_POST['wprss_update_interval'] ) )? stripslashes( $_POST['wprss_update_interval'] ) : wprss_get_default_feed_source_update_interval();
+        $force_feed = filter_input(INPUT_POST, 'wprss_force_feed', FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+
+        $state = filter_input(INPUT_POST, 'wprss_state', FILTER_SANITIZE_STRING);
+        $state = strtolower(trim($state)) === 'paused' ? 'paused' : 'active';
+
+        $activate = filter_input(INPUT_POST, 'wprss_activate_feed', FILTER_SANITIZE_STRING);
+        $activate = $activate ? : '';
+
+        $pause = filter_input(INPUT_POST, 'wprss_pause_feed', FILTER_SANITIZE_STRING);
+        $pause = $pause ? : '';
+
+        $age_limit = filter_input(INPUT_POST, 'wprss_age_limit', FILTER_VALIDATE_INT);
+        $age_limit = (is_int($age_limit) && $age_limit > 0) ? (string) $age_limit : '';
+
+        $age_unit = filter_input(INPUT_POST, 'wprss_age_unit', FILTER_SANITIZE_STRING);
+        $age_unit = $age_unit ? strtolower($age_unit) : '';
+        $age_unit = in_array($age_unit, wprss_age_limit_units()) ? $age_unit : '';
+
+        $update_interval = filter_input(INPUT_POST, 'wprss_update_interval', FILTER_SANITIZE_STRING);
+        $update_interval = $update_interval ? $update_interval : wprss_get_default_feed_source_update_interval();
         $old_update_interval = get_post_meta( $post_id, 'wprss_update_interval', TRUE );
 
         // Update the feed source meta

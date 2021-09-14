@@ -2,7 +2,7 @@
 
 namespace RebelCode\Wpra\Core\Container;
 
-use DI\NotFoundException;
+use Dhii\Di\Exception\NotFoundException;
 use Interop\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Modules\ModuleInterface;
 

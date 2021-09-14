@@ -116,11 +116,6 @@
     function wprss_admin_scripts_styles()
     {
         $isWpraScreen = wprss_is_wprss_page();
-        $screen = get_current_screen();
-        $pageBase = $screen->base;
-        $postType = $screen->post_type;
-        $page = isset( $_GET['page'] )? $_GET['page'] : '';
-        $version = wprss()->getVersion();
 
         // On all admin screens
         wp_enqueue_style( 'wprss-admin-editor-styles' );
@@ -145,8 +140,6 @@
         $screen = get_current_screen();
         $pageBase = $screen->base;
         $postType = $screen->post_type;
-        $page = isset( $_GET['page'] )? $_GET['page'] : '';
-        $version = wprss()->getVersion();
 
         wp_enqueue_style( 'wprss-admin-styles' );
         wp_enqueue_style( 'wprss-fa' );
@@ -261,5 +254,5 @@
         wp_register_style( 'wprss-admin-tracking-styles', WPRSS_CSS . 'admin-tracking-styles.css', array(), $version );
         wp_register_style( 'wprss-admin-general-styles', WPRSS_CSS . 'admin-general-styles.css', array(), $version );
         wp_register_style( 'wprss-hs-beacon-css', WPRSS_CSS . 'beacon.css', array(), $version );
-        wp_register_style( 'jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), $version );
+        wp_register_style( 'jquery-style', WPRSS_CSS . 'jquery-ui-smoothness.css', array(), $version );
     }

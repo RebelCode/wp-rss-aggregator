@@ -263,21 +263,39 @@ function wpra_download_item_images($images, $postId)
 function wpra_get_item_images($item)
 {
     return apply_filters('wpra/images/detect_from_item', [
-        'thumbnail' => [$item->get_thumbnail()],
+        'thumbnail' => array_filter([wpra_get_sp_thumbnail_image($item)]),
         'image' => wpra_get_item_rss_images($item),
         'media' => [wpra_get_item_media_thumbnail_image($item)],
         'enclosure' => wpra_get_item_enclosure_images($item),
         'content' => wpra_get_item_content_images($item),
         'itunes' => wpra_get_item_itunes_images($item),
-        'feed' => [$item->get_feed()->get_image_url()],
+        'feed' => array_filter([$item->get_feed()->get_image_url()]),
     ], $item);
+}
+
+/**
+ * Retrieves the thumbnail as determined by SimplePie.
+ *
+ * @param SimplePie_Item $item
+ *
+ * @return string|null
+ */
+function wpra_get_sp_thumbnail_image($item)
+{
+    $thumbnail = $item->get_thumbnail();
+
+    if (!is_array($thumbnail) || !isset($thumbnail['url'])) {
+        return null;
+    }
+
+    return $thumbnail['url'];
 }
 
 /**
  * Processes a list of image URLs to strip away images that are unreachable or too small, as well as identify which
  * image in the list is the best image (in terms of dimensions and aspect ratio).
  *
- * @param array                  $images The image URLs.
+ * @param array $images The image URLs.
  * @param array|DataSetInterface $source The feed source data set.
  * @param string|null $bestImage This variable given as this parameter will be set to the URL of
  *                               the best found image.
@@ -307,8 +325,11 @@ function wpra_process_images($images, $source, &$bestImage = null)
 
     foreach ($images as $group => $urls) {
         foreach ($urls as $imageUrl) {
+            if (empty($imageUrl)) {
+                continue;
+            }
             try {
-                /* @var $tmp_img WPRSS_Image_Cache_Image */
+                /* @var WPRSS_Image_Cache_Image $tmp_img */
                 $tmp_img = $imgContainer->get($imageUrl);
 
                 $dimensions = ($tmp = $tmp_img->get_local_path())
@@ -373,7 +394,7 @@ function wpra_get_item_rss_images($item)
         $imageTags = $item->data['child']['']['image'];
 
         $urls = array_map(function ($tag) {
-            return isset($tag['data']) ? $tag['data'] : null;
+            return isset($tag['data']) ? trim($tag['data']) : null;
         }, $imageTags);
 
         return array_filter($urls);
