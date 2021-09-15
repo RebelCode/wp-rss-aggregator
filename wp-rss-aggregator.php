@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
 
 /**
  * Plugin Name: WP RSS Aggregator
@@ -98,7 +98,7 @@ if( !defined( 'WPRSS_FILE_CONSTANT' ) )
 
 // Set constant path to the plugin directory.
 if( !defined( 'WPRSS_DIR' ) )
-    define( 'WPRSS_DIR', plugin_dir_path( __FILE__ ) );
+    define( 'WPRSS_DIR', __DIR__ );
 
 // Set constant URI to the plugin URL.
 if( !defined( 'WPRSS_URI' ) )
@@ -106,30 +106,30 @@ if( !defined( 'WPRSS_URI' ) )
 
 // Set the constant path to the plugin's javascript directory.
 if( !defined( 'WPRSS_JS' ) )
-    define( 'WPRSS_JS', WPRSS_URI . trailingslashit( 'js' ) );
+    define( 'WPRSS_JS', WPRSS_URI . 'js/' );
 
 // Set the constant path to the plugin's CSS directory.
 if( !defined( 'WPRSS_CSS' ) )
-    define( 'WPRSS_CSS', WPRSS_URI . trailingslashit( 'css' ) );
+    define( 'WPRSS_CSS', WPRSS_URI . 'css/' );
 
 // Set the constant path to the plugin's javascript build directory.
 if( !defined( 'WPRSS_APP_JS' ) )
-    define( 'WPRSS_APP_JS', WPRSS_URI . trailingslashit( 'js/build' ) );
+    define( 'WPRSS_APP_JS', WPRSS_URI . 'js/build/' );
 
 // Set the constant path to the plugin's CSS build directory.
 if( !defined( 'WPRSS_APP_CSS' ) )
-    define( 'WPRSS_APP_CSS', WPRSS_URI . trailingslashit( 'css/build' ) );
+    define( 'WPRSS_APP_CSS', WPRSS_URI . 'css/build/' );
 
 // Set the constant path to the plugin's images directory.
 if( !defined( 'WPRSS_IMG' ) )
-    define( 'WPRSS_IMG', WPRSS_URI . trailingslashit( 'images' ) );
+    define( 'WPRSS_IMG', WPRSS_URI . 'images/' );
 
 // Set the constant path to the plugin's includes directory.
 if( !defined( 'WPRSS_INC' ) )
-    define( 'WPRSS_INC', WPRSS_DIR . trailingslashit( 'includes' ) );
+    define( 'WPRSS_INC', __DIR__ . 'includes/' );
 
 if( !defined( 'WPRSS_LANG' ) )
-    define( 'WPRSS_LANG', WPRSS_DIR . trailingslashit( 'languages' ) );
+    define( 'WPRSS_LANG', __DIR__ . 'languages/' );
 
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
@@ -159,28 +159,28 @@ if ( !defined( 'WPRACORE_DIAG_TESTS_DIR' ) ) {
     define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . 'test/diag' );
 }
 
-define('WPRSS_CORE_PLUGIN_NAME', 'WP RSS Aggregator');
+const WPRSS_CORE_PLUGIN_NAME = 'WP RSS Aggregator';
 
 /**
  * Code of the Core plugin.
  *
  * @since 4.11
  */
-define('WPRSS_PLUGIN_CODE', 'wprss');
+const WPRSS_PLUGIN_CODE = 'wprss';
 
 /**
  * Prefix for events used by this plugin.
  *
  * @since 4.11
  */
-define('WPRSS_EVENT_PREFIX', \WPRSS_PLUGIN_CODE . '_');
+define('WPRSS_EVENT_PREFIX', WPRSS_PLUGIN_CODE . '_');
 
 /**
  * Whether this plugin is in debug mode.
  *
  * @since 4.11
  */
-define('WPRSS_DEBUG', \WP_DEBUG);
+const WPRSS_DEBUG = WP_DEBUG;
 
 /**
  * Load required files.
@@ -747,8 +747,9 @@ function wprss_wp_min_version_satisfied() {
 
 add_action( 'init', 'wprss_add_wp_version_warning' );
 function wprss_add_wp_version_warning() {
-    if ( wprss_wp_min_version_satisfied() )
+    if (wprss_wp_min_version_satisfied()) {
         return;
+    }
 
     wprss_admin_notice_add(array(
         'id'			=> 'wp_version_warning',
