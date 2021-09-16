@@ -113,7 +113,8 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             $new_items = array();
             foreach ( $items_to_insert as $item ) {
                 $item_title = $item->get_title();
-                $permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
+                $permalink = $item->get_permalink();
+                $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
                 // Check if blacklisted
                 if (wprss_is_blacklisted($permalink)) {
@@ -412,6 +413,7 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
 function wprss_normalize_permalink( $permalink, $item, $feed_ID) {
     // Apply normalization functions on the permalink
     $permalink = trim( $permalink );
+    $permalink = htmlspecialchars_decode($permalink);
     $permalink = apply_filters( 'wprss_normalize_permalink', $permalink, $item, $feed_ID);
     // Return the normalized permalink
     return $permalink;
@@ -572,11 +574,9 @@ function wprss_items_insert_post( $items, $feed_ID ) {
 
         // Normalize the URL
         $permalink = $item->get_permalink(); // Link or enclosure URL
-        $permalink = htmlspecialchars_decode( $permalink ); // SimplePie encodes HTML special chars
+        $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
         $logger->debug('Beginning import for item "{0}"', [$item->get_title()]);
-
-        $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
         // Save the enclosure URL
         $enclosure_url = '';
