@@ -26,7 +26,7 @@ class I18nModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/i18n/domain' => function () {
-                return WPRSS_TEXT_DOMAIN;
+                return 'wprss';
             },
             /*
              * The name of the languages' parent directory.

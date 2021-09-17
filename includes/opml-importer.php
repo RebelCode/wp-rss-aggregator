@@ -59,22 +59,21 @@
 		 * @return void
 		 */
 		public function opml_import() {
-			// Show the Icon and Title
-			?>
-			<div class="wrap">
-			<h2><?php _e( 'Import OPML', WPRSS_TEXT_DOMAIN ) ?></h2><?php
+            echo '<div class="wrap">';
+            printf('<h2 class="wrap">%s</h2>', __('Import OPML', 'wprss'));
 
 			// Get the current step from URL query string
-			$step = empty( $_GET['step'] ) ? 0 : (int) $_GET['step'];
+            $step = filter_input(INPUT_GET, 'step', FILTER_VALIDATE_INT);
+            $step = empty($step) ? 0 : $step;
 
 			// Check the current step
 			switch ( $step ) {
 				default :
 				case 0 :
 					// Show the Import Message and the import upload form
-					echo '<p>' . __( 'Howdy! Import your feeds here from an OPML (.xml) export file.', WPRSS_TEXT_DOMAIN ) . '</p>';
-					echo '<p>' . __( "Click the button below, choose your file, and click 'Upload'.", WPRSS_TEXT_DOMAIN ) . '</p>';
-					echo '<p>' . __( 'We will take care of the rest.', WPRSS_TEXT_DOMAIN ) . '</p>';
+                    printf('<p>%s</p>', __('Howdy! Import your feeds here from an OPML (.xml) export file.', 'wprss'));
+                    printf('<p>%s</p>', __('Click the button below, choose your file, and click \'Upload\'.', 'wprss'));
+                    printf('<p>%s</p>', __('We will take care of the rest.', 'wprss'));
 
 					// Show an import upload form that submits to the same page, with GET parameter step=1
 					wp_import_upload_form( 'admin.php?import=wprss_opml_importer&amp;step=1' );
@@ -93,8 +92,8 @@
 					}
 					break;
 			}
-			
-			?></div><?php
+
+			echo '</div>';
 		}
 
 
@@ -104,18 +103,26 @@
 			$file = wp_import_handle_upload();
 
 			// If the 'error' property is set, show the error message and return FALSE
-			if ( isset( $file['error'] ) ) {
-				echo '<p><strong>' . __( 'Sorry, an error has been encountered.', WPRSS_TEXT_DOMAIN ) . '</strong><br />';
-				echo esc_html( $file['error'] ) . '</p>';
-				return false;
-			// If the file does not exist, then show the error message and return FALSE
-			} else if ( ! file_exists( $file['file'] ) ) {
-				echo '<p><strong>' . __( 'Sorry, it seems your uploaded file has been misplaced!', WPRSS_TEXT_DOMAIN ) . '</strong><br />';
-				echo __( 'The uploaded file could not be found at ', WPRSS_TEXT_DOMAIN ) . '<code>' . esc_html( $file['file'] ) . '</code>';
-				echo __( 'It is likely that this was caused by a permissions problem.' , WPRSS_TEXT_DOMAIN  );
-				echo '</p>';
-				return false;
-			}
+            if (isset($file['error'])) {
+                printf(
+                    '<p><strong>%s</strong><br/>%s</p>',
+                    __('Sorry, an error has been encountered.', 'wprss'),
+                    esc_html($file['error'])
+                );
+                return false;
+                // If the file does not exist, then show the error message and return FALSE
+            } elseif (!file_exists($file['file'])) {
+                printf(
+                    '<p><strong>%s</strong><br/>%s</p>',
+                    __('Sorry, it seems your uploaded file has been misplaced!', 'wprss'),
+                    sprintf(
+                        __('The uploaded file could not be found at %s. It is likely that this was caused by a permissions problem.', 'wprss'),
+                        '<code>' . esc_html($file['file']) . '</code>'
+                    )
+                );
+
+                return false;
+            }
 
 
 			$this->id = (int) $file['id'];
@@ -184,16 +191,16 @@
 				$opml = new WPRSS_OPML( $file );
 
 				// Show Success Message				
-				?><h3><?php _e( 'Feeds were imported successfully!', WPRSS_TEXT_DOMAIN ) ?></h3><?php
+				?><h3><?php _e( 'Feeds were imported successfully!', 'wprss' ) ?></h3><?php
 
 				// Show imported feeds
 				?>
 				<table class="widefat">
 					<thead>
 						<tr>
-							<th><?php _e( 'ID', WPRSS_TEXT_DOMAIN ) ?></th>
-							<th><?php _e( 'Title', WPRSS_TEXT_DOMAIN ) ?></th>
-							<th><?php _e( 'URL', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'ID', 'wprss' ) ?></th>
+							<th><?php _e( 'Title', 'wprss' ) ?></th>
+							<th><?php _e( 'URL', 'wprss' ) ?></th>
 						</tr>
 					</thead>
 					
@@ -222,9 +229,9 @@
 					
 					<tfoot>
 						<tr>
-							<th><?php _e( 'ID', WPRSS_TEXT_DOMAIN ) ?></th>
-							<th><?php _e( 'Title', WPRSS_TEXT_DOMAIN ) ?></th>
-							<th><?php _e( 'URL', WPRSS_TEXT_DOMAIN ) ?></th>
+							<th><?php _e( 'ID', 'wprss' ) ?></th>
+							<th><?php _e( 'Title', 'wprss' ) ?></th>
+							<th><?php _e( 'URL', 'wprss' ) ?></th>
 						</tr>
 					</tfoot>
 					
@@ -233,7 +240,7 @@
 
 			} catch (Exception $e) {
 				// Show Error Message
-				?><div class="error"><?php echo wpautop( __( $e->getMessage(), WPRSS_TEXT_DOMAIN ) ) ?></div><?php
+				?><div class="error"><?php echo wpautop( __( $e->getMessage(), 'wprss' ) ) ?></div><?php
 			}
 		}
 
@@ -254,8 +261,8 @@
 
 		register_importer(
 			'wprss_opml_importer',
-			__( 'WP RSS OPML', WPRSS_TEXT_DOMAIN ),
-			__( 'Import Feeds from an OPML file into WP RSS Aggregator', WPRSS_TEXT_DOMAIN ),
+			__( 'WP RSS OPML', 'wprss' ),
+			__( 'Import Feeds from an OPML file into WP RSS Aggregator', 'wprss' ),
 			array( WPRSS_OPML_Importer::$singleton ,'opml_import' )
 		);
 

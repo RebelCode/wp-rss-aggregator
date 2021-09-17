@@ -221,7 +221,7 @@ function wprss_setting_video_links_callback($field)
 
     printf(
         '<p><span class="description">%s</span></p>',
-        __('This will not affect already imported feed items.', 'wprss')
+        esc_html(__('This will not affect already imported feed items.', 'wprss'))
     );
 }
 
@@ -417,8 +417,8 @@ function wprss_setting_date_format_callback($field)
 
     printf(
         '<p><a href="%s">%s</a></p>',
-        'https://codex.wordpress.org/Formatting_Date_and_Time',
-        __('PHP Date Format Reference', 'wprss')
+        esc_attr('https://codex.wordpress.org/Formatting_Date_and_Time'),
+        esc_html(__('PHP Date Format Reference', 'wprss'))
     );
 }
 

@@ -61,7 +61,7 @@ MySQL Version:            <?php $server_info = wprss_sysinfo_get_db_server();
                                             );
                                         }
                                 } else {
-                                    _e( 'Could not determine database driver version', WPRSS_TEXT_DOMAIN );
+                                    _e( 'Could not determine database driver version', 'wprss' );
                                 }
                             ?>
 
@@ -103,7 +103,7 @@ UPLOAD_MAX_FILESIZE:      <?php if ( function_exists( 'phpversion' ) ) echo ( wp
 POST_MAX_SIZE:            <?php if ( function_exists( 'phpversion' ) ) echo ( wprss_let_to_num( ini_get( 'post_max_size' ) )/( 1024*1024 ) )."MB"; ?><?php echo "\n"; ?>
 WordPress Memory Limit:   <?php echo ( wprss_let_to_num( WP_MEMORY_LIMIT )/( 1024*1024 ) )."MB"; ?><?php echo "\n"; ?>
 DISPLAY ERRORS:           <?php echo ( ini_get( 'display_errors' ) ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A'; ?><?php echo "\n"; ?>
-FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? __( 'Your server supports fsockopen.', WPRSS_TEXT_DOMAIN ) : __( 'Your server does not support fsockopen.', WPRSS_TEXT_DOMAIN ); ?><?php echo "\n"; ?>
+FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? __( 'Your server supports fsockopen.', 'wprss' ) : __( 'Your server does not support fsockopen.', 'wprss' ); ?><?php echo "\n"; ?>
 
 PLUGIN MODULES:
 

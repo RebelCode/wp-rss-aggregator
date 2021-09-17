@@ -192,7 +192,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createTranslator(ContainerInterface $c, $p = null, $config = null)
     {
-        $textDomain = \WPRSS_TEXT_DOMAIN;
+        $textDomain = 'wprss';
         $helper = $c->get($this->_p('admin_helper'));
         /* @var $helper \Aventura\Wprss\Core\Component\AdminHelper */
         $command = $helper->createCommand(array(

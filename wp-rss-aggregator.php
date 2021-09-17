@@ -98,7 +98,7 @@ if( !defined( 'WPRSS_FILE_CONSTANT' ) )
 
 // Set constant path to the plugin directory.
 if( !defined( 'WPRSS_DIR' ) )
-    define( 'WPRSS_DIR', __DIR__ );
+    define( 'WPRSS_DIR', __DIR__ . '/' );
 
 // Set constant URI to the plugin URL.
 if( !defined( 'WPRSS_URI' ) )
@@ -126,10 +126,10 @@ if( !defined( 'WPRSS_IMG' ) )
 
 // Set the constant path to the plugin's includes directory.
 if( !defined( 'WPRSS_INC' ) )
-    define( 'WPRSS_INC', __DIR__ . 'includes/' );
+    define( 'WPRSS_INC', __DIR__ . '/includes/' );
 
 if( !defined( 'WPRSS_LANG' ) )
-    define( 'WPRSS_LANG', __DIR__ . 'languages/' );
+    define( 'WPRSS_LANG', __DIR__ . '/languages/' );
 
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
@@ -497,11 +497,11 @@ function wpra_error_handler($error)
             '<b>WP RSS Aggregator</b> has encountered an error. If this problem persists, kindly contact customer support and provide the following details:',
             'wprss'
         );
-        ?>
-        <div class="notice notice-error">
-            <?php echo wpra_display_error($message, $error) ?>
-        </div>
-        <?php
+
+        printf(
+            '<div class="notice notice-error">%s</div>',
+            wpra_display_error($message, $error)
+        );
     });
 
     do_action('wpra_error', $error);
@@ -519,32 +519,34 @@ function wpra_error_handler($error)
 function wpra_critical_error_handler($error)
 {
     $hasAddons = count(wpra_get_addon_paths()) > 0;
-    ob_start();
-    ?>
+    $buttonText = $hasAddons
+        ? __('Deactivate WP RSS Aggregator and its addons', 'wprss')
+        : __('Deactivate WP RSS Aggregator', 'wprss');
 
-    <br/>
-    <form method="POST" action="<?php echo esc_attr(admin_url()) ?>">
-        <?php wp_nonce_field('wprss_safe_deactivate', 'wprss_safe_deactivate_nonce'); ?>
-        <button type="submit" class="button button-secondary">
-            <?php echo $hasAddons
-                ? __('Deactivate WP RSS Aggregator and its addons', 'wprss')
-                : __('Deactivate WP RSS Aggregator', 'wprss')
-            ?>
-        </button>
-    </form>
+    $buttonHtml = sprintf(
+        '<button type="submit" class="button button-secondary">%s</button>',
+        esc_html($buttonText)
+    );
 
-    <?php
-    $deactivateForm = ob_get_clean();
+    $formNonceHtml = wp_nonce_field('wprss_safe_deactivate', 'wprss_safe_deactivate_nonce', true, false);
+
+    $formHtml = sprintf(
+        '<br/><form method="POST" action="%s">%s %s</form>',
+        esc_attr(admin_url()),
+        $formNonceHtml,
+        $buttonHtml
+    );
+
     $message = __(
         '<b>WP RSS Aggregator</b> has encountered a critical error. The safest course of action is to deactivate the plugin and any of its add-ons on this site using the button below. Once you’ve done that, you may reactivate them and start using the plugins again. If the problem persists, please copy the below error and send it to our support team with an explanation of when and how it happened.',
         'wprss'
     );
-    $errorDisplay = wpra_display_error($message, $error);
+    $errorDetailsHtml = wpra_display_error($message, $error);
 
     do_action('wpra_critical_error', $error);
 
     wp_die(
-        $errorDisplay . $deactivateForm,
+        $errorDetailsHtml . $formHtml,
         __('WP RSS Aggregator Error', 'wprss')
     );
 }
@@ -554,43 +556,61 @@ function wpra_critical_error_handler($error)
  *
  * @since 4.15
  *
- * @param string              $message The message to show.
- * @param Exception|Throwable $error   The error.
+ * @param string $message The message to show.
+ * @param Exception|Throwable $error The error.
  *
  * @return string
  */
 function wpra_display_error($message, $error)
 {
+    $exceptionMsg = sprintf(
+        '<pre>%s (%s)</pre>',
+        esc_html($error->getMessage()),
+        esc_html(wprss_error_path($error))
+    );
+
+    $exceptionChain = '';
+    $prev = $error;
+    while ($prev = $prev->getPrevious()) {
+        $exceptionChain .= sprintf(
+            '<strong>%s</strong>
+             <br/>
+             <pre>%s (%s)</pre>',
+            __('Caused by:', 'wprss'),
+            esc_html($prev->getMessage()),
+            esc_html(wprss_error_path($prev))
+        );
+    }
+
+    $stackTrace = esc_html($error->getTraceAsString());
+
     ob_start(); ?>
 
     <p>
-        <?php echo $message ?>
+        <?= esc_html($message) ?>
     </p>
     <div style="background-color: rgba(0,0,0,.07); padding: 5px;">
         <details>
             <summary style="cursor: pointer;">
-                <?php _e('Click to show error details', 'wprss') ?>
+                <?= __('Click to show error details', 'wprss') ?>
             </summary>
             <div style="padding-top: 10px; overflow-x: scroll;">
-                <strong><?php _e('Error Message:', 'wprss'); ?></strong>
-                <br/>
-                <pre><?= $error->getMessage(); ?> (<?= wprss_error_path($error) ?>)</pre>
+                <strong>
+                    <?= __('Error Message:', 'wprss'); ?>
+                </strong>
 
-                <?php
-                $prev = $error;
-                while ($prev = $prev->getPrevious()) : ?>
-                    <strong><?php _e('Caused by:', 'wprss'); ?></strong>
-                    <br/>
-                    <pre><?= $prev->getMessage(); ?> (<?= wprss_error_path($prev) ?>)</pre>
-                <?php endwhile; ?>
+                <br />
 
-                <strong><?php _e('Stack trace:', 'wprss'); ?></strong>
-                <br/>
-                <pre><?php echo $error->getTraceAsString(); ?></pre>
+                <?= $exceptionMsg ?>
+                <?= $exceptionChain ?>
+
+                <strong><?= __('Stack trace:', 'wprss'); ?></strong>
+                <br />
+                <pre><?= $stackTrace ?></pre>
             </div>
         </details>
     </div>
-    <br/>
+    <br />
     <?php
 
     return ob_get_clean();
@@ -635,11 +655,7 @@ function wpra_safe_deactivate()
 {
     $nonce = filter_input(INPUT_POST, 'wprss_safe_deactivate_nonce', FILTER_DEFAULT);
 
-    if (empty($nonce)) {
-        return;
-    }
-
-    if (!wp_verify_nonce($nonce, 'wprss_safe_deactivate')) {
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'wprss_safe_deactivate')) {
         return;
     }
 
@@ -732,9 +748,12 @@ add_action('after_plugin_row', function($plugin_file) {
 
     $message = __(
         'As of version 4.13, WP RSS Aggregator will stop supporting PHP 5.3 and will require PHP 5.4 or later. Kindly contact your site\'s hosting provider for PHP version update options.',
-        WPRSS_TEXT_DOMAIN
+        'wprss'
     );
-    $notice = sprintf('<div class="update-notice notice inline notice-error notice-alt"><p>%s</p></div>', $message);
+    $notice = sprintf(
+        '<div class="update-notice notice inline notice-error notice-alt"><p>%s</p></div>',
+        esc_html($message)
+    );
     $td = sprintf('<td colspan="3" class="plugin-update colspanchange">%s</td>', $notice);
     printf('<tr class="plugin-update-tr active">%s</tr>', $td);
 }, 5, 2);
@@ -751,15 +770,19 @@ function wprss_add_wp_version_warning() {
         return;
     }
 
-    wprss_admin_notice_add(array(
-        'id'			=> 'wp_version_warning',
-        'content'		=> sprintf( __(
-                '<p><strong>%2$s requires WordPress to be of version %1$s or higher.</strong></br>'
-                . 'Older versions of WordPress are no longer supported by %2$s. Please upgrade your WordPress core to continue benefiting from %2$s support services.</p>',
-            WPRSS_TEXT_DOMAIN ), WPRSS_WP_MIN_VERSION, WPRSS_CORE_PLUGIN_NAME ),
-        'notice_type'	=> 'error'
-    ));
-
+    wprss_admin_notice_add([
+        'id' => 'wp_version_warning',
+        'content' => sprintf(
+            __(
+                '<p><strong>%2$s requires WordPress to be of version %1$s or higher.</strong></br>' .
+                'Older versions of WordPress are no longer supported by %2$s. Please upgrade your WordPress core to continue benefiting from %2$s support services.</p>',
+                'wprss'
+            ),
+            esc_html(WPRSS_WP_MIN_VERSION),
+            esc_html(WPRSS_CORE_PLUGIN_NAME)
+        ),
+        'notice_type' => 'error',
+    ]);
 }
 
 
@@ -776,20 +799,20 @@ function wprss_add_php_version_warning() {
     deactivate_plugins(plugin_basename(__FILE__));
 
     $firstLine = get_transient('_wprss_activation_redirect')
-        ? __('WP RSS Aggregator cannot be activated.', WPRSS_TEXT_DOMAIN)
-        : __('WP RSS Aggregator has been deactivated.', WPRSS_TEXT_DOMAIN);
+        ? __('WP RSS Aggregator cannot be activated.', 'wprss')
+        : __('WP RSS Aggregator has been deactivated.', 'wprss');
 
     $supportLink = sprintf(
     '<a href="%2$s" target="_blank">%1$s</a>',
         _x(
             'contact support',
             'Used like "Kindly contact your hosting provider or contact support for more information."',
-            WPRSS_TEXT_DOMAIN
+            'wprss'
         ),
         'https://wordpress.org/support/plugin/wp-rss-aggregator'
     );
     $secondLine = sprintf(
-        __("The plugin requires version %s or later and your site's PHP version is %s.", WPRSS_TEXT_DOMAIN),
+        __("The plugin requires version %s or later and your site's PHP version is %s.", 'wprss'),
         '<strong>' . WPRSS_MIN_PHP_VERSION . '</strong>',
         '<strong>' . PHP_VERSION . '</strong>'
     );
@@ -797,7 +820,7 @@ function wprss_add_php_version_warning() {
         _x(
             'Kindly contact your hosting provider to upgrade your PHP version or %s for more information.',
             'the "%s" part is a link with text = "contact support"',
-            WPRSS_TEXT_DOMAIN
+            'wprss'
         ),
         $supportLink
     );
@@ -827,7 +850,7 @@ add_action('after_plugin_row', function($plugin_file) {
 
     $message = __(
         'As of version 4.13, WP RSS Aggregator will stop supporting PHP 5.3 and will require PHP 5.4 or later. Kindly contact your site\'s hosting provider for PHP version update options.',
-        WPRSS_TEXT_DOMAIN
+        'wprss'
     );
     $notice = sprintf('<div class="update-notice notice inline notice-error notice-alt"><p>%s</p></div>', $message);
     $td = sprintf('<td colspan="3" class="plugin-update colspanchange">%s</td>', $notice);

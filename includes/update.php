@@ -64,9 +64,9 @@
 
 			// NO FOLLOW CHANGE FIX
 			$options = get_option( 'wprss_settings_general' );
-			if ( $options['follow_dd'] === __( "No Follow", WPRSS_TEXT_DOMAIN ) ) {
+			if ( $options['follow_dd'] === __( "No Follow", 'wprss' ) ) {
 				$options['follow_dd'] = 'no_follow';
-			} elseif ( $options['follow_dd'] === __( "Follow", WPRSS_TEXT_DOMAIN ) ) {
+			} elseif ( $options['follow_dd'] === __( "Follow", 'wprss' ) ) {
 				$options['follow_dd'] = 'follow';
 			}
 		}
@@ -128,11 +128,11 @@
                 // Open Link Behavior Name Fix
                 $settings = get_option( 'wprss_settings_general' );
 
-                if( $settings['open_dd'] === 'New window' || $settings['open_dd'] === __( 'New window', WPRSS_TEXT_DOMAIN ) ){
+                if( $settings['open_dd'] === 'New window' || $settings['open_dd'] === __( 'New window', 'wprss' ) ){
                     $settings['open_dd'] = 'blank';
-                }else if( $settings['open_dd'] === 'Lightbox' || $settings['open_dd'] === __( 'Lightbox', WPRSS_TEXT_DOMAIN ) ){
+                }else if( $settings['open_dd'] === 'Lightbox' || $settings['open_dd'] === __( 'Lightbox', 'wprss' ) ){
                     $settings['open_dd'] = 'lightbox';
-                }else if( $settings['open_dd'] === 'Self' || $settings['open_dd'] === __( 'Self', WPRSS_TEXT_DOMAIN ) ){
+                }else if( $settings['open_dd'] === 'Self' || $settings['open_dd'] === __( 'Self', 'wprss' ) ){
                     $settings['open_dd'] = 'self';
                 }
 

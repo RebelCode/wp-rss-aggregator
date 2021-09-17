@@ -24,94 +24,98 @@ add_action('admin_init', function () {
         $addons = wprss_find_installed_addon_names();
         $addons = array_fill_keys($addons, 1);
 
-        wp_localize_script('wpra-plugins', 'WrpaDisablePoll', array(
+        wp_localize_script('wpra-plugins', 'WrpaDisablePoll', [
             'image' => WPRSS_IMG,
             'url' => 'https://hooks.zapier.com/hooks/catch/305784/puf5uf/',
             'audience' => 50, // how many people should see the disable poll (in percents)
-            'model' => array(
+            'model' => [
                 'reason' => 'Other',
                 'follow_up' => null,
                 'date' => date('j M Y'),
                 'addons' => $addons,
-            ),
-            'form' => array(
-                array(
+            ],
+            'form' => [
+                [
                     'label' => '',
                     'type' => 'radio',
                     'name' => 'reason',
                     'options' =>
-                        array(
-                            array(
+                        [
+                            [
                                 'value' => 'I no longer need the plugin',
-                                'label' => __('I no longer need the plugin', WPRSS_TEXT_DOMAIN),
-                            ),
-                            array(
+                                'label' => __('I no longer need the plugin', 'wprss'),
+                            ],
+                            [
                                 'value' => 'I found a better alternative',
-                                'label' => __('I found a better alternative', WPRSS_TEXT_DOMAIN),
-                            ),
-                            array(
+                                'label' => __('I found a better alternative', 'wprss'),
+                            ],
+                            [
                                 'value' => 'I couldn\'t get the plugin to work',
-                                'label' => __('I couldn\'t get the plugin to work', WPRSS_TEXT_DOMAIN),
-                            ),
-                            array(
+                                'label' => __('I couldn\'t get the plugin to work', 'wprss'),
+                            ],
+                            [
                                 'value' => 'I\'m temporarily deactivating the plugin, but I\'ll be back',
-                                'label' => __('I\'m temporarily deactivating the plugin, but I\'ll be back', WPRSS_TEXT_DOMAIN),
-                            ),
-                            array(
+                                'label' => __('I\'m temporarily deactivating the plugin, but I\'ll be back', 'wprss'),
+                            ],
+                            [
                                 'value' => 'I have a WP RSS Aggregator add-on',
-                                'label' => __('I have a WP RSS Aggregator add-on', WPRSS_TEXT_DOMAIN),
-                            ),
-                            array(
+                                'label' => __('I have a WP RSS Aggregator add-on', 'wprss'),
+                            ],
+                            [
                                 'value' => 'Other',
-                                'label' => __('Other', WPRSS_TEXT_DOMAIN),
-                            ),
-                        ),
-                ),
-                array(
-                    'label' => __('Would you mind sharing its name?', WPRSS_TEXT_DOMAIN),
+                                'label' => __('Other', 'wprss'),
+                            ],
+                        ],
+                ],
+                [
+                    'label' => __('Would you mind sharing its name?', 'wprss'),
                     'type' => 'textarea',
                     'name' => 'follow_up',
                     'condition' =>
-                        array(
+                        [
                             'field' => 'reason',
                             'operator' => '=',
                             'value' => 'I found a better alternative',
-                        ),
-                ),
-                array(
+                        ],
+                ],
+                [
                     'type' => 'content',
-                    'label' => __('Have you <a target="_blank" href="https://wordpress.org/support/plugin/wp-rss-aggregator/">contacted our support team</a> or checked out our <a href="https://kb.wprssaggregator.com/" target="_blank">Knowledge Base</a>?', WPRSS_TEXT_DOMAIN),
+                    'label' => __(
+                        'Have you <a target="_blank" href="https://wordpress.org/support/plugin/wp-rss-aggregator/">contacted our support team</a> or checked out our <a href="https://kb.wprssaggregator.com/" target="_blank">Knowledge Base</a>?',
+                        'wprss'
+                    ),
                     'condition' =>
-                        array(
+                        [
                             'field' => 'reason',
                             'operator' => '=',
-                            'value' => 'I couldn\'t get the plugin to work',
-                        ),
-                ),
-                array(
+                            'value' => __('I couldn\'t get the plugin to work', 'wprss'),
+                        ],
+                ],
+                [
                     'type' => 'content',
                     'className' => 'error',
-                    'label' => __('This core plugin is required for all our premium add-ons. Please don\'t deactivate it if you currently have premium add-ons installed and activated.', WPRSS_TEXT_DOMAIN),
+                    'label' => __('This core plugin is required for all our premium add-ons. Please don\'t deactivate it if you currently have premium add-ons installed and activated.',
+                        'wprss'),
                     'condition' =>
-                        array(
+                        [
                             'field' => 'reason',
                             'operator' => '=',
-                            'value' => 'I have a WP RSS Aggregator add-on',
-                        ),
-                ),
-                array(
-                    'label' => __('Please share your reason...', WPRSS_TEXT_DOMAIN),
+                            'value' => __('I have a WP RSS Aggregator add-on', 'wprss'),
+                        ],
+                ],
+                [
+                    'label' => __('Please share your reason...', 'wprss'),
                     'type' => 'textarea',
                     'name' => 'follow_up',
                     'condition' =>
-                        array(
+                        [
                             'field' => 'reason',
                             'operator' => '=',
-                            'value' => 'Other',
-                        ),
-                ),
-            )
-        ));
+                            'value' => __('Other', 'wprss'),
+                        ],
+                ],
+            ],
+        ]);
 
         echo '<div id="wpra-plugins-app"></div>';
     });

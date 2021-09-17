@@ -200,17 +200,17 @@ class WPRSS_Feed_Access
 	 */
 	public function add_settings( $settings ) {
 		$settings['advanced'][ self::SETTING_KEY_CERTIFICATE_PATH ] = array(
-			'label'			=> __( 'Certificate path', WPRSS_TEXT_DOMAIN ),
+			'label'			=> __( 'Certificate path', 'wprss' ),
 			'callback'		=> array( $this, 'render_certificate_path_setting' )
 		);
         /* @since 4.8.2 */
 		$settings['advanced'][ self::SETTING_KEY_FEED_REQUEST_USERAGENT ] = array(
-			'label'			=> __( 'Feed request useragent', WPRSS_TEXT_DOMAIN ),
+			'label'			=> __( 'Feed request useragent', 'wprss' ),
 			'callback'		=> array( $this, 'render_feed_request_useragent_setting' )
 		);
         /* @since 4.14.1 */
         $settings['advanced'][ self::SETTING_KEY_CACHE ] = array(
-            'label'			=> __( 'Enable feed cache', WPRSS_TEXT_DOMAIN ),
+            'label'			=> __( 'Enable feed cache', 'wprss' ),
             'callback'		=> array( $this, 'render_feed_cache_setting' )
         );
 
@@ -245,10 +245,15 @@ class WPRSS_Feed_Access
 	 * @param array $field Data of this field.
 	 */
 	public function render_certificate_path_setting( $field ) {
-        $feed_limit = wprss_get_general_setting( $field['field_id'] );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $feed_limit ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+        $feed_limit = wprss_get_general_setting($field['field_id']);
+
+        printf(
+            '<input type="text" id="%1$s" name="wprss_settings_general[%1$s]" value="%2$s" />',
+            esc_attr($field['field_id']),
+            esc_attr($feed_limit)
+        );
+
+        echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
 	}
 
     /**
@@ -260,10 +265,16 @@ class WPRSS_Feed_Access
      */
     public function render_feed_request_useragent_setting( $field )
     {
-        $value = wprss_get_general_setting( $field['field_id'] );
-        ?>
-		<input id="<?php echo $field['field_id'] ?>" name="wprss_settings_general[<?php echo $field['field_id'] ?>]" type="text" value="<?php echo $value ?>" placeholder="<?php echo __('Default', WPRSS_TEXT_DOMAIN) ?>" />
-		<?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+        $value = wprss_get_general_setting($field['field_id']);
+
+        printf(
+            '<input type="text" id="%1$s" name="wprss_settings_general[%1$s]" value="%2$s" placeholder="%3$s" />',
+            esc_attr($field['field_id']),
+            esc_attr($value),
+            __('Default', 'wprss')
+        );
+
+        echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
     }
 
     /**
@@ -276,15 +287,19 @@ class WPRSS_Feed_Access
     public function render_feed_cache_setting( $field )
     {
         $value = (int) wprss_get_general_setting($field['field_id']);
-        ?>
-        <input name="wprss_settings_general[<?= $field['field_id'] ?>]" type="hidden" value="0" />
-        <input id="<?= $field['field_id'] ?>"
-            name="wprss_settings_general[<?= $field['field_id'] ?>]"
-            type="checkbox"
-            value="1"
-            <?= checked(1, $value, false) ?>
-            />
-        <?php echo wprss_settings_inline_help( $field['field_id'], $field['tooltip'] );
+
+        printf(
+            '<input name="wprss_settings_general[%s]" type="hidden" value="0" />',
+            esc_attr($field['field_id'])
+        );
+
+        printf(
+            '<input type="checkbox" value="1" id="%1$s" name="wprss_settings_general[%1$s]" %2$s />',
+            esc_attr($field['field_id']),
+            checked(1, $value, false)
+        );
+
+        echo wprss_settings_inline_help($field['field_id'], $field['tooltip']);
     }
 
     /**

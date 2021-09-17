@@ -71,7 +71,7 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             else $feed_limit = $global_limit;
         }
 
-        // Filter the URL for validaty
+        // Filter the URL for validity
         if ( ! wprss_validate_url( $feed_url ) ) {
             $logger->error('Feed URL is not valid!');
         } else {
@@ -261,29 +261,34 @@ function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
 }
 
 if (defined('WP_DEBUG') && WP_DEBUG) {
-    add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10) ;
+    add_action('cron_request', 'wprss_cron_add_xdebug_cookie', 10);
 }
 
 /**
- * Allow debugging of wp_cron jobs
+ * Allow debugging of wp_cron jobs using xDebug.
  *
- * @param array $cron_request_array
- * @param string $doing_wp_cron
+ * This is done by taking the XDEBUG cookie received from the browser (which enables an xDebug session) and passing it
+ * to WP Cron. That way, code initiated from a cron job will be debuggable.
+ *
+ * @param array $cronRequest
  *
  * @return array $cron_request_array with the current XDEBUG_SESSION cookie added if set
  */
-function wpse_cron_add_xdebug_cookie ($cron_request_array)
+function wprss_cron_add_xdebug_cookie($cronRequest)
 {
-    if (empty ($_COOKIE['XDEBUG_SESSION'])) {
-        return ($cron_request_array) ;
+    if (empty($_COOKIE['XDEBUG_SESSION'])) {
+        return ($cronRequest);
     }
 
-    if (empty ($cron_request_array['args']['cookies'])) {
-        $cron_request_array['args']['cookies'] = array () ;
-    }
-    $cron_request_array['args']['cookies']['XDEBUG_SESSION'] = $_COOKIE['XDEBUG_SESSION'] ;
+    $cookie = filter_var($_COOKIE['XDEBUG_SESSION'], FILTER_SANITIZE_STRING);
 
-    return ($cron_request_array) ;
+    if (empty($cronRequest['args']['cookies'])) {
+        $cronRequest['args']['cookies'] = [];
+    }
+
+    $cronRequest['args']['cookies']['XDEBUG_SESSION'] = $cookie;
+
+    return $cronRequest;
 }
 
 /**
@@ -392,7 +397,10 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
     // Convert the feed error into a WP_Error, if applicable
     if ($feed->error()) {
         if ($source !== null) {
-            $msg = sprintf(__('Failed to fetch the RSS feed. Error: %s', WPRSS_TEXT_DOMAIN), $feed->error());
+            $msg = sprintf(
+                __('Failed to fetch the RSS feed. Error: %s', 'wprss'),
+                $feed->error()
+            );
             update_post_meta($source, 'wprss_error_last_import', $msg);
         }
         return new WP_Error('simplepie-error', $feed->error(), array('feed' => $feed));

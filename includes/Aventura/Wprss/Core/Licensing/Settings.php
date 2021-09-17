@@ -1,8 +1,7 @@
 <?php
 
 namespace Aventura\Wprss\Core\Licensing;
-use \Aventura\Wprss\Core\Licensing\License\Status;
-use \WPRSS_MBString;
+use WPRSS_MBString;
 
 /**
  * The licensing settings class.
@@ -77,26 +76,35 @@ class Settings {
 
         foreach ( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
             $_year = date('Y');
-            $emptyLicenseNotice = $factory->make(sprintf('%saddon_empty_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
-                'addon_id'    => $_addonId,
-                'addon_name'  => $_addonName,
-                'settings'    => $this
-            ));
+            $emptyLicenseNotice = $factory->make(
+                sprintf('%saddon_empty_license', WPRSS_NOTICE_SERVICE_ID_PREFIX),
+                [
+                    'addon_id'    => $_addonId,
+                    'addon_name'  => $_addonName,
+                    'settings'    => $this
+                ]
+            );
             $noticesComponent->addNotice($emptyLicenseNotice);
 
-            $inactiveLicenseNotice = $factory->make(sprintf('%saddon_inactive_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
-                'addon_id'    => $_addonId,
-                'addon_name'  => $_addonName,
-                'settings'    => $this
-            ));
+            $inactiveLicenseNotice = $factory->make(
+                sprintf('%saddon_inactive_license', WPRSS_NOTICE_SERVICE_ID_PREFIX),
+                [
+                    'addon_id'    => $_addonId,
+                    'addon_name'  => $_addonName,
+                    'settings'    => $this
+                ]
+            );
             $noticesComponent->addNotice($inactiveLicenseNotice);
 
-            $expiringLicenseNotice = $factory->make(sprintf('%saddon_expiring_license', WPRSS_NOTICE_SERVICE_ID_PREFIX), array(
-                'addon_id'    => $_addonId,
-                'addon_name'  => $_addonName,
-                'settings'    => $this,
-                'year'        => $_year
-            ));
+            $expiringLicenseNotice = $factory->make(
+                sprintf('%saddon_expiring_license', WPRSS_NOTICE_SERVICE_ID_PREFIX),
+                [
+                    'addon_id'    => $_addonId,
+                    'addon_name'  => $_addonName,
+                    'settings'    => $this,
+                    'year'        => $_year
+                ]
+            );
             $noticesComponent->addNotice($expiringLicenseNotice);
         }
 
@@ -141,6 +149,7 @@ class Settings {
             return false;
         }
         $license = $this->getManager()->getLicense( $args['addon'] );
+
         return $license !== null && strlen( $license->getKey() ) > 0 && ! $license->isValid();
     }
 
@@ -155,12 +164,14 @@ class Settings {
             return false;
         }
 
-        if ( ! isset( $args['addon'] ) ) return false;
-                $manager = $this->getManager();
-                if ( !($license = $manager->getLicense( $args['addon'] )) ) {
-                    return false;
-                }
-        return $license->isValid() && $manager->isLicenseExpiring($args['addon']);
+        if (!isset($args['addon'])) {
+            return false;
+        }
+
+        $manager = $this->getManager();
+        $license = $manager->getLicense($args['addon']);
+
+        return $license && $license->isValid() && $manager->isLicenseExpiring($args['addon']);
     }
 
 
@@ -169,31 +180,31 @@ class Settings {
      */
     public function registerSettings() {
         // Iterate all addon IDs and register a settings section with 2 fields for each.
-        foreach( $this->getManager()->getAddons() as $_addonId => $_addonName ) {
+        foreach ($this->getManager()->getAddons() as $_addonId => $_addonName) {
             // Settings Section
             add_settings_section(
-                sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
-                sprintf( '%s %s', $_addonName, __( 'License', WPRSS_TEXT_DOMAIN ) ),
+                sprintf('wprss_settings_%s_licenses_section', $_addonId),
+                sprintf('%s %s', $_addonName, __('License', 'wprss')),
                 '__return_empty_string',
                 'wprss_settings_license_keys'
             );
             // License key field
             add_settings_field(
-                sprintf( 'wprss_settings_%s_license', $_addonId ),
-                __( 'License key', WPRSS_TEXT_DOMAIN ),
-                array( $this, 'renderLicenseKeyField' ),
+                sprintf('wprss_settings_%s_license', $_addonId),
+                __('License key', 'wprss'),
+                [$this, 'renderLicenseKeyField'],
                 'wprss_settings_license_keys',
-                sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
-                array( $_addonId )
+                sprintf('wprss_settings_%s_licenses_section', $_addonId),
+                [$_addonId]
             );
             // Activate license button
             add_settings_field(
-                sprintf( 'wprss_settings_%s_activate_license', $_addonId ),
-                __( 'Activate license', WPRSS_TEXT_DOMAIN ),
-                array( $this, 'renderActivateLicenseButton' ),
+                sprintf('wprss_settings_%s_activate_license', $_addonId),
+                __('Activate license', 'wprss'),
+                [$this, 'renderActivateLicenseButton'],
                 'wprss_settings_license_keys',
-                sprintf( 'wprss_settings_%s_licenses_section', $_addonId ),
-                array( $_addonId )
+                sprintf('wprss_settings_%s_licenses_section', $_addonId),
+                [$_addonId]
             );
         }
 
@@ -206,20 +217,30 @@ class Settings {
      * @since 4.4.5
      */
     public function renderLicenseKeyField( $args ) {
-        if ( count( $args ) < 1 ) return;
+        if (count($args) < 1) {
+            return;
+        }
         // Addon ID is the first arg
         $addonId = $args[0];
         // Get the addon's license
         $license = $this->getManager()->getLicense( $addonId );
         // Mask it - if the license exists
-        $displayedKey = is_null( $license )? '' : self::obfuscateLicenseKey( $license->getKey() );
-        // Render the markup ?>
-        <input id="wprss-<?php echo $addonId ?>-license-key" name="wprss_settings_license_keys[<?php echo $addonId ?>_license_key]"
-               class="wprss-license-input" type="text" value="<?php echo esc_attr( $displayedKey ) ?>" style="width: 300px;"
-        />
-        <label class="description" for="wprss-<?php echo $addonId ?>-license-key">
-            <?php _e( 'Enter your license key', WPRSS_TEXT_DOMAIN ) ?>
-        </label><?php
+        $displayedKey = $license !== null
+            ? self::obfuscateLicenseKey( $license->getKey() )
+            : '';
+
+        printf(
+            '<input id="wprss-%s-license-key" name="wprss_settings_license_keys[%s_license_key]" class="wprss-license-input" type="text" value="%s" style="width: 300px;" />',
+            esc_attr($addonId),
+            esc_attr($addonId),
+            esc_attr($displayedKey)
+        );
+
+        printf(
+            '<label class="description" for="wprss-%s-license-key">%s</label>',
+             esc_attr($addonId),
+            __('Enter your license key', 'wprss')
+        );
     }
 
 
@@ -268,18 +289,15 @@ class Settings {
 
     /**
      * Invalidates the key if it is obfuscated, causing the saved version to be used.
-     * This meanst that the new key will not be saved, as it is considered then to be unchanged.
+     * This meant that the new key will not be saved, as it is considered then to be unchanged.
      *
      * @since 4.6.10
      * @param bool $is_valid Indicates whether the key is currently considered to be valid.
      * @param string $key The license key in question
-     * @return Whether or not the key is still to be considered valid.
+     * @return bool Whether or not the key is still to be considered valid.
      */
     public function validateLicenseKeyForSave( $is_valid, $key ) {
-        if ( $this->isLicenseKeyObfuscated( $key ) )
-            return false;
-
-        return $is_valid;
+        return !$this->isLicenseKeyObfuscated($key) && $is_valid;
     }
 
     /**
@@ -297,93 +315,125 @@ class Settings {
         if ( $status === 'item_name_mismatch' ) $status = 'invalid';
 
         $valid = $status == 'valid';
-        $btnText = $valid ? 'Deactivate license' : 'Activate license';
+        $btnText = $valid
+            ? __('Deactivate license', 'wprss')
+            : __('Activate license');
         $btnName = "wprss_{$addonId}_license_" . ( $valid? 'deactivate' : 'activate' );
         $btnClass = "button-" . ( $valid ? 'deactivate' : 'activate' ) . "-license";
-        wp_nonce_field( "wprss_{$addonId}_license_nonce", "wprss_{$addonId}_license_nonce", false ); ?>
+        wp_nonce_field( "wprss_{$addonId}_license_nonce", "wprss_{$addonId}_license_nonce", false );
 
-        <input type="button" class="<?php echo $btnClass; ?> button-process-license button-secondary" name="<?php echo $btnName; ?>" value="<?php _e( $btnText, WPRSS_TEXT_DOMAIN ); ?>" />
-        <span id="wprss-<?php echo $addonId; ?>-license-status-text">
-            <strong><?php _e('Status', WPRSS_TEXT_DOMAIN); ?>:
-            <span class="wprss-<?php echo $addonId; ?>-license-<?php echo $status; ?>">
-                    <?php _e( ucfirst($status), WPRSS_TEXT_DOMAIN ); ?>
-                    <?php if ( $status === 'valid' ) : ?>
-                        <i class="fa fa-check"></i>
-                    <?php elseif( $status === 'invalid' || $status === 'expired' ): ?>
-                        <i class="fa fa-times"></i>
-                    <?php elseif( $status === 'inactive' ): ?>
-                        <i class="fa fa-warning"></i>
-                    <?php endif; ?>
-                </strong>
-            </span>
-        </span>
+        $icon = '';
+        if ( $status === 'valid' ) {
+            $icon = '<i class="fa fa-check"></i>';
+        } elseif( $status === 'invalid' || $status === 'expired' ) {
+            $icon = '<i class="fa fa-times"></i>';
+        } elseif( $status === 'inactive' ) {
+            $icon = '<i class="fa fa-warning"></i>';
+        }
 
-        <p>
-            <?php
-                $license = $manager->getLicense( $addonId );
-                if ( $license !== null && !$license->isInvalid() && ($licenseKey = $license->getKey()) && !empty( $licenseKey ) ) :
-                    if ( is_object( $data ) ) :
-                        $currentActivations = $data->site_count;
-                        $activationsLeft = $data->activations_left;
-                        $activationsLimit = $data->license_limit;
-                        $expires = $data->expires;
-                        $expiresSpace = strpos($expires, ' ');
-                        // if expiry has space, get only first word
-                        $expires = ( $expiresSpace !== false ) ? substr( $expires, 0, $expiresSpace ) : $expires;
-                        $expires = trim($expires);
-                        // change lifetime expiry to never
-                        $expires = ($expires === Manager::EXPIRATION_LIFETIME) ? __('never', WPRSS_TEXT_DOMAIN) : $expires;
+        printf(
+            '<input type="button" class="%s button-process-license button-secondary" name="%s" value="%s" />',
+            esc_attr($btnClass),
+            esc_attr($btnName),
+            esc_attr($btnText)
+        );
 
-                        // If the license key is garbage, don't show any of the data.
-                        if ( !empty($data->payment_id) && !empty($data->license_limit ) ) :
-                        ?>
-                        <small>
-                            <?php if ( $status !== 'valid' && $activationsLeft === 0 ) : ?>
-                                <?php $accountUrl = 'https://www.wprssaggregator.com/account/?action=manage_licenses&payment_id=' . $data->payment_id; ?>
-                                <a href="<?php echo $accountUrl; ?>"><?php _e("No activations left. Click here to manage the sites you've activated licenses on.", WPRSS_TEXT_DOMAIN); ?></a>
-                                <br/>
-                            <?php endif; ?>
-                            <?php if ( !empty($expires) && $expires !== 'never' && strtotime($expires) < strtotime("+2 weeks") ) : ?>
-                                <?php $renewalUrl = esc_attr(WPRSS_SL_STORE_URL . '/checkout/?edd_license_key=' . $licenseKey); ?>
-                                <a href="<?php echo $renewalUrl; ?>"><?php _e('Renew your license to continue receiving updates and support.', WPRSS_TEXT_DOMAIN); ?></a>
-                                <br/>
-                            <?php endif; ?>
-                            <strong><?php _e('Activations', WPRSS_TEXT_DOMAIN); ?>:</strong>
-                                <?php echo $currentActivations.'/'.$activationsLimit; ?> (<?php echo $activationsLeft; ?> left)
-                            <br/>
-                            <?php if ( !empty($expires) ) : ?>
-                            <strong><?php _e('Expires', WPRSS_TEXT_DOMAIN); ?>:</strong>
-                                <code><?php echo $expires; ?></code>
-                            <br/>
-                            <?php endif; ?>
-                            <strong><?php _e('Registered to', WPRSS_TEXT_DOMAIN); ?>:</strong>
-                                <?php echo $data->customer_name; ?> (<code><?php echo $data->customer_email; ?></code>)
-                        </small>
-                        <?php endif; ?>
-                    <?php else: ?>
-                        <small><?php _e('Failed to get license information. This is a temporary problem. Check your internet connection and try again later.', WPRSS_TEXT_DOMAIN); ?></small>
-                    <?php endif; ?>
-                <?php endif;
-            ?>
-        </p>
+        printf(
+            '<span class="wprss-license-status-text">
+                <strong>%s</strong>
+                <span class="wprss-license-icon-%s">%s</span>
+            </span>',
+            __('Status', 'wprss'),
+            esc_attr($status),
+            $icon
+        );
 
-        <style type="text/css">
-            .wprss-<?php echo $addonId; ?>-license-valid {
-                color: green;
+        $license = $manager->getLicense($addonId);
+
+        if ($license !== null && !$license->isInvalid() && ($licenseKey = $license->getKey()) && !empty($licenseKey)) {
+            if (!is_object($data)) {
+                printf(
+                    '<p><small>%</small></p>',
+                    __(
+                        'Failed to get license information. This is a temporary problem. Check your internet connection and try again later.',
+                        'wprss'
+                    )
+                );
+            } else {
+                $currentActivations = $data->site_count;
+                $activationsLeft = $data->activations_left;
+                $activationsLimit = $data->license_limit;
+                $expires = $data->expires;
+                $expiresSpace = strpos($expires, ' ');
+                // if expiry has space, get only first word
+                $expires = ($expiresSpace !== false)
+                    ? substr($expires, 0, $expiresSpace)
+                    : $expires;
+                $expires = trim($expires);
+                // change lifetime expiry to never
+                $expires = ($expires === Manager::EXPIRATION_LIFETIME)
+                    ? __('never', 'wprss')
+                    : $expires;
+
+                if (!empty($data->payment_id) && !empty($data->license_limit)) {
+                    echo '<p><small>';
+
+                    if ($status !== 'valid' && $activationsLeft === 0) {
+                        $accountUrl = sprintf(
+                            'https://www.wprssaggregator.com/account/?action=manage_licenses&payment_id=%s',
+                            urlencode($data->payment_id)
+                        );
+                        printf(
+                            '<a href="%s">%s</a>',
+                            esc_attr($accountUrl),
+                            __(
+                                'No activations left. Click here to manage the sites you\'ve activated licenses on.',
+                                'wprss'
+                            )
+                        );
+
+                        echo '<br/>';
+                    }
+
+                    if (!empty($expires) && $expires !== 'never' && strtotime($expires) < strtotime("+2 weeks")) {
+                        $renewalUrl = sprintf(
+                            '%s/checkout/?edd_license_key=%s',
+                            WPRSS_SL_STORE_URL,
+                            urlencode($licenseKey)
+                        );
+
+                        printf(
+                            '<a href="%s">%s</a><br/>',
+                            esc_attr($renewalUrl),
+                            __('Renew your license to continue receiving updates and support.', 'wprss')
+                        );
+
+                        echo '<br/>';
+                    }
+
+                    printf('<strong>%s</strong> ', __('Activations:', 'wprss'));
+                    printf(
+                        '%s/%s (%s)',
+                        $currentActivations,
+                        $activationsLimit,
+                        sprintf(_x('%s left', 'Number of license activations remaining', 'wprss'), $activationsLeft)
+                    );
+
+                    echo '<br/>';
+
+                    if (!empty($expires)) {
+                        printf('<strong>%s</strong> ', __('Expires:', 'wprss'));
+                        printf('<code>%s</code>', esc_html($expires));
+                        echo '<br/>';
+                    }
+
+                    printf('<strong>%s</strong> ', __('Registered to:', 'wprss'));
+                    printf('%s (<code>%s</code>)', $data->customer_name, $data->customer_email);
+
+                    echo '</small></p>';
+                }
             }
-            .wprss-<?php echo $addonId; ?>-license-invalid, .wprss-<?php echo $addonId; ?>-license-expired {
-                color: #b71919;
-            }
-            .wprss-<?php echo $addonId; ?>-license-inactive {
-                color: #d19e5b;
-            }
-            #wprss-<?php echo $addonId; ?>-license-status-text {
-                margin-left: 8px;
-                line-height: 27px;
-                vertical-align: middle;
-            }
-        </style>
-        <?php
+        }
     }
 
     /**

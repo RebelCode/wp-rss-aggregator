@@ -11,8 +11,8 @@ define('WPRSS_UPDATE_PAGE_PREV_VERSION_OPTION', 'wprss_prev_update_page_version'
 add_action('admin_menu', function () {
     add_submenu_page(
         null,
-        __('Thank you for updating WP RSS Aggregator', WPRSS_TEXT_DOMAIN),
-        __('Thank you for updating WP RSS Aggregator', WPRSS_TEXT_DOMAIN),
+        __('Thank you for updating WP RSS Aggregator', 'wprss'),
+        __('Thank you for updating WP RSS Aggregator', 'wprss'),
         'manage_options',
         WPRSS_UPDATE_PAGE_SLUG,
         'wprss_render_update_page'

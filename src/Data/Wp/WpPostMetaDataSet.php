@@ -48,7 +48,7 @@ class WpPostMetaDataSet extends AbstractDataSet
 
         if (!($this->post instanceof WP_Post)) {
             throw new OutOfRangeException(
-                sprintf(__('Post with ID %s does not exist', WPRSS_TEXT_DOMAIN), $post)
+                sprintf(__('Post with ID %s does not exist', 'wprss'), $post)
             );
         }
 

@@ -167,6 +167,24 @@ color: darkGreen;
 }
 */
 
+.wprss-license-status-text {
+  margin-left: 8px;
+  line-height: 27px;
+  vertical-align: middle;
+}
+
+.wprss-license-icon-valid {
+  color: green;
+}
+
+.wprss-license-icon-invalid,
+.wprss-license-icon-expired {
+  color: #b71919;
+}
+.wprss-license-icon-inactive {
+  color: #d19e5b;
+}
+
 input#default-thumbnail,
 input#wprss-et-license-key,
 input#wprss-c-license-key,

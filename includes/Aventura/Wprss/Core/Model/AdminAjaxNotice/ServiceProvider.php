@@ -68,7 +68,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $config = $this->_normalizeConfig($config, array(
             'setting_code'          => 'wprss_admin_notices',
             'id_prefix'             => 'wprss_',
-            'text_domain'           => \WPRSS_TEXT_DOMAIN
+            'text_domain'           => 'wprss'
         ));
         // Initialize collection
         $controller = new \WPRSS_Admin_Notices($config);
@@ -424,7 +424,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'content'           => new CallbackBlock(array(), function() use ($addonName, &$me) {
                 return $me->_autoParagraph(
                     sprintf(
-                        __( 'Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.', WPRSS_TEXT_DOMAIN ),
+                        __(
+                            'Remember to <a href="%1$s">enter your license key</a> for the <strong>WP RSS Aggregator - %2$s</strong> add-on to benefit from updates and support.',
+                            'wprss'
+                        ),
                         esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
                         $addonName
                     )
@@ -468,7 +471,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'content'           => new CallbackBlock(array(), function() use ($addonName, &$me) {
                 return $me->_autoParagraph(
                     sprintf(
-                        __( 'The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.', WPRSS_TEXT_DOMAIN ),
+                        __(
+                            'The license key for the <strong>WP RSS Aggregator - %2$s</strong> add-on is saved but not activated. In order to benefit from updates and support, it must be <a href="%1$s">activated</a>.',
+                            'wprss'
+                        ),
                         esc_attr( admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=licenses_settings' ) ),
                         $addonName
                     )
@@ -515,7 +521,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'content'           => new CallbackBlock(array(), function() use ($addonName, &$me) {
                 return $me->_autoParagraph(
                     sprintf(
-                        __( 'The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. <a href="%1$s">Please renew it</a> to keep receiving updates and benefit from support.', WPRSS_TEXT_DOMAIN ),
+                        __(
+                            'The license for the <strong>WP RSS Aggregator - %2$s</strong> add-on is about to expire. <a href="%1$s">Please renew it</a> to keep receiving updates and benefit from support.',
+                            'wprss'
+                        ),
                         esc_attr( 'https://docs.wprssaggregator.com/renewing-your-license/' ),
                         $addonName
                     )

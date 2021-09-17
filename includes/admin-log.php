@@ -6,15 +6,15 @@ use RebelCode\Wpra\Core\Logger\ClearableLoggerInterface;
 use RebelCode\Wpra\Core\Logger\FeedLoggerInterface;
 use RebelCode\Wpra\Core\Logger\LogReaderInterface;
 
-define('WPRSS_OPTION_CODE_LOG_LEVEL', 'log_level');
-define('WPRSS_LOG_LEVEL_SYSTEM', LogLevel::DEBUG);
-define('WPRSS_LOG_LEVEL_INFO', LogLevel::INFO);
-define('WPRSS_LOG_LEVEL_NOTICE', LogLevel::NOTICE);
-define('WPRSS_LOG_LEVEL_WARNING', LogLevel::WARNING);
-define('WPRSS_LOG_LEVEL_ERROR', LogLevel::ERROR);
+const WPRSS_OPTION_CODE_LOG_LEVEL = 'log_level';
+const WPRSS_LOG_LEVEL_SYSTEM = LogLevel::DEBUG;
+const WPRSS_LOG_LEVEL_INFO = LogLevel::INFO;
+const WPRSS_LOG_LEVEL_NOTICE = LogLevel::NOTICE;
+const WPRSS_LOG_LEVEL_WARNING = LogLevel::WARNING;
+const WPRSS_LOG_LEVEL_ERROR = LogLevel::ERROR;
 
-define('WPRSS_LOG_LEVEL_NONE', WPRSS_LOG_LEVEL_INFO);
-define('WPRSS_LOG_LEVEL_DEFAULT', WPRSS_LOG_LEVEL_NONE);
+const WPRSS_LOG_LEVEL_NONE = WPRSS_LOG_LEVEL_INFO;
+const WPRSS_LOG_LEVEL_DEFAULT = WPRSS_LOG_LEVEL_NONE;
 
 /**
  * Returns the logger.
