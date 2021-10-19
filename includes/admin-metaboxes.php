@@ -96,9 +96,9 @@ function wprss_get_custom_fields()
         'id' => $prefix . 'unique_titles',
         'type' => 'select',
         'options' => [
-            ['value' => '', 'label' => 'Default'],
-            ['value' => '1', 'label' => 'Yes'],
-            ['value' => '0', 'label' => 'No'],
+            ['value' => '', 'label' => __('Default', 'wprss')],
+            ['value' => '1', 'label' => __('Yes', 'wprss')],
+            ['value' => '0', 'label' => __('No', 'wprss')],
         ],
     ];
 
@@ -239,8 +239,8 @@ function wprss_show_meta_box_callback()
                     printf(
                         '<option %1$s value="%2$s">%3$s</option>',
                         selected($option['value'], $meta, false),
-                        esc_attr($field['value']),
-                        esc_html($field['label'])
+                        esc_attr($option['value']),
+                        esc_html($option['label'])
                     );
                 }
 
@@ -658,7 +658,7 @@ function wprss_feed_processing_meta_box_callback()
         <label for="wprss_state">Feed state:</label>
         <select id="wprss_state" name="wprss_state">
             <?php foreach ($states as $value => $label) : ?>
-                <option value="<? esc_attr($value) ?>" <?php selected($state, $value) ?> >
+                <option value="<?= esc_attr($value) ?>" <?php selected($state, $value) ?> >
                     <?= esc_html($label) ?>
                 </option>
             <?php endforeach; ?>
