@@ -789,7 +789,7 @@ function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink
         update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosureUrl );
         update_post_meta( $inserted_ID, 'wprss_item_enclosure_type', $enclosureType );
 
-        if (stripos($enclosureType, 'audio')) {
+        if (stripos($enclosureType, 'audio') !== false) {
             update_post_meta( $inserted_ID, 'wprss_item_audio', $enclosureUrl );
         }
     }
