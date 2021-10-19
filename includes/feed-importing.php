@@ -798,18 +798,14 @@ function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink
     $feed = $item->get_feed();
 
     // Get the source from the RSS item
-    $source = $item->get_source();
-
+    $source = wprss_get_item_source_info($item);
     // Get the source name if available. If empty, default to the feed source CPT title
-    $source_name = ($source === null) ? '' : $source->get_title();
-    $source_name = empty($source_name) ? $feed->get_title() : $source_name;
-
+    $sourceName = empty($source->name) ? $feed->get_title() : $source->name;
     // Get the source URL if available. If empty, default to the RSS feed's URL
-    $source_url = ($source === null) ? '' : $source->get_permalink();
-    $source_url = empty($source_url) ? $feed->get_permalink() : $source_url;
+    $sourceUrl = empty($source->link) ? $feed->get_permalink() : $source->link;
 
-    update_post_meta( $inserted_ID, 'wprss_item_source_name', $source_name);
-    update_post_meta( $inserted_ID, 'wprss_item_source_url', $source_url);
+    update_post_meta( $inserted_ID, 'wprss_item_source_name', $sourceName);
+    update_post_meta( $inserted_ID, 'wprss_item_source_url', $sourceUrl);
 
     $author = $item->get_author();
     if ($author instanceof SimplePie_Author) {
@@ -820,6 +816,39 @@ function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink
 
     update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
     do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
+}
+
+/**
+ * Gets the source info from a feed item.
+ *
+ * @param SimplePie_Item $item
+ *
+ * @return object An object with 2 properties: 'name' and 'link'.
+ */
+function wprss_get_item_source_info(SimplePie_Item $item)
+{
+    $source = $item->get_source();
+
+    if ($source === null) {
+        // Attempt to get RSS 2.0 <source>
+        $rss2Source = $item->get_item_tags('', 'source');
+
+        $rss2Source = is_array($rss2Source) ? $rss2Source : [];
+        $name = isset($rss2Source[0]['data']) ? $rss2Source[0]['data'] : '';
+        $link = isset($rss2Source[0]['attribs']['']['url']) ? $rss2Source[0]['attribs']['']['url'] : '';
+
+        $source = (object) [
+            'name' => $name,
+            'link' => $link,
+        ];
+    } else {
+        $source = (object) [
+            'name' => $source->get_title(),
+            'link' => $source->get_permalink(),
+        ];
+    }
+
+    return $source;
 }
 
 
