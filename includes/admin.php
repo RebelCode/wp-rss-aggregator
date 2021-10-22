@@ -219,3 +219,12 @@ function wprss_admin_footer($footer)
     // Return the final text
     return sprintf('<span class="wp-rss-footer-text">%1$s %2$s</span>', $thank_you, $rate_us);
 }
+
+// Un-trashed feed sources are published, not draft
+add_filter('wp_untrash_post_status', function ($status, $postId) {
+    $postType = get_post_type($postId);
+
+    return ($postType === 'wprss_feed' || $postType === 'wprss_feed_item')
+        ? 'publish'
+        : $status;
+}, 10, 3);
