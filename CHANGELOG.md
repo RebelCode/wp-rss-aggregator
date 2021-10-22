@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.19.2]
+### Changed
+* Cleaned up the code significantly.
+* Consistent permalink normalization between the preview and importing.
+* Some plugin strings were not internationalized.
+* Source information is extracted from feed items more reliably.
+* Audio links in feed items are detected more reliably.
+* Enclosure images in feed items are detected more reliably.
+
+### Fixed
+* HTML entities caused unique title checks to always fail.
+* Some request data was not filtered and/or sanitized properly.
+* Some plugin-generated content was not properly escaped for use in HTML.
+* URLs added manually to the blacklist are now properly validated.
+
 ## [4.19.1] - 2021-09-14
 ## Changed
 * More details are now logged when a fatal error occurs during an import.
