@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Some request data was not filtered and/or sanitized properly.
 * Some plugin-generated content was not properly escaped for use in HTML.
 * URLs added manually to the blacklist are now properly validated.
+* Feed sources and feed items restored from the trash become "draft" since WordPress 5.6.
 
 ## [4.19.1] - 2021-09-14
 ### Changed
