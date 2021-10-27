@@ -122,7 +122,7 @@ class BlacklistTable extends WP_List_Table
         $title = $item['title'];
 
         $editUrl = sprintf(admin_url('post.php?post=%s&action=edit'), $id);
-        $title = sprintf('<strong><a href="%s">%s</a></strong>', $editUrl, $title);
+        $title = sprintf('<strong><a href="%s">%s</a></strong>', $editUrl, esc_html($title));
 
         $actions = [
             'edit' => sprintf(
@@ -147,7 +147,7 @@ class BlacklistTable extends WP_List_Table
      */
     public function column_url($item)
     {
-        return sprintf('<a href="%1$s" target="_blank">%1$s</a>', $item['url']);
+        return sprintf('<a href="%1$s" target="_blank">%1$s</a>', esc_html($item['url']));
     }
 
     /**
