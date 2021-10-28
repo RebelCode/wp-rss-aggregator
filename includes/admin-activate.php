@@ -22,7 +22,8 @@ add_action('admin_init', function () {
     delete_transient('_wprss_activation_redirect');
 
     // Continue only if activating from a non-network site and not bulk activating plugins
-    if (is_network_admin() || isset($_GET['activate-multi'])) {
+    $bulkActivate = filter_input(INPUT_GET, 'activate-multi');
+    if (is_network_admin() || $bulkActivate) {
         return;
     }
 

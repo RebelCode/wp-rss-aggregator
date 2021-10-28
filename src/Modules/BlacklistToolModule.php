@@ -71,6 +71,13 @@ class BlacklistToolModule implements ModuleInterface
                     __('The blacklist item URL is empty. Please enter the URL to blacklist.', 'wprss')
                 );
             },
+            /* The notice to show when a URL is being added to the blacklist and it is invalid. */
+            'wpra/admin/tools/blacklist/invalid_url_notice' => function () {
+                return sprintf(
+                    '<div class="notice notice-error is-dismissable"><p>%s</p></div>',
+                    __('The blacklisted item does not have a valid URL.', 'wprss')
+                );
+            },
             /*
              * The notice to show when a URL has been added to the blacklist.
              *
@@ -102,6 +109,16 @@ class BlacklistToolModule implements ModuleInterface
                     // URL cannot be empty
                     if (empty($url)) {
                         $notice = $c->get('wpra/admin/tools/blacklist/empty_url_notice');
+                        add_action('admin_notices', new EchoHandler($notice));
+
+                        return;
+                    }
+
+                    $url = sanitize_text_field($url);
+
+                    // URL cannot be empty
+                    if (empty($url)) {
+                        $notice = $c->get('wpra/admin/tools/blacklist/invalid_url_notice');
                         add_action('admin_notices', new EchoHandler($notice));
 
                         return;

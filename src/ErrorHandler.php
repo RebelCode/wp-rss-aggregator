@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
 
 namespace RebelCode\Wpra\Core;
 
@@ -55,7 +55,7 @@ class ErrorHandler
      * @param callable $callback The callback to invoke when an exception is handled. The callback will receive the
      *                           exception or PHP7 {@see \Throwable} as argument.
      */
-    public function __construct($rootDir, $callback)
+    public function __construct($rootDir, callable $callback)
     {
         $this->rootDir = $rootDir;
         $this->callback = $callback;
@@ -83,8 +83,6 @@ class ErrorHandler
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @since 4.14
      */
     public function __invoke()
@@ -136,7 +134,7 @@ class ErrorHandler
      */
     protected function handleError($throwable)
     {
-        // Attemt to log the error
+        // Attempt to log the error
         try {
             wpra_get_logger()->log(
                 LogLevel::ERROR,
@@ -159,10 +157,6 @@ class ErrorHandler
 
         if (is_callable($this->callback)) {
             call_user_func_array($this->callback, [$throwable]);
-
-            return;
         }
-
-        return;
     }
 }

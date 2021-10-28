@@ -172,15 +172,15 @@
     function wprss_item_title_exists( $title ) {
         global $wpdb;
 
-        $cols = $wpdb->get_col(
-            $wpdb->prepare(
-                "SELECT *
+        $query = $wpdb->prepare(
+            "SELECT *
                 FROM `{$wpdb->posts}` AS p
                 JOIN `{$wpdb->postmeta}` AS q ON p.`ID` = q.`post_id`
                 WHERE q.`meta_key` = 'wprss_feed_id' AND p.`post_title` = %s",
-                [$title]
-            )
+            [html_entity_decode($title)]
         );
+
+        $cols = $wpdb->get_col($query);
 
         return count($cols) > 0;
     }

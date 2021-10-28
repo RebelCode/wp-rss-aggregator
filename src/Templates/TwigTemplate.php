@@ -67,12 +67,12 @@ class TwigTemplate implements TemplateInterface
             return $this->env->load($this->path)->render($ctx);
         } catch (LoaderError $loaderEx) {
             throw new TemplateRenderException(
-                __('Could not load template', WPRSS_TEXT_DOMAIN), null, $loaderEx, $this, $ctx
+                __('Could not load template', 'wprss'), null, $loaderEx, $this, $ctx
             );
         } catch (SyntaxError $synEx) {
             throw new TemplateRenderException(
                 sprintf(
-                    __('Syntax error in template at line %d: %s', WPRSS_TEXT_DOMAIN),
+                    __('Syntax error in template at line %d: %s', 'wprss'),
                     $synEx->getTemplateLine(),
                     $synEx->getMessage()
                 ),
@@ -80,7 +80,7 @@ class TwigTemplate implements TemplateInterface
             );
         } catch (Exception $ex) {
             throw new TemplateRenderException(
-                __('Could not render twig template: ', WPRSS_TEXT_DOMAIN) . $ex->getMessage(),
+                __('Could not render twig template: ', 'wprss') . $ex->getMessage(),
                 null,
                 $ex,
                 $this,

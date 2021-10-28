@@ -4,18 +4,18 @@ if (!defined('ABSPATH')) {
     die;
 }
 
-define('WPRSS_INTRO_PAGE_SLUG', 'wpra-intro');
-define('WPRSS_FIRST_ACTIVATION_OPTION', 'wprss_first_activation_time');
-define('WPRSS_DB_VERSION_OPTION', 'wprss_db_version');
-define('WPRSS_INTRO_DID_INTRO_OPTION', 'wprss_did_intro');
-define('WPRSS_INTRO_FEED_ID_OPTION', 'wprss_intro_feed_id');
-define('WPRSS_INTRO_FEED_LIMIT', 20);
-define('WPRSS_INTRO_STEP_OPTION', 'wprss_intro_step');
-define('WPRSS_INTRO_NONCE_NAME', 'wprss_intro_nonce');
-define('WPRSS_INTRO_STEP_POST_PARAM', 'wprss_intro_step');
-define('WPRSS_INTRO_FEED_URL_PARAM', 'wprss_intro_feed_url');
-define('WPRSS_INTRO_SHORTCODE_PAGE_OPTION', 'wprss_intro_shortcode_page');
-define('WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM', 'wprss_preview_shortcode_page');
+const WPRSS_INTRO_PAGE_SLUG = 'wpra-intro';
+const WPRSS_FIRST_ACTIVATION_OPTION = 'wprss_first_activation_time';
+const WPRSS_DB_VERSION_OPTION = 'wprss_db_version';
+const WPRSS_INTRO_DID_INTRO_OPTION = 'wprss_did_intro';
+const WPRSS_INTRO_FEED_ID_OPTION = 'wprss_intro_feed_id';
+const WPRSS_INTRO_FEED_LIMIT = 20;
+const WPRSS_INTRO_STEP_OPTION = 'wprss_intro_step';
+const WPRSS_INTRO_NONCE_NAME = 'wprss_intro_nonce';
+const WPRSS_INTRO_STEP_POST_PARAM = 'wprss_intro_step';
+const WPRSS_INTRO_FEED_URL_PARAM = 'wprss_intro_feed_url';
+const WPRSS_INTRO_SHORTCODE_PAGE_OPTION = 'wprss_intro_shortcode_page';
+const WPRSS_INTRO_SHORTCODE_PAGE_PREVIEW_PARAM = 'wprss_preview_shortcode_page';
 
 /**
  * Registers the introduction page.
@@ -37,10 +37,6 @@ add_action('admin_menu', function () {
  * Renders the intro page.
  *
  * @since 4.12
- *
- * @throws Twig_Error_Loader
- * @throws Twig_Error_Runtime
- * @throws Twig_Error_Syntax
  */
 function wprss_render_intro_page()
 {
@@ -95,7 +91,7 @@ add_action('wp_ajax_wprss_set_intro_step', function () {
 
     if ($step === null) {
         wprss_ajax_error_response(
-            sprintf(__('Missing intro step param "%s"', WPRSS_TEXT_DOMAIN), WPRSS_INTRO_STEP_POST_PARAM)
+            sprintf(__('Missing intro step param "%s"', 'wprss'), WPRSS_INTRO_STEP_POST_PARAM)
         );
     }
 
@@ -122,12 +118,12 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
 
     if ($url === null) {
         wprss_ajax_error_response(
-            __('Missing feed URL parameter', WPRSS_TEXT_DOMAIN)
+            __('Missing feed URL parameter', 'wprss')
         );
     }
     if ($url === false) {
         wprss_ajax_error_response(
-            __('The given feed URL is invalid', WPRSS_TEXT_DOMAIN)
+            __('The given feed URL is invalid', 'wprss')
         );
     }
 
@@ -137,7 +133,7 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
         $data = array(
             'feed_items' => $items,
         );
-        wprss_set_intro_done(true);
+        wprss_set_intro_done();
         wprss_ajax_success_response($data);
     } catch (Exception $e) {
         wprss_ajax_error_response($e->getMessage(), 500);
@@ -222,7 +218,7 @@ function wprss_preview_feed_items($url, $max = 10)
 
 add_action('wprss_create_intro_feed_source', 'wprss_create_intro_feed_source');
 /**
- * Creates the feed source for the onboarding introduction process.
+ * Creates the feed source for the on-boarding introduction process.
  *
  * @since 4.12
  *
@@ -235,7 +231,7 @@ add_action('wprss_create_intro_feed_source', 'wprss_create_intro_feed_source');
 function wprss_create_intro_feed_source($url)
 {
     $feedId = get_option(WPRSS_INTRO_FEED_ID_OPTION, 0);
-    $feed = get_post($feedId, OBJECT);
+    $feed = get_post($feedId);
 
     if ($feed === null || $feed->post_status != 'publish') {
         $newId = wprss_create_feed_source_with_url($url);
@@ -246,15 +242,15 @@ function wprss_create_intro_feed_source($url)
     }
 
     // Update the existing feed source with a new generated name and new URL
-    wp_update_post(array(
+    wp_update_post([
         'ID' => $feedId,
         'post_title' => wprss_feed_source_name_from_url($url),
         'post_status' => 'publish',
-        'meta_input' => array(
+        'meta_input' => [
             'wprss_url' => $url,
             'wprss_limit' => WPRSS_INTRO_FEED_LIMIT
-        )
-    ));
+        ]
+    ]);
 
     // Re-import the items for this feed
     wprss_delete_feed_items($feedId);
@@ -277,11 +273,11 @@ function wprss_create_intro_feed_source($url)
 function wprss_create_feed_source_with_url($url)
 {
     $name = wprss_feed_source_name_from_url($url);
-    $result = wprss_import_feed_sources_array(array($url => $name));
+    $result = wprss_import_feed_sources_array([$url => $name]);
 
     if (empty($result)) {
         throw new Exception(
-            sprintf(__('Failed to import the feed source "%s" with URL "%s"', WPRSS_TEXT_DOMAIN), $name, $url)
+            sprintf(__('Failed to import the feed source "%s" with URL "%s"', 'wprss'), $name, $url)
         );
     }
 
@@ -306,7 +302,7 @@ function wprss_create_feed_source_with_url($url)
 function wprss_import_feed_sources_array($array)
 {
     /* @var $importer Aventura\Wprss\Core\Component\BulkSourceImport */
-    $importer = wprss_wp_container()->get(\WPRSS_SERVICE_ID_PREFIX . 'array_source_importer');
+    $importer = wprss_wp_container()->get(WPRSS_SERVICE_ID_PREFIX . 'array_source_importer');
 
     return $importer->import($array);
 }
@@ -333,9 +329,8 @@ function wprss_feed_source_name_from_url($url)
     }
 
     $name = parse_url($url, PHP_URL_HOST);
-    $name = ($name === null) ? $url : $name;
 
-    return $name;
+    return ($name === null) ? $url : $name;
 }
 
 /**
@@ -375,7 +370,7 @@ function wprss_get_intro_shortcode_page()
 function wprss_create_shortcode_page($title = null, $status = 'draft')
 {
     $title = ($title === null)
-        ? _x('Feeds', 'default name of shortcode page', WPRSS_TEXT_DOMAIN)
+        ? _x('Feeds', 'default name of shortcode page', 'wprss')
         : $title;
 
     $id = wp_insert_post(array(
@@ -450,7 +445,7 @@ function wprss_should_do_intro_page()
  */
 function wprss_set_intro_done($done = true)
 {
-    update_option(WPRSS_INTRO_DID_INTRO_OPTION, '1', false);
+    update_option(WPRSS_INTRO_DID_INTRO_OPTION, $done ? '1' : '0', false);
 }
 
 /**

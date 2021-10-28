@@ -71,7 +71,7 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             else $feed_limit = $global_limit;
         }
 
-        // Filter the URL for validaty
+        // Filter the URL for validity
         if ( ! wprss_validate_url( $feed_url ) ) {
             $logger->error('Feed URL is not valid!');
         } else {
@@ -113,7 +113,8 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             $new_items = array();
             foreach ( $items_to_insert as $item ) {
                 $item_title = $item->get_title();
-                $permalink = wprss_normalize_permalink( $item->get_permalink(), $item, $feed_ID );
+                $permalink = $item->get_permalink();
+                $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
                 // Check if blacklisted
                 if (wprss_is_blacklisted($permalink)) {
@@ -260,29 +261,34 @@ function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
 }
 
 if (defined('WP_DEBUG') && WP_DEBUG) {
-    add_action ('cron_request', 'wpse_cron_add_xdebug_cookie', 10) ;
+    add_action('cron_request', 'wprss_cron_add_xdebug_cookie', 10);
 }
 
 /**
- * Allow debugging of wp_cron jobs
+ * Allow debugging of wp_cron jobs using xDebug.
  *
- * @param array $cron_request_array
- * @param string $doing_wp_cron
+ * This is done by taking the XDEBUG cookie received from the browser (which enables an xDebug session) and passing it
+ * to WP Cron. That way, code initiated from a cron job will be debuggable.
+ *
+ * @param array $cronRequest
  *
  * @return array $cron_request_array with the current XDEBUG_SESSION cookie added if set
  */
-function wpse_cron_add_xdebug_cookie ($cron_request_array)
+function wprss_cron_add_xdebug_cookie($cronRequest)
 {
-    if (empty ($_COOKIE['XDEBUG_SESSION'])) {
-        return ($cron_request_array) ;
+    if (empty($_COOKIE['XDEBUG_SESSION'])) {
+        return ($cronRequest);
     }
 
-    if (empty ($cron_request_array['args']['cookies'])) {
-        $cron_request_array['args']['cookies'] = array () ;
-    }
-    $cron_request_array['args']['cookies']['XDEBUG_SESSION'] = $_COOKIE['XDEBUG_SESSION'] ;
+    $cookie = filter_var($_COOKIE['XDEBUG_SESSION'], FILTER_SANITIZE_STRING);
 
-    return ($cron_request_array) ;
+    if (empty($cronRequest['args']['cookies'])) {
+        $cronRequest['args']['cookies'] = [];
+    }
+
+    $cronRequest['args']['cookies']['XDEBUG_SESSION'] = $cookie;
+
+    return $cronRequest;
 }
 
 /**
@@ -391,7 +397,10 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
     // Convert the feed error into a WP_Error, if applicable
     if ($feed->error()) {
         if ($source !== null) {
-            $msg = sprintf(__('Failed to fetch the RSS feed. Error: %s', WPRSS_TEXT_DOMAIN), $feed->error());
+            $msg = sprintf(
+                __('Failed to fetch the RSS feed. Error: %s', 'wprss'),
+                $feed->error()
+            );
             update_post_meta($source, 'wprss_error_last_import', $msg);
         }
         return new WP_Error('simplepie-error', $feed->error(), array('feed' => $feed));
@@ -412,6 +421,7 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
 function wprss_normalize_permalink( $permalink, $item, $feed_ID) {
     // Apply normalization functions on the permalink
     $permalink = trim( $permalink );
+    $permalink = htmlspecialchars_decode($permalink);
     $permalink = apply_filters( 'wprss_normalize_permalink', $permalink, $item, $feed_ID);
     // Return the normalized permalink
     return $permalink;
@@ -572,11 +582,9 @@ function wprss_items_insert_post( $items, $feed_ID ) {
 
         // Normalize the URL
         $permalink = $item->get_permalink(); // Link or enclosure URL
-        $permalink = htmlspecialchars_decode( $permalink ); // SimplePie encodes HTML special chars
+        $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
         $logger->debug('Beginning import for item "{0}"', [$item->get_title()]);
-
-        $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
         // Save the enclosure URL
         $enclosure_url = '';
@@ -781,7 +789,7 @@ function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink
         update_post_meta( $inserted_ID, 'wprss_item_enclosure', $enclosureUrl );
         update_post_meta( $inserted_ID, 'wprss_item_enclosure_type', $enclosureType );
 
-        if (stripos($enclosureType, 'audio')) {
+        if (stripos($enclosureType, 'audio') !== false) {
             update_post_meta( $inserted_ID, 'wprss_item_audio', $enclosureUrl );
         }
     }
@@ -790,18 +798,14 @@ function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink
     $feed = $item->get_feed();
 
     // Get the source from the RSS item
-    $source = $item->get_source();
-
+    $source = wprss_get_item_source_info($item);
     // Get the source name if available. If empty, default to the feed source CPT title
-    $source_name = ($source === null) ? '' : $source->get_title();
-    $source_name = empty($source_name) ? $feed->get_title() : $source_name;
-
+    $sourceName = empty($source->name) ? $feed->get_title() : $source->name;
     // Get the source URL if available. If empty, default to the RSS feed's URL
-    $source_url = ($source === null) ? '' : $source->get_permalink();
-    $source_url = empty($source_url) ? $feed->get_permalink() : $source_url;
+    $sourceUrl = empty($source->link) ? $feed->get_permalink() : $source->link;
 
-    update_post_meta( $inserted_ID, 'wprss_item_source_name', $source_name);
-    update_post_meta( $inserted_ID, 'wprss_item_source_url', $source_url);
+    update_post_meta( $inserted_ID, 'wprss_item_source_name', $sourceName);
+    update_post_meta( $inserted_ID, 'wprss_item_source_url', $sourceUrl);
 
     $author = $item->get_author();
     if ($author instanceof SimplePie_Author) {
@@ -812,6 +816,39 @@ function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink
 
     update_post_meta( $inserted_ID, 'wprss_feed_id', $feed_ID);
     do_action( 'wprss_items_create_post_meta', $inserted_ID, $item, $feed_ID );
+}
+
+/**
+ * Gets the source info from a feed item.
+ *
+ * @param SimplePie_Item $item
+ *
+ * @return object An object with 2 properties: 'name' and 'link'.
+ */
+function wprss_get_item_source_info(SimplePie_Item $item)
+{
+    $source = $item->get_source();
+
+    if ($source === null) {
+        // Attempt to get RSS 2.0 <source>
+        $rss2Source = $item->get_item_tags('', 'source');
+
+        $rss2Source = is_array($rss2Source) ? $rss2Source : [];
+        $name = isset($rss2Source[0]['data']) ? $rss2Source[0]['data'] : '';
+        $link = isset($rss2Source[0]['attribs']['']['url']) ? $rss2Source[0]['attribs']['']['url'] : '';
+
+        $source = (object) [
+            'name' => $name,
+            'link' => $link,
+        ];
+    } else {
+        $source = (object) [
+            'name' => $source->get_title(),
+            'link' => $source->get_permalink(),
+        ];
+    }
+
+    return $source;
 }
 
 

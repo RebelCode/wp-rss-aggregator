@@ -29,7 +29,7 @@ trait NormalizeWpPostCapableTrait
 
         if (!($post instanceof WP_Post)) {
             throw new OutOfRangeException(
-                sprintf(__('Post with ID %s does not exist', WPRSS_TEXT_DOMAIN), $post)
+                sprintf(__('Post with ID %s does not exist', 'wprss'), $post)
             );
         }
 

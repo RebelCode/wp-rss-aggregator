@@ -1,8 +1,8 @@
 <?php
 
+use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 use Aventura\Wprss\Core\Model\AdminAjaxNotice\ServiceProvider;
 use Dhii\Di\WritableContainerInterface;
-use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 
 define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
 
@@ -83,26 +83,6 @@ define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
     }
 
     add_action( 'wp_ajax_wprss_dismiss_addon_notice', 'wprss_dismiss_addon_notice' );
-
-
-
-
-    /**
-     * AJAX action for the tracking pointer
-     *
-     * @since 3.6
-     */
-    function wprss_tracking_ajax_opt() {
-        if ( isset( $_POST['opted'] ) ){
-            $opted = $_POST['opted'];
-            $settings = get_option( 'wprss_settings_general' );
-            $settings['tracking'] = $opted;
-            update_option( 'wprss_settings_general', $settings );
-        }
-        die();
-    }
-
-    add_action( 'wp_ajax_wprss_tracking_ajax_opt', 'wprss_tracking_ajax_opt' );
 
 
 /**
@@ -1076,22 +1056,49 @@ class WPRSS_Admin_Notices {
 
 		ob_start();
 		$notice = apply_filters( $this->prefix( 'admin_notice_render_before' ), $notice, $this );
+
+        $noticeId = esc_attr($notice['id']);
+		$content = $notice['content'];
+
+		$type = $notice['notice_type'];
+		$baseClass = $this->get_notice_base_class();
+		$elemClass = $notice['notice_element_class'];
+		$dismissMode = $notice['dismiss_mode'];
+		$fullClass = esc_attr("{$type} {$elemClass} {$baseClass} dismiss-mode-{$dismissMode}");
+
+        $nonce = $notice['nonce'];
+        $nonceId = esc_attr($notice['nonce_element_id']);
+        $nonceElemClass = $notice['nonce_element_class'];
+        $nonceBaseClass = $this->get_nonce_base_class();
+        $nonceFullClass = esc_attr("hidden {$nonceElemClass} {$nonceBaseClass}");
 		?>
 
-		<div id="<?php echo $notice['id'] ?>" class="<?php echo $notice['notice_type'] ?> <?php echo $notice['notice_element_class'] ?> <?php echo $this->get_notice_base_class() ?> dismiss-mode-<?php echo $notice['dismiss_mode'] ?>">
+		<div id="<?= $noticeId ?>" class="<?= $fullClass ?>">
 			<div class="notice-inside">
-				<?php echo $notice['content'] ?>
+				<?= $content ?>
 			</div>
-                        <?php if ($notice['dismiss_mode'] !== NoticeInterface::DISMISS_MODE_NONE): ?>
-			<a href="javascript:;" id="<?php echo $notice['btn_close_id'] ?>" style="float:right;" class="<?php echo $this->get_btn_close_base_class() ?> <?php echo $notice['btn_close_class'] ?>"><?php echo $notice['btn_close_content'] ?></a>
-                        <?php endif ?>
-            <span id="<?php echo $notice['nonce_element_id'] ?>" class="hidden <?php echo $notice['nonce_element_class'] ?> <?php echo $this->get_nonce_base_class() ?>"><?php echo $helper->resolveValue($notice['nonce']) ?></span>
+            <?php if ($dismissMode !== NoticeInterface::DISMISS_MODE_NONE):
+                $btnId = esc_attr($notice['btn_close_id']);
+                $btnContent = $notice['btn_close_content'];
+                $btnElemClass = $notice['btn_close_class'];
+                $btnBaseClass = $this->get_btn_close_base_class();
+                $btnFullClass = esc_attr("{$btnBaseClass} {$btnElemClass}");
+                ?>
+                <a href="javascript:void(0);" id="<?= $btnId ?>" style="float:right;" class="<?= $btnFullClass ?>">
+                    <?= $btnContent ?>
+                </a>
+            <?php endif ?>
+            <span id="<?= $nonceId ?>" class="<?= $nonceFullClass ?>">
+                <?= $helper->resolveValue($nonce) ?>
+            </span>
 		</div>
-		<?php
-		do_action( $this->prefix( 'admin_notice_render_after' ), $notice, $this );
-		$output = ob_get_clean();
 
-		return apply_filters( $this->prefix( 'admin_notice_rendered' ), $output, $notice, $this );
+		<?php
+
+		do_action($this->prefix('admin_notice_render_after'), $notice, $this);
+        $output = ob_get_clean();
+
+        return apply_filters($this->prefix('admin_notice_rendered'), $output, $notice, $this);
 	}
 
 
@@ -1111,9 +1118,9 @@ class WPRSS_Admin_Notices {
 
         $notice_id = $notice;
 		if ( is_null( $notice ) )
-			throw new Exception( sprintf( 'Could not hide notice: Notice ID must be specified' ) );
+			throw new Exception('Could not hide notice: Notice ID must be specified');
 		if ( is_null( $nonce ) )
-			throw new Exception( sprintf( 'Could not hide notice: nonce must be specified' ) );
+			throw new Exception('Could not hide notice: nonce must be specified');
 		if ( !($notice = $this->get_notices( $notice ) ) )
 			throw new Exception( sprintf( 'Could not hide notice: No notice found for ID "%1$s"', $notice_id ) );
 
@@ -1215,19 +1222,22 @@ add_action( sprintf( 'wp_ajax_%1$s', wprss_admin_notice_get_action_code() ), 'wp
  * @since 4.7.4
  */
 function wprss_admin_notice_hide() {
-	$notice_id = isset( $_REQUEST['notice_id'] ) ? $_REQUEST['notice_id'] : null;
-	$nonce = isset( $_REQUEST['nonce'] ) ? $_REQUEST['nonce'] : null;
+    $notice_id = isset($_REQUEST['notice_id']) ? $_REQUEST['notice_id'] : null;
+    $notice_id = filter_var($notice_id, FILTER_SANITIZE_STRING);
+
+    $nonce = isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : null;
+    $nonce = filter_var($nonce, FILTER_SANITIZE_STRING);
 
 	try {
-		wprss_admin_notice_get_collection()->hide_notice( $notice_id, $nonce );
-	} catch (Exception $e) {
-		// Failure
-		echo $e->getMessage();
-		exit();
-	}
+        wprss_admin_notice_get_collection()->hide_notice($notice_id, $nonce);
+    } catch (Exception $e) {
+        // Failure
+        echo $e->getMessage();
+        exit();
+    }
 
 	// Success
-	exit( '1' );
+    exit('1');
 }
 
 

@@ -7,9 +7,16 @@ add_action('wp_ajax_wprss_feed_source_table_ajax', function () {
         return [];
     }
 
-    $request = $_POST['wprss_heartbeat'];
+    $request = isset($_POST['wprss_heartbeat']) ? $_POST['wprss_heartbeat'] : null;
+    if (!is_array($request)) {
+        return [];
+    }
+
     $action = isset($request['action']) ? $request['action'] : '';
+    $action = filter_var($action, FILTER_SANITIZE_STRING);
+
     $params = isset($request['params']) ? $request['params'] : '';
+    $params = filter_var($params, FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);
 
     switch ($action) {
         case 'feed_sources':

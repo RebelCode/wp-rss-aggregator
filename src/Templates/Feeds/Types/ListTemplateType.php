@@ -26,7 +26,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
      */
     public function getName()
     {
-        return __('List', WPRSS_TEXT_DOMAIN);
+        return __('List', 'wprss');
     }
 
     /**

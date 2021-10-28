@@ -4,12 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.19.2] = 2021-10-28
+### Changed
+* Cleaned up the code significantly.
+* Consistent permalink normalization between the preview and importing.
+* Some plugin strings were not internationalized.
+* Source information is extracted from feed items more reliably.
+* Audio links in feed items are detected more reliably.
+* Enclosure images in feed items are detected more reliably.
+
+### Fixed
+* HTML entities caused unique title checks to always fail.
+* Some request data was not filtered and/or sanitized properly.
+* Some plugin-generated content was not properly escaped for use in HTML.
+* URLs added manually to the blacklist are now properly validated.
+* Feed sources and feed items restored from the trash become "draft" since WordPress 5.6.
+
 ## [4.19.1] - 2021-09-14
-## Changed
+### Changed
 * More details are now logged when a fatal error occurs during an import.
 * Using local versions of images and stylesheets.
 
-## Fixed
+### Fixed
 * Importing would sometimes fail when trying to fetch the media:thumbnail image.
 * Some request data was not filtered and/or sanitized properly.
 * Some plugin-generated content was not properly escaped for use in HTML.
@@ -18,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * Support for importing images from `<image>` tags.
 
-## Changed
+### Changed
 * Exceptions thrown during an import and caught and logged.
 
 ## [4.18.2] - 2021-04-26

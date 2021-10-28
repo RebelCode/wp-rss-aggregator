@@ -90,18 +90,18 @@ class AjaxController {
 		$licenseKey = empty( $_GET['license'] )? null : sanitize_text_field( $_GET['license'] );
 
 		// If no nonce, stop
-		if ( $nonce === null ) $this->_sendErrorResponse( __( 'No nonce', WPRSS_TEXT_DOMAIN ), $addon );
+		if ( $nonce === null ) $this->_sendErrorResponse( __( 'No nonce', 'wprss' ), $addon );
 		// Generate the nonce id
 		$nonce_id = sprintf( 'wprss_%s_license_nonce', $addon );
 		// Verify the nonce. If verification fails, stop
 		if ( ! wp_verify_nonce( $nonce, $nonce_id ) ) {
-			$this->_sendErrorResponse( __( 'Bad nonce', WPRSS_TEXT_DOMAIN ), $addon );
+			$this->_sendErrorResponse( __( 'Bad nonce', 'wprss' ), $addon );
 		}
 
 		// Check addon, event and license
-		if ( $addon === null ) $this->_sendErrorResponse( __( 'No addon ID', WPRSS_TEXT_DOMAIN ) );
-		if ( $event === null ) $this->_sendErrorResponse( __( 'No event specified', WPRSS_TEXT_DOMAIN ), $addon );
-		if ( $licenseKey === null ) $this->_sendErrorResponse( __( 'No license', WPRSS_TEXT_DOMAIN ), $addon );
+		if ( $addon === null ) $this->_sendErrorResponse( __( 'No addon ID', 'wprss' ) );
+		if ( $event === null ) $this->_sendErrorResponse( __( 'No event specified', 'wprss' ), $addon );
+		if ( $licenseKey === null ) $this->_sendErrorResponse( __( 'No license', 'wprss' ), $addon );
 
         $settings = $this->getSettingsController();
         $manager = $this->getManager();
@@ -127,7 +127,7 @@ class AjaxController {
 		$eventMethod = sprintf( self::AJAX_MANAGE_LICENSE_METHOD_PATTERN, $event );
 		// check if the event is handle-able
 		if ( ! method_exists( $this, $eventMethod ) ) {
-			$this->_sendErrorResponse( __( 'Invalid event specified', WPRSS_TEXT_DOMAIN ), $addon);
+			$this->_sendErrorResponse( __( 'Invalid event specified', 'wprss' ), $addon);
 		}
 
 		// Call the appropriate handler method
@@ -153,7 +153,7 @@ class AjaxController {
 	public function handleAjaxFetchLicense() {
 		// If not addon ID in the request, stop
 		if ( empty( $_GET['addon']) )
-			$this->_sendErrorResponse( __( 'No addon ID', WPRSS_TEXT_DOMAIN ) );
+			$this->_sendErrorResponse( __( 'No addon ID', 'wprss' ) );
 		// Get and sanitize the addon ID
 		$addon = sanitize_text_field( $_GET['addon'] );
 		// Get the license information from EDD

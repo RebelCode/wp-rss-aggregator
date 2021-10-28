@@ -464,15 +464,13 @@ function wpra_get_item_enclosure_images($item)
 {
     $enclosure = $item->get_enclosure();
 
-    // Stop if item has no enclosure
-    if (is_null($enclosure)) {
+    // Stop if item has no enclosure image
+    if (is_null($enclosure) || stripos($enclosure->get_type(), 'image') === false) {
         return [];
     }
 
     // Get all the thumbnails from the enclosure
-    $thumbnails = (array) $enclosure->get_thumbnails();
-
-    return $thumbnails;
+    return (array) $enclosure->get_thumbnails();
 }
 
 /**

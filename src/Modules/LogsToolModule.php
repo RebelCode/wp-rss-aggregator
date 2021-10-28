@@ -42,7 +42,7 @@ class LogsToolModule implements ModuleInterface
              * @since 4.17
              */
             'wpra/admin/tools/logs/num_logs' => function () {
-                return 200;
+                return 500;
             },
             /*
              * Additional context to add to the "Tools" page.

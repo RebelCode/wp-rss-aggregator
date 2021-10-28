@@ -82,13 +82,11 @@ function wprss_is_blacklisted($permalink)
  */
 function wprss_check_if_blacklist_item()
 {
-    // If the GET param is not set, do nothing. Return.
-    if (empty($_GET['wprss_blacklist'])) {
-        return;
-    }
-
     // Get the ID from the GET param
     $id = filter_input(INPUT_GET, 'wprss_blacklist', FILTER_VALIDATE_INT);
+    if (empty($id)) {
+        return;
+    }
 
     // If the post does not exist, stop. Show a message
     $post = (is_int($id) && $id > 0)
