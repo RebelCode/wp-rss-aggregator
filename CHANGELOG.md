@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.19.2] = 2021-10-27
+## [4.19.2] = 2021-10-28
 ### Changed
 * Cleaned up the code significantly.
 * Consistent permalink normalization between the preview and importing.
