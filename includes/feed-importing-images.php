@@ -5,7 +5,8 @@ use Psr\Log\LoggerInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
 use RebelCode\Wpra\Core\Logger\FeedLoggerInterface;
 
-class Wpra_Rss_Namespace {
+class Wpra_Rss_Namespace
+{
     const ITUNES = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
 }
 
@@ -23,9 +24,9 @@ add_filter('wprss_ftp_post_meta', function ($meta, $id, $source, $item) {
  * The "import" process here basically just fetches the images from the item's content/excerpt, the media:thumbnail
  * tag and the enclosures. The entire list of images is saved, along with the URL of the best image.
  *
- * @param int|string     $itemId   The ID of the feed item.
- * @param SimplePie_Item $item     The simple pie item object.
- * @param int|string     $sourceId The ID of the feed source from which the item was imported.
+ * @param int|string $itemId The ID of the feed item.
+ * @param SimplePie_Item $item The simple pie item object.
+ * @param int|string $sourceId The ID of the feed source from which the item was imported.
  */
 function wpra_detect_item_type($itemId, $item, $sourceId)
 {
@@ -70,9 +71,9 @@ function wpra_get_images_logger($feedId = null)
  * The "import" process here basically just fetches the images from the item's content/excerpt, the media:thumbnail
  * tag and the enclosures. The entire list of images is saved, along with the URL of the best image.
  *
- * @param int|string     $itemId   The ID of the feed item.
- * @param SimplePie_Item $item     The simple pie item object.
- * @param int|string     $sourceId The ID of the feed source from which the item was imported.
+ * @param int|string $itemId The ID of the feed item.
+ * @param SimplePie_Item $item The simple pie item object.
+ * @param int|string $sourceId The ID of the feed source from which the item was imported.
  */
 function wpra_import_item_images($itemId, $item, $sourceId)
 {
@@ -111,8 +112,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
     // If the featured image importing feature is enabled, import the featured image
     if (wpra_image_feature_enabled('import_ft_images')) {
         $ftImageUrl = null;
-        switch ($ftImageOpt)
-        {
+        switch ($ftImageOpt) {
             case 'auto':
                 if (!empty($bestImage)) {
                     $ftImageUrl = $bestImage;
@@ -172,9 +172,9 @@ function wpra_import_item_images($itemId, $item, $sourceId)
 
                 if ($usedDefault) {
                     update_post_meta($itemId, 'wprss_item_is_using_def_image', '1');
-                    $logger->notice('Used the feed source\'s default featured image for "{title}"', ['title' => $title]);
+                    $logger->notice('Used the feed source\'s default featured image for "{0}"', [$title]);
                 } else {
-                    $logger->notice('No featured image was found for item "{title}"', ['title' => $title]);
+                    $logger->notice('No featured image was found for item "{0}"', [$title]);
                 }
             }
         } else {
@@ -187,7 +187,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
 
                 wp_update_post([
                     'ID' => $itemId,
-                    'post_content' => $newContent
+                    'post_content' => $newContent,
                 ]);
             }
         }
@@ -208,7 +208,7 @@ function wpra_import_item_images($itemId, $item, $sourceId)
         // Update the post content
         wp_update_post([
             'ID' => $itemId,
-            'post_content' => $content
+            'post_content' => $content,
         ]);
     }
 
@@ -319,8 +319,8 @@ function wpra_process_images($images, $source, &$bestImage = null)
     $minWidth = 0;
     $minHeight = 0;
     if (wpra_image_feature_enabled('image_min_size')) {
-        $minWidth = (int)apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
-        $minHeight = (int)apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
+        $minWidth = (int) apply_filters('wprss_thumbnail_min_width', $source['image_min_width']);
+        $minHeight = (int) apply_filters('wprss_thumbnail_min_height', $source['image_min_height']);
     }
 
     foreach ($images as $group => $urls) {
@@ -517,7 +517,7 @@ function wpra_get_item_content_images($item)
  */
 function wpra_get_item_itunes_images($item)
 {
-    $tags = $item->get_item_tags(Wpra_Rss_Namespace::ITUNES,'image');
+    $tags = $item->get_item_tags(Wpra_Rss_Namespace::ITUNES, 'image');
 
     if (!is_array($tags) || empty($tags)) {
         return [];
@@ -545,17 +545,17 @@ function wpra_get_item_itunes_images($item)
  * @since 4.14
  *
  * @param string $content The content in which to search for and remove the image.
- * @param string $url     The URL of the image to remove.
- * @param int    $limit   Optional number of image occurrences to remove.
+ * @param string $url The URL of the image to remove.
+ * @param int $limit Optional number of image occurrences to remove.
  *
  * @return string The new content, with any matching `img` HTML tags removed.
  */
 function wpra_remove_image_from_content($content, $url, $limit = 1)
 {
-    $tag_search = array(
+    $tag_search = [
         '<img[^<>]*?src="%s"[^<>]*?>',
-        '<img[^<>]*?srcset="[^<>]*?%s.[^<>]*?"[^<>]*?>'
-    );
+        '<img[^<>]*?srcset="[^<>]*?%s.[^<>]*?"[^<>]*?>',
+    ];
 
     foreach ($tag_search as $regex) {
         // This will transform the expression to match images in html-encoded content
@@ -625,7 +625,7 @@ function wpra_set_featured_image_from_url($post_id, $url)
     }
 
     // Otherwise, get the attachment ID for the URL from the database
-    set_post_thumbnail( $post_id, wpra_get_attachment_id_from_url($url) );
+    set_post_thumbnail($post_id, wpra_get_attachment_id_from_url($url));
 }
 
 /**
@@ -657,15 +657,13 @@ function wpra_is_url_local($url, $home_url = null)
  *
  * @see   parse_url()
  *
- * @param string|array $url   The URL which is to be rebuilt, or a result of parse_url().
- *
- * @param bool|array   $parts An array of which parts to use for building the new URL. Boolean false for all.
+ * @param string|array $url The URL which is to be rebuilt, or a result of parse_url().
+ * @param bool|array $parts An array of which parts to use for building the new URL. Boolean false for all.
  *
  * @return null|string The rebuilt URL on success, or null of given URL is malformed.
  */
 function wpra_rebuild_url($url, $parts = false)
 {
-
     // Allow parsed array
     if (is_string($url)) {
         $url = parse_url($url);
@@ -727,11 +725,11 @@ function wpra_encode_and_parse_url($url)
  *
  * @since 2.7.4
  *
- * @param string $url       (required) The URL of the image to download
- * @param int    $post_id   (required) The post ID the media is to be associated with
- * @param bool   $attach    (optional) Whether to make this attachment the Featured Image for the post.
- * @param string $filename  (optional) Replacement filename for the URL filename (do not include extension)
- * @param array  $post_data (optional) Array of key => values for wp_posts table (ex: 'post_title' => 'foobar',
+ * @param string $url (required) The URL of the image to download
+ * @param int $post_id (required) The post ID the media is to be associated with
+ * @param bool $attach (optional) Whether to make this attachment the Featured Image for the post.
+ * @param string $filename (optional) Replacement filename for the URL filename (do not include extension)
+ * @param array $post_data (optional) Array of key => values for wp_posts table (ex: 'post_title' => 'foobar',
  *                          'post_status' => 'draft')
  *
  * @return int|object The ID of the attachment or a WP_Error on failure
@@ -887,7 +885,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
 
                         // Do a case insensitive check for the extension in the proper_filename. If not found, we
                         // add the extension
-                        if (!preg_match('/'.$extension.'$/i', $filename)) {
+                        if (!preg_match('/' . $extension . '$/i', $filename)) {
                             $image['proper_filename'] .= '.' . $extension;
                         }
                     }
@@ -925,7 +923,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
 
     // set as post thumbnail if desired
     if ($attach) {
-        set_post_thumbnail( $post_id, $att_id );
+        set_post_thumbnail($post_id, $att_id);
     }
 
     // Save the original image URL in the attachment's meta data
@@ -939,7 +937,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
  *
  * @since 4.14
  *
- * @param string $local_image_path  Local path of the downloaded image
+ * @param string $local_image_path Local path of the downloaded image
  * @param string $remote_image_path Remote image url
  *
  * @return array Values with extension first and mime type.
@@ -982,7 +980,6 @@ function wpra_check_file_type($local_image_path, $remote_image_path)
  */
 function wpra_get_mime_type_ext_mapping()
 {
-
     // Get MIME to extension mappings ( from WordPress wp_check_filetype_and_ext() function )
     return apply_filters(
         'getimagesize_mimes_to_exts', [
@@ -1000,7 +997,8 @@ function wpra_get_mime_type_ext_mapping()
  *
  * @since 4.14
  */
-function wpra_get_attachment_id_from_url( $image_src ) {
+function wpra_get_attachment_id_from_url($image_src)
+{
     global $wpdb;
     $query = "SELECT ID FROM {$wpdb->posts} WHERE guid='$image_src'";
     $id = $wpdb->get_var($query);
