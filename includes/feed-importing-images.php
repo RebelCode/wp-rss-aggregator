@@ -422,30 +422,23 @@ function wpra_get_item_media_thumbnail_image($item)
         return null;
     }
 
-    // Stop if enclosure is not an image
+    // Stop if enclosure is an audio file
+    // Prevents podcast stats from being tainted
     $type = $enclosure->get_type();
-    if (!empty($type) && stripos($type, 'image/') !== 0) {
+    if (empty($type) || stripos($type, 'audio/') === 0) {
         return null;
     }
 
-    // Stop if enclosure tag has no link
-    $url = $enclosure->get_link();
-    if (empty($url)) {
-        return null;
-    }
+    $urlsToTry = [
+        $enclosure->get_link(),
+        $enclosure->get_thumbnail(),
+    ];
 
-    // Check if image can be downloaded
-    if (wpra_container()->has('wpra/images/container')) {
-        try {
-            /* @var $image WPRSS_Image_Cache_Image */
-            $image = wpra_container()->get('wpra/images/container')->get($url);
-        } catch (Exception $exception) {
-            return null;
+    foreach ($urlsToTry as $url) {
+        // Check if image can be downloaded
+        if (!empty($url) && wpra_is_url_an_image($url)) {
+            return $url;
         }
-    }
-
-    if ($image->get_local_path()) {
-        return $url;
     }
 
     return null;
@@ -462,15 +455,27 @@ function wpra_get_item_media_thumbnail_image($item)
  */
 function wpra_get_item_enclosure_images($item)
 {
-    $enclosure = $item->get_enclosure();
+    $images = [];
 
-    // Stop if item has no enclosure image
-    if (is_null($enclosure) || stripos($enclosure->get_type(), 'image') === false) {
-        return [];
+    foreach ($item->get_enclosures() as $enclosure) {
+        // Continue if enclosure is an audio file
+        // Prevents podcast stats from being tainted
+        if ($enclosure === null || stripos($enclosure->get_type(), 'audio/') === 0) {
+            continue;
+        }
+
+        foreach ($enclosure->get_thumbnails() as $thumbnail) {
+            if (empty($thumbnail)) {
+                continue;
+            }
+
+            if (wpra_is_url_an_image($thumbnail)) {
+                $images[] = $thumbnail;
+            }
+        }
     }
 
-    // Get all the thumbnails from the enclosure
-    return (array) $enclosure->get_thumbnails();
+    return $images;
 }
 
 /**
@@ -1020,4 +1025,23 @@ function wpra_image_feature_enabled($feature)
     $key = 'wpra/images/features/' . $feature;
 
     return $c->has($key) && $c->get($key) === true;
+}
+
+/**
+ * Checks if a URL refers to an image.
+ *
+ * @param string $url The URL to test.
+ *
+ * @return bool
+ */
+function wpra_is_url_an_image($url)
+{
+    $headers = get_headers($url, true);
+    $headers = array_change_key_case($headers, CASE_LOWER);
+
+    if (empty($headers['content-type'])) {
+        return false;
+    }
+
+    return isset($headers['content-type']) && stripos(trim($headers['content-type']), 'image/') === 0;
 }
