@@ -327,6 +327,9 @@ require_once ( WPRSS_INC . 'templates-update.php' );
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
+// Black friday 2021 promotion
+require_once __DIR__ . '/includes/black-friday-2021.php';
+
 // Safe deactivation hook (for the error handler)
 add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
 // Run WPRA
