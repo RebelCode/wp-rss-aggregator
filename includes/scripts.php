@@ -18,6 +18,7 @@ add_action('init', function () {
     wp_register_script('wprss-admin-addon-ajax', WPRSS_JS . 'admin-addon-ajax.js', ['jquery'], $version);
     wp_localize_script('wprss-admin-addon-ajax', 'wprss_admin_addon_ajax', [
         'please_wait' => __('Please wait ...', 'wprss'),
+        'nonce' => wp_create_nonce('wprss_admin_addon_ajax'),
     ]);
 
     // Prepare the URL for removing bulk from blacklist, with a nonce

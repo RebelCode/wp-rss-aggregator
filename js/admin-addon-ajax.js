@@ -12,6 +12,7 @@ jQuery( document ).ready( function($) {
 					action: 'wprss_dismiss_addon_notice',
 					addon: addon,
 					notice: notice,
+                    nonce: wprss_admin_addon_ajax.nonce,
 				},
 				success: function( data, status, jqXHR) {
 					if ( data === 'true' ) {

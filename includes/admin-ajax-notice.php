@@ -58,28 +58,30 @@ define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
      * @since 3.4.2
      */
     function wprss_dismiss_addon_notice() {
-        $addon = ( isset( $_POST['addon'] ) === TRUE )? $_POST['addon'] : null;
-        if ( $addon === null ) {
+        check_admin_referer('wprss_admin_addon_ajax');
+        $addon = isset($_POST['addon'])? $_POST['addon'] : null;
+        if ($addon === null) {
             echo 'false';
-            die();
+            die;
         }
-        $notice = ( isset( $_POST['notice'] ) === TRUE )? $_POST['notice'] : null;
-        if ( $notice === null ){
+        $addon = strip_tags($addon);
+        $notice = isset($_POST['notice'])? $_POST['notice'] : null;
+        if ($notice === null) {
             echo 'false';
-            die();
+            die;
         }
 
         $notices = wprss_check_addon_notice_option();
-        if ( isset( $notices[$addon] ) === FALSE ) {
+        if (isset($notices[$addon])) {
             $notices[$addon] = array();
         }
-        if ( isset( $notices[$addon][$addon] ) === FALSE ) {
+        if (isset($notices[$addon][$addon])) {
             $notices[$addon][$notice] = '1';
         }
         update_option( 'wprss_addon_notices', $notices );
         echo 'true';
 
-        die();
+        die;
     }
 
     add_action( 'wp_ajax_wprss_dismiss_addon_notice', 'wprss_dismiss_addon_notice' );
