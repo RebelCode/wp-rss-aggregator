@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.19.2] = 2021-10-28
+## [4.19.3] - 2021-11-24
+### Fixed
+* An error during cron schedule filtering.
+* Not all image URLs in enclosure tags were being detected.
+
+## [4.19.2] - 2021-10-28
 ### Changed
 * Cleaned up the code significantly.
 * Consistent permalink normalization between the preview and importing.

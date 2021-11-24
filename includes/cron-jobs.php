@@ -317,22 +317,11 @@ function wpra_get_cron_schedules()
  */
 function wprss_filter_cron_schedules($schedules)
 {
-    // Pluck out the intervals
-    $intervals = array_map(function ($schedule) {
-        return (isset($schedule['interval']) && is_numeric($schedule['interval']))
-            ? $schedule['interval']
-            : null;
-    }, $schedules);
-    // Remove null values
-    $intervals = array_filter($intervals);
-    // Get a map of intervals -> keys for fast interval lookup
-    $intervalsMap = array_flip($intervals);
-
     // Register each WPRA schedule
     $wpraSchedules = wpra_get_cron_schedules();
     foreach ($wpraSchedules as $key => $schedule) {
         // If the interval already exists, skip the schedule
-        if (array_key_exists($schedule['interval'], $intervalsMap)) {
+        if (wprss_schedule_interval_already_exists($schedules, $schedule['interval'])) {
             continue;
         }
 
@@ -340,6 +329,26 @@ function wprss_filter_cron_schedules($schedules)
     }
 
     return $schedules;
+}
+
+/**
+ * Checks if a schedule interval already exists in a given list os schedules.
+ *
+ * @see wprss_filter_cron_schedules()
+ *
+ * @param array $schedules The schedules to search in.
+ * @param int $interval The interval to search for.
+ *
+ * @return bool
+ */
+function wprss_schedule_interval_already_exists(array $schedules, $interval) {
+    foreach ($schedules as $schedule) {
+        if (isset($schedule['interval']) && $schedule['interval'] == $interval) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
