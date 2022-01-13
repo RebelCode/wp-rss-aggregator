@@ -1039,7 +1039,8 @@ function wpra_image_feature_enabled($feature)
  */
 function wpra_is_url_an_image($url)
 {
-    $headers = get_headers($url, true);
+    $headers = @get_headers($url, true);
+    $headers = is_array($headers) ? $headers : [];
     $headers = array_change_key_case($headers, CASE_LOWER);
 
     if (empty($headers['content-type'])) {
