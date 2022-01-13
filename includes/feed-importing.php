@@ -33,8 +33,10 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
     register_shutdown_function('wprss_detect_exec_timeout');
 
     $importFn = function ($feed_ID) {
+        $feedName = get_the_title($feed_ID);
+
         $logger = wpra_get_logger($feed_ID);
-        $logger->info('Starting import of feed {id}', ['id' => $feed_ID]);
+        $logger->info('Starting import for "{0}"', [$feedName]);
 
         $t = microtime(true);
 
