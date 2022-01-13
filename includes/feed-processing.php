@@ -121,6 +121,25 @@ function wprss_get_feed_items_for_source($source_id)
 }
 
 /**
+ * Queries the DB to get the GUIDs for existing feed items.
+ *
+ * @param int|string $feedId The ID of the feed source.
+ */
+function wprss_get_existing_guids($feedId) {
+    global $wpdb;
+
+    $cols = $wpdb->get_col(
+        "SELECT q.`meta_value`
+        FROM {$wpdb->postmeta} AS p
+        JOIN {$wpdb->postmeta} AS q
+            ON (q.`meta_key` = 'wprss_item_guid' AND p.`post_id` = q.`post_id`)
+        WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = '{$feedId}'"
+    );
+
+    return @array_flip($cols);
+}
+
+/**
  * Database query to get existing permalinks
  *
  * @since 3.0

@@ -108,13 +108,18 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             // The import process will check not only the titles in the DB but the titles currently in the feed
             $existing_titles = [];
 
-            // Gather the permalinks of existing feed item's related to this feed source
-            $existing_permalinks = wprss_get_existing_permalinks( $feed_ID );
+            // Gather the existing feed item IDs for this feed source
+            $useGuids = get_post_meta($feed_ID, 'wprss_use_guids', true);
+            $useGuids = filter_var($useGuids, FILTER_VALIDATE_BOOLEAN);
+            $existingIds = $useGuids
+                ? wprss_get_existing_guids($feed_ID)
+                : wprss_get_existing_permalinks($feed_ID);
 
             // Generate a list of items fetched, that are not already in the DB
             $new_items = array();
             foreach ( $items_to_insert as $item ) {
                 $item_title = $item->get_title();
+                $guid = $item->get_id();
                 $permalink = $item->get_permalink();
                 $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
@@ -126,7 +131,8 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
                 }
 
                 // Check if already imported
-                if (array_key_exists($permalink, $existing_permalinks)) {
+                $idToCheck = $useGuids ? $guid : $permalink;
+                if (array_key_exists($idToCheck, $existingIds)) {
                     $logger->debug('Item "{0}" already exists in the database', [$item_title]);
 
                     continue;
@@ -147,6 +153,7 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
                     }
                 }
 
+                $existingIds[$idToCheck] = 1;
                 $new_items[] = $item;
             }
 
@@ -767,8 +774,9 @@ function wprss_items_insert_post( $items, $feed_ID ) {
  * @param string         $permalink     The item's permalink.
  */
 function wprss_items_insert_post_meta( $inserted_ID, $item, $feed_ID, $permalink ) {
-    update_post_meta( $inserted_ID, 'wprss_item_date', $item->get_date(DATE_ISO8601) );
-    update_post_meta( $inserted_ID, 'wprss_item_permalink', $permalink );
+    update_post_meta($inserted_ID, 'wprss_item_guid', $item->get_id());
+    update_post_meta($inserted_ID, 'wprss_item_permalink', $permalink );
+    update_post_meta($inserted_ID, 'wprss_item_date', $item->get_date(DATE_ISO8601));
 
     $enclosure = $item->get_enclosure(0);
     $enclosureUrl = $enclosure ? $enclosure->get_link() : null;
