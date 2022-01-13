@@ -464,7 +464,10 @@ function wpra_get_item_enclosure_images($item)
             continue;
         }
 
-        foreach ($enclosure->get_thumbnails() as $thumbnail) {
+        $thumbnails = $enclosure->get_thumbnails();
+        $thumbnails = is_array($thumbnails) ? $thumbnails : [];
+
+        foreach ($thumbnails as $thumbnail) {
             if (empty($thumbnail)) {
                 continue;
             }
