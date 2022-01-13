@@ -56,6 +56,13 @@ add_action('plugins_loaded', function () {
             'wprss'
         ),
 
+        'wprss_use_guids' => __(
+            'Enable this option to identify duplicate feed items by their GUIDs, rather than by their permalink.' .
+            "\n\n" .
+            'This can be useful when the feed items share the same permalink, and so not all feed items would get imported.',
+            'wprss'
+        ),
+
         'wprss_import_source' => __(
             'Tick this box to get the site name and URL from the RSS feed, for each item individually.' .
             "\n\n" .

@@ -122,6 +122,12 @@ function wprss_get_custom_fields()
         'type' => 'checkbox',
     ];
 
+    $wprss_meta_fields['use_guids'] = [
+        'label' => __('Use GUIDs', 'wprss'),
+        'id' => $prefix . 'use_guids',
+        'type' => 'checkbox',
+    ];
+
     // for extensibility, allows more meta fields to be added
     return apply_filters('wprss_fields', $wprss_meta_fields);
 }
