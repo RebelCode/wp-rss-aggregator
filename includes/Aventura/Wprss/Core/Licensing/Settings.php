@@ -349,11 +349,13 @@ class Settings {
         );
 
         $license = $manager->getLicense($addonId);
+        $licenseValid = $license !== null && $license->isValid();
+        $licenseKey = $license !== null ? $license->getKey() : null;
 
-        if ($license !== null && !$license->isInvalid() && ($licenseKey = $license->getKey()) && !empty($licenseKey)) {
+        if ($licenseValid && !empty($licenseKey)) {
             if (!is_object($data)) {
                 printf(
-                    '<p><small>%</small></p>',
+                    '<p><small>%s</small></p>',
                     __(
                         'Failed to get license information. This is a temporary problem. Check your internet connection and try again later.',
                         'wprss'

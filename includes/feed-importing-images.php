@@ -464,7 +464,10 @@ function wpra_get_item_enclosure_images($item)
             continue;
         }
 
-        foreach ($enclosure->get_thumbnails() as $thumbnail) {
+        $thumbnails = $enclosure->get_thumbnails();
+        $thumbnails = is_array($thumbnails) ? $thumbnails : [];
+
+        foreach ($thumbnails as $thumbnail) {
             if (empty($thumbnail)) {
                 continue;
             }
@@ -1036,7 +1039,8 @@ function wpra_image_feature_enabled($feature)
  */
 function wpra_is_url_an_image($url)
 {
-    $headers = get_headers($url, true);
+    $headers = @get_headers($url, true);
+    $headers = is_array($headers) ? $headers : [];
     $headers = array_change_key_case($headers, CASE_LOWER);
 
     if (empty($headers['content-type'])) {
