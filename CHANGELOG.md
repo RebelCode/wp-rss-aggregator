@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.20] - 2022-01-18
+### Added
+* New option to use feed item GUIDs instead of permalinks to detect duplicate items.
+
+### Changed
+* Small performance improvement when importing feed items.
+
+### Fixed
+* A warning about `get_headers()` only working with URLs.
+* A warning about iteration over a non-array value.
+* An AJAX XSS vulnerability on the Feed Sources page. Thanks WPScan!
+
 ## [4.19.3] - 2021-11-24
 ### Fixed
 * An error during cron schedule filtering.
