@@ -483,26 +483,24 @@ function wprss_fetch_feeds_action_hook()
 {
     $response = wprss()->createAjaxResponse();
     $wprss = wprss();
-    $kFeedSourceId = 'feed_source_id';
-    try {
-        $kId = 'id';
-        if (!isset($_POST[$kId]) || empty($_POST[$kId])) {
-            throw new Exception($wprss->__('Could not schedule fetch: source ID must be specified'));
-        }
-        $id = $_POST['id'];
-        $response->setAjaxData($kFeedSourceId, $id);
+    $feedIdKey = 'feed_source_id';
 
+    try {
         if (!current_user_can('edit_feed_sources')) {
-            throw new Exception($wprss->__([
-                'Could not schedule fetch for source #%1$s: user must have sufficient privileges',
-                $id,
-            ]));
+            throw new Exception(__('Could not schedule fetch for feed source: user must have sufficient privileges.'));
         }
 
         // Verify admin referer
         if (!wprss_verify_nonce('wprss_feed_source_action', 'wprss_admin_ajax_nonce')) {
-            throw new Exception($wprss->__(['Could not schedule fetch for source #%1$s: nonce is expired', $id]));
+            throw new Exception(__('Could not schedule fetch for feed source: nonce is invalid.', 'wprss'));
         }
+
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        if (!$id) {
+            throw new Exception($wprss->__('Could not schedule fetch: feed source ID is invalid or was not specified'));
+        }
+        $response->setAjaxData($feedIdKey, $id);
+
 
         update_post_meta($id, 'wprss_force_next_fetch', '1');
 
@@ -534,7 +532,7 @@ function wprss_fetch_feeds_action_hook()
     } catch (Exception $e) {
         $response = wprss()->createAjaxErrorResponse($e);
         if (isset($id)) {
-            $response->setAjaxData($kFeedSourceId, $id);
+            $response->setAjaxData($feedIdKey, $id);
         }
         echo $response->getBody();
         exit();
