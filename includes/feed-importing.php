@@ -527,8 +527,8 @@ function wprss_tracking_url_fix( $permalink, $patterns, $argName = 'url' ) {
  * into embedded video player urls.
  * If the permalink is not a video url, the permalink is returned as is.
  *
- * @param	$permalink The string permalink url to convert.
- * @return	A string, with the convert permalink, or the same permalink passed as parameter if
+ * @param string $permalink The string permalink url to convert.
+ * @return string A string, with the convert permalink, or the same permalink passed as parameter if
  *			not a video url.
  * @since 4.0
  */
@@ -879,7 +879,7 @@ function wprss_get_feed_fetch_time_limit() {
  *
  * This function is used by the cron job or the debugging functions to get all feeds from all feed sources
  *
- * @param $all  If set to TRUE, the function will pull from all feed sources, regardless of their individual
+ * @param boolean $all If set to TRUE, the function will pull from all feed sources, regardless of their individual
  *              update interval. If set to FALSE, only feed sources using the global update system will be updated.
  *              (Optional) Default: TRUE.
  * @since 3.0
@@ -966,13 +966,13 @@ function wprss_detect_exec_timeout() {
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item|mixed $item The item to validate.
+ * @param SimplePie_Item|mixed $item The item to validate.
  *
- * @return \SimplePie_Item|null The item, if it passes; otherwise, null.
+ * @return SimplePie_Item|null The item, if it passes; otherwise, null.
  */
 function wprss_item_filter_valid($item)
 {
-    return $item instanceof \SimplePie_Item
+    return $item instanceof SimplePie_Item
             ? $item
             : null;
 }
@@ -985,8 +985,8 @@ function wprss_item_filter_valid($item)
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item[] $items The items list.
- * @param \WP_Post $feedSource The feed source, for which to sort, if any.
+ * @param SimplePie_Item[] $items The items list.
+ * @param WP_Post $feedSource The feed source, for which to sort, if any.
  */
 function wprss_sort_items(&$items, $feedSource = null)
 {
@@ -1017,8 +1017,8 @@ function wprss_sort_items(&$items, $feedSource = null)
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item|mixed $itemA The item being compared;
- * @param \SimplePie_Item|mixed $itemB The item being compared to;
+ * @param SimplePie_Item|mixed $itemA The item being compared;
+ * @param SimplePie_Item|mixed $itemB The item being compared to;
  * @param callable[] $comparators A list of functions for item comparison.
  *
  * @return int A result usable as a return value for {@see usort()}.
@@ -1050,13 +1050,13 @@ function wprss_items_sort_compare_items($itemA, $itemB, $comparators, $feedSourc
  * @since 4.11.2
  *
  * @param string $key The key of the field or setting.
- * @param \WP_Post|null $feedSource The feed source, if any.
- * @return type
+ * @param WP_Post|null $feedSource The feed source, if any.
+ * @return mixed
  */
 function wprss_get_source_meta_or_setting($key, $feedSource = null)
 {
     $value = null;
-    if ($feedSource instanceof \WP_Post) {
+    if ($feedSource instanceof WP_Post) {
         $value = $feedSource->{$key};
     }
 
@@ -1072,9 +1072,9 @@ function wprss_get_source_meta_or_setting($key, $feedSource = null)
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item|mixed $itemA The first item.
- * @param \SimplePie_Item|mixed $itemB The second item.
- * @param \WP_Post|null $feedSource The feed source for which the items are being compared, if any.
+ * @param SimplePie_Item|mixed $itemA The first item.
+ * @param SimplePie_Item|mixed $itemB The second item.
+ * @param WP_Post|null $feedSource The feed source for which the items are being compared, if any.
  * @return int A comparison result for {@see usort()}.
  */
 function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
@@ -1097,16 +1097,13 @@ function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
                 return null;
             }
             return $aDate > $bDate ? -1 : 1;
-            break;
 
         case 'oldest':
             return $aDate < $bDate ? -1 : 1;
-            break;
 
         case '':
         default:
             return 0;
-            break;
     }
 }
 
@@ -1115,7 +1112,7 @@ function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
  *
  * @since 4.11.2
  *
- * @param \WP_Post|null $feedSource The feed source, for which to get comparators, if any.
+ * @param WP_Post|null $feedSource The feed source, for which to get comparators, if any.
  *
  * @return callable[] The list of comparators.
  */
