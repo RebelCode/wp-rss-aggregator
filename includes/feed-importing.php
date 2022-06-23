@@ -112,8 +112,8 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             $useGuids = get_post_meta($feed_ID, 'wprss_use_guids', true);
             $useGuids = filter_var($useGuids, FILTER_VALIDATE_BOOLEAN);
             $existingIds = $useGuids
-                ? wprss_get_existing_guids($feed_ID)
-                : wprss_get_existing_permalinks($feed_ID);
+                ? wprss_get_existing_guids()
+                : wprss_get_existing_permalinks();
 
             // Generate a list of items fetched, that are not already in the DB
             $new_items = array();

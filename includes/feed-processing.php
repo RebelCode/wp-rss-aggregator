@@ -122,18 +122,15 @@ function wprss_get_feed_items_for_source($source_id)
 
 /**
  * Queries the DB to get the GUIDs for existing feed items.
- *
- * @param int|string $feedId The ID of the feed source.
  */
-function wprss_get_existing_guids($feedId) {
+function wprss_get_existing_guids() {
     global $wpdb;
 
     $cols = $wpdb->get_col(
         "SELECT q.`meta_value`
         FROM {$wpdb->postmeta} AS p
         JOIN {$wpdb->postmeta} AS q
-            ON (q.`meta_key` = 'wprss_item_guid' AND p.`post_id` = q.`post_id`)
-        WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = '{$feedId}'"
+            ON (q.`meta_key` = 'wprss_item_guid' AND p.`post_id` = q.`post_id`)"
     );
 
     return @array_flip($cols);
@@ -144,7 +141,7 @@ function wprss_get_existing_guids($feedId) {
  *
  * @since 3.0
  */
-function wprss_get_existing_permalinks($feed_ID)
+function wprss_get_existing_permalinks()
 {
     global $wpdb;
 
@@ -152,8 +149,7 @@ function wprss_get_existing_permalinks($feed_ID)
         "SELECT q.`meta_value`
         FROM {$wpdb->postmeta} AS p
         JOIN {$wpdb->postmeta} AS q
-            ON (q.`meta_key` = 'wprss_item_permalink' AND p.`post_id` = q.`post_id`)
-        WHERE p.`meta_key` = 'wprss_feed_id' AND p.`meta_value` = '{$feed_ID}'"
+            ON (q.`meta_key` = 'wprss_item_permalink' AND p.`post_id` = q.`post_id`)"
     );
 
     return @array_flip($cols);
@@ -191,47 +187,18 @@ function wprss_item_title_exists($title)
  *
  * @since 4.7
  */
-function wprss_get_existing_titles($feed_ID = null)
+function wprss_get_existing_titles()
 {
     global $wpdb;
-
-    $condition = ($feed_ID !== null)
-        ? "AND q.`meta_value` = '{$feed_ID}'"
-        : '';
 
     $cols = $wpdb->get_col(
         "SELECT p.`post_title`
         FROM `{$wpdb->posts}` AS p
         JOIN `{$wpdb->postmeta}` AS q
-            ON p.`ID` = q.`post_id`
-        WHERE q.`meta_key` = 'wprss_feed_id' $condition"
+            ON p.`ID` = q.`post_id`"
     );
 
     return @array_flip($cols);
-}
-
-/**
- * Checks if a permalink exists.
- *
- * Untested!
- *
- * @param string $permalink The permalink, expected to be normalized.
- *
- * @return   bool
- */
-function wprss_permalink_exists($permalink)
-{
-    global $wpdb;
-
-    $wpdb->query(
-        $wpdb->prepare(
-            "SELECT *
-            FROM {$wpdb->postmeta}
-            WHERE `meta_value` = '{$permalink}'"
-        )
-    );
-
-    return $wpdb->num_rows > 0;
 }
 
 add_action('publish_wprss_feed', 'wprss_fetch_insert_feed_items', 10);
