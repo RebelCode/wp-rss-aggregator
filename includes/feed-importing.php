@@ -550,8 +550,8 @@ function wprss_convert_video_permalink( $permalink ) {
             $host = $matches[2];
             switch( $host ) {
                 case 'youtube':
-                    preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
-                    $permalink = 'https://www.youtube.com/embed/' . $yt_matches[2];
+                    preg_match( '/([&?])v=([^&]+)/', $permalink, $yt_matches );
+                    $permalink = 'https://www.youtube.com/embed/' . $yt_matches[1];
                     break;
                 case 'vimeo':
                     preg_match( '/(\d*)$/i', $permalink, $vim_matches );
