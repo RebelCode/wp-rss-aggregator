@@ -785,7 +785,7 @@ function wprss_settings_render_select($id, $name, $items, $selected = null, $att
         $_item = (string) $_item;
 
         $html .= sprintf(
-            '<option name="%s" %s>%s</option>',
+            '<option value="%s" %s>%s</option>',
             esc_attr($_key),
             selected($selected, $_key, false),
             esc_html($_item)
