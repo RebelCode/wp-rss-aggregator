@@ -2,20 +2,15 @@
 
 namespace RebelCode\Wpra\Core\Templates\Feeds;
 
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
-use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use RebelCode\Entities\Entity;
 use RebelCode\Wpra\Core\Data\ArrayDataSet;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Data\DataSetInterface;
-use RebelCode\Wpra\Core\Data\EntityDataSet;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
+use RebelCode\Wpra\Core\Util\Normalize;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use RebelCode\Wpra\Core\Util\SanitizeCommaListCapableTrait;
 use stdClass;
@@ -41,18 +36,6 @@ class MasterFeedsTemplate implements TemplateInterface
 
     /* @since 4.13 */
     use SanitizeCommaListCapableTrait;
-
-    /* @since 4.13 */
-    use NormalizeArrayCapableTrait;
-
-    /* @since 4.13 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use CreateTemplateRenderExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use StringTranslatingTrait;
 
     /**
      * The key from where to read template options.
@@ -173,8 +156,8 @@ class MasterFeedsTemplate implements TemplateInterface
 
         // Merge the model options with the non-schema ctx args
         $options = array_merge(
-            $this->_normalizeArray($model[static::TEMPLATE_OPTIONS_KEY]),
-            $this->_normalizeArray($ctx[static::CTX_OPTIONS_KEY])
+            Normalize::toArray($model[static::TEMPLATE_OPTIONS_KEY]),
+            Normalize::toArray($ctx[static::CTX_OPTIONS_KEY])
         );
         // Include the template slug in the context
         $options['template'] = $model['slug'];
@@ -208,7 +191,7 @@ class MasterFeedsTemplate implements TemplateInterface
     protected function parseContext($ctx)
     {
         try {
-            $normCtx = $this->_normalizeArray($ctx);
+            $normCtx = Normalize::toArray($ctx);
         } catch (InvalidArgumentException $exception) {
             $normCtx = [];
         }

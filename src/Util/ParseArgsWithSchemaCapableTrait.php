@@ -146,6 +146,6 @@ trait ParseArgsWithSchemaCapableTrait
             $array[$head] = [];
         }
 
-        static::_arrayDeepSet($array[$head], $path, $value);
+        $this->_arrayDeepSet($array[$head], $path, $value);
     }
 }

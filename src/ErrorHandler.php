@@ -2,7 +2,6 @@
 
 namespace RebelCode\Wpra\Core;
 
-use Dhii\I18n\StringTranslatingTrait;
 use Exception;
 use Psr\Log\LogLevel;
 use Throwable;
@@ -14,13 +13,6 @@ use Throwable;
  */
 class ErrorHandler
 {
-    /*
-     * Provides string translating functionality.
-     *
-     * @since 4.14
-     */
-    use StringTranslatingTrait;
-
     /**
      * The callback to invoke.
      *

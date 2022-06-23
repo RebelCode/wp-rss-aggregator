@@ -3,6 +3,7 @@
 namespace RebelCode\Wpra\Core\Entities\Collections;
 
 use RebelCode\Entities\Api\SchemaInterface;
+use RebelCode\Wpra\Core\Util\Normalize;
 
 /**
  * A collection implementation that is specific to WP RSS Aggregator feed items.
@@ -63,7 +64,7 @@ class FeedItemCollection extends WpEntityCollection
         $r = parent::handleFilter($queryArgs, $key, $value);
 
         if ($key === 'feeds') {
-            $slugs = $this->_normalizeArray($value);
+            $slugs = Normalize::toArray($value);
             $posts = get_posts([
                 'post_name__in' => $slugs,
                 'post_type' => 'wprss_feed',
@@ -80,7 +81,7 @@ class FeedItemCollection extends WpEntityCollection
             $queryArgs['meta_query']['relation'] = 'AND';
             $queryArgs['meta_query'][] = [
                 'key' => 'wprss_feed_id',
-                'value' => $this->_normalizeArray($value),
+                'value' => Normalize::toArray($value),
                 'compare' => 'IN',
             ];
 
@@ -91,7 +92,7 @@ class FeedItemCollection extends WpEntityCollection
             $queryArgs['meta_query']['relation'] = 'AND';
             $queryArgs['meta_query'][] = [
                 'key' => 'wprss_feed_id',
-                'value' => $this->_normalizeArray($value),
+                'value' => Normalize::toArray($value),
                 'compare' => 'NOT IN',
             ];
 

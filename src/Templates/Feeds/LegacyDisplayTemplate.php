@@ -2,11 +2,9 @@
 
 namespace RebelCode\Wpra\Core\Templates\Feeds;
 
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use InvalidArgumentException;
+use RebelCode\Wpra\Core\Util\Normalize;
 
 /**
  * A standard template wrapper for the legacy WP RSS Aggregator display template.
@@ -15,15 +13,6 @@ use InvalidArgumentException;
  */
 class LegacyDisplayTemplate implements TemplateInterface
 {
-    /* @since 4.13 */
-    use NormalizeArrayCapableTrait;
-
-    /* @since 4.13 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use StringTranslatingTrait;
-
     /**
      * {@inheritdoc}
      *
@@ -32,7 +21,7 @@ class LegacyDisplayTemplate implements TemplateInterface
     public function render($context = null)
     {
         try {
-            $arrCtx = $this->_normalizeArray($context);
+            $arrCtx = Normalize::toArray($context);
         } catch (InvalidArgumentException $exception) {
             $arrCtx = [];
         }

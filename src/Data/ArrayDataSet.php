@@ -4,11 +4,8 @@ namespace RebelCode\Wpra\Core\Data;
 
 use ArrayAccess;
 use ArrayIterator;
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
+use RebelCode\Wpra\Core\Util\Normalize;
 use stdClass;
-use Traversable;
 
 /**
  * A data set implementation that uses a static array or object data store.
@@ -17,15 +14,6 @@ use Traversable;
  */
 class ArrayDataSet extends AbstractDataSet
 {
-    /* @since 4.13 */
-    use NormalizeArrayCapableTrait;
-
-    /* @since 4.13 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use StringTranslatingTrait;
-
     /**
      * The options data as an associative array.
      *
@@ -47,12 +35,12 @@ class ArrayDataSet extends AbstractDataSet
      *
      * @since 4.13
      *
-     * @param array|stdClass|Traversable $data      The data store, as an associative array, object or iterator.
-     * @param bool                       $recursive Whether or not to recursively set data to children data sets.
+     * @param iterable|stdClass $data     The data store, as an associative array, object or iterator.
+     * @param bool             $recursive Whether to recursively set data to children data sets.
      */
     public function __construct($data, $recursive = false)
     {
-        $this->data = $this->_normalizeArray($data);
+        $this->data = Normalize::toArray($data);
         $this->recursive = $recursive;
     }
 
