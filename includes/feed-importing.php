@@ -584,6 +584,16 @@ function wprss_items_insert_post( $items, $feed_ID ) {
     // Count of items inserted
     $items_inserted = 0;
 
+    // The date format expected by WordPress when inserting posts
+    $date_format = 'Y-m-d H:i:s';
+    // Check if we can schedule future items
+    $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
+    $schedule_items_option = wprss_get_general_setting('schedule_future_items');
+    $schedule_future_items = $schedule_items_filter || $schedule_items_option;
+
+    // Get whether the imported items count should still be updated, even if the item is imported by a filter or add-on
+    $still_update_count = apply_filters( 'wprss_still_update_import_count', FALSE );
+
     foreach ( $items as $i => $item ) {
         $permalink = $item->get_permalink();
         $permalink = wprss_normalize_permalink($permalink, $item, $feed_ID);
@@ -624,51 +634,43 @@ function wprss_items_insert_post( $items, $feed_ID ) {
         $item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
         /* @var $item SimplePie_Item */
 
-        // Check if the imported count should still be updated, even if the item is NULL
-        $still_update_count = apply_filters( 'wprss_still_update_import_count', FALSE );
-
         // If the item is not NULL, continue to inserting the feed item post into the DB
         if ( $item !== NULL && !is_bool($item) ) {
             $logger->debug('Resuming insertion into DB');
 
             $post_status = 'publish';
 
-            // Get the date and GMT date and normalize if not valid or not given by the feed
-            $format    = 'Y-m-d H:i:s';
+            // Get the date and normalize if not valid or not given by the feed
             $timestamp = $item->get_date( 'U' );
-            $has_date  = $timestamp ? true : false;
+            $has_date  = !empty($timestamp);
 
             if ($has_date) {
-                $logger->debug('Feed item "{0}" date: {1}', [$item->get_title(), $item->get_date($format)]);
+                $logger->debug('Feed item "{0}" date: {1}', [$item->get_title(), $item->get_date($date_format)]);
 
                 if ($timestamp > time()) {
                     // Item has a future timestamp ...
                     $logger->debug('Item "{0}" has a future date', [$item->get_title()]);
 
-                    $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
-                    $schedule_items_option = wprss_get_general_setting('schedule_future_items');
-
-                    if ($schedule_items_filter || $schedule_items_option) {
-                        // If can schedule future items, set the post status to "future" (aka scheduled)
-                        $post_status = 'future';
-
+                    // If we can schedule future items, set the post status to "future" (aka scheduled).
+                    // Otherwise, clamp the timestamp to the current time minus 1 second for each item iteration.
+                    // This results in the items having a 1-second time difference between them, and preserves their
+                    // order when sorting by their timestamp.
+                    if ($schedule_future_items) {
                         $logger->debug('Setting future status');
+                        $post_status = 'future';
                     } else {
-                        // If cannot schedule future items, clamp the timestamp to the current time minus
-                        // 1 second for each iteration done so far
-                        $timestamp = min(time() - $i, $timestamp);
-
                         $logger->debug('Date was clamped to present time');
+                        $timestamp = min(time() - $i, $timestamp);
                     }
                 }
             } else {
-                // Item has no date ...
+                // Item has no date, use the current time
                 $logger->debug('Item "{0}" has no date. Using current time', [$item->get_title()]);
                 $timestamp = time();
             }
 
-            $date     = date( $format, $timestamp );
-            $date_gmt = gmdate( $format, $item->get_gmdate( 'U' ) );
+            $date     = date( $date_format, $timestamp );
+            $date_gmt = gmdate( $date_format, $timestamp );
 
             $logger->debug('Date for "{0}" will be {1}', [$item->get_title(), $date]);
 
