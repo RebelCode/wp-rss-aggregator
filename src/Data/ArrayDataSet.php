@@ -61,7 +61,7 @@ class ArrayDataSet extends AbstractDataSet
      */
     protected function has($key)
     {
-        return array_key_exists($key, $this->data);
+        return array_key_exists($key, (array) $this->data);
     }
 
     /**
