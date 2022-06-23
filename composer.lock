@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "abc961dc0ef71692e4e9f9222efdbdee",
+    "content-hash": "a1db1c55e1f5e271fcd2345369be3feb",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1571,12 +1571,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1650,12 +1650,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1828,16 +1828,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.41.0",
+            "version": "v1.42.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "575cd5028362da591facde1ef5d7b94553c375c9"
+                "reference": "21707d6ebd05476854805e4f91b836531941bcd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/575cd5028362da591facde1ef5d7b94553c375c9",
-                "reference": "575cd5028362da591facde1ef5d7b94553c375c9",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/21707d6ebd05476854805e4f91b836531941bcd4",
+                "reference": "21707d6ebd05476854805e4f91b836531941bcd4",
                 "shasum": ""
             },
             "require": {
@@ -1847,12 +1847,12 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.41-dev"
+                    "dev-master": "1.42-dev"
                 }
             },
             "autoload": {
@@ -1894,7 +1894,7 @@
                 "issues": "https://github.com/twigphp/Twig/issues",
                 "source": "https://github.com/twigphp/Twig/tree/1.x"
             },
-            "time": "2019-05-14T11:59:08+00:00"
+            "time": "2019-06-18T15:35:16+00:00"
         }
     ],
     "packages-dev": [
@@ -2070,11 +2070,11 @@
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "hamcrest"
-                ],
                 "files": [
                     "hamcrest/Hamcrest.php"
+                ],
+                "classmap": [
+                    "hamcrest"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
