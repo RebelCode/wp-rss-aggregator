@@ -4,9 +4,6 @@ namespace RebelCode\Wpra\Core\Entities\Collections;
 
 use ArrayAccess;
 use ArrayIterator;
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use InvalidArgumentException;
 use OutOfRangeException;
 use RebelCode\Entities\Api\EntityInterface;
@@ -30,15 +27,6 @@ use WP_Post;
  */
 class WpEntityCollection extends AbstractDataSet implements CollectionInterface
 {
-    /* @since 4.13 */
-    use NormalizeArrayCapableTrait;
-
-    /* @since 4.13 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use StringTranslatingTrait;
-
     /**
      * The post type.
      *
@@ -300,24 +288,6 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
     protected function getUpdatePostData($key, $data)
     {
         return $data;
-    }
-
-    /**
-     * Normalizes a variable into a post array,
-     *
-     * @since 4.13
-     *
-     * @param array|stdClass|Traversable|WP_Post $post Post data array, object or iterable, or a WP_Post instance.
-     *
-     * @return array The post data array.
-     */
-    protected function toPostArray($post)
-    {
-        if ($post instanceof WP_Post) {
-            return $post->to_array();
-        }
-
-        return $this->_normalizeArray($post);
     }
 
     /**

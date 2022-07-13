@@ -3,14 +3,12 @@
 namespace RebelCode\Wpra\Core\Templates\Feeds\Types;
 
 use ArrayAccess;
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
-use Dhii\Output\CreateTemplateRenderExceptionCapableTrait;
+use Dhii\Output\Exception\TemplateRenderException;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Exception;
 use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
+use RebelCode\Wpra\Core\Util\Normalize;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 
 /**
@@ -27,18 +25,6 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
     /* @since 4.13 */
     use ParseArgsWithSchemaCapableTrait;
 
-    /* @since 4.13 */
-    use NormalizeArrayCapableTrait;
-
-    /* @since 4.13 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use CreateTemplateRenderExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use StringTranslatingTrait;
-
     /**
      * {@inheritdoc}
      *
@@ -46,7 +32,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
      */
     public function render($ctx = null)
     {
-        $argCtx = ($ctx === null) ? [] : $this->_normalizeArray($ctx);
+        $argCtx = ($ctx === null) ? [] : Normalize::toArray($ctx);
         $prepCtx = $this->prepareContext($argCtx);
 
         $this->enqueueAssets();
@@ -54,9 +40,7 @@ abstract class AbstractFeedTemplateType implements FeedTemplateTypeInterface
         try {
             return $this->getTemplate()->render($prepCtx);
         } catch (Exception $ex) {
-            throw $this->_createTemplateRenderException(
-                $ex->getMessage(), null, $ex, $this, $prepCtx
-            );
+            throw new TemplateRenderException($ex->getMessage(), null, $ex, $this, $prepCtx);
         }
     }
 

@@ -39,7 +39,7 @@ var wprss_dialog_submit = null;
 			}
 		} else {
 			if ( sources.length > 0 ) {
-				shortcode += ' source="' + sources + '"';
+				shortcode += ' feeds="' + sources + '"';
 			}
 		}
 

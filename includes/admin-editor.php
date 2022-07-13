@@ -82,21 +82,23 @@ function wprss_return_dialog_contents()
         'posts_per_page' => -1,
         'no_found_rows' => true,
     ]);
-    $feed_sources_names = [];
+    $feed_sources_by_id = [];
+    $feed_sources_by_slug = [];
     foreach ($feed_sources as $source) {
-        $feed_sources_names[$source->ID] = $source->post_title;
+        $feed_sources_by_id[$source->ID] = $source->post_title;
+        $feed_sources_by_slug[$source->post_name] = $source->post_title;
     }
     $feed_sources_select = wprss_settings_render_select(
         'wprss-dialog-feed-source-list',
         '',
-        $feed_sources_names,
+        $feed_sources_by_slug,
         '',
         ['multiple' => 'multiple', 'class' => 'widefat']
     );
     $feed_sources_exclude_select = wprss_settings_render_select(
         'wprss-dialog-exclude-list',
         '',
-        $feed_sources_names,
+        $feed_sources_by_id,
         '',
         ['multiple' => 'multiple', 'class' => 'widefat']
     );

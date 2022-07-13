@@ -112,8 +112,8 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
             $useGuids = get_post_meta($feed_ID, 'wprss_use_guids', true);
             $useGuids = filter_var($useGuids, FILTER_VALIDATE_BOOLEAN);
             $existingIds = $useGuids
-                ? wprss_get_existing_guids($feed_ID)
-                : wprss_get_existing_permalinks($feed_ID);
+                ? wprss_get_existing_guids()
+                : wprss_get_existing_permalinks();
 
             // Generate a list of items fetched, that are not already in the DB
             $new_items = array();
@@ -527,8 +527,8 @@ function wprss_tracking_url_fix( $permalink, $patterns, $argName = 'url' ) {
  * into embedded video player urls.
  * If the permalink is not a video url, the permalink is returned as is.
  *
- * @param	$permalink The string permalink url to convert.
- * @return	A string, with the convert permalink, or the same permalink passed as parameter if
+ * @param string $permalink The string permalink url to convert.
+ * @return string A string, with the convert permalink, or the same permalink passed as parameter if
  *			not a video url.
  * @since 4.0
  */
@@ -550,8 +550,8 @@ function wprss_convert_video_permalink( $permalink ) {
             $host = $matches[2];
             switch( $host ) {
                 case 'youtube':
-                    preg_match( '/(&|\?)v=([^&]+)/', $permalink, $yt_matches );
-                    $permalink = 'https://www.youtube.com/embed/' . $yt_matches[2];
+                    preg_match( '/([&?])v=([^&]+)/', $permalink, $yt_matches );
+                    $permalink = 'https://www.youtube.com/embed/' . $yt_matches[1];
                     break;
                 case 'vimeo':
                     preg_match( '/(\d*)$/i', $permalink, $vim_matches );
@@ -583,6 +583,16 @@ function wprss_items_insert_post( $items, $feed_ID ) {
 
     // Count of items inserted
     $items_inserted = 0;
+
+    // The date format expected by WordPress when inserting posts
+    $date_format = 'Y-m-d H:i:s';
+    // Check if we can schedule future items
+    $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
+    $schedule_items_option = wprss_get_general_setting('schedule_future_items');
+    $schedule_future_items = $schedule_items_filter || $schedule_items_option;
+
+    // Get whether the imported items count should still be updated, even if the item is imported by a filter or add-on
+    $still_update_count = apply_filters( 'wprss_still_update_import_count', FALSE );
 
     foreach ( $items as $i => $item ) {
         $permalink = $item->get_permalink();
@@ -624,51 +634,43 @@ function wprss_items_insert_post( $items, $feed_ID ) {
         $item = apply_filters( 'wprss_insert_post_item_conditionals', $item, $feed_ID, $permalink );
         /* @var $item SimplePie_Item */
 
-        // Check if the imported count should still be updated, even if the item is NULL
-        $still_update_count = apply_filters( 'wprss_still_update_import_count', FALSE );
-
         // If the item is not NULL, continue to inserting the feed item post into the DB
         if ( $item !== NULL && !is_bool($item) ) {
             $logger->debug('Resuming insertion into DB');
 
             $post_status = 'publish';
 
-            // Get the date and GMT date and normalize if not valid or not given by the feed
-            $format    = 'Y-m-d H:i:s';
+            // Get the date and normalize if not valid or not given by the feed
             $timestamp = $item->get_date( 'U' );
-            $has_date  = $timestamp ? true : false;
+            $has_date  = !empty($timestamp);
 
             if ($has_date) {
-                $logger->debug('Feed item "{0}" date: {1}', [$item->get_title(), $item->get_date($format)]);
+                $logger->debug('Feed item "{0}" date: {1}', [$item->get_title(), $item->get_date($date_format)]);
 
                 if ($timestamp > time()) {
                     // Item has a future timestamp ...
                     $logger->debug('Item "{0}" has a future date', [$item->get_title()]);
 
-                    $schedule_items_filter = apply_filters('wpra/importer/allow_scheduled_items', false);
-                    $schedule_items_option = wprss_get_general_setting('schedule_future_items');
-
-                    if ($schedule_items_filter || $schedule_items_option) {
-                        // If can schedule future items, set the post status to "future" (aka scheduled)
-                        $post_status = 'future';
-
+                    // If we can schedule future items, set the post status to "future" (aka scheduled).
+                    // Otherwise, clamp the timestamp to the current time minus 1 second for each item iteration.
+                    // This results in the items having a 1-second time difference between them, and preserves their
+                    // order when sorting by their timestamp.
+                    if ($schedule_future_items) {
                         $logger->debug('Setting future status');
+                        $post_status = 'future';
                     } else {
-                        // If cannot schedule future items, clamp the timestamp to the current time minus
-                        // 1 second for each iteration done so far
-                        $timestamp = min(time() - $i, $timestamp);
-
                         $logger->debug('Date was clamped to present time');
+                        $timestamp = min(time() - $i, $timestamp);
                     }
                 }
             } else {
-                // Item has no date ...
+                // Item has no date, use the current time
                 $logger->debug('Item "{0}" has no date. Using current time', [$item->get_title()]);
                 $timestamp = time();
             }
 
-            $date     = date( $format, $timestamp );
-            $date_gmt = gmdate( $format, $item->get_gmdate( 'U' ) );
+            $date     = date( $date_format, $timestamp );
+            $date_gmt = gmdate( $date_format, $timestamp );
 
             $logger->debug('Date for "{0}" will be {1}', [$item->get_title(), $date]);
 
@@ -879,7 +881,7 @@ function wprss_get_feed_fetch_time_limit() {
  *
  * This function is used by the cron job or the debugging functions to get all feeds from all feed sources
  *
- * @param $all  If set to TRUE, the function will pull from all feed sources, regardless of their individual
+ * @param boolean $all If set to TRUE, the function will pull from all feed sources, regardless of their individual
  *              update interval. If set to FALSE, only feed sources using the global update system will be updated.
  *              (Optional) Default: TRUE.
  * @since 3.0
@@ -966,13 +968,13 @@ function wprss_detect_exec_timeout() {
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item|mixed $item The item to validate.
+ * @param SimplePie_Item|mixed $item The item to validate.
  *
- * @return \SimplePie_Item|null The item, if it passes; otherwise, null.
+ * @return SimplePie_Item|null The item, if it passes; otherwise, null.
  */
 function wprss_item_filter_valid($item)
 {
-    return $item instanceof \SimplePie_Item
+    return $item instanceof SimplePie_Item
             ? $item
             : null;
 }
@@ -985,8 +987,8 @@ function wprss_item_filter_valid($item)
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item[] $items The items list.
- * @param \WP_Post $feedSource The feed source, for which to sort, if any.
+ * @param SimplePie_Item[] $items The items list.
+ * @param WP_Post $feedSource The feed source, for which to sort, if any.
  */
 function wprss_sort_items(&$items, $feedSource = null)
 {
@@ -1017,8 +1019,8 @@ function wprss_sort_items(&$items, $feedSource = null)
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item|mixed $itemA The item being compared;
- * @param \SimplePie_Item|mixed $itemB The item being compared to;
+ * @param SimplePie_Item|mixed $itemA The item being compared;
+ * @param SimplePie_Item|mixed $itemB The item being compared to;
  * @param callable[] $comparators A list of functions for item comparison.
  *
  * @return int A result usable as a return value for {@see usort()}.
@@ -1050,13 +1052,13 @@ function wprss_items_sort_compare_items($itemA, $itemB, $comparators, $feedSourc
  * @since 4.11.2
  *
  * @param string $key The key of the field or setting.
- * @param \WP_Post|null $feedSource The feed source, if any.
- * @return type
+ * @param WP_Post|null $feedSource The feed source, if any.
+ * @return mixed
  */
 function wprss_get_source_meta_or_setting($key, $feedSource = null)
 {
     $value = null;
-    if ($feedSource instanceof \WP_Post) {
+    if ($feedSource instanceof WP_Post) {
         $value = $feedSource->{$key};
     }
 
@@ -1072,9 +1074,9 @@ function wprss_get_source_meta_or_setting($key, $feedSource = null)
  *
  * @since 4.11.2
  *
- * @param \SimplePie_Item|mixed $itemA The first item.
- * @param \SimplePie_Item|mixed $itemB The second item.
- * @param \WP_Post|null $feedSource The feed source for which the items are being compared, if any.
+ * @param SimplePie_Item|mixed $itemA The first item.
+ * @param SimplePie_Item|mixed $itemB The second item.
+ * @param WP_Post|null $feedSource The feed source for which the items are being compared, if any.
  * @return int A comparison result for {@see usort()}.
  */
 function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
@@ -1097,16 +1099,13 @@ function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
                 return null;
             }
             return $aDate > $bDate ? -1 : 1;
-            break;
 
         case 'oldest':
             return $aDate < $bDate ? -1 : 1;
-            break;
 
         case '':
         default:
             return 0;
-            break;
     }
 }
 
@@ -1115,7 +1114,7 @@ function wprss_item_comparator_date($itemA, $itemB, $feedSource = null)
  *
  * @since 4.11.2
  *
- * @param \WP_Post|null $feedSource The feed source, for which to get comparators, if any.
+ * @param WP_Post|null $feedSource The feed source, for which to get comparators, if any.
  *
  * @return callable[] The list of comparators.
  */

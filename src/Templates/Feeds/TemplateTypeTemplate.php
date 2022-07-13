@@ -2,13 +2,11 @@
 
 namespace RebelCode\Wpra\Core\Templates\Feeds;
 
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use InvalidArgumentException;
 use RebelCode\Wpra\Core\Data\Collections\CollectionInterface;
 use RebelCode\Wpra\Core\Templates\Feeds\Types\FeedTemplateTypeInterface;
+use RebelCode\Wpra\Core\Util\Normalize;
 use RebelCode\Wpra\Core\Util\ParseArgsWithSchemaCapableTrait;
 use stdClass;
 use Traversable;
@@ -22,15 +20,6 @@ class TemplateTypeTemplate implements TemplateInterface
 {
     /* @since 4.14 */
     use ParseArgsWithSchemaCapableTrait;
-
-    /* @since 4.14 */
-    use NormalizeArrayCapableTrait;
-
-    /* @since 4.14 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.14 */
-    use StringTranslatingTrait;
 
     /**
      * An associative array of template type instances.
@@ -131,7 +120,7 @@ class TemplateTypeTemplate implements TemplateInterface
     protected function parseContext($ctx)
     {
         try {
-            $normCtx = $this->_normalizeArray($ctx);
+            $normCtx = Normalize::toArray($ctx);
         } catch (InvalidArgumentException $exception) {
             $normCtx = [];
         }

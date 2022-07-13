@@ -2,8 +2,6 @@
 
 namespace RebelCode\Wpra\Core\Templates;
 
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\Exception\TemplateRenderException;
 use Dhii\Output\TemplateInterface;
 use Exception;
@@ -18,12 +16,6 @@ use Twig\Error\SyntaxError;
  */
 class TwigTemplate implements TemplateInterface
 {
-    /* @since 4.13 */
-    use CreateInvalidArgumentExceptionCapableTrait;
-
-    /* @since 4.13 */
-    use StringTranslatingTrait;
-
     /**
      * The Twig environment.
      *
