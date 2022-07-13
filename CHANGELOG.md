@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.21] - 2022-07-13
+### Change
+* Updated Twig to v1.42.2, to support PHP 8 or later.
+* Optimized feed item date processing when an item is being imported.
+* Permalink and GUID checks are now done across all feed sources when an item is being imported.
+
+### Fixed
+* Various PHP 8 errors and deprecations compatibility.
+* The classic editor button was generating incorrect shortcodes.
+
 ## [4.20] - 2022-01-18
 ### Added
 * New option to use feed item GUIDs instead of permalinks to detect duplicate items.
