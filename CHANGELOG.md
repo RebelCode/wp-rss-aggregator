@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.21.1] - 2022-07-20
+### Fixed
+* An out-of-memory PHP error when importing items.
+
 ## [4.21] - 2022-07-13
 ### Change
 * Updated Twig to v1.42.2, to support PHP 8 or later.
