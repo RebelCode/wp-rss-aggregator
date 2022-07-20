@@ -120,39 +120,36 @@ function wprss_get_feed_items_for_source($source_id)
     return wprss_get_imported_items($source_id);
 }
 
-/**
- * Queries the DB to get the GUIDs for existing feed items.
- */
-function wprss_get_existing_guids() {
+/** Checks if a permalink exists in the database. */
+function wprss_permalink_exists($permalink) {
     global $wpdb;
 
-    $cols = $wpdb->get_col(
-        "SELECT q.`meta_value`
-        FROM {$wpdb->postmeta} AS p
-        JOIN {$wpdb->postmeta} AS q
-            ON (q.`meta_key` = 'wprss_item_guid' AND p.`post_id` = q.`post_id`)"
+    $numRows = $wpdb->query(
+        $wpdb->prepare(
+            "SELECT `meta_value`
+            FROM {$wpdb->postmeta}
+            WHERE (`meta_key` = 'wprss_item_permalink' AND `meta_value` = %s)",
+            $permalink
+        )
     );
 
-    return @array_flip($cols);
+    return !!$numRows;
 }
 
-/**
- * Database query to get existing permalinks
- *
- * @since 3.0
- */
-function wprss_get_existing_permalinks()
-{
+/** Checks if a GUID exists in the database. */
+function wprss_guid_exists($guid) {
     global $wpdb;
 
-    $cols = $wpdb->get_col(
-        "SELECT q.`meta_value`
-        FROM {$wpdb->postmeta} AS p
-        JOIN {$wpdb->postmeta} AS q
-            ON (q.`meta_key` = 'wprss_item_permalink' AND p.`post_id` = q.`post_id`)"
+    $numRows = $wpdb->query(
+        $wpdb->prepare(
+            "SELECT `meta_value`
+            FROM {$wpdb->postmeta}
+            WHERE (`meta_key` = 'wprss_item_guid' AND `meta_value` = %s)",
+            $guid
+        )
     );
 
-    return @array_flip($cols);
+    return !!$numRows;
 }
 
 /**
@@ -168,37 +165,17 @@ function wprss_item_title_exists($title)
 {
     global $wpdb;
 
-    $query = $wpdb->prepare(
-        "SELECT *
-        FROM `{$wpdb->posts}` AS p
-        JOIN `{$wpdb->postmeta}` AS q
-            ON p.`ID` = q.`post_id`
-        WHERE q.`meta_key` = 'wprss_feed_id' AND p.`post_title` = %s",
-        [html_entity_decode($title)]
+    $numRows = $wpdb->query(
+        $wpdb->prepare(
+            "SELECT p.`post_title`
+            FROM {$wpdb->posts} AS p
+            JOIN {$wpdb->postmeta} AS q ON p.`ID` = q.`post_id`
+            WHERE q.`meta_key` = 'wprss_feed_id' AND p.`post_title` = %s",
+            [html_entity_decode($title)]
+        )
     );
 
-    $cols = $wpdb->get_col($query);
-
-    return count($cols) > 0;
-}
-
-/**
- * Database query to get existing titles
- *
- * @since 4.7
- */
-function wprss_get_existing_titles()
-{
-    global $wpdb;
-
-    $cols = $wpdb->get_col(
-        "SELECT p.`post_title`
-        FROM `{$wpdb->posts}` AS p
-        JOIN `{$wpdb->postmeta}` AS q
-            ON p.`ID` = q.`post_id`"
-    );
-
-    return @array_flip($cols);
+    return !!$numRows;
 }
 
 add_action('publish_wprss_feed', 'wprss_fetch_insert_feed_items', 10);

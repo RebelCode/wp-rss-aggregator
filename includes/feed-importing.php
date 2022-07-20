@@ -106,56 +106,72 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
                 ? wprss_get_general_setting('unique_titles')
                 : $unique_titles_only;
             $unique_titles_only = filter_var($unique_titles_only, FILTER_VALIDATE_BOOLEAN);
-            // Gather the titles of the items that are imported
-            // The import process will check not only the titles in the DB but the titles currently in the feed
-            $existing_titles = [];
 
             // Gather the existing feed item IDs for this feed source
             $useGuids = get_post_meta($feed_ID, 'wprss_use_guids', true);
             $useGuids = filter_var($useGuids, FILTER_VALIDATE_BOOLEAN);
-            $existingIds = $useGuids
-                ? wprss_get_existing_guids()
-                : wprss_get_existing_permalinks();
+
+            // Gather the IDs and titles of the items that are imported
+            // The import process will not only check the IDs and titles against the DB, but also against the feed
+            // itself. This prevents duplicate items in the feed from importing duplicates.
+            $existingIds = [];
+            $existingTitles = [];
 
             // Generate a list of items fetched, that are not already in the DB
             $new_items = array();
             foreach ( $items_to_insert as $item ) {
-                $item_title = $item->get_title();
+                $itemTitle = $item->get_title();
                 $guid = $item->get_id();
                 $permalink = $item->get_permalink();
                 $permalink = wprss_normalize_permalink( $permalink, $item, $feed_ID );
 
                 // Check if blacklisted
                 if (wprss_is_blacklisted($permalink)) {
-                    $logger->debug('Item "{0}" is blacklisted', [$item_title]);
+                    $logger->debug('Item "{0}" is blacklisted', [$itemTitle]);
+                    continue;
+                }
+
+                $itemId = $useGuids ? $guid : $permalink;
+
+                // Check if already imported in database
+                //-----------------------------------------
+                $itemIdExists = $useGuids ? wprss_guid_exists($guid) : wprss_permalink_exists($permalink);
+                $itemsTitleExists = $unique_titles_only && wprss_item_title_exists($item->get_title());
+
+                if ($itemIdExists || $itemsTitleExists) {
+                    $reason = $itemIdExists
+                        ? ($useGuids ? 'GUID' : 'permalink')
+                        : 'Non-unique title';
+
+                    $logger->debug('Item "{title}" already exists in the database. Reason: {reason}', [
+                        'title' => $itemTitle,
+                        'reason' => $reason
+                    ]);
 
                     continue;
                 }
 
-                // Check if already imported
-                $idToCheck = $useGuids ? $guid : $permalink;
-                if (array_key_exists($idToCheck, $existingIds)) {
-                    $logger->debug('Item "{0}" already exists in the database', [$item_title]);
+                // Check if item is duplicated in the feed
+                //-----------------------------------------
+                $itemIdIsDuped = array_key_exists($itemId, $existingIds);
+                $itemTitleIsDuped = $unique_titles_only && array_key_exists($itemTitle, $existingTitles);
+
+                if ($itemIdIsDuped || $itemTitleIsDuped) {
+                    $reason = $itemIdIsDuped
+                        ? ($useGuids ? 'GUID' : 'permalink')
+                        : 'Non-unique title';
+
+                    $logger->debug('Item "{title}" is duplicated in the feed. Reason: {reason}', [
+                        'title' => $itemTitle,
+                        'reason' => $reason,
+                    ]);
 
                     continue;
+                } else {
+                    $existingIds[$itemId] = 1;
+                    $existingTitles[$itemTitle] = 1;
                 }
 
-                // Check if title exists (if the option is enabled)
-                if ($unique_titles_only) {
-                    $title_exists_db = wprss_item_title_exists($item->get_title());
-                    $title_exists_feed = array_key_exists($item_title, $existing_titles);
-                    $title_exists = $title_exists_db || $title_exists_feed;
-                    // Add this item's title to the list to check against
-                    $existing_titles[$item_title] = 1;
-
-                    if ($title_exists) {
-                        $logger->debug('An item with the title "{0}" already exists', [$item_title]);
-
-                        continue;
-                    }
-                }
-
-                $existingIds[$idToCheck] = 1;
                 $new_items[] = $item;
             }
 
