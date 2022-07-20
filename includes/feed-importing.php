@@ -23,6 +23,8 @@ add_action( 'wprss_fetch_single_feed_hook', 'wprss_fetch_insert_single_feed_item
  * Called on hook 'wprss_fetch_single_feed_hook'.
  *
  * @since 3.2
+ *
+ * @throws Exception
  */
 function wprss_fetch_insert_single_feed_items( $feed_ID ) {
     set_transient('wpra/feeds/importing/' . $feed_ID, true, 0);
@@ -184,14 +186,14 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
                         ? 0
                         : $num_new_items - $num_can_insert;
 
-                // Get an array with the DB feed items in reverse order (oldest first)
+                // Get an array with the DB feed items in reverse order (the oldest first)
                 $db_feed_items_reversed = array_reverse( $db_feed_items->posts );
                 // Cut the array to get only the first few that are to be deleted ( equal to $num_feed_items_to_delete )
                 $feed_items_to_delete = array_slice( $db_feed_items_reversed, 0, $num_feed_items_to_delete );
 
                 // Iterate the feed items and delete them
                 $num_items_deleted = 0;
-                foreach ( $feed_items_to_delete as $key => $post ) {
+                foreach ( $feed_items_to_delete as $post ) {
                     wp_delete_post( $post->ID, TRUE );
                     $num_items_deleted++;
                 }
@@ -201,7 +203,7 @@ function wprss_fetch_insert_single_feed_items( $feed_ID ) {
                 }
             }
 
-            update_post_meta( $feed_ID, 'wprss_last_update', $last_update_time = time() );
+            update_post_meta( $feed_ID, 'wprss_last_update', time() );
             update_post_meta( $feed_ID, 'wprss_last_update_items', 0 );
 
             // Insert the items into the db
@@ -270,34 +272,31 @@ function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
 }
 
 if (defined('WP_DEBUG') && WP_DEBUG) {
-    add_action('cron_request', 'wprss_cron_add_xdebug_cookie', 10);
-}
+    /**
+     * Allow debugging of wp_cron jobs using xDebug.
+     *
+     * This is done by taking the XDEBUG cookie received from the browser (which enables an xDebug session) and passing it
+     * to WP Cron. That way, code initiated from a cron job will be debuggable.
+     *
+     * @param array $cronRequest
+     *
+     * @return array $cron_request_array with the current XDEBUG_SESSION cookie added if set
+     */
+    add_action('cron_request', function($cronRequest) {
+        if (empty($_COOKIE['XDEBUG_SESSION'])) {
+            return ($cronRequest);
+        }
 
-/**
- * Allow debugging of wp_cron jobs using xDebug.
- *
- * This is done by taking the XDEBUG cookie received from the browser (which enables an xDebug session) and passing it
- * to WP Cron. That way, code initiated from a cron job will be debuggable.
- *
- * @param array $cronRequest
- *
- * @return array $cron_request_array with the current XDEBUG_SESSION cookie added if set
- */
-function wprss_cron_add_xdebug_cookie($cronRequest)
-{
-    if (empty($_COOKIE['XDEBUG_SESSION'])) {
-        return ($cronRequest);
-    }
+        $cookie = filter_var($_COOKIE['XDEBUG_SESSION'], FILTER_SANITIZE_STRING);
 
-    $cookie = filter_var($_COOKIE['XDEBUG_SESSION'], FILTER_SANITIZE_STRING);
+        if (empty($cronRequest['args']['cookies'])) {
+            $cronRequest['args']['cookies'] = [];
+        }
 
-    if (empty($cronRequest['args']['cookies'])) {
-        $cronRequest['args']['cookies'] = [];
-    }
+        $cronRequest['args']['cookies']['XDEBUG_SESSION'] = $cookie;
 
-    $cronRequest['args']['cookies']['XDEBUG_SESSION'] = $cookie;
-
-    return $cronRequest;
+        return $cronRequest;
+    });
 }
 
 /**
@@ -364,7 +363,7 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
 
     // If a feed source was passed
     if ($source !== null || $param_force_feed) {
-        // Get the force feed option for the feed source
+        // Get the force-feed option for the feed source
         $force_feed = get_post_meta($source, 'wprss_force_feed', true);
         // If turned on, force the feed
         if ($force_feed == 'true' || $param_force_feed) {
