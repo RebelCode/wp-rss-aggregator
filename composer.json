@@ -14,6 +14,7 @@
     "require": {
         "php": "^5.4 | ^7.0",
         "ext-curl": "*",
+        "ext-json": "*",
         "ext-simplexml": "*",
         "psr/log": "^1.1",
         "twig/twig": "^1.0 | ^2.10",
