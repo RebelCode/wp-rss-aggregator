@@ -1,7 +1,10 @@
-jQuery( document ).ready( function() { 
-if(jQuery.fn.colorbox) {
-    jQuery( '.colorbox' ).colorbox(
-    {iframe:true, width:'80%', height:'80%'}
-    );
-}
-});
+jQuery(document).ready(function ($) {
+  if ($.fn.colorbox) {
+    const links = $('.colorbox')
+    links.colorbox({
+      iframe: true,
+      width: '80%',
+      height: '80%',
+    })
+  }
+})
