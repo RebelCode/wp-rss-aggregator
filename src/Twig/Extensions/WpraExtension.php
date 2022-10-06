@@ -135,8 +135,21 @@ class WpraExtension extends AbstractExtension
                 return '';
             }
 
-            if ($options['link_to_embed'] && !empty($item['embed_url'])) {
-                return $item['embed_url'];
+            if ($options['link_to_embed']) {
+                if ($item['is_yt'] && $item['yt_embed_url']) {
+                    $embedUrl = $item['yt_embed_url'];
+                    $linkBehavior = isset($options['links_open_behavior']) ? $options['links_open_behavior'] : '';
+
+                    if ($linkBehavior === 'lightbox') {
+                        $embedUrl .= '?autoplay=1';
+                    }
+
+                    return $embedUrl;
+                }
+
+                if (!empty($item['embed_url'])) {
+                    return $item['embed_url'];
+                }
             }
 
             return $item['url'];

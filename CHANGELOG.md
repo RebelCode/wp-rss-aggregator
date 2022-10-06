@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.22] - 2022-08-06
+### Changed
+* YouTube embeds in the lightbox now begin playing automatically, if the browser allows it.
+
 ## [4.21.1] - 2022-07-20
 ### Fixed
 * An out-of-memory PHP error when importing items.
