@@ -169,11 +169,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
+	 * @param array $config
      * @param null $p
-     * @param array $config
      * @return NoticeInterface
      */
-    public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBulkFeedImportNotice(ContainerInterface $c, $config, $p = null)
     {
         $me = $this;
         $import = $c->get($this->_p('bulk_source_import'));
@@ -197,11 +197,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
+	 * @param array $config
      * @param null $p
-     * @param array $config
      * @return NoticeInterface
      */
-    public function _createSettingsImportSuccessNotice(ContainerInterface $c, $p = null, $config)
+    public function _createSettingsImportSuccessNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'settings_import_success',
@@ -220,11 +220,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
+	 * @param array $config
      * @param null $p
-     * @param array $config
      * @return NoticeInterface
      */
-    public function _createSettingsImportFailedNotice(ContainerInterface $c, $p = null, $config)
+    public function _createSettingsImportFailedNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'settings_import_failed',
@@ -243,11 +243,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_updating',
@@ -265,11 +265,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'debug_feeds_reimporting',
@@ -287,11 +287,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createDebugClearedLogNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugClearedLogNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'debug_cleared_log',
@@ -309,11 +309,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createDebugSettingsResetNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugSettingsResetNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'debug_settings_reset',
@@ -331,11 +331,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createBlacklistItemSuccessNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBlacklistItemSuccessNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice(array(
             'id'                => 'blacklist_item_success',
@@ -352,11 +352,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createBulkFeedActivatedNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBulkFeedActivatedNotice(ContainerInterface $c, $config, $p = null)
     {
         $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
@@ -375,11 +375,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createBulkFeedPausedNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBulkFeedPausedNotice(ContainerInterface $c, $config, $p = null)
     {
         $helper = $c->get($this->_p('admin_helper'));
         $notice = $this->_createNotice(array(
@@ -398,11 +398,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createAddonEmptyLicenseNotice(ContainerInterface $c, $p = null, $config)
+    public function _createAddonEmptyLicenseNotice(ContainerInterface $c, $config, $p = null)
     {
         $addonId = isset($config['addon_id'])
             ? $config['addon_id']
@@ -445,11 +445,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createAddonInactiveLicenseNotice(ContainerInterface $c, $p = null, $config)
+    public function _createAddonInactiveLicenseNotice(ContainerInterface $c, $config, $p = null)
     {
         $addonId = isset($config['addon_id'])
             ? $config['addon_id']
@@ -492,11 +492,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @param array $config
+     * @param null $p
      * @return NoticeInterface
      */
-    public function _createAddonExpiringLicenseNotice(ContainerInterface $c, $p = null, $config)
+    public function _createAddonExpiringLicenseNotice(ContainerInterface $c, $config, $p = null)
     {
         $addonId = isset($config['addon_id'])
             ? $config['addon_id']
@@ -542,11 +542,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p Deprecated
      * @param array $config Configuration for this service.
+     * @param null $p Deprecated
      * @return NoticeInterface The new notice.
      */
-    public function _createGenericFallbackNotice(ContainerInterface $c, $p = null, $config)
+    public function _createGenericFallbackNotice(ContainerInterface $c, $config, $p = null)
     {
         $notice = $this->_createNotice($this->_normalizeConfig($config, array(
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
@@ -581,7 +581,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     {
         return $this->_getServices();
     }
-    
+
     /**
      * {@inheritdoc}
      *
