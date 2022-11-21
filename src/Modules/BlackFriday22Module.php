@@ -76,6 +76,15 @@ class BlackFriday22Module implements ModuleInterface
     /** @inheritdoc */
     public function getExtensions()
     {
-        return [];
+        return [
+            'wpra/upsell/plans' => function (ContainerInterface $c, array $plans) {
+                if ($c->get('bf22/is_period')) {
+                    $plans['pro']['btnLabel'] = $plans['basic']['btnLabel'] = __('Upgrade at 40% off', 'wprss');
+                    $plans['pro']['url'] = $plans['basic']['url'] = 'https://www.wprssaggregator.com/pricing/?utm_source=wpra_plugin&utm_medium=wpra_plugin_upgrade&utm_campaign=BF22';
+                }
+
+                return $plans;
+            },
+        ];
     }
 }
