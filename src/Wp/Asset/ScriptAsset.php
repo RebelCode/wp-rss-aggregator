@@ -83,11 +83,12 @@ class ScriptAsset extends AbstractAsset implements ScriptInterface
      */
     public function enqueue()
     {
+        $this->register();
+
         foreach ($this->l10n as $key => $data) {
             wp_localize_script($this->handle, $key, is_callable($data) ? call_user_func($data) : $data);
         }
 
-        $this->register();
         wp_enqueue_script($this->handle);
 
         if (is_callable($this->afterNq)) {
