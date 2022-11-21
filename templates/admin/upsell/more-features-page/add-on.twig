@@ -23,9 +23,13 @@
             </a>
         {% else %}
             <a target="_blank" href="{{ item.url }}" class="button">
-                {% autoescape 'html' %}
-                    {% trans "Purchase & Install" %}
-                {% endautoescape %}
+                {% if item.btnLabel %}
+                    {{ item.btnLabel }}
+                {% else %}
+                    {% autoescape 'html' %}
+                        {% trans "Purchase & Install" %}
+                    {% endautoescape %}
+                {% endif %}
             </a>
         {% endif %}
     </div>
