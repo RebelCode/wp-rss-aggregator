@@ -39,6 +39,7 @@ use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\AssetsModule;
+use RebelCode\Wpra\Core\Modules\BlackFriday22Module;
 use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
 use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
@@ -422,6 +423,8 @@ function wpra_modules()
         'twig' => new TwigModule(),
         'parsedown' => new ParsedownModule(),
         'polylang_compat' => new PolyLangCompatModule(),
+        // temporary modules
+        'bfcm22' => new BlackFriday22Module(),
     ]);
 }
 
