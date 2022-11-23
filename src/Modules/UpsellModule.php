@@ -41,7 +41,7 @@ class UpsellModule implements ModuleInterface
      */
     public function getFactories()
     {
-        return array(
+        return [
             /**
              * Retrieves the base names of known addons.
              *
@@ -71,6 +71,36 @@ class UpsellModule implements ModuleInterface
                 });
             },
 
+            /* The plans to upsell. */
+            'wpra/upsell/plans' => function () {
+                return [
+                    'pro' => [
+                        'name' => 'Pro Plan',
+                        'desc' => __('A discounted bundle that includes:', 'wprss'),
+                        'features' => [
+                            'Feed to Post',
+                            'Full Text RSS Feeds',
+                            'Templates',
+                            'Keyword Filtering',
+                            'Source Categories',
+                        ],
+                        'url' => 'https://wprssaggregator.com/pricing',
+                        'btnLabel' => __('See Pricing', 'wprss'),
+                        'mostPopular' => true,
+                    ],
+                    'basic' => [
+                        'name' => 'Basic Plan',
+                        'desc' => __('A discounted bundle that includes:', 'wprss'),
+                        'features' => [
+                            'Templates',
+                            'Keyword Filtering',
+                            'Source Categories',
+                        ],
+                        'url' => 'https://wprssaggregator.com/pricing',
+                        'btnLabel' => __('See Pricing', 'wprss'),
+                    ],
+                ];
+            },
             /*
              * The items to upsell.
              *
@@ -265,9 +295,13 @@ class UpsellModule implements ModuleInterface
                 return function () use ($c) {
                     $collection = $c->get('wpra/twig/collection');
                     $template = $collection[$c->get('wpra/upsell/more_features_page/template')];
+                    $plans = $c->get('wpra/upsell/plans');
                     $items = $c->get('wpra/upsell/items');
 
-                    echo $template->render(['items' => $items]);
+                    echo $template->render([
+                        'plans' => $plans,
+                        'items' => $items
+                    ]);
                 };
             },
             /*
@@ -306,7 +340,7 @@ class UpsellModule implements ModuleInterface
                     echo $template->render(['addons' => $addons]);
                 };
             },
-        );
+        ];
     }
 
     /**

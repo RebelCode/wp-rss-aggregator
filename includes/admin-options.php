@@ -74,6 +74,7 @@ function wprss_settings_page_display()
 
     $tabs = wprss_get_settings_tabs();
 
+    echo '<hr class="wp-header-end" />';
     echo '<h2 class="nav-tab-wrapper">';
     foreach ($tabs as $tab_property) {
         $tabSlug = $tab_property['slug'];

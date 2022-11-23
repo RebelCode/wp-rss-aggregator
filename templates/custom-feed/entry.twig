@@ -3,6 +3,7 @@
     <title type="html">{{ item.title }}</title>
     <link href="{{ item.permalink }}" rel="alternate" />
     <updated>{{ item.timestamp|date('Y-m-d\\TH:i:s.vP') }}</updated>
+    <published>{{ item.timestamp|date('Y-m-d\\TH:i:s.vP') }}</published>
     <summary>{{ item.excerpt }}</summary>
     <content type="html">
         <![CDATA[{{ item.content|raw|close_tags }}]]>

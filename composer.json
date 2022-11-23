@@ -55,6 +55,9 @@
         "platform": {
             "php": "5.4"
         },
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "rebelcode/composer-cleanup-plugin": true
+        }
     }
 }

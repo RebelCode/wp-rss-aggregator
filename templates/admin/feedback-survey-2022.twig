@@ -1,0 +1,31 @@
+{% set url = "https://www.wprssaggregator.com/survey/?utm_source=wpra_plugin&utm_medium=wpra_plugin_survey&utm_campaign=customer_satisfaction_survey_BF22" %}
+
+<div class="wpra-survey-2022">
+    <div class="wpra-survey-2022__branding">
+        <img src="{{ imgPath }}wpra-icon-transparent.png" alt="WP RSS Aggregator logo">
+    </div>
+    <div class="wpra-survey-2022__content">
+        <div class="wpra-survey-2022__header">
+            Something new is coming to WP RSS Aggregator
+        </div>
+        <div class="wpra-survey-2022__message">
+            {% if isBlackFriday %}
+                We’re working on an important update, and we’d love to hear your feedback!
+                <a href="{{ url|e('html_attr') }}" target="_blank">Take our survey</a> to help us out and get an extra
+                <span style="font-weight: bold">$10 OFF</span> on top of our Black Friday offer! Hurry, this deal
+                applies to the first 50 customers.
+            {% else %}
+                We’re working on an important update and we’d love to hear your feedback!
+                <a href="{{ url|e('html_attr') }}" target="_blank">Take our survey</a> to help us out.
+            {% endif %}
+        </div>
+        <a class="wpra-survey-2022__link" href="{{ url|e('html_attr') }}" target="_blank">
+            Take our survey
+        </a>
+    </div>
+    <div class="wpra-survey-2022__right">
+        <button class="wpra-survey-2022__close">
+            <span class="dashicons dashicons-no-alt"></span>
+        </button>
+    </div>
+</div>

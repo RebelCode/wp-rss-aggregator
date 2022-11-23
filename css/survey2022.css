@@ -1,0 +1,85 @@
+.wpra-survey-2022 {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  background: #fff;
+  border: 1px solid #FF792B;
+  border-left-width: 4px;
+  margin: 10px 0 15px;
+}
+
+.wpra-survey-2022__branding {
+  flex: 0 0 50px;
+  margin-right: 20px;
+  background: rgba(255, 121, 43, .1);
+  text-align: center;
+  padding: 15px 0;
+}
+
+.wpra-survey-2022__branding img {
+  width: 30px;
+}
+
+.wpra-survey-2022__content {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: start;
+  justify-content: space-between;
+  margin-right: 10px;
+  padding: 20px 0;
+}
+
+.wpra-survey-2022__header {
+  color: #111;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 18px;
+  margin-bottom: 10px;
+}
+
+.wpra-survey-2022__message {
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 15px;
+}
+
+.wpra-survey-2022__message a {
+  color: #337AB3 !important;
+}
+
+.wpra-survey-2022__link {
+  color: #fff !important;
+  background: #FF792B;
+  border: none !important;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 7px 9px;
+  text-decoration: none;
+}
+
+.wpra-survey-2022__right {
+  padding: 15px 13px;
+}
+
+.wpra-survey-2022__close {
+  color: #666;
+  padding: 3px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wpra-survey-2022__close:hover {
+  color: #111;
+}
+
+.wpra-survey-2022__close .dashicons {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+}
