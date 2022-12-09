@@ -1161,14 +1161,10 @@ input:disabled + .wprss-switch-slider {
   background-color: #697688;
 }
 input:disabled + .wprss-switch-slider:before {
-  -webkit-transform: translateX(7px);
-  -ms-transform: translateX(7px);
   transform: translateX(7px);
 }
 input:checked:not(:disabled) + .wprss-switch-slider:before {
-    -webkit-transform: translateX(14px);
-    -ms-transform: translateX(14px);
-    transform: translateX(14px);
+  transform: translateX(14px);
 }
 
 .postbox .inside .wpra-feed-save-meta-box {
