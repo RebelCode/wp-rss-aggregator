@@ -1152,7 +1152,7 @@ div.wprss-feed-source-type {
     -webkit-transition: .2s;
 }
 input:checked + .wprss-switch-slider {
-    background-color: #19933e;
+    background-color: #05a841;
 }
 input:focus + .wprss-switch-slider {
     box-shadow: 0 0 1px #2196F3;
