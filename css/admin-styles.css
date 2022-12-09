@@ -1037,6 +1037,11 @@ div.wprss-feed-source-type
     display: inline-block;
 }
 
+input.wprss-toggle-feed-state:disabled::before {
+  display: none;
+  content: none;
+}
+
 /* the feed type icon */
 div.wprss-feed-source-type {
     float: right;
@@ -1147,12 +1152,20 @@ div.wprss-feed-source-type {
     -webkit-transition: .2s;
 }
 input:checked + .wprss-switch-slider {
-    background-color: #0baa3c;
+    background-color: #19933e;
 }
 input:focus + .wprss-switch-slider {
     box-shadow: 0 0 1px #2196F3;
 }
-input:checked + .wprss-switch-slider:before {
+input:disabled + .wprss-switch-slider {
+  background-color: #697688;
+}
+input:disabled + .wprss-switch-slider:before {
+  -webkit-transform: translateX(7px);
+  -ms-transform: translateX(7px);
+  transform: translateX(7px);
+}
+input:checked:not(:disabled) + .wprss-switch-slider:before {
     -webkit-transform: translateX(14px);
     -ms-transform: translateX(14px);
     transform: translateX(14px);
