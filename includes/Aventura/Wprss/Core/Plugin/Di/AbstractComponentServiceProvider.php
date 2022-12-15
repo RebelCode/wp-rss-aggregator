@@ -2,6 +2,9 @@
 
 namespace Aventura\Wprss\Core\Plugin\Di;
 
+use Aventura\Wprss\Core\Plugin\ComponentInterface;
+use Exception;
+
 /**
  * A service provider that can create components.
  *
@@ -27,7 +30,7 @@ class AbstractComponentServiceProvider extends AbstractServiceProvider
                     ? $component
                     : (is_object($component)
                             ? get_class($component)
-                            : get_type($component));
+                            : gettype($component));
             throw $this->exception(array('"%1$s" is not a component', $componentType));
         }
     }
@@ -39,6 +42,7 @@ class AbstractComponentServiceProvider extends AbstractServiceProvider
      *
      * @param ComponentInterface $component The component to prepare.
      * @return ComponentInterface The prepared component.
+     * @throws Exception If the argument is not a valid component instance or class name.
      */
     protected function _prepareComponent($component)
     {
