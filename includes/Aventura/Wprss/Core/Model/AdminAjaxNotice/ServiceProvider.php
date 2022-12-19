@@ -9,6 +9,7 @@ use Aventura\Wprss\Core\Component\AdminAjaxNotices;
 use Aventura\Wprss\Core\Block\CallbackBlock;
 use Aventura\Wprss\Core\Component\AdminHelper;
 use Aventura\Wprss\Core\Model\CommandInterface;
+use WPRSS_Admin_Notices;
 
 /**
  * Provides services that represent admin notices.
@@ -61,7 +62,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p Deprecated.
      * @param array $config
-     * @return \WPRSS_Admin_Notices
+     * @return WPRSS_Admin_Notices
      */
     public function _createAdminAjaxNoticeController(ContainerInterface $c, $p = null, $config = null)
     {
@@ -71,12 +72,10 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             'text_domain'           => 'wprss'
         ));
         // Initialize collection
-        $controller = new \WPRSS_Admin_Notices($config);
+        $controller = new WPRSS_Admin_Notices($config);
         $controller = apply_filters( \WPRSS_EVENT_PREFIX.'admin_notice_collection_before_init', $controller );
         $controller->init();
-        $controller = apply_filters( \WPRSS_EVENT_PREFIX.'admin_notice_collection_after_init', $controller );
-
-        return $controller;
+        return apply_filters(\WPRSS_EVENT_PREFIX . 'admin_notice_collection_after_init', $controller );
     }
 
     /**
@@ -87,7 +86,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param ContainerInterface $c
      * @param null $p
      * @param array $config
-     * @return Component\AdminAjaxNotices
+     * @return AdminAjaxNotices
      */
     public function _createAdminAjaxNotices(ContainerInterface $c, $p = null, $config = null)
     {
@@ -130,15 +129,13 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createMoreFeaturesNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                    => 'more_features',
             'notice_type'           => NoticeInterface::TYPE_UPDATED,
             'condition'             => $this->_getCommandIsWprssPage($c),
             'content'               => $this->_autoParagraph($this->__('Did you know that you can get more RSS features? Excerpts, thumbnails, keyword filtering, importing into posts and more... ') .
                                        $this->__(array('Check out the <a target="_blank" href="%1$s"><strong>extensions</strong></a> page.', 'https://www.wprssaggregator.com/extensions')))
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -153,14 +150,12 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _createDeletingFeedItemsNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'deleting_feed_items',
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('The feed items for this feed source are being deleted in the background.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -173,11 +168,11 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBulkFeedImportNotice(ContainerInterface $c, $p = null, $config = null)
     {
         $me = $this;
         $import = $c->get($this->_p('bulk_source_import'));
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'debug_reset_settings',
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => new CallbackBlock(array(), function() use ($me, $import) {
@@ -187,8 +182,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             }),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -201,17 +194,15 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createSettingsImportSuccessNotice(ContainerInterface $c, $p = null, $config)
+    public function _createSettingsImportSuccessNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'settings_import_success',
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph(__('Your settings were imported successfully', 'wprss')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -224,17 +215,15 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createSettingsImportFailedNotice(ContainerInterface $c, $p = null, $config)
+    public function _createSettingsImportFailedNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'settings_import_failed',
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('Invalid file or file size too big.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -247,20 +236,18 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugFeedsUpdatingNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'debug_feeds_updating',
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('Feeds are being updated in the background.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
-     * Creates a notice that informs the user that the feed items have been deleted and are being reimported.
+     * Creates a notice that informs the user that the feed items have been deleted and are being re-imported.
      *
      * @since 4.11
      *
@@ -269,16 +256,14 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugFeedsReimportingNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'debug_feeds_reimporting',
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('Feeds deleted and are being re-imported in the background.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -291,16 +276,14 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createDebugClearedLogNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugClearedLogNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'debug_cleared_log',
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('The error log has been cleared.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -313,16 +296,14 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createDebugSettingsResetNotice(ContainerInterface $c, $p = null, $config)
+    public function _createDebugSettingsResetNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'debug_settings_reset',
             'condition'         => $this->_getCommandIsWprssPage($c),
             'content'           => $this->_autoParagraph($this->__('The plugin settings have been reset to default.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -335,15 +316,13 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createBlacklistItemSuccessNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBlacklistItemSuccessNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'blacklist_item_success',
             'content'           => $this->_autoParagraph($this->__('The item was deleted successfully and added to the blacklist.')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -356,17 +335,15 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createBulkFeedActivatedNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBulkFeedActivatedNotice(ContainerInterface $c, $p = null, $config = null)
     {
         $helper = $c->get($this->_p('admin_helper'));
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'bulk_feed_activated',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'           => $this->_autoParagraph($this->__('The feed sources have been activated!')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -379,17 +356,15 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createBulkFeedPausedNotice(ContainerInterface $c, $p = null, $config)
+    public function _createBulkFeedPausedNotice(ContainerInterface $c, $p = null, $config = null)
     {
         $helper = $c->get($this->_p('admin_helper'));
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => 'bulk_feed_paused',
             'condition'         => $helper->createCommand(array($helper, 'isWprssPage')),
             'content'           => $this->_autoParagraph($this->__('The feed sources have been paused!')),
             'dismiss_mode'      => NoticeInterface::DISMISS_MODE_FRONTEND,
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -402,7 +377,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createAddonEmptyLicenseNotice(ContainerInterface $c, $p = null, $config)
+    public function _createAddonEmptyLicenseNotice(ContainerInterface $c, $p = null, $config = null)
     {
         $addonId = isset($config['addon_id'])
             ? $config['addon_id']
@@ -417,7 +392,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $helper = $c->get($this->_p('admin_helper'));
         $me = $this;
 
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => sprintf('addon_empty_license_%s', $addonId),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'emptyLicenseKeyNoticeCondition')),
@@ -435,8 +410,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             }),
             'addon'             => $addonId
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -449,7 +422,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createAddonInactiveLicenseNotice(ContainerInterface $c, $p = null, $config)
+    public function _createAddonInactiveLicenseNotice(ContainerInterface $c, $p = null, $config = null)
     {
         $addonId = isset($config['addon_id'])
             ? $config['addon_id']
@@ -464,7 +437,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $helper = $c->get($this->_p('admin_helper'));
         $me = $this;
 
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => sprintf('addon_saved_inactive_license_%s', $addonId),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'savedInactiveLicenseNoticeCondition')),
@@ -482,8 +455,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             }),
             'addon'             => $addonId
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -496,7 +467,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config
      * @return NoticeInterface
      */
-    public function _createAddonExpiringLicenseNotice(ContainerInterface $c, $p = null, $config)
+    public function _createAddonExpiringLicenseNotice(ContainerInterface $c, $p = null, $config = null)
     {
         $addonId = isset($config['addon_id'])
             ? $config['addon_id']
@@ -514,7 +485,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
         $helper = $c->get($this->_p('admin_helper'));
         $me = $this;
 
-        $notice = $this->_createNotice(array(
+        return $this->_createNotice(array(
             'id'                => sprintf('addon_empty_license_%1$s_%2$s', $addonId, $year),
             'notice_type'       => NoticeInterface::TYPE_ERROR,
             'condition'         => $helper->createCommand(array($licenseSettings, 'soonToExpireLicenseNoticeCondition')),
@@ -532,8 +503,6 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             }),
             'addon'             => $addonId
         ), $c);
-
-        return $notice;
     }
 
     /**
@@ -546,15 +515,13 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @param array $config Configuration for this service.
      * @return NoticeInterface The new notice.
      */
-    public function _createGenericFallbackNotice(ContainerInterface $c, $p = null, $config)
+    public function _createGenericFallbackNotice(ContainerInterface $c, $p = null, $config = null)
     {
-        $notice = $this->_createNotice($this->_normalizeConfig($config, array(
+        return $this->_createNotice($this->_normalizeConfig($config, array(
             'notice_type'       => NoticeInterface::TYPE_UPDATED,
             'content'           => '',
             'addon'             => '',
         )), $c);
-
-        return $notice;
     }
 
     /**
@@ -567,9 +534,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     protected function _createNotice($data, ContainerInterface $container)
     {
         $data = $this->_normalizeNoticeData($container, $data);
-        $notice = new AdminAjaxNotice($data);
-
-        return $notice;
+        return new AdminAjaxNotice($data);
     }
 
     /**
@@ -625,15 +590,12 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      * @since 4.11
      *
      * @param ContainerInterface $c
-     * @param null $p
      * @return CommandInterface
      */
     public function _createCommandIsWprssPage(ContainerInterface $c)
     {
         $helper = $this->_getAdminHelper($c);
-        $command = $this->_createCommand($c, array($helper, 'isWprssPage'));
-
-        return $command;
+        return $this->_createCommand($c, array($helper, 'isWprssPage'));
     }
 
     /**
@@ -648,10 +610,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
     protected function _createCommand(ContainerInterface $c, $config = array())
     {
         $helper = $this->_getAdminHelper($c);
-        $config = $this->_normalizeConfig($config, array());
-        $command = $helper->createCommand($config);
-
-        return $command;
+        $config = $this->_normalizeConfig($config);
+        return $helper->createCommand($config);
     }
 
     /**
@@ -725,10 +685,8 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
      */
     public function _hashNoticeContent(ContainerInterface $c, $content) {
         $helper = $this->_getAdminHelper($c);
-        $hash = \is_callable($content)
+        return \is_callable($content)
                 ? $helper->hashCallable($content)
                 : $helper->hashScalar((string) $content);
-
-        return $hash;
     }
 }

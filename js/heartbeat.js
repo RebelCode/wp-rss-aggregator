@@ -46,7 +46,15 @@
 			var itemsCol = row.find('td.column-feed-count');
 
 			// Toggle the state checkbox
-			row.find('input.wprss-toggle-feed-state').prop('checked', feed_source['active']);
+      const stateCb = row.find('input.wprss-toggle-feed-state')
+      const stateCbChecked = stateCb.prop('checked')
+      // If it's disabled, it's waiting for the opposite state to be set.
+      // Re-enable it if the new state is opposite.
+      if (stateCb.prop('disabled')) {
+        stateCb.prop('disabled', feed_source['active'] === stateCbChecked)
+      }
+      // Set the new state
+      stateCb.prop('checked', feed_source['active']);
 
 			// Update the next update time
 			updatesCol.find('code.next-update').text( feed_source['next-update'] );

@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.22.1
+ * Version: 4.22.2
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -39,12 +39,10 @@ use RebelCode\Wpra\Core\Container\WpFilterContainer;
 use RebelCode\Wpra\Core\ErrorHandler;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\Modules\AssetsModule;
-use RebelCode\Wpra\Core\Modules\BlackFriday22Module;
 use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
 use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\CustomFeedModule;
-use RebelCode\Wpra\Core\Modules\FeedbackSurvey2022Module;
 use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
 use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
 use RebelCode\Wpra\Core\Modules\FeedItemsModule;
@@ -78,7 +76,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.22.1' );
+    define( 'WPRSS_VERSION', '4.22.2' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -424,9 +422,6 @@ function wpra_modules()
         'twig' => new TwigModule(),
         'parsedown' => new ParsedownModule(),
         'polylang_compat' => new PolyLangCompatModule(),
-        // temporary modules
-        'bfcm22' => new BlackFriday22Module(),
-        'survey2022' => new FeedbackSurvey2022Module(),
     ]);
 }
 

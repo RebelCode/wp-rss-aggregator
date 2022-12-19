@@ -125,11 +125,15 @@ function delete_items_row_action_callback(e){
 
 // jQuery for the feed state toggle buttons
 function toggle_feed_state_ajax_callback(e) {
+    e.preventDefault()
     var checkbox = jQuery(this);
     var id = checkbox.val();
-    var checked = checkbox.prop('checked') === true;
-    var container = checkbox.closest('.wprss-feed-state-container');
     var row = checkbox.closest('tr');
+
+    // Set the checkbox back to its pre-changed state and disable it
+    // The "heartbeat" will update the checkbox state
+    var checked = checkbox.prop('checked') === true;
+    checkbox.prop('checked', !checked).prop('disabled', true)
 
     var errorFunction = function (response) {
         console.log(response);

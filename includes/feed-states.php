@@ -60,9 +60,9 @@ namespace RebelCode\Wpra\Feeds\States
      * Changes the state of feed sources selected from the table bulk actions.
      */
     add_action('admin_init', function () {
-        $postType = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
-        $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
-        $action2 = filter_input(INPUT_GET, 'action2', FILTER_SANITIZE_STRING);
+        $postType = filter_input(INPUT_GET, 'post_type', FILTER_UNSAFE_RAW);
+        $action = filter_input(INPUT_GET, 'action', FILTER_UNSAFE_RAW);
+        $action2 = filter_input(INPUT_GET, 'action2', FILTER_UNSAFE_RAW);
         $postIds = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);
 
         $action = sanitize_text_field($action);

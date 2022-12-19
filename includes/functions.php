@@ -231,6 +231,10 @@ if (!function_exists('string_had_prefix')) {
      */
     function string_had_prefix(&$string, $prefix)
     {
+        if (!is_string($string)) {
+            return false;
+        }
+
         $prefixLength = strlen($prefix);
         if (substr($string, 0, $prefixLength) === $prefix) {
             $string = substr($string, $prefixLength);

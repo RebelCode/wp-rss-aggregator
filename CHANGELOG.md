@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.22.2] - 2022-12-19
+### Changed
+* Code changes for PHP 8.0 compatibility.
+* Code changes for partial PHP 8.1 compatibility. The plugin still triggers some warnings on PHP 8.1, but should work fine.
+
+### Removed
+* Removed the Black Friday and Cyber Monday promotion banners.
+* Removed the 2022 feedback survey.
+
 ## [4.22.1] - 2022-11-23
 ### Added
 * Promotion for Black Friday and Cyber Monday 2022 deals.
