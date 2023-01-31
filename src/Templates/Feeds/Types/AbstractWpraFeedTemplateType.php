@@ -260,4 +260,16 @@ abstract class AbstractWpraFeedTemplateType extends AbstractFeedTemplateType
     {
         return new ArrayDataSet($ctx);
     }
+
+    /**
+     * The standard pagination localization.
+     */
+    protected function localizePaginationJs()
+    {
+        wp_localize_script('wpra-pagination', 'WpraPagination', [
+            'baseUri' => rest_url('/wpra/v1/templates/%s/render/'),
+            'scrollOnPageLoad' => apply_filters('wpra/templates/scroll_on_page_load', true),
+            'scrollDuration' => apply_filters('wpra/templates/scroll_duration', 500),
+        ]);
+    }
 }
