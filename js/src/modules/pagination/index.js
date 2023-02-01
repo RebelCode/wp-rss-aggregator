@@ -4,9 +4,11 @@ jQuery(document).ready(($) => {
   const fetchList = function ($targetEl, params) {
     $targetEl.addClass('wpra-loading')
 
-    $([document.documentElement, document.body]).animate({
-      scrollTop: $targetEl.offset().top - 50
-    }, 500);
+    if (WpraPagination.scrollOnPageLoad) {
+      $([document.documentElement, document.body]).animate({
+        scrollTop: $targetEl.offset().top - 50
+      }, WpraPagination.scrollDuration);
+    }
 
     const template = params.template
     delete params.template

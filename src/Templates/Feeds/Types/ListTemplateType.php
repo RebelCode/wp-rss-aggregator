@@ -45,9 +45,7 @@ class ListTemplateType extends AbstractWpraFeedTemplateType
         wp_enqueue_script('wpra-manifest', WPRSS_APP_JS . 'wpra-manifest.min.js', ['jquery'], WPRSS_VERSION);
         wp_enqueue_script('wpra-pagination', WPRSS_APP_JS . 'pagination.min.js', ['wpra-manifest'], WPRSS_VERSION);
 
-        wp_localize_script('wpra-pagination', 'WpraPagination', [
-            'baseUri' => rest_url('/wpra/v1/templates/%s/render/'),
-        ]);
+        $this->localizePaginationJs();
 
         if (empty($general_settings['styles_disable'])) {
             wp_enqueue_style('colorbox', WPRSS_CSS . 'colorbox.css', [], '1.4.33');
