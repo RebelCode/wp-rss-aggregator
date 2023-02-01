@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.22.3] - 2023-02-01
+### Added
+* New filter to disable the scrolling animation when clicking on pagination links in templates. [See docs](https://kb.wprssaggregator.com/article/861-disable-the-pagination-scroll-effect).
+
 ## [4.22.2] - 2022-12-19
 ### Changed
 * Code changes for PHP 8.0 compatibility.
