@@ -267,7 +267,10 @@ function wpra_get_item_images($item)
         'image' => wpra_get_item_rss_images($item),
         'media' => [wpra_get_item_media_thumbnail_image($item)],
         'enclosure' => wpra_get_item_enclosure_images($item),
-        'content' => wpra_get_item_content_images($item),
+        'content' => array_merge(
+            wpra_get_item_content_images($item->get_content()),
+            wpra_get_item_content_images($item->get_description())
+        ),
         'itunes' => wpra_get_item_itunes_images($item),
         'feed' => array_filter([$item->get_feed()->get_image_url()]),
     ], $item);
@@ -486,14 +489,18 @@ function wpra_get_item_enclosure_images($item)
  *
  * @since 4.14
  *
- * @param SimplePie_Item $item The feed item
+ * @param string $content The item content.
  *
  * @return string[] Returns the string URLs of the images found.
  */
-function wpra_get_item_content_images($item)
+function wpra_get_item_content_images($content)
 {
+    if (!$content) {
+        return [];
+    }
+
     // Extract all images from the content into the $matches array
-    preg_match_all('/<img.*?src=[\'"](.*?)[\'"].*?>/xis', $item->get_content(), $matches);
+    preg_match_all('/<img.*?src=[\'"](.*?)[\'"].*?>/xis', $content, $matches);
 
     $i = 0;
     $images = [];
