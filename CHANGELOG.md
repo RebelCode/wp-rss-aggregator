@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.22.4] - 2023-02-08
+### Added
+* Images in RSS item excerpts are now properly detected.
+* New `wpra/images/file_name` filter to change the filename of imported images. 
+
 ## [4.22.3] - 2023-02-01
 ### Added
 * New filter to disable the scrolling animation when clicking on pagination links in templates. [See docs](https://kb.wprssaggregator.com/article/861-disable-the-pagination-scroll-effect).
