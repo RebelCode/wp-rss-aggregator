@@ -794,3 +794,124 @@ if (is_admin()) {
         return $query;
     });
 }
+
+
+add_action('admin_footer', function () {
+    $screen = get_current_screen();
+    if ($screen->id !== 'edit-wprss_feed') {
+        return;
+    }
+
+    $footer = [
+        [
+            'url' => 'https://www.wprssaggregator.com/news-aggregators/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'icon' => WpraAdminFooter::newsIcon(),
+            'heading' => __('News Aggregator', 'wprss'),
+            'text' => __('All the features you need, directly on your site.', 'wprss'),
+        ],
+        [
+            'url' => 'https://www.wprssaggregator.com/content-hub/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'icon' => WpraAdminFooter::graphIcon(),
+            'heading' => __('Content Hub', 'wprss'),
+            'text' => __('Build a comprehensive content hub with WordPress.', 'wprss'),
+        ],
+        [
+            'url' => 'https://www.wprssaggregator.com/pricing/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'icon' => WpraAdminFooter::starIcon(),
+            'heading' => __('Upgrade', 'wprss'),
+            'text' => __('Get started today.', 'wprss'),
+        ],
+    ];
+
+    echo WpraAdminFooter::footer($footer);
+});
+
+class WpraAdminFooter
+{
+    public static function footer(array $boxes)
+    {
+        ob_start();
+        ?>
+        <div class="wpra-footer">
+            <div class="wpra-footer-grid">
+                <?php foreach ($boxes as $box) : ?>
+                    <?= WpraAdminFooter::box($box['url'], $box['icon'], $box['heading'], $box['text']) ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    public static function box($url, $icon, $heading, $text)
+    {
+        ob_start();
+        ?>
+        <a href="<?= esc_attr($url) ?>" target="_blank" class="wpra-footer-link">
+            <button class="wpra-footer-box">
+                <div class="wpra-footer-col wpra-footer-box-icon">
+                    <?= $icon ?>
+                </div>
+                <div class="wpra-footer-col wpra-footer-box-text">
+                    <div><?= $heading ?></div>
+                    <div><?= $text ?></div>
+                </div>
+                <div class="wpra-footer-col wpra-footer-box-external">
+                    <?= WpraAdminFooter::externalIcon() ?>
+                </div>
+            </button>
+        </a>
+        <?php
+        return ob_get_clean();
+    }
+
+    public static function externalIcon()
+    {
+        ob_start();
+        ?>
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="1.56239" y1="4.0052" x2="1.56239" y2="13.0169" stroke="#333333" stroke-width="2.0026" stroke-linecap="round"/>
+            <line x1="1.56239" y1="13.0182" x2="10.5598" y2="13.0182" stroke="#333333" stroke-width="2.0026" stroke-linecap="round"/>
+            <line x1="10.5605" y1="9.01302" x2="10.5605" y2="13.0182" stroke="#333333" stroke-width="2.0026" stroke-linecap="round"/>
+            <line x1="1.56239" y1="4.00651" x2="5.5598" y2="4.00651" stroke="#333333" stroke-width="2.0026" stroke-linecap="round"/>
+            <rect width="5.81246" height="3.48747" rx="1.0013" transform="matrix(0.706648 -0.707565 0.706648 0.707565 5.2757 6.83203)" fill="#333333"/>
+            <path d="M13.0924 0.988909C13.3565 0.996455 13.5692 1.20829 13.5782 1.47267L13.7696 7.11634C13.785 7.57064 13.2368 7.80902 12.9158 7.48759L7.1195 1.68376C6.79942 1.36327 7.03508 0.815821 7.48756 0.82875L13.0924 0.988909Z" fill="#333333"/>
+            </svg>
+        <?php
+        return ob_get_clean();
+    }
+
+    public static function newsIcon()
+    {
+        ob_start();
+        ?>
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 3.75V22.5C2.5 24.5562 4.19379 26.25 6.25 26.25H23.75C25.8062 26.25 27.5 24.5562 27.5 22.5V8.75H25V22.5C25 23.2063 24.4563 23.75 23.75 23.75C23.0437 23.75 22.5 23.2063 22.5 22.5V3.75H2.5ZM5 6.25H20V22.5C20 22.9854 20.3487 23.3225 20.52 23.75H6.25C5.54371 23.75 5 23.2063 5 22.5V6.25ZM7.5 8.75V12.5H17.5V8.75H7.5ZM7.5 15V17.5H17.5V15H7.5ZM7.5 20V22.5H17.5V20H7.5Z" fill="#333333"/>
+        </svg>
+        <?php
+        return ob_get_clean();
+    }
+
+    public static function graphIcon()
+    {
+        ob_start();
+        ?>
+        <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.8111 17L12.8111 12V8.025C14.2611 7.5 15.3111 6.125 15.3111 4.5C15.3111 2.425 13.6361 0.75 11.5611 0.75C9.4861 0.75 7.8111 2.425 7.8111 4.5C7.8111 6.125 8.8611 7.5 10.3111 8.025V12L5.3111 17H0.311096V23.25H6.5611V19.4375L11.5611 14.1875L16.5611 19.4375V23.25H22.8111V17H17.8111Z" fill="#333333"/>
+        </svg>
+        <?php
+        return ob_get_clean();
+    }
+
+    public static function starIcon()
+    {
+        ob_start();
+        ?>
+        <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.19362" y="1.07143" width="28.7349" height="27.8571" rx="3.21429" fill="white" stroke="#FF792B" stroke-width="2.14286"/>
+            <path d="M15.5611 6L17.6408 12.2188H24.371L18.9262 16.0623L21.0059 22.2812L15.5611 18.4377L10.1162 22.2812L12.196 16.0623L6.75113 12.2188H13.4813L15.5611 6Z" fill="#FF792B"/>
+        </svg>
+        <?php
+        return ob_get_clean();
+    }
+}

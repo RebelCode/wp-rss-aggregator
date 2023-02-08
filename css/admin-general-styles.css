@@ -27,3 +27,101 @@ table.plugins tbody tr.wprss-et-plugin-row-msg > td > div > p::before {
 .postbox-container #wpra-images {
     display: none;
 }
+
+.wpra-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 45px;
+  display: block;
+  margin-left: 180px;
+  margin-right: 20px;
+}
+
+.wpra-footer-grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  grid-gap: 8px;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 960px) {
+  .wpra-footer {
+    margin-left: 56px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .wpra-footer {
+    margin-left: 20px;
+  }
+}
+
+.wpra-footer-link {
+  flex: 2;
+  min-width: 380px;
+  text-decoration: none;
+  cursor: pointer !important;
+}
+
+.wpra-footer-link:last-child {
+  flex: 1;
+}
+
+.wpra-footer-box {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  color: #333;
+  width: 100%;
+  height: 62px;
+  padding: 10px 15px !important;
+  background: #fafafa;
+  border: 1px solid #d4d8dc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer !important;
+}
+
+.wpra-footer-box .wpra-footer-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wpra-footer-box .wpra-footer-box-icon {
+  flex: 0 0 42px;
+  height: 40px;
+  padding: 4px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.wpra-footer-box .wpra-footer-box-text {
+  flex: 1;
+  line-height: 20px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.wpra-footer-box .wpra-footer-box-text div:first-child {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.wpra-footer-box .wpra-footer-box-text div:last-child {
+  font-size: 12px;
+}
+
+.wpra-footer-box .wpra-footer-box-external {
+  flex: 0 0 20px;
+  justify-content: flex-start;
+  overflow: hidden
+}
+
+.wpra-footer-box .wpra-footer-col:not(:last-child) {
+  margin-right: 10px;
+}
