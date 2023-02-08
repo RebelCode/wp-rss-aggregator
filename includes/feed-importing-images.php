@@ -851,7 +851,7 @@ function wpra_media_sideload_image($url = null, $post_id = null, $attach = null,
             $baseName = str_replace('safe_image.php', $hash . '.jpeg', $baseName);
         }
 
-        $file_array['name'] = $baseName;
+        $file_array['name'] = apply_filters('wpra/images/file_name', $baseName, $url);
 
         // set additional wp_posts columns
         if (empty($post_data['post_title'])) {
