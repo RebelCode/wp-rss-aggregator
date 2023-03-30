@@ -48,3 +48,16 @@ add_filter('wpra/importer/feed/url', function ($url, $parsed) {
 
     return $url;
 }, 10, 2);
+
+// Filter the post data for feed items to use the YouTube video description as the post content and excerpt
+add_filter('wprss_populate_post_data', function ($postData, $item) {
+    if (wprss_is_url_youtube($item->get_permalink())) {
+        $enclosure = $item->get_enclosure();
+        if ($enclosure) {
+            $postData['post_content'] = $enclosure->description;
+            $postData['post_excerpt'] = $enclosure->description;
+        }
+    }
+
+    return $postData;
+}, 10, 2);
