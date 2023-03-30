@@ -801,19 +801,19 @@ add_action('admin_footer', function () {
 
     $footer = [
         [
-            'url' => 'https://www.wprssaggregator.com/news-aggregators/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'url' => 'https://www.wprssaggregator.com/news-aggregators',
             'icon' => WpraAdminFooter::newsIcon(),
             'heading' => __('News Aggregator', 'wprss'),
             'text' => __('All the features you need, directly on your site.', 'wprss'),
         ],
         [
-            'url' => 'https://www.wprssaggregator.com/content-hub/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'url' => 'https://www.wprssaggregator.com/content-hub',
             'icon' => WpraAdminFooter::graphIcon(),
             'heading' => __('Content Hub', 'wprss'),
             'text' => __('Build a comprehensive content hub with WordPress.', 'wprss'),
         ],
         [
-            'url' => 'https://www.wprssaggregator.com/pricing/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'url' => 'https://www.wprssaggregator.com/pricing',
             'icon' => WpraAdminFooter::starIcon(),
             'heading' => __('Upgrade', 'wprss'),
             'text' => __('Get started today.', 'wprss'),
