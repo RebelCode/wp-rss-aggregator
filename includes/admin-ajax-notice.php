@@ -1254,6 +1254,10 @@ function wprss_admin_notice_hide() {
 function wprss_is_wprss_page() {
 	global $typenow;
 
+    if (!is_admin()) {
+        return false;
+    }
+
     $postType = $typenow;
 	if ( empty( $postType ) && isset( $_GET['post'] ) && !empty( $_GET['post'] ) ) {
         $post = get_post(filter_var($_GET['post'], FILTER_SANITIZE_NUMBER_INT));
