@@ -294,6 +294,9 @@ if ( !defined( 'WPRSS_LOG_LEVEL' ) )
 /* Load the admin help file */
 require_once ( WPRSS_INC . 'admin-help.php' );
 
+/* Load the guide download banner */
+require_once ( WPRSS_INC . 'admin-guide-dl.php' );
+
 /* Load the admin metaboxes help file */
 require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
 

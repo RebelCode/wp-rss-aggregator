@@ -116,33 +116,24 @@ $primary-color: #1a53e6;
 
 .wpra-feedback {
   display: flex;
-  &__photo {
-    flex-shrink: 0;
-    img {
-      width: 70px;
-      border-radius: 100%;
-    }
-  }
-  &__copy {
-    padding-left: .5rem;
-    flex-grow: 1;
-  }
-  &__text {
-    font-size: 1rem;
-    font-family: Georgia, serif;
-    font-style: italic;
-    line-height: 1.5;
-  }
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+
   &__rating {
-    padding: .25rem 0 .45rem;
     span {
       color: #f8ca29;
     }
   }
   &__by {
-    opacity: .85;
     a {
-      color: #617181;
+      font-weight: bold;
+      text-decoration: none !important;
+
+      &:focus-visible, &:hover {
+          text-decoration: underline !important;
+      }
     }
   }
 }
@@ -644,4 +635,202 @@ $primary-color: #1a53e6;
   animation-iteration-count: infinite;
   animation-name: moveRightLeftLoop;
   animation-duration: 1000ms;
+}
+
+.wpra-sign-up {
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 50px;
+
+  & a {
+    color: #000;
+    text-decoration: underline;
+  }
+}
+
+.wpra-sign-up-error {
+  border: 1px solid #c3c4c7;
+  border-left: 4px solid #d63638;
+  background-color: #fcf0f1;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.wpra-sign-up-done {
+  font-size: 13px;
+  margin-top: 10px;
+  width: 370px;
+}
+
+.wpra-sign-up-form {
+  flex: 0 1 360px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  margin: 15px 0 80px;
+  gap: 10px;
+
+  .wpra-sign-up-row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    & input {
+      flex: 1;
+    }
+
+    & button {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+.wpra-sign-up-leading-text {
+  font-size: 12px;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.wpra-sign-up-notice-text {
+  color: #5E5E5E;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.wpra-sign-up-upgrade {
+  position: relative;
+  top: 0;
+  right: 0;
+  max-width: 300px;
+  padding: 50px 30px 30px;
+  color: #000;
+  border: 1px solid #C3C4C7;
+  background: #fff;
+  border-radius: 4px;
+
+  &-boob {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92px;
+    height: 46px;
+    fill: #fff;
+    stroke: #C3C4C7;
+    stroke-width: 1.3px;
+    //pointer-events: none;
+
+    & img {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 65px;
+      height: 65px;
+    }
+  }
+
+  &-heading {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  &-content {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .wpra-blue-button {
+    width: 100%;
+    margin: 15px 0;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .wpra-sign-up {
+    flex-flow: column nowrap;
+    align-items: stretch;
+  }
+
+  .wpra-sign-up-form {
+    flex: 0;
+  }
+
+  .wpra-sign-up-upgrade {
+    flex: 0;
+  }
+}
+
+.wpra-blue-button {
+  display: block;
+  position: relative;
+  color: #fff !important;
+  background: #043884;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 3px;
+  text-decoration: transparent !important;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+
+  &-small {
+    font-size: 12px;
+    line-height: 1;
+    height: 30px;
+    padding: 8px 15px;
+  }
+
+  &-large {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 10px 15px;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #043884;
+  }
+
+  &[disabled="disabled"] {
+    color: #fff;
+    background: #677282;
+    cursor: not-allowed;
+  }
+
+  &-loading {
+     color: #043884 !important;
+
+    &::before {
+      display: block;
+      content: "";
+      position: absolute;
+      left: calc(50% - 8px);
+      top: calc(50% - 8px);
+      box-sizing: border-box;
+      height: 16px;
+      width: 16px;
+      border: 0 solid #fff;
+      border-radius: 50%;
+      box-shadow: inset 0 -4px 0 6px #fff;
+      animation: rotate 1s infinite linear;
+      z-index: 3;
+    }
+  }
+}
+
+svg.wpra-caret-right {
+  fill: currentColor;
+  stroke: none;
+  margin-left: 5px;
 }

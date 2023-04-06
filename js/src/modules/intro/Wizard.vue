@@ -118,51 +118,90 @@
                     </div>
                 </div>
 
-                <div class="wizard_content" :key="activeScreen" v-if="active('finish')">
+                <div class="wizard_content" :key="activeScreen" v-if="active('finish')" style="max-width: unset">
                     <div class="wizard_hello">
                         That's it! Your first feed source is ready to go.
                     </div>
 
-                    <div class="wpra-cols-title">
-                        Do more with your content. Here's what Erik Tozier is doing on Personal Finance Blogs.
-                    </div>
+                    <p>
+                        Click the button below to continue to WP RSS Aggregator.
+                    </p>
 
-                    <div class="wpra-cols">
-                        <div class="col">
-                            <p>
-                                Erik created Personal Finance Blogs in 2019 and grew it rapidly in just a few months
-                                purely by curating content from the personal finance space.
-                            </p>
-                            <p>
-                                The flexibility of the <a :href="proPlanUrl">WP RSS Aggregator Pro Plan</a> gave Erik
-                                greater visual customization to keep his readers engaged, with Keyword Filtering
-                                helping to control the quality of the content.
-                            </p>
-                            <p>
-                                Erik was also quoted as saying that "the support has been great", which is something we
-                               pride ourselves on at WP RSS Aggregator.
-                            </p>
-                            <div style="margin-bottom: .5rem">
-                                <a :href="proPlanCtaUrl" class="button" target="_blank">
-                                    Check out our Pro Plan
-                                </a>
+                    <div class="wpra-sign-up" v-if="signup.enabled">
+                        <div class="wpra-sign-up-form" v-if="!signup.didSignUp">
+                            <div class="wpra-sign-up-row">
+                                <div class="wpra-sign-up-leading-text">
+                                  Boost your website's content game with our exclusive, FREE guide revealing 5 expert
+                                  tips on aggregation and curation – simply subscribe to our newsletter and elevate your
+                                  site's impact now!
+                                </div>
                             </div>
-                            <div>
-                                <a :href="supportUrl" target="_blank" style="font-size: .9em">Contact support for more information.</a>
+                            <div class="wpra-sign-up-row">
+                                <input
+                                    type="text"
+                                    v-model="signup.userName"
+                                    placeholder="Your name"
+                                />
+                            </div>
+                            <div class="wpra-sign-up-row">
+                                <input
+                                    type="text"
+                                    v-model="signup.userEmail"
+                                    placeholder="Your e-mail"
+                                    @keydown.enter="signUp"
+                                />
+                            </div>
+                            <button class="wpra-blue-button wpra-blue-button-small"
+                                    :class="{'wpra-blue-button-loading': signup.loading}"
+                                    @click="signUp">
+                                <span>Unlock My Free Guide Now!</span>
+                                <ArrowCaretRight />
+                            </button>
+                            <div class="wpra-sign-up-row">
+                                <div class="wpra-sign-up-notice-text">
+                                  By unlocking the FREE guide, you'll join our list for newsletters and updates. We
+                                  respect your privacy and won't share your information with any third-parties. You can
+                                  opt out at any time. Clicking the button above confirms your agreement to these terms.
+                                </div>
+                            </div>
+                            <div v-if="signup.error" class="wpra-sign-up-error">
+                                {{signup.error}}
                             </div>
                         </div>
-                        <div class="col">
-                            <img :src="demoImageUrl"
-                                 class="img wpra-demo-photo">
 
-                            <div class="wpra-feedback">
-                                <!--<div class="wpra-feedback__photo">-->
-                                    <!--<img src="https://www.wprssaggregator.com/wp-content/themes/wp_rss_theme/assets/images/review2.jpg">-->
-                                <!--</div>-->
-                                <div class="wpra-feedback__copy">
-                                    <div class="wpra-feedback__text">
-                                        We’ve seen some strong traffic growth month over month. And so yeah, we’re up to over 10,000 page views a month – which is great for a new blog.
-                                    </div>
+                        <div class="wpra-sign-up-done" v-if="signup.didSignUp">
+                            Thank you for subscribing! Your FREE expert guide to content aggregation and curation is on
+                            its way to your inbox. Get ready to boost your website's content game and make a lasting
+                            impact!
+                        </div>
+
+                        <div class="wpra-sign-up-upgrade">
+                            <div class="wpra-sign-up-upgrade-boob">
+                                <svg viewBox="0 0 100 50">
+                                    <path d="M 0 50 A 50 50 0 0 1 100 50" />
+                                </svg>
+                                <img :src="wpraIconUrl" alt="WP RSS Aggregator logo" />
+                            </div>
+
+                            <div class="col">
+                                <div class="wpra-sign-up-upgrade-heading">Do more with your content</div>
+                                <p>
+                                    In 2019, Erik rapidly grew Personal Finance Blogs by curating content from the
+                                    personal finance space.
+                                </p>
+                                <p>
+                                    The
+                                    <a href="https://www.wprssaggregator.com/pricing/" target="_blank">
+                                        WP RSS Aggregator Pro Plan
+                                    </a>
+                                    provided the flexibility he needed, together with powerful keyword filtering to
+                                    control his quality content.
+                                </p>
+                                <a href="https://www.wprssaggregator.com/pricing/" class="wpra-blue-button wpra-blue-button-large" target="_blank">
+                                    <span>Get WP RSS Aggregator Pro</span>
+                                    <ArrowCaretRight />
+                                </a>
+                                <div class="wpra-feedback">
                                     <div class="wpra-feedback__rating">
                                         <span class="dashicons dashicons-star-filled"></span>
                                         <span class="dashicons dashicons-star-filled"></span>
@@ -172,10 +211,11 @@
                                     </div>
                                     <div class="wpra-feedback__by">
                                         <a :href="caseStudyUrl" target="_blank">
-                                            Erik Tozier - Read the full case study
+                                            400+ 5-star reviews
                                         </a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -199,10 +239,24 @@
                         Back
                     </button>
                     <button @click="next"
-                            class="button button-primary button-large"
-                            :class="{'loading-button': isLoading}"
+                            class="button button-large"
+                            :class="{
+                                'loading-button': isLoading,
+                                'button-primary': !active('finish'),
+                                'button-secondary': active('finish')
+                            }"
                     >
-                        {{ active('finish') ? 'Continue to Plugin' : 'Next' }}
+                        {{
+                          active('finish')
+                            ? (signup.didSignUp || !signup.enabled
+                              // The last step after sign up or for pro users
+                              ? 'Continue to the plugin'
+                              // The last step during sign up
+                              : 'Skip and continue to the plugin')
+                            // All steps except the last one
+                            : 'Next'
+                        }}
+                        <ArrowCaretRight />
                     </button>
                 </div>
             </div>
@@ -214,6 +268,7 @@
   import Expander from 'app/components/Expander'
   import { post } from 'app/utils/fetch'
   import { copyToClipboard } from 'app/utils/copy'
+  import ArrowCaretRight from "../../components/ArrowCaretRight.vue"
 
   const _ = (str) => str
 
@@ -258,9 +313,17 @@
 
         transition: 'slide-up', // 'slide-down',
 
-        activeScreen: 'feed',
+        activeScreen: 'finish',
         form: {
           feedSourceUrl: null,
+        },
+        signup: {
+          enabled: CONFIG.userIsFree,
+          userName: CONFIG.userName,
+          userEmail: CONFIG.userEmail,
+          didSignUp: false,
+          loading: false,
+          error: "",
         },
         itemsPassed: false,
 
@@ -280,6 +343,7 @@
         demoImageUrl: CONFIG.demoImageUrl,
         caseStudyUrl: CONFIG.caseStudyUrl,
         knowledgeBaseUrl: CONFIG.knowledgeBaseUrl,
+        wpraIconUrl: CONFIG.wpraIconUrl,
       }
     },
     computed: {
@@ -317,6 +381,28 @@
             this.isPrepared = true
           })
         }
+      },
+
+      signUp() {
+        const data = Object.assign(CONFIG.signupEndpoint.defaultPayload, {
+          name: this.signup.userName,
+          email: this.signup.userEmail,
+        })
+
+        this.signup.loading = true;
+        this.signup.error = ""
+
+        return post(CONFIG.signupEndpoint.url, data)
+          .then(response => {
+            console.log("Response:", response)
+            this.signup.didSignUp = true;
+            this.signup.loading = false;
+            this.signup.error = ""
+          })
+          .catch(response => {
+            this.signup.loading = false;
+            this.signup.error = response.error;
+          })
       },
 
       /**
@@ -445,6 +531,7 @@
       }
     },
     components: {
+        ArrowCaretRight,
       Expander
     }
   }
