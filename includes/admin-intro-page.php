@@ -146,7 +146,7 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
     }
 
     try {
-        wp_schedule_single_event(time(), 'wprss_create_intro_feed_source', array($url));
+        wprss_create_intro_feed_source($url);
         $items = wprss_preview_feed_items($url);
         $data = array(
             'feed_items' => $items,
@@ -263,7 +263,6 @@ function wprss_preview_feed_items($url, $max = 10)
     return $results;
 }
 
-add_action('wprss_create_intro_feed_source', 'wprss_create_intro_feed_source');
 /**
  * Creates the feed source for the on-boarding introduction process.
  *
@@ -480,7 +479,11 @@ function wprss_get_intro_page_url()
  */
 function wprss_should_do_intro_page()
 {
-    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1 && current_user_can('manage_options');
+    $didIntro = filter_var(get_option(WPRSS_INTRO_DID_INTRO_OPTION, '0'), FILTER_VALIDATE_BOOLEAN);
+    $feeds = wp_count_posts('wprss_feed');
+    $hasFeeds = $feeds && isset($feeds->publish) && ($feeds->publish > 0 || $feeds->draft > 0 || $feeds->trash > 0);
+
+    return wprss_is_new_user()  && (!$didIntro || !$hasFeeds) && current_user_can('manage_options');
 }
 
 /**
