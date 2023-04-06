@@ -4,7 +4,7 @@ use Aventura\Wprss\Core\Model\AdminAjaxNotice\NoticeInterface;
 use Aventura\Wprss\Core\Model\AdminAjaxNotice\ServiceProvider;
 use Dhii\Di\WritableContainerInterface;
 
-define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
+define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.', false);
 
 
     add_action( 'wp_ajax_wprss_hide_admin_notification', 'wprss_hide_admin_notification' );
@@ -38,7 +38,7 @@ define ('WPRSS_NOTICE_SERVICE_ID_PREFIX', WPRSS_SERVICE_ID_PREFIX . 'notice.');
      * Checks if the addon notices option exists in the database, and creates it
      * if it does not.
      *
-     * @return The addon notices option
+     * @return array The addon notices option
      * @since 3.4.2
      */
     function wprss_check_addon_notice_option() {
@@ -1253,6 +1253,10 @@ function wprss_admin_notice_hide() {
  */
 function wprss_is_wprss_page() {
 	global $typenow;
+
+    if (!is_admin()) {
+        return false;
+    }
 
     $postType = $typenow;
 	if ( empty( $postType ) && isset( $_GET['post'] ) && !empty( $_GET['post'] ) ) {

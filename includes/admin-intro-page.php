@@ -12,6 +12,7 @@ const WPRSS_INTRO_FEED_ID_OPTION = 'wprss_intro_feed_id';
 const WPRSS_INTRO_FEED_LIMIT = 20;
 const WPRSS_INTRO_STEP_OPTION = 'wprss_intro_step';
 const WPRSS_INTRO_NONCE_NAME = 'wprss_intro_nonce';
+const WPRSS_SIGNUP_NONCE_NAME = 'wprss_signup_nonce';
 const WPRSS_INTRO_STEP_POST_PARAM = 'wprss_intro_step';
 const WPRSS_INTRO_FEED_URL_PARAM = 'wprss_intro_feed_url';
 const WPRSS_INTRO_SHORTCODE_PAGE_OPTION = 'wprss_intro_shortcode_page';
@@ -45,14 +46,24 @@ function wprss_render_intro_page()
     wprss_plugin_enqueue_app_scripts('intro-wizard', WPRSS_APP_JS . 'intro.min.js', array(), '0.1', true);
     wp_enqueue_style('intro-wizard', WPRSS_APP_CSS . 'intro.min.css');
 
-    $nonce = wp_create_nonce(WPRSS_INTRO_NONCE_NAME);
+    $user = wp_get_current_user();
+    $userName = ($user instanceof WP_User) ? $user->display_name : '';
+    $userEmail = ($user instanceof WP_User) ? $user->user_email : '';
+
+    $createFeedNonce = wp_create_nonce(WPRSS_INTRO_NONCE_NAME);
+    $signupNonce = wp_create_nonce(WPRSS_SIGNUP_NONCE_NAME);
+
     wp_localize_script('intro-wizard', 'wprssWizardConfig', array(
-        'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $nonce),
+        'userName' => $userName,
+        'userEmail' => $userEmail,
+        'userIsFree' => count(wprss_get_addons()) === 0,
+        'wpraIconUrl' => WPRSS_IMG . 'wpra-icon-transparent.png',
+        'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $createFeedNonce),
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
         'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_addons_button&utm_content=addons_button',
         'supportUrl' => 'https://www.wprssaggregator.com/contact/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_support_link&utm_content=support_link',
-        'proPlanUrl' => 'https://www.wprssaggregator.com/pricing/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_content_link',
-        'proPlanCtaUrl' => 'https://www.wprssaggregator.com/pricing/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_cta_button',
+        'proPlanUrl' => 'https://www.wprssaggregator.com/upgrade/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_content_link',
+        'proPlanCtaUrl' => 'https://www.wprssaggregator.com/upgrade/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_cta_button',
         'demoImageUrl' => WPRSS_IMG . 'welcome-page/demo.jpg',
         'caseStudyUrl' => 'https://www.wprssaggregator.com/case-study-personal-finance-blogs-content-curation/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_case_study_button',
         'knowledgeBaseUrl' => 'https://kb.wprssaggregator.com/',
@@ -60,9 +71,16 @@ function wprss_render_intro_page()
             'url' => admin_url('admin-ajax.php'),
             'defaultPayload' => array(
                 'action' => 'wprss_create_intro_feed',
-                'nonce' => $nonce,
+                'nonce' => $createFeedNonce,
             ),
         ),
+        'signupEndpoint' => [
+            'url' => admin_url('admin-ajax.php'),
+            'defaultPayload' => [
+                'action' => 'wpra_email_signup',
+                '_wpra_dl_guide_nonce' => $signupNonce,
+            ],
+        ],
     ));
 
     echo wprss_render_template('admin/intro-page.twig', array(
@@ -128,7 +146,7 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
     }
 
     try {
-        wp_schedule_single_event(time(), 'wprss_create_intro_feed_source', array($url));
+        wprss_create_intro_feed_source($url);
         $items = wprss_preview_feed_items($url);
         $data = array(
             'feed_items' => $items,
@@ -138,6 +156,35 @@ add_action('wp_ajax_wprss_create_intro_feed', function () {
     } catch (Exception $e) {
         wprss_ajax_error_response($e->getMessage(), 500);
     }
+});
+
+
+/** Ajax handler for when the user signs up with their email address. */
+add_action('wp_ajax_wpra_email_signup', function () {
+    $nonce = filter_input(INPUT_POST, '_wpra_dl_guide_nonce', FILTER_SANITIZE_STRING);
+
+    if (empty($nonce)) {
+        return;
+    }
+
+    if (!wp_verify_nonce($nonce, WPRSS_SIGNUP_NONCE_NAME)) {
+        wprss_ajax_error_response('Invalid nonce. Try refreshing the page.');
+        die;
+    }
+
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING) ?: '';
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    if (!$email) {
+        wprss_ajax_error_response('Invalid email address.');
+        die;
+    }
+
+    update_option(WPRSS_DID_GUIDE_SIGN_UP_OPTION, '1');
+    wprss_sub_to_newsletter($name, $email);
+
+    wprss_ajax_success_response([
+        'message' => 'Thank you for signing up!'
+    ]);
 });
 
 /**
@@ -216,7 +263,6 @@ function wprss_preview_feed_items($url, $max = 10)
     return $results;
 }
 
-add_action('wprss_create_intro_feed_source', 'wprss_create_intro_feed_source');
 /**
  * Creates the feed source for the on-boarding introduction process.
  *
@@ -433,7 +479,11 @@ function wprss_get_intro_page_url()
  */
 function wprss_should_do_intro_page()
 {
-    return wprss_is_new_user() && intval(get_option(WPRSS_INTRO_DID_INTRO_OPTION, 0)) !== 1 && current_user_can('manage_options');
+    $didIntro = filter_var(get_option(WPRSS_INTRO_DID_INTRO_OPTION, '0'), FILTER_VALIDATE_BOOLEAN);
+    $feeds = wp_count_posts('wprss_feed');
+    $hasFeeds = $feeds && isset($feeds->publish) && ($feeds->publish > 0 || $feeds->draft > 0 || $feeds->trash > 0);
+
+    return wprss_is_new_user()  && (!$didIntro || !$hasFeeds) && current_user_can('manage_options');
 }
 
 /**

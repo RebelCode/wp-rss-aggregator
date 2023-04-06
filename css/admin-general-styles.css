@@ -125,3 +125,216 @@ table.plugins tbody tr.wprss-et-plugin-row-msg > td > div > p::before {
 .wpra-footer-box .wpra-footer-col:not(:last-child) {
   margin-right: 10px;
 }
+
+/* Download Guide notice */
+
+#wpra-dl-guide-notice {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #FF792B;
+  border-left-width: 4px;
+  box-sizing: border-box;
+}
+
+.wpra-dl-guide-left {
+  padding: 10px;
+  background: rgb(255, 121, 43, .1);
+  box-sizing: border-box;
+}
+
+.wpra-dl-guide-left img {
+  width: 30px;
+  aspect-ratio: 1;
+}
+
+.wpra-dl-guide-content {
+  flex: 1;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap:  10px;
+  padding: 10px 12px;
+}
+
+.wpra-dl-guide-content h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 8px;
+  line-height: 1em;
+}
+
+.wpra-dl-guide-content p {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  word-wrap: normal;
+}
+
+.wpra-dl-guide-content-col {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+}
+
+.wpra-dl-guide-form {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+#wpra-dl-guide-name-field {
+  flex: 1 1 120px;
+  width: 120px;
+  min-width: unset;
+  max-width: unset;
+}
+
+#wpra-dl-guide-email-field {
+  flex: 1 1 250px;
+  width: 250px;
+  min-width: unset;
+  max-width: unset;
+}
+
+#wpra-dl-guide-btn {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  background: #043884;
+  border: 0;
+  border-radius: 3px;
+  padding: 8px 14px;
+  height: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+  .wpra-dl-guide-content {
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .wpra-dl-guide-content-col {
+    flex: 1 0 auto;
+  }
+
+  .wpra-dl-guide-fields {
+    flex: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #wpra-dl-guide-name-field {
+    flex: 1 1 30%;
+  }
+
+  #wpra-dl-guide-email-field {
+    flex: 1 1 50%;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .wpra-dl-guide-form {
+    display: block;
+    gap: 5px;
+  }
+
+  #wpra-dl-guide-email-field {
+    display: block;
+    width: 100%;
+  }
+
+  #wpra-dl-guide-btn {
+    display: block;
+    margin-top: 5px;
+    width: 100%;
+    height: unset;
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+}
+
+#wpra-dl-guide-btn:hover {
+  box-shadow: 0 0 50px rgba(0, 0, 0, .5) inset;
+}
+
+#wpra-dl-guide-btn:focus-visible {
+  border: 0;
+  outline: 0;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #043884;
+}
+
+#wpra-dl-guide-btn[disabled="disabled"] {
+  color: #fff;
+  background: #677282;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+label[for='wpra-dl-guide-email-field'] {
+  color: #666;
+  font-size: 12px;
+}
+
+#wpra-dl-guide-close-btn {
+  color: #666;
+  background: none;
+  border: 0;
+  outline: 0;
+  padding: 2px;
+  margin: 8px;
+  border-radius: 50%;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+#wpra-dl-guide-close-btn:hover {
+  color: #444;
+}
+
+#wpra-dl-guide-close-btn:focus-visible {
+  outline: 1px dotted #000;
+}
+
+#wpra-dl-guide-error {
+  display: none;
+  color: #d63638;
+  margin-top: 3px;
+  padding: 0 3px;
+}
+
+#wpra-dl-guide-success {
+  display: none;
+}
+
+#wpra-dl-guide-success h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+#wpra-dl-guide-success p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#wpra-dl-guide-success .wpra-dl-guide-close-btn {
+  display: block;
+  margin-top: 10px;
+}
+
+#wpra-dl-guide-dismiss-link {
+  display: inline-block;
+  margin-top: 5px;
+}

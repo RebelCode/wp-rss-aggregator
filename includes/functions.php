@@ -396,3 +396,35 @@ function wprss_translate_n($single, $plural, $number)
 
     return $translations->translate_plural($single, $plural, $number);
 }
+
+/**
+ * Subscribe an email address to the newsletter.
+ *
+ * @paran string $name The name of the subscriber.
+ * @param string $email The email address to subscribe.
+ * @return bool True on success, false on failure.
+ */
+function wprss_sub_to_newsletter($name, $email)
+{
+    $response = wp_remote_post('https://hooks.zapier.com/hooks/catch/305784/32i6y28/', [
+        'body' => [
+            'subscribe' => [
+                'name' => $name,
+                'email' => $email,
+            ],
+        ],
+    ]);
+
+    if (is_wp_error($response)) {
+        wpra_get_logger()->warning('Failed to subscribe to newsletter: ' . $response->get_error_message());
+        return false;
+    }
+
+    $status = wp_remote_retrieve_response_code($response);
+    if ($status !== 200) {
+        wpra_get_logger()->warning('Failed to subscribe to newsletter.');
+        return false;
+    }
+
+    return true;
+}

@@ -19,6 +19,6 @@
 ## Links
 
 * [Website](https://wprssaggregator.com)
-* [Premium Addons](https://wprssaggregator.com/pricing)
+* [Premium Addons](https://wprssaggregator.com/upgrade)
 * [Knowledge Base](https://kb.wprssaggregator.com)
 * [WordPress.org Page](https://wordpress.org/plugins/wp-rss-aggregator)

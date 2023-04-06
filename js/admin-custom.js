@@ -166,6 +166,77 @@ function toggle_feed_state_ajax_callback(e) {
 
 jQuery(window).on('load', function() {
 
+    // Button in banner to download the free guide
+    jQuery("#wpra-dl-guide-btn").on('click', function () {
+        let btn = jQuery(this);
+        let notice = jQuery('#wpra-dl-guide-notice');
+        let error = jQuery('#wpra-dl-guide-error');
+        let success = jQuery('#wpra-dl-guide-success');
+        let nameField = jQuery("#wpra-dl-guide-name-field");
+        let emailField = jQuery("#wpra-dl-guide-email-field");
+        let nonceField = jQuery("#wpra_dl_guide_nonce");
+        let contentCols = jQuery(".wpra-dl-guide-content-col");
+
+        btn.attr('disabled', 'disabled');
+        error.hide();
+
+        let name = nameField.val();
+        let email = emailField.val();
+        let nonce = nonceField.val();
+
+        function showSuccess() {
+          contentCols.hide();
+          error.hide();
+          success.show();
+        }
+
+        jQuery.post({
+            url: ajaxurl,
+            data: {
+                action: "wpra_dl_guide",
+                nonce: nonce,
+                name: name,
+                email: email,
+            },
+            success: function () {
+                showSuccess();
+            },
+            error: function (response) {
+                let errorData = JSON.parse(response.responseText);
+                if (typeof errorData === "object" && errorData.data) {
+                  error.text(errorData.data).show();
+                } else {
+                  error.text(errorData).show();
+                }
+            },
+            complete: function () {
+                btn.removeAttr('disabled');
+            },
+            dataType: "json",
+        });
+    });
+
+    // The dismiss link button that appears after signing up
+    jQuery("#wpra-dl-guide-dismiss-link").on('click', function () {
+      jQuery('#wpra-dl-guide-notice').hide();
+    });
+
+    // The "X" button to dismiss the banner
+    jQuery("#wpra-dl-guide-close-btn").on('click', function () {
+      jQuery('#wpra-dl-guide-notice').hide();
+
+      let nonce = jQuery("#wpra_dl_guide_nonce").val();
+
+      jQuery.post({
+        url: ajaxurl,
+        data: {
+          action: "wpra_dismiss_guide",
+          nonce: nonce,
+        },
+        dataType: "json",
+      });
+    });
+
     function wprssParseDate(str){
         var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
         if( t!==null ){

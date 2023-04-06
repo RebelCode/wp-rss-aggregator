@@ -367,22 +367,19 @@ add_action('pre_get_posts', 'wprss_feed_item_orderby');
  */
 function wprss_feed_item_orderby($query)
 {
-    if (!is_admin()) {
+    // Check if we're on the feed listing admin page
+    if (!is_admin() || !$query->is_main_query() || $query->get('post_type') !== 'wprss_feed_item') {
         return;
     }
 
-    $post_type = $query->get('post_type');
+    // Set general orderby to date the feed item was published
+    $query->set('orderby', 'date');
 
-    // If we're on the feed listing admin page
-    if ($post_type == 'wprss_feed_item') {
-        // Set general orderby to date the feed item was published
-        $query->set('orderby', 'publishdate');
-        // If user clicks on the reorder link, implement reordering
-        $orderby = $query->get('orderby');
-        if ('publishdate' == $orderby) {
-            $query->set('order', 'DESC');
-            $query->set('orderby', 'date');
-        }
+    // If user clicks on the reorder link, implement reordering
+    $orderby = $query->get('orderby');
+    if ('publishdate' == $orderby) {
+        $query->set('order', 'DESC');
+        $query->set('orderby', 'date');
     }
 }
 
@@ -804,19 +801,19 @@ add_action('admin_footer', function () {
 
     $footer = [
         [
-            'url' => 'https://www.wprssaggregator.com/news-aggregators/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'url' => 'https://www.wprssaggregator.com/news-aggregators',
             'icon' => WpraAdminFooter::newsIcon(),
             'heading' => __('News Aggregator', 'wprss'),
             'text' => __('All the features you need, directly on your site.', 'wprss'),
         ],
         [
-            'url' => 'https://www.wprssaggregator.com/content-hub/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'url' => 'https://www.wprssaggregator.com/content-hub',
             'icon' => WpraAdminFooter::graphIcon(),
             'heading' => __('Content Hub', 'wprss'),
             'text' => __('Build a comprehensive content hub with WordPress.', 'wprss'),
         ],
         [
-            'url' => 'https://www.wprssaggregator.com/pricing/?utm_source=wpra_plugin&utm_medium=wpra_plugin_button&utm_campaign=feed_sources_buttons',
+            'url' => 'https://www.wprssaggregator.com/upgrade',
             'icon' => WpraAdminFooter::starIcon(),
             'heading' => __('Upgrade', 'wprss'),
             'text' => __('Get started today.', 'wprss'),
