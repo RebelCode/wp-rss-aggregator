@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23] - 2023-03-06
+### Added
+* New users can now sign up to receive a free starter guide.
+* YouTube feeds now provide the video description, which is now imported into feed items.
+
+### Changed
+* Links to the pricing page for premium plans have been replaced with links to a new "upgrade" page.
+
+### Fixes
+* Fixed a conflict with some themes and their front-end search capabilities.
+* The on-boarding wizard now correctly shows up for new users only.
+* Sorting feed items by date now works as expected.
+
 ## [4.22.4] - 2023-02-08
 ### Added
 * Images in RSS item excerpts are now properly detected.
