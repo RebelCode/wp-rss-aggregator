@@ -313,7 +313,7 @@
 
         transition: 'slide-up', // 'slide-down',
 
-        activeScreen: 'finish',
+        activeScreen: 'feed',
         form: {
           feedSourceUrl: null,
         },
