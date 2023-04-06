@@ -813,7 +813,7 @@ add_action('admin_footer', function () {
             'text' => __('Build a comprehensive content hub with WordPress.', 'wprss'),
         ],
         [
-            'url' => 'https://www.wprssaggregator.com/pricing',
+            'url' => 'https://www.wprssaggregator.com/upgrade',
             'icon' => WpraAdminFooter::starIcon(),
             'heading' => __('Upgrade', 'wprss'),
             'text' => __('Get started today.', 'wprss'),

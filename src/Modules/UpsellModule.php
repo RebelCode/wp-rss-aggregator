@@ -84,7 +84,7 @@ class UpsellModule implements ModuleInterface
                             'Keyword Filtering',
                             'Source Categories',
                         ],
-                        'url' => 'https://wprssaggregator.com/pricing',
+                        'url' => 'https://wprssaggregator.com/upgrade',
                         'btnLabel' => __('See Pricing', 'wprss'),
                         'mostPopular' => true,
                     ],
@@ -96,7 +96,7 @@ class UpsellModule implements ModuleInterface
                             'Keyword Filtering',
                             'Source Categories',
                         ],
-                        'url' => 'https://wprssaggregator.com/pricing',
+                        'url' => 'https://wprssaggregator.com/upgrade',
                         'btnLabel' => __('See Pricing', 'wprss'),
                     ],
                 ];

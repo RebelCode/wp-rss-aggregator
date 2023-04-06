@@ -17,7 +17,7 @@ add_action('admin_notices', function () {
         '<div class="notice notice-info">
             <p>
                 %s
-                <a href="https://www.wprssaggregator.com/pricing/" target="_blank"><b>%s</b></a>
+                <a href="https://www.wprssaggregator.com/upgrade/" target="_blank"><b>%s</b></a>
                 %s
             </p>
         </div>',

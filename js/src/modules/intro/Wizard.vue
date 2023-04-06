@@ -191,13 +191,13 @@
                                 </p>
                                 <p>
                                     The
-                                    <a href="https://www.wprssaggregator.com/pricing/" target="_blank">
+                                    <a href="https://www.wprssaggregator.com/upgrade/" target="_blank">
                                         WP RSS Aggregator Pro Plan
                                     </a>
                                     provided the flexibility he needed, together with powerful keyword filtering to
                                     control his quality content.
                                 </p>
-                                <a href="https://www.wprssaggregator.com/pricing/" class="wpra-blue-button wpra-blue-button-large" target="_blank">
+                                <a href="https://www.wprssaggregator.com/upgrade/" class="wpra-blue-button wpra-blue-button-large" target="_blank">
                                     <span>Get WP RSS Aggregator Pro</span>
                                     <ArrowCaretRight />
                                 </a>
