@@ -333,3 +333,8 @@ label[for='wpra-dl-guide-email-field'] {
   display: block;
   margin-top: 10px;
 }
+
+#wpra-dl-guide-dismiss-link {
+  display: inline-block;
+  margin-top: 5px;
+}

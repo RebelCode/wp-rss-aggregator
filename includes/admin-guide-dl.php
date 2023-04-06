@@ -38,7 +38,7 @@ add_action('admin_notices', function () {
                 <p>
                     Get ready to boost your website's content game and make a lasting impact!
                 </p>
-                <a href="javascript:void(0)" class="wpra-dl-guide-dismiss-btn">Dismiss notice</a>
+                <a href="javascript:void(0)" id="wpra-dl-guide-dismiss-link">Dismiss notice</a>
             </div>
 
             <div class="wpra-dl-guide-content-col wpra-dl-guide-content-col-left">

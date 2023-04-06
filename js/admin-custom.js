@@ -217,12 +217,14 @@ jQuery(window).on('load', function() {
     });
 
     // The dismiss link button that appears after signing up
-    jQuery(".wpra-dl-guide-dismiss-btn").on('click', function () {
+    jQuery("#wpra-dl-guide-dismiss-link").on('click', function () {
       jQuery('#wpra-dl-guide-notice').hide();
     });
 
     // The "X" button to dismiss the banner
-    jQuery("#pra-dl-guide-close-btn").on('click', function () {
+    jQuery("#wpra-dl-guide-close-btn").on('click', function () {
+      jQuery('#wpra-dl-guide-notice').hide();
+
       let nonce = jQuery("#wpra_dl_guide_nonce").val();
 
       jQuery.post({
@@ -230,9 +232,6 @@ jQuery(window).on('load', function() {
         data: {
           action: "wpra_dismiss_guide",
           nonce: nonce,
-        },
-        complete: function () {
-          jQuery('#wpra-dl-guide-notice').hide();
         },
         dataType: "json",
       });
