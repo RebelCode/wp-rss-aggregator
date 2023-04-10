@@ -3,21 +3,9 @@ require('css/src/gutenberg-block/index.scss')
 import { __ } from '@wordpress/i18n'
 import { registerBlockType } from '@wordpress/blocks'
 import { InspectorControls } from '@wordpress/editor'
-import {
-  ToggleControl,
-  ServerSideRender,
-  TextControl,
-  TextareaControl,
-  BaseControl,
-  PanelBody,
-  PanelRow,
-  Spinner,
-  Placeholder,
-  FormTokenField,
-  SelectControl,
-} from '@wordpress/components'
-import { addFilter, applyFilters } from '@wordpress/hooks'
-
+import {ToggleControl, TextControl, PanelBody, SelectControl} from '@wordpress/components'
+import ServerSideRender from '@wordpress/server-side-render';
+import { applyFilters } from '@wordpress/hooks'
 import MultipleSelectControl from './components/MultipleSelectControl'
 
 // Default template is selected by default.
@@ -115,7 +103,11 @@ registerBlockType('wpra-shortcode/wpra-shortcode', {
             label={props.attributes.isAll ? __('Feed Sources to Exclude') : __('Feed Sources to Show')}
             key={'select'}
             help={__('Start typing to search feed sources by name')}
-            value={((props.attributes.isAll ? props.attributes.exclude : props.attributes.source) || '').split(',').map(item => parseInt(item))}
+            value={(
+              (props.attributes.isAll ? props.attributes.exclude : props.attributes.source) || '')
+              .split(',')
+              .map(item => parseInt(item)
+            )}
             onChange={(selected) => {
               selected = selected.join(',')
               if (props.attributes.isAll) {

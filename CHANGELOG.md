@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.23] - 2023-03-06
+## [4.23.1] - 2023-04-10
+### Fixes
+* Fixed an error in the block that prevented it from being edited and previewed. 
+
+## [4.23] - 2023-04-06
 ### Added
 * New users can now sign up to receive a free starter guide.
 * YouTube feeds now provide the video description, which is now imported into feed items.
