@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.2] - 2023-09-28
+### Added
+* An important notice regarding the upcoming major update that will require PHP 7.4 or higher.
+
+### Changed
+* Twig date translation can now be disabled using the `wpra/twig/use_translations` filter.
+
+### Fixed
+* Some PHP 8 compatibility issues.
+* Corrected how image are searched in the content and excerpt of an item.
+
 ## [4.23.1] - 2023-04-10
 ### Fixes
 * Fixed an error in the block that prevented it from being edited and previewed. 
