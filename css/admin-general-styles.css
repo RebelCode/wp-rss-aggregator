@@ -369,7 +369,7 @@ label[for='wpra-dl-guide-email-field'] {
 
 .wpra-php-notice .wpra-php-notice-right h3,
 .wpra-php-notice .wpra-php-notice-right p {
-    margin: 0;
+    margin: 0 !important;
 }
 
 button.wpra-php-notice-close {
