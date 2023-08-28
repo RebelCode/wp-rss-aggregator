@@ -26,4 +26,24 @@ jQuery( document ).ready( function($) {
 		}
 	});
 
+    $(".wpra-php-notice-close").click(function() {
+        const notice = $(this).closest(".wpra-php-notice");
+        const nonce = notice.find(".wpra-php-notice-nonce").val();
+
+        $.ajax({
+            url: ajaxurl,
+            type: "POST",
+            data: {
+                action: "wprss_dismiss_php_notice",
+                nonce: nonce
+            },
+            success: function(data) {
+                if (data === "OK") {
+                    notice.slideUp("fast", function() {
+                        notice.remove();
+                    });
+                }
+            }
+        });
+    });
 });

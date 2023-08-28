@@ -327,6 +327,9 @@ require_once ( WPRSS_INC . 'multimedia.php' );
 /* Load the Templates v0.2.1 update path */
 require_once ( WPRSS_INC . 'templates-update.php' );
 
+/* Load the notice for the PHP version upgrade that is coming in v5. */
+require_once ( WPRSS_INC . 'php-v5-notice.php' );
+
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
