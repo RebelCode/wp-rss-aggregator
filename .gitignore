@@ -16,3 +16,4 @@ log-*.txt
 .directory
 .phpactor.json
 docker-compose.yml
+.php-cs-fixer.cache
