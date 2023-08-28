@@ -102,6 +102,7 @@ class WpdbTable implements TableInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         $filters = array_merge($this->filters, [$this->primaryKey => $key]);
@@ -121,6 +122,7 @@ class WpdbTable implements TableInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($key)
     {
         try {
@@ -137,6 +139,7 @@ class WpdbTable implements TableInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         if ($key === null || !$this->offsetExists($key)) {
@@ -156,6 +159,7 @@ class WpdbTable implements TableInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         $filters = array_merge($this->filters, [$this->primaryKey => $key]);
@@ -254,6 +258,7 @@ class WpdbTable implements TableInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     protected function getIterator()
     {
         $query = $this->buildSelectQuery($this->parseFilters($this->filters));
