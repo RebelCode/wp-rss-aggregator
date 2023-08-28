@@ -1,7 +1,7 @@
 <?php
 
 define('WPRSS_PHP_NOTICE_DISMISSED_OPTION', 'wprss_php_notice_dismissed', false);
-define('WPRSS_PHP_NOTICE_VERSION', '8.4.0', false);
+define('WPRSS_PHP_NOTICE_VERSION', '7.4.0', false);
 
 add_action('plugins_loaded', function () {
     if (version_compare(PHP_VERSION, WPRSS_PHP_NOTICE_VERSION, '<')) {
