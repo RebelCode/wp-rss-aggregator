@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Some PHP 8 compatibility issues.
-* Corrected how image are searched in the content and excerpt of an item.
+* Corrected how images are searched in the content and excerpt of an item.
 
 ## [4.23.1] - 2023-04-10
 ### Fixes
