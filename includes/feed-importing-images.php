@@ -268,13 +268,27 @@ function wpra_get_item_images($item)
         'media' => [wpra_get_item_media_thumbnail_image($item)],
         'enclosure' => wpra_get_item_enclosure_images($item),
         'content' => array_merge(
-            wpra_get_item_content_images($item->get_content()),
-            wpra_get_item_content_images($item->get_description())
+            wpra_get_item_content_images($item->get_content(true)),
+            wpra_get_item_content_images($item->get_description(true))
         ),
         'itunes' => wpra_get_item_itunes_images($item),
         'feed' => array_filter([$item->get_feed()->get_image_url()]),
     ], $item);
 }
+
+// check non-standard <content> tag
+add_filter('wpra/images/detect_from_item', function(array $images, $item){
+    $content = $item->get_item_tags('', 'content');
+
+    if (empty($content[0]['data'])) {
+        return $images;
+    } else {
+        $newImages = wpra_get_item_content_images($content[0]['data']);
+        $images['content'] = array_merge($images['content'], $newImages);
+
+        return $images;
+    }
+}, 10, 2);
 
 /**
  * Retrieves the thumbnail as determined by SimplePie.

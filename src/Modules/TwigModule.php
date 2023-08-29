@@ -130,7 +130,10 @@ class TwigModule implements ModuleInterface
              * @since 4.13
              */
             'wpra/twig/extensions/date' => function (ContainerInterface $c) {
-                return new DateExtension(new TwigDateTranslator());
+                $useTranslations = $c->get('wpra/twig/use_translations');
+                $translator = $useTranslations ? new TwigDateTranslator() : null;
+
+                return new DateExtension($translator);
             },
             /*
              * The text extension for Twig.
@@ -155,6 +158,10 @@ class TwigModule implements ModuleInterface
              */
             'wpra/twig/extensions/wpra' => function (ContainerInterface $c) {
                 return new WpraExtension();
+            },
+            /** Whether to use translations in Twig templates. */
+            'wpra/twig/use_translations' => function () {
+                return true;
             },
         ];
     }

@@ -80,6 +80,7 @@ trait IteratorDelegateTrait
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->_iterator = $this->getIterator();
@@ -94,6 +95,7 @@ trait IteratorDelegateTrait
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->_iterator->next();
@@ -106,6 +108,7 @@ trait IteratorDelegateTrait
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->_iterator->key();
@@ -121,6 +124,7 @@ trait IteratorDelegateTrait
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->yieldIterationValue($this->_iterator->current());
@@ -133,6 +137,7 @@ trait IteratorDelegateTrait
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return $this->_iterator !== null && $this->_iterator->valid();
