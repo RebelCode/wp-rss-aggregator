@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.23.2] - 2023-09-28
+## [4.23.2] - 2023-09-29
 ### Added
 * An important notice regarding the upcoming major update that will require PHP 7.4 or higher.
 
