@@ -1,5 +1,5 @@
 .PHONY: build
-init: clean vendor node_modules build/wp-rss-aggregator.zip
+build: clean vendor node_modules build/wp-rss-aggregator.zip
 
 build/wp-rss-aggregator.zip:
 	mkdir -p build
