@@ -1,9 +1,9 @@
 .PHONY: build
-init: clean vendor node_modules build/wp-rss-aggregator.zip
+build: clean vendor node_modules build/wp-rss-aggregator.zip
 
 build/wp-rss-aggregator.zip:
 	mkdir -p build
-	rm -f build/wp-rss-aggregator.zip
+	rm -f "$@"
 	cd .. && zip -r -9 ./wp-rss-aggregator/build/wp-rss-aggregator.zip ./wp-rss-aggregator -x \
 		"wp-rss-aggregator/.git/*" \
 		"wp-rss-aggregator/.idea/*" \

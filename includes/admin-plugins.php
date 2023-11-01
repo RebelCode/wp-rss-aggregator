@@ -27,7 +27,7 @@ add_action('admin_init', function () {
         wp_localize_script('wpra-plugins', 'WrpaDisablePoll', [
             'image' => WPRSS_IMG,
             'url' => 'https://hooks.zapier.com/hooks/catch/305784/puf5uf/',
-            'audience' => 50, // how many people should see the disable poll (in percents)
+            'audience' => 0, // how many people should see the disable poll (in percents)
             'model' => [
                 'reason' => 'Other',
                 'follow_up' => null,
