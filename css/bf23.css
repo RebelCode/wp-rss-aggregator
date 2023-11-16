@@ -12,7 +12,7 @@
   background: #29292C;
   border-width: 4px 4px 0 4px;
   border-style: solid;
-  border-color: #FF792B;
+  border-color: #f34413;
   border-radius: 5px 5px 0 0;
 
   display: flex;
@@ -29,8 +29,8 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: #FF792B;
-  border: 2px solid #FF792B;
+  background: #f34413;
+  border: 2px solid #f34413;
   border-radius: 4px;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .wpra-bf23__msg a:hover {
-  color: #FF792B !important;
+  color: #f34413 !important;
 }
 
 .wpra-bf23__coupon {
@@ -63,7 +63,7 @@
   padding: 2px 4px 2px 3px;
   margin-left: 3px;
   background: rgba(251, 233, 237, 0.1);
-  border: 2px dashed #FF792B;
+  border: 2px dashed #f34413;
   border-radius: 5px;
 }
 
@@ -111,7 +111,7 @@
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
-  background: #FF792B;
+  background: #f34413;
   color: #FFF !important;
   text-decoration: none !important;
   font-weight: bold;

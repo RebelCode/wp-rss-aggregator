@@ -12,12 +12,12 @@ use RebelCode\Wpra\Core\Wp\Asset\StyleAsset;
 /** This module adds the promotion banner for Black Friday 2023. */
 class BlackFriday23Module implements ModuleInterface
 {
-    const DISMISS_OPTION = 'wpra_bf23_dismissed';
-    const DISMISS_NONCE = 'wpra_bf23_dismiss';
-    const DISMISS_ACTION = 'wpra_bf23_dismiss';
-    const FREE_URL = 'https://www.wprssaggregator.com/upgrade/?utm_source=wpra_plugin&utm_medium=banner&utm_campaign=BF23';
-    const PREMIUM_URL = 'https://www.wprssaggregator.com/account/orders/?discount=BF30&utm_source=wpra_plugin&utm_medium=banner&utm_campaign=BF23';
-    const END_DATE = '2023-11-28T00:00:00.000-07:00';
+    public const DISMISS_OPTION = 'wpra_bf23_dismissed';
+    public const DISMISS_NONCE = 'wpra_bf23_dismiss';
+    public const DISMISS_ACTION = 'wpra_bf23_dismiss';
+    public const FREE_URL = 'https://www.wprssaggregator.com/upgrade/?utm_source=wpra_plugin&utm_medium=banner&utm_campaign=BF23';
+    public const PREMIUM_URL = 'https://www.wprssaggregator.com/account/orders/?discount=BF30&utm_source=wpra_plugin&utm_medium=banner&utm_campaign=BF23';
+    public const END_DATE = '2023-11-28T00:00:00.000-07:00';
 
     /** @inheritdoc */
     public function run(ContainerInterface $c)
@@ -98,11 +98,22 @@ class BlackFriday23Module implements ModuleInterface
         return [
             'wpra/upsell/plans' => function (ContainerInterface $c, array $plans) {
                 if ($c->get('bf23/is_period')) {
-                    $plans['pro']['btnLabel'] = $plans['basic']['btnLabel'] = __('Upgrade at 30% off', 'wprss');
-                    $plans['pro']['url'] = $plans['basic']['url'] = 'https://www.wprssaggregator.com/pricing/?utm_source=wpra_plugin&utm_medium=wpra_plugin_upgrade&utm_campaign=BF23';
+                    foreach ($plans as $i => $plan) {
+                        $plans[$i]['btnLabel'] = __('Upgrade at 30% off', 'wprss');
+                        $plans[$i]['url'] = 'https://www.wprssaggregator.com/upgrade/?utm_source=wpra_plugin&utm_medium=features&utm_campaign=BF23';
+                        $plans[$i]['highlight'] = true;
+                    }
                 }
 
                 return $plans;
+            },
+            'wpra/upsell/more_features_page/args' => function (ContainerInterface $c, array $args) {
+                if ($c->get('bf23/is_period')) {
+                    $args['spotlightUrl'] = 'https://spotlightwp.com/pricing/?utm_source=wpra_plugin&utm_medium=features&utm_campaign=BF23';
+                    $args['spotlightBtnText'] = __('Try Spotlight at 30% off', 'wprss');
+                }
+
+                return $args;
             },
         ];
     }

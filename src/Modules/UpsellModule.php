@@ -72,29 +72,58 @@ class UpsellModule implements ModuleInterface
             },
 
             /* The plans to upsell. */
-            'wpra/upsell/plans' => function () {
+            'wpra/upsell/plans' => function (ContainerInterface $c) {
                 return [
-                    'pro' => [
-                        'name' => 'Pro Plan',
-                        'desc' => __('A discounted bundle that includes:', 'wprss'),
+                    'basic' => [
+                        'name' => 'Basic',
+                        'desc' => __('Display RSS feeds anywhere on your site and customize them to match your site\'s design.', 'wprss'),
+                        'featureLabel' => __('Unlocks access to:', 'wprss'),
                         'features' => [
-                            'Feed to Post',
-                            'Full Text RSS Feeds',
-                            'Templates',
-                            'Keyword Filtering',
-                            'Source Categories',
+                            __('All template designs', 'wprss'),
+                            __('Full customization', 'wprss'),
+                            __('Automatic filtering', 'wprss'),
+                            __('Source management', 'wprss'),
+                        ],
+                        'url' => 'https://wprssaggregator.com/upgrade',
+                        'btnLabel' => __('See Pricing', 'wprss'),
+                    ],
+                    'plus' => [
+                        'name' => 'Plus',
+                        'desc' => __('Aggregate RSS feeds as blog posts and publish their excerpts to your blog or CPT.', 'wprss'),
+                        'featureLabel' => __('Includes everything in Basic, and:', 'wprss'),
+                        'features' => [
+                            __('Import as Posts', 'wprss'),
+                            __('Schedule publishing', 'wprss'),
+                            __('Add custom content', 'wprss'),
+                            __('Import taxonomies', 'wprss'),
+                        ],
+                        'url' => 'https://wprssaggregator.com/upgrade',
+                        'btnLabel' => __('See Pricing', 'wprss'),
+                    ],
+                    'pro' => [
+                        'name' => 'Pro',
+                        'desc' => __('Curate RSS feeds as Posts or any CPT and give your visitors all the content they’re after.', 'wprss'),
+                        'featureLabel' => __('Includes everything in Plus, and:', 'wprss'),
+                        'features' => [
+                            __('Full text import', 'wprss'),
+                            __('Include all media', 'wprss'),
+                            __('Manual curation', 'wprss'),
+                            __('Custom mapping', 'wprss'),
                         ],
                         'url' => 'https://wprssaggregator.com/upgrade',
                         'btnLabel' => __('See Pricing', 'wprss'),
                         'mostPopular' => true,
+                        'highlight' => true,
                     ],
-                    'basic' => [
-                        'name' => 'Basic Plan',
-                        'desc' => __('A discounted bundle that includes:', 'wprss'),
+                    'all_access' => [
+                        'name' => 'All Access',
+                        'desc' => __('Import unlimited content from RSS feeds and generate your own original versions.', 'wprss'),
+                        'featureLabel' => __('Includes everything in Pro, and:', 'wprss'),
                         'features' => [
-                            'Templates',
-                            'Keyword Filtering',
-                            'Source Categories',
+                            __('AI Integrations', 'wprss'),
+                            __('Title spinning', 'wprss'),
+                            __('Content spinning', 'wprss'),
+                            __('Priority support', 'wprss'),
                         ],
                         'url' => 'https://wprssaggregator.com/upgrade',
                         'btnLabel' => __('See Pricing', 'wprss'),
@@ -295,14 +324,17 @@ class UpsellModule implements ModuleInterface
                 return function () use ($c) {
                     $collection = $c->get('wpra/twig/collection');
                     $template = $collection[$c->get('wpra/upsell/more_features_page/template')];
-                    $plans = $c->get('wpra/upsell/plans');
-                    $items = $c->get('wpra/upsell/items');
 
-                    echo $template->render([
-                        'plans' => $plans,
-                        'items' => $items
-                    ]);
+                    echo $template->render($c->get('wpra/upsell/more_features_page/args'));
                 };
+            },
+            /** The arguments for the "More Features" page template. */
+            'wpra/upsell/more_features_page/args' => function (ContainerInterface $c) {
+                return [
+                    'plans' => $c->get('wpra/upsell/plans'),
+                    'spotlightUrl' => 'https://spotlightwp.com',
+                    'spotlightBtnText' => __('Try Spotlight', 'wprss'),
+                ];
             },
             /*
              * The path to the template to use when rendering the "More Features" page.
