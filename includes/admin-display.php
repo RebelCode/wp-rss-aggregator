@@ -799,26 +799,26 @@ add_action('admin_footer', function () {
         return;
     }
 
-    $footer = [
-        [
+    $footer = apply_filters('wprss_admin_footer_links', [
+        'news_aggregator' => [
             'url' => 'https://www.wprssaggregator.com/news-aggregators',
             'icon' => WpraAdminFooter::newsIcon(),
             'heading' => __('News Aggregator', 'wprss'),
             'text' => __('All the features you need, directly on your site.', 'wprss'),
         ],
-        [
+        'content_hub' => [
             'url' => 'https://www.wprssaggregator.com/content-hub',
             'icon' => WpraAdminFooter::graphIcon(),
             'heading' => __('Content Hub', 'wprss'),
             'text' => __('Build a comprehensive content hub with WordPress.', 'wprss'),
         ],
-        [
+        'upgrade' => [
             'url' => 'https://www.wprssaggregator.com/upgrade',
             'icon' => WpraAdminFooter::starIcon(),
             'heading' => __('Upgrade', 'wprss'),
             'text' => __('Get started today.', 'wprss'),
         ],
-    ];
+    ]);
 
     echo WpraAdminFooter::footer($footer);
 });

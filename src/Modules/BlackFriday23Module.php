@@ -39,6 +39,16 @@ class BlackFriday23Module implements ModuleInterface
             echo "BF23 Dismissed";
             die;
         });
+
+        add_filter('wprss_admin_footer_links', function ($links) use ($c) {
+            if ($c->get('bf23/is_period')) {
+                $links['upgrade']['heading'] = 'Upgrade at 30% off';
+                $links['upgrade']['text'] = 'BLACK FRIDAY OFFER';
+                $links['upgrade']['url'] = '';
+            }
+
+            return $links;
+        });
     }
 
     /** @inheritdoc */
