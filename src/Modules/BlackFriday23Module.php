@@ -93,10 +93,10 @@ class BlackFriday23Module implements ModuleInterface
                 }
             },
             'bf23/url' => function () {
-                if (wprss_get_addons() === 0) {
-                    return self::FREE_URL;
-                } else {
+                if (count(wprss_get_addons()) > 0) {
                     return self::PREMIUM_URL;
+                } else {
+                    return self::FREE_URL;
                 }
             },
         ];
