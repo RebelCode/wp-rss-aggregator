@@ -27,7 +27,7 @@ add_action('admin_notices', function () {
     ?>
     <div id="wpra-dl-guide-notice" class="wpra-dl-guide-notice notice">
         <div class="wpra-dl-guide-left">
-            <img src="<?= esc_attr(WPRSS_IMG . 'wpra-icon-transparent.png') ?>" alt="WP RSS Aggregator logo" />
+            <img src="<?= esc_attr(WPRSS_IMG . 'wpra-icon-transparent-new.png') ?>" alt="WP RSS Aggregator logo" />
         </div>
         <div class="wpra-dl-guide-content">
             <div id="wpra-dl-guide-success">
