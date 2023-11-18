@@ -17,7 +17,7 @@ class BlackFriday23Module implements ModuleInterface
     public const DISMISS_ACTION = 'wpra_bf23_dismiss';
     public const FREE_URL = 'https://www.wprssaggregator.com/upgrade/?utm_source=wpra_plugin&utm_medium=banner&utm_campaign=BF23';
     public const PREMIUM_URL = 'https://www.wprssaggregator.com/account/orders/?discount=BF30&utm_source=wpra_plugin&utm_medium=banner&utm_campaign=BF23';
-    public const END_DATE = '2023-11-28T00:00:00.000-07:00';
+    public const END_DATE = '2023-11-28T00:00:00.000-08:00';
 
     /** @inheritdoc */
     public function run(ContainerInterface $c)
