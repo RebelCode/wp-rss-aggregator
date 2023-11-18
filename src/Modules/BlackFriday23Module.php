@@ -79,11 +79,6 @@ class BlackFriday23Module implements ModuleInterface
                 return new StyleAsset('bf23', WPRSS_URI . 'css/bf23.css', [], WPRSS_VERSION);
             },
             'bf23/is_period' => function () {
-                $getParam = filter_input(INPUT_GET, 'bf23', FILTER_VALIDATE_BOOLEAN);
-                if ($getParam) {
-                    return true;
-                }
-
                 try {
                     $now = new DateTime('now', new DateTimeZone(wprss_get_timezone_string()));
                     $start = new DateTime('2023-11-20T00:00:00', new DateTimeZone('-07:00'));
