@@ -44,7 +44,9 @@ class BlackFriday23Module implements ModuleInterface
             if ($c->get('bf23/is_period')) {
                 $links['upgrade']['heading'] = 'Upgrade at 30% off';
                 $links['upgrade']['text'] = 'BLACK FRIDAY OFFER';
-                $links['upgrade']['url'] = '';
+                $links['upgrade']['url'] = count(wprss_get_addons()) > 0
+                   ? self::PREMIUM_URL
+                   : self::FREE_URL;
             }
 
             return $links;
