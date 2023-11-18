@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.4] - 2023-11-18
+### Added
+* Black Friday offer links.
+* Updated the "More Features" page.
+
 ## [4.23.3] - 2023-11-01
 ### Changed
 * Disabled the deactivation poll.
