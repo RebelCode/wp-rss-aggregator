@@ -1,0 +1,198 @@
+.wpra-bf23 {
+  box-sizing: border-box;
+
+  position: fixed;
+  bottom: 0;
+  left: 180px;
+  right: 20px;
+  height: 110px;
+  padding: 0 20px;
+
+  color: #FFF;
+  background: #29292C;
+  border-width: 4px 4px 0 4px;
+  border-style: solid;
+  border-color: #f34413;
+  border-radius: 5px 5px 0 0;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 15px;
+  z-index: 99999;
+}
+
+.wpra-bf23__icon {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f34413;
+  border: 2px solid #f34413;
+  border-radius: 4px;
+}
+
+.wpra-bf23__icon .dashicons {
+  color: #FFF;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.wpra-bf23__msg {
+  flex: 1;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 20px;
+}
+
+.wpra-bf23__msg a {
+  color: #FFF !important;
+  text-decoration: underline !important;
+}
+
+.wpra-bf23__msg a:hover {
+  color: #f34413 !important;
+}
+
+.wpra-bf23__coupon {
+  display: inline-block;
+  padding: 2px 4px 2px 3px;
+  margin-left: 3px;
+  background: rgba(251, 233, 237, 0.1);
+  border: 2px dashed #f34413;
+  border-radius: 5px;
+}
+
+.wpra-bf23__timer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 8px;
+  margin-right: 10px;
+}
+
+.wpra-bf23__timer__cell {
+  box-sizing: border-box;
+  width: 58px;
+  height: 58px;
+  flex-basis: 58px 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  border-radius: 8px;
+
+  color: #29292C;
+}
+
+.wpra-bf23__timer__num {
+  font-family: monospace, sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 30px;
+}
+
+.wpra-bf23__timer__label {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+.wpra-bf23__btn {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 35px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background: #f34413;
+  color: #FFF !important;
+  text-decoration: none !important;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.wpra-bf23__btn .dashicons {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  line-height: 11px;
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 10px;
+  color: #FFF;
+  border: 1px solid #FFFFFF;
+  border-radius: 2px;
+}
+
+.wpra-bf23__dismiss {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+.wpra-bf23__dismiss .dashicons {
+  color: #D3D8DC;
+  font-size: 38px;
+  width: 38px;
+  height: 38px;
+}
+
+.wpra-bf23__dismiss:hover .dashicons {
+  color: #FFF;
+}
+
+@media screen and (max-width: 1040px) {
+  .wpra-bf23__msg {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .wpra-bf23__timer__cell {
+    width: 48px;
+    height: 48px;
+  }
+
+  .wpra-bf23__timer__num {
+    font-size: 22px;
+    line-height: 24px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .wpra-bf23 {
+    left: 56px;
+  }
+
+  .wpra-bf23__timer {
+    margin-right: 0;
+  }
+
+  .wpra-bf23__btn {
+    font-size: 13px;
+  }
+
+  .wpra-bf23__btn .dashicons {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .wpra-bf23 {
+    height: 125px;
+  }
+
+  .wpra-bf23 {
+    left: 20px;
+  }
+}

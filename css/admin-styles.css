@@ -701,8 +701,8 @@ i.wprss-updating-feed-icon.wprss-show {
 #add-ons .add-on {
     display: inline-block;
     position: relative;
-    flex: 0 0 220px;
-    width: 220px;
+    flex: 0 0 230px;
+    width: 230px;
     margin: 10px 20px 10px 0;
     background: #FFFFFF;
     border: 1px solid #E5E5E5;
@@ -754,17 +754,17 @@ i.wprss-updating-feed-icon.wprss-show {
     transform-origin: center center;
 }
 
-#add-ons .add-on.bundle-plan {
-    border: 2px solid #ff792b;
-    box-shadow: 0 0 25px -12px rgba(255, 121, 43, 0.6);
+#add-ons .wpra-orange-highlight {
+    border: 2px solid #f34413;
+    box-shadow: 0 0 25px -12px rgba(243, 68, 19, 0.6);
 }
 
-#add-ons .add-on.bundle-plan .corner-ribbon {
-    background: #ff792b;
-}
-
-#add-ons .add-on.spotlight .corner-ribbon {
+#add-ons .add-on .corner-ribbon {
     background: #DD234B;
+}
+
+#add-ons .add-on.wpra-orange-highlight .corner-ribbon {
+    background: #f34413;
 }
 
 #add-ons .add-on.bundle-plan .footer,
@@ -1052,7 +1052,7 @@ div.wprss-feed-source-type {
 }
 /* active color */
 .post-type-wprss_feed table.wp-list-table tr.active div.wprss-feed-source-type {
-    color: #ff792b;
+    color: #f34413;
 }
 /* youtube color */
 .post-type-wprss_feed table.wp-list-table tr.active div.wprss-feed-source-type.wprss-feed-source-type-yt {

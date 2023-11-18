@@ -14,7 +14,7 @@ add_action('plugins_loaded', function () {
 
 function wprss_php_upgrade_notice()
 {
-    $icon = WPRSS_IMG . 'wpra-icon-transparent.png';
+    $icon = WPRSS_IMG . 'wpra-icon-transparent-new.png';
     $nonce = wp_create_nonce('wpra-dismiss-php-notice');
 
     ?>

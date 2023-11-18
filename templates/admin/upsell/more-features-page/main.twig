@@ -16,14 +16,15 @@
 
             {# PLANS #}
             {% for plan in plans %}
-                <div class="add-on wp-box bundle-plan">
+                <div class="add-on wp-box {{ plan.highlight ? 'wpra-orange-highlight' : '' }}">
                     {% if plan.mostPopular %}
                         <span class="corner-ribbon">Most Popular</span>
                     {% endif %}
                     <div class="inner">
                         <h3>{{ plan.name }}</h3>
                         <p>{{ plan.desc }}</p>
-                        <ul>
+                        <p style="margin-bottom: 0">{{ plan.featureLabel }}</p>
+                        <ul style="margin: 5px 0 55px; list-style: disc; padding-left: 25px;">
                             {% for feature in plan.features %}
                                 <li>{{ feature }}</li>
                             {% endfor %}
@@ -37,11 +38,6 @@
                 </div>
             {% endfor %}
 
-            {# ADD_ONS #}
-            {% for item in items %}
-                {{ include('admin/upsell/more-features-page/' ~ item.type ~ '.twig') }}
-            {% endfor %}
-
             {# SPOTLIGHT #}
             <div class="add-on spotlight">
                 <span class="corner-ribbon">NEW</span>
@@ -53,8 +49,8 @@
                     </p>
                 </div>
                 <div class="footer">
-                    <a class="button button-secondary" href="https://spotlightwp.com">
-                        Try Spotlight
+                    <a class="button button-secondary" href="{{ spotlightUrl }}">
+                        {{ spotlightBtnText }}
                     </a>
                 </div>
             </div>

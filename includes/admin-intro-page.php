@@ -57,7 +57,7 @@ function wprss_render_intro_page()
         'userName' => $userName,
         'userEmail' => $userEmail,
         'userIsFree' => count(wprss_get_addons()) === 0,
-        'wpraIconUrl' => WPRSS_IMG . 'wpra-icon-transparent.png',
+        'wpraIconUrl' => WPRSS_IMG . 'wpra-icon-transparent-new.png',
         'previewUrl' => admin_url('admin.php?wprss_preview_shortcode_page=1&nonce=' . $createFeedNonce),
         'feedListUrl' => admin_url('edit.php?post_type=wprss_feed'),
         'addOnsUrl' => 'https://www.wprssaggregator.com/plugins/?utm_source=core_plugin&utm_medium=onboarding_wizard&utm_campaign=onboarding_wizard_addons_button&utm_content=addons_button',
