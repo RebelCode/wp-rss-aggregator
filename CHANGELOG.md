@@ -4,9 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+* (CVE-2024-0628) Error messages no longer reveal information about potentially inaccessible resources.
+* (CVE-2024-0630) JavaScript code in feed item URLs is now properly sanitized and escaped.
+* Word trimming did not work correctly when posts had leading whitespace.
+* The Templates page did not load properly on some websites.
+
 ## [4.23.4] - 2023-11-18
 ### Added
 * Black Friday offer links.
+
+### Changed
 * Updated the "More Features" page.
 
 ## [4.23.3] - 2023-11-01
