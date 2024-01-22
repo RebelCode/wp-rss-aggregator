@@ -446,6 +446,7 @@ function wprss_normalize_permalink( $permalink, $item, $feed_ID) {
     // Apply normalization functions on the permalink
     $permalink = trim( $permalink );
     $permalink = htmlspecialchars_decode($permalink);
+    $permalink = sanitize_url($permalink);
     $permalink = apply_filters( 'wprss_normalize_permalink', $permalink, $item, $feed_ID);
     // Return the normalized permalink
     return $permalink;
