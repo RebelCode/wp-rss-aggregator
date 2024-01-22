@@ -270,9 +270,9 @@ function wprss_get_feed_items( $feed_url, $source, $force_feed = FALSE ) {
     $feed = wprss_fetch_feed( $feed_url, $source, $force_feed );
 
     if (is_wp_error($feed)) {
-        wpra_get_logger($source)->error('Failed to fetch the feed from {0}. Error: {1}', [
+        wpra_get_logger($source)->error('Failed to fetch the RSS feed. {1}', [
             $feed_url,
-            $feed->get_error_message()
+            wprss_rewrite_feed_error($feed->get_error_message())
         ]);
 
         return NULL;
@@ -423,7 +423,7 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
         if ($source !== null) {
             $msg = sprintf(
                 __('Failed to fetch the RSS feed. Error: %s', 'wprss'),
-                $feed->error()
+                wprss_rewrite_feed_error($feed->error())
             );
             update_post_meta($source, 'wprss_error_last_import', $msg);
         }
@@ -1190,4 +1190,13 @@ function wpra_parse_url($url)
     parse_str($parsed['query_str'], $parsed['query']);
 
     return $parsed;
+}
+
+function wprss_rewrite_feed_error(string $error)
+{
+    if (str_contains($error, 'invalid XML')) {
+        return __('The feed is not a valid XML document', 'wprss');
+    }
+
+    return __('The URL is not valid RSS feed URL', 'wprss');
 }
