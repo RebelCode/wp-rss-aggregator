@@ -618,10 +618,11 @@ class FeedTemplatesModule implements ModuleInterface
              * @since 4.14
              */
             'wpra/feeds/templates/admin/states/global' => function (ContainerInterface $c) {
-                $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+                $siteUrl = rtrim(site_url(), '/');
+                $templatesUrl = menu_page_url('wpra_feed_templates', false);
                 return [
                     'admin_base_url' => admin_url(),
-                    'templates_url_base' => str_replace($url, '', menu_page_url('wpra_feed_templates', false)),
+                    'templates_url_base' => str_replace($siteUrl, '', $templatesUrl),
                     'is_existing_user' => !wprss_is_new_user(),
                     'nonce' => wp_create_nonce('wp_rest'),
                 ];

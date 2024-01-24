@@ -504,10 +504,9 @@ function wprss_preview_meta_box_callback()
         // Check if failed to fetch the feed
         if (is_wp_error($feed)) {
             // Log the error
-            wprss_log_obj('Failed to preview feed.', $feed->get_error_message(), null, WPRSS_LOG_LEVEL_INFO);
             printf(
                 '<span class="invalid-feed-url">%s</span>',
-                __('<strong>Invalid feed URL</strong> - Double check the feed source URL setting above.', 'wprss')
+                __('The URL is invalid or is not a URL to an RSS feed.', 'wprss')
             );
 
             echo wpautop(

@@ -316,7 +316,7 @@ function wprss_show_feed_item_custom_columns($column, $post_id)
             $url = get_post_meta($post_id, 'wprss_item_permalink', true);
             printf(
                 '<a href="%s">%s</a>',
-                esc_attr($url),
+                esc_attr(esc_url($url)),
                 esc_html($url)
             );
             break;

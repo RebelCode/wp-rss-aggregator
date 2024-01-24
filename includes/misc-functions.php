@@ -212,16 +212,16 @@ EOS;
 	 *	1. Generate plain text without HTML
 	 *	2. Add apropriate tag type to each group
 	 */
-	foreach ( $pieces as $_idx => $_piece ) {
+	foreach ( $pieces as $idx => $piece ) {
 		// Get the data
-		$tag_piece = $_piece[0];
-		$text_piece = $_piece[2];
-		$tag_name = $_piece[1][0];
+		$tag_piece = $piece[0];
+		$text_piece = $piece[2];
+		$tag_name = $piece[1][0];
 		// Compile all plain text together
 		$plain_text .= $text_piece[0];
 		// Check the tag and assign the proper tag type
 		$tag = $tag_piece[0];
-		$pieces[ $_idx ][1][2] =
+		$pieces[ $idx ][1][2] =
 			( substr( $tag, 0, 2 ) === '</' ) ?
 				$tag_type['closing'] :
 			( (substr( $tag, strlen( $tag ) - 2, 2 ) === '/>'
@@ -247,10 +247,10 @@ EOS;
 	$text = $plain_text;
 
 	// Iterate the groups once more
-	foreach ( $pieces as $_idx => $_piece ) {
+	foreach ( $pieces as $idx => $piece ) {
 		// Tag and tagname
-		$_tag_piece = $_piece[0];
-		$_tag_name_piece = $_piece[1];
+		$_tag_piece = $piece[0];
+		$_tag_name_piece = $piece[1];
 		// Name of the tag
 		$_tag_name = strtolower( $_tag_name_piece[0] );
 		// Tag type
@@ -312,6 +312,9 @@ function wp_trim_words_wprss( $text, $num_words = 55, $more = null ) {
 		$more = __( '&hellip;' );
 	}
 	$original_text = $text;
+    $text = ltrim($text);
+    $prefix = substr($original_text, 0, strlen($original_text) - strlen($text));
+
 	/* translators: If your word count is based on single characters (East Asian characters),
 	   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */
 	if ( 'characters' == _x( 'words', 'word count: words or characters?' ) && preg_match( '/^utf\-?8$/i', get_option( 'blog_charset' ) ) ) {
@@ -330,6 +333,8 @@ function wp_trim_words_wprss( $text, $num_words = 55, $more = null ) {
 	} else {
 		$text = implode( $sep, $words_array );
 	}
+
+    $text = $prefix . $text;
 	/**
 	 * Filter the text content after words have been trimmed.
 	 *
