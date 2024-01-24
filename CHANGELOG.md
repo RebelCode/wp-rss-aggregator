@@ -4,10 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [4.23.5] - 2024-01-24
 ### Fixed
-* (CVE-2024-0628) Error messages no longer reveal information about potentially inaccessible resources.
-* (CVE-2024-0630) JavaScript code in feed item URLs is now properly sanitized and escaped.
+* Error messages no longer reveal information about potentially inaccessible resources. (CVE-2024-0628) 
+* JavaScript code in feed item URLs is now properly sanitized and escaped. (CVE-2024-0630) 
 * Word trimming did not work correctly when posts had leading whitespace.
 * The Templates page did not load properly on some websites.
 
