@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.6] - 2024-01-31
+### Changed
+* Error information is suppressed for feeds with local address URLs. This improves the previous fix for CVE-2024-0628.
+
 ## [4.23.5] - 2024-01-24
 ### Fixed
 * Error messages no longer reveal information about potentially inaccessible resources. (CVE-2024-0628) 
