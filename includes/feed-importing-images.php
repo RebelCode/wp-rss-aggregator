@@ -442,7 +442,7 @@ function wpra_get_item_media_thumbnail_image($item)
     // Stop if enclosure is an audio file
     // Prevents podcast stats from being tainted
     $type = $enclosure->get_type();
-    if (empty($type) || stripos($type, 'audio/') === 0) {
+    if (stripos($type, 'audio/') === 0) {
         return null;
     }
 
