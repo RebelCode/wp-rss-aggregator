@@ -715,7 +715,7 @@ function wprss_items_insert_post( $items, $feed_ID ) {
             }
 
             // Create and insert post object into the DB
-            $inserted_ID = wp_insert_post( $feed_item );
+            $inserted_ID = wp_insert_post( $feed_item, true );
 
             if ( !is_wp_error( $inserted_ID ) ) {
 
@@ -749,9 +749,13 @@ function wprss_items_insert_post( $items, $feed_ID ) {
                 ]);
             }
             else {
-                update_post_meta( $feed_ID, 'wprss_error_last_import', 'An error occurred while inserting a feed item into the database.' );
+                $message = sprintf(
+                    __('Failed to save a feed item: %s', 'wprss'),
+                    $inserted_ID->get_error_message()
+                );
 
-                $logger->error('Failed to save item "{0}" into the database', [$item->get_title()]);
+                update_post_meta($feed_ID, 'wprss_error_last_import', $message);
+                $logger->error($message);
             }
         }
         // If the item is TRUE, then a hook function in the filter inserted the item.
