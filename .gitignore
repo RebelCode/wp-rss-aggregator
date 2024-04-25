@@ -1,7 +1,9 @@
+/.git
 /.DS_Store/
 /.idea/
 /.svn/
 /nbproject/
+/.vscode/
 /docker/
 /vendor/
 /releases/
