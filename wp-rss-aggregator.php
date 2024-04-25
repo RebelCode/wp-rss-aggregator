@@ -330,7 +330,7 @@ require_once ( WPRSS_INC . 'multimedia.php' );
 require_once ( WPRSS_INC . 'templates-update.php' );
 
 /* Load the notice for the PHP version upgrade that is coming in v5. */
-require_once ( WPRSS_INC . 'php-v5-notice.php' );
+require_once ( WPRSS_INC . 'v5-notices.php' );
 
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');

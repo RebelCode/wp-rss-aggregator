@@ -339,40 +339,50 @@ label[for='wpra-dl-guide-email-field'] {
   margin-top: 5px;
 }
 
-.wpra-php-notice {
+.wpra-v5-notice {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    border: 1px solid #FF792B;
-    border-left-width: 4px;
+    border: 1px solid #CCCCCC;
+    border-left: 4px solid #FF792B;
     padding: 0 !important;
 }
 
-.wpra-php-notice .wpra-php-notice-left {
+.wpra-v5-notice .wpra-v5-notice-left {
     flex: 0 1;
     display: flex;
     flex-direction: column;
     justify-items: center;
     align-items: center;
-    padding: 14px 13px;
-    background-color: rgba(255, 121, 43, .1);
+    padding: 18px 8px;
+    background-color: #F6F7FB;
 }
 
-.wpra-php-notice .wpra-php-notice-right {
+.wpra-v5-notice .wpra-v5-notice-right {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 20px;
+    gap: 4px;
+    padding: 18px 24px;
 }
 
-.wpra-php-notice .wpra-php-notice-right h3,
-.wpra-php-notice .wpra-php-notice-right p {
+.wpra-v5-notice .wpra-v5-notice-right h3 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.wpra-v5-notice .wpra-v5-notice-right p {
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.wpra-v5-notice .wpra-v5-notice-right h3,
+.wpra-v5-notice .wpra-v5-notice-right p {
     margin: 0 !important;
 }
 
-button.wpra-php-notice-close {
+button.wpra-v5-notice-close {
     all: unset;
     appearance: none;
     position: absolute;
@@ -381,6 +391,6 @@ button.wpra-php-notice-close {
     cursor: pointer;
 }
 
-button.wpra-php-notice-close:focus-visible {
+button.wpra-v5-notice-close:focus-visible {
     outline: 2px dotted #000;
 }
