@@ -43,7 +43,11 @@ class FeedsShortcodeHandler
     {
         // Decode HTML entities in the arguments
         $args = is_array($args) ? $args : [];
-        $args = array_map('html_entity_decode', $args);
+        foreach ($args as $key => $value) {
+            if (is_string($value)) {
+                $args[$key] = html_entity_decode($value);
+            }
+        }
         // Render the template
         $result = $this->template->render($args);
 
