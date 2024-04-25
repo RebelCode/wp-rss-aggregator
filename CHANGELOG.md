@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.8] - 2024-04-25
+### Added
+* Prepared notices and messages for the upcoming v5.0 update.
+
+### Changed
+* Better error logging when a feed item fails to get saved.
+
+### Fixed
+* Compatibility with PHP 8.x versions.
+* Compatibility with the "Widget Options" plugin.
+
 ## [4.23.7] - 2024-02-28
 ### Fixed
 * Media thumbnail images without a MIME type were not being properly detected.
