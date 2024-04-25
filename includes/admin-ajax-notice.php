@@ -1225,10 +1225,10 @@ add_action( sprintf( 'wp_ajax_%1$s', wprss_admin_notice_get_action_code() ), 'wp
  */
 function wprss_admin_notice_hide() {
     $notice_id = isset($_REQUEST['notice_id']) ? $_REQUEST['notice_id'] : null;
-    $notice_id = filter_var($notice_id, FILTER_SANITIZE_STRING);
+    $notice_id = filter_var($notice_id, FILTER_DEFAULT);
 
     $nonce = isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : null;
-    $nonce = filter_var($nonce, FILTER_SANITIZE_STRING);
+    $nonce = filter_var($nonce, FILTER_DEFAULT);
 
 	try {
         wprss_admin_notice_get_collection()->hide_notice($notice_id, $nonce);

@@ -21,6 +21,7 @@ abstract class AbstractDataSet implements DataSetInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         try {
@@ -41,6 +42,7 @@ abstract class AbstractDataSet implements DataSetInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($key)
     {
         try {
@@ -57,6 +59,7 @@ abstract class AbstractDataSet implements DataSetInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         try {
@@ -73,6 +76,7 @@ abstract class AbstractDataSet implements DataSetInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         try {

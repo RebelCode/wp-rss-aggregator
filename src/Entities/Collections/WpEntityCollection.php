@@ -94,6 +94,7 @@ class WpEntityCollection extends AbstractDataSet implements CollectionInterface
      *
      * @since 4.13
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->get($key);
