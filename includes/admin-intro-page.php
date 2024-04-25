@@ -364,7 +364,8 @@ function wprss_import_feed_sources_array($array)
  */
 function wprss_feed_source_name_from_url($url)
 {
-    $feed = new SimplePie($url);
+    $feed = new SimplePie();
+    $feed->set_feed_url($url);
     $feed->enable_cache(false);
     $feed->init();
 
