@@ -35,7 +35,7 @@
         "symfony/translation": "^2.8"
     },
     "require-dev": {
-        "johnpbloch/wordpress-core": "^4.4 | ^5.0",
+        "johnpbloch/wordpress-core": "^4.4 | ^5.0 | ^6.0",
         "phpunit/phpunit": "^4.8",
         "10up/wp_mock": "^0.1.1"
     },
