@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.10] - 2024-05-20
+### Fixed
+* Some feeds were wrongly deemed to be invalid due to how cURL sends the user-agent string.
+
 ## [4.23.9] - 2024-05-13
 ### Fixed
 * Fixed a cross-site scripting vulnerability when an admin notice ID is invalid.
