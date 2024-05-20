@@ -1234,7 +1234,7 @@ function wprss_admin_notice_hide() {
         wprss_admin_notice_get_collection()->hide_notice($notice_id, $nonce);
     } catch (Exception $e) {
         // Failure
-        echo $e->getMessage();
+        echo esc_html($e->getMessage());
         exit();
     }
 

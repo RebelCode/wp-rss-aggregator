@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.9] - 2024-05-13
+### Fixed
+* Fixed a cross-site scripting vulnerability when an admin notice ID is invalid.
+
 ## [4.23.8] - 2024-04-25
 ### Added
 * Prepared notices and messages for the upcoming v5.0 update.
