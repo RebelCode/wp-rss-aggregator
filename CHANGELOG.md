@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.11] - 2024-05-28
+### Fixed
+* The previous version introduced a bug that omitted the user-agent header from RSS feed requests.
+
 ## [4.23.10] - 2024-05-20
 ### Fixed
 * Some feeds were wrongly deemed to be invalid due to how cURL sends the user-agent string.
