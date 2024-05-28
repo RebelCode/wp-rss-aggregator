@@ -437,7 +437,7 @@ class WPRSS_SimplePie_File extends SimplePie_File {
 				foreach ( $headers as $key => $value ) {
 					$headers2[] = "$key: $value";
 				}
-				$headers2['User-Agent'] = $useragent;
+				$headers2[]= 'User-Agent: ' . $useragent;
 				if ( version_compare( SimplePie_Misc::get_curl_version(), '7.10.5', '>=' ) ) {
 					curl_setopt( $fp, CURLOPT_ENCODING, '' );
 				}
