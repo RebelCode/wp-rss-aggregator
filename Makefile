@@ -7,6 +7,7 @@ build/wp-rss-aggregator.zip:
 	cd .. && zip -r -9 ./wp-rss-aggregator/build/wp-rss-aggregator.zip ./wp-rss-aggregator -x \
 		"wp-rss-aggregator/.git/*" \
 		"wp-rss-aggregator/.idea/*" \
+		"wp-rss-aggregator/.vscode/*" \
 		"wp-rss-aggregator/nbproject/*" \
 		"wp-rss-aggregator/build/*" \
 		"wp-rss-aggregator/docker/*" \
