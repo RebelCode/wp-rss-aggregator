@@ -64,7 +64,7 @@ namespace RebelCode\Wpra\Feeds\States
     add_action('admin_init', function () {
 
         if (!current_user_can('edit_feed_sources')) {
-            return new WP_Error('wprss_not_authorized', esc_html('You are not authorized to access this page.', 'wprss'),[ 'status' => 401 ]);
+            return new WP_Error('wprss_not_authorized', esc_html('You are not authorized to access this page.', 'wprss'),['status' => 401]);
         }
 
         $postType = filter_input(INPUT_GET, 'post_type', FILTER_UNSAFE_RAW);
