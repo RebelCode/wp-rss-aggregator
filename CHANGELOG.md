@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.12] - 2024-07-15
+### Fixed
+* Fixed a security vulnerability that allows subscribers to pause feed sources (CVE-2024-6621).
+
 ## [4.23.11] - 2024-05-28
 ### Fixed
 * The previous version introduced a bug that omitted the user-agent header from RSS feed requests.
