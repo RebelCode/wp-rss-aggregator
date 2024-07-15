@@ -53,6 +53,8 @@ namespace
 
 namespace RebelCode\Wpra\Feeds\States
 {
+    use WP_Error;
+
     const NOTICE_TRANSIENT_ACTIVATED = 'activated';
     const NOTICE_TRANSIENT_PAUSED = 'paused';
 
@@ -60,6 +62,11 @@ namespace RebelCode\Wpra\Feeds\States
      * Changes the state of feed sources selected from the table bulk actions.
      */
     add_action('admin_init', function () {
+
+        if (!current_user_can('edit_feed_sources')) {
+            return new WP_Error('wprss_not_authorized', esc_html('You are not authorized to access this page.', 'wprss'),['status' => 401]);
+        }
+
         $postType = filter_input(INPUT_GET, 'post_type', FILTER_UNSAFE_RAW);
         $action = filter_input(INPUT_GET, 'action', FILTER_UNSAFE_RAW);
         $action2 = filter_input(INPUT_GET, 'action2', FILTER_UNSAFE_RAW);
