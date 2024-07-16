@@ -45,13 +45,13 @@ add_action('admin_init', function () {
     );
 });
 
+add_action('update_option_wprss_enable_v5', 'wprss_redirect_to_v5', 10, 2);
+add_action('add_option_wprss_enable_v5', 'wprss_redirect_to_v5', 10, 2);
 function wprss_redirect_to_v5($prevValue, $newValue)
 {
-    if (strval($newValue) === '1') {
-        wp_redirect(admin_url('admin.php?page=aggregator'));
+    if ($newValue === '1') {
+        set_transient('wprss_redirect_to_v5', '1', 60);
+        wp_redirect(admin_url());
         exit;
     }
 }
-
-add_action('update_option_wprss_enable_v5', 'wprss_redirect_to_v5', 10, 2);
-add_action('add_option_wprss_enable_v5', 'wprss_redirect_to_v5', 10, 2);
