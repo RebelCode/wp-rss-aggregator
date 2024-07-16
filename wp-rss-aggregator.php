@@ -128,10 +128,10 @@ if( !defined( 'WPRSS_IMG' ) )
 
 // Set the constant path to the plugin's includes directory.
 if( !defined( 'WPRSS_INC' ) )
-    define( 'WPRSS_INC', __DIR__ . '/includes/' );
+    define( 'WPRSS_INC', WPRSS_DIR . '/includes/' );
 
 if( !defined( 'WPRSS_LANG' ) )
-    define( 'WPRSS_LANG', __DIR__ . '/languages/' );
+    define( 'WPRSS_LANG', WPRSS_DIR . '/languages/' );
 
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
@@ -343,7 +343,7 @@ register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');
 
 // Black friday 2021 promotion
-require_once __DIR__ . '/includes/black-friday-2021.php';
+require_once WPRSS_DIR . '/includes/black-friday-2021.php';
 
 // Safe deactivation hook (for the error handler)
 add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
