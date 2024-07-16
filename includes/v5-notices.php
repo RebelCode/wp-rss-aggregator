@@ -5,12 +5,6 @@ if (!defined('ABSPATH')) {
 }
 
 add_action('admin_notices', function () {
-    if (wprss_v5_is_available()) {
-        wprss_v5_available_notice();
-    } else {
-        wprss_v5_coming_soon_notice();
-    }
-
     if (WPRA_V5_USE_V4) {
         wprss_v5_switch_notice();
     }
@@ -85,58 +79,6 @@ function wprss_v5_contains_update($updates)
     }
 
     return true;
-}
-
-function wprss_v5_coming_soon_notice()
-{
-    $dismissed = get_option('wprss_v5_coming_notice_dismissed', '0');
-    $dismissed = filter_var($dismissed, FILTER_VALIDATE_BOOLEAN);
-    if ($dismissed) {
-        return;
-    }
-
-    echo wprss_v5_notice_render(
-        'wprss_v5_coming_soon',
-        __('Exciting news for Aggregator!', 'wprss'),
-        sprintf(
-            _x(
-                'Our highly-anticipated update is coming soon. This major update will require your website to be running PHP 7.4 or higher. To learn more about v5.0 %s',
-                '%s = "click here" link',
-                'wprss'
-            ),
-            sprintf(
-                '<a href="%s" target="_blank">%s</a>',
-                'https://www.wprssaggregator.com/v5-update/',
-                __('click here', 'wprss'),
-            )
-        ),
-    );
-}
-
-function wprss_v5_available_notice()
-{
-    $dismissed = get_option('wprss_v5_available_dismissed', '0');
-    $dismissed = filter_var($dismissed, FILTER_VALIDATE_BOOLEAN);
-    if ($dismissed) {
-        return;
-    }
-
-    echo wprss_v5_notice_render(
-        'wprss_v5_available',
-        __('A major update of Aggregator is available.', 'wprss'),
-        sprintf(
-            _x(
-                '%s to get access to the new and improved aggregator.',
-                '%s = "Update" link',
-                'wprss'
-            ),
-            sprintf(
-                '<a href="%s">%s</a>',
-                admin_url('update-core.php'),
-                __('Update', 'wprss'),
-            )
-        ),
-    );
 }
 
 function wprss_v5_switch_notice()
