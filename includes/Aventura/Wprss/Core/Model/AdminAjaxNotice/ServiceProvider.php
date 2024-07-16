@@ -30,7 +30,7 @@ class ServiceProvider extends AbstractComponentServiceProvider implements Servic
             $this->_p('admin_ajax_notices')             => array($this, '_createAdminAjaxNotices'),
             $this->_p('command.is_wprss_page')          => array($this, '_createCommandIsWprssPage'),
 
-            $this->_pn('more_features')                 => array($this, '_createMoreFeaturesNotice'),
+            /* $this->_pn('more_features')                 => array($this, '_createMoreFeaturesNotice'), */
             $this->_pn('deleting_feed_items')           => array($this, '_createDeletingFeedItemsNotice'),
             $this->_pn('bulk_feed_import')              => array($this, '_createBulkFeedImportNotice'),
             $this->_pn('settings_import_success')       => array($this, '_createSettingsImportSuccessNotice'),
