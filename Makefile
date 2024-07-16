@@ -1,39 +1,41 @@
+DIR_NAME = $(shell basename $(shell pwd))
+
 .PHONY: build
 build: clean vendor node_modules build/wp-rss-aggregator.zip
 
 build/wp-rss-aggregator.zip:
 	mkdir -p build
 	rm -f "$@"
-	cd .. && zip -r -9 ./wp-rss-aggregator/build/wp-rss-aggregator.zip ./wp-rss-aggregator -x \
-		"wp-rss-aggregator/.git/*" \
-		"wp-rss-aggregator/.idea/*" \
-		"wp-rss-aggregator/nbproject/*" \
-		"wp-rss-aggregator/build/*" \
-		"wp-rss-aggregator/docker/*" \
-		"wp-rss-aggregator/js/src/*" \
-		"wp-rss-aggregator/css/src/*" \
-		"wp-rss-aggregator/node_modules/*" \
-		"wp-rss-aggregator/test/*" \
-		"wp-rss-aggregator/webpack/*" \
-		"wp-rss-aggregator/.directory" \
-		"wp-rss-aggregator/.babelrc" \
-		"wp-rss-aggregator/.gitattributes" \
-		"wp-rss-aggregator/.gitignore" \
-		"wp-rss-aggregator/.php-cs-fixer.cache" \
-		"wp-rss-aggregator/.phpactor.json" \
-		"wp-rss-aggregator/.directory" \
-		"wp-rss-aggregator/build.sh" \
-		"wp-rss-aggregator/composer.json" \
-		"wp-rss-aggregator/composer.lock" \
-		"wp-rss-aggregator/docker-compose.yml" \
-		"wp-rss-aggregator/Makefile" \
-		"wp-rss-aggregator/package.json" \
-		"wp-rss-aggregator/package-lock.json" \
-		"wp-rss-aggregator/phpunit.xml" \
-		"wp-rss-aggregator/README.md" \
-		"wp-rss-aggregator/webpack.config.js" \
-		"wp-rss-aggregator/yarn.lock" \
-		"wp-rss-aggregator/src/V5/*"
+	cd .. && zip -r -9 ./$(DIR_NAME)/build/wp-rss-aggregator.zip ./$(DIR_NAME) -x \
+		"$(DIR_NAME)/.git/*" \
+		"$(DIR_NAME)/.idea/*" \
+		"$(DIR_NAME)/nbproject/*" \
+		"$(DIR_NAME)/build/*" \
+		"$(DIR_NAME)/docker/*" \
+		"$(DIR_NAME)/js/src/*" \
+		"$(DIR_NAME)/css/src/*" \
+		"$(DIR_NAME)/node_modules/*" \
+		"$(DIR_NAME)/test/*" \
+		"$(DIR_NAME)/webpack/*" \
+		"$(DIR_NAME)/.directory" \
+		"$(DIR_NAME)/.babelrc" \
+		"$(DIR_NAME)/.gitattributes" \
+		"$(DIR_NAME)/.gitignore" \
+		"$(DIR_NAME)/.php-cs-fixer.cache" \
+		"$(DIR_NAME)/.phpactor.json" \
+		"$(DIR_NAME)/.directory" \
+		"$(DIR_NAME)/build.sh" \
+		"$(DIR_NAME)/composer.json" \
+		"$(DIR_NAME)/composer.lock" \
+		"$(DIR_NAME)/docker-compose.yml" \
+		"$(DIR_NAME)/Makefile" \
+		"$(DIR_NAME)/package.json" \
+		"$(DIR_NAME)/package-lock.json" \
+		"$(DIR_NAME)/phpunit.xml" \
+		"$(DIR_NAME)/README.md" \
+		"$(DIR_NAME)/webpack.config.js" \
+		"$(DIR_NAME)/yarn.lock" \
+		"$(DIR_NAME)/src/V5/*"
 
 .PHONY: clean
 clean:
