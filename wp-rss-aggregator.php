@@ -339,8 +339,8 @@ require_once ( WPRSS_INC . 'v5-notices.php' );
 /* Load the switcher for v5. */
 require_once ( WPRSS_INC . 'v5-switch.php' );
 
-register_activation_hook(__FILE__, 'wprss_activate');
-register_deactivation_hook(__FILE__, 'wprss_deactivate');
+register_activation_hook(WPRSS_FILE_CONSTANT, 'wprss_activate');
+register_deactivation_hook(WPRSS_FILE_CONSTANT, 'wprss_deactivate');
 
 // Black friday 2021 promotion
 require_once WPRSS_DIR . '/includes/black-friday-2021.php';
@@ -680,7 +680,7 @@ function wpra_safe_deactivate()
     }
 
     $plugins = wpra_get_addon_paths();
-    $plugins[] = plugin_basename(__FILE__);
+    $plugins[] = plugin_basename(WPRSS_FILE_CONSTANT);
 
     if (!function_exists('deactivate_plugins')) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -759,7 +759,7 @@ function wprss_init() {
  * @since 4.13
  */
 add_action('after_plugin_row', function($plugin_file) {
-    if ($plugin_file !== plugin_basename(__FILE__)
+    if ($plugin_file !== plugin_basename(WPRSS_FILE_CONSTANT)
         || version_compare(WPRSS_VERSION, '4.13', '>=')
         || version_compare(PHP_VERSION, '5.4', '>=')
     ) {
@@ -816,7 +816,7 @@ function wprss_add_php_version_warning() {
         require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
     }
 
-    deactivate_plugins(plugin_basename(__FILE__));
+    deactivate_plugins(plugin_basename(WPRSS_FILE_CONSTANT));
 
     $firstLine = get_transient('_wprss_activation_redirect')
         ? __('WP RSS Aggregator cannot be activated.', 'wprss')
@@ -861,7 +861,7 @@ function wprss_add_php_version_warning() {
  * @since 4.12.1
  */
 add_action('after_plugin_row', function($plugin_file) {
-    if ($plugin_file !== plugin_basename(__FILE__)
+    if ($plugin_file !== plugin_basename(WPRSS_FILE_CONSTANT)
         || version_compare(WPRSS_VERSION, '4.13', '>=')
         || version_compare(PHP_VERSION, '5.4', '>=')
     ) {
@@ -886,7 +886,7 @@ add_action('after_plugin_row', function($plugin_file) {
 function wprss_activate() {
     /* Prevents activation of plugin if compatible version of WordPress not found */
     if ( !wprss_wp_min_version_satisfied() ) {
-        deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
+        deactivate_plugins ( basename( WPRSS_FILE_CONSTANT ));     // Deactivate plugin
         wp_die( sprintf ( __( '%2$s requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION, WPRSS_CORE_PLUGIN_NAME ), WPRSS_CORE_PLUGIN_NAME, array( 'back_link' => true ) );
     }
     wprss_settings_initialize();
