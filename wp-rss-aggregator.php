@@ -889,7 +889,6 @@ function wprss_activate() {
         deactivate_plugins ( basename( WPRSS_FILE_CONSTANT ));     // Deactivate plugin
         wp_die( sprintf ( __( '%2$s requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION, WPRSS_CORE_PLUGIN_NAME ), WPRSS_CORE_PLUGIN_NAME, array( 'back_link' => true ) );
     }
-    wprss_settings_initialize();
     flush_rewrite_rules();
     wprss_schedule_fetch_all_feeds_cron();
 
