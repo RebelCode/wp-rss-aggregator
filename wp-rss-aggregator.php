@@ -161,6 +161,10 @@ if ( !defined( 'WPRACORE_DIAG_TESTS_DIR' ) ) {
     define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . 'test/diag' );
 }
 
+if ( !defined( 'WPRA_V5_USE_V4' ) ) {
+    define( 'WPRA_V5_USE_V4', false );
+}
+
 const WPRSS_CORE_PLUGIN_NAME = 'WP RSS Aggregator';
 
 /**
@@ -331,6 +335,9 @@ require_once ( WPRSS_INC . 'templates-update.php' );
 
 /* Load the notice for the PHP version upgrade that is coming in v5. */
 require_once ( WPRSS_INC . 'v5-notices.php' );
+
+/* Load the switcher for v5. */
+require_once ( WPRSS_INC . 'v5-switch.php' );
 
 register_activation_hook(__FILE__, 'wprss_activate');
 register_deactivation_hook(__FILE__, 'wprss_deactivate');

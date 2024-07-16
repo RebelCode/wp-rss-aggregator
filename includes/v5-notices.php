@@ -1,10 +1,18 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 add_action('admin_notices', function () {
     if (wprss_v5_is_available()) {
         wprss_v5_available_notice();
     } else {
         wprss_v5_coming_soon_notice();
+    }
+
+    if (WPRA_V5_USE_V4) {
+        wprss_v5_switch_notice();
     }
 });
 
@@ -20,17 +28,7 @@ add_action('wp_ajax_wprss_dismiss_v5_notice', function () {
         die('Empty notice ID');
     }
 
-    switch ($noticeId) {
-        case 'wprss_v5_coming_soon':
-            update_option('wprss_v5_coming_notice_dismissed', '1');
-            break;
-        case 'wprss_v5_available':
-            update_option('wprss_v5_available_dismissed', '1');
-            break;
-        default:
-            die('Invalid notice ID');
-    }
-
+    update_option($noticeId . '_dismissed', '1');
     die("OK");
 });
 
@@ -38,16 +36,16 @@ add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', f
     if (!wprss_v5_is_available()) {
         return;
     }
-    ?>
-        <br>
-        <span style="line-height: 24px;">
-            <span style="display: inline-block; width: 24px;"></span>
-            <b><?= __('Note:') ?></b>
-            <span>
-                <?= __('This is a major update. Prior testing on a staging site is strongly recommended.', 'wprss') ?>
-            </span>
+?>
+    <br>
+    <span style="line-height: 24px;">
+        <span style="display: inline-block; width: 24px;"></span>
+        <b><?= __('Note:') ?></b>
+        <span>
+            <?= __('This is a major update. Prior testing on a staging site is strongly recommended.', 'wprss') ?>
         </span>
-    <?php
+    </span>
+<?php
 });
 
 add_filter('site_transient_update_plugins', function ($updates) {
@@ -141,30 +139,56 @@ function wprss_v5_available_notice()
     );
 }
 
+function wprss_v5_switch_notice()
+{
+    $dismissed = get_option('wprss_v5_switch_dismissed', '0');
+    $dismissed = filter_var($dismissed, FILTER_VALIDATE_BOOLEAN);
+    if ($dismissed) {
+        return;
+    }
+
+    echo wprss_v5_notice_render(
+        'wprss_v5_switch',
+        __('Ready to switch to Aggregator v5?', 'wprss'),
+        sprintf(
+            _x(
+                'Our highly-anticipated update is here. Switch to the new Aggregator today. %s.',
+                '%s = "click here" link',
+                'wprss'
+            ),
+            sprintf(
+                '<a href="%s">%s</a>',
+                admin_url('edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=switch_to_v5'),
+                __('Click here', 'wprss'),
+            )
+        ),
+    );
+}
+
 function wprss_v5_notice_render($id, $title, $content)
 {
     $icon = WPRSS_IMG . 'wpra-icon-transparent-new.png';
     $nonce = wp_create_nonce('wpra-dismiss-v5-notice');
 
     ob_start();
-    ?>
-        <div id="<?= esc_attr($id) ?>" class="notice wpra-v5-notice" data-notice-id="<?= esc_attr($id) ?>"> 
-            <input type="hidden" class="wpra-v5-notice-nonce" value="<?= esc_attr($nonce) ?>" />
+?>
+    <div id="<?= esc_attr($id) ?>" class="notice wpra-v5-notice" data-notice-id="<?= esc_attr($id) ?>">
+        <input type="hidden" class="wpra-v5-notice-nonce" value="<?= esc_attr($nonce) ?>" />
 
-            <div class="wpra-v5-notice-left">
-                <img src="<?= esc_attr($icon) ?>" style="width: 32px !important" alt="WP RSS Aggregator" />
-            </div>
-            <div class="wpra-v5-notice-right">
-                <h3><?= $title ?></h3>
-                <p>
-                    <?= $content ?>
-                </p>
-            </div>
-            <button class="wpra-v5-notice-close">
-                <span class="dashicons dashicons-no-alt" />
-            </button>
+        <div class="wpra-v5-notice-left">
+            <img src="<?= esc_attr($icon) ?>" style="width: 32px !important" alt="WP RSS Aggregator" />
         </div>
-    <?php
+        <div class="wpra-v5-notice-right">
+            <h3><?= $title ?></h3>
+            <p>
+                <?= $content ?>
+            </p>
+        </div>
+        <button class="wpra-v5-notice-close">
+            <span class="dashicons dashicons-no-alt" />
+        </button>
+    </div>
+<?php
 
     return ob_get_clean();
 }
