@@ -376,24 +376,26 @@ function wpra_run()
     }
 }
 
-/**
- * Retrieves the WP RSS Aggregator instance.
- *
- * @since 4.13
- *
- * @return Plugin
- */
-function wpra()
-{
-    static $instance = null;
+if (!function_exists('wpra')) {
+    /**
+     * Retrieves the WP RSS Aggregator instance.
+     *
+     * @since 4.13
+     *
+     * @return Plugin
+     */
+    function wpra()
+    {
+        static $instance = null;
 
-    if ($instance === null) {
-        $modules = wpra_modules();
-        $plugin = new Plugin($modules);
-        $instance = apply_filters('wpra_plugin_instance', $plugin);
+        if ($instance === null) {
+            $modules = wpra_modules();
+            $plugin = new Plugin($modules);
+            $instance = apply_filters('wpra_plugin_instance', $plugin);
+        }
+
+        return $instance;
     }
-
-    return $instance;
 }
 
 /**
