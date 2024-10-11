@@ -19,3 +19,5 @@ log-*.txt
 .phpactor.json
 docker-compose.yml
 .php-cs-fixer.cache
+.DS_Store
+includes/.DS_Store
