@@ -272,7 +272,7 @@ use Aventura\Wprss\Core\Licensing\License\Status as License_Status;
      * @since 4.7
      */
     function wprss_ajax_send_premium_support() {
-        _deprecated_function( __FUNCTION__, '4.8' );
+        _deprecated_function( __FUNCTION__, '4.23.13' );
         echo json_encode('deprecated');
         die();
     }

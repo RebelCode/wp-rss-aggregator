@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.23.12
+ * Version: 4.23.13
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -33,44 +33,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Psr\Container\ContainerInterface;
-use RebelCode\Wpra\Core\Container\ModuleContainer;
-use RebelCode\Wpra\Core\Container\WpFilterContainer;
-use RebelCode\Wpra\Core\ErrorHandler;
-use RebelCode\Wpra\Core\Modules\AddonsModule;
-use RebelCode\Wpra\Core\Modules\AssetsModule;
-use RebelCode\Wpra\Core\Modules\BlackFriday23Module;
-use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
-use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
-use RebelCode\Wpra\Core\Modules\CoreModule;
-use RebelCode\Wpra\Core\Modules\CustomFeedModule;
-use RebelCode\Wpra\Core\Modules\FeedbackSurvey2022Module;
-use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
-use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
-use RebelCode\Wpra\Core\Modules\FeedItemsModule;
-use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
-use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
-use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
-use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
-use RebelCode\Wpra\Core\Modules\I18nModule;
-use RebelCode\Wpra\Core\Modules\ImagesModule;
+use RebelCode\Wpra\Core\Plugin;
+use RebelCode\Wpra\Core\Modules\WpModule;
+use RebelCode\Wpra\Core\Modules\UpsellModule;
+use RebelCode\Wpra\Core\Modules\TwigModule;
+use RebelCode\Wpra\Core\Modules\ToolsModule;
+use RebelCode\Wpra\Core\Modules\SysInfoToolModule;
+use RebelCode\Wpra\Core\Modules\SettingsModule;
+use RebelCode\Wpra\Core\Modules\RestApiModule;
+use RebelCode\Wpra\Core\Modules\ResetToolModule;
+use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
+use RebelCode\Wpra\Core\Modules\ParsedownModule;
+use RebelCode\Wpra\Core\Modules\ModuleInterface;
+use RebelCode\Wpra\Core\Modules\LogsToolModule;
+use RebelCode\Wpra\Core\Modules\LoggerModule;
+use RebelCode\Wpra\Core\Modules\LicensingModule;
 use RebelCode\Wpra\Core\Modules\ImporterModule;
 use RebelCode\Wpra\Core\Modules\ImportExportToolsModule;
-use RebelCode\Wpra\Core\Modules\LicensingModule;
-use RebelCode\Wpra\Core\Modules\LoggerModule;
-use RebelCode\Wpra\Core\Modules\LogsToolModule;
-use RebelCode\Wpra\Core\Modules\ModuleInterface;
-use RebelCode\Wpra\Core\Modules\ParsedownModule;
-use RebelCode\Wpra\Core\Modules\PolyLangCompatModule;
-use RebelCode\Wpra\Core\Modules\ResetToolModule;
-use RebelCode\Wpra\Core\Modules\RestApiModule;
-use RebelCode\Wpra\Core\Modules\SettingsModule;
-use RebelCode\Wpra\Core\Modules\SysInfoToolModule;
-use RebelCode\Wpra\Core\Modules\ToolsModule;
-use RebelCode\Wpra\Core\Modules\TwigModule;
-use RebelCode\Wpra\Core\Modules\UpsellModule;
-use RebelCode\Wpra\Core\Modules\WpModule;
-use RebelCode\Wpra\Core\Plugin;
+use RebelCode\Wpra\Core\Modules\ImagesModule;
+use RebelCode\Wpra\Core\Modules\I18nModule;
+use RebelCode\Wpra\Core\Modules\GutenbergBlockModule;
+use RebelCode\Wpra\Core\Modules\FeedbackSurvey2022Module;
+use RebelCode\Wpra\Core\Modules\FeedTemplatesModule;
+use RebelCode\Wpra\Core\Modules\FeedSourcesModule;
+use RebelCode\Wpra\Core\Modules\FeedShortcodeModule;
+use RebelCode\Wpra\Core\Modules\FeedItemsModule;
+use RebelCode\Wpra\Core\Modules\FeedDisplayModule;
+use RebelCode\Wpra\Core\Modules\FeedBlacklistModule;
+use RebelCode\Wpra\Core\Modules\CustomFeedModule;
+use RebelCode\Wpra\Core\Modules\CoreModule;
+use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
+use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
+use RebelCode\Wpra\Core\Modules\BlackFriday23Module;
+use RebelCode\Wpra\Core\Modules\AssetsModule;
+use RebelCode\Wpra\Core\Modules\AddonsModule;
+use RebelCode\Wpra\Core\ErrorHandler;
+use RebelCode\Wpra\Core\Container\WpFilterContainer;
+use RebelCode\Wpra\Core\Container\ModuleContainer;
+use Psr\Container\ContainerInterface;
 
 /**
  * Define constants used by the plugin.
@@ -78,7 +78,7 @@ use RebelCode\Wpra\Core\Plugin;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.23.12' );
+    define( 'WPRSS_VERSION', '4.23.13' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
