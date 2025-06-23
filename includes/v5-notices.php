@@ -27,7 +27,7 @@ add_action('wp_ajax_wprss_dismiss_v5_notice', function () {
 });
 
 add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', function ($plugin_data, $response) {
-    if (!function_exists('wprss_v5_is_available') || !wprss_v5_is_available()) {
+    if (!wprss_v5_is_available()) {
         return '';
     }
 
@@ -59,7 +59,7 @@ add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', f
 }, 10, 2);
 
 add_filter('site_transient_update_plugins', function ($updates) {
-    if (!function_exists('wprss_v5_contains_update') || !wprss_v5_contains_update($updates)) {
+    if (!wprss_v5_contains_update($updates)) {
         return $updates;
     }
 
