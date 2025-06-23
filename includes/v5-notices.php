@@ -26,30 +26,77 @@ add_action('wp_ajax_wprss_dismiss_v5_notice', function () {
     die("OK");
 });
 
-add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', function () {
-    if (!wprss_v5_is_available()) {
-        return;
+add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', function ($plugin_data, $response) {
+    if (!function_exists('wprss_v5_is_available') || !wprss_v5_is_available()) {
+        return '';
     }
-?>
-    <br>
-    <span style="line-height: 24px;">
-        <span style="display: inline-block; width: 24px;"></span>
-        <b><?= __('Note:') ?></b>
-        <span>
-            <?= __('This is a major update. Prior testing on a staging site is strongly recommended.', 'wprss') ?>
-        </span>
-    </span>
-<?php
-});
+
+    $migration_url = 'https://www.wprssaggregator.com/help-topics/v5-migration/';
+    $plugin_slug = 'wp-rss-aggregator/wp-rss-aggregator.php';
+
+    // Fallback URL in case automatic link generation fails
+    $update_url = wp_nonce_url(
+        self_admin_url("update.php?action=upgrade-plugin&plugin={$plugin_slug}"),
+        "upgrade-plugin_{$plugin_slug}"
+    );
+
+    $html = '
+        <br>
+        <span style="line-height: 24px;">
+            <span style="display: inline-block; width: 24px;"></span>
+            <b>' . esc_html__('Note:', 'wprss') . '</b>
+            <span>
+                ' . sprintf(
+                    // translators: 1: Link to migration guide, 2: Update link
+                    esc_html__('A major update of Aggregator is available. %1$s or %2$s to get access to the new and improved aggregator.', 'wprss'),
+                    '<a href="' . esc_url($migration_url) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('View version 5.0 details', 'wprss') . '</a>',
+                    '<a href="' . esc_url($update_url) . '">' . esc_html__('update', 'wprss') . '</a>'
+                ) . '
+            </span>
+        </span>';
+
+    return $html;
+}, 10, 2);
 
 add_filter('site_transient_update_plugins', function ($updates) {
-    if (!wprss_v5_contains_update($updates)) {
+    if (!function_exists('wprss_v5_contains_update') || !wprss_v5_contains_update($updates)) {
         return $updates;
     }
 
-    $msg = __('This is a major update. Prior testing on a staging site is strongly recommended.', 'wprss');
-
+    // Get plugin basename
     $basename = plugin_basename(WPRSS_FILE_CONSTANT);
+
+    // Bail if plugin isn't in update response
+    if (empty($updates->response[$basename])) {
+        return $updates;
+    }
+
+    // Generate update URL with nonce
+    $update_url = wp_nonce_url(
+        self_admin_url("update.php?action=upgrade-plugin&plugin={$basename}"),
+        "upgrade-plugin_{$basename}"
+    );
+
+    // Message with HTML
+    $msg = sprintf(
+        wp_kses(
+            __(
+                'This is a major update. Prior testing on a staging site is recommended.<a href="%1$s" target="_blank" rel="noopener noreferrer">View version 5.0 details</a> or <a href="%2$s">update now</a>.',
+                'wprss'
+            ),
+            [
+                'a' => [
+                    'href' => [],
+                    'target' => [],
+                    'rel' => [],
+                ],
+            ]
+        ),
+        esc_url('https://www.wprssaggregator.com/help-topics/v5-migration/'),
+        esc_url($update_url)
+    );
+
+    // Inject into upgrade_notice
     $updates->response[$basename]->upgrade_notice = $msg;
 
     return $updates;
