@@ -92,7 +92,7 @@ add_action(
                     printf(
                         wp_kses(
                             __(
-                                'To unlock the premium features in v5 and receive future updates, you’ll need an <strong><a href="%1$s" target="_blank" rel="noopener noreferrer">active plan license.</a></strong><br> or If your plan has expired, please <a href="%2$s">renew or upgrade here</a> before migrating.',
+                                'To unlock the premium features in v5 and receive future updates, you’ll need an <strong><a href="%1$s" target="_blank" rel="noopener noreferrer">active plan license.</a></strong><br> If your plan has expired, please <a href="%2$s">renew or upgrade here</a> before migrating.',
                                 'wprss'
                             ),
                             [ 'strong' => [], 'br' => [], 'a' => [
