@@ -136,6 +136,14 @@ function wprss_v5_switch_notice()
         return;
     }
 
+    if (
+        isset($_GET['page'], $_GET['tab']) &&
+        $_GET['page'] === 'wprss-aggregator-settings' &&
+        $_GET['tab'] === 'switch_to_v5'
+    ) {
+        return;
+    }
+
     echo wprss_v5_notice_render(
         'wprss_v5_switch',
         __('Ready to switch to Aggregator v5?', 'wprss'),
