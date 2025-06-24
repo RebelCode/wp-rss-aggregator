@@ -4,43 +4,48 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-add_action('admin_notices', function () {
-    if (WPRA_V5_USE_V4) {
-        wprss_v5_switch_notice();
+add_action(
+    'admin_notices', function () {
+        if (WPRA_V5_USE_V4) {
+            wprss_v5_switch_notice();
+        }
     }
-});
+);
 
-add_action('wp_ajax_wprss_dismiss_v5_notice', function () {
-    $nonce = $_REQUEST['nonce'];
-    $nonceOk = wp_verify_nonce($nonce, 'wpra-dismiss-v5-notice');
-    if (!$nonceOk) {
-        die('Not allowed');
+add_action(
+    'wp_ajax_wprss_dismiss_v5_notice', function () {
+        $nonce = $_REQUEST['nonce'];
+        $nonceOk = wp_verify_nonce($nonce, 'wpra-dismiss-v5-notice');
+        if (!$nonceOk) {
+            die('Not allowed');
+        }
+
+        $noticeId = trim($_REQUEST['notice'] ?? '');
+        if (empty($noticeId)) {
+            die('Empty notice ID');
+        }
+
+        update_option($noticeId . '_dismissed', '1');
+        die("OK");
     }
+);
 
-    $noticeId = trim($_REQUEST['notice'] ?? '');
-    if (empty($noticeId)) {
-        die('Empty notice ID');
-    }
+add_filter(
+    'in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', function ($plugin_data, $response) {
+        if (!wprss_v5_is_available()) {
+            return '';
+        }
 
-    update_option($noticeId . '_dismissed', '1');
-    die("OK");
-});
+        $migration_url = 'https://www.wprssaggregator.com/help-topics/v5-migration/';
+        $plugin_slug = 'wp-rss-aggregator/wp-rss-aggregator.php';
 
-add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', function ($plugin_data, $response) {
-    if (!wprss_v5_is_available()) {
-        return '';
-    }
+        // Fallback URL in case automatic link generation fails
+        $update_url = wp_nonce_url(
+            self_admin_url("update.php?action=upgrade-plugin&plugin={$plugin_slug}"),
+            "upgrade-plugin_{$plugin_slug}"
+        );
 
-    $migration_url = 'https://www.wprssaggregator.com/help-topics/v5-migration/';
-    $plugin_slug = 'wp-rss-aggregator/wp-rss-aggregator.php';
-
-    // Fallback URL in case automatic link generation fails
-    $update_url = wp_nonce_url(
-        self_admin_url("update.php?action=upgrade-plugin&plugin={$plugin_slug}"),
-        "upgrade-plugin_{$plugin_slug}"
-    );
-
-    $html = '
+        $html = '
         <br>
         <span style="line-height: 24px;">
             <span style="display: inline-block; width: 24px;"></span>
@@ -48,59 +53,62 @@ add_filter('in_plugin_update_message-wp-rss-aggregator/wp-rss-aggregator.php', f
             <span>
                 ' . sprintf(
                     // translators: 1: Link to migration guide, 2: Update link
-                    esc_html__('A major update of Aggregator is available. %1$s or %2$s to get access to the new and improved aggregator.', 'wprss'),
-                    '<a href="' . esc_url($migration_url) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('View version 5.0 details', 'wprss') . '</a>',
-                    '<a href="' . esc_url($update_url) . '">' . esc_html__('update', 'wprss') . '</a>'
-                ) . '
+                esc_html__('A major update of Aggregator is available. %1$s or %2$s to get access to the new and improved aggregator.', 'wprss'),
+                '<a href="' . esc_url($migration_url) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('View version 5.0 details', 'wprss') . '</a>',
+                '<a href="' . esc_url($update_url) . '">' . esc_html__('update', 'wprss') . '</a>'
+            ) . '
             </span>
         </span>';
 
-    return $html;
-}, 10, 2);
+        return $html;
+    }, 10, 2
+);
 
-add_filter('site_transient_update_plugins', function ($updates) {
-    if (!wprss_v5_contains_update($updates)) {
-        return $updates;
-    }
+add_filter(
+    'site_transient_update_plugins', function ($updates) {
+        if (!wprss_v5_contains_update($updates)) {
+            return $updates;
+        }
 
-    // Get plugin basename
-    $basename = plugin_basename(WPRSS_FILE_CONSTANT);
+        // Get plugin basename
+        $basename = plugin_basename(WPRSS_FILE_CONSTANT);
 
-    // Bail if plugin isn't in update response
-    if (empty($updates->response[$basename])) {
-        return $updates;
-    }
+        // Bail if plugin isn't in update response
+        if (empty($updates->response[$basename])) {
+            return $updates;
+        }
 
-    // Generate update URL with nonce
-    $update_url = wp_nonce_url(
-        self_admin_url("update.php?action=upgrade-plugin&plugin={$basename}"),
-        "upgrade-plugin_{$basename}"
-    );
+        // Generate update URL with nonce
+        $update_url = wp_nonce_url(
+            self_admin_url("update.php?action=upgrade-plugin&plugin={$basename}"),
+            "upgrade-plugin_{$basename}"
+        );
 
-    // Message with HTML
-    $msg = sprintf(
-        wp_kses(
-            __(
-                'This is a major update. Prior testing on a staging site is recommended.<a href="%1$s" target="_blank" rel="noopener noreferrer">View version 5.0 details</a> or <a href="%2$s">update now</a>.',
-                'wprss'
-            ),
-            [
+        // Message with HTML
+        $msg = sprintf(
+            wp_kses(
+                __(
+                    'This is a major update. Prior testing on a staging site is recommended.<a href="%1$s" target="_blank" rel="noopener noreferrer">View version 5.0 details</a> or <a href="%2$s">update now</a>.',
+                    'wprss'
+                ),
+                [
                 'a' => [
                     'href' => [],
                     'target' => [],
                     'rel' => [],
                 ],
-            ]
-        ),
-        esc_url('https://www.wprssaggregator.com/help-topics/v5-migration/'),
-        esc_url($update_url)
-    );
+                ]
+            ),
+            esc_url('https://www.wprssaggregator.com/help-topics/v5-migration/'),
+            esc_url($update_url)
+        );
 
-    // Inject into upgrade_notice
-    $updates->response[$basename]->upgrade_notice = $msg;
+        // Inject into upgrade_notice
+        $updates->response[$basename]->upgrade_notice = $msg;
 
-    return $updates;
-});
+        return $updates;
+    }
+);
 
 function wprss_v5_is_available()
 {
@@ -136,17 +144,16 @@ function wprss_v5_switch_notice()
         return;
     }
 
-    if (
-        isset($_GET['page'], $_GET['tab']) &&
-        $_GET['page'] === 'wprss-aggregator-settings' &&
-        $_GET['tab'] === 'switch_to_v5'
+    if (isset($_GET['page'], $_GET['tab']) 
+        && $_GET['page'] === 'wprss-aggregator-settings' 
+        && $_GET['tab'] === 'switch_to_v5'
     ) {
         return;
     }
 
     echo wprss_v5_notice_render(
         'wprss_v5_switch',
-        __('Ready to switch to Aggregator v5?', 'wprss'),
+        __('Aggregator was updated successfully, but you’re still using v4.', 'wprss'),
         sprintf(
             _x(
                 'To complete the upgrade and start using Aggregator v5, a migration is required. %s.',
@@ -168,24 +175,24 @@ function wprss_v5_notice_render($id, $title, $content)
     $nonce = wp_create_nonce('wpra-dismiss-v5-notice');
 
     ob_start();
-?>
-    <div id="<?= esc_attr($id) ?>" class="notice wpra-v5-notice" data-notice-id="<?= esc_attr($id) ?>">
-        <input type="hidden" class="wpra-v5-notice-nonce" value="<?= esc_attr($nonce) ?>" />
+    ?>
+    <div id="<?php echo esc_attr($id) ?>" class="notice wpra-v5-notice" data-notice-id="<?php echo esc_attr($id) ?>">
+        <input type="hidden" class="wpra-v5-notice-nonce" value="<?php echo esc_attr($nonce) ?>" />
 
         <div class="wpra-v5-notice-left">
-            <img src="<?= esc_attr($icon) ?>" style="width: 32px !important" alt="WP RSS Aggregator" />
+            <img src="<?php echo esc_attr($icon) ?>" style="width: 32px !important" alt="WP RSS Aggregator" />
         </div>
         <div class="wpra-v5-notice-right">
-            <h3><?= $title ?></h3>
+            <h3><?php echo $title ?></h3>
             <p>
-                <?= $content ?>
+                <?php echo $content ?>
             </p>
         </div>
         <button class="wpra-v5-notice-close">
             <span class="dashicons dashicons-no-alt" />
         </button>
     </div>
-<?php
+    <?php
 
     return ob_get_clean();
 }
