@@ -141,14 +141,14 @@ function wprss_v5_switch_notice()
         __('Ready to switch to Aggregator v5?', 'wprss'),
         sprintf(
             _x(
-                'Our highly-anticipated update is here. Switch to the new Aggregator today. %s.',
-                '%s = "click here" link',
+                'To complete the upgrade and start using Aggregator v5, a migration is required. %s.',
+                '%s = "Migrate now" link',
                 'wprss'
             ),
             sprintf(
                 '<a href="%s">%s</a>',
                 admin_url('edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=switch_to_v5'),
-                __('Click here', 'wprss'),
+                __('Migrate now', 'wprss'),
             )
         ),
     );
