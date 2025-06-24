@@ -198,8 +198,27 @@ add_action(
                     <?php esc_html_e('Before starting:', 'wprss'); ?>
                     </li>
                     <ul style="list-style: disc; padding-left: 20px;">
-                        <li><?php esc_html_e('Make sure you have your main license key (not add-on keys).', 'wprss'); ?></li>
-                        <li><?php esc_html_e('Ensure any add-ons you own are installed and activated.', 'wprss'); ?></li>
+                        <li>
+                        <?php
+                        echo wp_kses(
+                            __(
+                                'Make sure you have your <strong>main license key</strong> (not add-on keys).',
+                                'wprss'
+                            ),
+                            [ 'strong' => [] ]
+                        );
+                        ?>
+                            </li>
+                        <li>
+                        <?php
+                        echo wp_kses(
+                            __(
+                                'Ensure any add-ons you own are <strong>installed and activated.</strong>',
+                                'wprss'
+                            ),
+                            [ 'strong' => [] ]
+                        );
+                        ?>
                     </ul>
                 </ul>
 
