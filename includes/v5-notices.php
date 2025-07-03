@@ -136,37 +136,59 @@ function wprss_v5_contains_update($updates)
     return true;
 }
 
-function wprss_v5_switch_notice()
-{
-    $dismissed = get_option('wprss_v5_switch_dismissed', '0');
-    $dismissed = filter_var($dismissed, FILTER_VALIDATE_BOOLEAN);
-    if ($dismissed) {
-        return;
-    }
+function wprss_v5_switch_notice() {
+	$dismissed = get_option( 'wprss_v5_switch_dismissed', '0' );
+	$dismissed = filter_var( $dismissed, FILTER_VALIDATE_BOOLEAN );
+	if ( $dismissed ) {
+		return;
+	}
 
-    if (isset($_GET['page'], $_GET['tab']) 
-        && $_GET['page'] === 'wprss-aggregator-settings' 
-        && $_GET['tab'] === 'switch_to_v5'
-    ) {
-        return;
-    }
+	if ( isset( $_GET['page'], $_GET['tab'] )
+		&& $_GET['page'] === 'wprss-aggregator-settings'
+		&& $_GET['tab'] === 'switch_to_v5'
+	) {
+		return;
+	}
 
-    echo wprss_v5_notice_render(
-        'wprss_v5_switch',
-        __('Aggregator was updated successfully, but you’re still using v4.', 'wprss'),
-        sprintf(
-            _x(
-                'To complete the upgrade and start using Aggregator v5, a migration is required. %s.',
-                '%s = "Migrate now" link',
-                'wprss'
-            ),
-            sprintf(
-                '<a href="%s">%s</a>',
-                admin_url('edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=switch_to_v5'),
-                __('Migrate now', 'wprss'),
-            )
-        ),
-    );
+	$has_addons     = wprss_has_active_premium_addons();
+	$main_premium   = wprss_is_premium_main_plugin_active();
+
+	if ( $has_addons && ! $main_premium ) {
+		echo wprss_v5_notice_render(
+			'wprss_v5_switch',
+			__( 'Aggregator Free was updated successfully, but your premium features aren’t active.', 'wprss' ),
+			sprintf(
+				_x(
+					'To unlock the full v5 experience, please install the Aggregator Premium plugin before migrating. %s.',
+					'%s = "Install Premium" link',
+					'wprss'
+				),
+				sprintf(
+					'<a href="%s">%s</a>',
+					'https://www.wprssaggregator.com/help/installing-aggregator-premium/',
+					__( 'Install Premium', 'wprss' )
+				)
+			)
+		);
+		return;
+	}
+
+	echo wprss_v5_notice_render(
+		'wprss_v5_switch',
+		__( 'Aggregator was updated successfully, but you’re still using v4.', 'wprss' ),
+		sprintf(
+			_x(
+				'To complete the upgrade and start using Aggregator v5, a migration is required. %s.',
+				'%s = "Migrate now" link',
+				'wprss'
+			),
+			sprintf(
+				'<a href="%s">%s</a>',
+				admin_url( 'edit.php?post_type=wprss_feed&page=wprss-aggregator-settings&tab=switch_to_v5' ),
+				__( 'Migrate now', 'wprss' )
+			)
+		)
+	);
 }
 
 function wprss_v5_notice_render($id, $title, $content)
@@ -195,4 +217,50 @@ function wprss_v5_notice_render($id, $title, $content)
     <?php
 
     return ob_get_clean();
+}
+
+/**
+ * Checks whether any premium add-ons (only add-ons) are installed and active.
+ *
+ * @return bool
+ */
+function wprss_has_active_premium_addons() {
+	$constants = array(
+		'WPRSS_TEMPLATES',
+		'WPRSS_C_PATH',
+		'WPRSS_ET_PATH',
+		'WPRSS_KF_PATH',
+		'WPRSS_FTP_PATH',
+		'WPRSS_FTR_PATH',
+		'WPRSS_WORDAI',
+		'WPRSS_SPC_ADDON',
+		'WPRA_SC',
+	);
+
+	foreach ( $constants as $constant ) {
+		if ( defined( $constant ) ) {
+			$plugin_file = constant( $constant );
+
+			if ( is_string( $plugin_file ) ) {
+				$plugin_basename = plugin_basename( $plugin_file );
+
+				if ( function_exists( 'is_plugin_active' ) && is_plugin_active( $plugin_basename ) ) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Checks if the Aggregator Premium plugin is installed and active.
+ *
+ * @return bool
+ */
+function wprss_is_premium_main_plugin_active() {
+	$main_premium_plugin = 'wp-rss-aggregator-premium/wp-rss-aggregator-premium.php';
+
+	return function_exists( 'is_plugin_active' ) && is_plugin_active( $main_premium_plugin );
 }
