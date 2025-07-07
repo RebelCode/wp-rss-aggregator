@@ -172,16 +172,20 @@ add_action(
                     printf(
                         wp_kses(
                             __(
-                                '<strong>Note: If your site has over 10,000 imported items or you encounter issues during migration, we recommend using the WP-CLI Migration Method for a more controlled and reliable process. </strong><a href="%1$s">View the guide.</a>',
+                                '<strong>Note:</strong> If your site has over 10,000 imported items or you encounter issues during migration, we recommend using the WP-CLI Migration Method for a more controlled and reliable process. <a href="%1$s" target="_blank" rel="noopener noreferrer">View the guide.</a>',
                                 'wprss'
                             ),
-                            [ 'strong' => [], 'br' => [], 'a' => [
-                                'href' => [],
-                                'target' => [],
-                                'rel' => [],
-                            ], ]
+                            [
+                                'strong' => [],
+                                'br'     => [],
+                                'a'      => [
+                                    'href'   => [],
+                                    'target' => [],
+                                    'rel'    => [],
+                                ],
+                            ]
                         ),
-                        esc_url('https://www.wprssaggregator.com/help/migration-wp-cli/'),
+                        esc_url('https://www.wprssaggregator.com/help/migration-wp-cli/')
                     );
                     ?>
                 </h4>
