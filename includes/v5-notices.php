@@ -164,7 +164,7 @@ function wprss_v5_switch_notice() {
 					'wprss'
 				),
 				sprintf(
-					'<a href="%s">%s</a>',
+					'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
 					'https://www.wprssaggregator.com/help/installing-aggregator-premium/',
 					__( 'Install Premium', 'wprss' )
 				)
