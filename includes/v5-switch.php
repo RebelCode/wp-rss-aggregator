@@ -4,9 +4,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!WPRA_V5_USE_V4) {
-    return;
-}
+// if (!WPRA_V5_USE_V4) {
+//     return;
+// }
 
 add_action(
     'wprss_add_settings_fields_sections', function ($tab) {
@@ -166,6 +166,25 @@ add_action(
                     );
                     ?>
                 </p>
+
+                <h4>
+                ⚠ <?php 
+                    printf(
+                        wp_kses(
+                            __(
+                                '<strong>Note: If your site has over 10,000 imported items or you encounter issues during migration, we recommend using the WP-CLI Migration Method for a more controlled and reliable process. </strong><a href="%1$s">View the guide.</a>',
+                                'wprss'
+                            ),
+                            [ 'strong' => [], 'br' => [], 'a' => [
+                                'href' => [],
+                                'target' => [],
+                                'rel' => [],
+                            ], ]
+                        ),
+                        esc_url('https://www.wprssaggregator.com/help/migration-wp-cli/'),
+                    );
+                    ?>
+                </h4>
 
                 <hr>
                 <h3>
