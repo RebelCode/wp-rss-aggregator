@@ -454,6 +454,7 @@ add_action(
                 padding: 30px;
                 border-radius: 6px;
                 text-align: center;
+                margin-top: 30px;
             }
 
             .wprss-v5-footer h3 {
