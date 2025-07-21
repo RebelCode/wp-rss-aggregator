@@ -116,7 +116,7 @@ add_action(
                                     printf(
                                         wp_kses(
                                             __(
-                                                'To unlock the premium features in v5 and receive future updates, you’ll need an <strong><a href="%1$s" target="_blank" rel="noopener noreferrer">active plan license.</a></strong><br> If your plan has expired, please <a href="%2$s">renew or upgrade here</a> before migrating.',
+                                                'To unlock the premium features in v5 and receive future updates, you’ll need an <strong><a href="%1$s" target="_blank" rel="noopener noreferrer">active plan license.</a></strong><br> If your plan has expired, please <a target="_blank" href="%2$s">renew or upgrade here</a> before migrating.',
                                                 'wprss'
                                             ),
                                             [ 'strong' => [], 'br' => [], 'a' => [
@@ -146,7 +146,7 @@ add_action(
                                     printf(
                                         wp_kses(
                                             __(
-                                                'Previously bought single add-ons without a plan? Those are now considered <strong>legacy licenses.</strong><br> You’ll need to  <a href="%1$s">upgrade to any plan</a> (Basic, Plus, Pro, or Elite) to keep enjoying premium features, updates, and support.',
+                                                'Previously bought single add-ons without a plan? Those are now considered <strong>legacy licenses.</strong><br> You’ll need to  <a target="_blank" href="%1$s">upgrade to any plan</a> (Basic, Plus, Pro, or Elite) to keep enjoying premium features, updates, and support.',
                                                 'wprss'
                                             ),
                                             [ 'strong' => [], 'br' => [], 'a' => [
@@ -173,7 +173,7 @@ add_action(
                                     printf(
                                         wp_kses(
                                             __(
-                                                'You’re welcome to switch to v5 at no cost, but please note that <a href="%1$s"><strong>premium features require a plan license.</strong></a><br> You’ll need to  <a href="%2$s">upgrade to any plan</a> (Basic, Plus, Pro, or Elite) to unlock premium features and support.',
+                                                'You’re welcome to switch to v5 at no cost, but please note that <a target="_blank" href="%1$s"><strong>premium features require a plan license.</strong></a><br> You’ll need to  <a target="_blank" href="%2$s">upgrade to any plan</a> (Basic, Plus, Pro, or Elite) to unlock premium features and support.',
                                                 'wprss'
                                             ),
                                             [ 'strong' => [], 'br' => [], 'a' => [
@@ -251,7 +251,7 @@ add_action(
                             printf(
                                 wp_kses(
                                     __(
-                                        '<strong>Note:</strong> If your site has <strong>over 10,000 imported items</strong> or you encounter issues during migration, we recommend using the <strong>WP-CLI Migration Method</strong> for a more controlled and reliable process. <a href="%1$s">View the guide.</a>',
+                                        '<strong>Note:</strong> If your site has <strong>over 10,000 imported items</strong> or you encounter issues during migration, we recommend using the <strong>WP-CLI Migration Method</strong> for a more controlled and reliable process. <a target="_blank" href="%1$s">View the guide.</a>',
                                         'wprss'
                                     ),
                                     [ 'strong' => [], 'br' => [], 'a' => [
@@ -275,7 +275,7 @@ add_action(
                                 <?php
                                 printf(
                                     wp_kses(
-                                        __('Check out the <a href="#">migration guide</a> or <a href="#">contact our support team</a>, we’re always happy to help!', 'wp-rss-aggregator'),
+                                        __('Check out the <a target="_blank" href="#">migration guide</a> or <a target="_blank" href="#">contact our support team</a>, we’re always happy to help!', 'wp-rss-aggregator'),
                                         [ 'a' => [ 'href' => [] ] ]
                                     )
                                 );
