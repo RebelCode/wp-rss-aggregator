@@ -296,7 +296,7 @@ add_action(
                     <h3><?php esc_html_e('Ready to Move Forward?', 'wp-rss-aggregator'); ?></h3>
                     <p><?php esc_html_e('Click below to start your migration to v5', 'wp-rss-aggregator'); ?></p>
                     <input type="hidden" name="wprss_enable_v5" value="1" />
-                    <button type="submit" class="button">
+                    <button type="submit" class="button" style="padding: 6px 12px;">
                         <?php esc_html_e('Switch to v5', 'wprss'); ?>
                     </button>
                     <script type="text/javascript">
@@ -452,16 +452,15 @@ add_action(
                 background: #0D1759;
                 color: #fff;
                 padding: 30px;
-                margin-top: 30px;
                 border-radius: 6px;
                 text-align: center;
             }
 
             .wprss-v5-footer h3 {
                 color: #fff;
-                font-size: 20px;
+                font-size: 20px !important;
                 font-weight: 400;
-                margin-bottom: 5px;
+                margin-top: 5px !important;
             }
 
             .wprss-v5-footer p {
