@@ -4,9 +4,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!WPRA_V5_USE_V4) {
-    return;
-}
+// if (!WPRA_V5_USE_V4) {
+//     return;
+// }
 
 add_action(
     'wprss_add_settings_fields_sections', function ($tab) {
@@ -183,9 +183,9 @@ add_action(
                                             ], ]
                                         ),
                                         esc_url('https://www.wprssaggregator.com/pricing/'),
-                                        esc_url('https://www.wprssaggregator.com/account/upgrades/'),
+                                        esc_url('https://www.wprssaggregator.com/upgrade/'),
                                     );
-                                    ?>
+                                ?>
                                 </p>
                             </div>
                         </li>
@@ -260,7 +260,7 @@ add_action(
                                         'rel' => [],
                                     ], ]
                                 ),
-                                esc_url('https://www.wprssaggregator.com/account/upgrades/'),
+                                esc_url('https://www.wprssaggregator.com/help/migration-wp-cli/'),
                             );
                             ?>
                         </p>
@@ -275,9 +275,18 @@ add_action(
                                 <?php
                                 printf(
                                     wp_kses(
-                                        __('Check out the <a target="_blank" href="#">migration guide</a> or <a target="_blank" href="#">contact our support team</a>, we’re always happy to help!', 'wp-rss-aggregator'),
-                                        [ 'a' => [ 'href' => [] ] ]
-                                    )
+                                        __(
+                                            'Check out the <a target="_blank" href="%1$s">migration guide</a> or <a target="_blank" href="%2$s">contact our support team</a>, we’re always happy to help!',
+                                            'wprss'
+                                        ),
+                                        [ 'strong' => [], 'br' => [], 'a' => [
+                                            'href' => [],
+                                            'target' => [],
+                                            'rel' => [],
+                                        ], ]
+                                    ),
+                                    esc_url('https://www.wprssaggregator.com/help/migration/'),
+                                    esc_url('https://www.wprssaggregator.com/contact/'),
                                 );
                                 ?>
                     </p>
