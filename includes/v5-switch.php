@@ -48,32 +48,56 @@ add_action(
                         alt="WP RSS Aggregator logo"
                         style="width: 50px; height: 50px;"
                     />
-                    <h2 class="wprss-v5-title"><?php esc_html_e('Aggregator v5 is here!', 'wp-rss-aggregator'); ?></h2>
-                    <p class="wprss-v5-subtitle"><?php esc_html_e('Get the latest version with faster performance and a sleek new look', 'wp-rss-aggregator'); ?></p>
+                    <h2 class="wprss-v5-title"><?php esc_html_e('Aggregator v5 is here!', 'wprss'); ?></h2>
+                    <p class="wprss-v5-subtitle"><?php esc_html_e('Get the latest version with faster performance and a sleek new look', 'wprss'); ?></p>
 
                     <div class="wprss-v5-hero-video-box">
                         <div class="wprss-v5-hero-video-wrapper">
-                            <iframe width="100%" height="200" src="https://youtu.be/bfiR3kx3OMs" title="<?php esc_attr_e( 'Welcome to Aggregator v5', 'wp-rss-aggregator' ); ?>" frameborder="0" allowfullscreen></iframe>
+                            <iframe 
+                                width="100%" 
+                                height="200" 
+                                src="https://www.youtube.com/embed/bfiR3kx3OMs" 
+                                title="<?php esc_attr_e( 'Welcome to Aggregator v5', 'wprss' ); ?>" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen
+                            ></iframe>
                         </div>
-                        <p class="wprss-v5-video-caption"><?php esc_html_e( 'Welcome to Aggregator v5', 'wp-rss-aggregator' ); ?><br />
-                        <span><?php esc_html_e( 'Upgrade safely from version 4', 'wp-rss-aggregator' ); ?></span></p>
+                        <p class="wprss-v5-video-caption"><?php esc_html_e( 'Welcome to Aggregator v5', 'wprss' ); ?><br />
+                        <span><?php esc_html_e( 'Upgrade safely from version 4', 'wprss' ); ?></span></p>
                     </div>
                     
                     <div class="wprss-v5-videos">
                         <div class="wprss-v5-video-box">
                             <div class="wprss-v5-video-wrapper">
-                                <iframe width="100%" height="200" src="https://youtu.be/DeUTFPADb1g" title="<?php esc_attr_e( 'What’s New in v5', 'wp-rss-aggregator' ); ?>" frameborder="0" allowfullscreen></iframe>
+                                <iframe 
+                                    width="100%" 
+                                    height="200" 
+                                    src="https://www.youtube.com/embed/DeUTFPADb1g" 
+                                    title="<?php esc_attr_e( 'What’s New in v5', 'wprss' ); ?>" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen
+                                ></iframe>
                             </div>
-                            <p class="wprss-v5-video-caption"><?php esc_html_e( 'What’s New in v5', 'wp-rss-aggregator' ); ?><br />
-                                <span><?php esc_html_e( 'Discover the latest improvements', 'wp-rss-aggregator' ); ?></span></p>
+                            <p class="wprss-v5-video-caption"><?php esc_html_e( 'What’s New in v5', 'wprss' ); ?><br />
+                                <span><?php esc_html_e( 'Discover the latest improvements', 'wprss' ); ?></span></p>
                         </div>
 
                         <div class="wprss-v5-video-box">
                             <div class="wprss-v5-video-wrapper">
-                                <iframe width="100%" height="200" src="https://youtu.be/BrEKqGD_Lps" title="<?php esc_attr_e( 'Migration Guide', 'wp-rss-aggregator' ); ?>" frameborder="0" allowfullscreen></iframe>
+                                <iframe 
+                                    width="100%" 
+                                    height="200" 
+                                    src="https://www.youtube.com/embed/BrEKqGD_Lps" 
+                                    title="<?php esc_attr_e( 'Migration Guide', 'wprss' ); ?>" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen
+                                ></iframe>
                             </div>
-                            <p class="wprss-v5-video-caption"><?php esc_html_e( 'Migration Guide', 'wp-rss-aggregator' ); ?><br />
-                                <span><?php esc_html_e( 'Step-by-step walkthrough from v4 to v5', 'wp-rss-aggregator' ); ?></span></p>
+                            <p class="wprss-v5-video-caption"><?php esc_html_e( 'Migration Guide', 'wprss' ); ?><br />
+                                <span><?php esc_html_e( 'Step-by-step walkthrough from v4 to v5', 'wprss' ); ?></span></p>
                         </div>
                     </div>
 
@@ -89,7 +113,7 @@ add_action(
 
                             <div class="feature-header">
                                 <h3>
-                                    <?php esc_html_e('Version 4 & Legacy Add-Ons Retiring', 'wp-rss-aggregator'); ?>
+                                    <?php esc_html_e('Version 4 & Legacy Add-Ons Retiring', 'wprss'); ?>
                                 </h3>
                                 <p>
                                     <?php
@@ -193,7 +217,7 @@ add_action(
                 </div>
 
                 <div class="wprss-section">
-                    <h3><?php esc_html_e('Migration Tips', 'wp-rss-aggregator'); ?></h3>
+                    <h3><?php esc_html_e('Migration Tips', 'wprss'); ?></h3>
                     <ul style="list-style: decimal; padding-left: 20px; margin:25px 0;">
                     <li>
                         <?php
@@ -269,7 +293,7 @@ add_action(
 
 
                 <div class="wprss-section" style="text-align: center;">
-                    <h3><?php esc_html_e('Need a Hand?', 'wp-rss-aggregator'); ?></h3>
+                    <h3><?php esc_html_e('Need a Hand?', 'wprss'); ?></h3>
 
                     <p class="wprss-v5-help">
                                 <?php
@@ -293,8 +317,8 @@ add_action(
                 </div>
 
                 <div class="wprss-v5-footer">
-                    <h3><?php esc_html_e('Ready to Move Forward?', 'wp-rss-aggregator'); ?></h3>
-                    <p><?php esc_html_e('Click below to start your migration to v5', 'wp-rss-aggregator'); ?></p>
+                    <h3><?php esc_html_e('Ready to Move Forward?', 'wprss'); ?></h3>
+                    <p><?php esc_html_e('Click below to start your migration to v5', 'wprss'); ?></p>
                     <input type="hidden" name="wprss_enable_v5" value="1" />
                     <button type="submit" class="button" style="padding: 6px 12px;">
                         <?php esc_html_e('Switch to v5', 'wprss'); ?>
