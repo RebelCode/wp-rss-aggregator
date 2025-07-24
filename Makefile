@@ -10,6 +10,7 @@ build/wp-rss-aggregator.zip:
 		"$(DIR_NAME)/.git/*" \
 		"$(DIR_NAME)/.idea/*" \
 		"$(DIR_NAME)/nbproject/*" \
+		"$(DIR_NAME)/.vscode/*" \
 		"$(DIR_NAME)/build/*" \
 		"$(DIR_NAME)/docker/*" \
 		"$(DIR_NAME)/js/src/*" \

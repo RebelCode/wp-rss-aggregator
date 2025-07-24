@@ -272,41 +272,8 @@ use Aventura\Wprss\Core\Licensing\License\Status as License_Status;
      * @since 4.7
      */
     function wprss_ajax_send_premium_support() {
-        $ret = array();
-
-        // Validate the form fields that were submitted and send any errors.
-        $error = wprss_validate_support_request();
-        if ($error !== FALSE) {
-            $ret['error'] = $error;
-            echo json_encode($ret);
-            die();
-        }
-
-        // Create the email content.
-        $subject = sanitize_text_field($_GET['support-subject']);
-        $message = wprss_create_support_message();
-        $headers  = wprss_create_support_headers();
-
-        // Send the email.
-        $sent = wp_mail( "support@wprssaggregator.com", $subject, $message, $headers );
-
-        // NB, the retval is a best-guess about email sending. According to the WP Codex it
-        // doesn't mean the user received the email, it "only means that the method used
-        // was able to  process the request without any errors."
-        if ($sent === FALSE) {
-            $ret['error'] = sprintf(
-                __(
-                    'There was an error sending the form. Please use the <a href="%s" target="_blank">contact form on our site.</a>',
-                    'wprss'
-                ),
-                esc_attr('https://www.wprssaggregator.com/contact/')
-            );
-            $ret['message'] = $message;
-        } else {
-            $ret['status'] = 'OK';
-        }
-
-        echo json_encode($ret);
+        _deprecated_function( __FUNCTION__, '4.23.13' );
+        echo json_encode('deprecated');
         die();
     }
 
