@@ -4,9 +4,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// if (!WPRA_V5_USE_V4) {
-//     return;
-// }
+if (!WPRA_V5_USE_V4) {
+    return;
+}
 
 add_action(
     'wprss_add_settings_fields_sections', function ($tab) {
