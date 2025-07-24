@@ -51,6 +51,8 @@ function wprss_get_settings_tabs()
         ];
     }
 
+    $tabs = apply_filters('wprss_options_tabs_final', $tabs);
+
     return $tabs;
 }
 

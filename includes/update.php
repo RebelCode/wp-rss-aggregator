@@ -109,7 +109,7 @@
 		add_option( 'wprss_db_version', WPRSS_DB_VERSION );
 
 		// Add the default plugin settings.
-		add_option( 'wprss_settings_general', wprss_get_default_settings_general() );
+		/* add_option( 'wprss_settings_general', wprss_get_default_settings_general() ); */
 	}
 
 
@@ -122,11 +122,11 @@
 
 		// Update the database version setting.
 		update_option( 'wprss_db_version', WPRSS_DB_VERSION );
-		// Initialize settings
-		wprss_settings_initialize();
 
-                // Open Link Behavior Name Fix
-                $settings = get_option( 'wprss_settings_general' );
+        // Open Link Behavior Name Fix
+        $settings = get_option( 'wprss_settings_general', null );
+
+		if ($settings === null) { return; }
 
                 if( $settings['open_dd'] === 'New window' || $settings['open_dd'] === __( 'New window', 'wprss' ) ){
                     $settings['open_dd'] = 'blank';

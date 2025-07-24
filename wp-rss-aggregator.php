@@ -128,10 +128,10 @@ if( !defined( 'WPRSS_IMG' ) )
 
 // Set the constant path to the plugin's includes directory.
 if( !defined( 'WPRSS_INC' ) )
-    define( 'WPRSS_INC', __DIR__ . '/includes/' );
+    define( 'WPRSS_INC', WPRSS_DIR . '/includes/' );
 
 if( !defined( 'WPRSS_LANG' ) )
-    define( 'WPRSS_LANG', __DIR__ . '/languages/' );
+    define( 'WPRSS_LANG', WPRSS_DIR . '/languages/' );
 
 // Set the constant path to the plugin's log file.
 if( !defined( 'WPRSS_LOG_FILE' ) )
@@ -159,6 +159,10 @@ if ( !defined( 'WPRSS_ITEM_IMPORT_TIME_LIMIT' ) ) {
 // Where to take the diagnostic tests from
 if ( !defined( 'WPRACORE_DIAG_TESTS_DIR' ) ) {
     define( 'WPRACORE_DIAG_TESTS_DIR', WPRSS_DIR . 'test/diag' );
+}
+
+if ( !defined( 'WPRA_V5_USE_V4' ) ) {
+    define( 'WPRA_V5_USE_V4', false );
 }
 
 const WPRSS_CORE_PLUGIN_NAME = 'WP RSS Aggregator';
@@ -297,7 +301,7 @@ if ( !defined( 'WPRSS_LOG_LEVEL' ) )
 require_once ( WPRSS_INC . 'admin-help.php' );
 
 /* Load the guide download banner */
-require_once ( WPRSS_INC . 'admin-guide-dl.php' );
+/* require_once ( WPRSS_INC . 'admin-guide-dl.php' ); */
 
 /* Load the admin metaboxes help file */
 require_once ( WPRSS_INC . 'admin-help-metaboxes.php' );
@@ -332,11 +336,14 @@ require_once ( WPRSS_INC . 'templates-update.php' );
 /* Load the notice for the PHP version upgrade that is coming in v5. */
 require_once ( WPRSS_INC . 'v5-notices.php' );
 
-register_activation_hook(__FILE__, 'wprss_activate');
-register_deactivation_hook(__FILE__, 'wprss_deactivate');
+/* Load the switcher for v5. */
+require_once ( WPRSS_INC . 'v5-switch.php' );
+
+register_activation_hook(WPRSS_FILE_CONSTANT, 'wprss_activate');
+register_deactivation_hook(WPRSS_FILE_CONSTANT, 'wprss_deactivate');
 
 // Black friday 2021 promotion
-require_once __DIR__ . '/includes/black-friday-2021.php';
+require_once WPRSS_DIR . '/includes/black-friday-2021.php';
 
 // Safe deactivation hook (for the error handler)
 add_action('plugins_loaded', 'wpra_safe_deactivate', 50);
@@ -369,24 +376,26 @@ function wpra_run()
     }
 }
 
-/**
- * Retrieves the WP RSS Aggregator instance.
- *
- * @since 4.13
- *
- * @return Plugin
- */
-function wpra()
-{
-    static $instance = null;
+if (!function_exists('wpra')) {
+    /**
+     * Retrieves the WP RSS Aggregator instance.
+     *
+     * @since 4.13
+     *
+     * @return Plugin
+     */
+    function wpra()
+    {
+        static $instance = null;
 
-    if ($instance === null) {
-        $modules = wpra_modules();
-        $plugin = new Plugin($modules);
-        $instance = apply_filters('wpra_plugin_instance', $plugin);
+        if ($instance === null) {
+            $modules = wpra_modules();
+            $plugin = new Plugin($modules);
+            $instance = apply_filters('wpra_plugin_instance', $plugin);
+        }
+
+        return $instance;
     }
-
-    return $instance;
 }
 
 /**
@@ -673,7 +682,7 @@ function wpra_safe_deactivate()
     }
 
     $plugins = wpra_get_addon_paths();
-    $plugins[] = plugin_basename(__FILE__);
+    $plugins[] = plugin_basename(WPRSS_FILE_CONSTANT);
 
     if (!function_exists('deactivate_plugins')) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -752,7 +761,7 @@ function wprss_init() {
  * @since 4.13
  */
 add_action('after_plugin_row', function($plugin_file) {
-    if ($plugin_file !== plugin_basename(__FILE__)
+    if ($plugin_file !== plugin_basename(WPRSS_FILE_CONSTANT)
         || version_compare(WPRSS_VERSION, '4.13', '>=')
         || version_compare(PHP_VERSION, '5.4', '>=')
     ) {
@@ -809,7 +818,7 @@ function wprss_add_php_version_warning() {
         require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
     }
 
-    deactivate_plugins(plugin_basename(__FILE__));
+    deactivate_plugins(plugin_basename(WPRSS_FILE_CONSTANT));
 
     $firstLine = get_transient('_wprss_activation_redirect')
         ? __('WP RSS Aggregator cannot be activated.', 'wprss')
@@ -854,7 +863,7 @@ function wprss_add_php_version_warning() {
  * @since 4.12.1
  */
 add_action('after_plugin_row', function($plugin_file) {
-    if ($plugin_file !== plugin_basename(__FILE__)
+    if ($plugin_file !== plugin_basename(WPRSS_FILE_CONSTANT)
         || version_compare(WPRSS_VERSION, '4.13', '>=')
         || version_compare(PHP_VERSION, '5.4', '>=')
     ) {
@@ -879,10 +888,9 @@ add_action('after_plugin_row', function($plugin_file) {
 function wprss_activate() {
     /* Prevents activation of plugin if compatible version of WordPress not found */
     if ( !wprss_wp_min_version_satisfied() ) {
-        deactivate_plugins ( basename( __FILE__ ));     // Deactivate plugin
+        deactivate_plugins ( basename( WPRSS_FILE_CONSTANT ));     // Deactivate plugin
         wp_die( sprintf ( __( '%2$s requires WordPress version %1$s or higher.' ), WPRSS_WP_MIN_VERSION, WPRSS_CORE_PLUGIN_NAME ), WPRSS_CORE_PLUGIN_NAME, array( 'back_link' => true ) );
     }
-    wprss_settings_initialize();
     flush_rewrite_rules();
     wprss_schedule_fetch_all_feeds_cron();
 
