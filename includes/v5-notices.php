@@ -191,31 +191,55 @@ function wprss_v5_switch_notice() {
 	);
 }
 
-function wprss_v5_notice_render($id, $title, $content)
-{
-    $icon = WPRSS_IMG . 'wpra-icon-transparent-new.png';
-    $nonce = wp_create_nonce('wpra-dismiss-v5-notice');
+function wprss_v5_notice_render( $id, $title, $content ) {
+    $icon  = WPRSS_IMG . 'wpra-icon-transparent-new.png';
+    $nonce = wp_create_nonce( 'wpra-dismiss-v5-notice' );
+
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $post_type = isset( $_GET['post_type'] ) ? sanitize_key( $_GET['post_type'] ) : '';
 
     ob_start();
     ?>
-    <div id="<?php echo esc_attr($id) ?>" class="notice wpra-v5-notice" data-notice-id="<?php echo esc_attr($id) ?>">
-        <input type="hidden" class="wpra-v5-notice-nonce" value="<?php echo esc_attr($nonce) ?>" />
+    <div id="<?php echo esc_attr( $id ); ?>" class="notice wpra-v5-notice" data-notice-id="<?php echo esc_attr( $id ); ?>">
+        <input type="hidden" class="wpra-v5-notice-nonce" value="<?php echo esc_attr( $nonce ); ?>" />
 
         <div class="wpra-v5-notice-left">
-            <img src="<?php echo esc_attr($icon) ?>" style="width: 32px !important" alt="WP RSS Aggregator" />
+            <img src="<?php echo esc_attr( $icon ); ?>" style="width:32px!important" alt="WP RSS Aggregator" />
         </div>
+
         <div class="wpra-v5-notice-right">
-            <h3><?php echo $title ?></h3>
-            <p>
-                <?php echo $content ?>
-            </p>
+            <h3><?php echo wp_kses_post( $title ); ?></h3>
+            <p><?php echo wp_kses_post( $content ); ?></p>
         </div>
+
         <button class="wpra-v5-notice-close">
-            <span class="dashicons dashicons-no-alt" />
+            <span class="dashicons dashicons-no-alt"></span>
         </button>
     </div>
-    <?php
 
+    <?php if ( $post_type !== 'wprss_feed' ) : ?>
+        <script type="text/javascript">
+            (function($){
+                $(document).on("click", ".wpra-v5-notice .wpra-v5-notice-close", function () {
+                    const $notice = $(this).closest(".wpra-v5-notice");
+                    const noticeId = $notice.data("notice-id");
+                    const nonce    = $notice.find(".wpra-v5-notice-nonce").val();
+
+                    $.post(ajaxurl, {
+                        action: "wprss_dismiss_v5_notice",
+                        notice: noticeId,
+                        nonce: nonce
+                    }).always(function () {
+                        $notice.slideUp(150, function () {
+                            $notice.remove();
+                        });
+                    });
+                });
+            })(jQuery);
+        </script>
+    <?php endif; ?>
+
+    <?php
     return ob_get_clean();
 }
 
