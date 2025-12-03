@@ -38,7 +38,9 @@ function wprss_feed_cache_lifetime($seconds)
  */
 function wprss_do_not_cache_feeds(&$feed)
 {
-    $feed->enable_cache(false);
+    if ($feed instanceof \SimplePie\SimplePie) {
+        $feed->enable_cache(false);
+    }
 }
 
 /**
