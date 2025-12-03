@@ -393,7 +393,7 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
     do_action_ref_array('wp_feed_options', array(&$feed, $url));
 
     // Prepare the tags to strip from the feed
-    $tags_to_strip = apply_filters('wprss_feed_tags_to_strip', $feed->get_strip_htmltags(), $source);
+    $tags_to_strip = apply_filters('wprss_feed_tags_to_strip', $feed->strip_htmltags(), $source);
     // Strip them
     $feed->strip_htmltags($tags_to_strip);
 
