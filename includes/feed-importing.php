@@ -377,11 +377,16 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
     // Initialize the Feed
     $feed = new \SimplePie\SimplePie();
     $feed->set_feed_url($url);
+    $feed->set_autodiscovery_level(SIMPLEPIE_LOCATOR_ALL);
 
     if ($source !== null || $param_force_feed) {
         $force_feed = get_post_meta($source, 'wprss_force_feed', true);
         if ($force_feed == 'true' || $param_force_feed) {
             $feed->force_feed(true);
+            $feed->set_autodiscovery_level(SIMPLEPIE_LOCATOR_NONE);
+
+            global $wpraNoSslVerification;
+            $wpraNoSslVerification = true;
         }
     }
 
