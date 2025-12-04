@@ -375,7 +375,11 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
     $url = apply_filters('wpra/importer/feed/url', $url, $parsed);
 
     // Initialize the Feed
-    $feed = new \SimplePie\SimplePie();
+    if (class_exists('\SimplePie\SimplePie')) {
+        $feed = new \SimplePie\SimplePie();
+    } else {
+        $feed = new SimplePie();
+    }
     $feed->set_feed_url($url);
     $feed->set_autodiscovery_level(SIMPLEPIE_LOCATOR_ALL);
 
@@ -390,9 +394,15 @@ function wprss_fetch_feed($url, $source = null, $param_force_feed = false)
         }
     }
 
-    $feed->set_timeout(wprss_get_feed_fetch_time_limit());
-    $feed->enable_cache(wprss_is_feed_cache_enabled());
-    $feed->set_cache_location(wprss_get_feed_cache_dir());
+    $fetch_time_limit = wprss_get_feed_fetch_time_limit();
+    $feed->set_timeout($fetch_time_limit);
+
+    $cacheEnabled = wprss_is_feed_cache_enabled();
+    $feed->enable_cache($cacheEnabled);
+
+    if ($cacheEnabled) {
+        $feed->set_cache_location(wprss_get_feed_cache_dir());
+    }
 
     // Reference array action hook, for the feed object and the URL
     do_action_ref_array('wp_feed_options', array(&$feed, $url));

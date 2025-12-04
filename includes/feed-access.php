@@ -171,10 +171,24 @@ class WPRSS_Feed_Access
 	 * @param string $url The URL, from which the feed is going to be fetched.
 	 */
 	public function set_feed_options($feed, $feedSourceId = null) {
-		$feed->get_registry()->register('Item', static::ITEM_CLASS);
-		$feed->get_registry()->register('File', static::RESOURCE_CLASS);
+		$registry = method_exists($feed, 'get_registry') ? $feed->get_registry() : null;
+	
+		if ($registry) {
+			$registry->register('Item', static::ITEM_CLASS);
+			$registry->register('File', static::RESOURCE_CLASS);
+		} else {
+			$feed->set_item_class(static::ITEM_CLASS);
+			$feed->set_file_class(static::RESOURCE_CLASS);
+	
+			if (!$feed->file) {
+				$feed->file = $this->create_resource_from_feed($feed);
+			}
+		}
+	
 		$feed->set_useragent($this->get_useragent($feedSourceId));
-		WPRSS_SimplePie_File::set_default_certificate_file_path($this->get_certificate_file_path());
+		WPRSS_SimplePie_File::set_default_certificate_file_path(
+			$this->get_certificate_file_path()
+		);
 	}
 
 

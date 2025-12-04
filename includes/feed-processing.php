@@ -40,6 +40,8 @@ function wprss_do_not_cache_feeds(&$feed)
 {
     if ($feed instanceof \SimplePie\SimplePie) {
         $feed->enable_cache(false);
+    } else { 
+        $feed->enable_cache(false);
     }
 }
 
