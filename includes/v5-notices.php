@@ -8,8 +8,10 @@ add_action(
     'admin_notices', function () {
         if (WPRA_V5_USE_V4) {
             wprss_v5_switch_notice();
-            wprss_v4_eol_notice();
         }
+		if ( wprss_should_show_v4_eol_notice() ) {
+			wprss_v4_eol_notice();
+		}
     }
 );
 
@@ -290,12 +292,35 @@ function wprss_is_premium_main_plugin_active() {
 	return function_exists( 'is_plugin_active' ) && is_plugin_active( $main_premium_plugin );
 }
 
+function wprss_should_show_v4_eol_notice(): bool {
+    if ( ! WPRA_V5_USE_V4 ) {
+        return false;
+    }
+
+    if ( isset( $_GET['post_type'] ) && 'wprss_feed' === $_GET['post_type'] ) {
+        return true;
+    }
+
+    $dismissed = get_user_meta(
+        get_current_user_id(),
+        'dismissed_wp_pointers',
+        true
+    );
+
+    $dismissed = explode( ',', (string) $dismissed );
+
+    if ( in_array( 'wprss_v4_eol_dismissed', $dismissed, true ) ) {
+        return false;
+    }
+
+    return true;
+}
 
 function wprss_v4_eol_notice() {
     $deadline_iso = '2026-01-31T23:59:00-08:00';
 
     ?>
-	<div class="notice wpra-v4-eol-notice">
+	<div class="notice notice-error is-dismissible wpra-v4-eol-notice">
 		<div class="wpra-v4-eol-icon">
 			<img
 				src="<?php echo esc_url( WPRSS_IMG . 'wpra-icon-transparent-new.png' ); ?>"
@@ -306,10 +331,11 @@ function wprss_v4_eol_notice() {
 		<div class="wpra-v4-eol-content">
 			<h3>
 				<svg width="18" height="16" viewBox="0 0 43 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M18.4382 1.5C19.5929 -0.499998 22.4796 -0.500002 23.6343 1.5L41.6661 32.7319C42.8208 34.7319 41.3774 37.2319 39.068 37.2319H3.00448C0.695077 37.2319 -0.748302 34.7319 0.406399 32.7319L18.4382 1.5Z" fill="#FFD420"/>
-					<path d="M22.4235 12.7422C22.705 12.7422 22.931 12.9744 22.9234 13.2558L22.6166 24.5341C22.6093 24.8048 22.3877 25.0205 22.1168 25.0205H19.9559C19.6851 25.0205 19.4636 24.805 19.4561 24.5344L19.1415 13.2561C19.1336 12.9746 19.3597 12.7422 19.6413 12.7422H22.4235ZM21.0365 30.5003C20.4714 30.5003 19.9862 30.3005 19.5809 29.9009C19.1756 29.4957 18.9759 29.0105 18.9816 28.4454C18.9759 27.886 19.1756 27.4065 19.5809 27.0069C19.9862 26.6073 20.4714 26.4075 21.0365 26.4075C21.5788 26.4075 22.0554 26.6073 22.4664 27.0069C22.8774 27.4065 23.0857 27.886 23.0914 28.4454C23.0857 28.8221 22.9858 29.1674 22.7918 29.4814C22.6034 29.7896 22.3551 30.0379 22.0469 30.2263C21.7386 30.409 21.4018 30.5003 21.0365 30.5003Z" fill="black"/>
+				<path d="M18.4382 1.5C19.5929 -0.499998 22.4796 -0.500002 23.6343 1.5L41.6661 32.7319C42.8208 34.7319 41.3774 37.2319 39.068 37.2319H3.00448C0.695077 37.2319 -0.748302 34.7319 0.406399 32.7319L18.4382 1.5Z" fill="#FFD420"/>
+				<path d="M22.4235 12.7422C22.705 12.7422 22.931 12.9744 22.9234 13.2558L22.6166 24.5341C22.6093 24.8048 22.3877 25.0205 22.1168 25.0205H19.9559C19.6851 25.0205 19.4636 24.805 19.4561 24.5344L19.1415 13.2561C19.1336 12.9746 19.3597 12.7422 19.6413 12.7422H22.4235ZM21.0365 30.5003C20.4714 30.5003 19.9862 30.3005 19.5809 29.9009C19.1756 29.4957 18.9759 29.0105 18.9816 28.4454C18.9759 27.886 19.1756 27.4065 19.5809 27.0069C19.9862 26.6073 20.4714 26.4075 21.0365 26.4075C21.5788 26.4075 22.0554 26.6073 22.4664 27.0069C22.8774 27.4065 23.0857 27.886 23.0914 28.4454C23.0857 28.8221 22.9858 29.1674 22.7918 29.4814C22.6034 29.7896 22.3551 30.0379 22.0469 30.2263C21.7386 30.409 21.4018 30.5003 21.0365 30.5003Z" fill="black"/>
 				</svg>
-				<?php esc_html_e( 'Aggregator v4 Support Ending Soon', 'wprss' ); ?></h3>
+				<?php esc_html_e( 'Aggregator v4 Support Ending Soon', 'wprss' ); ?>
+			</h3>
 
 			<p>
 				<?php
@@ -371,13 +397,37 @@ function wprss_v4_eol_notice() {
 				</div>
 
 			</div>
+
 		</div>
+		<button
+			type="button"
+			class="notice-dismiss wpra-v4-eol-dismiss"
+			aria-label="<?php esc_attr_e( 'Dismiss this notice', 'wprss' ); ?>"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'wpra-dismiss-v4-eol' ) ); ?>"
+		></button>
     </div>
     <?php
+	echo "
+	<script>
+		jQuery( function( $ ) {
+			// On dismissing the notice, make a POST request to store this notice with the dismissed WP pointers so it doesn't display again.
+			$('.wpra-v4-eol-notice').on( 'click', '.notice-dismiss', function() {
+				var \$notice = $(this).closest('.wpra-v4-eol-notice');
+				$.post(ajaxurl, {
+					action: 'dismiss-wp-pointer',
+					pointer: 'wprss_v4_eol_dismissed'
+				}).always(function() {
+					\$notice.fadeOut(150, function() {
+						$(this).remove();
+					});
+				});
+			} );
+		} )
+	</script>";
 }
 
 add_action( 'admin_enqueue_scripts', function () {
-    if (!WPRA_V5_USE_V4) {
+	if ( ! wprss_should_show_v4_eol_notice() ) {
         return;
     }
     wp_add_inline_script(
@@ -423,7 +473,7 @@ add_action( 'admin_enqueue_scripts', function () {
 } );
 
 add_action( 'admin_enqueue_scripts', function () {
-    if (!WPRA_V5_USE_V4) {
+	if ( ! wprss_should_show_v4_eol_notice() ) {
         return;
     }
     wp_add_inline_style(
