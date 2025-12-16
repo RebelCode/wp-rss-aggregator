@@ -318,9 +318,10 @@ function wprss_should_show_v4_eol_notice(): bool {
 
 function wprss_v4_eol_notice() {
     $deadline_iso = '2026-01-31T23:59:00-08:00';
+	$hide_dismiss =  isset( $_GET['post_type'] ) && 'wprss_feed' === $_GET['post_type'];
 
     ?>
-	<div class="notice notice-error is-dismissible wpra-v4-eol-notice">
+	<div class="notice notice-error <?php echo !$hide_dismiss ? 'is-dismissible' : ''; ?> wpra-v4-eol-notice">
 		<div class="wpra-v4-eol-icon">
 			<img
 				src="<?php echo esc_url( WPRSS_IMG . 'wpra-icon-transparent-new.png' ); ?>"
@@ -399,12 +400,14 @@ function wprss_v4_eol_notice() {
 			</div>
 
 		</div>
+		<?php if ( !$hide_dismiss ) : ?>
 		<button
 			type="button"
 			class="notice-dismiss wpra-v4-eol-dismiss"
 			aria-label="<?php esc_attr_e( 'Dismiss this notice', 'wprss' ); ?>"
 			data-nonce="<?php echo esc_attr( wp_create_nonce( 'wpra-dismiss-v4-eol' ) ); ?>"
 		></button>
+		<?php endif; ?>
     </div>
     <?php
 	echo "
