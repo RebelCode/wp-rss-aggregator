@@ -508,7 +508,7 @@ add_action( 'admin_enqueue_scripts', function () {
 	}
 
 	.wpra-v4-eol-content h3 {
-		margin: 0 0 8px;
+		margin-top: 8px !important;
 	}
 
 	.wpra-v4-eol-actions {
