@@ -29,7 +29,6 @@ let config = {
   context: dir,
   entry: {
     intro: './js/src/modules/intro/index.js',
-    plugins: './js/src/modules/plugins/index.js',
     templates: './js/src/modules/templates/index.js',
     pagination: './js/src/modules/pagination/index.js',
     common: './css/src/common/index.scss',
