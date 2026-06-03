@@ -400,13 +400,24 @@ function wprss_translate_n($single, $plural, $number)
 /**
  * Subscribe an email address to the newsletter.
  *
- * @paran string $name The name of the subscriber.
+ * The endpoint URL is filterable via `wprss_newsletter_subscribe_url`. When
+ * the filter returns an empty string, the subscription is a no-op and the
+ * function returns false without making a request.
+ *
+ * @param string $name The name of the subscriber.
  * @param string $email The email address to subscribe.
  * @return bool True on success, false on failure.
  */
 function wprss_sub_to_newsletter($name, $email)
 {
-    $response = wp_remote_post('https://hooks.zapier.com/hooks/catch/305784/32i6y28/', [
+    $url = apply_filters('wprss_newsletter_subscribe_url', '');
+
+    if (empty($url)) {
+        wpra_get_logger()->info('Newsletter subscribe is not configured; skipping.');
+        return false;
+    }
+
+    $response = wp_remote_post($url, [
         'body' => [
             'subscribe' => [
                 'name' => $name,

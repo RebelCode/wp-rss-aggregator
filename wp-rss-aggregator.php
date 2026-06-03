@@ -312,9 +312,6 @@ require_once ( WPRSS_INC . 'admin-help-settings.php' );
 /* Admin plugin activation events */
 require_once ( WPRSS_INC . 'admin-activate.php' );
 
-/* Add components to the plugins page  */
-require_once(WPRSS_INC . 'admin-plugins.php');
-
 /* Access to feed */
 require_once ( WPRSS_INC . 'feed-access.php' );
 
