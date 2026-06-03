@@ -29,6 +29,18 @@ function wprss_print_system_info() {
 
     $browser = new Browser();
 
+    // When the v4 engine runs inside a newer package (e.g. v5 in classic mode),
+    // WPRSS_VERSION is the engine's internal version, not the installed plugin
+    // version. Read the real version from the main plugin file so System Info
+    // doesn't read like the update failed.
+    $wprss_plugin_version = WPRSS_VERSION;
+    if ( defined( 'WPRSS_FILE_CONSTANT' ) && file_exists( WPRSS_FILE_CONSTANT ) ) {
+        $wprss_file_data = get_file_data( WPRSS_FILE_CONSTANT, array( 'Version' => 'Version' ) );
+        if ( ! empty( $wprss_file_data['Version'] ) ) {
+            $wprss_plugin_version = $wprss_file_data['Version'];
+        }
+    }
+
 ?>
 ### Begin System Info ###
 
@@ -39,7 +51,8 @@ Multi-site:               <?php echo is_multisite() ? 'Yes' . "\n" : 'No' . "\n"
 SITE_URL:                 <?php echo site_url() . "\n"; ?>
 HOME_URL:                 <?php echo home_url() . "\n"; ?>
 
-Plugin Version:           <?php echo WPRSS_VERSION . "\n"; ?>
+Plugin Version:           <?php echo $wprss_plugin_version . "\n"; ?>
+<?php if ( $wprss_plugin_version !== WPRSS_VERSION ) { echo 'Engine Version:           ' . WPRSS_VERSION . "\n"; } ?>
 WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 
 <?php echo htmlspecialchars((string) $browser) ; ?>
