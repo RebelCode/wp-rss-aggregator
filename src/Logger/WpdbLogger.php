@@ -105,7 +105,7 @@ class WpdbLogger extends AbstractLogger implements ClearableLoggerInterface, Log
      *
      * @since 4.13
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         $fullMsg = $this->interpolate($message, $context);
         $rowData = $this->getLogRowData($level, $fullMsg);
