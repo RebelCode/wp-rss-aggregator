@@ -55,6 +55,9 @@ class RenderTemplateEndPoint extends AbstractRestApiEndPoint
     {
         $args = $request->get_params();
         $args = is_array($args) ? $args : [];
+        $args = map_deep($args, function ($value) {
+            return is_string($value) ? wp_kses_post($value) : $value;
+        });
 
         // If template ID is 0, render as a preview
         if (empty($args['template']) || $args['template'] === 0) {
