@@ -107,8 +107,8 @@ function wprss_render_feed_item($ID = null, $default = '', $args = [])
     $extraOptions = apply_filters('wprss_template_extra_options', [], $args);
 
     // Declare each item in $args as its own variable
-    $beforeLink = $args['link_before'];
-    $afterLink = $args['link_after'];
+    $beforeLink = wp_kses_post($args['link_before']);
+    $afterLink = wp_kses_post($args['link_after']);
     extract($args, EXTR_SKIP);
 
     // Get the item meta
@@ -400,7 +400,7 @@ function wprss_default_display_template($args, $feed_items)
     // Check if our current query returned any feed items
     if ($feed_items->have_posts()) {
         // PRINT LINKS BEFORE LIST OF FEED ITEMS
-        $output .= $args['links_before'];
+        $output .= wp_kses_post($args['links_before']);
 
         // FOR EACH ITEM
         while ($feed_items->have_posts()) {
@@ -411,7 +411,7 @@ function wprss_default_display_template($args, $feed_items)
         }
 
         // OUTPUT LINKS AFTER LIST OF FEED ITEMS
-        $output .= $args['links_after'];
+        $output .= wp_kses_post($args['links_after']);
 
         // Add pagination if needed
         if (!isset($args['pagination']) || !in_array($args['pagination'], array('off', 'false', '0', 0))) {
