@@ -45,7 +45,7 @@ class FeedsShortcodeHandler
         $args = is_array($args) ? $args : [];
         foreach ($args as $key => $value) {
             if (is_string($value)) {
-                $args[$key] = html_entity_decode($value);
+                $args[$key] = wp_kses_post(html_entity_decode($value));
             }
         }
         // Render the template
